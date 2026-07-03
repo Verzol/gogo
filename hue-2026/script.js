@@ -4,6 +4,51 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   const data = TRIP_DATA;
+  const locationData = data.locations || {};
+
+  const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+
+  const blockLocationKeys = block => {
+    if (Array.isArray(block.locations)) return block.locations;
+    return block.location ? [block.location] : [];
+  };
+
+  const renderLocationPeek = key => {
+    const location = locationData[key];
+    if (!location) return "";
+
+    const imageHTML = location.image
+      ? `<img src="${escapeHTML(location.image)}" alt="${escapeHTML(location.name)}">`
+      : `<span>${escapeHTML(location.name.slice(0, 2).toUpperCase())}</span>`;
+
+    return `
+      <span class="location-peek" tabindex="0">
+        <span class="location-chip">
+          <span class="location-pin" aria-hidden="true"></span>
+          ${escapeHTML(location.name)}
+        </span>
+        <span class="location-card" role="tooltip">
+          <span class="location-photo ${location.image ? "" : "location-photo--empty"}">${imageHTML}</span>
+          <span class="location-copy">
+            <strong>${escapeHTML(location.name)}</strong>
+            ${location.desc ? `<span>${escapeHTML(location.desc)}</span>` : ""}
+            ${location.mapsUrl ? `
+              <a class="maps-button" href="${escapeHTML(location.mapsUrl)}" target="_blank" rel="noopener noreferrer">
+                <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true">
+                <span>Mở trong Google Maps</span>
+              </a>
+            ` : ""}
+          </span>
+        </span>
+      </span>
+    `;
+  };
 
   // ---- Nav toggle (mobile) ----
   const navToggle = document.getElementById("navToggle");
@@ -40,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       { top: '70%', left: '78%', scale: 0.86, z: 11, shadow: 0.20 }
     ];
 
-    const stickersArray = Array.from({ length: 10 }, (_, i) => `figures/${i + 1}.png`);
+    const stickersArray = Array.from({ length: 10 }, (_, i) => `figures/people/${i + 1}.png`);
 
     heroStickers.innerHTML = stickersArray.map((src, i) => {
       const pos = positions[i % positions.length];
@@ -70,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <div class="crew-card" style="--i: ${rot}">
           <div class="crew-avatar">
-            <img src="figures/${i + 1}.png" alt="${m.name}">
+            <img src="figures/people/${i + 1}.png" alt="${m.name}">
           </div>
           <div class="crew-name">${m.name}</div>
           ${m.role ? `<div class="crew-role">${m.role}</div>` : ""}
@@ -113,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   <div>
                     <div class="time-activity">${b.activity}</div>
                     ${b.note ? `<div class="time-note">${b.note}</div>` : ""}
+                    ${blockLocationKeys(b).length ? `<div class="location-peeks">${blockLocationKeys(b).map(renderLocationPeek).join("")}</div>` : ""}
                   </div>
                 </div>
               `).join("")}

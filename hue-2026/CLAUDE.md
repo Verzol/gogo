@@ -22,12 +22,15 @@ npx serve .
 - `data.js` — defines the single global `TRIP_DATA` object (trip metadata, `members`, `days[].blocks`, `destinations`, `food`, `games`). **This is the intended file to edit when updating trip content** — it's designed so content changes don't require touching `style.css` or `index.html` (see the comment at the top of the file).
 - `script.js` — on `DOMContentLoaded`, reads `TRIP_DATA` and renders each section into its container via template-literal `innerHTML` (crew cards, horizontal-scrapbook timeline, destination/food/game cards, and randomly-placed hero stickers). `data.js` must load before `script.js` (see script tag order in `index.html`).
 - `style.css` — single stylesheet driven by CSS custom properties defined in `:root` (color tokens like `--ink`, `--pink`, `--avocado`; font tokens `--font-display`/`--font-body`/`--font-doodle`). Visual style is a hand-drawn "scrapbook" theme (rotated cards, paper textures, sticker images).
-- `figures/` — image assets: numbered member photos (`1.png`–`10.png`, also reused as hero stickers), destination photos, logo, background textures, stickers.
+- `figures/people/` — numbered member photos (`1.png`–`10.png`), also reused as hero stickers.
+- `figures/places/` — destination photos used by `data.js`.
+- `figures/food/` — food and cafe photos used by timeline location popups.
+- `figures/decor/` — logo, background textures, and decorative stickers.
 - `data/` — source spreadsheets (`.xlsx`) that the trip content in `data.js` was transcribed from; not read at runtime.
 - `crop.js`, `crop_hero.js`, `crop_hero_layout.js` — standalone one-off Node scripts (using `jimp`) for cropping/processing images in `figures/` during content prep. Run manually with `node <script>.js`; not wired into any build process, and paths inside them are specific to whatever image was being processed at the time (expect to edit paths before reuse).
 
 ## Content editing conventions
 
 - Timeline days are ordered arrays under `TRIP_DATA.days`, each with a `blocks` array of `{ time, activity, note }` — `note` is optional and omitted from render if empty.
-- `destinations` entries support an optional `image` field (path under `figures/`); if omitted, the UI renders a placeholder colored box instead of a photo.
-- Crew member avatars are wired positionally: `data.members[i]` renders using `figures/${i + 1}.png`, so the `members` array order must stay in sync with the numbered figures.
+- `destinations` entries support an optional `image` field (usually under `figures/places/`); if omitted, the UI renders a placeholder colored box instead of a photo.
+- Crew member avatars are wired positionally: `data.members[i]` renders using `figures/people/${i + 1}.png`, so the `members` array order must stay in sync with the numbered figures.
