@@ -1,17 +1,12 @@
-/* ============================================================
-   TRIP_DATA — sửa nội dung ở file này là đủ, không cần đụng
-   vào style.css hay index.html.
-   ============================================================ */
-
 const TRIP_DATA = {
 
   // ---------- THÔNG TIN CHUNG ----------
   tripName: "Huế x gogo",
   subtitle: "3 ngày 2 đêm rong ruổi đuổi nhau ở Huế",
   dateRange: "16 – 20/07 · Thứ 5 đến Thứ 2",
-  intro: "Ba ngày ở Huế, đi từ Đại Nội ra tới biển, ăn hết những món ngon nhất và chơi những trò chơi mà chỉ khi đến giờ mới được bật mí. Mọi thông tin giờ giấc nằm hết ở đây — còn phần bất ngờ thì để dành khi gặp nhau nhé!",
+  intro: "3 ngày lượn lờ từ Đại Nội ra tới biển, mục tiêu ăn sập Huế và có những kỷ niệm đẹp together. Let's goooo!",
 
-  // ---------- THÀNH VIÊN (SỬA TÊN THẬT VÀO ĐÂY) ----------
+  // ---------- THÀNH VIÊN ----------
   members: [
     { name: "mạnh", role: "" },
     { name: "san", role: "" },
@@ -32,18 +27,18 @@ const TRIP_DATA = {
       title: "Khởi hành & ngày đầu ở Huế",
       date: "Thứ 5 (16/7) — Thứ 6 (17/7)",
       blocks: [
-        { time: "17:00 (16/7)", activity: "Xuất phát từ Hà Nội đi Huế", note: "Di chuyển qua đêm" },
+        { time: "17:00 (16/7)", activity: "Xuất phát từ Hà Nội đi Huế", note: "Ngủ lấy sức trên xe nha mấy má" },
         { time: "05:30", activity: "Có mặt tại Huế, về homestay cất đồ", note: "INN91 Homestay — 91 Đinh Tiên Hoàng" },
-        { time: "06:00", activity: "Ăn sáng tại chợ Đông Ba", note: "Tranh thủ mua áo Huế mặc đi chơi" },
-        { time: "07:30", activity: "Cà phê Đặng Thái Thân", note: "" },
-        { time: "09:00", activity: "Tham quan Lăng Khải Định", note: "Trang phục gợi ý: áo Huế + quần jeans" },
+        { time: "06:00", activity: "Ăn sáng tại chợ Đông Ba", note: "Tranh thủ lượn sắm áo Huế cho bằng bạn bằng bè" },
+        { time: "07:30", activity: "Cà phê Đặng Thái Thân", note: "Sống ảo nhẹ nhàng buổi sáng" },
+        { time: "09:00", activity: "Tham quan Lăng Khải Định", note: "Dresscode: áo Huế + quần jeans nha" },
         { time: "12:15", activity: "Ăn trưa: Cơm hến Hoa Đông, Nem lụi Bà Tý", note: "81 Đào Duy Từ" },
-        { time: "13:45", activity: "Về khách sạn nghỉ trưa", note: "" },
-        { time: "14:45", activity: "Tham quan Đại Nội (Hoàng thành Huế)", note: "Trang phục gợi ý: tông pastel" },
-        { time: "17:00", activity: "Chùa Thiên Mụ", note: "Tuỳ chọn, nếu còn sức" },
+        { time: "13:45", activity: "Về khách sạn nghỉ trưa", note: "Ngủ xíu chiều còn sức lượn tiếp" },
+        { time: "14:45", activity: "Tham quan Đại Nội (Hoàng thành Huế)", note: "Dresscode: tông pastel bánh bèo" },
+        { time: "17:00", activity: "Chùa Thiên Mụ", note: "Ai bào nổi thì đi tiếp, không thì dạt về =))" },
         { time: "18:30", activity: "Ăn tối: Bún canh cá lóc Bình", note: "Quán chỉ mở buổi tối" },
-        { time: "20:30", activity: "Nghe ca Huế trên sông Hương", note: "" },
-        { time: "21:45", activity: "Trò chơi tối", note: "Chi tiết đang được giữ bí mật" }
+        { time: "20:30", activity: "Nghe ca Huế trên sông Hương", note: "Chill chill" },
+        { time: "21:45", activity: "Trò chơi tối", note: "Bí mật, cấm tò mò nha" }
       ]
     },
     {
@@ -51,15 +46,15 @@ const TRIP_DATA = {
       title: "Bình minh biển Tân An & khám phá Huế",
       date: "Thứ 7 (18/7)",
       blocks: [
-        { time: "04:15", activity: "Ra biển Tân An đón bình minh", note: "Cách trung tâm khoảng 20km — nhớ ngủ sớm hôm trước" },
-        { time: "04:50 – 08:25", activity: "Chuỗi mini game trên biển", note: "6 trò chơi vận động, đốt mỡ" },
-        { time: "10:00", activity: "Ăn sáng muộn: Bún Hạnh", note: "" },
-        { time: "11:00", activity: "Về khách sạn nghỉ ngơi", note: "" },
-        { time: "14:00", activity: "Tham quan Lăng Tự Đức", note: "Trên đường có thể ghé làng hương check-in" },
-        { time: "15:30", activity: "Ăn vặt: Bánh ép Huệ", note: "" },
-        { time: "16:30", activity: "Picnic & ngắm hoàng hôn ở Công viên Phú Xuân", note: "Bãi cỏ ven sông Hương, có thể chèo SUP. Trang phục gợi ý: nâu / be / trắng" },
-        { time: "19:00 – 21:00", activity: "Lang thang ăn tối: bánh lọc, bánh canh, chè Thanh", note: "" },
-        { time: "22:00", activity: "Trò chơi tối", note: "Bí mật" },
+        { time: "04:15", activity: "Ra biển Tân An đón bình minh", note: "Đứa nào cao su là bỏ lại nha, nhớ ngủ sớm!" },
+        { time: "04:50 – 08:25", activity: "Team Building trên biển", note: "6 trò chơi - vui không thì không biết" },
+        { time: "10:00", activity: "Ăn sáng muộn: Bún Hạnh", note: "Bù đắp calo vừa mất" },
+        { time: "11:00", activity: "Về khách sạn nghỉ ngơi", note: "Tranh thủ sạc pin cho người và điện thoại" },
+        { time: "14:00", activity: "Tham quan Lăng Tự Đức", note: "Tiện đường rẽ vô Làng Hương sống ảo 7749 tấm" },
+        { time: "15:30", activity: "Ăn vặt: Bánh ép Huệ", note: "Giải lao giữa giờ" },
+        { time: "16:30", activity: "Picnic & ngắm hoàng hôn ở Công viên Phú Xuân", note: "Ra bãi cỏ chèo SUP chill chill. Dresscode: nâu / be / trắng" },
+        { time: "19:00 – 21:00", activity: "Lang thang ăn tối: bánh lọc, bánh canh, chè Thanh", note: "Ăn sập cái đất Huế này" },
+        { time: "22:00", activity: "Trò chơi tối", note: "Tiếp tục chuyên mục tấu hài" },
       ]
     },
     {
@@ -68,57 +63,55 @@ const TRIP_DATA = {
       date: "Chủ Nhật (19/7) — Thứ 2 (20/7)",
       blocks: [
         { time: "07:30", activity: "Ăn sáng: Bánh mì lò củi", note: "149 Nhật Lệ" },
-        { time: "08:00", activity: "Tham quan Lăng Gia Long", note: "" },
-        { time: "09:45", activity: "Cung An Định", note: "Tuỳ chọn" },
-        { time: "11:00", activity: "Ăn trưa: bánh bèo – nậm – lọc, cuốn thịt heo", note: "" },
-        { time: "13:00", activity: "Ghé Trường Quốc Học Huế", note: "Trang phục gợi ý: jeans / đen / be" },
-        { time: "15:00", activity: "Cà phê hoặc dạo công viên ven sông Hương", note: "" },
-        { time: "17:30", activity: "Lên xe khởi hành về Hà Nội", note: "" },
-        { time: "Trên xe", activity: "Tổng kết chuyến đi", note: "Bí mật" },
-        { time: "05:00 (20/7)", activity: "Có mặt tại Hà Nội", note: "Kết thúc hành trình" }
+        { time: "08:00", activity: "Tham quan Lăng Gia Long", note: "Hơi xa tí nhưng lên hình bao nghệ" },
+        { time: "09:45", activity: "Cung An Định", note: "Ai thích thì nhích" },
+        { time: "11:00", activity: "Ăn trưa: bánh bèo – nậm – lọc, cuốn thịt heo", note: "Cố ăn nốt đồ Huế rồi về" },
+        { time: "13:00", activity: "Ghé Trường Quốc Học Huế", note: "Dresscode bao xịn: jeans / đen / be" },
+        { time: "15:00", activity: "Cà phê hoặc dạo công viên ven sông Hương", note: "Tiêu nốt số tiền còn lại" },
+        { time: "17:30", activity: "Lên xe khởi hành về Hà Nội", note: "Tạm biệt Huế nhaa" },
+        { time: "Trên xe", activity: "Tổng kết chuyến đi", note: "Tâm sự tuổi hồng" },
+        { time: "05:00 (20/7)", activity: "Có mặt tại Hà Nội", note: "Kết thúc chuyến đi bão táp" }
       ]
     }
   ],
 
   // ---------- ĐIỂM ĐẾN ----------
-  // Ghi chú: Có thể thêm trường `image: "đường_dẫn_ảnh"` vào từng địa điểm (ví dụ: image: "figures/1.png")
-  // để hiển thị ảnh thật của địa điểm đó trên giao diện sổ tay. Nếu không có, web sẽ hiện ô trống màu xanh.
   destinations: [
     {
       name: "Chợ Đông Ba",
       image: "figures/cho_dong_ba.jpg",
       lat: 16.4711, lng: 107.5850,
-      desc: "Khu chợ trăm năm tuổi bên sông Hương — điểm dừng ăn sáng và sắm áo dài Huế đầu tiên trong hành trình."
+      desc: "Tấp vô làm bữa sáng rồi sắm vội cái áo huế xịn xò."
     },
     {
       name: "Lăng Khải Định",
       image: "figures/lang_khai_dinh.jpg",
       lat: 16.3853, lng: 107.5772,
-      desc: "Kiến trúc giao thoa Đông – Tây độc đáo nhất trong hệ thống lăng tẩm triều Nguyễn."
+      desc: "Chỗ này pha trộn kiến trúc Âu - Á đỉnh lắm (AI bảo thế), lên hình là auto ngầu (cũng AI)."
     },
     {
       name: "Đại Nội Huế",
       image: "figures/dai_noi_hue.jpg",
       lat: 16.4698, lng: 107.5796,
-      desc: "Hoàng thành của triều Nguyễn — trung tâm quyền lực một thời, giờ là nơi tản bộ ngắm cung điện cổ."
+      desc: "Trung tâm quyền lực một thời. (AI nốt)"
     },
     {
       name: "Chùa Thiên Mụ",
       image: "figures/chua_thien_mu.jpg",
       lat: 16.4539, lng: 107.5452,
-      desc: "Ngôi chùa cổ bên bờ sông Hương, biểu tượng tâm linh của xứ Huế."
+      desc: "Chùa cổ bên sông Hương, view xịn xò chill chill."
     },
     {
       name: "Biển Tân An",
       image: "figures/bien_tan_an.jpg",
       lat: 16.5480, lng: 107.7000,
-      desc: "Nơi cả nhóm dậy thật sớm để đón bình minh và chơi một loạt trò chơi vận động trên cát."
+      desc: "Chỗ để tụi mình phơi sương đón bình minh và lặn ngụp với mấy trò vận động cười ra nước mắt. (văn AI)"
     },
     {
       name: "Lăng Tự Đức",
       image: "figures/lang_tu_duc.jpg",
       lat: 16.4272, lng: 107.5711,
-      desc: "Không gian lăng tẩm như một khu vườn thơ, nơi vị vua thi sĩ chọn làm chốn an nghỉ."
+      desc: "View kiểu sân vườn siêu thơ, sống ảo thì hết sảy."
     },
     {
       name: "Công viên Phú Xuân",
@@ -130,7 +123,7 @@ const TRIP_DATA = {
       name: "Lăng Gia Long",
       image: "figures/lang_gia_long.jpg",
       lat: 16.3306, lng: 107.5474,
-      desc: "Lăng tẩm nằm khá xa trung tâm, không gian yên tĩnh và hoang sơ hơn hẳn các lăng khác."
+      desc: "Hơi xa trung tâm xíu nhưng vắng vẻ, tha hồ tạo nét mà không sợ dính người."
     },
     {
       name: "Cung An Định",
@@ -142,34 +135,74 @@ const TRIP_DATA = {
       name: "Trường Quốc Học Huế",
       image: "figures/truong_quoc_hoc_hue.jpg",
       lat: 16.4653, lng: 107.5936,
-      desc: "Ngôi trường trăm năm tuổi bên đường Lê Lợi, gắn với nhiều tên tuổi lịch sử Việt Nam."
+      desc: "Trường cấp 3 màu đỏ mận xinh xỉu, toạ độ sống ảo không thể bỏ qua."
     }
   ],
 
  // ---------- ĐỒ ĂN ----------
 food: [
-  { name: "Bún bò O Loan", address: "158B Phan Chu Trinh", desc: "Bún bò Huế đặc trưng, nước dùng đậm đà." },
-  { name: "Vịt lộn um bầu", address: "9 Nguyễn Khuyến", desc: "Món ăn lạ miệng, cay nồng và béo ngậy." },
-  { name: "Bánh canh O Bướm", address: "3 Trịnh Công Sơn", desc: "Bánh canh chuẩn vị Huế.", note: "Chỉ mở buổi tối" },
-  { name: "Quán bánh Chi", address: "52 Lê Viết Lượng", desc: "Bèo, Nậm, Lọc ngon siêu rẻ.", note: "Đi sớm kẻo hết" },
-  { name: "Cuộn thịt heo Donald Trung", address: "28 Hoàng Văn Thụ", desc: "Ngon lắm mọi người ơi, nhất định phải thử!" },
-  { name: "Bánh mì O Tho", address: "14 Trần Cao Vân", desc: "Ổ bánh mì thịt nướng giòn rụm." },
-  { name: "Bún mắm nêm", address: "Chợ Đông Ba", desc: "Chỉ 20k/bát, siêu rẻ siêu dính." },
-  { name: "Bánh ép Huệ", address: "1 Kiệt 145 Điện Biên Phủ", desc: "Bánh ép nóng hổi, ăn kèm đu đủ chua ngọt." },
-  { name: "Chè Hẻm", address: "1 Kiệt 29 Đường Hùng Vương", desc: "Nổi tiếng với chè bột lọc heo quay và các món chè truyền thống." }
+  { name: "Bún bò O Loan", address: "158B Phan Chu Trinh", desc: "Bún bò Huế đỉnh của chóp, nước dùng đậm đà khỏi bàn." },
+  { name: "Vịt lộn um bầu", address: "9 Nguyễn Khuyến", desc: "Nghe lạ lạ mà ăn cuốn xỉu, béo ngậy cay cay." },
+  { name: "Bánh canh O Bướm", address: "3 Trịnh Công Sơn", desc: "Bánh canh chuẩn vị Huế luônnn.", note: "Chỉ bán tối thôi nha" },
+  { name: "Quán bánh Chi", address: "52 Lê Viết Lượng", desc: "Bèo, Nậm, Lọc ngon rẻ tụt quần.", note: "Nhớ ra sớm kẻo húp cháo" },
+  { name: "Cuộn thịt heo Donald Trung", address: "28 Hoàng Văn Thụ", desc: "Cực phẩm nha mấy bà, không ăn phí nửa đời người!" },
+  { name: "Bánh mì O Tho", address: "14 Trần Cao Vân", desc: "Ổ bánh mì thịt nướng giòn rụm, cắn miếng là ghiền." },
+  { name: "Bún mắm nêm", address: "Chợ Đông Ba", desc: "Rẻ bèo nhèo mà ngon dính cái nách." },
+  { name: "Bánh ép Huệ", address: "1 Kiệt 145 Điện Biên Phủ", desc: "Bánh ép nóng hổi vừa thổi vừa ăn." },
+  { name: "Chè Hẻm", address: "1 Kiệt 29 Đường Hùng Vương", desc: "Cú chốt với chè bột lọc heo quay độc lạ Bình Dương." }
 ],
 
   // ---------- TRÒ CHƠI ----------
 games: [
-  { name: "Ma Sói", occasion: "Tối ngày 1", teaser: "10 người, chia phe, đấu trí tìm sói giữa đêm." },
-  { name: "Săn Trend Biển Tân An", occasion: "Sáng sớm ngày 2", teaser: "Chụp ảnh, quay trend TikTok — ai lầy nhất thắng." },
-  { name: "Cờ Caro Tiếp Sức", occasion: "Sáng sớm ngày 2", teaser: "Chạy và tranh từng ô cờ trên cát." },
-  { name: "Rồng Săn Đuôi", occasion: "Sáng sớm ngày 2", teaser: "Đối kháng đồng đội, giữ đuôi mình, săn đuôi đối thủ." },
-  { name: "Vượt Ải Sóng Biển", occasion: "Sáng sớm ngày 2", teaser: "Phản xạ nhanh kẻo bị loại." },
-  { name: "Truyền Nước", occasion: "Sáng sớm ngày 2", teaser: "Teamwork tưởng dễ mà gay cấn." },
-  { name: "Đoàn Tàu Mù", occasion: "Sáng sớm ngày 2", teaser: "Bịt mắt, tin đồng đội để về đích." },
-  { name: "Who Is The Imposter?", occasion: "Tối ngày 2", teaser: "Trò chơi âm nhạc — ai đang lạc nhịp?" },
-  { name: "Phá Băng & Truth or Dare", occasion: "Tối ngày 2", teaser: "Kể chuyện thật, giả, và vài thử thách bất ngờ." },
-  { name: "Ai Là Gián Điệp?", occasion: "Xuyên suốt chuyến đi", teaser: "Có người đang giấu một nhiệm vụ bí mật." }
+  {
+    name: "Ma Sói",
+    occasion: "Tối ngày 1",
+    teaser: "10 mống, một đêm hehe"
+  },
+  {
+    name: "Săn Trend Biển Tân An",
+    occasion: "Sáng ngày 2",
+    teaser: "Mấy đứa sợ Tiktok đợi đấy"
+  },
+  {
+    name: "Cờ Caro Tiếp Sức",
+    occasion: "Sáng ngày 2",
+    teaser: "Ngu lắm mới thua =))"
+  },
+  {
+    name: "Rồng Săn Đuôi",
+    occasion: "Sáng ngày 2",
+    teaser: "MỆT."
+  },
+  {
+    name: "Vượt Ải Sóng Biển",
+    occasion: "Sáng ngày 2",
+    teaser: "MẶC ĐỒ BƠI đi cho mát"
+  },
+  {
+    name: "Truyền Nước",
+    occasion: "Sáng ngày 2",
+    teaser: "Hài lắm"
+  },
+  {
+    name: "Đoàn Tàu Mù",
+    occasion: "Sáng ngày 2",
+    teaser: "Erhhhh..."
+  },
+  {
+    name: "Who Is The Imposter?",
+    occasion: "Tối ngày 2",
+    teaser: "Trò này hay lắm (gtm spoil)"
+  },
+  {
+    name: "Phá Băng & Truth or Dare",
+    occasion: "Tối ngày 2",
+    teaser: "Thảo tâm huyết trò này lắm đừng ai bỏ lỡ"
+  },
+  {
+    name: "Ai Là Gián Điệp?",
+    occasion: "Xuyên suốt chuyến đi",
+    teaser: "Trông thế mà lại hay"
+  }
 ]
 };

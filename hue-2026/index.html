@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Be+Vietnam+Pro:wght@400;500;600;700&family=Baloo+2:wght@500;600;700;800&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 
 
 <link rel="stylesheet" href="style.css">
@@ -23,97 +23,144 @@
     </a>
     <button class="nav-toggle" id="navToggle" aria-label="Mở menu">☰</button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#crew">Cả đội</a></li>
-      <li><a href="#timeline">Lịch trình</a></li>
-      <li><a href="#games">Trò chơi</a></li>
-      <li><a href="#destinations">Điểm đến</a></li>
-      <li><a href="#food">Đồ ăn</a></li>
+      <li><a href="#crew">Đồng bọn</a></li>
+      <li><a href="#timeline">Ăn chơi</a></li>
+      <li><a href="#games">Tấu hài</a></li>
+      <li><a href="#destinations">Sống ảo</a></li>
+      <li><a href="#food">Bổ sung mỡ</a></li>
     </ul>
   </div>
 </nav>
 
 <header class="hero" id="top">
-  <div class="hero-bg"></div>
   <div id="heroStickers"></div>
+
+  <!-- Collage phải: lớp sticker NỀN (nằm sau mặt người) -->
+  <img src="figures/sticker_imperial.png" class="hero-deco hero-deco--back" style="top: 4%; left: 64%; width: 260px; transform: rotate(-4deg);" alt="">
+  <img src="figures/sticker_conicol_hat.png" class="hero-deco hero-deco--back" style="top: 40%; left: 45%; width: 132px; transform: rotate(9deg);" alt="">
+  <img src="figures/sticker_flowers.png" class="hero-deco hero-deco--back" style="bottom: 8%; left: 51%; width: 118px; transform: rotate(-8deg);" alt="">
+  <img src="figures/sticker_lotus_3.png" class="hero-deco hero-deco--back" style="bottom: 3%; right: 3%; width: 126px; transform: rotate(7deg);" alt="">
+
+  <!-- Lớp sticker ACCENT (nổi trước mặt người) -->
+  <img src="figures/sticker_lantern.png" class="hero-deco hero-deco--front" style="top: 1%; left: 53%; width: 84px; transform: rotate(5deg);" alt="">
+  <img src="figures/sticker_lotus.png" class="hero-deco hero-deco--front" style="top: 16%; left: 90%; width: 86px; transform: rotate(-10deg);" alt="">
+  <img src="figures/sticker_noodles.png" class="hero-deco hero-deco--front" style="bottom: 11%; left: 69%; width: 110px; transform: rotate(8deg);" alt="">
+
+  <!-- Accent bên trái cho đỡ trống dưới khối chữ -->
+  <img src="figures/sticker_lotus_2.png" class="hero-deco hero-deco--front" style="bottom: 13%; left: 3%; width: 100px; transform: rotate(-12deg);" alt="">
+
   <div class="wrap hero-inner">
-    <div class="hero-left">
-    </div>
-    <div class="hero-right">
-      <div class="hero-content-box">
-        <p class="eyebrow">Hè rồi đi chơi thoiii</p>
-        <h1>Huế x gogo</h1>
-        <p class="hero-subtitle" id="heroSubtitle"></p>
-        <span class="hero-date" id="heroDate"></span>
-        <p class="hero-intro" id="heroIntro"></p>
+    <div class="hero-collage">
+      <p class="hero-eyebrow">Hè rồi đi chơi thoiii ✿</p>
+      <h1 class="hero-title">Huế <span class="hero-x">x</span> gogo</h1>
+      <p class="hero-subtitle" id="heroSubtitle"></p>
+
+      <div class="boarding-pass" role="img" aria-label="Vé lên đường Hà Nội đến Huế">
+        <div class="bp-main">
+          <div class="bp-route">
+            <span class="bp-city"><span class="bp-code">HAN</span><span class="bp-name">Hà Nội</span></span>
+            <span class="bp-plane" aria-hidden="true">⟶</span>
+            <span class="bp-city"><span class="bp-code">HUE</span><span class="bp-name">Huế</span></span>
+          </div>
+          <div class="bp-meta">
+            <span class="bp-field"><span class="bp-label">Guest</span><span class="bp-value">gogo</span></span>
+            <span class="bp-field"><span class="bp-label">Date</span><span class="bp-value" id="heroDate"></span></span>
+          </div>
+          <div class="bp-barcode" aria-hidden="true"></div>
+        </div>
+        <div class="bp-stub">
+          <span class="bp-label">Journey</span>
+          <span class="bp-gate">3D2N</span>
+          <span class="bp-seat">gogo ♥</span>
+        </div>
       </div>
+
+      <p class="hero-intro" id="heroIntro"></p>
     </div>
   </div>
 </header>
 
-<section id="crew" style="position: relative;">
-  <img src="figures/sticker_lotus.png" class="deco-sticker" style="top: 10px; left: 4%; width: 90px; transform: rotate(-15deg);" alt="">
+<section id="crew" class="journal-page">
+  <img src="figures/sticker_lotus_2.png" class="deco-sticker" style="top: 24px; left: 2%; width: 104px; transform: rotate(-12deg);" alt="">
+  <img src="figures/sticker_flowers.png" class="deco-sticker" style="top: 32%; right: 1%; width: 96px; transform: rotate(12deg);" alt="">
+  <img src="figures/sticker_lantern.png" class="deco-sticker" style="bottom: 30px; right: 6%; width: 86px; transform: rotate(-8deg);" alt="">
+  <img src="figures/sticker_lotus_3.png" class="deco-sticker" style="bottom: 40px; left: 3%; width: 90px; transform: rotate(9deg);" alt="">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Cả đội</p>
-      <h2>10 đứa, 1 chuyến đi</h2>
-      <p>Những gương mặt sẽ cùng rong ruổi khắp Huế trong 3 ngày 2 đêm này.</p>
+      <p class="eyebrow">Đồng bọn</p>
+      <h2>10 mống</h2>
+      <p>Không phải chỉ có 10, mà là chỉ có 10 đứa đi.</p>
     </div>
     <div class="crew-grid" id="crewGrid"></div>
   </div>
 </section>
 
-<section id="timeline" style="position: relative;">
-  <img src="figures/sticker_lotus.png" class="deco-sticker" style="top: 20px; right: 5%; width: 120px; transform: rotate(15deg);" alt="">
+<section id="timeline" class="journal-page">
+  <img src="figures/sticker_lantern.png" class="deco-sticker" style="top: 8px; right: 4%; width: 112px; transform: rotate(12deg);" alt="">
+  <img src="figures/sticker_lotus.png" class="deco-sticker" style="top: 42%; left: 1%; width: 100px; transform: rotate(-14deg);" alt="">
+  <img src="figures/sticker_conicol_hat.png" class="deco-sticker" style="bottom: 40px; left: 4%; width: 124px; transform: rotate(8deg);" alt="">
+  <img src="figures/sticker_flowers.png" class="deco-sticker" style="bottom: 60px; right: 2%; width: 92px; transform: rotate(-10deg);" alt="">
   <div class="wrap">
     <div class="section-head">
+      <p class="eyebrow">Kế hoạch tác chiến</p>
       <h2>3 ngày 2 đêm</h2>
-      <p>Lịch trình đi theo mạch sông Hương — từ Đại Nội ra tới lăng tẩm, rồi ra biển trước khi quay về. Giờ giấc có thể xê dịch chút ít tuỳ tình hình.</p>
+      <p>Lịch trình sương sương lượn dọc sông Hương — từ Đại Nội ra lăng tẩm, rồi ra biển quẩy. Cơ mà giờ giấc mang tính chất tham khảo, tuỳ độ cao su của thằng tamlele</p>
     </div>
     <div class="timeline">
-      <div class="timeline-river"></div>
       <div id="daysList"></div>
     </div>
   </div>
 </section>
 
-<section id="games" style="position: relative;">
-  <img src="figures/sticker_lantern.png" class="deco-sticker" style="bottom: 40px; right: 10%; width: 110px; transform: rotate(20deg);" alt="">
+<section id="games" class="journal-page">
+  <img src="figures/sticker_flowers.png" class="deco-sticker" style="bottom: 36px; right: 3%; width: 118px; transform: rotate(14deg);" alt="">
+  <img src="figures/sticker_lotus_3.png" class="deco-sticker" style="top: 24px; left: 2%; width: 106px; transform: rotate(-12deg);" alt="">
+  <img src="figures/sticker_lotus_2.png" class="deco-sticker" style="top: 30%; right: 1%; width: 84px; transform: rotate(11deg);" alt="">
+  <img src="figures/sticker_lantern.png" class="deco-sticker" style="bottom: 50px; left: 4%; width: 88px; transform: rotate(7deg);" alt="">
   <div class="wrap">
     <div class="section-head">
-      <h2>Trò chơi</h2>
-      <p>Có tên trò rồi, còn luật chơi thì để dành đến đúng giờ mới bật mí — cứ mong chờ thôi!</p>
+      <h2>Chuyên mục tấu hài</h2>
+      <p>Tên trò thôi không cần đọc</p>
     </div>
     <div class="game-grid" id="gameGrid"></div>
   </div>
 </section>
 
-<section id="destinations" style="position: relative;">
-  <img src="figures/sticker_lantern.png" class="deco-sticker" style="top: -30px; left: 10%; width: 140px; transform: rotate(-10deg);" alt="">
+<section id="destinations" class="journal-page">
+  <img src="figures/sticker_imperial.png" class="deco-sticker" style="top: 4px; left: 3%; width: 150px; transform: rotate(-8deg);" alt="">
+  <img src="figures/sticker_flowers.png" class="deco-sticker" style="top: 14%; right: 1%; width: 100px; transform: rotate(12deg);" alt="">
+  <img src="figures/sticker_lotus.png" class="deco-sticker" style="bottom: 40px; right: 4%; width: 96px; transform: rotate(-10deg);" alt="">
+  <img src="figures/sticker_lotus_3.png" class="deco-sticker" style="bottom: 34px; left: 2%; width: 92px; transform: rotate(9deg);" alt="">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Điểm đến</p>
-      <h2>Những nơi sẽ ghé qua</h2>
-      <p>Mỗi điểm đến đều mang một câu chuyện riêng của Huế.</p>
+      <p class="eyebrow">Toạ độ sống ảo</p>
+      <h2>Chép-in sương sương</h2>
+      <p>Chỗ nào cũng xịn (nghe nói thế chứ không biết)</p>
     </div>
     <div class="dest-grid" id="destGrid"></div>
   </div>
 </section>
 
-<section id="food" style="position: relative;">
-  <img src="figures/sticker_lotus.png" class="deco-sticker" style="bottom: 20px; left: 5%; width: 100px; transform: rotate(-25deg);" alt="">
+<section id="food" class="journal-page">
+  <img src="figures/sticker_noodles.png" class="deco-sticker" style="bottom: 24px; right: 4%; width: 122px; transform: rotate(10deg);" alt="">
+  <img src="figures/sticker_conicol_hat.png" class="deco-sticker" style="top: 20px; left: 2%; width: 124px; transform: rotate(-12deg);" alt="">
+  <img src="figures/sticker_lotus_2.png" class="deco-sticker" style="top: 40%; right: 1%; width: 90px; transform: rotate(13deg);" alt="">
+  <img src="figures/sticker_lantern.png" class="deco-sticker" style="bottom: 60px; left: 5%; width: 84px; transform: rotate(6deg);" alt="">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Góc Ẩm Thực</p>
-      <h2>Các quán ăn nức tiếng</h2>
-      <p>Danh sách các quán ăn đặc sản Huế không thể bỏ qua.</p>
+      <p class="eyebrow">Nạp Năng Lượng</p>
+      <h2>Ăn sập xứ Huế</h2>
+      <p>Chỗ hốc</p>
     </div>
     <div class="dest-grid" id="foodGrid"></div>
   </div>
 </section>
 
 <footer>
+  <img src="figures/sticker_lotus.png" class="deco-sticker" style="top: 10px; left: 8%; width: 80px; transform: rotate(-12deg);" alt="">
+  <img src="figures/sticker_flowers.png" class="deco-sticker" style="bottom: 20px; right: 9%; width: 88px; transform: rotate(10deg);" alt="">
   <div class="wrap">
-    <p>Được chuẩn bị với <span class="heart">♥</span> cho một chuyến đi Huế đáng nhớ.</p>
+    <p>Được chuẩn bị cho một chuyến đi Huế đáng nhớ (chắc vậy).</p>
   </div>
 </footer>
 

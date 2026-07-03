@@ -19,24 +19,25 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("heroIntro").textContent = data.intro;
 
   // ---- Hero Stickers (Images 1.png - 10.png) ----
-  // Bố cục cố định (không random vị trí) — chia làm 2 dải viền trái/phải quanh
-  // content box, tránh đè lên cổng thành + không lấn vào vùng chữ.
+  // Bố cục cố định — dồn 10 mặt người thành cụm collage ở NỬA PHẢI hero, xen kẽ
+  // giữa các sticker trang trí (.hero-deco). Nửa trái để trống cho khối chữ + vé.
   const heroStickers = document.getElementById("heroStickers");
   if (heroStickers) {
     const positions = [
-      // Dải trái, bám theo mái cổng thành, from nhỏ (xa) -> to (gần)
-      { top: '10%',  left: '4%',  scale: 0.55, z: 8,  shadow: 0.12 },
-      { top: '24%',  left: '11%', scale: 0.68, z: 9,  shadow: 0.16 },
-      { top: '40%',  left: '3%',  scale: 0.8,  z: 10, shadow: 0.2  },
-      { top: '56%',  left: '10%', scale: 0.95, z: 12, shadow: 0.26 },
-      { top: '74%',  left: '2%',  scale: 1.05, z: 14, shadow: 0.3  },
-
-      // Dải phải, quanh khinh khí cầu + hoa sen, tránh đè hero-content-box
-      { top: '6%',   left: '86%', scale: 0.55, z: 8,  shadow: 0.12 },
-      { top: '20%',  left: '92%', scale: 0.7,  z: 9,  shadow: 0.16 },
-      { top: '58%',  left: '94%', scale: 0.85, z: 10, shadow: 0.2  },
-      { top: '76%',  left: '88%', scale: 1.0,  z: 13, shadow: 0.28 },
-      { top: '90%',  left: '95%', scale: 0.9,  z: 12, shadow: 0.24 }
+      // Hàng trên (2)
+      { top: '9%',  left: '58%', scale: 0.62, z: 8,  shadow: 0.12 },
+      { top: '12%', left: '75%', scale: 0.72, z: 9,  shadow: 0.15 },
+      // Hàng giữa-trên (3)
+      { top: '25%', left: '50%', scale: 0.82, z: 11, shadow: 0.18 },
+      { top: '27%', left: '66%', scale: 0.98, z: 14, shadow: 0.25 },
+      { top: '30%', left: '83%', scale: 0.80, z: 9,  shadow: 0.16 },
+      // Hàng giữa-dưới (3)
+      { top: '46%', left: '55%', scale: 0.90, z: 12, shadow: 0.22 },
+      { top: '49%', left: '71%', scale: 1.06, z: 15, shadow: 0.30 },
+      { top: '51%', left: '87%', scale: 0.80, z: 10, shadow: 0.18 },
+      // Hàng dưới (2)
+      { top: '68%', left: '61%', scale: 0.96, z: 13, shadow: 0.26 },
+      { top: '70%', left: '78%', scale: 0.86, z: 11, shadow: 0.20 }
     ];
 
     const stickersArray = Array.from({ length: 10 }, (_, i) => `figures/${i + 1}.png`);
@@ -147,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const randomRot = Math.floor(Math.random() * 6 - 3); // -3 to 3
     return `
       <div class="dest-card dest-card-photo" style="--i: ${randomRot}">
+        <span class="photo-stamp">Huế ✦</span>
         ${dest.image ? `<div class="dest-photo"><img src="${dest.image}" alt="${dest.name}"></div>` : `<div class="dest-photo placeholder"></div>`}
         <div class="dest-info">
           <h3>${dest.name}</h3>
@@ -162,10 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
     foodGrid.innerHTML = data.food.map(f => {
       const randomRot = Math.floor(Math.random() * 6 - 3);
       return `
-        <div class="dest-card" style="--i: ${randomRot}">
+        <div class="dest-card food-card" style="--i: ${randomRot}">
           <h3>${f.name}</h3>
-          <p style="font-size:0.85rem; color:var(--ink-soft); margin-bottom:8px;">📍 ${f.address}</p>
+          <p class="food-address">📍 ${f.address}</p>
           <p>${f.desc}</p>
+          ${f.note ? `<span class="food-note">${f.note}</span>` : ""}
         </div>
       `;
     }).join("");
