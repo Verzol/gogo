@@ -77,8 +77,9 @@ const TRIP_DATA = {
     },
     bun_canh_ca_loc_binh: {
       name: "Bún canh cá lóc Bình",
+      mapsUrl: "https://maps.app.goo.gl/mwqh2GaBt9ipoxYu5",
       image: "figures/food/bun_canh_ca_loc_binh.png",
-      desc: "-"
+      desc: "140 Trường Chinh, An Cựu"
     },
     bien_tan_an: {
       name: "Biển Tân An",
@@ -177,10 +178,10 @@ const TRIP_DATA = {
         { time: "05:30", activity: "Có mặt tại Huế, về homestay cất đồ", note: "INN91 Homestay — 91 Đinh Tiên Hoàng", location: "inn91" },
         { time: "06:00", activity: "Ăn sáng tại chợ Đông Ba", note: "Tranh thủ lượn sắm áo Huế cho bằng bạn bằng bè", location: "cho_dong_ba" },
         { time: "07:30", activity: "Cà phê Đặng Thái Thân", note: "Sống ảo nhẹ nhàng buổi sáng", location: "ca_phe_dang_thai_than" },
-        { time: "09:00", activity: "Tham quan Lăng Khải Định", note: "Dresscode: áo Huế + quần jeans nha", location: "lang_khai_dinh" },
+        { time: "09:00", activity: "Tham quan Lăng Khải Định", note: "Dresscode: áo Huế + quần jeans nha", location: "lang_khai_dinh", outfit: "Áo Huế + Jeans" },
         { time: "12:15", activity: "Ăn trưa: Cơm hến Hoa Đông, Nem lụi Bà Tý", note: "81 Đào Duy Từ", locations: ["com_hen_hoa_dong", "nem_lui_ba_ty"] },
         { time: "13:45", activity: "Về khách sạn nghỉ trưa", note: "Ngủ xíu chiều còn sức lượn tiếp", location: "inn91" },
-        { time: "14:45", activity: "Tham quan Đại Nội (Hoàng thành Huế)", note: "Dresscode: tông pastel bánh bèo", location: "dai_noi" },
+        { time: "14:45", activity: "Tham quan Đại Nội (Hoàng thành Huế)", note: "Dresscode: tông pastel bánh bèo", location: "dai_noi", outfit: "Random\nƯu tiên Pastel" },
         { time: "17:00", activity: "Chùa Thiên Mụ", note: "Ai bào nổi thì đi tiếp, không thì dạt về =))", location: "chua_thien_mu" },
         { time: "18:30", activity: "Ăn tối: Bún canh cá lóc Bình", note: "Quán chỉ mở buổi tối", location: "bun_canh_ca_loc_binh" },
         { time: "20:30", activity: "Nghe ca Huế trên sông Hương", note: "Chill chill", location: "ca_hue" },
@@ -192,13 +193,13 @@ const TRIP_DATA = {
       title: "Bình minh biển Tân An & khám phá Huế",
       date: "Thứ 7 (18/7)",
       blocks: [
-        { time: "04:15", activity: "Ra biển Tân An đón bình minh", note: "Đứa nào cao su là bỏ lại nha, nhớ ngủ sớm!", location: "bien_tan_an" },
+        { time: "04:15", activity: "Ra biển Tân An đón bình minh", note: "Đứa nào cao su là bỏ lại nha, nhớ ngủ sớm!", location: "bien_tan_an", outfit: "Xanh dương\nTrắng" },
         { time: "04:50 – 08:25", activity: "Team Building trên biển", note: "6 trò chơi - vui không thì không biết", location: "bien_tan_an" },
         { time: "10:00", activity: "Ăn sáng muộn: Bún Hạnh", note: "Bù đắp calo vừa mất", location: "bun_hanh" },
         { time: "11:00", activity: "Về khách sạn nghỉ ngơi", note: "Tranh thủ sạc pin cho người và điện thoại" },
         { time: "14:00", activity: "Tham quan Lăng Tự Đức", note: "Tiện đường rẽ vô Làng Hương sống ảo 7749 tấm", location: "lang_tu_duc" },
         { time: "15:30", activity: "Ăn vặt: Bánh ép Huệ", note: "Giải lao giữa giờ", location: "banh_ep_hue" },
-        { time: "16:30", activity: "Picnic & ngắm hoàng hôn ở Công viên Phú Xuân", note: "Ra bãi cỏ chèo SUP chill chill. Dresscode: nâu / be / trắng", location: "cong_vien_phu_xuan" },
+        { time: "16:30", activity: "Picnic & ngắm hoàng hôn ở Công viên Phú Xuân", note: "Ra bãi cỏ chèo SUP chill chill", location: "cong_vien_phu_xuan", outfit: "Nâu\nBe\nVàng\nTrắng" },
         { time: "19:00 – 21:00", activity: "Lang thang ăn tối: bánh lọc, bánh canh, chè Thanh", note: "Ăn sập cái đất Huế này", locations: ["banh_loc_dao_tan", "banh_canh_o_buom", "che_thanh"] },
         { time: "22:00", activity: "Trò chơi tối", note: "Tiếp tục chuyên mục tấu hài" },
       ]
@@ -209,10 +210,10 @@ const TRIP_DATA = {
       date: "Chủ Nhật (19/7) — Thứ 2 (20/7)",
       blocks: [
         { time: "07:30", activity: "Ăn sáng: Bánh mì lò củi", note: "149 Nhật Lệ", location: "banh_mi_lo_cui" },
-        { time: "08:00", activity: "Tham quan Lăng Gia Long", note: "Hơi xa tí nhưng lên hình bao nghệ", location: "lang_gia_long" },
+        { time: "08:00", activity: "Tham quan Lăng Gia Long", note: "Hơi xa tí nhưng lên hình bao nghệ", location: "lang_gia_long", outfit: "Random\nƯu tiên pastel" },
         { time: "09:45", activity: "Cung An Định", note: "Ai thích thì nhích", location: "cung_an_dinh" },
         { time: "11:00", activity: "Ăn trưa: bánh bèo – nậm – lọc, cuốn thịt heo", note: "Cố ăn nốt đồ Huế rồi về", locations: ["quan_banh_chi", "donald_trung"] },
-        { time: "13:00", activity: "Ghé Trường Quốc Học Huế", note: "Dresscode bao xịn: jeans / đen / be", location: "quoc_hoc_hue" },
+        { time: "13:00", activity: "Ghé Trường Quốc Học Huế", note: "Dresscode bao xịn: jeans / đen / be", location: "quoc_hoc_hue", outfit: "Jeans\nĐen\nBe" },
         { time: "15:00", activity: "Cà phê hoặc dạo công viên ven sông Hương", note: "Tiêu nốt số tiền còn lại", location: "song_huong" },
         { time: "17:30", activity: "Lên xe khởi hành về Hà Nội", note: "Tạm biệt Huế nhaa" },
         { time: "Trên xe", activity: "Tổng kết chuyến đi", note: "Tâm sự tuổi hồng" },

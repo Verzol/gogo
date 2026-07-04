@@ -727,6 +727,21 @@ section { padding: 60px 0; }
   background: var(--pink-pale);
 }
 
+.outfit-chip {
+  background: #F7D36B;
+}
+
+.outfit-peek:hover .outfit-chip,
+.outfit-peek:focus-within .outfit-chip,
+.outfit-peek:focus .outfit-chip {
+  background: #FFE7A3;
+}
+
+.outfit-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .location-peek::after {
   content: '';
   position: absolute;
@@ -769,6 +784,10 @@ section { padding: 60px 0; }
   transform: rotate(-4deg);
 }
 
+.outfit-card::before {
+  background: rgba(247, 211, 107, 0.75);
+}
+
 .location-peek:hover .location-card,
 .location-peek:focus-within .location-card,
 .location-peek:focus .location-card {
@@ -801,6 +820,15 @@ section { padding: 60px 0; }
   color: var(--ink-soft);
 }
 
+.outfit-photo {
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(247, 211, 107, 0.58), rgba(255, 250, 240, 0.95)),
+    var(--cream-deep);
+  font-size: 2.5rem;
+}
+
 .location-copy {
   display: flex;
   flex-direction: column;
@@ -819,6 +847,13 @@ section { padding: 60px 0; }
   font-size: 0.8rem;
   line-height: 1.35;
   color: var(--ink-soft);
+}
+
+.location-copy.outfit-copy span {
+  font-family: var(--font-doodle);
+  font-size: 1rem;
+  font-style: normal;
+  color: var(--ink);
 }
 
 .maps-button {
@@ -1155,6 +1190,61 @@ footer {
 
 footer p { font-family: var(--font-hand); font-size: 1.3rem; margin: 0; }
 footer .heart { color: var(--pink-deep); }
+
+/* ============================================================
+   Floating fund button
+   ============================================================ */
+.fund-fab {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 10px 16px 10px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 4px 5px 0 rgba(44, 51, 35, 0.2);
+  font-family: var(--font-doodle);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+  transform: rotate(-1.5deg);
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.fund-fab:hover,
+.fund-fab:focus {
+  background: #F7D36B;
+  box-shadow: 5px 6px 0 rgba(44, 51, 35, 0.22);
+  transform: translateY(-2px) rotate(-1.5deg);
+}
+
+.fund-fab-icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+@media (max-width: 560px) {
+  .fund-fab {
+    left: 14px;
+    bottom: 14px;
+    min-height: 42px;
+    padding: 9px 13px 9px 10px;
+    font-size: 0.92rem;
+  }
+}
 
 /* ============================================================
    Decorations (Scrapbook Stickers)

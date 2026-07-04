@@ -19,6 +19,31 @@ document.addEventListener("DOMContentLoaded", () => {
     return block.location ? [block.location] : [];
   };
 
+  const renderOutfitPeek = outfit => {
+    if (!outfit) return "";
+
+    const outfitItems = String(outfit)
+      .split(/\n+/)
+      .map(item => item.trim())
+      .filter(Boolean);
+
+    return `
+      <span class="location-peek outfit-peek" tabindex="0">
+        <span class="location-chip outfit-chip">
+          <span class="outfit-icon" aria-hidden="true">👕</span>
+          Dresscode
+        </span>
+        <span class="location-card outfit-card" role="tooltip">
+          <span class="location-photo outfit-photo" aria-hidden="true">👕</span>
+          <span class="location-copy outfit-copy">
+            <strong>Trang phục</strong>
+            <span>${outfitItems.map(escapeHTML).join(" · ")}</span>
+          </span>
+        </span>
+      </span>
+    `;
+  };
+
   const renderLocationPeek = key => {
     const location = locationData[key];
     if (!location) return "";
@@ -158,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   <div>
                     <div class="time-activity">${b.activity}</div>
                     ${b.note ? `<div class="time-note">${b.note}</div>` : ""}
-                    ${blockLocationKeys(b).length ? `<div class="location-peeks">${blockLocationKeys(b).map(renderLocationPeek).join("")}</div>` : ""}
+                    ${blockLocationKeys(b).length || b.outfit ? `<div class="location-peeks">${blockLocationKeys(b).map(renderLocationPeek).join("")}${renderOutfitPeek(b.outfit)}</div>` : ""}
                   </div>
                 </div>
               `).join("")}
