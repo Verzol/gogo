@@ -284,11 +284,15 @@ document.addEventListener("DOMContentLoaded", () => {
     foodGrid.innerHTML = data.food.map(f => {
       const randomRot = Math.floor(Math.random() * 6 - 3);
       return `
-        <div class="dest-card food-card" style="--i: ${randomRot}">
-          <h3>${f.name}</h3>
-          <p class="food-address">📍 ${f.address}</p>
-          <p>${f.desc}</p>
-          ${f.note ? `<span class="food-note">${f.note}</span>` : ""}
+        <div class="dest-card dest-card-photo food-card" style="--i: ${randomRot}">
+          <span class="photo-stamp food-stamp">Ăn ✦</span>
+          ${f.image ? `<div class="dest-photo food-photo"><img src="${f.image}" alt="${f.name}"></div>` : `<div class="dest-photo food-photo placeholder"></div>`}
+          <div class="dest-info food-info">
+            <h3>${f.name}</h3>
+            <p class="food-address">📍 ${f.address}</p>
+            <p>${f.desc}</p>
+            ${f.note ? `<span class="food-note">${f.note}</span>` : ""}
+          </div>
         </div>
       `;
     }).join("");
