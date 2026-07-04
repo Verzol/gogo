@@ -32,7 +32,10 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
 body {
   font-family: var(--font-body);
@@ -48,6 +51,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   margin: 0;
+  overflow-x: hidden;
 }
 
 img { max-width: 100%; display: block; }
@@ -97,7 +101,7 @@ section { padding: 60px 0; }
 }
 
 /* ============================================================
-   Scrapbook utilities — washi tape & pins (dùng chung)
+   Scrapbook utilities - washi tape & pins (dùng chung)
    ============================================================ */
 .tape {
   position: absolute;
@@ -130,7 +134,7 @@ section { padding: 60px 0; }
 }
 
 /* ============================================================
-   Journal page — mỗi section là một trang giấy dán lên sổ
+   Journal page - mỗi section là một trang giấy dán lên sổ
    ============================================================ */
 .journal-page { position: relative; }
 
@@ -245,7 +249,7 @@ section { padding: 60px 0; }
 }
 
 /* ============================================================
-   Hero — trang bìa sổ (collage + boarding pass)
+   Hero - trang bìa sổ (collage + boarding pass)
    ============================================================ */
 .hero {
   position: relative;
@@ -285,6 +289,7 @@ section { padding: 60px 0; }
 }
 
 @media (max-width: 640px) {
+  .hero-deco { display: none; }
   .hero-sticker img { width: calc(85px * var(--scale, 1)); }
   /* Màn hình nhỏ: chỉ giữ 6 sticker đầu (3 trái + 3 phải) cho đỡ rối,
      vì hero xếp dọc nên 2 dải trái/phải dễ chồng lên nhau. */
@@ -504,10 +509,319 @@ section { padding: 60px 0; }
 }
 
 /* ============================================================
-   Timeline (Horizontal Scrapbook Style)
+   Itinerary route - scrapbook path
+   ============================================================ */
+.timeline {
+  margin-top: 40px;
+}
+
+.itinerary-route {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 68px 22px;
+  padding: 30px 12px 10px;
+}
+
+.route-card {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-self: center;
+  width: 360px;
+  max-width: 100%;
+  gap: 12px;
+  align-content: start;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  transform: rotate(var(--route-rot, 0deg));
+  transition: transform 0.25s ease;
+}
+
+.route-card[role="link"] { cursor: pointer; }
+
+.route-card:hover {
+  transform: translateY(-4px) rotate(0deg);
+}
+
+.route-card:focus-visible {
+  outline: 3px solid var(--pink-deep);
+  outline-offset: 5px;
+}
+
+.route-map-link {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 3px 4px 0 rgba(44, 51, 35, 0.18);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.route-map-link:hover,
+.route-map-link:focus {
+  transform: translateY(-2px) rotate(4deg);
+  box-shadow: 4px 5px 0 rgba(44, 51, 35, 0.2);
+}
+
+.route-map-link .maps-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.route-card::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  width: 92px;
+  height: 23px;
+  background: var(--tape-pink);
+  border-left: 2px dashed rgba(255, 255, 255, 0.52);
+  border-right: 2px dashed rgba(255, 255, 255, 0.52);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.06);
+  transform: translateX(-50%) rotate(-6deg);
+  z-index: 4;
+}
+
+.route-card::after {
+  content: '';
+  position: absolute;
+  width: 168px;
+  height: 66px;
+  border-top: 2px dashed rgba(44, 51, 35, 0.48);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.route-card:last-child::after { content: none; }
+
+.route-card--1 { grid-column: 1 / span 4; }
+.route-card--2 { grid-column: 8 / span 4; margin-top: 22px; }
+.route-card--3 { grid-column: 2 / span 4; }
+.route-card--4 { grid-column: 8 / span 4; margin-top: -8px; }
+
+.route-card--1::after {
+  right: -150px;
+  top: 38px;
+  transform: rotate(8deg);
+}
+
+.route-card--2::after {
+  left: -150px;
+  bottom: -34px;
+  transform: rotate(154deg);
+}
+
+.route-card--3::after {
+  right: -154px;
+  top: 82px;
+  transform: rotate(18deg);
+}
+
+.route-card--4::after {
+  left: -142px;
+  bottom: -38px;
+  transform: rotate(160deg);
+}
+
+.route-photo {
+  position: relative;
+  overflow: visible;
+  justify-self: center;
+  width: 340px;
+  max-width: 100%;
+  height: 238px;
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 253, 248, 0.98)),
+    var(--paper);
+  padding: 12px 12px 18px;
+  box-shadow:
+    0 18px 22px rgba(44, 51, 35, 0.12),
+    6px 7px 0 rgba(44, 51, 35, 0.10);
+  clip-path: polygon(0 4%, 7% 1%, 16% 3%, 25% 0, 36% 2%, 45% 1%, 55% 3%, 66% 0, 76% 2%, 87% 1%, 100% 5%, 98% 17%, 100% 29%, 97% 42%, 99% 54%, 97% 68%, 100% 82%, 96% 100%, 85% 97%, 74% 100%, 64% 98%, 53% 100%, 42% 97%, 31% 100%, 20% 97%, 8% 100%, 0 96%, 2% 82%, 0 70%, 3% 57%, 1% 44%, 3% 31%, 0 18%);
+}
+
+.route-photo::after {
+  content: '';
+  position: absolute;
+  inset: 12px 12px 18px;
+  background:
+    linear-gradient(90deg, rgba(255, 253, 248, 0.18), transparent 28%, rgba(44, 51, 35, 0.08) 100%),
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.20), transparent 22%);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  clip-path: polygon(1% 3%, 12% 0, 25% 2%, 38% 0, 50% 3%, 65% 0, 79% 2%, 99% 1%, 97% 18%, 100% 36%, 97% 53%, 99% 70%, 96% 98%, 82% 96%, 66% 100%, 48% 97%, 32% 99%, 16% 96%, 0 99%, 3% 79%, 0 61%, 3% 43%, 0 23%);
+}
+
+.route-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.12) saturate(0.92) contrast(0.98);
+  clip-path: polygon(1% 3%, 12% 0, 25% 2%, 38% 0, 50% 3%, 65% 0, 79% 2%, 99% 1%, 97% 18%, 100% 36%, 97% 53%, 99% 70%, 96% 98%, 82% 96%, 66% 100%, 48% 97%, 32% 99%, 16% 96%, 0 99%, 3% 79%, 0 61%, 3% 43%, 0 23%);
+  transition: transform 0.45s ease;
+}
+
+.route-card:hover .route-photo img {
+  transform: scale(1.05);
+}
+
+.route-copy {
+  position: relative;
+  display: grid;
+  justify-self: center;
+  width: min(338px, 94%);
+  gap: 7px;
+  margin-top: -2px;
+  padding: 0 4px;
+  background: transparent;
+  box-shadow: none;
+  clip-path: none;
+  transform: rotate(calc(var(--route-rot, 0deg) * -0.65));
+  z-index: 3;
+}
+
+.route-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-doodle);
+  font-size: 0.98rem;
+  line-height: 1;
+  color: var(--pink-deep);
+}
+
+.route-kicker span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 1px 0 2px;
+  border: 0;
+  border-bottom: 2px dashed rgba(197, 106, 120, 0.55);
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.route-copy h3 {
+  font-size: clamp(1.7rem, 3vw, 2.15rem);
+  line-height: 1.05;
+  text-shadow:
+    2px 2px 0 rgba(255, 253, 248, 0.92),
+    -1px 1px 0 rgba(255, 253, 248, 0.82);
+}
+
+.route-copy p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  text-shadow:
+    1px 1px 0 rgba(255, 253, 248, 0.82),
+    -1px 1px 0 rgba(255, 253, 248, 0.70);
+}
+
+.route-copy .route-meta {
+  color: var(--avocado);
+  font-family: var(--font-doodle);
+  font-size: 1.12rem;
+  line-height: 1.15;
+}
+
+.timeline-subhead {
+  max-width: 640px;
+  margin: 56px auto 0;
+  text-align: center;
+}
+
+.timeline-subhead h3 {
+  font-size: 2.1rem;
+  margin-bottom: 8px;
+}
+
+.timeline-subhead p {
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .itinerary-route {
+    display: block;
+    padding: 16px 0 0 24px;
+  }
+
+  .itinerary-route::before {
+    content: '';
+    position: absolute;
+    top: 34px;
+    bottom: 18px;
+    left: 8px;
+    border-left: 2px dashed rgba(44, 51, 35, 0.42);
+  }
+
+  .route-card,
+  .route-card--1,
+  .route-card--2,
+  .route-card--3,
+  .route-card--4 {
+    width: 100%;
+    margin: 0 0 28px;
+    transform: none;
+  }
+
+  .route-card::after {
+    content: '';
+    width: 13px;
+    height: 13px;
+    left: -22px;
+    top: 28px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: var(--pink);
+    transform: none;
+    z-index: 3;
+  }
+
+  .route-card:last-child::after { content: ''; }
+}
+
+@media (max-width: 520px) {
+  .timeline { margin-top: 30px; }
+  .itinerary-route { padding-left: 18px; }
+  .itinerary-route::before { left: 5px; }
+  .route-card { padding: 4px 10px 14px; }
+  .route-photo {
+    width: min(100%, 304px);
+    height: 214px;
+  }
+  .route-copy {
+    width: min(100%, 310px);
+    margin-top: -2px;
+    padding: 0 3px;
+  }
+  .route-card::after { left: -19px; }
+}
+
+/* ============================================================
+   Timeline detail (Horizontal Scrapbook Style)
    ============================================================ */
 .timeline-horizontal {
-  margin-top: 40px;
+  margin-top: 22px;
 }
 .timeline-track-container {
   position: relative;
@@ -903,17 +1217,51 @@ section { padding: 60px 0; }
 }
 
 @media (max-width: 560px) {
+  .timeline-track-container {
+    overflow: visible;
+  }
+
+  .timeline-track-line {
+    left: 18px;
+    right: 18px;
+  }
+
+  .timeline-stops {
+    min-width: 0;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .timeline-stop {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .stop-label {
+    font-size: 1.1rem;
+  }
+
   .time-row { grid-template-columns: 1fr; gap: 4px; }
   .day-card { padding: 30px 22px; }
   .location-card {
+    display: none;
     grid-template-columns: 86px 1fr;
     width: min(292px, calc(100vw - 64px));
+    left: auto;
+    right: 0;
   }
+
+  .location-peek:hover .location-card,
+  .location-peek:focus-within .location-card,
+  .location-peek:focus .location-card {
+    display: grid;
+  }
+
   .location-chip { max-width: 100%; }
 }
 
 /* ============================================================
-   Destinations & Food — ảnh chụp lấy liền có nhãn/tem
+   Destinations & Food - ảnh chụp lấy liền có nhãn/tem
    ============================================================ */
 .dest-grid {
   display: grid;
@@ -1000,7 +1348,7 @@ section { padding: 60px 0; }
   box-shadow: 1px 1px 3px rgba(0,0,0,0.08);
 }
 
-/* Thẻ đồ ăn (không ảnh) — mẩu giấy note có địa chỉ */
+/* Thẻ đồ ăn (không ảnh) - mẩu giấy note có địa chỉ */
 .food-card { padding: 26px 24px; }
 .food-card h3 { font-size: 1.7rem; margin-bottom: 8px; }
 .food-address {

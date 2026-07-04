@@ -3,7 +3,7 @@ const TRIP_DATA = {
   // ---------- THÔNG TIN CHUNG ----------
   tripName: "Huế x gogo",
   subtitle: "3 ngày 2 đêm rong ruổi đuổi nhau ở Huế",
-  dateRange: "16 – 20/07 · Thứ 5 đến Thứ 2",
+  dateRange: "16-20/07 · Thứ 5 đến Thứ 2",
   intro: "3 ngày lượn lờ từ Đại Nội ra tới biển, mục tiêu ăn sập Huế và có những kỷ niệm đẹp together. Let's goooo!",
 
   // ---------- THÀNH VIÊN ----------
@@ -172,10 +172,10 @@ const TRIP_DATA = {
     {
       day: 1,
       title: "Khởi hành & ngày đầu ở Huế",
-      date: "Thứ 5 (16/7) — Thứ 6 (17/7)",
+      date: "Thứ 5 (16/7) - Thứ 6 (17/7)",
       blocks: [
         { time: "17:00 (16/7)", activity: "Xuất phát từ Hà Nội đi Huế", note: "Ngủ lấy sức trên xe nha mấy má" },
-        { time: "05:30", activity: "Có mặt tại Huế, về homestay cất đồ", note: "INN91 Homestay — 91 Đinh Tiên Hoàng", location: "inn91" },
+        { time: "05:30", activity: "Có mặt tại Huế, về homestay cất đồ", note: "INN91 Homestay - 91 Đinh Tiên Hoàng", location: "inn91" },
         { time: "06:00", activity: "Ăn sáng tại chợ Đông Ba", note: "Tranh thủ lượn sắm áo Huế cho bằng bạn bằng bè", location: "cho_dong_ba" },
         { time: "07:30", activity: "Cà phê Đặng Thái Thân", note: "Sống ảo nhẹ nhàng buổi sáng", location: "ca_phe_dang_thai_than" },
         { time: "09:00", activity: "Tham quan Lăng Khải Định", note: "Dresscode: áo Huế + quần jeans nha", location: "lang_khai_dinh", outfit: "Áo Huế + Jeans" },
@@ -194,25 +194,25 @@ const TRIP_DATA = {
       date: "Thứ 7 (18/7)",
       blocks: [
         { time: "04:15", activity: "Ra biển Tân An đón bình minh", note: "Đứa nào cao su là bỏ lại nha, nhớ ngủ sớm!", location: "bien_tan_an", outfit: "Xanh dương\nTrắng" },
-        { time: "04:50 – 08:25", activity: "Team Building trên biển", note: "6 trò chơi - vui không thì không biết", location: "bien_tan_an" },
+        { time: "04:50-08:25", activity: "Team Building trên biển", note: "6 trò chơi - vui không thì không biết", location: "bien_tan_an" },
         { time: "10:00", activity: "Ăn sáng muộn: Bún Hạnh", note: "Bù đắp calo vừa mất", location: "bun_hanh" },
         { time: "11:00", activity: "Về khách sạn nghỉ ngơi", note: "Tranh thủ sạc pin cho người và điện thoại" },
         { time: "14:00", activity: "Tham quan Lăng Tự Đức", note: "Tiện đường rẽ vô Làng Hương sống ảo 7749 tấm", location: "lang_tu_duc" },
         { time: "15:30", activity: "Ăn vặt: Bánh ép Huệ", note: "Giải lao giữa giờ", location: "banh_ep_hue" },
         { time: "16:30", activity: "Picnic & ngắm hoàng hôn ở Công viên Phú Xuân", note: "Ra bãi cỏ chèo SUP chill chill", location: "cong_vien_phu_xuan", outfit: "Nâu\nBe\nVàng\nTrắng" },
-        { time: "19:00 – 21:00", activity: "Lang thang ăn tối: bánh lọc, bánh canh, chè Thanh", note: "Ăn sập cái đất Huế này", locations: ["banh_loc_dao_tan", "banh_canh_o_buom", "che_thanh"] },
+        { time: "19:00-21:00", activity: "Lang thang ăn tối: bánh lọc, bánh canh, chè Thanh", note: "Ăn sập cái đất Huế này", locations: ["banh_loc_dao_tan", "banh_canh_o_buom", "che_thanh"] },
         { time: "22:00", activity: "Trò chơi tối", note: "Tiếp tục chuyên mục tấu hài" },
       ]
     },
     {
       day: 3,
       title: "Tham quan cuối & lên đường về",
-      date: "Chủ Nhật (19/7) — Thứ 2 (20/7)",
+      date: "Chủ Nhật (19/7) - Thứ 2 (20/7)",
       blocks: [
         { time: "07:30", activity: "Ăn sáng: Bánh mì lò củi", note: "149 Nhật Lệ", location: "banh_mi_lo_cui" },
         { time: "08:00", activity: "Tham quan Lăng Gia Long", note: "Hơi xa tí nhưng lên hình bao nghệ", location: "lang_gia_long", outfit: "Random\nƯu tiên pastel" },
         { time: "09:45", activity: "Cung An Định", note: "Ai thích thì nhích", location: "cung_an_dinh" },
-        { time: "11:00", activity: "Ăn trưa: bánh bèo – nậm – lọc, cuốn thịt heo", note: "Cố ăn nốt đồ Huế rồi về", locations: ["quan_banh_chi", "donald_trung"] },
+        { time: "11:00", activity: "Ăn trưa: bánh bèo - nậm - lọc, cuốn thịt heo", note: "Cố ăn nốt đồ Huế rồi về", locations: ["quan_banh_chi", "donald_trung"] },
         { time: "13:00", activity: "Ghé Trường Quốc Học Huế", note: "Dresscode bao xịn: jeans / đen / be", location: "quoc_hoc_hue", outfit: "Jeans\nĐen\nBe" },
         { time: "15:00", activity: "Cà phê hoặc dạo công viên ven sông Hương", note: "Tiêu nốt số tiền còn lại", location: "song_huong" },
         { time: "17:30", activity: "Lên xe khởi hành về Hà Nội", note: "Tạm biệt Huế nhaa" },
@@ -222,25 +222,138 @@ const TRIP_DATA = {
     }
   ],
 
+  itineraryPlaces: [
+    {
+      key: "cho_dong_ba",
+      day: "Ngày 1",
+      time: "06:00",
+      title: "Chợ Đông Ba",
+      image: "figures/places/cho_dong_ba.jpg",
+      detailUrl: "https://slowtravelhue.com/vi/lich-su-va-sac-mau-cua-cho-dong-ba/",
+      meta: "Chợ trung tâm bên sông Hương",
+      desc: "Chợ Đông Ba gắn với nhịp sống Huế hơn một thế kỷ, từng là nơi buôn bán lớn của kinh đô bên bờ sông Hương. Ghé chợ buổi sáng sẽ thấy Huế rất đời thường: hàng ăn, vải vóc, mắm, mè xửng và đủ thứ quà địa phương."
+    },
+    {
+      key: "lang_khai_dinh",
+      day: "Ngày 1",
+      time: "09:00",
+      title: "Lăng Khải Định",
+      image: "figures/places/lang_khai_dinh.jpg",
+      detailUrl: "https://eticket.hueworldheritage.org.vn/diem-den/lang-khai-dinh",
+      meta: "Lăng vua triều Nguyễn",
+      desc: "Lăng Khải Định xây đầu thế kỷ 20 cho vị vua thứ 12 triều Nguyễn. Công trình nổi bật vì cách pha trộn kiến trúc cung đình Việt với ảnh hưởng châu Âu, đặc biệt là nội thất khảm sành sứ và thủy tinh rất cầu kỳ."
+    },
+    {
+      key: "dai_noi",
+      day: "Ngày 1",
+      time: "14:45",
+      title: "Đại Nội Huế",
+      image: "figures/places/dai_noi_hue.jpg",
+      detailUrl: "https://eticket.hueworldheritage.org.vn/diem-den/dai-noi-hue",
+      meta: "Trung tâm Hoàng thành",
+      desc: "Đại Nội là phần quan trọng nhất của Kinh thành Huế, nơi triều Nguyễn đặt hoàng cung và bộ máy triều đình trong hơn 100 năm. Đi qua Ngọ Môn, sân điện Thái Hòa và các cung điện là đi vào lớp lịch sử rõ nhất của cố đô."
+    },
+    {
+      key: "chua_thien_mu",
+      day: "Ngày 1",
+      time: "17:00",
+      title: "Chùa Thiên Mụ",
+      image: "figures/places/chua_thien_mu.jpg",
+      detailUrl: "https://hue.gov.vn/Du-khach/Thong-tin-du-khach/Kham-pha-Hue/tb/Chua-Thien-Mu-485886",
+      meta: "Ngôi chùa bên đồi Hà Khê",
+      desc: "Chùa Thiên Mụ được xem là một trong những ngôi chùa biểu tượng của Huế, nằm trên đồi Hà Khê nhìn xuống sông Hương. Tháp Phước Duyên và không gian chùa gắn với nhiều câu chuyện lịch sử, tôn giáo và văn hóa của vùng đất cố đô."
+    },
+    {
+      key: "ca_hue",
+      day: "Ngày 1",
+      time: "20:30",
+      title: "Ca Huế trên sông Hương",
+      image: "figures/places/ca_hue_tren_song_huong.png",
+      detailUrl: "https://cahuetrensonghuong.com/nghe-ca-hue-tren-song-huong/",
+      meta: "Trải nghiệm buổi tối trên thuyền",
+      desc: "Ca Huế hình thành từ dòng nhạc cung đình và dân gian xứ Huế, thường được nghe trên thuyền rồng giữa sông Hương. Đây là đoạn chậm lại của chuyến đi: nghe giọng Huế, tiếng đàn và những làn điệu đã đi cùng đời sống cố đô."
+    },
+    {
+      key: "bien_tan_an",
+      day: "Ngày 2",
+      time: "04:15",
+      title: "Biển Tân An",
+      image: "figures/places/bien_tan_an.jpg",
+      detailUrl: "https://luhanhvietnam.com.vn/du-lich/bai-bien-tan-an-hue.html",
+      meta: "Bình minh và team building",
+      desc: "Biển Tân An nằm phía ngoài trung tâm Huế, không phải kiểu điểm di tích cổ nhưng là một lát cắt khác của vùng đất này: làng biển, bình minh và nhịp sống ven phá. Chỗ này hợp để đổi gió sau một ngày đi lăng tẩm, rồi chơi team building trên cát."
+    },
+    {
+      key: "lang_tu_duc",
+      day: "Ngày 2",
+      time: "14:00",
+      title: "Lăng Tự Đức",
+      image: "figures/places/lang_tu_duc.jpg",
+      detailUrl: "https://eticket.hueworldheritage.org.vn/diem-den/lang-tu-duc",
+      meta: "Không gian lăng tẩm, hồ và vườn",
+      desc: "Lăng Tự Đức là nơi vua Tự Đức cho xây như một không gian nghỉ ngơi, làm thơ và sau này là nơi an táng. Khác với vẻ đồ sộ của nhiều công trình khác, lăng nghiêng về sự trầm lắng, có hồ, nhà tạ và kiến trúc gần với tâm trạng của vị vua nhiều chữ nghĩa."
+    },
+    {
+      key: "cong_vien_phu_xuan",
+      day: "Ngày 2",
+      time: "16:30",
+      title: "Công viên Phú Xuân",
+      image: "figures/places/cong_vien_phu_xuan.jpg",
+      detailUrl: "https://cautruongtien.vn/cong-vien-phu-xuan/",
+      meta: "Picnic ven sông Hương",
+      desc: "Công viên Phú Xuân nằm trong không gian đô thị ven sông Hương, nơi Huế hiện đại gặp nhịp sông rất cũ. Sau các điểm di tích, đây là chỗ để ngồi lại, nhìn thành phố chậm xuống và gom sức cho buổi tối."
+    },
+    {
+      key: "lang_gia_long",
+      day: "Ngày 3",
+      time: "08:00",
+      title: "Lăng Gia Long",
+      image: "figures/places/lang_gia_long.jpg",
+      detailUrl: "https://eticket.hueworldheritage.org.vn/diem-den/lang-gia-long",
+      meta: "Lăng vị vua đầu triều Nguyễn",
+      desc: "Lăng Gia Long là nơi an nghỉ của vị vua sáng lập triều Nguyễn. Khu lăng nằm xa trung tâm hơn, trải trong thế núi đồi và sông nước rộng, nên cảm giác rất khác: ít ồn, nhiều khoảng trống và có dáng vẻ mở đầu cho cả một triều đại."
+    },
+    {
+      key: "cung_an_dinh",
+      day: "Ngày 3",
+      time: "09:45",
+      title: "Cung An Định",
+      image: "figures/places/cung_an_dinh.jpg",
+      detailUrl: "https://eticket.hueworldheritage.org.vn/diem-den/cung-an-dinh",
+      meta: "Cung điện phong cách giao thoa",
+      desc: "Cung An Định là công trình đầu thế kỷ 20, gắn với giai đoạn cuối triều Nguyễn và đời sống hoàng gia sau thời hoàng cung truyền thống. Kiến trúc Á - Âu, màu vàng nổi bật và các mảng trang trí cầu kỳ làm nơi này có vẻ rất khác so với Đại Nội."
+    },
+    {
+      key: "quoc_hoc_hue",
+      day: "Ngày 3",
+      time: "13:00",
+      title: "Trường Quốc Học Huế",
+      image: "figures/places/truong_quoc_hoc_hue.jpg",
+      detailUrl: "https://hue.gov.vn/Du-khach/Thong-tin-du-khach/Kham-pha-Hue/tb/Di-tich-Truong-Quoc-Hoc-Hue-Di-tich-lich-su-cap-Quoc-gia-dac-biet-991564",
+      meta: "Ngôi trường đỏ bên đường Lê Lợi",
+      desc: "Quốc Học Huế là một trong những ngôi trường lâu đời và nổi tiếng nhất Việt Nam, gắn với nhiều nhân vật lịch sử, trí thức và học trò xứ Huế. Dãy nhà đỏ bên đường Lê Lợi vừa đẹp để chụp ảnh, vừa là điểm kết có nhiều ký ức học đường."
+    }
+  ],
+
   // ---------- ĐIỂM ĐẾN ----------
   destinations: [
     {
       name: "Chợ Đông Ba",
       image: "figures/places/cho_dong_ba.jpg",
       lat: 16.4711, lng: 107.5850,
-      desc: "Tấp vô làm bữa sáng rồi sắm vội cái áo huế xịn xò."
+      desc: "Khu chợ lâu đời của Huế, hợp để mở màn bằng đồ ăn sáng và quà vặt."
     },
     {
       name: "Lăng Khải Định",
       image: "figures/places/lang_khai_dinh.jpg",
       lat: 16.3853, lng: 107.5772,
-      desc: "Chỗ này pha trộn kiến trúc Âu - Á đỉnh lắm (AI bảo thế), lên hình là auto ngầu (cũng AI)."
+      desc: "Lăng tẩm pha trộn kiến trúc Việt, Á Đông và châu Âu, nhiều chi tiết khảm sành sứ."
     },
     {
       name: "Đại Nội Huế",
       image: "figures/places/dai_noi_hue.jpg",
       lat: 16.4698, lng: 107.5796,
-      desc: "Trung tâm quyền lực một thời. (AI nốt)"
+      desc: "Phần lõi của Quần thể di tích Cố đô Huế, nơi từng đặt triều đình nhà Nguyễn."
     },
     {
       name: "Chùa Thiên Mụ",
@@ -252,7 +365,7 @@ const TRIP_DATA = {
       name: "Biển Tân An",
       image: "figures/places/bien_tan_an.jpg",
       lat: 16.5480, lng: 107.7000,
-      desc: "Chỗ để tụi mình phơi sương đón bình minh và lặn ngụp với mấy trò vận động cười ra nước mắt. (văn AI)"
+      desc: "Chỗ để tụi mình đón bình minh và chơi team building trên cát."
     },
     {
       name: "Lăng Tự Đức",
@@ -264,7 +377,7 @@ const TRIP_DATA = {
       name: "Công viên Phú Xuân",
       image: "figures/places/cong_vien_phu_xuan.jpg",
       lat: 16.4685, lng: 107.5765,
-      desc: "Bãi cỏ ven sông Hương — chỗ lý tưởng để picnic, chèo SUP và ngắm hoàng hôn."
+      desc: "Bãi cỏ ven sông Hương - chỗ lý tưởng để picnic, chèo SUP và ngắm hoàng hôn."
     },
     {
       name: "Lăng Gia Long",

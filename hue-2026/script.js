@@ -75,6 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   };
 
+  const mapsUrlForPlace = place => place.mapsUrl || locationData[place.key]?.mapsUrl || "";
+
   // ---- Nav toggle (mobile) ----
   const navToggle = document.getElementById("navToggle");
   const navLinks = document.getElementById("navLinks");
@@ -89,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("heroIntro").textContent = data.intro;
 
   // ---- Hero Stickers (Images 1.png - 10.png) ----
-  // Bố cục cố định — dồn 10 mặt người thành cụm collage ở NỬA PHẢI hero, xen kẽ
+  // Bố cục cố định - dồn 10 mặt người thành cụm collage ở NỬA PHẢI hero, xen kẽ
   // giữa các sticker trang trí (.hero-deco). Nửa trái để trống cho khối chữ + vé.
   const heroStickers = document.getElementById("heroStickers");
   if (heroStickers) {
@@ -151,7 +153,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  // ---- Timeline (Horizontal Scrapbook Style) ----
+  // ---- Itinerary route ----
+  const itineraryRoute = document.getElementById("itineraryRoute");
+  if (itineraryRoute && data.itineraryPlaces) {
+    itineraryRoute.innerHTML = `
+      <div class="itinerary-route" aria-label="Thứ tự các điểm ở Huế">
+        ${data.itineraryPlaces.map((place, index) => {
+          const mapsUrl = mapsUrlForPlace(place);
+          const rotate = (index % 2 === 0 ? -1 : 1) * (1 + (index % 3));
+          const detailUrl = place.detailUrl || mapsUrl || "#";
+          return `
+            <article class="route-card route-card--${(index % 4) + 1}" role="link" tabindex="0" data-href="${escapeHTML(detailUrl)}" aria-label="Xem giới thiệu ${escapeHTML(place.title)}" style="--route-rot: ${rotate}deg; --route-index: ${index};">
+              <div class="route-photo">
+                ${mapsUrl ? `
+                  <a class="route-map-link" href="${escapeHTML(mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Mở ${escapeHTML(place.title)} trên Google Maps">
+                    <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true">
+                  </a>
+                ` : ""}
+                <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.title)}">
+              </div>
+              <div class="route-copy">
+                <div class="route-kicker">
+                  <span>${escapeHTML(place.day)}</span>
+                  <span>${escapeHTML(place.time)}</span>
+                </div>
+                <h3>${escapeHTML(place.title)}</h3>
+                <p class="route-meta">${escapeHTML(place.meta)}</p>
+                <p>${escapeHTML(place.desc)}</p>
+              </div>
+            </article>
+          `;
+        }).join("")}
+      </div>
+    `;
+
+    itineraryRoute.querySelectorAll(".route-card[data-href]").forEach(card => {
+      card.addEventListener("click", event => {
+        if (event.target.closest(".route-map-link")) return;
+        window.open(card.dataset.href, "_blank", "noopener,noreferrer");
+      });
+      card.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        window.open(card.dataset.href, "_blank", "noopener,noreferrer");
+      });
+    });
+  }
+
+  // ---- Timeline detail tabs ----
   const daysList = document.getElementById("daysList");
   if (daysList && data.days) {
     let timelineHTML = `<div class="timeline-horizontal">`;
@@ -161,10 +210,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="timeline-track-line"></div>
       <div class="timeline-stops">
         ${data.days.map((d, index) => `
-          <div class="timeline-stop ${index === 0 ? 'active' : ''}" data-day="${index}">
+          <button class="timeline-stop ${index === 0 ? 'active' : ''}" type="button" data-day="${index}">
             <div class="stop-dot"></div>
             <div class="stop-label">Ngày ${d.day}</div>
-          </div>
+          </button>
         `).join("")}
       </div>
     </div>`;
@@ -174,15 +223,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ${data.days.map((d, index) => `
         <div class="timeline-detail-panel ${index === 0 ? 'active' : ''}" id="day-panel-${index}">
           <div class="day-card">
-            <h3>${d.title}</h3>
-            <div class="day-date">${d.date}</div>
+            <h3>${escapeHTML(d.title)}</h3>
+            <div class="day-date">${escapeHTML(d.date)}</div>
             <div class="day-blocks-list">
               ${d.blocks.map(b => `
                 <div class="time-row">
-                  <div class="time-tag">${b.time}</div>
+                  <div class="time-tag">${escapeHTML(b.time)}</div>
                   <div>
-                    <div class="time-activity">${b.activity}</div>
-                    ${b.note ? `<div class="time-note">${b.note}</div>` : ""}
+                    <div class="time-activity">${escapeHTML(b.activity)}</div>
+                    ${b.note ? `<div class="time-note">${escapeHTML(b.note)}</div>` : ""}
                     ${blockLocationKeys(b).length || b.outfit ? `<div class="location-peeks">${blockLocationKeys(b).map(renderLocationPeek).join("")}${renderOutfitPeek(b.outfit)}</div>` : ""}
                   </div>
                 </div>
