@@ -402,6 +402,7 @@ const TRIP_DATA = {
  // ---------- ĐỒ ĂN ----------
 food: [
   { name: "Bún bò O Loan", image: "figures/food/bun_bo_o_loan.jpg", address: "158B Phan Chu Trinh", desc: "Bún bò Huế đậm vị, hợp mở màn một ngày đi chơi." },
+  { name: "Vịt lộn um bầu", image: "figures/food/vit_lon_um_bau.jpg", address: "9 Nguyễn Khuyến", desc: "Nghe lạ lạ mà ăn cuốn xỉu, béo ngậy cay cay." },
   { name: "Bánh canh O Bướm", image: "figures/food/banh_canh_o_buom.png", address: "3 Trịnh Công Sơn", desc: "Bánh canh chuẩn vị Huế luônnn.", note: "Chỉ bán tối thôi nha" },
   { name: "Bún canh cá lóc Bình", image: "figures/food/bun_canh_ca_loc_binh.png", address: "Gần trung tâm Huế", desc: "Tô nóng buổi tối, ăn xong ngủ là vừa." },
   { name: "Quán bánh Chi", image: "figures/food/quan_banh_chi.png", address: "52 Lê Viết Lượng", desc: "Bèo, nậm, lọc ngon rẻ tụt quần.", note: "Nhớ ra sớm kẻo hết" },
