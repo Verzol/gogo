@@ -990,7 +990,8 @@ section { padding: 60px 0; }
 
 .location-peek:hover,
 .location-peek:focus-within,
-.location-peek:focus {
+.location-peek:focus,
+.location-peek.is-open {
   z-index: 80;
 }
 
@@ -1002,7 +1003,8 @@ section { padding: 60px 0; }
 
 .time-row:has(.location-peek:hover),
 .time-row:has(.location-peek:focus-within),
-.time-row:has(.location-peek:focus) {
+.time-row:has(.location-peek:focus),
+.time-row:has(.location-peek.is-open) {
   z-index: 70;
 }
 
@@ -1036,7 +1038,8 @@ section { padding: 60px 0; }
 
 .location-peek:hover .location-chip,
 .location-peek:focus-within .location-chip,
-.location-peek:focus .location-chip {
+.location-peek:focus .location-chip,
+.location-peek.is-open .location-chip {
   transform: translateY(-2px) rotate(-1deg);
   background: var(--pink-pale);
 }
@@ -1047,7 +1050,8 @@ section { padding: 60px 0; }
 
 .outfit-peek:hover .outfit-chip,
 .outfit-peek:focus-within .outfit-chip,
-.outfit-peek:focus .outfit-chip {
+.outfit-peek:focus .outfit-chip,
+.outfit-peek.is-open .outfit-chip {
   background: #FFE7A3;
 }
 
@@ -1104,7 +1108,8 @@ section { padding: 60px 0; }
 
 .location-peek:hover .location-card,
 .location-peek:focus-within .location-card,
-.location-peek:focus .location-card {
+.location-peek:focus .location-card,
+.location-peek.is-open .location-card {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) rotate(-0.6deg);
@@ -1245,16 +1250,37 @@ section { padding: 60px 0; }
   .day-card { padding: 30px 22px; }
   .location-card {
     display: none;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 76px;
+    top: auto;
     grid-template-columns: 86px 1fr;
-    width: min(292px, calc(100vw - 64px));
-    left: auto;
-    right: 0;
+    width: auto;
+    max-height: min(72vh, 420px);
+    overflow: auto;
+    transform: translateY(10px);
+    z-index: 220;
   }
 
   .location-peek:hover .location-card,
   .location-peek:focus-within .location-card,
   .location-peek:focus .location-card {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .location-peek.is-open .location-card {
     display: grid;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .location-card::before {
+    left: 50%;
+    transform: translateX(-50%) rotate(-4deg);
   }
 
   .location-chip { max-width: 100%; }

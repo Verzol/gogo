@@ -56,7 +56,7 @@ const TRIP_DATA = {
       name: "Đại Nội Huế",
       mapsUrl: "https://maps.app.goo.gl/72VsdLE8GNwVmKpK7",
       image: "figures/places/dai_noi_hue.jpg",
-      desc: "Đường 23 tháng 8, Phường Thuận Hòa"
+      desc: "Đường 23 tháng 8, Thuận Hòa"
     },
     chua_thien_mu: {
       name: "Chùa Thiên Mụ",

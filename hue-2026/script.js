@@ -251,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     stops.forEach(stop => {
       stop.addEventListener("click", () => {
+        daysList.querySelectorAll(".location-peek.is-open").forEach(peek => peek.classList.remove("is-open"));
         // Remove active class
         stops.forEach(s => s.classList.remove("active"));
         panels.forEach(p => p.classList.remove("active"));
@@ -260,6 +261,34 @@ document.addEventListener("DOMContentLoaded", () => {
         const dayIndex = stop.getAttribute("data-day");
         document.getElementById(`day-panel-${dayIndex}`).classList.add("active");
       });
+    });
+
+    daysList.addEventListener("click", event => {
+      const peek = event.target.closest(".location-peek");
+
+      if (!peek) {
+        daysList.querySelectorAll(".location-peek.is-open").forEach(openPeek => openPeek.classList.remove("is-open"));
+        return;
+      }
+
+      if (event.target.closest(".maps-button")) return;
+
+      event.stopPropagation();
+      if (!event.target.closest(".location-chip")) return;
+
+      const wasOpen = peek.classList.contains("is-open");
+      daysList.querySelectorAll(".location-peek.is-open").forEach(openPeek => openPeek.classList.remove("is-open"));
+      if (!wasOpen) peek.classList.add("is-open");
+    });
+
+    document.addEventListener("click", event => {
+      if (event.target.closest(".location-peek")) return;
+      daysList.querySelectorAll(".location-peek.is-open").forEach(peek => peek.classList.remove("is-open"));
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape") return;
+      daysList.querySelectorAll(".location-peek.is-open").forEach(peek => peek.classList.remove("is-open"));
     });
   }
 
