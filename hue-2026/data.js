@@ -167,6 +167,29 @@ const TRIP_DATA = {
     }
   },
 
+  weatherDates: [
+    { label: "17-19/07", start: "2026-07-17", end: "2026-07-19" },
+    { label: "17/07", start: "2026-07-17", end: "2026-07-17" },
+    { label: "18/07", start: "2026-07-18", end: "2026-07-18" },
+    { label: "19/07", start: "2026-07-19", end: "2026-07-19" }
+  ],
+
+  weatherPlaces: [
+    { key: "hue_center", name: "Trung tâm Huế", lat: 16.4637, lng: 107.5909 },
+    { key: "inn91", name: "INN91 Homestay", lat: 16.4765113, lng: 107.5762252 },
+    { key: "cho_dong_ba", name: "Chợ Đông Ba", lat: 16.4726918, lng: 107.5875342 },
+    { key: "lang_khai_dinh", name: "Lăng Khải Định", lat: 16.3990976, lng: 107.588257 },
+    { key: "dai_noi", name: "Đại Nội Huế", lat: 16.4702226, lng: 107.5745753 },
+    { key: "chua_thien_mu", name: "Chùa Thiên Mụ", lat: 16.4531024, lng: 107.5431506 },
+    { key: "ca_hue", name: "Ca Huế trên sông Hương", lat: 16.4702946, lng: 107.5908665 },
+    { key: "bien_tan_an", name: "Biển Tân An", lat: 16.605387, lng: 107.5679205 },
+    { key: "lang_tu_duc", name: "Lăng Tự Đức", lat: 16.4330969, lng: 107.5639918 },
+    { key: "cong_vien_phu_xuan", name: "Công viên Phú Xuân", lat: 16.4660045, lng: 107.5806269 },
+    { key: "lang_gia_long", name: "Lăng Gia Long", lat: 16.3620049, lng: 107.5943581 },
+    { key: "cung_an_dinh", name: "Cung An Định", lat: 16.4566559, lng: 107.5957067 },
+    { key: "quoc_hoc_hue", name: "Trường Quốc Học Huế", lat: 16.4600498, lng: 107.5807772 }
+  ],
+
   // ---------- LỊCH TRÌNH ----------
   days: [
     {

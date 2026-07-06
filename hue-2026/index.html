@@ -171,6 +171,34 @@
   <span>Quỹ nhóm</span>
 </a>
 
+<div class="weather-widget" id="weatherWidget">
+  <button class="weather-fab" id="weatherToggle" type="button" aria-expanded="false" aria-controls="weatherPanel">
+    <span aria-hidden="true">☀️</span>
+    <span>Thời tiết</span>
+  </button>
+  <section class="weather-panel" id="weatherPanel" aria-label="Dự báo thời tiết Huế">
+    <div class="weather-panel-head">
+      <div>
+        <h3>Thời tiết Huế</h3>
+        <p class="weather-range">17-19/07</p>
+      </div>
+      <div class="weather-head-actions">
+        <button class="weather-refresh" id="weatherRefresh" type="button" aria-label="Làm mới thời tiết">↻</button>
+        <button class="weather-close" id="weatherClose" type="button" aria-label="Đóng thời tiết">×</button>
+      </div>
+    </div>
+    <div class="weather-controls">
+      <label>
+        <span>Địa điểm</span>
+        <select id="weatherPlace"></select>
+      </label>
+    </div>
+    <div class="weather-body" id="weatherBody">
+      <p class="weather-muted">Chọn địa điểm để xem dự báo.</p>
+    </div>
+  </section>
+</div>
+
 <script src="data.js"></script>
 <script src="script.js"></script>
 </body>

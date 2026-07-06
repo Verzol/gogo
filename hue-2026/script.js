@@ -5,6 +5,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const data = TRIP_DATA;
   const locationData = data.locations || {};
+  const weatherPlaceKeys = new Set((data.weatherPlaces || []).map(place => place.key));
 
   const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, char => ({
     "&": "&amp;",
@@ -63,12 +64,20 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="location-copy">
             <strong>${escapeHTML(location.name)}</strong>
             ${location.desc ? `<span>${escapeHTML(location.desc)}</span>` : ""}
-            ${location.mapsUrl ? `
-              <a class="maps-button" href="${escapeHTML(location.mapsUrl)}" target="_blank" rel="noopener noreferrer">
-                <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true">
-                <span>Mở trong Google Maps</span>
-              </a>
-            ` : ""}
+            <span class="location-actions">
+              ${location.mapsUrl ? `
+                <a class="maps-button" href="${escapeHTML(location.mapsUrl)}" target="_blank" rel="noopener noreferrer">
+                  <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true">
+                  <span>Mở trong Google Maps</span>
+                </a>
+              ` : ""}
+              ${weatherPlaceKeys.has(key) ? `
+                <button class="weather-mini-button" type="button" data-weather-key="${escapeHTML(key)}">
+                  <span aria-hidden="true">☀️</span>
+                  <span>Thời tiết</span>
+                </button>
+              ` : ""}
+            </span>
           </span>
         </span>
       </span>
@@ -77,6 +86,249 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const mapsUrlForPlace = place => place.mapsUrl || locationData[place.key]?.mapsUrl || "";
 
+  const weatherInfo = code => {
+    const table = {
+      0: ["☀️", "Trời quang"],
+      1: ["🌤️", "Ít mây"],
+      2: ["⛅", "Mây rải rác"],
+      3: ["☁️", "Nhiều mây"],
+      45: ["🌫️", "Sương mù"],
+      48: ["🌫️", "Sương mù đóng băng"],
+      51: ["🌦️", "Mưa phùn nhẹ"],
+      53: ["🌦️", "Mưa phùn"],
+      55: ["🌧️", "Mưa phùn dày"],
+      61: ["🌧️", "Mưa nhẹ"],
+      63: ["🌧️", "Mưa vừa"],
+      65: ["🌧️", "Mưa to"],
+      80: ["🌦️", "Mưa rào nhẹ"],
+      81: ["🌧️", "Mưa rào"],
+      82: ["⛈️", "Mưa rào mạnh"],
+      95: ["⛈️", "Giông"],
+      96: ["⛈️", "Giông kèm mưa đá"],
+      99: ["⛈️", "Giông mạnh"]
+    };
+    return table[code] || ["🌡️", "Không rõ"];
+  };
+
+  const formatWeatherDate = date => new Intl.DateTimeFormat("vi-VN", {
+    weekday: "short",
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: "Asia/Bangkok"
+  }).format(new Date(`${date}T00:00:00+07:00`));
+
+  const initWeatherWidget = () => {
+    const widget = document.getElementById("weatherWidget");
+    const toggle = document.getElementById("weatherToggle");
+    const close = document.getElementById("weatherClose");
+    const refresh = document.getElementById("weatherRefresh");
+    const panel = document.getElementById("weatherPanel");
+    const placeSelect = document.getElementById("weatherPlace");
+    const body = document.getElementById("weatherBody");
+    const places = data.weatherPlaces || [];
+    const range = (data.weatherDates || [])[0] || { start: "2026-07-17", end: "2026-07-19" };
+
+    if (!widget || !toggle || !panel || !placeSelect || !body || !places.length || !refresh) return;
+
+    placeSelect.innerHTML = places.map(place => `
+      <option value="${escapeHTML(place.key)}">${escapeHTML(place.name)}</option>
+    `).join("");
+
+    const setOpen = open => {
+      widget.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      if (open && !body.dataset.loaded) loadWeather();
+    };
+
+    const openForPlace = key => {
+      const place = places.find(item => item.key === key);
+      if (!place) return;
+      const shouldReload = widget.classList.contains("open") || body.dataset.loaded;
+      placeSelect.value = key;
+      setOpen(true);
+      if (shouldReload) loadWeather();
+    };
+
+    const cacheKeyFor = (place, range) => `weather:${place.key}:${range.start}:${range.end}`;
+
+    const isValidWeather = forecast =>
+      Boolean(
+        forecast?.daily?.time?.length &&
+        forecast?.daily?.weather_code?.length &&
+        forecast?.hourly?.time?.length &&
+        forecast?.hourly?.weather_code?.length
+      );
+
+    const fetchWeather = async (place, range, options = {}) => {
+      const cacheKey = cacheKeyFor(place, range);
+      const cached = !options.force && sessionStorage.getItem(cacheKey);
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (Date.now() - parsed.time < 30 * 60 * 1000 && isValidWeather(parsed.data)) return parsed.data;
+        } catch (error) {
+          // Bad cached JSON should never block a fresh request.
+        }
+        sessionStorage.removeItem(cacheKey);
+      }
+
+      const params = new URLSearchParams({
+        latitude: place.lat,
+        longitude: place.lng,
+        timezone: "Asia/Bangkok",
+        start_date: range.start,
+        end_date: range.end,
+        daily: "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,precipitation_sum,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max,uv_index_max,sunrise,sunset",
+        hourly: "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m"
+      });
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?${params}`;
+      let response;
+      try {
+        response = await fetch(weatherUrl);
+      } catch (error) {
+        if (options.retry) throw error;
+        await new Promise(resolve => setTimeout(resolve, 450));
+        return fetchWeather(place, range, { ...options, force: true, retry: true });
+      }
+
+      if (!response.ok) {
+        sessionStorage.removeItem(cacheKey);
+        if (options.retry) throw new Error(`Open-Meteo ${response.status}`);
+        await new Promise(resolve => setTimeout(resolve, 450));
+        return fetchWeather(place, range, { ...options, force: true, retry: true });
+      }
+
+      const data = await response.json();
+      if (!isValidWeather(data)) {
+        sessionStorage.removeItem(cacheKey);
+        if (options.retry) throw new Error("Open-Meteo invalid payload");
+        await new Promise(resolve => setTimeout(resolve, 450));
+        return fetchWeather(place, range, { ...options, force: true, retry: true });
+      }
+
+      sessionStorage.setItem(cacheKey, JSON.stringify({ time: Date.now(), data }));
+      return data;
+    };
+
+    const renderWeather = (forecast, place) => {
+      const daily = forecast.daily;
+      const hourly = forecast.hourly;
+      const chosenDates = new Set(daily.time);
+      const dailyHTML = daily.time.map((date, index) => {
+        const [icon, label] = weatherInfo(daily.weather_code[index]);
+        const rainProb = daily.precipitation_probability_max[index] ?? 0;
+        const rainHours = daily.precipitation_hours[index] ?? 0;
+        const rainMm = Number(daily.precipitation_sum[index] ?? 0).toFixed(1);
+        const wind = Math.round(daily.wind_speed_10m_max[index]);
+        const gust = Math.round(daily.wind_gusts_10m_max[index]);
+        const uv = Math.round(daily.uv_index_max[index] ?? 0);
+        return `
+          <article class="weather-day">
+            <div class="weather-day-main">
+              <div class="weather-day-icon">${icon}</div>
+              <div>
+                <h4>${formatWeatherDate(date)}</h4>
+                <p>${label}</p>
+              </div>
+              <strong>${Math.round(daily.temperature_2m_min[index])}-${Math.round(daily.temperature_2m_max[index])}°C</strong>
+            </div>
+            <div class="weather-metrics">
+              <span><b>Cảm giác</b>${Math.round(daily.apparent_temperature_min[index])}-${Math.round(daily.apparent_temperature_max[index])}°C</span>
+              <span><b>Mưa</b>${rainProb}% · ${rainHours}h · ${rainMm}mm</span>
+              <span><b>Gió</b>${wind} km/h · giật ${gust}</span>
+              <span><b>UV</b>${uv}</span>
+              <span><b>Mặt trời</b>${daily.sunrise[index]?.slice(11, 16) || "--:--"} - ${daily.sunset[index]?.slice(11, 16) || "--:--"}</span>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      const hourlyGroups = hourly.time.reduce((groups, time, index) => {
+        const [date, hour] = time.split("T");
+        if (!chosenDates.has(date) || !["06:00", "12:00", "18:00", "21:00"].includes(hour)) return groups;
+        const [icon, label] = weatherInfo(hourly.weather_code[index]);
+        groups[date] ||= [];
+        groups[date].push(`
+          <div class="weather-hour-row">
+            <time>${hour}</time>
+            <strong>${icon} ${Math.round(hourly.temperature_2m[index])}°C</strong>
+            <span>${label}</span>
+            <span>Mưa ${hourly.precipitation_probability[index] ?? 0}%</span>
+            <span>Ẩm ${hourly.relative_humidity_2m[index] ?? 0}%</span>
+            <span>Mây ${hourly.cloud_cover[index] ?? 0}%</span>
+          </div>
+        `);
+        return groups;
+      }, {});
+
+      const hourlyHTML = Object.entries(hourlyGroups).map(([date, rows]) => `
+        <section class="weather-hour-day">
+          <h5>${formatWeatherDate(date)}</h5>
+          <div class="weather-hour-list">${rows.join("")}</div>
+        </section>
+      `).join("");
+
+      body.dataset.loaded = "true";
+      body.innerHTML = `
+        <div class="weather-summary">
+          <strong>${escapeHTML(place.name)}</strong>
+          <span>Dự báo 3 ngày</span>
+        </div>
+        <div class="weather-days">${dailyHTML}</div>
+        <div class="weather-hours">
+          <h4>Theo giờ</h4>
+          ${hourlyHTML || `<p class="weather-muted">Chưa có dữ liệu theo giờ.</p>`}
+        </div>
+      `;
+    };
+
+    const loadWeather = async (options = {}) => {
+      const place = places.find(item => item.key === placeSelect.value) || places[0];
+      body.dataset.loaded = "";
+      body.innerHTML = `
+        <div class="weather-loading">
+          <span></span><span></span><span></span>
+        </div>
+      `;
+      try {
+        refresh.disabled = true;
+        renderWeather(await fetchWeather(place, range, options), place);
+      } catch (error) {
+        body.dataset.loaded = "";
+        body.innerHTML = `
+          <div class="weather-error">
+            <strong>Không lấy được thời tiết.</strong>
+            <span>Kiểm tra mạng hoặc làm mới lại.</span>
+            <button type="button" class="weather-retry">Thử lại</button>
+          </div>
+        `;
+        body.querySelector(".weather-retry")?.addEventListener("click", () => loadWeather({ force: true }));
+      } finally {
+        refresh.disabled = false;
+      }
+    };
+
+    toggle.addEventListener("click", () => setOpen(!widget.classList.contains("open")));
+    close.addEventListener("click", () => setOpen(false));
+    refresh.addEventListener("click", () => loadWeather({ force: true }));
+    placeSelect.addEventListener("change", loadWeather);
+    document.addEventListener("click", event => {
+      const trigger = event.target.closest("[data-weather-key]");
+      if (!trigger) return;
+      event.preventDefault();
+      event.stopPropagation();
+      openForPlace(trigger.dataset.weatherKey);
+    });
+    document.addEventListener("click", event => {
+      if (event.target.closest("[data-weather-key]")) return;
+      if (!widget.classList.contains("open") || widget.contains(event.target)) return;
+      setOpen(false);
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") setOpen(false);
+    });
+  };
+
   // ---- Nav toggle (mobile) ----
   const navToggle = document.getElementById("navToggle");
   const navLinks = document.getElementById("navLinks");
@@ -84,6 +336,8 @@ document.addEventListener("DOMContentLoaded", () => {
   navLinks.querySelectorAll("a").forEach(a =>
     a.addEventListener("click", () => navLinks.classList.remove("open"))
   );
+
+  initWeatherWidget();
 
   // ---- Hero ----
   document.getElementById("heroSubtitle").textContent = data.subtitle;
@@ -170,6 +424,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true">
                   </a>
                 ` : ""}
+                ${weatherPlaceKeys.has(place.key) ? `
+                  <button class="route-weather-button" type="button" data-weather-key="${escapeHTML(place.key)}" aria-label="Xem thời tiết ${escapeHTML(place.title)}">
+                    <span aria-hidden="true">☀️</span>
+                  </button>
+                ` : ""}
                 <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.title)}">
               </div>
               <div class="route-copy">
@@ -189,7 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     itineraryRoute.querySelectorAll(".route-card[data-href]").forEach(card => {
       card.addEventListener("click", event => {
-        if (event.target.closest(".route-map-link")) return;
+        if (event.target.closest(".route-map-link, .route-weather-button")) return;
         window.open(card.dataset.href, "_blank", "noopener,noreferrer");
       });
       card.addEventListener("keydown", event => {
@@ -271,6 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      if (event.target.closest("[data-weather-key]")) return;
       if (event.target.closest(".maps-button")) return;
 
       event.stopPropagation();
