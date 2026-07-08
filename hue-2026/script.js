@@ -1159,6 +1159,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---- Timeline detail tabs ----
   const daysList = document.getElementById("daysList");
   if (daysList && data.days) {
+    const tripYear = 2026;
+    const dayStartDates = ["2026-07-17", "2026-07-18", "2026-07-19"];
+    const padTimeline = value => String(value).padStart(2, "0");
+    const parseTimelineStart = (time, dayIndex) => {
+      const text = String(time || "");
+      const clock = text.match(/(\d{1,2}):(\d{2})/);
+      if (!clock) return null;
+
+      const explicitDate = text.match(/\((\d{1,2})\/(\d{1,2})\)/);
+      const date = explicitDate
+        ? `${tripYear}-${padTimeline(explicitDate[2])}-${padTimeline(explicitDate[1])}`
+        : dayStartDates[dayIndex];
+
+      return new Date(`${date}T${padTimeline(clock[1])}:${clock[2]}:00+07:00`).getTime();
+    };
+    const scheduleItems = data.days.flatMap((day, dayIndex) =>
+      day.blocks.map((block, blockIndex) => ({
+        dayIndex,
+        blockIndex,
+        start: parseTimelineStart(block.time, dayIndex)
+      }))
+    ).filter(item => Number.isFinite(item.start));
+
     let timelineHTML = `<div class="timeline-horizontal">`;
     
     // The horizontal track with stops
@@ -1182,13 +1205,18 @@ document.addEventListener("DOMContentLoaded", () => {
             <h3>${escapeHTML(d.title)}</h3>
             <div class="day-date">${escapeHTML(d.date)}</div>
             <div class="day-blocks-list">
-              ${d.blocks.map(b => `
-                <div class="time-row">
+              ${d.blocks.map((b, blockIndex) => `
+                <div class="time-row" data-day-index="${index}" data-block-index="${blockIndex}">
                   <div class="time-tag">${escapeHTML(b.time)}</div>
                   <div>
                     <div class="time-activity">${escapeHTML(b.activity)}</div>
                     ${b.note ? `<div class="time-note">${escapeHTML(b.note)}</div>` : ""}
                     ${blockLocationKeys(b).length || b.outfit ? `<div class="location-peeks">${blockLocationKeys(b).map(renderLocationPeek).join("")}${renderOutfitPeek(b.outfit)}</div>` : ""}
+                  </div>
+                  <div class="route-runner" aria-hidden="true">
+                    <span class="runner-wind runner-wind-one"></span>
+                    <span class="runner-wind runner-wind-two"></span>
+                    <span class="runner-wind runner-wind-three"></span>
                   </div>
                 </div>
               `).join("")}
@@ -1204,20 +1232,34 @@ document.addEventListener("DOMContentLoaded", () => {
     // Interactive logic
     const stops = daysList.querySelectorAll(".timeline-stop");
     const panels = daysList.querySelectorAll(".timeline-detail-panel");
+    const showDay = dayIndex => {
+      stops.forEach(s => s.classList.toggle("active", s.dataset.day === String(dayIndex)));
+      panels.forEach(p => p.classList.toggle("active", p.id === `day-panel-${dayIndex}`));
+    };
     
     stops.forEach(stop => {
       stop.addEventListener("click", () => {
         daysList.querySelectorAll(".location-peek.is-open").forEach(peek => peek.classList.remove("is-open"));
-        // Remove active class
-        stops.forEach(s => s.classList.remove("active"));
-        panels.forEach(p => p.classList.remove("active"));
-        
-        // Add active class to clicked
-        stop.classList.add("active");
-        const dayIndex = stop.getAttribute("data-day");
-        document.getElementById(`day-panel-${dayIndex}`).classList.add("active");
+        showDay(stop.getAttribute("data-day"));
       });
     });
+
+    const highlightCurrentBlock = () => {
+      const now = Date.now();
+      let activeItem = scheduleItems[0];
+      scheduleItems.forEach(item => {
+        if (item.start <= now && item.start >= activeItem.start) activeItem = item;
+      });
+
+      if (!activeItem) return;
+      showDay(activeItem.dayIndex);
+      daysList.querySelectorAll(".time-row.is-current").forEach(row => row.classList.remove("is-current"));
+      const row = daysList.querySelector(`[data-day-index="${activeItem.dayIndex}"][data-block-index="${activeItem.blockIndex}"]`);
+      row?.classList.add("is-current");
+    };
+
+    highlightCurrentBlock();
+    window.setInterval(highlightCurrentBlock, 30 * 1000);
 
     daysList.addEventListener("click", event => {
       const peek = event.target.closest(".location-peek");

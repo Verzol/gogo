@@ -1030,10 +1030,114 @@ section { padding: 60px 0; }
   border-bottom: 1px dashed var(--avocado-pale);
 }
 
+.time-row.is-current {
+  margin-left: -14px;
+  margin-right: -14px;
+  padding: 16px 132px 18px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(247, 211, 107, 0.42), rgba(255, 253, 248, 0.94) 62%),
+    var(--paper);
+  box-shadow: 4px 5px 0 rgba(44, 51, 35, 0.16);
+}
+
+.time-row.is-current::after {
+  content: "Hiện tại";
+  position: absolute;
+  top: -13px;
+  right: 16px;
+  padding: 3px 10px 4px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--pink-pale);
+  box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.14);
+  font-family: var(--font-doodle);
+  font-size: 0.88rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.time-row.is-current .time-tag {
+  color: var(--pink-deep);
+}
+
+.time-row.is-current .time-activity {
+  color: var(--ink);
+}
+
+.route-runner {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  width: 104px;
+  height: 38px;
+  display: none;
+  overflow: hidden;
+  --runner-speed: 1.15s;
+}
+
+.time-row.is-current .route-runner {
+  display: block;
+}
+
+.route-runner span {
+  position: absolute;
+  display: block;
+}
+
+.runner-wind {
+  left: 0;
+  height: 12px;
+  border-radius: 999px;
+  border-top: 3px solid rgba(44, 51, 35, 0.7);
+  background: transparent;
+  animation: runner-wind var(--runner-speed) linear infinite;
+}
+
+.runner-wind-one {
+  top: 6px;
+  width: 78px;
+  border-radius: 50%;
+}
+
+.runner-wind-two {
+  top: 18px;
+  width: 62px;
+  border-top-style: solid;
+  animation-delay: calc(var(--runner-speed) * -0.35);
+}
+
+.runner-wind-three {
+  top: 29px;
+  width: 86px;
+  border-radius: 45% 55% 50% 50%;
+  border-top-color: rgba(90, 99, 75, 0.58);
+  animation-delay: calc(var(--runner-speed) * -0.7);
+}
+
+@keyframes runner-wind {
+  0% { transform: translateX(-18px) scaleX(0.72); opacity: 0; }
+  20%, 70% { opacity: 0.75; }
+  100% { transform: translateX(30px) scaleX(1.06); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .time-row.is-current .route-runner,
+  .time-row.is-current .route-runner span {
+    animation: none;
+  }
+}
+
 .time-row:last-child {
   margin-bottom: 0;
   padding-bottom: 0;
   border-bottom: none;
+}
+
+.time-row.is-current:last-child {
+  padding-bottom: 18px;
+  border: 2px solid var(--ink);
 }
 
 .time-tag {
@@ -1358,6 +1462,17 @@ section { padding: 60px 0; }
   }
 
   .time-row { grid-template-columns: 1fr; gap: 4px; }
+  .time-row.is-current {
+    padding: 18px 14px 78px;
+  }
+  .time-row.is-current::after {
+    right: 12px;
+  }
+  .route-runner {
+    right: 50%;
+    bottom: 12px;
+    transform: translateX(50%);
+  }
   .day-card { padding: 30px 22px; }
   .location-card {
     display: none;
