@@ -230,9 +230,12 @@
     <div class="chat-panel-head">
       <div>
         <h3>Chat nhóm</h3>
-        <p>Chỉ hiển thị 200 tin nhắn gần nhất.</p>
+        <p>Chỉ hiển thị 1000 tin nhắn gần nhất.</p>
       </div>
-      <button class="chat-close" id="chatClose" type="button" aria-label="Đóng chat">×</button>
+      <div class="chat-head-actions">
+        <button class="chat-name-toggle" id="chatNameToggle" type="button">Đổi tên</button>
+        <button class="chat-close" id="chatClose" type="button" aria-label="Đóng chat">×</button>
+      </div>
     </div>
     <form class="chat-name-form" id="chatNameForm">
       <label for="chatName">Biệt danh</label>
@@ -243,6 +246,8 @@
     </form>
     <div class="chat-status" id="chatStatus" role="status">Đang nối vào phòng chat...</div>
     <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+    <div class="chat-reaction-popover" id="chatReactionPopover" hidden></div>
+    <div class="chat-reply-preview" id="chatReplyPreview" hidden></div>
     <form class="chat-form" id="chatForm">
       <label class="sr-only" for="chatInput">Tin nhắn</label>
       <div class="chat-input-row">

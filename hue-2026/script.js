@@ -124,25 +124,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const close = document.getElementById("chatClose");
     const panel = document.getElementById("chatPanel");
     const nameForm = document.getElementById("chatNameForm");
+    const nameToggle = document.getElementById("chatNameToggle");
     const nameInput = document.getElementById("chatName");
     const status = document.getElementById("chatStatus");
     const messages = document.getElementById("chatMessages");
+    const reactionPopover = document.getElementById("chatReactionPopover");
+    const replyPreview = document.getElementById("chatReplyPreview");
     const form = document.getElementById("chatForm");
     const input = document.getElementById("chatInput");
     const unread = document.getElementById("chatUnread");
 
-    if (!widget || !toggle || !panel || !nameForm || !nameInput || !status || !messages || !form || !input || !unread) return;
+    if (!widget || !toggle || !panel || !nameForm || !nameToggle || !nameInput || !status || !messages || !reactionPopover || !replyPreview || !form || !input || !unread) return;
 
     const table = "chat_messages";
+    const reactionTable = "chat_reactions";
+    const messageLimit = 1000;
+    const reactionOptions = ["❤️", "😂", "😮", "😢", "👍", "🔥", "🎉", "🙏", "💀", "🤡"];
     const knownIds = new Set();
-    let unreadCount = 0;
+    const messageById = new Map();
+    const reactionsByMessage = new Map();
+    let messageCount = 0;
     let client = null;
+    let selectedReply = null;
 
+    const getUserId = () => {
+      const saved = localStorage.getItem("hueChatUserId");
+      if (saved) return saved;
+      const generated = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem("hueChatUserId", generated);
+      return generated;
+    };
+
+    const currentUserId = getUserId();
     const savedName = localStorage.getItem("hueChatName") || "";
     nameInput.value = savedName;
+    nameForm.hidden = Boolean(savedName);
+    nameToggle.hidden = !savedName;
 
     const cleanName = value => String(value || "").trim().replace(/\s+/g, " ").slice(0, 32);
     const cleanBody = value => String(value || "").trim().slice(0, 500);
+    const replyText = value => {
+      const text = cleanBody(value).replace(/\s+/g, " ");
+      return text.length > 90 ? `${text.slice(0, 87)}...` : text;
+    };
     const isConfigured = Boolean(config.url && config.anonKey && window.supabase?.createClient);
 
     const setStatus = (text, kind = "") => {
@@ -155,17 +179,187 @@ document.addEventListener("DOMContentLoaded", () => {
       widget.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", String(open));
       if (!open) return;
-      unreadCount = 0;
-      unread.hidden = true;
       messages.scrollTop = messages.scrollHeight;
+      (nameForm.hidden ? input : nameInput).focus();
+    };
+
+    const setMessageCount = count => {
+      messageCount = Math.min(Math.max(Number(count) || 0, 0), messageLimit);
+      unread.textContent = String(messageCount);
+      unread.hidden = messageCount === 0;
+    };
+
+    const setNameFormVisible = visible => {
+      nameForm.hidden = !visible;
+      nameToggle.hidden = visible;
+      if (visible) nameInput.focus();
+    };
+
+    const clearReply = () => {
+      selectedReply = null;
+      replyPreview.hidden = true;
+      replyPreview.innerHTML = "";
+    };
+
+    const setReply = message => {
+      selectedReply = {
+        id: message.id,
+        username: cleanName(message.username),
+        body: replyText(message.body)
+      };
+      replyPreview.hidden = false;
+      replyPreview.innerHTML = `
+        <div>
+          <strong>Đang trả lời ${escapeHTML(selectedReply.username)}</strong>
+          <p>${escapeHTML(selectedReply.body)}</p>
+        </div>
+        <button type="button" class="chat-reply-cancel" aria-label="Bỏ reply">×</button>
+      `;
       input.focus();
     };
 
-    const bumpUnread = () => {
-      if (widget.classList.contains("open")) return;
-      unreadCount = Math.min(unreadCount + 1, 99);
-      unread.textContent = String(unreadCount);
-      unread.hidden = false;
+    const closeReactionPickers = except => {
+      messages.querySelectorAll(".chat-message.is-reacting").forEach(item => {
+        if (item !== except) item.classList.remove("is-reacting");
+      });
+      if (!except) {
+        reactionPopover.hidden = true;
+        reactionPopover.innerHTML = "";
+      }
+    };
+
+    const positionReactionPicker = item => {
+      const bubble = item.querySelector(".chat-message-bubble");
+      if (!bubble) return;
+
+      const bubbleRect = bubble.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
+      const popoverRect = reactionPopover.getBoundingClientRect();
+      const pickerWidth = popoverRect.width || 244;
+      const pickerHeight = popoverRect.height || 112;
+      const gap = 8;
+      const center = bubbleRect.left + bubbleRect.width / 2;
+      const minLeft = panelRect.left + 18 + pickerWidth / 2;
+      const maxLeft = panelRect.right - 18 - pickerWidth / 2;
+      const left = Math.min(Math.max(center, minLeft), maxLeft);
+      const canShowAbove = bubbleRect.top - pickerHeight - gap >= panelRect.top + 12;
+      const canShowBelow = bubbleRect.bottom + pickerHeight + gap <= panelRect.bottom - 12;
+      const rawTop = canShowAbove || !canShowBelow
+        ? bubbleRect.top - pickerHeight - gap
+        : bubbleRect.bottom + gap;
+      const top = Math.min(Math.max(rawTop, panelRect.top + 12), panelRect.bottom - pickerHeight - 12);
+
+      reactionPopover.style.setProperty("--picker-left", `${left - panelRect.left}px`);
+      reactionPopover.style.setProperty("--picker-top", `${top - panelRect.top}px`);
+    };
+
+    const reactionBucket = messageId => {
+      if (!reactionsByMessage.has(messageId)) reactionsByMessage.set(messageId, new Map());
+      return reactionsByMessage.get(messageId);
+    };
+
+    const renderReactionBar = messageId => {
+      const bar = messages.querySelector(`[data-reactions-for="${messageId}"]`);
+      if (!bar) return;
+      const row = bar.closest(".chat-message");
+      const beforeRowHeight = row?.offsetHeight || 0;
+      const beforeScrollHeight = messages.scrollHeight;
+      const beforeTop = row?.getBoundingClientRect().top || bar.getBoundingClientRect().top;
+      const viewport = messages.getBoundingClientRect();
+
+      const bucket = reactionBucket(messageId);
+      const entries = Array.from(bucket.entries())
+        .map(([emoji, users]) => ({ emoji, users }))
+        .filter(item => item.users.size)
+        .sort((a, b) => b.users.size - a.users.size || a.emoji.localeCompare(b.emoji));
+
+      if (!entries.length) {
+        bar.hidden = true;
+        bar.innerHTML = "";
+        const heightDelta = (row?.offsetHeight || 0) - beforeRowHeight || messages.scrollHeight - beforeScrollHeight;
+        if (heightDelta > 0 && beforeTop < viewport.bottom) messages.scrollTop += heightDelta;
+        return;
+      }
+
+      bar.hidden = false;
+      bar.innerHTML = `
+        ${entries.map(({ emoji, users }) => `
+          <button class="chat-reaction-chip ${users.has(currentUserId) ? "is-active" : ""}" type="button" data-reaction-id="${escapeHTML(messageId)}" data-reaction-emoji="${escapeHTML(emoji)}" aria-label="Reaction ${escapeHTML(emoji)}">
+            <span>${escapeHTML(emoji)}</span>
+            <strong>${users.size}</strong>
+          </button>
+        `).join("")}
+        <button class="chat-reaction-add" type="button" data-reaction-bar-menu="${escapeHTML(messageId)}" aria-label="Thêm reaction">＋</button>
+      `;
+      const heightDelta = (row?.offsetHeight || 0) - beforeRowHeight || messages.scrollHeight - beforeScrollHeight;
+      if (heightDelta > 0 && beforeTop < viewport.bottom) messages.scrollTop += heightDelta;
+    };
+
+    const applyReaction = reaction => {
+      if (!reaction?.message_id || !reaction?.emoji || !reaction?.user_id) return;
+      const bucket = reactionBucket(reaction.message_id);
+      if (!bucket.has(reaction.emoji)) bucket.set(reaction.emoji, new Set());
+      bucket.get(reaction.emoji).add(reaction.user_id);
+      renderReactionBar(reaction.message_id);
+    };
+
+    const removeReaction = reaction => {
+      if (!reaction?.message_id || !reaction?.emoji || !reaction?.user_id) return;
+      const bucket = reactionBucket(reaction.message_id);
+      bucket.get(reaction.emoji)?.delete(reaction.user_id);
+      if (bucket.get(reaction.emoji)?.size === 0) bucket.delete(reaction.emoji);
+      renderReactionBar(reaction.message_id);
+    };
+
+    const loadReactions = async messageIds => {
+      if (!messageIds.length) return;
+      const { data: rows, error } = await client
+        .from(reactionTable)
+        .select("message_id, user_id, emoji")
+        .in("message_id", messageIds);
+
+      if (error) throw error;
+      reactionsByMessage.clear();
+      (rows || []).forEach(applyReaction);
+      messageIds.forEach(renderReactionBar);
+    };
+
+    const toggleReaction = async (messageId, emoji) => {
+      const bucket = reactionBucket(messageId);
+      const active = bucket.get(emoji)?.has(currentUserId);
+      const distinctCount = Array.from(bucket.values()).filter(users => users.size).length;
+
+      if (!active && !bucket.has(emoji) && distinctCount >= 5) {
+        setStatus("Mỗi tin nhắn tối đa 5 loại reaction.", "error");
+        window.setTimeout(() => setStatus(""), 1400);
+        return;
+      }
+
+      if (active) {
+        const { error } = await client
+          .from(reactionTable)
+          .delete()
+          .match({ message_id: messageId, user_id: currentUserId, emoji });
+        if (error) setStatus("Không bỏ được reaction.", "error");
+        else removeReaction({ message_id: messageId, user_id: currentUserId, emoji });
+        return;
+      }
+
+      const { error } = await client
+        .from(reactionTable)
+        .insert({ message_id: messageId, user_id: currentUserId, emoji });
+      if (error) setStatus("Không react được tin này.", "error");
+      else applyReaction({ message_id: messageId, user_id: currentUserId, emoji });
+    };
+
+    const openReactionPicker = item => {
+      const messageId = item?.dataset.id;
+      if (!messageId) return;
+      reactionPopover.innerHTML = reactionOptions.map(emoji => `
+        <button type="button" data-reaction-id="${escapeHTML(messageId)}" data-reaction-emoji="${escapeHTML(emoji)}" aria-label="React ${escapeHTML(emoji)}">${escapeHTML(emoji)}</button>
+      `).join("");
+      reactionPopover.hidden = false;
+      positionReactionPicker(item);
     };
 
     const formatChatTime = value => new Intl.DateTimeFormat("vi-VN", {
@@ -184,41 +378,64 @@ document.addEventListener("DOMContentLoaded", () => {
       if (ownName && message.username === ownName) item.classList.add("is-mine");
       item.dataset.id = message.id;
       item.innerHTML = `
-        <div class="chat-message-meta">
-          <strong>${escapeHTML(message.username)}</strong>
-          <time>${escapeHTML(formatChatTime(message.created_at))}</time>
+        <div class="chat-message-stack">
+          <div class="chat-message-bubble">
+            ${message.reply_to_body ? `
+              <button class="chat-reply-quote" type="button" data-scroll-reply-id="${escapeHTML(message.reply_to_id || "")}">
+                <strong>${escapeHTML(message.reply_to_username || "Tin nhắn")}</strong>
+                <span>${escapeHTML(message.reply_to_body)}</span>
+              </button>
+            ` : ""}
+            <div class="chat-message-meta">
+              <strong>${escapeHTML(message.username)}</strong>
+              <time>${escapeHTML(formatChatTime(message.created_at))}</time>
+            </div>
+            <p>${escapeHTML(message.body)}</p>
+          </div>
+          <div class="chat-reactions" data-reactions-for="${escapeHTML(message.id)}" hidden></div>
         </div>
-        <p>${escapeHTML(message.body)}</p>
+        <div class="chat-message-actions">
+          <button class="chat-reply-button" type="button" data-reply-id="${escapeHTML(message.id)}" aria-label="Reply tin nhắn">↩</button>
+          <button class="chat-react-button" type="button" data-reaction-menu="${escapeHTML(message.id)}" aria-label="React tin nhắn">＋</button>
+        </div>
       `;
+      messageById.set(message.id, {
+        id: message.id,
+        username: message.username,
+        body: message.body
+      });
 
       const shouldStick = messages.scrollHeight - messages.scrollTop - messages.clientHeight < 80;
       messages.appendChild(item);
 
-      while (messages.children.length > 200) {
+      while (messages.children.length > messageLimit) {
         const first = messages.firstElementChild;
         knownIds.delete(first?.dataset.id);
+        messageById.delete(first?.dataset.id);
+        reactionsByMessage.delete(first?.dataset.id);
         first?.remove();
       }
 
       if (shouldStick || widget.classList.contains("open")) messages.scrollTop = messages.scrollHeight;
-      bumpUnread();
+      setMessageCount(messageCount + 1);
     };
 
     const loadMessages = async () => {
       setStatus("Đang tải tin nhắn...");
       const { data: rows, error } = await client
         .from(table)
-        .select("id, username, body, created_at")
+        .select("id, username, body, created_at, reply_to_id, reply_to_username, reply_to_body")
         .order("created_at", { ascending: false })
-        .limit(200);
+        .limit(messageLimit);
 
       if (error) throw error;
 
       messages.innerHTML = "";
       knownIds.clear();
+      messageById.clear();
       (rows || []).reverse().forEach(renderMessage);
-      unreadCount = 0;
-      unread.hidden = true;
+      await loadReactions((rows || []).map(row => row.id));
+      setMessageCount(rows?.length || 0);
       setStatus(rows?.length ? "" : "Chưa có tin nào. Mở bát đi.", rows?.length ? "" : "empty");
     };
 
@@ -233,6 +450,16 @@ document.addEventListener("DOMContentLoaded", () => {
           if (subscribeStatus === "SUBSCRIBED") setStatus("");
           if (subscribeStatus === "CHANNEL_ERROR") setStatus("Realtime đang lỗi. Thử tải lại trang.", "error");
         });
+
+      client
+        .channel("chat_reactions")
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: reactionTable }, payload => {
+          applyReaction(payload.new);
+        })
+        .on("postgres_changes", { event: "DELETE", schema: "public", table: reactionTable }, payload => {
+          removeReaction(payload.old);
+        })
+        .subscribe();
     };
 
     nameForm.addEventListener("submit", event => {
@@ -244,6 +471,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       localStorage.setItem("hueChatName", name);
       nameInput.value = name;
+      setNameFormVisible(false);
       setStatus("Đã lưu tên.", "ok");
       window.setTimeout(() => setStatus(""), 1200);
       input.focus();
@@ -256,6 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!username) {
         setStatus("Nhập Biệt danh trước đã.", "error");
+        setNameFormVisible(true);
         nameInput.focus();
         return;
       }
@@ -268,11 +497,20 @@ document.addEventListener("DOMContentLoaded", () => {
       input.style.height = "";
       form.querySelector("button").disabled = true;
 
-      const { error } = await client.from(table).insert({ username, body });
+      const payload = { username, body };
+      if (selectedReply) {
+        payload.reply_to_id = selectedReply.id;
+        payload.reply_to_username = selectedReply.username;
+        payload.reply_to_body = selectedReply.body;
+      }
+
+      const { error } = await client.from(table).insert(payload);
       form.querySelector("button").disabled = false;
       if (error) {
         input.value = body;
         setStatus("Không gửi được tin. Kiểm tra Supabase hoặc mạng.", "error");
+      } else {
+        clearReply();
       }
     });
 
@@ -287,6 +525,57 @@ document.addEventListener("DOMContentLoaded", () => {
       form.requestSubmit();
     });
 
+    nameToggle.addEventListener("click", () => setNameFormVisible(true));
+    replyPreview.addEventListener("click", event => {
+      if (event.target.closest(".chat-reply-cancel")) clearReply();
+    });
+    reactionPopover.addEventListener("click", event => {
+      const reactionButton = event.target.closest("[data-reaction-emoji]");
+      if (!reactionButton) return;
+      toggleReaction(reactionButton.dataset.reactionId, reactionButton.dataset.reactionEmoji);
+      closeReactionPickers();
+    });
+    messages.addEventListener("click", event => {
+      const reactionButton = event.target.closest(".chat-reaction-chip");
+      if (reactionButton) {
+        toggleReaction(reactionButton.dataset.reactionId, reactionButton.dataset.reactionEmoji);
+        closeReactionPickers();
+        return;
+      }
+
+      const reactionMenu = event.target.closest("[data-reaction-menu], [data-reaction-bar-menu]");
+      if (reactionMenu) {
+        const item = reactionMenu.closest(".chat-message");
+        const isOpen = item.classList.contains("is-reacting");
+        closeReactionPickers(item);
+        item.classList.toggle("is-reacting", !isOpen);
+        if (!isOpen) openReactionPicker(item);
+        else closeReactionPickers();
+        return;
+      }
+
+      const button = event.target.closest("[data-reply-id]");
+      if (!button) return;
+      const message = messageById.get(button.dataset.replyId);
+      if (message) setReply(message);
+    });
+    messages.addEventListener("click", event => {
+      const quote = event.target.closest("[data-scroll-reply-id]");
+      const replyId = quote?.dataset.scrollReplyId;
+      if (!replyId) return;
+      const target = messages.querySelector(`[data-id="${replyId}"]`);
+      if (!target) {
+        setStatus("Tin được reply đã bị xoá khỏi danh sách.", "error");
+        window.setTimeout(() => setStatus(""), 1400);
+        return;
+      }
+      target.scrollIntoView({ block: "center", behavior: "smooth" });
+      target.classList.add("is-highlighted");
+      window.setTimeout(() => target.classList.remove("is-highlighted"), 1200);
+    });
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".chat-message")) closeReactionPickers();
+    });
     toggle.addEventListener("click", () => setOpen(!widget.classList.contains("open")));
     close.addEventListener("click", () => setOpen(false));
     document.addEventListener("keydown", event => {
@@ -608,7 +897,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const randomIndex = max => {
       if (window.crypto?.getRandomValues) {
         const values = new Uint32Array(1);
-        window.crypto.getRandomValues(values);
+        const limit = Math.floor(0x100000000 / max) * max;
+        do {
+          window.crypto.getRandomValues(values);
+        } while (values[0] >= limit);
         return values[0] % max;
       }
       return Math.floor(Math.random() * max);
