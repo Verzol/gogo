@@ -117,6 +117,194 @@ document.addEventListener("DOMContentLoaded", () => {
     timeZone: "Asia/Bangkok"
   }).format(new Date(`${date}T00:00:00+07:00`));
 
+  const initChatWidget = () => {
+    const config = window.HUE_SUPABASE || {};
+    const widget = document.getElementById("chatWidget");
+    const toggle = document.getElementById("chatToggle");
+    const close = document.getElementById("chatClose");
+    const panel = document.getElementById("chatPanel");
+    const nameForm = document.getElementById("chatNameForm");
+    const nameInput = document.getElementById("chatName");
+    const status = document.getElementById("chatStatus");
+    const messages = document.getElementById("chatMessages");
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("chatInput");
+    const unread = document.getElementById("chatUnread");
+
+    if (!widget || !toggle || !panel || !nameForm || !nameInput || !status || !messages || !form || !input || !unread) return;
+
+    const table = "chat_messages";
+    const knownIds = new Set();
+    let unreadCount = 0;
+    let client = null;
+
+    const savedName = localStorage.getItem("hueChatName") || "";
+    nameInput.value = savedName;
+
+    const cleanName = value => String(value || "").trim().replace(/\s+/g, " ").slice(0, 32);
+    const cleanBody = value => String(value || "").trim().slice(0, 500);
+    const isConfigured = Boolean(config.url && config.anonKey && window.supabase?.createClient);
+
+    const setStatus = (text, kind = "") => {
+      status.textContent = text;
+      status.dataset.kind = kind;
+      status.hidden = !text;
+    };
+
+    const setOpen = open => {
+      widget.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      if (!open) return;
+      unreadCount = 0;
+      unread.hidden = true;
+      messages.scrollTop = messages.scrollHeight;
+      input.focus();
+    };
+
+    const bumpUnread = () => {
+      if (widget.classList.contains("open")) return;
+      unreadCount = Math.min(unreadCount + 1, 99);
+      unread.textContent = String(unreadCount);
+      unread.hidden = false;
+    };
+
+    const formatChatTime = value => new Intl.DateTimeFormat("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Asia/Bangkok"
+    }).format(new Date(value));
+
+    const renderMessage = message => {
+      if (!message?.id || knownIds.has(message.id)) return;
+      knownIds.add(message.id);
+
+      const ownName = cleanName(localStorage.getItem("hueChatName"));
+      const item = document.createElement("article");
+      item.className = "chat-message";
+      if (ownName && message.username === ownName) item.classList.add("is-mine");
+      item.dataset.id = message.id;
+      item.innerHTML = `
+        <div class="chat-message-meta">
+          <strong>${escapeHTML(message.username)}</strong>
+          <time>${escapeHTML(formatChatTime(message.created_at))}</time>
+        </div>
+        <p>${escapeHTML(message.body)}</p>
+      `;
+
+      const shouldStick = messages.scrollHeight - messages.scrollTop - messages.clientHeight < 80;
+      messages.appendChild(item);
+
+      while (messages.children.length > 200) {
+        const first = messages.firstElementChild;
+        knownIds.delete(first?.dataset.id);
+        first?.remove();
+      }
+
+      if (shouldStick || widget.classList.contains("open")) messages.scrollTop = messages.scrollHeight;
+      bumpUnread();
+    };
+
+    const loadMessages = async () => {
+      setStatus("Đang tải tin nhắn...");
+      const { data: rows, error } = await client
+        .from(table)
+        .select("id, username, body, created_at")
+        .order("created_at", { ascending: false })
+        .limit(200);
+
+      if (error) throw error;
+
+      messages.innerHTML = "";
+      knownIds.clear();
+      (rows || []).reverse().forEach(renderMessage);
+      unreadCount = 0;
+      unread.hidden = true;
+      setStatus(rows?.length ? "" : "Chưa có tin nào. Mở bát đi.", rows?.length ? "" : "empty");
+    };
+
+    const startRealtime = () => {
+      client
+        .channel("chat_messages")
+        .on("postgres_changes", { event: "INSERT", schema: "public", table }, payload => {
+          renderMessage(payload.new);
+          setStatus("");
+        })
+        .subscribe(subscribeStatus => {
+          if (subscribeStatus === "SUBSCRIBED") setStatus("");
+          if (subscribeStatus === "CHANNEL_ERROR") setStatus("Realtime đang lỗi. Thử tải lại trang.", "error");
+        });
+    };
+
+    nameForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const name = cleanName(nameInput.value);
+      if (!name) {
+        setStatus("Nhập Biệt danh trước đã.", "error");
+        return;
+      }
+      localStorage.setItem("hueChatName", name);
+      nameInput.value = name;
+      setStatus("Đã lưu tên.", "ok");
+      window.setTimeout(() => setStatus(""), 1200);
+      input.focus();
+    });
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const username = cleanName(nameInput.value || localStorage.getItem("hueChatName"));
+      const body = cleanBody(input.value);
+
+      if (!username) {
+        setStatus("Nhập Biệt danh trước đã.", "error");
+        nameInput.focus();
+        return;
+      }
+
+      if (!body) return;
+
+      localStorage.setItem("hueChatName", username);
+      nameInput.value = username;
+      input.value = "";
+      input.style.height = "";
+      form.querySelector("button").disabled = true;
+
+      const { error } = await client.from(table).insert({ username, body });
+      form.querySelector("button").disabled = false;
+      if (error) {
+        input.value = body;
+        setStatus("Không gửi được tin. Kiểm tra Supabase hoặc mạng.", "error");
+      }
+    });
+
+    input.addEventListener("input", () => {
+      input.style.height = "";
+      input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
+    });
+
+    input.addEventListener("keydown", event => {
+      if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+      event.preventDefault();
+      form.requestSubmit();
+    });
+
+    toggle.addEventListener("click", () => setOpen(!widget.classList.contains("open")));
+    close.addEventListener("click", () => setOpen(false));
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") setOpen(false);
+    });
+
+    if (!isConfigured) {
+      setStatus("Chat chưa được cấu hình Supabase.", "error");
+      form.querySelector("button").disabled = true;
+      return;
+    }
+
+    client = window.supabase.createClient(config.url, config.anonKey);
+    loadMessages()
+      .then(startRealtime)
+      .catch(() => setStatus("Không nối được Supabase. Kiểm tra URL, anon key và schema.", "error"));
+  };
+
   const initWeatherWidget = () => {
     const widget = document.getElementById("weatherWidget");
     const toggle = document.getElementById("weatherToggle");
@@ -338,6 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   initWeatherWidget();
+  initChatWidget();
 
   // ---- Hero ----
   document.getElementById("heroSubtitle").textContent = data.subtitle;

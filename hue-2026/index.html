@@ -220,6 +220,41 @@
   </section>
 </div>
 
+<div class="chat-widget" id="chatWidget">
+  <button class="chat-fab" id="chatToggle" type="button" aria-expanded="false" aria-controls="chatPanel">
+    <span aria-hidden="true">💬</span>
+    <span>Chat</span>
+    <span class="chat-unread" id="chatUnread" hidden>0</span>
+  </button>
+  <section class="chat-panel" id="chatPanel" aria-label="Chat nhóm ẩn danh">
+    <div class="chat-panel-head">
+      <div>
+        <h3>Chat nhóm</h3>
+        <p>Chỉ hiển thị 200 tin nhắn gần nhất.</p>
+      </div>
+      <button class="chat-close" id="chatClose" type="button" aria-label="Đóng chat">×</button>
+    </div>
+    <form class="chat-name-form" id="chatNameForm">
+      <label for="chatName">Biệt danh</label>
+      <div class="chat-name-row">
+        <input id="chatName" name="chatName" type="text" autocomplete="nickname" maxlength="32" required>
+        <button type="submit">Lưu</button>
+      </div>
+    </form>
+    <div class="chat-status" id="chatStatus" role="status">Đang nối vào phòng chat...</div>
+    <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+    <form class="chat-form" id="chatForm">
+      <label class="sr-only" for="chatInput">Tin nhắn</label>
+      <div class="chat-input-row">
+        <textarea id="chatInput" name="chatInput" rows="1" maxlength="500" placeholder="Nhập tin nhắn..." required></textarea>
+        <button type="submit" aria-label="Gửi tin nhắn">Gửi</button>
+      </div>
+    </form>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script src="data.js"></script>
 <script src="script.js"></script>
 </body>
