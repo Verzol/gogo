@@ -455,6 +455,37 @@ section { padding: 60px 0; }
 }
 .bp-value { font-family: var(--font-body); font-size: 0.88rem; color: var(--ink); font-weight: 600; }
 
+.bp-countdown {
+  margin-top: 14px;
+  padding: 10px 12px 11px;
+  border: 1.5px dashed rgba(44, 51, 35, 0.42);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(244, 211, 216, 0.55), rgba(255, 253, 248, 0.94) 58%),
+    var(--paper);
+}
+
+.bp-countdown-value {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--font-doodle);
+  font-size: clamp(1.55rem, 5vw, 2.2rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1;
+  color: var(--pink-deep);
+  text-shadow: 1px 2px 0 rgba(255, 253, 248, 0.9);
+}
+
+.bp-countdown-note:not([hidden]) {
+  display: block;
+  margin-top: 5px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
 .bp-barcode {
   margin-top: 14px;
   height: 30px;

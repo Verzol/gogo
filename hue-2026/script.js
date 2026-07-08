@@ -900,6 +900,34 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("heroDate").textContent = data.dateRange;
   document.getElementById("heroIntro").textContent = data.intro;
 
+  const heroCountdown = document.getElementById("heroCountdown");
+  const heroCountdownNote = document.getElementById("heroCountdownNote");
+  if (heroCountdown) {
+    const targetTime = new Date("2026-07-16T05:30:00+07:00").getTime();
+    const pad = value => String(value).padStart(2, "0");
+    const renderCountdown = () => {
+      const remaining = targetTime - Date.now();
+      if (remaining <= 0) {
+        heroCountdown.textContent = "00:00:00:00";
+        if (heroCountdownNote) {
+          heroCountdownNote.hidden = false;
+          heroCountdownNote.textContent = "Đã tới giờ có mặt tại Huế";
+        }
+        return;
+      }
+
+      const totalSeconds = Math.floor(remaining / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      heroCountdown.textContent = `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    };
+
+    renderCountdown();
+    window.setInterval(renderCountdown, 1000);
+  }
+
   // ---- Hero Stickers (Images 1.png - 10.png) ----
   // Bố cục cố định - dồn 10 mặt người thành cụm collage ở NỬA PHẢI hero, xen kẽ
   // giữa các sticker trang trí (.hero-deco). Nửa trái để trống cho khối chữ + vé.
