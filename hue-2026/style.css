@@ -25,6 +25,7 @@
   --font-doodle: 'Baloo 2', cursive;
   --font-hand: 'Dancing Script', cursive;
 
+  --nav-height: 64px;
   --radius: 12px;
   --shadow-soft: 0 8px 30px rgba(44, 51, 35, 0.10);
   --shadow-card: 5px 6px 0 rgba(44, 51, 35, 0.14);
@@ -51,7 +52,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   margin: 0;
-  padding-top: 64px;
+  padding-top: var(--nav-height);
   overflow-x: hidden;
 }
 
@@ -203,7 +204,7 @@ section { padding: 60px 0; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
+  height: var(--nav-height);
 }
 
 .nav-brand {
@@ -244,7 +245,7 @@ section { padding: 60px 0; }
 @media (max-width: 780px) {
   .nav-links {
     position: absolute;
-    top: 64px; left: 0; right: 0;
+    top: var(--nav-height); left: 0; right: 0;
     flex-direction: column;
     background: var(--paper);
     padding: 18px 28px;
@@ -2410,7 +2411,7 @@ footer .heart { color: var(--pink-deep); }
   right: 0;
   bottom: 62px;
   width: min(390px, calc(100vw - 28px));
-  height: min(660px, calc(100vh - 96px));
+  height: min(660px, calc(100dvh - var(--nav-height) - 86px));
   display: none;
   grid-template-rows: auto auto auto 1fr auto auto;
   gap: 10px;
@@ -3003,12 +3004,13 @@ footer .heart { color: var(--pink-deep); }
 
   .chat-panel {
     position: fixed;
+    top: calc(var(--nav-height) + 12px);
     left: 12px;
     right: 12px;
     bottom: 67px;
     width: auto;
-    height: min(62dvh, calc(100dvh - 150px));
-    max-height: 520px;
+    height: auto;
+    max-height: none;
     padding: 14px;
     gap: 8px;
   }
