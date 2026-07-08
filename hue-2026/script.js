@@ -133,8 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("chatForm");
     const input = document.getElementById("chatInput");
     const unread = document.getElementById("chatUnread");
+    const confirmDialog = document.getElementById("chatConfirm");
+    const deleteCancel = document.getElementById("chatDeleteCancel");
+    const deleteConfirm = document.getElementById("chatDeleteConfirm");
 
-    if (!widget || !toggle || !panel || !nameForm || !nameToggle || !nameInput || !status || !messages || !reactionPopover || !replyPreview || !form || !input || !unread) return;
+    if (!widget || !toggle || !panel || !nameForm || !nameToggle || !nameInput || !status || !messages || !reactionPopover || !replyPreview || !form || !input || !unread || !confirmDialog || !deleteCancel || !deleteConfirm) return;
 
     const table = "chat_messages";
     const reactionTable = "chat_reactions";
@@ -146,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let messageCount = 0;
     let client = null;
     let selectedReply = null;
+    let pendingDelete = null;
 
     const getUserId = () => {
       const saved = localStorage.getItem("hueChatUserId");
@@ -216,6 +220,29 @@ document.addEventListener("DOMContentLoaded", () => {
         <button type="button" class="chat-reply-cancel" aria-label="Bỏ reply">×</button>
       `;
       input.focus();
+    };
+
+    const setConfirmOpen = open => {
+      confirmDialog.hidden = !open;
+      if (open) deleteConfirm.focus();
+    };
+
+    const softDeleteMessage = message => {
+      const username = cleanName(localStorage.getItem("hueChatName"));
+      if (!message || message.username !== username) return;
+      client
+        .from(table)
+        .update({ body: "", reply_to_id: null, reply_to_username: null, reply_to_body: null })
+        .eq("id", message.id)
+        .eq("username", username)
+        .then(({ error }) => {
+          if (error) {
+            console.error("Delete chat message failed:", error);
+            setStatus(`Không xóa được tin nhắn: ${error.message || "kiểm tra SQL soft delete"}`, "error");
+          } else {
+            markMessageDeleted({ id: message.id });
+          }
+        });
     };
 
     const closeReactionPickers = except => {
@@ -555,6 +582,16 @@ document.addEventListener("DOMContentLoaded", () => {
     replyPreview.addEventListener("click", event => {
       if (event.target.closest(".chat-reply-cancel")) clearReply();
     });
+    deleteCancel.addEventListener("click", () => {
+      pendingDelete = null;
+      setConfirmOpen(false);
+    });
+    deleteConfirm.addEventListener("click", () => {
+      const message = pendingDelete;
+      pendingDelete = null;
+      setConfirmOpen(false);
+      softDeleteMessage(message);
+    });
     reactionPopover.addEventListener("click", event => {
       const reactionButton = event.target.closest("[data-reaction-emoji]");
       if (!reactionButton) return;
@@ -585,18 +622,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const message = messageById.get(deleteButton.dataset.deleteId);
         const username = cleanName(localStorage.getItem("hueChatName"));
         if (!message || message.username !== username) return;
-        client
-          .from(table)
-          .update({ body: "", reply_to_id: null, reply_to_username: null, reply_to_body: null })
-          .eq("id", message.id)
-          .eq("username", username)
-          .then(({ error }) => {
-            if (error) {
-              console.error("Delete chat message failed:", error);
-              setStatus(`Không xóa được tin nhắn: ${error.message || "kiểm tra SQL soft delete"}`, "error");
-            }
-            else markMessageDeleted({ id: message.id });
-          });
+        pendingDelete = message;
+        setConfirmOpen(true);
         return;
       }
 
@@ -625,6 +652,11 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.addEventListener("click", () => setOpen(!widget.classList.contains("open")));
     close.addEventListener("click", () => setOpen(false));
     document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && !confirmDialog.hidden) {
+        pendingDelete = null;
+        setConfirmOpen(false);
+        return;
+      }
       if (event.key === "Escape") setOpen(false);
     });
 

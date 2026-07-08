@@ -255,6 +255,16 @@
         <button type="submit" aria-label="Gửi tin nhắn">Gửi</button>
       </div>
     </form>
+    <div class="chat-confirm" id="chatConfirm" role="dialog" aria-modal="true" aria-labelledby="chatConfirmTitle" hidden>
+      <div class="chat-confirm-box">
+        <h4 id="chatConfirmTitle">Xóa tin nhắn?</h4>
+        <p>Mọi người sẽ không đọc được tin nhắn này nữa.</p>
+        <div class="chat-confirm-actions">
+          <button class="chat-confirm-cancel" id="chatDeleteCancel" type="button">Hủy</button>
+          <button class="chat-confirm-delete" id="chatDeleteConfirm" type="button">Xóa</button>
+        </div>
+      </div>
+    </div>
   </section>
 </div>
 

@@ -2936,6 +2936,72 @@ footer .heart { color: var(--pink-deep); }
   cursor: pointer;
 }
 
+.chat-confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 220;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(255, 250, 240, 0.58);
+  backdrop-filter: blur(2px);
+}
+
+.chat-confirm[hidden] {
+  display: none;
+}
+
+.chat-confirm-box {
+  width: min(280px, 100%);
+  display: grid;
+  gap: 9px;
+  padding: 16px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: 6px 7px 0 rgba(44, 51, 35, 0.2);
+}
+
+.chat-confirm-box h4 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-doodle);
+  font-size: 1.25rem;
+}
+
+.chat-confirm-box p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+.chat-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.chat-confirm-actions button {
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.16);
+  font-family: var(--font-doodle);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.chat-confirm-cancel {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.chat-confirm-delete {
+  background: var(--pink-deep);
+  color: var(--paper);
+}
+
 @media (max-width: 560px) {
   .weather-widget {
     left: 14px;
