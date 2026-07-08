@@ -1983,7 +1983,7 @@ footer .heart { color: var(--pink-deep); }
   left: 0;
   bottom: 62px;
   width: min(480px, calc(100vw - 28px));
-  max-height: min(680px, calc(100vh - 118px));
+  max-height: min(680px, calc(100dvh - var(--nav-height) - 161px));
   display: none;
   overflow: auto;
   padding: 18px 18px 20px;
@@ -3016,11 +3016,12 @@ footer .heart { color: var(--pink-deep); }
 
   .weather-panel {
     position: fixed;
+    top: calc(var(--nav-height) + 12px);
     left: 12px;
     right: 12px;
     bottom: 176px;
     width: auto;
-    max-height: min(66vh, 520px);
+    max-height: none;
   }
 
   .weather-day-main {
