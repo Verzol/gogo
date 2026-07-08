@@ -2648,13 +2648,18 @@ footer .heart { color: var(--pink-deep); }
   font-size: 0.7rem;
 }
 
-.chat-message-bubble > p {
+.chat-message-body {
   margin: 0;
   color: var(--ink);
   font-size: 0.9rem;
   line-height: 1.4;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+
+.chat-message.is-deleted .chat-message-body {
+  color: var(--ink-soft);
+  font-style: italic;
 }
 
 .chat-reply-quote,
@@ -2699,7 +2704,8 @@ footer .heart { color: var(--pink-deep); }
   outline-offset: 3px;
 }
 
-.chat-reply-button {
+.chat-reply-button,
+.chat-delete-button {
   flex: 0 0 auto;
   width: 28px;
   height: 28px;
@@ -2721,11 +2727,21 @@ footer .heart { color: var(--pink-deep); }
 }
 
 .chat-message.is-mine .chat-reply-button {
-  order: -1;
+  order: 2;
+}
+
+.chat-message.is-mine .chat-delete-button {
+  order: 1;
+}
+
+.chat-message.is-mine .chat-react-button {
+  order: 3;
 }
 
 .chat-message:hover .chat-reply-button,
-.chat-message:focus-within .chat-reply-button {
+.chat-message:focus-within .chat-reply-button,
+.chat-message:hover .chat-delete-button,
+.chat-message:focus-within .chat-delete-button {
   opacity: 1;
   pointer-events: auto;
   transform: scale(1);
@@ -2734,6 +2750,22 @@ footer .heart { color: var(--pink-deep); }
 .chat-reply-button:hover,
 .chat-reply-button:focus {
   background: var(--avocado-pale);
+}
+
+.chat-delete-button {
+  color: var(--pink-deep);
+}
+
+.chat-delete-button svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+  fill: currentColor;
+}
+
+.chat-delete-button:hover,
+.chat-delete-button:focus {
+  background: var(--pink-pale);
 }
 
 .chat-message-actions {

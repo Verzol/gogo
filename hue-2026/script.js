@@ -373,9 +373,11 @@ document.addEventListener("DOMContentLoaded", () => {
       knownIds.add(message.id);
 
       const ownName = cleanName(localStorage.getItem("hueChatName"));
+      const isDeleted = !String(message.body || "").trim();
       const item = document.createElement("article");
       item.className = "chat-message";
       if (ownName && message.username === ownName) item.classList.add("is-mine");
+      if (isDeleted) item.classList.add("is-deleted");
       item.dataset.id = message.id;
       item.innerHTML = `
         <div class="chat-message-stack">
@@ -390,11 +392,20 @@ document.addEventListener("DOMContentLoaded", () => {
               <strong>${escapeHTML(message.username)}</strong>
               <time>${escapeHTML(formatChatTime(message.created_at))}</time>
             </div>
-            <p>${escapeHTML(message.body)}</p>
+            <p class="chat-message-body">${isDeleted ? "Đã xóa" : escapeHTML(message.body)}</p>
           </div>
           <div class="chat-reactions" data-reactions-for="${escapeHTML(message.id)}" hidden></div>
         </div>
         <div class="chat-message-actions">
+          ${ownName && message.username === ownName && !isDeleted ? `
+            <button class="chat-delete-button" type="button" data-delete-id="${escapeHTML(message.id)}" aria-label="Xóa tin nhắn">
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2H5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1h2.5a1 1 0 0 1 1 1M4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+              </svg>
+              <span class="sr-only">Xóa</span>
+            </button>
+          ` : ""}
           <button class="chat-reply-button" type="button" data-reply-id="${escapeHTML(message.id)}" aria-label="Reply tin nhắn">↩</button>
           <button class="chat-react-button" type="button" data-reaction-menu="${escapeHTML(message.id)}" aria-label="React tin nhắn">＋</button>
         </div>
@@ -418,6 +429,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (shouldStick || widget.classList.contains("open")) messages.scrollTop = messages.scrollHeight;
       setMessageCount(messageCount + 1);
+    };
+
+    const markMessageDeleted = message => {
+      if (!message?.id) return;
+      const item = messages.querySelector(`[data-id="${message.id}"]`);
+      if (!item) return;
+      item.classList.add("is-deleted");
+      item.querySelector(".chat-message-body").textContent = "Đã xóa";
+      item.querySelector(".chat-reply-quote")?.remove();
+      item.querySelector("[data-delete-id]")?.remove();
+      const cached = messageById.get(message.id);
+      if (cached) cached.body = "";
     };
 
     const loadMessages = async () => {
@@ -445,6 +468,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .on("postgres_changes", { event: "INSERT", schema: "public", table }, payload => {
           renderMessage(payload.new);
           setStatus("");
+        })
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table }, payload => {
+          if (!String(payload.new?.body || "").trim()) markMessageDeleted(payload.new);
         })
         .subscribe(subscribeStatus => {
           if (subscribeStatus === "SUBSCRIBED") setStatus("");
@@ -551,6 +577,26 @@ document.addEventListener("DOMContentLoaded", () => {
         item.classList.toggle("is-reacting", !isOpen);
         if (!isOpen) openReactionPicker(item);
         else closeReactionPickers();
+        return;
+      }
+
+      const deleteButton = event.target.closest("[data-delete-id]");
+      if (deleteButton) {
+        const message = messageById.get(deleteButton.dataset.deleteId);
+        const username = cleanName(localStorage.getItem("hueChatName"));
+        if (!message || message.username !== username) return;
+        client
+          .from(table)
+          .update({ body: "", reply_to_id: null, reply_to_username: null, reply_to_body: null })
+          .eq("id", message.id)
+          .eq("username", username)
+          .then(({ error }) => {
+            if (error) {
+              console.error("Delete chat message failed:", error);
+              setStatus(`Không xóa được tin nhắn: ${error.message || "kiểm tra SQL soft delete"}`, "error");
+            }
+            else markMessageDeleted({ id: message.id });
+          });
         return;
       }
 
