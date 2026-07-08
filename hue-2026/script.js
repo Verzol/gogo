@@ -972,16 +972,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const segment = 360 / luckyMembers.length;
     let wheelRotation = 0;
 
-    const randomIndex = max => {
+    const randomCircleAngle = segmentCount => {
       if (window.crypto?.getRandomValues) {
         const values = new Uint32Array(1);
-        const limit = Math.floor(0x100000000 / max) * max;
+        const max53 = 2 ** 53;
+        const bucketCount = segmentCount * 2;
+        const limit = Math.floor(max53 / bucketCount) * bucketCount;
+        let value;
         do {
           window.crypto.getRandomValues(values);
-        } while (values[0] >= limit);
-        return values[0] % max;
+          value = (values[0] & 0x1fffff) * 0x100000000;
+          window.crypto.getRandomValues(values);
+          value += values[0];
+        } while (value >= limit);
+        return (value / limit) * 360;
       }
-      return Math.floor(Math.random() * max);
+      return Math.random() * 360;
     };
 
     const memberAngles = luckyMembers.map((_, index) => index * segment);
@@ -1028,9 +1034,10 @@ document.addEventListener("DOMContentLoaded", () => {
     luckySpin.addEventListener("click", () => {
       if (luckyWheel.classList.contains("is-spinning")) return;
 
-      const winner = randomIndex(luckyMembers.length);
+      const stopAngle = randomCircleAngle(luckyMembers.length);
+      const winner = Math.floor(((stopAngle + segment / 2) % 360) / segment);
       const current = ((wheelRotation % 360) + 360) % 360;
-      const target = (360 - memberAngles[winner]) % 360;
+      const target = (360 - stopAngle) % 360;
       const delta = (target - current + 360) % 360;
       wheelRotation += 1800 + delta;
 
