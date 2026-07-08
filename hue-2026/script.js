@@ -407,6 +407,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+  // ---- Lucky wheel ----
+  const luckyWheel = document.getElementById("luckyWheel");
+  const luckyResult = document.getElementById("luckyResult");
+  const luckyMembers = (data.members || []).slice(0, 10);
+
+  if (luckyWheel && luckyResult && luckyMembers.length) {
+    const segment = 360 / luckyMembers.length;
+    let wheelRotation = 0;
+
+    const randomIndex = max => {
+      if (window.crypto?.getRandomValues) {
+        const values = new Uint32Array(1);
+        window.crypto.getRandomValues(values);
+        return values[0] % max;
+      }
+      return Math.floor(Math.random() * max);
+    };
+
+    const memberAngles = luckyMembers.map((_, index) => index * segment);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const placeWheelPeople = spin => {
+      const radius = luckyWheel.clientWidth * 0.36;
+      luckyWheel.querySelectorAll(".wheel-person").forEach(person => {
+        const angle = Number(person.dataset.angle) + spin;
+        person.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(${-radius}px) rotate(${-angle}deg)`;
+      });
+    };
+
+    luckyWheel.innerHTML = `
+      <div class="wheel-face" aria-hidden="true"></div>
+      <button class="lucky-spin" id="luckySpin" type="button">Quay ngay</button>
+      ${luckyMembers.map((member, index) => {
+      const angle = memberAngles[index];
+      return `
+        <div class="wheel-person" data-angle="${angle}">
+          <img src="figures/people/${index + 1}.png" alt="${escapeHTML(member.name)}">
+          <span>${escapeHTML(member.name)}</span>
+        </div>
+      `;
+    }).join("")}
+    `;
+    const luckySpin = document.getElementById("luckySpin");
+    placeWheelPeople(0);
+    window.addEventListener("resize", () => placeWheelPeople(wheelRotation % 360));
+
+    const renderWinner = index => {
+      const member = luckyMembers[index];
+      luckyResult.classList.add("has-winner");
+      luckyResult.innerHTML = `
+        <span class="lucky-result-label">Trúng rồi</span>
+        <div class="lucky-result-photo">
+          <img src="figures/people/${index + 1}.png" alt="${escapeHTML(member.name)}">
+        </div>
+        <h3>${escapeHTML(member.name)}</h3>
+        <p>Nhân vật chính đã xuất hiện.</p>
+      `;
+    };
+
+    luckySpin.addEventListener("click", () => {
+      if (luckyWheel.classList.contains("is-spinning")) return;
+
+      const winner = randomIndex(luckyMembers.length);
+      const current = ((wheelRotation % 360) + 360) % 360;
+      const target = (360 - memberAngles[winner]) % 360;
+      const delta = (target - current + 360) % 360;
+      wheelRotation += 1800 + delta;
+
+      luckyWheel.classList.add("is-spinning");
+      luckySpin.disabled = true;
+      luckyWheel.style.setProperty("--rotation", `${wheelRotation}deg`);
+      placeWheelPeople(wheelRotation);
+
+      window.setTimeout(() => {
+        luckyWheel.classList.remove("is-spinning");
+        luckySpin.disabled = false;
+        renderWinner(winner);
+      }, reduceMotion.matches ? 80 : 4200);
+    });
+  }
+
   // ---- Itinerary route ----
   const itineraryRoute = document.getElementById("itineraryRoute");
   if (itineraryRoute && data.itineraryPlaces) {

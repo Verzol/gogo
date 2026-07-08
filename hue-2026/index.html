@@ -29,6 +29,7 @@
       <li><a href="#games">Tấu hài</a></li>
       <li><a href="#destinations">Sống ảo</a></li>
       <li><a href="#food">Bổ sung mỡ</a></li>
+      <li><a href="#lucky">Vòng quay</a></li>
     </ul>
   </div>
 </nav>
@@ -105,7 +106,7 @@
     <div class="section-head">
       <p class="eyebrow">Kế hoạch tác chiến</p>
       <h2>3 ngày 2 đêm</h2>
-      <p>Lịch trình sương sương lượn dọc sông Hương — từ Đại Nội ra lăng tẩm, rồi ra biển quẩy. Cơ mà giờ giấc mang tính chất tham khảo, tuỳ độ cao su của thằng tamlele</p>
+      <p>Lịch trình sương sương lượn dọc sông Hương, từ Đại Nội ra lăng tẩm, rồi ra biển quẩy. Cơ mà giờ giấc mang tính chất tham khảo, tuỳ độ cao su của thằng tamlele</p>
     </div>
     <div class="timeline">
       <div id="itineraryRoute"></div>
@@ -155,6 +156,26 @@
       <p>Chỗ hốc</p>
     </div>
     <div class="dest-grid" id="foodGrid"></div>
+  </div>
+</section>
+
+<section id="lucky" class="journal-page lucky-section">
+  <img src="figures/decor/sticker_lotus.png" class="deco-sticker" style="top: 18px; right: 5%; width: 96px; transform: rotate(10deg);" alt="">
+  <img src="figures/decor/sticker_flowers.png" class="deco-sticker" style="bottom: 42px; left: 4%; width: 104px; transform: rotate(-12deg);" alt="">
+  <img src="figures/decor/sticker_lantern.png" class="deco-sticker" style="top: 45%; left: 1%; width: 86px; transform: rotate(8deg);" alt="">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Vòng quay may mắn</h2>
+      <p>Quay một phát để chọn nhân vật chính cho nhiệm vụ tiếp theo.</p>
+    </div>
+    <div class="lucky-layout">
+      <div class="lucky-stage">
+        <div class="lucky-pointer" aria-hidden="true"></div>
+        <div class="lucky-wheel" id="luckyWheel" aria-label="Vòng quay 10 thành viên"></div>
+      </div>
+      <aside class="lucky-result" id="luckyResult" aria-live="polite">
+      </aside>
+    </div>
   </div>
 </section>
 
