@@ -990,6 +990,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return Math.random() * 360;
     };
 
+    const randomWholeSpins = () => {
+      if (window.crypto?.getRandomValues) {
+        const values = new Uint32Array(1);
+        window.crypto.getRandomValues(values);
+        return 5 + (values[0] % 4);
+      }
+      return 5 + Math.floor(Math.random() * 4);
+    };
+
     const memberAngles = luckyMembers.map((_, index) => index * segment);
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -1039,7 +1048,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const current = ((wheelRotation % 360) + 360) % 360;
       const target = (360 - stopAngle) % 360;
       const delta = (target - current + 360) % 360;
-      wheelRotation += 1800 + delta;
+      wheelRotation += randomWholeSpins() * 360 + delta;
+      luckyWheel.dataset.stopAngle = stopAngle.toFixed(4);
+      luckyWheel.dataset.winner = luckyMembers[winner].name;
 
       luckyWheel.classList.add("is-spinning");
       luckySpin.disabled = true;
@@ -1050,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", () => {
         luckyWheel.classList.remove("is-spinning");
         luckySpin.disabled = false;
         renderWinner(winner);
-      }, reduceMotion.matches ? 80 : 4200);
+      }, reduceMotion.matches ? 80 : 5200);
     });
   }
 

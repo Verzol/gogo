@@ -1653,13 +1653,13 @@ section { padding: 60px 0; }
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 420px;
+  min-height: 452px;
 }
 
 .lucky-wheel {
   --rotation: 0deg;
   position: relative;
-  width: min(400px, 82vw);
+  width: min(430px, 82vw);
   aspect-ratio: 1;
 }
 
@@ -1687,7 +1687,7 @@ section { padding: 60px 0; }
     inset 0 0 0 10px rgba(255, 253, 248, 0.64),
     inset 0 0 0 14px rgba(44, 51, 35, 0.14);
   transform: rotate(var(--rotation));
-  transition: transform 4.2s cubic-bezier(0.14, 0.72, 0.08, 1);
+  transition: transform 5.2s cubic-bezier(0.08, 0.72, 0.02, 1);
 }
 
 .wheel-face::before {
@@ -1708,7 +1708,7 @@ section { padding: 60px 0; }
   width: 76px;
   z-index: 2;
   transform: translate(-50%, -50%);
-  transition: transform 4.2s cubic-bezier(0.14, 0.72, 0.08, 1);
+  transition: transform 5.2s cubic-bezier(0.08, 0.72, 0.02, 1);
   will-change: transform;
 }
 
