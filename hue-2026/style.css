@@ -466,16 +466,38 @@ section { padding: 60px 0; }
 }
 
 .bp-countdown-value {
-  display: block;
-  margin-top: 3px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.bp-countdown-unit {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 6px 4px 5px;
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.78);
+  border: 1px solid rgba(44, 51, 35, 0.12);
+}
+
+.bp-countdown-unit strong {
   font-family: var(--font-doodle);
-  font-size: clamp(1.55rem, 5vw, 2.2rem);
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
   font-variant-numeric: tabular-nums;
   font-weight: 800;
-  letter-spacing: 1px;
   line-height: 1;
   color: var(--pink-deep);
   text-shadow: 1px 2px 0 rgba(255, 253, 248, 0.9);
+}
+
+.bp-countdown-unit small {
+  font-size: 0.58rem;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--ink-soft);
 }
 
 .bp-countdown-note:not([hidden]) {

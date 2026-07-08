@@ -70,7 +70,12 @@
           </div>
           <div class="bp-countdown" aria-label="Countdown đến giờ có mặt tại Huế">
             <span class="bp-label">Countdown</span>
-            <span class="bp-countdown-value" id="heroCountdown">--:--:--:--</span>
+            <span class="bp-countdown-value" id="heroCountdown" aria-live="polite">
+              <span class="bp-countdown-unit"><strong data-countdown-part="days">--</strong><small>ngày</small></span>
+              <span class="bp-countdown-unit"><strong data-countdown-part="hours">--</strong><small>giờ</small></span>
+              <span class="bp-countdown-unit"><strong data-countdown-part="minutes">--</strong><small>phút</small></span>
+              <span class="bp-countdown-unit"><strong data-countdown-part="seconds">--</strong><small>giây</small></span>
+            </span>
             <span class="bp-countdown-note" id="heroCountdownNote" hidden></span>
           </div>
           <div class="bp-barcode" aria-hidden="true"></div>

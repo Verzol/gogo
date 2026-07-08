@@ -905,10 +905,21 @@ document.addEventListener("DOMContentLoaded", () => {
   if (heroCountdown) {
     const targetTime = new Date("2026-07-16T05:30:00+07:00").getTime();
     const pad = value => String(value).padStart(2, "0");
+    const countdownParts = {
+      days: heroCountdown.querySelector('[data-countdown-part="days"]'),
+      hours: heroCountdown.querySelector('[data-countdown-part="hours"]'),
+      minutes: heroCountdown.querySelector('[data-countdown-part="minutes"]'),
+      seconds: heroCountdown.querySelector('[data-countdown-part="seconds"]')
+    };
+    const setCountdown = parts => {
+      Object.entries(parts).forEach(([key, value]) => {
+        if (countdownParts[key]) countdownParts[key].textContent = pad(value);
+      });
+    };
     const renderCountdown = () => {
       const remaining = targetTime - Date.now();
       if (remaining <= 0) {
-        heroCountdown.textContent = "00:00:00:00";
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         if (heroCountdownNote) {
           heroCountdownNote.hidden = false;
           heroCountdownNote.textContent = "Đã tới giờ có mặt tại Huế";
@@ -921,7 +932,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const hours = Math.floor((totalSeconds % 86400) / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
-      heroCountdown.textContent = `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      setCountdown({ days, hours, minutes, seconds });
     };
 
     renderCountdown();
