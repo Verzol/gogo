@@ -479,12 +479,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const replyPreview = document.getElementById("chatReplyPreview");
     const form = document.getElementById("chatForm");
     const input = document.getElementById("chatInput");
+    const sendButton = form?.querySelector("button[type='submit']");
     const unread = document.getElementById("chatUnread");
     const confirmDialog = document.getElementById("chatConfirm");
     const deleteCancel = document.getElementById("chatDeleteCancel");
     const deleteConfirm = document.getElementById("chatDeleteConfirm");
 
-    if (!widget || !toggle || !panel || !nameForm || !nameToggle || !nameInput || !status || !messages || !reactionPopover || !replyPreview || !form || !input || !unread || !confirmDialog || !deleteCancel || !deleteConfirm) return;
+    if (!widget || !toggle || !panel || !nameForm || !nameToggle || !nameInput || !status || !messages || !reactionPopover || !replyPreview || !form || !input || !sendButton || !unread || !confirmDialog || !deleteCancel || !deleteConfirm) return;
 
     const table = "chat_messages";
     const reactionTable = "chat_reactions";
@@ -953,7 +954,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nameInput.value = username;
       input.value = "";
       input.style.height = "";
-      form.querySelector("button").disabled = true;
+      sendButton.disabled = true;
 
       const payload = { user_id: getChatAuthorId(), username, body };
       if (selectedReply) {
@@ -963,7 +964,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const { error } = await client.from(table).insert(payload);
-      form.querySelector("button").disabled = false;
+      sendButton.disabled = false;
       if (error) {
         input.value = body;
         setStatus("Không gửi được tin. Kiểm tra Supabase hoặc mạng.", "error");
@@ -981,6 +982,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
       event.preventDefault();
       form.requestSubmit();
+    });
+
+    sendButton.addEventListener("pointerdown", event => {
+      if (!isMobileChat() || document.activeElement !== input) return;
+      event.preventDefault();
     });
 
     nameToggle.addEventListener("click", () => {
@@ -1073,7 +1079,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!isConfigured) {
       setStatus("Chat chưa được cấu hình Supabase.", "error");
-      form.querySelector("button").disabled = true;
+      sendButton.disabled = true;
       return;
     }
 

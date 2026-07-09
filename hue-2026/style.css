@@ -3947,6 +3947,20 @@ footer .heart { color: var(--pink-deep); }
   cursor: pointer;
 }
 
+.chat-input-row button {
+  width: 42px;
+  height: 42px;
+  min-height: 42px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.chat-input-row button .ui-icon {
+  display: grid;
+  place-items: center;
+}
+
 .chat-name-row button:disabled,
 .chat-input-row button:disabled {
   cursor: wait;
