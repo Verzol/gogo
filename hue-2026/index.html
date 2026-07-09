@@ -28,12 +28,12 @@
       <span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#crew">Đồng bọn</a></li>
-      <li><a href="#timeline">Lịch trình</a></li>
-      <li><a href="#games">Tấu hài</a></li>
-      <li><a href="#destinations">Sống ảo</a></li>
-      <li><a href="#food">Bổ sung mỡ</a></li>
-      <li><a href="#lucky">Vòng quay</a></li>
+      <li><a href="#crew"><span class="nav-icon" data-lucide="users-round" aria-hidden="true"></span><span class="nav-label">Đồng bọn</span></a></li>
+      <li><a href="#timeline"><span class="nav-icon" data-lucide="calendar-days" aria-hidden="true"></span><span class="nav-label">Lịch trình</span></a></li>
+      <li><a href="#games"><span class="nav-icon" data-lucide="dice-5" aria-hidden="true"></span><span class="nav-label">Tấu hài</span></a></li>
+      <li><a href="#destinations"><span class="nav-icon" data-lucide="camera" aria-hidden="true"></span><span class="nav-label">Sống ảo</span></a></li>
+      <li><a href="#food"><span class="nav-icon" data-lucide="soup" aria-hidden="true"></span><span class="nav-label">Bổ sung mỡ</span></a></li>
+      <li><a href="#lucky"><span class="nav-icon" data-lucide="sparkles" aria-hidden="true"></span><span class="nav-label">Vòng quay</span></a></li>
     </ul>
     <div class="auth-bar" id="authBar">
       <button class="auth-login-button" id="authLoginOpen" type="button">Đăng nhập</button>
@@ -47,7 +47,9 @@
 
 <div class="auth-modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" hidden>
   <div class="auth-card">
-    <button class="auth-close-button" id="authCancel" type="button" aria-label="Tắt">×</button>
+    <button class="auth-close-button" id="authCancel" type="button" aria-label="Tắt">
+      <span class="ui-icon" data-lucide="x" aria-hidden="true"></span>
+    </button>
     <form class="auth-form" id="authForm">
       <p class="auth-kicker" id="authModeLabel">gogo pass</p>
       <h2 id="authModalTitle">Đăng nhập</h2>
@@ -241,13 +243,13 @@
 </footer>
 
 <a class="fund-fab" href="https://quy.momo.vn/v2/a3uY5bTujN" target="_blank" rel="noopener noreferrer" aria-label="Mở thông tin quỹ nhóm">
-  <span class="fund-fab-icon" aria-hidden="true">💰</span>
+  <span class="fund-fab-icon" data-lucide="piggy-bank" aria-hidden="true"></span>
   <span>Quỹ nhóm</span>
 </a>
 
 <div class="weather-widget" id="weatherWidget">
   <button class="weather-fab" id="weatherToggle" type="button" aria-expanded="false" aria-controls="weatherPanel">
-    <span aria-hidden="true">☀️</span>
+    <span class="ui-icon" data-lucide="sun" aria-hidden="true"></span>
     <span>Thời tiết</span>
   </button>
   <section class="weather-panel" id="weatherPanel" aria-label="Dự báo thời tiết Huế">
@@ -257,8 +259,12 @@
         <p class="weather-range">17-19/07</p>
       </div>
       <div class="weather-head-actions">
-        <button class="weather-refresh" id="weatherRefresh" type="button" aria-label="Làm mới thời tiết">↻</button>
-        <button class="weather-close" id="weatherClose" type="button" aria-label="Đóng thời tiết">×</button>
+        <button class="weather-refresh" id="weatherRefresh" type="button" aria-label="Làm mới thời tiết">
+          <span class="ui-icon" data-lucide="refresh-cw" aria-hidden="true"></span>
+        </button>
+        <button class="weather-close" id="weatherClose" type="button" aria-label="Đóng thời tiết">
+          <span class="ui-icon" data-lucide="x" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
     <div class="weather-controls">
@@ -275,7 +281,7 @@
 
 <div class="chat-widget" id="chatWidget">
   <button class="chat-fab" id="chatToggle" type="button" aria-expanded="false" aria-controls="chatPanel">
-    <span aria-hidden="true">💬</span>
+    <span class="ui-icon" data-lucide="message-circle" aria-hidden="true"></span>
     <span>Chat</span>
     <span class="chat-unread" id="chatUnread" hidden>0</span>
   </button>
@@ -287,7 +293,9 @@
       </div>
       <div class="chat-head-actions">
         <button class="chat-name-toggle" id="chatNameToggle" type="button">Đổi tên</button>
-        <button class="chat-close" id="chatClose" type="button" aria-label="Đóng chat">×</button>
+        <button class="chat-close" id="chatClose" type="button" aria-label="Đóng chat">
+          <span class="ui-icon" data-lucide="x" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
     <form class="chat-name-form" id="chatNameForm">
@@ -324,6 +332,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="data.js"></script>
+<script src="https://unpkg.com/lucide@1.23.0/dist/umd/lucide.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

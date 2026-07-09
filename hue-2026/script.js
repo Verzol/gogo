@@ -3,6 +3,21 @@
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  const renderLucideIcons = () => {
+    if (!window.lucide?.createIcons) return;
+    window.lucide.createIcons({
+      attrs: {
+        "stroke-width": 2,
+        width: 18,
+        height: 18
+      }
+    });
+    document.body.classList.add("lucide-ready");
+  };
+
+  const lucideIcon = (name, className = "ui-icon") =>
+    `<span class="${className}" data-lucide="${escapeHTML(name)}" aria-hidden="true"></span>`;
+
   const data = TRIP_DATA;
   const locationData = data.locations || {};
   const weatherPlaceKeys = new Set((data.weatherPlaces || []).map(place => place.key));
@@ -285,11 +300,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return `
       <span class="location-peek outfit-peek" tabindex="0">
         <span class="location-chip outfit-chip">
-          <span class="outfit-icon" aria-hidden="true">👕</span>
+          ${lucideIcon("shirt", "outfit-icon")}
           Dresscode
         </span>
         <span class="location-card outfit-card" role="tooltip">
-          <span class="location-photo outfit-photo" aria-hidden="true">👕</span>
+          <span class="location-photo outfit-photo" aria-hidden="true">${lucideIcon("shirt", "outfit-card-icon")}</span>
           <span class="location-copy outfit-copy">
             <strong>Trang phục</strong>
             <span>${outfitItems.map(escapeHTML).join(" · ")}</span>
@@ -327,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ` : ""}
               ${weatherPlaceKeys.has(key) ? `
                 <button class="weather-mini-button" type="button" data-weather-key="${escapeHTML(key)}">
-                  <span aria-hidden="true">☀️</span>
+                  ${lucideIcon("sun")}
                   <span>Thời tiết</span>
                 </button>
               ` : ""}
@@ -342,26 +357,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const weatherInfo = code => {
     const table = {
-      0: ["☀️", "Trời quang"],
-      1: ["🌤️", "Ít mây"],
-      2: ["⛅", "Mây rải rác"],
-      3: ["☁️", "Nhiều mây"],
-      45: ["🌫️", "Sương mù"],
-      48: ["🌫️", "Sương mù đóng băng"],
-      51: ["🌦️", "Mưa phùn nhẹ"],
-      53: ["🌦️", "Mưa phùn"],
-      55: ["🌧️", "Mưa phùn dày"],
-      61: ["🌧️", "Mưa nhẹ"],
-      63: ["🌧️", "Mưa vừa"],
-      65: ["🌧️", "Mưa to"],
-      80: ["🌦️", "Mưa rào nhẹ"],
-      81: ["🌧️", "Mưa rào"],
-      82: ["⛈️", "Mưa rào mạnh"],
-      95: ["⛈️", "Giông"],
-      96: ["⛈️", "Giông kèm mưa đá"],
-      99: ["⛈️", "Giông mạnh"]
+      0: ["sun", "Trời quang"],
+      1: ["cloud-sun", "Ít mây"],
+      2: ["cloud-sun", "Mây rải rác"],
+      3: ["cloud", "Nhiều mây"],
+      45: ["cloud-fog", "Sương mù"],
+      48: ["cloud-fog", "Sương mù đóng băng"],
+      51: ["cloud-drizzle", "Mưa phùn nhẹ"],
+      53: ["cloud-drizzle", "Mưa phùn"],
+      55: ["cloud-drizzle", "Mưa phùn dày"],
+      61: ["cloud-rain", "Mưa nhẹ"],
+      63: ["cloud-rain", "Mưa vừa"],
+      65: ["cloud-rain", "Mưa to"],
+      80: ["cloud-sun-rain", "Mưa rào nhẹ"],
+      81: ["cloud-rain", "Mưa rào"],
+      82: ["cloud-rain-wind", "Mưa rào mạnh"],
+      95: ["cloud-lightning", "Giông"],
+      96: ["cloud-lightning", "Giông kèm mưa đá"],
+      99: ["cloud-lightning", "Giông mạnh"]
     };
-    return table[code] || ["🌡️", "Không rõ"];
+    return table[code] || ["thermometer", "Không rõ"];
   };
 
   const formatWeatherDate = date => new Intl.DateTimeFormat("vi-VN", {
@@ -482,8 +497,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <strong>Đang trả lời ${escapeHTML(selectedReply.username)}</strong>
           <p>${escapeHTML(selectedReply.body)}</p>
         </div>
-        <button type="button" class="chat-reply-cancel" aria-label="Bỏ reply">×</button>
+        <button type="button" class="chat-reply-cancel" aria-label="Bỏ reply">${lucideIcon("x")}</button>
       `;
+      renderLucideIcons();
       input.focus();
     };
 
@@ -581,8 +597,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <strong>${users.size}</strong>
           </button>
         `).join("")}
-        <button class="chat-reaction-add" type="button" data-reaction-bar-menu="${escapeHTML(messageId)}" aria-label="Thêm reaction">＋</button>
+        <button class="chat-reaction-add" type="button" data-reaction-bar-menu="${escapeHTML(messageId)}" aria-label="Thêm reaction">${lucideIcon("plus")}</button>
       `;
+      renderLucideIcons();
       const heightDelta = (row?.offsetHeight || 0) - beforeRowHeight || messages.scrollHeight - beforeScrollHeight;
       if (heightDelta > 0 && beforeTop < viewport.bottom) messages.scrollTop += heightDelta;
     };
@@ -700,15 +717,12 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="chat-message-actions">
           ${ownName && message.username === ownName && !isDeleted ? `
             <button class="chat-delete-button" type="button" data-delete-id="${escapeHTML(message.id)}" aria-label="Xóa tin nhắn">
-              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2H5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1h2.5a1 1 0 0 1 1 1M4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-              </svg>
+              ${lucideIcon("trash-2")}
               <span class="sr-only">Xóa</span>
             </button>
           ` : ""}
-          <button class="chat-reply-button" type="button" data-reply-id="${escapeHTML(message.id)}" aria-label="Reply tin nhắn">↩</button>
-          <button class="chat-react-button" type="button" data-reaction-menu="${escapeHTML(message.id)}" aria-label="React tin nhắn">＋</button>
+          <button class="chat-reply-button" type="button" data-reply-id="${escapeHTML(message.id)}" aria-label="Reply tin nhắn">${lucideIcon("reply")}</button>
+          <button class="chat-react-button" type="button" data-reaction-menu="${escapeHTML(message.id)}" aria-label="React tin nhắn">${lucideIcon("plus")}</button>
         </div>
       `;
       messageById.set(message.id, {
@@ -719,6 +733,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const shouldStick = messages.scrollHeight - messages.scrollTop - messages.clientHeight < 80;
       messages.appendChild(item);
+      renderLucideIcons();
 
       while (messages.children.length > messageLimit) {
         const first = messages.firstElementChild;
@@ -1065,7 +1080,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const hourly = forecast.hourly;
       const chosenDates = new Set(daily.time);
       const dailyHTML = daily.time.map((date, index) => {
-        const [icon, label] = weatherInfo(daily.weather_code[index]);
+        const [iconName, label] = weatherInfo(daily.weather_code[index]);
         const rainProb = daily.precipitation_probability_max[index] ?? 0;
         const rainHours = daily.precipitation_hours[index] ?? 0;
         const rainMm = Number(daily.precipitation_sum[index] ?? 0).toFixed(1);
@@ -1075,7 +1090,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return `
           <article class="weather-day">
             <div class="weather-day-main">
-              <div class="weather-day-icon">${icon}</div>
+              <div class="weather-day-icon">${lucideIcon(iconName, "weather-icon")}</div>
               <div>
                 <h4>${formatWeatherDate(date)}</h4>
                 <p>${label}</p>
@@ -1096,12 +1111,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const hourlyGroups = hourly.time.reduce((groups, time, index) => {
         const [date, hour] = time.split("T");
         if (!chosenDates.has(date) || !["06:00", "12:00", "18:00", "21:00"].includes(hour)) return groups;
-        const [icon, label] = weatherInfo(hourly.weather_code[index]);
+        const [iconName, label] = weatherInfo(hourly.weather_code[index]);
         groups[date] ||= [];
         groups[date].push(`
           <div class="weather-hour-row">
             <time>${hour}</time>
-            <strong>${icon} ${Math.round(hourly.temperature_2m[index])}°C</strong>
+            <strong>${lucideIcon(iconName, "weather-hour-icon")} ${Math.round(hourly.temperature_2m[index])}°C</strong>
             <span>${label}</span>
             <span>Mưa ${hourly.precipitation_probability[index] ?? 0}%</span>
             <span>Ẩm ${hourly.relative_humidity_2m[index] ?? 0}%</span>
@@ -1130,6 +1145,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${hourlyHTML || `<p class="weather-muted">Chưa có dữ liệu theo giờ.</p>`}
         </div>
       `;
+      renderLucideIcons();
     };
 
     const loadWeather = async (options = {}) => {
@@ -1425,7 +1441,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ` : ""}
                 ${weatherPlaceKeys.has(place.key) ? `
                   <button class="route-weather-button" type="button" data-weather-key="${escapeHTML(place.key)}" aria-label="Xem thời tiết ${escapeHTML(place.title)}">
-                    <span aria-hidden="true">☀️</span>
+                    ${lucideIcon("sun")}
                   </button>
                 ` : ""}
                 <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.title)}">
@@ -1692,7 +1708,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${f.image ? `<div class="dest-photo food-photo"><img src="${f.image}" alt="${f.name}"></div>` : `<div class="dest-photo food-photo placeholder"></div>`}
           <div class="dest-info food-info">
             <h3>${f.name}</h3>
-            <p class="food-address">📍 ${f.address}</p>
+            <p class="food-address">${lucideIcon("map-pin", "food-address-icon")} ${f.address}</p>
             <p>${f.desc}</p>
             ${f.note ? `<span class="food-note">${f.note}</span>` : ""}
           </div>
@@ -1715,5 +1731,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }).join("");
 
+  renderLucideIcons();
 
 });
