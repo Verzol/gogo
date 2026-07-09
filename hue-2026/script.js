@@ -35,18 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return block.location ? [block.location] : [];
   };
 
-  const authAccounts = [
-    ["mạnh", "Mạnh"],
-    ["san", "San"],
-    ["thảo", "sóc nhí"],
-    ["mi", "Mi"],
-    ["linh", "nung na lung linh"],
-    ["tamle", "Tăm Lê"],
-    ["dan", "Đê A"],
-    ["quanlele", "36"],
-    ["minhtran", "Trứng"],
-    ["gtm", "Giang Mai"]
-  ].map(([username, displayName]) => ({ username, displayName }));
+  const authAccounts = (data.members || []).map(member => ({
+    username: String(member.name || "").trim(),
+    displayName: ""
+  })).filter(account => account.username);
 
   let authMember = null;
 
@@ -95,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderAccountCurrent = () => {
       const index = Math.max(authAccounts.findIndex(account => account.username === selectedUsername), 0);
       const account = authAccounts[index];
+      if (!account) return;
       accountCurrent.innerHTML = `
         <img src="figures/people/${index + 1}.png" alt="">
         <span>${escapeHTML(account.username)}</span>
@@ -115,15 +108,34 @@ document.addEventListener("DOMContentLoaded", () => {
       greetingButton.setAttribute("aria-expanded", String(open));
     };
 
-    accountMenu.innerHTML = authAccounts.map((account, index) => `
-      <button class="auth-account-option" type="button" role="option" data-username="${escapeHTML(account.username)}" aria-selected="false">
-        <img src="figures/people/${index + 1}.png" alt="">
-        <span>${escapeHTML(account.username)}</span>
-      </button>
-    `).join("");
-    renderAccountCurrent();
+    const renderAccountMenu = () => {
+      accountMenu.innerHTML = authAccounts.map((account, index) => `
+        <button class="auth-account-option" type="button" role="option" data-username="${escapeHTML(account.username)}" aria-selected="false">
+          <img src="figures/people/${index + 1}.png" alt="">
+          <span>${escapeHTML(account.username)}</span>
+        </button>
+      `).join("");
+      renderAccountCurrent();
+    };
+
+    renderAccountMenu();
 
     const rpcRow = data => Array.isArray(data) ? data[0] : data;
+
+    const loadAuthAccounts = async () => {
+      if (!client) return;
+      const { data: rows, error } = await client.rpc("trip_list_members");
+      if (error) return;
+
+      const displayNames = new Map((rows || []).map(row => [
+        row.username,
+        row.displayName || row.display_name || row.username
+      ]));
+      authAccounts.forEach(account => {
+        account.displayName = displayNames.get(account.username) || account.username;
+      });
+      renderAccountMenu();
+    };
 
     const setError = message => {
       errorBox.textContent = message || "";
@@ -133,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveSession = member => {
       authMember = member;
       localStorage.setItem(sessionKey, JSON.stringify(member));
-      if (!localStorage.getItem("hueChatName")) localStorage.setItem("hueChatName", member.username);
+      localStorage.setItem("hueChatName", member.displayName || member.username);
       renderAuth();
       emitAuthChange();
     };
@@ -341,6 +353,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     renderAuth();
 
+    loadAuthAccounts();
+
     if (!saved?.sessionToken || !client) return;
 
     client.rpc("trip_validate_session", { p_session_token: saved.sessionToken })
@@ -494,7 +508,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const currentUserId = getUserId();
     const getChatAuthorId = () => getAuthMember()?.username || currentUserId;
-    const savedName = localStorage.getItem("hueChatName") || getAuthMember()?.username || "";
+    const savedName = localStorage.getItem("hueChatName") || getAuthMember()?.displayName || "";
     nameInput.value = savedName;
     nameForm.hidden = Boolean(savedName);
     nameToggle.hidden = !savedName;
@@ -874,11 +888,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.addEventListener("hue-auth-change", event => {
-      const username = event.detail?.username || "";
-      if (username) {
-        const savedChatName = localStorage.getItem("hueChatName") || username;
-        localStorage.setItem("hueChatName", savedChatName);
-        nameInput.value = savedChatName;
+      const member = event.detail;
+      const displayName = member?.displayName || member?.username || "";
+      if (displayName) {
+        localStorage.setItem("hueChatName", displayName);
+        nameInput.value = displayName;
         setNameFormVisible(false);
         if (client) loadMessages().catch(() => setStatus("Không tải lại được chat.", "error"));
         return;
@@ -2023,9 +2037,10 @@ document.addEventListener("DOMContentLoaded", () => {
       await persistSession();
     }
 
-    function stopCurrentGame() {
+    async function stopCurrentGame() {
       state.status = "stopped";
       state.winner = "";
+      await persistSession();
     }
 
     async function persistSession() {
@@ -2322,7 +2337,7 @@ document.addEventListener("DOMContentLoaded", () => {
         confirmNewGameOpen = false;
       }
       if (action === "toggle") {
-        if (state.status === "running") stopCurrentGame();
+        if (state.status === "running") await stopCurrentGame();
         else await startCurrentGame();
       }
       if (action === "judge") applyWinLogic();
@@ -2373,6 +2388,17 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("hue-auth-change", () => {
       if (!mount.hidden) render();
     });
+
+    if (client) {
+      client
+        .channel("spy_game_sessions")
+        .on("postgres_changes", { event: "*", schema: "public", table: "spy_game_sessions" }, async payload => {
+          if (mount.hidden || !state.sessionId || payload.new?.id !== state.sessionId) return;
+          await loadSession(state.sessionId);
+          render();
+        })
+        .subscribe();
+    }
 
     document.addEventListener("keydown", event => {
       if (event.key !== "Escape" || !confirmNewGameOpen) return;
