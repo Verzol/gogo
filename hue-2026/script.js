@@ -1787,15 +1787,601 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("gameGrid").innerHTML = data.games.map(g => {
     const randomRot = Math.floor(Math.random() * 6 - 3);
     return `
-      <div class="game-card" style="--i: ${randomRot}">
+      <button class="game-card" type="button" style="--i: ${randomRot}" data-game-key="${escapeHTML(g.key || "")}">
         <div class="game-meta">
           <span>${g.occasion}</span>
         </div>
         <h3>${g.name}</h3>
         <p>${g.teaser}</p>
-      </div>
+      </button>
     `;
   }).join("");
+
+  const initSpyGame = () => {
+    const mount = document.getElementById("spyGame");
+    const grid = document.getElementById("gameGrid");
+    if (!mount || !grid) return;
+
+    const config = window.HUE_SUPABASE || {};
+    const client = config.url && config.anonKey && window.supabase?.createClient
+      ? window.supabase.createClient(config.url, config.anonKey)
+      : null;
+    const roleLabels = {
+      host: "Quản trò",
+      villager: "Dân",
+      spy: "Gián điệp"
+    };
+    const roleHints = {
+      host: "Quản lý nhiệm vụ, vai trò, trạng thái game.",
+      villager: "Không có nhiệm vụ. Mục tiêu là tìm đủ 2 gián điệp.",
+      spy: "Có nhiệm vụ riêng. Hoàn thành nhiệm vụ và sống sót qua vote."
+    };
+    const players = (data.members || []).map((member, index) => ({
+      username: member.name,
+      displayName: member.name,
+      avatar: `figures/people/${index + 1}.png`
+    }));
+
+    let dbError = client ? "" : "Chưa cấu hình Supabase.";
+    let confirmNewGameOpen = false;
+    let state;
+    state = createState("");
+
+    function randomIndex(max) {
+      const values = new Uint32Array(1);
+      const limit = Math.floor(0x100000000 / max) * max;
+      do {
+        window.crypto.getRandomValues(values);
+      } while (values[0] >= limit);
+      return values[0] % max;
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = randomIndex(i + 1);
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function createState(sessionId = state?.sessionId || "", randomizeSpies = false) {
+      const currentHosts = state?.assignments
+        ?.filter(item => item.role === "host")
+        .map(item => item.username) || [];
+      const defaultHosts = ["gtm", "linh"].filter(username => players.some(player => player.username === username));
+      const hosts = new Set(currentHosts.length ? currentHosts : defaultHosts);
+      const spies = new Set(randomizeSpies ? shuffle(players.map(player => player.username).filter(username => !hosts.has(username))).slice(0, 2) : []);
+      return {
+        sessionId,
+        isDraft: randomizeSpies || !sessionId,
+        status: "stopped",
+        round: 1,
+        tasksDone: false,
+        winner: "",
+        missions: state?.missions || [],
+        assignments: players.map(player => ({
+          username: player.username,
+          role: hosts.has(player.username) ? "host" : spies.has(player.username) ? "spy" : "villager",
+          alive: true
+        })),
+        kills: []
+      };
+    }
+
+    function stateFromRows(session, dbPlayers, missions) {
+      return {
+        sessionId: session.id,
+        isDraft: false,
+        status: session.status,
+        round: session.round,
+        tasksDone: session.tasks_done,
+        winner: session.winner || "",
+        missions: missions.map(mission => ({
+          id: mission.id,
+          title: mission.title,
+          done: mission.done,
+          order: mission.mission_order
+        })),
+        assignments: players.map(player => {
+          const row = dbPlayers.find(item => item.username === player.username);
+          return {
+            username: player.username,
+            role: row?.role || "villager",
+            alive: row?.alive ?? true
+          };
+        }),
+        kills: []
+      };
+    }
+
+    function setDbError(message) {
+      dbError = message || "";
+    }
+
+    async function loadMissions() {
+      if (!client) return [];
+      const { data: missions, error } = await client
+        .from("spy_game_missions")
+        .select("*")
+        .order("mission_order", { ascending: true })
+        .order("created_at", { ascending: true });
+      if (error) {
+        setDbError("Không tải được nhiệm vụ từ database. Kiểm tra migration mới.");
+        console.warn("Cannot load spy game missions:", error);
+        return [];
+      }
+      setDbError("");
+      return missions || [];
+    }
+
+    async function loadSession(sessionId) {
+      if (!client || !sessionId) return false;
+      const [{ data: sessions, error: sessionError }, { data: dbPlayers, error: playersError }, missions] = await Promise.all([
+        client.from("spy_game_sessions").select("*").eq("id", sessionId).limit(1),
+        client.from("spy_game_players").select("*").eq("session_id", sessionId),
+        loadMissions()
+      ]);
+      if (sessionError || playersError || !sessions?.[0]) {
+        setDbError("Không tải được game từ database.");
+        return false;
+      }
+      state = stateFromRows(sessions[0], dbPlayers || [], missions);
+      return true;
+    }
+
+    async function loadLatestSession() {
+      if (!client) return false;
+      const missions = await loadMissions();
+      const { data: sessions, error } = await client
+        .from("spy_game_sessions")
+        .select("id")
+        .order("created_at", { ascending: false })
+        .limit(1);
+      if (error) {
+        setDbError("Không tải được game từ database.");
+        return false;
+      }
+      if (!sessions?.[0]) {
+        state = createState("");
+        state.missions = missions;
+        return false;
+      }
+      return loadSession(sessions[0].id);
+    }
+
+    function draftNewGame() {
+      state = createState("", true);
+      state.missions = state.missions.map(mission => ({ ...mission, done: false }));
+    }
+
+    async function startDraftGame() {
+      if (!client) {
+        setDbError("Chưa cấu hình Supabase nên không tạo game được.");
+        return;
+      }
+
+      const { error: missionsError } = await client
+        .from("spy_game_missions")
+        .update({ done: false, updated_at: new Date().toISOString() })
+        .neq("id", "00000000-0000-0000-0000-000000000000");
+      if (missionsError) {
+        setDbError("Không reset được trạng thái nhiệm vụ.");
+        console.warn("Cannot reset spy game missions:", missionsError);
+        return;
+      }
+
+      const { error: cleanupError } = await client.from("spy_game_sessions").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+      if (cleanupError) {
+        setDbError("Không xóa được game cũ.");
+        console.warn("Cannot delete old spy game sessions:", cleanupError);
+        return;
+      }
+
+      const { data: session, error: sessionError } = await client
+        .from("spy_game_sessions")
+        .insert({ status: "running", round: 1, tasks_done: false, winner: null })
+        .select("id")
+        .single();
+
+      if (sessionError || !session?.id) {
+        setDbError("Không tạo được game mới trong database.");
+        console.warn("Cannot create spy game session:", sessionError);
+        return;
+      }
+
+      const { error: playersError } = await client.from("spy_game_players").insert(state.assignments.map(item => ({
+        session_id: session.id,
+        username: item.username,
+        role: item.role,
+        alive: true
+      })));
+
+      if (playersError) {
+        await client.from("spy_game_sessions").delete().eq("id", session.id);
+        setDbError("Không lưu được danh sách người chơi.");
+        console.warn("Cannot create spy game players:", playersError);
+        return;
+      }
+
+      state.sessionId = session.id;
+      state.isDraft = false;
+      state.status = "running";
+      state.round = 1;
+      state.tasksDone = false;
+      state.winner = "";
+      state.missions = state.missions.map(mission => ({ ...mission, done: false }));
+    }
+
+    async function startCurrentGame() {
+      if (state.isDraft || !state.sessionId) {
+        await startDraftGame();
+        return;
+      }
+
+      state.status = "running";
+      await persistSession();
+    }
+
+    function stopCurrentGame() {
+      state.status = "stopped";
+      state.winner = "";
+    }
+
+    async function persistSession() {
+      if (!client || !state.sessionId) return;
+      const { error } = await client
+        .from("spy_game_sessions")
+        .update({
+          status: state.status,
+          round: state.round,
+          tasks_done: state.tasksDone,
+          winner: state.winner || null,
+          updated_at: new Date().toISOString()
+        })
+        .eq("id", state.sessionId);
+      if (error) {
+        setDbError("Không lưu được trạng thái game.");
+        console.warn("Cannot update spy game session:", error);
+      }
+    }
+
+    async function persistPlayer(username) {
+      if (!client || !state.sessionId) return;
+      const assignment = assignmentOf(username);
+      const { error } = await client
+        .from("spy_game_players")
+        .update({ role: assignment.role, alive: assignment.alive })
+        .eq("session_id", state.sessionId)
+        .eq("username", username);
+      if (error) {
+        setDbError("Không lưu được vai trò người chơi.");
+        console.warn("Cannot update spy game player:", error);
+      }
+    }
+
+    async function persistMission(mission, includeDone = true) {
+      if (!client) {
+        setDbError("Chưa cấu hình Supabase nên không lưu nhiệm vụ được.");
+        return false;
+      }
+      const payload = { title: mission.title, mission_order: mission.order, updated_at: new Date().toISOString() };
+      if (includeDone) payload.done = mission.done;
+      const { error } = await client
+        .from("spy_game_missions")
+        .update(payload)
+        .eq("id", mission.id);
+      if (error) {
+        setDbError("Không lưu được nhiệm vụ.");
+        console.warn("Cannot update spy game mission:", error);
+        return false;
+      }
+      return true;
+    }
+
+    async function insertMission(mission) {
+      if (!client) {
+        setDbError("Chưa cấu hình Supabase nên không thêm nhiệm vụ được.");
+        return false;
+      }
+      const { data: inserted, error } = await client
+        .from("spy_game_missions")
+        .insert({
+          title: mission.title,
+          done: mission.done,
+          mission_order: mission.order
+        })
+        .select("id")
+        .single();
+      if (error) {
+        setDbError("Không thêm được nhiệm vụ.");
+        console.warn("Cannot insert spy game mission:", error);
+        return false;
+      }
+      mission.id = inserted.id;
+      return true;
+    }
+
+    async function deleteMission(missionId) {
+      if (!client) {
+        setDbError("Chưa cấu hình Supabase nên không xóa nhiệm vụ được.");
+        return false;
+      }
+      const { error } = await client.from("spy_game_missions").delete().eq("id", missionId);
+      if (error) {
+        setDbError("Không xóa được nhiệm vụ.");
+        console.warn("Cannot delete spy game mission:", error);
+        return false;
+      }
+      return true;
+    }
+
+    function currentPlayer() {
+      const member = getAuthMember();
+      return member?.username || players[0]?.username || "";
+    }
+
+    function assignmentOf(username = currentPlayer()) {
+      return state.assignments.find(item => item.username === username) || state.assignments[0];
+    }
+
+    function isHost() {
+      return assignmentOf()?.role === "host";
+    }
+
+    function playerMeta(username) {
+      return players.find(player => player.username === username) || { username, displayName: username, avatar: "" };
+    }
+
+    function spyMission(username) {
+      const spyIndex = state.assignments.filter(item => item.role === "spy").findIndex(item => item.username === username);
+      return state.missions[spyIndex] || state.missions[0];
+    }
+
+    function statusText() {
+      if (state.winner) return state.winner === "villagers" ? "Dân thắng" : "Gián điệp thắng";
+      return state.status === "running" ? `Đang chơi · Vòng ${state.round}` : "Đang dừng";
+    }
+
+    function applyWinLogic() {
+      const killedSpies = state.assignments.filter(item => item.role === "spy" && !item.alive).length;
+      if (killedSpies >= 2) state.winner = "villagers";
+      else if (state.round > 2) state.winner = state.tasksDone ? "spies" : "villagers";
+      else state.winner = "";
+    }
+
+    function renderRules() {
+      return `
+        <ul class="spy-rules">
+          ${(data.spyGame?.rules || []).map(rule => `<li>${escapeHTML(rule)}</li>`).join("")}
+        </ul>
+      `;
+    }
+
+    function renderPlayerView() {
+      if (state.status !== "running" && !isHost()) {
+        return `
+          <section class="spy-panel spy-self">
+            <div class="spy-paused">
+              <span class="spy-kicker">Trạng thái</span>
+              <h3>Đang dừng</h3>
+              <p>Quản trò chưa bắt đầu game. Vai trò và trạng thái sẽ hiện khi game chạy.</p>
+            </div>
+            <h4>Luật chơi</h4>
+            ${renderRules()}
+          </section>
+        `;
+      }
+
+      const assignment = assignmentOf();
+      const meta = playerMeta(assignment.username);
+      const mission = assignment.role === "spy" ? spyMission(assignment.username) : null;
+      return `
+        <section class="spy-panel spy-self">
+          <div class="spy-profile">
+            <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}">
+            <div>
+              <span class="spy-kicker">Bạn là</span>
+              <h3>${escapeHTML(roleLabels[assignment.role])}</h3>
+              <p>${escapeHTML(roleHints[assignment.role])}</p>
+            </div>
+          </div>
+          <div class="spy-status-strip">
+            <span>${assignment.alive ? "Còn sống" : "Đã bị loại"}</span>
+            <span>${statusText()}</span>
+          </div>
+          ${mission ? `
+            <div class="spy-mission-card">
+              <span>Nhiệm vụ riêng</span>
+              <strong>${escapeHTML(mission.title)}</strong>
+              <em>${mission.done ? "Đã hoàn thành" : "Chưa hoàn thành"}</em>
+            </div>
+          ` : ""}
+          <h4>Luật chơi</h4>
+          ${renderRules()}
+        </section>
+      `;
+    }
+
+    function renderHostView() {
+      return `
+        <section class="spy-panel spy-host">
+          <div class="spy-host-head">
+            <div>
+              <span class="spy-kicker">Quản trò</span>
+              <h3>Bảng điều khiển</h3>
+              <p>${statusText()}</p>
+            </div>
+            <div class="spy-actions">
+              <button type="button" data-spy-action="confirm-new">${lucideIcon("shuffle")}Game mới</button>
+              <button type="button" data-spy-action="toggle">${lucideIcon(state.status === "running" ? "square" : "play")} ${state.status === "running" ? "Dừng" : "Bắt đầu"}</button>
+            </div>
+          </div>
+          <div class="spy-host-grid">
+            <div class="spy-host-block">
+              <h4>Người chơi</h4>
+              <div class="spy-player-list">
+                ${state.assignments.map(item => {
+                  const meta = playerMeta(item.username);
+                  const isPlayerHost = item.role === "host";
+                  return `
+                    <div class="spy-player-row ${!item.alive && !isPlayerHost ? "is-dead" : ""}">
+                      <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}">
+                      <strong>${escapeHTML(meta.displayName)}</strong>
+                      <select data-spy-role="${escapeHTML(item.username)}">
+                        ${Object.entries(roleLabels).map(([value, label]) => `<option value="${value}" ${item.role === value ? "selected" : ""}>${label}</option>`).join("")}
+                      </select>
+                      ${isPlayerHost ? `<span class="spy-player-state">Quản trò</span>` : `<label><input type="checkbox" data-spy-alive="${escapeHTML(item.username)}" ${item.alive ? "checked" : ""}> ${item.alive ? "Sống" : "Chết"}</label>`}
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+            <div class="spy-host-block">
+              <h4>Nhiệm vụ</h4>
+              <form class="spy-task-form" data-spy-task-form>
+                <input type="text" name="title" maxlength="180" placeholder="Thêm nhiệm vụ mới">
+                <button type="submit">${lucideIcon("plus")}Thêm</button>
+              </form>
+              <div class="spy-task-list">
+                ${state.missions.map(task => `
+                  <div class="spy-task-row">
+                    <input type="checkbox" data-spy-task-done="${escapeHTML(task.id)}" ${task.done ? "checked" : ""} aria-label="Đánh dấu nhiệm vụ hoàn thành">
+                    <input type="text" value="${escapeHTML(task.title)}" data-spy-task-title="${escapeHTML(task.id)}" maxlength="180">
+                    <button type="button" data-spy-task-delete="${escapeHTML(task.id)}" aria-label="Xóa nhiệm vụ">${lucideIcon("trash-2")}</button>
+                  </div>
+                `).join("")}
+              </div>
+              <div class="spy-round-box">
+                <label>Vòng
+                  <select data-spy-round>
+                    <option value="1" ${state.round === 1 ? "selected" : ""}>1</option>
+                    <option value="2" ${state.round === 2 ? "selected" : ""}>2</option>
+                    <option value="3" ${state.round > 2 ? "selected" : ""}>Kết thúc vote</option>
+                  </select>
+                </label>
+                <label><input type="checkbox" data-spy-tasks-done ${state.tasksDone ? "checked" : ""} disabled> Gián điệp xong nhiệm vụ</label>
+                <button type="button" data-spy-action="judge">${lucideIcon("scale")}Chốt kết quả</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function render() {
+      mount.innerHTML = `
+        <div class="spy-shell">
+          <div class="spy-titlebar">
+            <div>
+              <span class="eyebrow">Ai Là Gián Điệp?</span>
+              <h2>Phòng nhiệm vụ bí mật</h2>
+              ${dbError ? `<p class="spy-db-error">${escapeHTML(dbError)}</p>` : ""}
+            </div>
+            <button class="spy-close" type="button" data-spy-close aria-label="Đóng game">${lucideIcon("x")}</button>
+          </div>
+          <div class="spy-content">
+            ${renderPlayerView()}
+            ${isHost() ? renderHostView() : ""}
+          </div>
+          <div class="spy-confirm" role="dialog" aria-modal="true" aria-labelledby="spyConfirmTitle" ${confirmNewGameOpen ? "" : "hidden"}>
+            <div class="spy-confirm-box">
+              <h4 id="spyConfirmTitle">Tạo game mới?</h4>
+              <p>Vai trò sẽ được random lại, trạng thái sống/chết và vòng chơi hiện tại sẽ reset.</p>
+              <div class="spy-confirm-actions">
+                <button class="spy-confirm-cancel" type="button" data-spy-action="cancel-new">Hủy</button>
+                <button class="spy-confirm-create" type="button" data-spy-action="new">Tạo mới</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      renderLucideIcons();
+    }
+
+    grid.addEventListener("click", async event => {
+      const card = event.target.closest("[data-game-key='spy-game']");
+      if (!card) return;
+      mount.hidden = false;
+      if (!(state.sessionId && await loadSession(state.sessionId))) await loadLatestSession();
+      render();
+      mount.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    mount.addEventListener("click", async event => {
+      if (event.target.closest("[data-spy-close]")) {
+        mount.hidden = true;
+        confirmNewGameOpen = false;
+        return;
+      }
+      const action = event.target.closest("[data-spy-action]")?.dataset.spyAction;
+      if (action === "confirm-new") confirmNewGameOpen = true;
+      if (action === "cancel-new") confirmNewGameOpen = false;
+      if (action === "new") {
+        draftNewGame();
+        confirmNewGameOpen = false;
+      }
+      if (action === "toggle") {
+        if (state.status === "running") stopCurrentGame();
+        else await startCurrentGame();
+      }
+      if (action === "judge") applyWinLogic();
+      const deleteId = event.target.closest("[data-spy-task-delete]")?.dataset.spyTaskDelete;
+      if (action || deleteId) {
+        if (deleteId && await deleteMission(deleteId)) state.missions = state.missions.filter(task => task.id !== deleteId);
+        if (action === "judge") await persistSession();
+        render();
+      }
+    });
+
+    mount.addEventListener("change", async event => {
+      const roleName = event.target.dataset.spyRole;
+      const aliveName = event.target.dataset.spyAlive;
+      const taskTitleId = event.target.dataset.spyTaskTitle;
+      const taskDoneId = event.target.dataset.spyTaskDone;
+      if (roleName) assignmentOf(roleName).role = event.target.value;
+      if (aliveName) assignmentOf(aliveName).alive = event.target.checked;
+      const task = taskTitleId || taskDoneId ? state.missions.find(task => task.id === (taskTitleId || taskDoneId)) : null;
+      const oldTaskTitle = task?.title || "";
+      const oldTaskDone = task?.done || false;
+      if (taskTitleId && task) task.title = event.target.value.trim();
+      if (taskDoneId && task) task.done = event.target.checked;
+      if (event.target.matches("[data-spy-round]")) state.round = Number(event.target.value);
+      if (taskDoneId) state.tasksDone = state.missions.length > 0 && state.missions.every(mission => mission.done);
+      applyWinLogic();
+      if (roleName) await persistPlayer(roleName);
+      if (aliveName) await persistPlayer(aliveName);
+      if (task && !(taskDoneId && state.isDraft) && !(await persistMission(task, !state.isDraft || Boolean(taskDoneId)))) {
+        task.title = oldTaskTitle;
+        task.done = oldTaskDone;
+      }
+      if (!state.isDraft && (taskDoneId || event.target.matches("[data-spy-round]"))) await persistSession();
+      render();
+    });
+
+    mount.addEventListener("submit", async event => {
+      if (!event.target.matches("[data-spy-task-form]")) return;
+      event.preventDefault();
+      const input = event.target.elements.title;
+      const title = input.value.trim();
+      if (!title) return;
+      const task = { id: crypto.randomUUID(), title, done: false, order: state.missions.length + 1 };
+      if (await insertMission(task)) state.missions.push(task);
+      render();
+    });
+
+    window.addEventListener("hue-auth-change", () => {
+      if (!mount.hidden) render();
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape" || !confirmNewGameOpen) return;
+      confirmNewGameOpen = false;
+      render();
+    });
+  };
+
+  initSpyGame();
 
   renderLucideIcons();
 

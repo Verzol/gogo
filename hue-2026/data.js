@@ -493,7 +493,26 @@ games: [
   {
     name: "Ai Là Gián Điệp?",
     occasion: "Xuyên suốt chuyến đi",
-    teaser: "Trông thế mà lại hay"
+    teaser: "Trông thế mà lại hay",
+    key: "spy-game"
   }
-]
+],
+
+  // ---------- AI LÀ GIÁN ĐIỆP ----------
+spyGame: {
+  missions: [
+    "Chụp lén 3 tấm ảnh nhóm đang cười mà không ai biết.",
+    "Rủ ít nhất 2 người đổi chỗ ngồi trong một bữa ăn.",
+    "Làm cả nhóm nói từ \"Huế\" ít nhất 10 lần trong 30 phút.",
+    "Gài một câu hát vào cuộc nói chuyện mà không bị bắt bài.",
+    "Thuyết phục một người chụp ảnh sống ảo ở địa điểm bất kỳ."
+  ],
+  rules: [
+    "Mỗi game mới có 2 gián điệp; người còn lại không phải quản trò là dân.",
+    "Dân tìm gián điệp qua 2 vòng vote.",
+    "Vòng 1 vote 2 người, loại 1 người.",
+    "Vòng 2 vote 2 người; nếu vòng 1 loại trúng gián điệp thì vòng 2 loại 1, nếu trượt thì vòng 2 loại 2.",
+    "Dân thắng khi loại đủ 2 gián điệp. Nếu còn gián điệp sống và nhiệm vụ đã xong, gián điệp thắng."
+  ]
+}
 };

@@ -2392,6 +2392,12 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .game-card {
   position: relative;
+  appearance: none;
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   background: var(--avocado-pale);
   border-top-left-radius: 255px 15px;
   border-top-right-radius: 15px 225px;
@@ -2441,6 +2447,536 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .game-card h3 { font-size: 1.8rem; margin-bottom: 8px; }
 .game-card p { font-size: 0.95rem; color: var(--ink-soft); margin: 0; }
+
+.spy-game {
+  margin-top: 34px;
+}
+
+.spy-game[hidden] {
+  display: none;
+}
+
+.spy-shell {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(255, 253, 248, 0.94), rgba(244, 235, 217, 0.94)),
+    var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  box-shadow: var(--shadow-card);
+  padding: 22px;
+}
+
+.spy-titlebar,
+.spy-host-head,
+.spy-actions,
+.spy-status-strip,
+.spy-task-form,
+.spy-round-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spy-titlebar,
+.spy-host-head {
+  justify-content: space-between;
+}
+
+.spy-titlebar h2,
+.spy-host-head h3,
+.spy-self h3 {
+  margin: 0;
+}
+
+.spy-db-error {
+  max-width: 58ch;
+  margin: 8px 0 0;
+  color: var(--pink-deep);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.spy-close,
+.spy-actions button,
+.spy-task-form button,
+.spy-task-row button,
+.spy-round-box button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.14);
+}
+
+.spy-close,
+.spy-task-row button {
+  width: 40px;
+  padding: 0;
+  background: var(--pink-pale);
+}
+
+.spy-actions button,
+.spy-task-form button,
+.spy-round-box button {
+  padding: 0 14px;
+}
+
+.spy-content {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.spy-panel {
+  background: rgba(255, 253, 248, 0.82);
+  border: 1px dashed rgba(44, 51, 35, 0.42);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.spy-profile {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+.spy-profile img,
+.spy-player-row img {
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  background: var(--cream);
+}
+
+.spy-profile img {
+  width: 84px;
+  height: 84px;
+}
+
+.spy-kicker {
+  display: block;
+  font-family: var(--font-doodle);
+  color: var(--pink-deep);
+  font-size: 1rem;
+}
+
+.spy-status-strip {
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.spy-status-strip span {
+  border: 1px solid rgba(44, 51, 35, 0.28);
+  border-radius: 999px;
+  background: var(--avocado-pale);
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.spy-mission-card {
+  background: var(--pink-pale);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 14px 0;
+}
+
+.spy-mission-card span {
+  display: block;
+  color: var(--pink-deep);
+  font-family: var(--font-doodle);
+  margin-bottom: 4px;
+}
+
+.spy-mission-card strong {
+  display: block;
+  font-size: 1.04rem;
+}
+
+.spy-mission-card em {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 8px;
+  border: 1px solid rgba(44, 51, 35, 0.3);
+  border-radius: 999px;
+  background: var(--paper);
+  padding: 4px 9px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.spy-paused {
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--avocado-pale);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.spy-paused h3,
+.spy-paused p {
+  margin: 0;
+}
+
+.spy-paused p {
+  margin-top: 4px;
+  color: var(--ink-soft);
+}
+
+.spy-rules {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  color: var(--ink-soft);
+}
+
+.spy-host-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.spy-host-block h4,
+.spy-self h4 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.spy-player-list,
+.spy-task-list {
+  display: grid;
+  gap: 10px;
+}
+
+.spy-player-row {
+  display: grid;
+  grid-template-columns: 42px minmax(76px, 1fr) minmax(112px, 0.8fr) minmax(74px, auto);
+  gap: 10px;
+  align-items: center;
+  background: rgba(221, 229, 209, 0.58);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.spy-player-row.is-dead {
+  background: rgba(244, 211, 216, 0.82);
+  border: 1px solid rgba(197, 106, 120, 0.42);
+}
+
+.spy-player-state {
+  justify-self: start;
+  border: 1px solid rgba(44, 51, 35, 0.24);
+  border-radius: 999px;
+  background: var(--paper);
+  padding: 5px 9px;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.spy-player-row img {
+  width: 42px;
+  height: 42px;
+}
+
+.spy-player-row strong {
+  overflow-wrap: anywhere;
+}
+
+.spy-player-row select,
+.spy-task-row input:not([type="checkbox"]),
+.spy-task-form input,
+.spy-round-box select {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid rgba(44, 51, 35, 0.32);
+  border-radius: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  padding: 8px 10px;
+}
+
+.spy-player-row select,
+.spy-round-box select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 36px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink) 50%),
+    linear-gradient(135deg, var(--ink) 50%, transparent 50%),
+    linear-gradient(to right, rgba(111, 138, 86, 0.22), rgba(111, 138, 86, 0.22));
+  background-position:
+    calc(100% - 20px) 17px,
+    calc(100% - 14px) 17px,
+    calc(100% - 34px) 8px;
+  background-size:
+    6px 6px,
+    6px 6px,
+    1px 24px;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 -2px 0 rgba(111, 138, 86, 0.14);
+}
+
+.spy-player-row select:hover,
+.spy-round-box select:hover,
+.spy-task-row input:not([type="checkbox"]):hover,
+.spy-task-form input:hover {
+  border-color: rgba(44, 51, 35, 0.62);
+}
+
+.spy-player-row select:focus,
+.spy-round-box select:focus,
+.spy-task-row input:not([type="checkbox"]):focus,
+.spy-task-form input:focus {
+  outline: 3px solid rgba(197, 106, 120, 0.24);
+  border-color: var(--pink-deep);
+}
+
+.spy-player-row label,
+.spy-task-row label,
+.spy-round-box label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1;
+}
+
+.spy-player-row input[type="checkbox"],
+.spy-task-row input[type="checkbox"],
+.spy-round-box input[type="checkbox"] {
+  appearance: none;
+  flex: 0 0 auto;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: 1.8px solid var(--ink-soft);
+  border-radius: 5px;
+  background: var(--paper);
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.spy-player-row input[type="checkbox"]::before,
+.spy-task-row input[type="checkbox"]::before,
+.spy-round-box input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  width: 6px;
+  height: 10px;
+  border-right: 2.5px solid var(--paper);
+  border-bottom: 2.5px solid var(--paper);
+  transform: rotate(40deg) scale(0);
+  transform-origin: center;
+}
+
+.spy-player-row input[type="checkbox"]:checked,
+.spy-task-row input[type="checkbox"]:checked,
+.spy-round-box input[type="checkbox"]:checked {
+  background: var(--avocado);
+  border-color: var(--avocado);
+}
+
+.spy-player-row input[type="checkbox"]:checked::before,
+.spy-task-row input[type="checkbox"]:checked::before,
+.spy-round-box input[type="checkbox"]:checked::before {
+  transform: rotate(40deg) scale(1);
+}
+
+.spy-player-row input[type="checkbox"]:hover,
+.spy-task-row input[type="checkbox"]:hover,
+.spy-round-box input[type="checkbox"]:hover {
+  border-color: var(--ink);
+}
+
+.spy-player-row input[type="checkbox"]:focus-visible,
+.spy-task-row input[type="checkbox"]:focus-visible,
+.spy-round-box input[type="checkbox"]:focus-visible {
+  outline: 3px solid rgba(197, 106, 120, 0.28);
+  outline-offset: 2px;
+}
+
+.spy-task-form {
+  margin-bottom: 10px;
+}
+
+.spy-task-form input {
+  min-width: 0;
+}
+
+.spy-task-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) 40px;
+  gap: 10px;
+  align-items: center;
+}
+
+.spy-task-row > input[type="checkbox"] {
+  justify-self: center;
+}
+
+.spy-round-box input[type="checkbox"]:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.spy-round-box {
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(44, 51, 35, 0.38);
+}
+
+.spy-round-box label:first-child {
+  display: grid;
+  gap: 4px;
+  min-width: 130px;
+}
+
+.spy-confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(255, 250, 240, 0.64);
+  backdrop-filter: blur(2px);
+}
+
+.spy-confirm[hidden] {
+  display: none;
+}
+
+.spy-confirm-box {
+  width: min(340px, 100%);
+  display: grid;
+  gap: 9px;
+  padding: 16px;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: 6px 7px 0 rgba(44, 51, 35, 0.2);
+}
+
+.spy-confirm-box h4 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-doodle);
+  font-size: 1.25rem;
+}
+
+.spy-confirm-box p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.spy-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.spy-confirm-actions button {
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.16);
+  font-family: var(--font-doodle);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.spy-confirm-cancel {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.spy-confirm-create {
+  background: var(--pink-deep);
+  color: var(--paper);
+}
+
+@media (max-width: 860px) {
+  .spy-host-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spy-titlebar,
+  .spy-host-head {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .spy-host-head {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 560px) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spy-shell {
+    padding: 14px;
+  }
+
+  .spy-titlebar h2 {
+    font-size: 1.9rem;
+  }
+
+  .spy-profile,
+  .spy-player-row {
+    grid-template-columns: 1fr;
+  }
+
+  .spy-profile img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .spy-player-row img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .spy-actions,
+  .spy-task-form {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .spy-actions button,
+  .spy-task-form button,
+  .spy-round-box button {
+    width: 100%;
+  }
+}
 
 /* ============================================================
    Lucky wheel
