@@ -18,16 +18,20 @@ begin
 end;
 $$;
 
-alter table public.chat_messages
-  drop constraint if exists chat_messages_body_len;
+grant insert (user_id, username, body, reply_to_id, reply_to_username, reply_to_body)
+  on public.chat_messages
+  to anon;
 
-alter table public.chat_messages
-  add constraint chat_messages_body_len check (
-    char_length(body) between 0 and 500
+drop policy if exists "Anyone can send chat messages" on public.chat_messages;
+create policy "Anyone can send chat messages"
+  on public.chat_messages
+  for insert
+  to anon
+  with check (
+    char_length(btrim(user_id)) between 1 and 80
+    and char_length(btrim(username)) between 1 and 32
+    and char_length(btrim(body)) between 1 and 500
   );
-
-grant select on public.chat_messages to anon;
-grant update on public.chat_messages to anon;
 
 create or replace function public.enforce_chat_soft_delete()
 returns trigger
@@ -56,7 +60,6 @@ create trigger chat_messages_soft_delete_only
   for each row
   execute function public.enforce_chat_soft_delete();
 
-drop policy if exists "Anyone can soft delete own chat messages" on public.chat_messages;
 drop policy if exists "Anyone can soft delete chat messages" on public.chat_messages;
 create policy "Anyone can soft delete chat messages"
   on public.chat_messages

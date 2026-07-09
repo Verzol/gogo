@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveSession = member => {
       authMember = member;
       localStorage.setItem(sessionKey, JSON.stringify(member));
-      localStorage.setItem("hueChatName", member.username);
+      if (!localStorage.getItem("hueChatName")) localStorage.setItem("hueChatName", member.username);
       renderAuth();
       emitAuthChange();
     };
@@ -132,7 +132,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const clearSession = () => {
       authMember = null;
       localStorage.removeItem(sessionKey);
-      localStorage.removeItem("hueChatName");
       renderAuth();
       emitAuthChange();
     };
@@ -419,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let client = null;
     let selectedReply = null;
     let pendingDelete = null;
-    const isChatNameLocked = () => Boolean(getAuthMember()?.username);
 
     const getUserId = () => {
       const saved = localStorage.getItem("hueChatUserId");
@@ -430,20 +428,24 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const currentUserId = getUserId();
-    const savedName = getAuthMember()?.username || localStorage.getItem("hueChatName") || "";
+    const getChatAuthorId = () => getAuthMember()?.username || currentUserId;
+    const savedName = localStorage.getItem("hueChatName") || getAuthMember()?.username || "";
     nameInput.value = savedName;
     nameForm.hidden = Boolean(savedName);
-    nameToggle.hidden = !savedName || isChatNameLocked();
-    nameInput.readOnly = isChatNameLocked();
+    nameToggle.hidden = !savedName;
 
     const cleanName = value => String(value || "").trim().replace(/\s+/g, " ").slice(0, 32);
     const cleanBody = value => String(value || "").trim().slice(0, 500);
     const memberAvatarByName = new Map();
+    const memberAvatarByUserId = new Map();
     (data.members || []).forEach((member, index) => {
       const avatar = `figures/people/${index + 1}.png`;
       memberAvatarByName.set(cleanName(member.name), avatar);
       const account = authAccounts[index];
-      if (account) memberAvatarByName.set(cleanName(account.displayName), avatar);
+      if (account) {
+        memberAvatarByName.set(cleanName(account.displayName), avatar);
+        memberAvatarByUserId.set(account.username, avatar);
+      }
     });
     const replyText = value => {
       const text = cleanBody(value).replace(/\s+/g, " ");
@@ -472,11 +474,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const setNameFormVisible = visible => {
-      const locked = isChatNameLocked();
-      nameForm.hidden = locked || !visible;
-      nameToggle.hidden = locked || visible;
-      nameInput.readOnly = locked;
-      if (visible && !locked) nameInput.focus();
+      nameForm.hidden = !visible;
+      nameToggle.hidden = visible;
+      if (visible) nameInput.focus();
     };
 
     const clearReply = () => {
@@ -509,13 +509,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const softDeleteMessage = message => {
-      const username = cleanName(getAuthMember()?.username || localStorage.getItem("hueChatName"));
-      if (!message || message.username !== username) return;
-      client
+      const username = cleanName(localStorage.getItem("hueChatName"));
+      const authorId = getChatAuthorId();
+      if (!message || (message.user_id ? message.user_id !== authorId : message.username !== username)) return;
+      const query = client
         .from(table)
         .update({ body: "", reply_to_id: null, reply_to_username: null, reply_to_body: null })
-        .eq("id", message.id)
-        .eq("username", username)
+        .eq("id", message.id);
+      (message.user_id ? query.eq("user_id", authorId) : query.eq("username", username))
         .then(({ error }) => {
           if (error) {
             console.error("Delete chat message failed:", error);
@@ -677,11 +678,11 @@ document.addEventListener("DOMContentLoaded", () => {
       timeZone: "Asia/Bangkok"
     }).format(new Date(value));
 
-    const renderChatAvatar = username => {
-      const avatar = memberAvatarByName.get(cleanName(username));
+    const renderChatAvatar = message => {
+      const avatar = memberAvatarByUserId.get(message.user_id) || memberAvatarByName.get(cleanName(message.username));
       if (!avatar) return "";
       return `
-        <img class="chat-message-avatar" src="${escapeHTML(avatar)}" alt="${escapeHTML(username)}">
+        <img class="chat-message-avatar" src="${escapeHTML(avatar)}" alt="${escapeHTML(message.username)}">
       `;
     };
 
@@ -689,15 +690,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!message?.id || knownIds.has(message.id)) return;
       knownIds.add(message.id);
 
-      const ownName = cleanName(getAuthMember()?.username || localStorage.getItem("hueChatName"));
+      const ownName = cleanName(localStorage.getItem("hueChatName"));
+      const authorId = getChatAuthorId();
+      const isMine = message.user_id ? message.user_id === authorId : ownName && message.username === ownName;
       const isDeleted = !String(message.body || "").trim();
       const item = document.createElement("article");
       item.className = "chat-message";
-      if (ownName && message.username === ownName) item.classList.add("is-mine");
+      if (isMine) item.classList.add("is-mine");
       if (isDeleted) item.classList.add("is-deleted");
       item.dataset.id = message.id;
       item.innerHTML = `
-        ${renderChatAvatar(message.username)}
+        ${renderChatAvatar(message)}
         <div class="chat-message-stack">
           <div class="chat-message-bubble">
             ${message.reply_to_body ? `
@@ -715,7 +718,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="chat-reactions" data-reactions-for="${escapeHTML(message.id)}" hidden></div>
         </div>
         <div class="chat-message-actions">
-          ${ownName && message.username === ownName && !isDeleted ? `
+          ${isMine && !isDeleted ? `
             <button class="chat-delete-button" type="button" data-delete-id="${escapeHTML(message.id)}" aria-label="Xóa tin nhắn">
               ${lucideIcon("trash-2")}
               <span class="sr-only">Xóa</span>
@@ -727,6 +730,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       messageById.set(message.id, {
         id: message.id,
+        user_id: message.user_id,
         username: message.username,
         body: message.body
       });
@@ -763,7 +767,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setStatus("Đang tải tin nhắn...");
       const { data: rows, error } = await client
         .from(table)
-        .select("id, username, body, created_at, reply_to_id, reply_to_username, reply_to_body")
+        .select("id, user_id, username, body, created_at, reply_to_id, reply_to_username, reply_to_body")
         .order("created_at", { ascending: false })
         .limit(messageLimit);
 
@@ -807,8 +811,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("hue-auth-change", event => {
       const username = event.detail?.username || "";
       if (username) {
-        localStorage.setItem("hueChatName", username);
-        nameInput.value = username;
+        const savedChatName = localStorage.getItem("hueChatName") || username;
+        localStorage.setItem("hueChatName", savedChatName);
+        nameInput.value = savedChatName;
         setNameFormVisible(false);
         if (client) loadMessages().catch(() => setStatus("Không tải lại được chat.", "error"));
         return;
@@ -820,10 +825,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nameForm.addEventListener("submit", event => {
       event.preventDefault();
-      if (getAuthMember()?.username) {
-        setNameFormVisible(false);
-        return;
-      }
       const name = cleanName(nameInput.value);
       if (!name) {
         setStatus("Nhập Biệt danh trước đã.", "error");
@@ -839,7 +840,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async event => {
       event.preventDefault();
-      const username = cleanName(getAuthMember()?.username || nameInput.value || localStorage.getItem("hueChatName"));
+      const username = cleanName(nameInput.value || localStorage.getItem("hueChatName") || getAuthMember()?.username);
       const body = cleanBody(input.value);
 
       if (!username) {
@@ -857,7 +858,7 @@ document.addEventListener("DOMContentLoaded", () => {
       input.style.height = "";
       form.querySelector("button").disabled = true;
 
-      const payload = { username, body };
+      const payload = { user_id: getChatAuthorId(), username, body };
       if (selectedReply) {
         payload.reply_to_id = selectedReply.id;
         payload.reply_to_username = selectedReply.username;
@@ -886,7 +887,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     nameToggle.addEventListener("click", () => {
-      if (isChatNameLocked()) return;
       setNameFormVisible(true);
     });
     replyPreview.addEventListener("click", event => {
@@ -930,8 +930,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const deleteButton = event.target.closest("[data-delete-id]");
       if (deleteButton) {
         const message = messageById.get(deleteButton.dataset.deleteId);
-        const username = cleanName(getAuthMember()?.username || localStorage.getItem("hueChatName"));
-        if (!message || message.username !== username) return;
+        const username = cleanName(localStorage.getItem("hueChatName"));
+        const authorId = getChatAuthorId();
+        if (!message || (message.user_id ? message.user_id !== authorId : message.username !== username)) return;
         pendingDelete = message;
         setConfirmOpen(true);
         return;

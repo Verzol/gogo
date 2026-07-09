@@ -2,6 +2,7 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.chat_messages (
   id uuid primary key default gen_random_uuid(),
+  user_id text not null,
   username text not null,
   body text not null,
   reply_to_id uuid references public.chat_messages(id) on delete set null,
@@ -10,6 +11,9 @@ create table if not exists public.chat_messages (
   created_at timestamptz not null default now(),
   constraint chat_messages_username_len check (
     char_length(btrim(username)) between 1 and 32
+  ),
+  constraint chat_messages_user_id_len check (
+    char_length(btrim(user_id)) between 1 and 80
   ),
   constraint chat_messages_body_len check (
     char_length(body) between 0 and 500
@@ -53,7 +57,7 @@ alter table public.chat_reactions enable row level security;
 revoke all on public.chat_messages from anon;
 revoke all on public.chat_reactions from anon;
 grant select on public.chat_messages to anon;
-grant insert (username, body, reply_to_id, reply_to_username, reply_to_body) on public.chat_messages to anon;
+grant insert (user_id, username, body, reply_to_id, reply_to_username, reply_to_body) on public.chat_messages to anon;
 grant update on public.chat_messages to anon;
 grant select, insert, delete on public.chat_reactions to anon;
 
@@ -70,7 +74,8 @@ create policy "Anyone can send chat messages"
   for insert
   to anon
   with check (
-    char_length(btrim(username)) between 1 and 32
+    char_length(btrim(user_id)) between 1 and 80
+    and char_length(btrim(username)) between 1 and 32
     and char_length(btrim(body)) between 1 and 500
   );
 
@@ -86,6 +91,7 @@ create policy "Anyone can soft delete chat messages"
     and reply_to_id is null
     and reply_to_username is null
     and reply_to_body is null
+    and char_length(btrim(user_id)) between 1 and 80
     and char_length(username) between 1 and 32
   );
 
@@ -96,6 +102,7 @@ set search_path = public
 as $$
 begin
   if new.id <> old.id
+    or new.user_id is distinct from old.user_id
     or new.username <> old.username
     or new.created_at <> old.created_at
     or new.body <> ''
