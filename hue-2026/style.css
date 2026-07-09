@@ -41,6 +41,7 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -59,6 +60,7 @@ body {
   margin: 0;
   padding-top: var(--nav-height);
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 body.chat-page-locked {
@@ -196,6 +198,19 @@ section { padding: 60px 0; }
 .journal-page:nth-of-type(odd) .wrap { transform: rotate(0.4deg); }
 
 @media (max-width: 640px) {
+  .wrap {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 18px;
+  }
+
+  .journal-page,
+  .hero,
+  footer {
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
   .journal-page .wrap { padding: 40px 22px 46px; transform: none !important; }
 }
 
@@ -773,11 +788,27 @@ body.lucide-ready .nav-links a:focus-visible {
     right: 10px;
   }
 
-  .nav .wrap { height: 54px; }
+  .nav .wrap {
+    height: 54px;
+    gap: 8px;
+    justify-content: flex-start;
+    max-width: none;
+    width: 100%;
+  }
 
   .nav-brand {
-    font-size: 1.26rem;
-    max-width: calc(100vw - 174px);
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    padding-right: 10px;
+    font-size: 1.08rem;
+  }
+
+  .nav-brand span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .brand-logo {
@@ -834,6 +865,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
   .nav-toggle {
     position: relative;
+    flex: 0 0 auto;
     display: inline-grid;
     place-items: center;
     width: 42px;
@@ -852,13 +884,18 @@ body.lucide-ready .nav-links a:focus-visible {
   }
 
   .auth-bar {
+    flex: 0 0 auto;
     min-width: auto;
   }
 
   .auth-login-button {
     min-height: 42px;
-    padding: 0 12px;
-    font-size: 0.8rem;
+    max-width: 104px;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.78rem;
   }
 
   .auth-user {
@@ -901,6 +938,40 @@ body.lucide-ready .nav-links a:focus-visible {
 
   .nav-toggle[aria-expanded="true"] span:nth-child(3) {
     transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
+@media (max-width: 420px) {
+  .nav {
+    left: 8px;
+    right: 8px;
+  }
+
+  .nav .wrap {
+    gap: 6px;
+  }
+
+  .nav-brand {
+    gap: 6px;
+    padding: 4px 9px 4px 5px;
+    font-size: 0.98rem;
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .auth-login-button {
+    max-width: 94px;
+    min-height: 40px;
+    padding-inline: 9px;
+    font-size: 0.74rem;
   }
 }
 
@@ -4490,6 +4561,9 @@ footer .heart { color: var(--pink-deep); }
   .chat-widget.open {
     inset: 0;
     z-index: 260;
+    width: 100vw;
+    max-width: 100vw;
+    overflow: hidden;
   }
 
   .chat-fab {
@@ -4509,6 +4583,7 @@ footer .heart { color: var(--pink-deep); }
     bottom: 0;
     left: 0;
     width: 100%;
+    max-width: 100vw;
     height: auto;
     max-height: none;
     padding: 10px 10px max(10px, env(safe-area-inset-bottom));
@@ -4522,10 +4597,16 @@ footer .heart { color: var(--pink-deep); }
       linear-gradient(rgba(255, 253, 248, 0.94), rgba(255, 253, 248, 0.94)),
       var(--cream-deep);
     overflow: hidden;
+    overflow-x: hidden;
   }
 
   .chat-panel::before {
     display: none;
+  }
+
+  .chat-panel > * {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .chat-panel h3 {
@@ -4577,6 +4658,7 @@ footer .heart { color: var(--pink-deep); }
 
   .chat-name-row input {
     height: 36px;
+    font-size: 16px;
   }
 
   .chat-name-row button {
@@ -4650,6 +4732,7 @@ footer .heart { color: var(--pink-deep); }
     grid-template-columns: minmax(0, 1fr) 42px;
     align-items: end;
     gap: 7px;
+    min-width: 0;
   }
 
   .chat-input-row textarea {
@@ -4657,7 +4740,7 @@ footer .heart { color: var(--pink-deep); }
     max-height: 96px;
     border-radius: 21px;
     padding: 10px 13px;
-    font-size: 0.95rem;
+    font-size: 16px;
   }
 
   .chat-input-row button {
