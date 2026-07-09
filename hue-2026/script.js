@@ -167,6 +167,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const cleanName = value => String(value || "").trim().replace(/\s+/g, " ").slice(0, 32);
     const cleanBody = value => String(value || "").trim().slice(0, 500);
+    const memberAvatarByName = new Map((data.members || []).map((member, index) => [
+      cleanName(member.name),
+      `figures/people/${index + 1}.png`
+    ]));
     const replyText = value => {
       const text = cleanBody(value).replace(/\s+/g, " ");
       return text.length > 90 ? `${text.slice(0, 87)}...` : text;
@@ -395,6 +399,14 @@ document.addEventListener("DOMContentLoaded", () => {
       timeZone: "Asia/Bangkok"
     }).format(new Date(value));
 
+    const renderChatAvatar = username => {
+      const avatar = memberAvatarByName.get(cleanName(username));
+      if (!avatar) return "";
+      return `
+        <img class="chat-message-avatar" src="${escapeHTML(avatar)}" alt="${escapeHTML(username)}">
+      `;
+    };
+
     const renderMessage = message => {
       if (!message?.id || knownIds.has(message.id)) return;
       knownIds.add(message.id);
@@ -407,6 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isDeleted) item.classList.add("is-deleted");
       item.dataset.id = message.id;
       item.innerHTML = `
+        ${renderChatAvatar(message.username)}
         <div class="chat-message-stack">
           <div class="chat-message-bubble">
             ${message.reply_to_body ? `
