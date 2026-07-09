@@ -38,7 +38,12 @@
     <div class="auth-bar" id="authBar">
       <button class="auth-login-button" id="authLoginOpen" type="button">Đăng nhập</button>
       <div class="auth-user" id="authUser" hidden>
-        <span>Xin chào, <strong id="authGreetingName"></strong></span>
+        <button class="auth-greeting-button" id="authGreetingButton" type="button" aria-haspopup="menu" aria-expanded="false">
+          <span>Xin chào, <strong id="authGreetingName"></strong></span>
+        </button>
+        <div class="auth-user-menu" id="authUserMenu" role="menu" hidden>
+          <button id="authChangePassword" type="button" role="menuitem">Đổi mật khẩu</button>
+        </div>
         <button id="authLogout" type="button">Đăng xuất</button>
       </div>
     </div>

@@ -16,14 +16,14 @@ insert into public.trip_members (username, display_name, role)
 values
   ('mạnh', 'Mạnh', 'member'),
   ('san', 'San', 'member'),
-  ('thảo', 'Thảo', 'member'),
+  ('thảo', 'sóc nhí', 'member'),
   ('mi', 'Mi', 'member'),
-  ('linh', 'Linh', 'member'),
+  ('linh', 'nung na lung linh', 'member'),
   ('tamle', 'Tâm', 'member'),
   ('dan', 'An', 'member'),
-  ('quanlele', 'Quân', 'member'),
-  ('minhtran', 'Minh Trần', 'member'),
-  ('gtm', 'Minh', 'member')
+  ('quanlele', '36', 'member'),
+  ('minhtran', 'Trứng', 'member'),
+  ('gtm', 'Giang Mai', 'member')
 on conflict (username) do update
 set display_name = excluded.display_name,
     updated_at = now();

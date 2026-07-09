@@ -38,14 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const authAccounts = [
     ["mạnh", "Mạnh"],
     ["san", "San"],
-    ["thảo", "Thảo"],
+    ["thảo", "sóc nhí"],
     ["mi", "Mi"],
-    ["linh", "Linh"],
-    ["tamle", "Tâm"],
-    ["dan", "An"],
-    ["quanlele", "Quân"],
-    ["minhtran", "Minh Trần"],
-    ["gtm", "Minh"]
+    ["linh", "nung na lung linh"],
+    ["tamle", "Tăm Lê"],
+    ["dan", "Đê A"],
+    ["quanlele", "36"],
+    ["minhtran", "Trứng"],
+    ["gtm", "Giang Mai"]
   ].map(([username, displayName]) => ({ username, displayName }));
 
   let authMember = null;
@@ -60,7 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const config = window.HUE_SUPABASE || {};
     const loginOpen = document.getElementById("authLoginOpen");
     const authUser = document.getElementById("authUser");
+    const greetingButton = document.getElementById("authGreetingButton");
     const greetingName = document.getElementById("authGreetingName");
+    const userMenu = document.getElementById("authUserMenu");
+    const changePassword = document.getElementById("authChangePassword");
     const logout = document.getElementById("authLogout");
     const modal = document.getElementById("authModal");
     const form = document.getElementById("authForm");
@@ -79,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const modeLabel = document.getElementById("authModeLabel");
     const errorBox = document.getElementById("authError");
 
-    if (!loginOpen || !authUser || !greetingName || !logout || !modal || !form || !accountSelect || !accountButton || !accountCurrent || !accountMenu || !passwordField || !password || !newPasswordField || !newPassword || !submit || !cancel || !title || !copy || !modeLabel || !errorBox) return;
+    if (!loginOpen || !authUser || !greetingButton || !greetingName || !userMenu || !changePassword || !logout || !modal || !form || !accountSelect || !accountButton || !accountCurrent || !accountMenu || !passwordField || !password || !newPasswordField || !newPassword || !submit || !cancel || !title || !copy || !modeLabel || !errorBox) return;
 
     const sessionKey = "hueAuthSession";
     const isConfigured = Boolean(config.url && config.anonKey && window.supabase?.createClient);
@@ -87,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let mode = "login";
 
     let selectedUsername = authAccounts[0]?.username || "";
+    const accountField = accountSelect.closest("label");
 
     const renderAccountCurrent = () => {
       const index = Math.max(authAccounts.findIndex(account => account.username === selectedUsername), 0);
@@ -104,6 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (accountButton.disabled) return;
       accountMenu.hidden = !open;
       accountButton.setAttribute("aria-expanded", String(open));
+    };
+
+    const setUserMenuOpen = open => {
+      userMenu.hidden = !open;
+      greetingButton.setAttribute("aria-expanded", String(open));
     };
 
     accountMenu.innerHTML = authAccounts.map((account, index) => `
@@ -141,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
       loginOpen.hidden = loggedIn;
       authUser.hidden = !loggedIn;
       greetingName.textContent = authMember?.displayName || "";
+      setUserMenuOpen(false);
     };
 
     const setMode = (nextMode, options = {}) => {
@@ -149,10 +159,12 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.classList.toggle("is-required", Boolean(options.required));
       accountButton.disabled = Boolean(options.lockUsername);
       accountSelect.classList.toggle("is-disabled", Boolean(options.lockUsername));
+      if (accountField) accountField.hidden = nextMode === "changePassword";
       passwordField.hidden = nextMode === "firstPassword";
-      newPasswordField.hidden = nextMode !== "firstPassword";
-      password.required = false;
-      newPassword.required = nextMode === "firstPassword";
+      newPasswordField.hidden = nextMode === "login";
+      password.required = nextMode === "changePassword";
+      newPassword.required = nextMode !== "login";
+      password.placeholder = nextMode === "changePassword" ? "" : "Để trống nếu đăng nhập lần đầu";
       password.value = "";
       newPassword.value = "";
 
@@ -161,6 +173,11 @@ document.addEventListener("DOMContentLoaded", () => {
         title.textContent = "Điền mật khẩu cho tài khoản";
         copy.textContent = "Tài khoản này chưa có mật khẩu. Đặt mật khẩu để dùng từ lần sau.";
         submit.textContent = "Lưu mật khẩu";
+      } else if (nextMode === "changePassword") {
+        modeLabel.textContent = "tài khoản";
+        title.textContent = "Đổi mật khẩu";
+        copy.textContent = "Nhập mật khẩu cũ và mật khẩu mới.";
+        submit.textContent = "Đổi mật khẩu";
       } else {
         modeLabel.textContent = "gogo pass";
         title.textContent = "Đăng nhập";
@@ -176,7 +193,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       setMode(options.mode || "login", options);
       modal.hidden = false;
-      window.setTimeout(() => (mode === "firstPassword" ? newPassword : accountButton).focus(), 0);
+      const target = mode === "firstPassword" ? newPassword : mode === "changePassword" ? password : accountButton;
+      window.setTimeout(() => target.focus(), 0);
     };
 
     const closeModal = () => {
@@ -231,6 +249,35 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.hidden = true;
     };
 
+    const changeCurrentPassword = async () => {
+      const oldPass = password.value;
+      const pass = newPassword.value.trim();
+      if (!oldPass) {
+        setError("Nhập mật khẩu cũ.");
+        return;
+      }
+      if (pass.length < 4) {
+        setError("Mật khẩu mới cần ít nhất 4 ký tự.");
+        return;
+      }
+
+      const { data, error } = await client.rpc("trip_change_password", {
+        p_session_token: authMember?.sessionToken || "",
+        p_current_password: oldPass,
+        p_new_password: pass
+      });
+      if (error) throw error;
+
+      const row = rpcRow(data);
+      if (!row?.authenticated) {
+        setError(row?.message || "Không đổi được mật khẩu.");
+        return;
+      }
+
+      saveSession(row);
+      modal.hidden = true;
+    };
+
     form.addEventListener("submit", async event => {
       event.preventDefault();
       if (!client) {
@@ -241,6 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
       submit.disabled = true;
       try {
         if (mode === "firstPassword") await setInitialPassword();
+        else if (mode === "changePassword") await changeCurrentPassword();
         else await login();
       } catch (error) {
         setError(error.message || "Không đăng nhập được. Kiểm tra migration Supabase.");
@@ -250,6 +298,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     loginOpen.addEventListener("click", () => openModal());
+    greetingButton.addEventListener("click", event => {
+      event.stopPropagation();
+      setUserMenuOpen(userMenu.hidden);
+    });
+    authUser.addEventListener("click", event => {
+      if (event.target.closest("#authLogout, #authUserMenu")) return;
+      setUserMenuOpen(userMenu.hidden);
+    });
+    changePassword.addEventListener("click", () => {
+      setUserMenuOpen(false);
+      if (!authMember?.username) return;
+      openModal({ mode: "changePassword", lockUsername: true, username: authMember.username });
+    });
     accountButton.addEventListener("click", () => setAccountMenuOpen(accountMenu.hidden));
     accountMenu.addEventListener("click", event => {
       const option = event.target.closest("[data-username]");
@@ -265,8 +326,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!event.target.closest("#authAccountSelect")) setAccountMenuOpen(false);
       if (event.target === modal) closeModal();
     });
+    document.addEventListener("click", event => {
+      if (!event.target.closest("#authUser")) setUserMenuOpen(false);
+    });
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") setAccountMenuOpen(false);
+      if (event.key === "Escape") setUserMenuOpen(false);
       if (event.key === "Escape" && !modal.hidden) closeModal();
     });
 
@@ -640,7 +705,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const distinctCount = Array.from(bucket.values()).filter(users => users.size).length;
 
       if (!active && !bucket.has(emoji) && distinctCount >= 5) {
-        setStatus("Mỗi tin nhắn tối đa 5 loại reaction.", "error");
+        setStatus("Quá nhiều reaction", "error");
         window.setTimeout(() => setStatus(""), 1400);
         return;
       }
