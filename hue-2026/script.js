@@ -497,6 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let client = null;
     let selectedReply = null;
     let pendingDelete = null;
+    let chatScrollY = 0;
 
     const getUserId = () => {
       const saved = localStorage.getItem("hueChatUserId");
@@ -538,12 +539,29 @@ document.addEventListener("DOMContentLoaded", () => {
       status.hidden = !text;
     };
 
+    const isMobileChat = () => window.matchMedia("(max-width: 560px)").matches;
+
+    const setPageLocked = locked => {
+      if (locked) {
+        if (!isMobileChat()) return;
+        chatScrollY = window.scrollY;
+        document.body.style.top = `-${chatScrollY}px`;
+        document.body.classList.add("chat-page-locked");
+        return;
+      }
+      if (!document.body.classList.contains("chat-page-locked")) return;
+      document.body.classList.remove("chat-page-locked");
+      document.body.style.top = "";
+      window.scrollTo(0, chatScrollY);
+    };
+
     const setOpen = open => {
       widget.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", String(open));
+      setPageLocked(open);
       if (!open) return;
       messages.scrollTop = messages.scrollHeight;
-      (nameForm.hidden ? input : nameInput).focus();
+      if (!isMobileChat()) (nameForm.hidden ? input : nameInput).focus();
     };
 
     const setMessageCount = count => {
@@ -967,6 +985,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nameToggle.addEventListener("click", () => {
       setNameFormVisible(true);
+    });
+    window.addEventListener("resize", () => {
+      if (!widget.classList.contains("open") || !isMobileChat()) setPageLocked(false);
     });
     replyPreview.addEventListener("click", event => {
       if (event.target.closest(".chat-reply-cancel")) clearReply();

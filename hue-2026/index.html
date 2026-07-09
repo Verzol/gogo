@@ -319,7 +319,9 @@
       <label class="sr-only" for="chatInput">Tin nhắn</label>
       <div class="chat-input-row">
         <textarea id="chatInput" name="chatInput" rows="1" maxlength="500" placeholder="Nhập tin nhắn..." required></textarea>
-        <button type="submit" aria-label="Gửi tin nhắn">Gửi</button>
+        <button type="submit" aria-label="Gửi tin nhắn">
+          <span class="ui-icon" data-lucide="send-horizontal" aria-hidden="true"></span>
+        </button>
       </div>
     </form>
     <div class="chat-confirm" id="chatConfirm" role="dialog" aria-modal="true" aria-labelledby="chatConfirmTitle" hidden>
