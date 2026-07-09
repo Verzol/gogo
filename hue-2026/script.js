@@ -2133,11 +2133,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return players.find(player => player.username === username) || { username, displayName: username, avatar: "" };
     }
 
-    function spyMission(username) {
-      const spyIndex = state.assignments.filter(item => item.role === "spy").findIndex(item => item.username === username);
-      return state.missions[spyIndex] || state.missions[0];
-    }
-
     function statusText() {
       if (state.winner) return state.winner === "villagers" ? "Dân thắng" : "Gián điệp thắng";
       return state.status === "running" ? `Đang chơi · Vòng ${state.round}` : "Đang dừng";
@@ -2175,7 +2170,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const assignment = assignmentOf();
       const meta = playerMeta(assignment.username);
-      const mission = assignment.role === "spy" ? spyMission(assignment.username) : null;
       return `
         <section class="spy-panel spy-self">
           <div class="spy-profile">
@@ -2190,11 +2184,17 @@ document.addEventListener("DOMContentLoaded", () => {
             <span>${assignment.alive ? "Còn sống" : "Đã bị loại"}</span>
             <span>${statusText()}</span>
           </div>
-          ${mission ? `
+          ${assignment.role === "spy" ? `
             <div class="spy-mission-card">
-              <span>Nhiệm vụ riêng</span>
-              <strong>${escapeHTML(mission.title)}</strong>
-              <em>${mission.done ? "Đã hoàn thành" : "Chưa hoàn thành"}</em>
+              <span>Nhiệm vụ gián điệp</span>
+              <div class="spy-mission-list">
+                ${state.missions.map(mission => `
+                  <div class="spy-mission-item ${mission.done ? "is-done" : ""}">
+                    <strong>${escapeHTML(mission.title)}</strong>
+                    <em>${mission.done ? "Đã hoàn thành" : "Chưa hoàn thành"}</em>
+                  </div>
+                `).join("")}
+              </div>
             </div>
           ` : ""}
           <h4>Luật chơi</h4>

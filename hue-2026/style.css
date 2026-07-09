@@ -2604,6 +2604,24 @@ body.lucide-ready .nav-links a:focus-visible {
   font-size: 1.04rem;
 }
 
+.spy-mission-list {
+  display: grid;
+  gap: 10px;
+}
+
+.spy-mission-item {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(44, 51, 35, 0.24);
+  border-radius: 10px;
+  background: rgba(255, 253, 248, 0.78);
+  padding: 10px 12px;
+}
+
+.spy-mission-item.is-done {
+  background: rgba(221, 229, 209, 0.82);
+}
+
 .spy-mission-card em {
   display: inline-flex;
   width: fit-content;
