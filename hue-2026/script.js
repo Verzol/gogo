@@ -20,6 +20,260 @@ document.addEventListener("DOMContentLoaded", () => {
     return block.location ? [block.location] : [];
   };
 
+  const authAccounts = [
+    ["mạnh", "Mạnh"],
+    ["san", "San"],
+    ["thảo", "Thảo"],
+    ["mi", "Mi"],
+    ["linh", "Linh"],
+    ["tamle", "Tâm"],
+    ["dan", "An"],
+    ["quanlele", "Quân"],
+    ["minhtran", "Minh Trần"],
+    ["gtm", "Minh"]
+  ].map(([username, displayName]) => ({ username, displayName }));
+
+  let authMember = null;
+
+  const getAuthMember = () => authMember;
+
+  const emitAuthChange = () => {
+    window.dispatchEvent(new CustomEvent("hue-auth-change", { detail: authMember }));
+  };
+
+  const initAuthWidget = () => {
+    const config = window.HUE_SUPABASE || {};
+    const loginOpen = document.getElementById("authLoginOpen");
+    const authUser = document.getElementById("authUser");
+    const greetingName = document.getElementById("authGreetingName");
+    const logout = document.getElementById("authLogout");
+    const modal = document.getElementById("authModal");
+    const form = document.getElementById("authForm");
+    const accountSelect = document.getElementById("authAccountSelect");
+    const accountButton = document.getElementById("authAccountButton");
+    const accountCurrent = document.getElementById("authAccountCurrent");
+    const accountMenu = document.getElementById("authAccountMenu");
+    const passwordField = document.getElementById("authPasswordField");
+    const password = document.getElementById("authPassword");
+    const newPasswordField = document.getElementById("authNewPasswordField");
+    const newPassword = document.getElementById("authNewPassword");
+    const submit = document.getElementById("authSubmit");
+    const cancel = document.getElementById("authCancel");
+    const title = document.getElementById("authModalTitle");
+    const copy = document.getElementById("authCopy");
+    const modeLabel = document.getElementById("authModeLabel");
+    const errorBox = document.getElementById("authError");
+
+    if (!loginOpen || !authUser || !greetingName || !logout || !modal || !form || !accountSelect || !accountButton || !accountCurrent || !accountMenu || !passwordField || !password || !newPasswordField || !newPassword || !submit || !cancel || !title || !copy || !modeLabel || !errorBox) return;
+
+    const sessionKey = "hueAuthSession";
+    const isConfigured = Boolean(config.url && config.anonKey && window.supabase?.createClient);
+    const client = isConfigured ? window.supabase.createClient(config.url, config.anonKey) : null;
+    let mode = "login";
+
+    let selectedUsername = authAccounts[0]?.username || "";
+
+    const renderAccountCurrent = () => {
+      const index = Math.max(authAccounts.findIndex(account => account.username === selectedUsername), 0);
+      const account = authAccounts[index];
+      accountCurrent.innerHTML = `
+        <img src="figures/people/${index + 1}.png" alt="">
+        <span>${escapeHTML(account.username)}</span>
+      `;
+      accountMenu.querySelectorAll("[role='option']").forEach(option => {
+        option.setAttribute("aria-selected", String(option.dataset.username === selectedUsername));
+      });
+    };
+
+    const setAccountMenuOpen = open => {
+      if (accountButton.disabled) return;
+      accountMenu.hidden = !open;
+      accountButton.setAttribute("aria-expanded", String(open));
+    };
+
+    accountMenu.innerHTML = authAccounts.map((account, index) => `
+      <button class="auth-account-option" type="button" role="option" data-username="${escapeHTML(account.username)}" aria-selected="false">
+        <img src="figures/people/${index + 1}.png" alt="">
+        <span>${escapeHTML(account.username)}</span>
+      </button>
+    `).join("");
+    renderAccountCurrent();
+
+    const rpcRow = data => Array.isArray(data) ? data[0] : data;
+
+    const setError = message => {
+      errorBox.textContent = message || "";
+      errorBox.hidden = !message;
+    };
+
+    const saveSession = member => {
+      authMember = member;
+      localStorage.setItem(sessionKey, JSON.stringify(member));
+      localStorage.setItem("hueChatName", member.username);
+      renderAuth();
+      emitAuthChange();
+    };
+
+    const clearSession = () => {
+      authMember = null;
+      localStorage.removeItem(sessionKey);
+      localStorage.removeItem("hueChatName");
+      renderAuth();
+      emitAuthChange();
+    };
+
+    const renderAuth = () => {
+      const loggedIn = Boolean(authMember?.displayName);
+      loginOpen.hidden = loggedIn;
+      authUser.hidden = !loggedIn;
+      greetingName.textContent = authMember?.displayName || "";
+    };
+
+    const setMode = (nextMode, options = {}) => {
+      mode = nextMode;
+      setError("");
+      modal.classList.toggle("is-required", Boolean(options.required));
+      accountButton.disabled = Boolean(options.lockUsername);
+      accountSelect.classList.toggle("is-disabled", Boolean(options.lockUsername));
+      passwordField.hidden = nextMode === "firstPassword";
+      newPasswordField.hidden = nextMode !== "firstPassword";
+      password.required = false;
+      newPassword.required = nextMode === "firstPassword";
+      password.value = "";
+      newPassword.value = "";
+
+      if (nextMode === "firstPassword") {
+        modeLabel.textContent = "lần đầu đăng nhập";
+        title.textContent = "Điền mật khẩu cho tài khoản";
+        copy.textContent = "Tài khoản này chưa có mật khẩu. Đặt mật khẩu để dùng từ lần sau.";
+        submit.textContent = "Lưu mật khẩu";
+      } else {
+        modeLabel.textContent = "gogo pass";
+        title.textContent = "Đăng nhập";
+        copy.textContent = "Ai đây?";
+        submit.textContent = "Tiếp tục";
+      }
+    };
+
+    const openModal = (options = {}) => {
+      if (options.username) {
+        selectedUsername = options.username;
+        renderAccountCurrent();
+      }
+      setMode(options.mode || "login", options);
+      modal.hidden = false;
+      window.setTimeout(() => (mode === "firstPassword" ? newPassword : accountButton).focus(), 0);
+    };
+
+    const closeModal = () => {
+      if (modal.classList.contains("is-required")) return;
+      modal.hidden = true;
+      setError("");
+    };
+
+    const login = async () => {
+      const selected = selectedUsername;
+      const pass = password.value;
+      const { data, error } = await client.rpc("trip_login", {
+        p_username: selected,
+        p_password: pass || null
+      });
+      if (error) throw error;
+
+      const row = rpcRow(data);
+      if (row?.needs_password) {
+        openModal({ mode: "firstPassword", required: true, lockUsername: true, username: selected });
+        return;
+      }
+      if (!row?.authenticated) {
+        setError(row?.message || "Sai tài khoản hoặc mật khẩu.");
+        return;
+      }
+
+      saveSession(row);
+      modal.hidden = true;
+    };
+
+    const setInitialPassword = async () => {
+      const pass = newPassword.value.trim();
+      if (pass.length < 4) {
+        setError("Mật khẩu cần ít nhất 4 ký tự.");
+        return;
+      }
+
+      const { data, error } = await client.rpc("trip_set_initial_password", {
+        p_username: selectedUsername,
+        p_password: pass
+      });
+      if (error) throw error;
+
+      const row = rpcRow(data);
+      if (!row?.authenticated) {
+        setError(row?.message || "Không lưu được mật khẩu.");
+        return;
+      }
+
+      saveSession(row);
+      modal.hidden = true;
+    };
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!client) {
+        setError("Chưa cấu hình Supabase hoặc thiếu migration auth.");
+        return;
+      }
+
+      submit.disabled = true;
+      try {
+        if (mode === "firstPassword") await setInitialPassword();
+        else await login();
+      } catch (error) {
+        setError(error.message || "Không đăng nhập được. Kiểm tra migration Supabase.");
+      } finally {
+        submit.disabled = false;
+      }
+    });
+
+    loginOpen.addEventListener("click", () => openModal());
+    accountButton.addEventListener("click", () => setAccountMenuOpen(accountMenu.hidden));
+    accountMenu.addEventListener("click", event => {
+      const option = event.target.closest("[data-username]");
+      if (!option) return;
+      selectedUsername = option.dataset.username;
+      renderAccountCurrent();
+      setAccountMenuOpen(false);
+      accountButton.focus();
+    });
+    cancel.addEventListener("click", closeModal);
+    logout.addEventListener("click", clearSession);
+    modal.addEventListener("click", event => {
+      if (!event.target.closest("#authAccountSelect")) setAccountMenuOpen(false);
+      if (event.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") setAccountMenuOpen(false);
+      if (event.key === "Escape" && !modal.hidden) closeModal();
+    });
+
+    const saved = JSON.parse(localStorage.getItem(sessionKey) || "null");
+    if (saved?.sessionToken && saved?.displayName) {
+      authMember = saved;
+    }
+    renderAuth();
+
+    if (!saved?.sessionToken || !client) return;
+
+    client.rpc("trip_validate_session", { p_session_token: saved.sessionToken })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        const row = rpcRow(data);
+        if (row?.authenticated) saveSession(row);
+        else clearSession();
+      })
+      .catch(clearSession);
+  };
+
   const renderOutfitPeek = outfit => {
     if (!outfit) return "";
 
@@ -150,6 +404,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let client = null;
     let selectedReply = null;
     let pendingDelete = null;
+    const isChatNameLocked = () => Boolean(getAuthMember()?.username);
 
     const getUserId = () => {
       const saved = localStorage.getItem("hueChatUserId");
@@ -160,17 +415,21 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const currentUserId = getUserId();
-    const savedName = localStorage.getItem("hueChatName") || "";
+    const savedName = getAuthMember()?.username || localStorage.getItem("hueChatName") || "";
     nameInput.value = savedName;
     nameForm.hidden = Boolean(savedName);
-    nameToggle.hidden = !savedName;
+    nameToggle.hidden = !savedName || isChatNameLocked();
+    nameInput.readOnly = isChatNameLocked();
 
     const cleanName = value => String(value || "").trim().replace(/\s+/g, " ").slice(0, 32);
     const cleanBody = value => String(value || "").trim().slice(0, 500);
-    const memberAvatarByName = new Map((data.members || []).map((member, index) => [
-      cleanName(member.name),
-      `figures/people/${index + 1}.png`
-    ]));
+    const memberAvatarByName = new Map();
+    (data.members || []).forEach((member, index) => {
+      const avatar = `figures/people/${index + 1}.png`;
+      memberAvatarByName.set(cleanName(member.name), avatar);
+      const account = authAccounts[index];
+      if (account) memberAvatarByName.set(cleanName(account.displayName), avatar);
+    });
     const replyText = value => {
       const text = cleanBody(value).replace(/\s+/g, " ");
       return text.length > 90 ? `${text.slice(0, 87)}...` : text;
@@ -198,9 +457,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const setNameFormVisible = visible => {
-      nameForm.hidden = !visible;
-      nameToggle.hidden = visible;
-      if (visible) nameInput.focus();
+      const locked = isChatNameLocked();
+      nameForm.hidden = locked || !visible;
+      nameToggle.hidden = locked || visible;
+      nameInput.readOnly = locked;
+      if (visible && !locked) nameInput.focus();
     };
 
     const clearReply = () => {
@@ -232,7 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const softDeleteMessage = message => {
-      const username = cleanName(localStorage.getItem("hueChatName"));
+      const username = cleanName(getAuthMember()?.username || localStorage.getItem("hueChatName"));
       if (!message || message.username !== username) return;
       client
         .from(table)
@@ -411,7 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!message?.id || knownIds.has(message.id)) return;
       knownIds.add(message.id);
 
-      const ownName = cleanName(localStorage.getItem("hueChatName"));
+      const ownName = cleanName(getAuthMember()?.username || localStorage.getItem("hueChatName"));
       const isDeleted = !String(message.body || "").trim();
       const item = document.createElement("article");
       item.className = "chat-message";
@@ -528,8 +789,26 @@ document.addEventListener("DOMContentLoaded", () => {
         .subscribe();
     };
 
+    window.addEventListener("hue-auth-change", event => {
+      const username = event.detail?.username || "";
+      if (username) {
+        localStorage.setItem("hueChatName", username);
+        nameInput.value = username;
+        setNameFormVisible(false);
+        if (client) loadMessages().catch(() => setStatus("Không tải lại được chat.", "error"));
+        return;
+      }
+
+      nameInput.value = localStorage.getItem("hueChatName") || "";
+      setNameFormVisible(!nameInput.value);
+    });
+
     nameForm.addEventListener("submit", event => {
       event.preventDefault();
+      if (getAuthMember()?.username) {
+        setNameFormVisible(false);
+        return;
+      }
       const name = cleanName(nameInput.value);
       if (!name) {
         setStatus("Nhập Biệt danh trước đã.", "error");
@@ -545,11 +824,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async event => {
       event.preventDefault();
-      const username = cleanName(nameInput.value || localStorage.getItem("hueChatName"));
+      const username = cleanName(getAuthMember()?.username || nameInput.value || localStorage.getItem("hueChatName"));
       const body = cleanBody(input.value);
 
       if (!username) {
-        setStatus("Nhập Biệt danh trước đã.", "error");
+        setStatus("Đăng nhập hoặc nhập Biệt danh trước đã.", "error");
         setNameFormVisible(true);
         nameInput.focus();
         return;
@@ -591,7 +870,10 @@ document.addEventListener("DOMContentLoaded", () => {
       form.requestSubmit();
     });
 
-    nameToggle.addEventListener("click", () => setNameFormVisible(true));
+    nameToggle.addEventListener("click", () => {
+      if (isChatNameLocked()) return;
+      setNameFormVisible(true);
+    });
     replyPreview.addEventListener("click", event => {
       if (event.target.closest(".chat-reply-cancel")) clearReply();
     });
@@ -633,7 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const deleteButton = event.target.closest("[data-delete-id]");
       if (deleteButton) {
         const message = messageById.get(deleteButton.dataset.deleteId);
-        const username = cleanName(localStorage.getItem("hueChatName"));
+        const username = cleanName(getAuthMember()?.username || localStorage.getItem("hueChatName"));
         if (!message || message.username !== username) return;
         pendingDelete = message;
         setConfirmOpen(true);
@@ -911,6 +1193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   );
 
+  initAuthWidget();
   initWeatherWidget();
   initChatWidget();
 

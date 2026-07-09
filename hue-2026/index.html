@@ -35,8 +35,47 @@
       <li><a href="#food">Bổ sung mỡ</a></li>
       <li><a href="#lucky">Vòng quay</a></li>
     </ul>
+    <div class="auth-bar" id="authBar">
+      <button class="auth-login-button" id="authLoginOpen" type="button">Đăng nhập</button>
+      <div class="auth-user" id="authUser" hidden>
+        <span>Xin chào, <strong id="authGreetingName"></strong></span>
+        <button id="authLogout" type="button">Đăng xuất</button>
+      </div>
+    </div>
   </div>
 </nav>
+
+<div class="auth-modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" hidden>
+  <div class="auth-card">
+    <button class="auth-close-button" id="authCancel" type="button" aria-label="Tắt">×</button>
+    <form class="auth-form" id="authForm">
+      <p class="auth-kicker" id="authModeLabel">gogo pass</p>
+      <h2 id="authModalTitle">Đăng nhập</h2>
+      <p class="auth-copy" id="authCopy">Ai đây?</p>
+      <label>
+        <span>Tài khoản</span>
+        <div class="auth-account-select" id="authAccountSelect">
+          <button class="auth-account-button" id="authAccountButton" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="auth-account-current" id="authAccountCurrent"></span>
+          </button>
+          <div class="auth-account-menu" id="authAccountMenu" role="listbox" hidden></div>
+        </div>
+      </label>
+      <label class="auth-password-field" id="authPasswordField">
+        <span>Mật khẩu</span>
+        <input id="authPassword" type="password" autocomplete="current-password" minlength="4" placeholder="Để trống nếu đăng nhập lần đầu">
+      </label>
+      <label class="auth-password-field" id="authNewPasswordField" hidden>
+        <span>Mật khẩu mới</span>
+        <input id="authNewPassword" type="password" autocomplete="new-password" minlength="4">
+      </label>
+      <p class="auth-error" id="authError" role="alert" hidden></p>
+      <div class="auth-actions">
+        <button class="auth-submit" id="authSubmit" type="submit">Tiếp tục</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <header class="hero" id="top">
   <div id="heroStickers"></div>
