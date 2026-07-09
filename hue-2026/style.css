@@ -1374,7 +1374,7 @@ section { padding: 60px 0; }
 .location-peek:focus-within,
 .location-peek:focus,
 .location-peek.is-open {
-  z-index: 80;
+  z-index: 260;
 }
 
 .location-peek:hover ~ .location-peek,
@@ -1387,7 +1387,7 @@ section { padding: 60px 0; }
 .time-row:has(.location-peek:focus-within),
 .time-row:has(.location-peek:focus),
 .time-row:has(.location-peek.is-open) {
-  z-index: 70;
+  z-index: 240;
 }
 
 .location-chip {
@@ -1421,7 +1421,8 @@ section { padding: 60px 0; }
 .location-peek:hover .location-chip,
 .location-peek:focus-within .location-chip,
 .location-peek:focus .location-chip,
-.location-peek.is-open .location-chip {
+.location-peek.is-open .location-chip,
+.location-peek.is-pinned .location-chip {
   transform: translateY(-2px) rotate(-1deg);
   background: var(--pink-pale);
 }
@@ -1433,7 +1434,8 @@ section { padding: 60px 0; }
 .outfit-peek:hover .outfit-chip,
 .outfit-peek:focus-within .outfit-chip,
 .outfit-peek:focus .outfit-chip,
-.outfit-peek.is-open .outfit-chip {
+.outfit-peek.is-open .outfit-chip,
+.outfit-peek.is-pinned .outfit-chip {
   background: #FFE7A3;
 }
 
@@ -1468,7 +1470,7 @@ section { padding: 60px 0; }
   pointer-events: none;
   transform: translateY(6px) rotate(-0.6deg);
   transition: opacity 0.18s ease, transform 0.18s ease;
-  z-index: 90;
+  z-index: 280;
 }
 
 .location-card::before {
@@ -1488,13 +1490,16 @@ section { padding: 60px 0; }
   background: rgba(247, 211, 107, 0.75);
 }
 
-.location-peek:hover .location-card,
-.location-peek:focus-within .location-card,
-.location-peek:focus .location-card,
 .location-peek.is-open .location-card {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) rotate(-0.6deg);
+}
+
+@media (min-width: 561px) {
+  .location-peeks:has(.location-peek.is-open) {
+    padding-bottom: 190px;
+  }
 }
 
 .location-photo {
@@ -1685,14 +1690,6 @@ section { padding: 60px 0; }
     overflow: auto;
     transform: translateY(10px);
     z-index: 220;
-  }
-
-  .location-peek:hover .location-card,
-  .location-peek:focus-within .location-card,
-  .location-peek:focus .location-card {
-    display: none;
-    opacity: 0;
-    pointer-events: none;
   }
 
   .location-peek.is-open .location-card {

@@ -1258,7 +1258,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     stops.forEach(stop => {
       stop.addEventListener("click", () => {
-        daysList.querySelectorAll(".location-peek.is-open").forEach(peek => peek.classList.remove("is-open"));
+        closeLocationPeeks();
         showDay(stop.getAttribute("data-day"));
       });
     });
@@ -1280,33 +1280,106 @@ document.addEventListener("DOMContentLoaded", () => {
     highlightCurrentBlock();
     window.setInterval(highlightCurrentBlock, 30 * 1000);
 
+    let pinnedLocationPeek = null;
+    let hoverLocationPeek = null;
+    const hideOpenLocationPeeks = except => {
+      daysList.querySelectorAll(".location-peek.is-open").forEach(peek => {
+        if (peek !== except) peek.classList.remove("is-open");
+      });
+    };
+    const closeLocationPeeks = () => {
+      daysList.querySelectorAll(".location-peek.is-open, .location-peek.is-pinned").forEach(peek => {
+        if (peek.contains(document.activeElement)) document.activeElement.blur();
+        peek.classList.remove("is-open", "is-pinned");
+      });
+      pinnedLocationPeek = null;
+      hoverLocationPeek = null;
+    };
+    const openHoverLocationPeek = peek => {
+      if (pinnedLocationPeek && pinnedLocationPeek !== peek) closeLocationPeeks();
+      hoverLocationPeek = peek;
+      hideOpenLocationPeeks(peek);
+      peek.classList.add("is-open");
+    };
+    const togglePinnedLocationPeek = peek => {
+      if (pinnedLocationPeek === peek) {
+        closeLocationPeeks();
+        return;
+      }
+      closeLocationPeeks();
+      pinnedLocationPeek = peek;
+      peek.classList.add("is-open", "is-pinned");
+    };
+    const canHoverLocationPeek = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    let locationCloseTimer;
+
     daysList.addEventListener("click", event => {
       const peek = event.target.closest(".location-peek");
 
       if (!peek) {
-        daysList.querySelectorAll(".location-peek.is-open").forEach(openPeek => openPeek.classList.remove("is-open"));
+        closeLocationPeeks();
         return;
       }
 
-      if (event.target.closest("[data-weather-key]")) return;
-      if (event.target.closest(".maps-button")) return;
+      if (event.target.closest("[data-weather-key]")) {
+        closeLocationPeeks();
+        return;
+      }
+      if (event.target.closest(".maps-button")) {
+        closeLocationPeeks();
+        return;
+      }
 
       event.stopPropagation();
       if (!event.target.closest(".location-chip")) return;
 
-      const wasOpen = peek.classList.contains("is-open");
-      daysList.querySelectorAll(".location-peek.is-open").forEach(openPeek => openPeek.classList.remove("is-open"));
-      if (!wasOpen) peek.classList.add("is-open");
+      togglePinnedLocationPeek(peek);
+    });
+
+    daysList.addEventListener("pointerover", event => {
+      if (!canHoverLocationPeek) return;
+      const peek = event.target.closest(".location-peek");
+      if (!peek) return;
+      if (peek.contains(event.relatedTarget)) return;
+      window.clearTimeout(locationCloseTimer);
+      openHoverLocationPeek(peek);
+    });
+
+    daysList.addEventListener("pointerout", event => {
+      if (!canHoverLocationPeek) return;
+      const peek = event.target.closest(".location-peek");
+      if (!peek) return;
+      if (peek.contains(event.relatedTarget)) return;
+      locationCloseTimer = window.setTimeout(() => {
+        if (peek.matches(":hover")) return;
+        if (peek === hoverLocationPeek) hoverLocationPeek = null;
+        if (peek !== pinnedLocationPeek) peek.classList.remove("is-open");
+      }, 140);
+    });
+
+    daysList.addEventListener("focusin", event => {
+      const peek = event.target.closest(".location-peek");
+      if (peek) openHoverLocationPeek(peek);
+    });
+
+    daysList.addEventListener("focusout", event => {
+      const peek = event.target.closest(".location-peek");
+      if (!peek || peek.contains(event.relatedTarget)) return;
+      window.setTimeout(() => {
+        if (peek.contains(document.activeElement)) return;
+        if (peek === hoverLocationPeek) hoverLocationPeek = null;
+        if (peek !== pinnedLocationPeek) peek.classList.remove("is-open");
+      }, 80);
     });
 
     document.addEventListener("click", event => {
       if (event.target.closest(".location-peek")) return;
-      daysList.querySelectorAll(".location-peek.is-open").forEach(peek => peek.classList.remove("is-open"));
+      closeLocationPeeks();
     });
 
     document.addEventListener("keydown", event => {
       if (event.key !== "Escape") return;
-      daysList.querySelectorAll(".location-peek.is-open").forEach(peek => peek.classList.remove("is-open"));
+      closeLocationPeeks();
     });
   }
 
