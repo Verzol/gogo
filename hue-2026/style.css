@@ -2615,17 +2615,19 @@ body.lucide-ready .nav-links a:focus-visible {
 }
 
 .spy-panel {
-  background: rgba(255, 253, 248, 0.82);
-  border: 1px dashed rgba(44, 51, 35, 0.42);
+  background: rgba(255, 253, 248, 0.9);
+  border: 1.5px solid rgba(44, 51, 35, 0.18);
   border-radius: var(--radius);
-  padding: 18px;
+  padding: 20px;
 }
 
 .spy-profile {
   display: grid;
-  grid-template-columns: 84px minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 18px;
   align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(44, 51, 35, 0.24);
 }
 
 .spy-profile img,
@@ -2638,29 +2640,78 @@ body.lucide-ready .nav-links a:focus-visible {
 }
 
 .spy-profile img {
-  width: 84px;
-  height: 84px;
+  width: 92px;
+  height: 92px;
+}
+
+.spy-role-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
 
 .spy-kicker {
   display: block;
   font-family: var(--font-doodle);
   color: var(--pink-deep);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.spy-profile p {
+  max-width: 58ch;
+  margin: 10px 0 0;
+  color: var(--ink-soft);
   font-size: 1rem;
+}
+
+.spy-role-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 0;
+  border: 1.5px solid rgba(44, 51, 35, 0.52);
+  border-radius: 999px;
+  box-shadow: none;
+  padding: 4px 12px 5px;
+  background: var(--avocado-pale);
+  color: var(--ink);
+  font-family: var(--font-doodle);
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  line-height: 1;
+}
+
+.spy-role-badge.is-spy {
+  background: var(--pink-pale);
+}
+
+.spy-role-badge.is-host {
+  background: var(--gold);
 }
 
 .spy-status-strip {
   flex-wrap: wrap;
-  margin: 16px 0;
+  margin: 16px 0 18px;
 }
 
 .spy-status-strip span {
-  border: 1px solid rgba(44, 51, 35, 0.28);
+  border: 1.5px solid rgba(44, 51, 35, 0.24);
   border-radius: 999px;
   background: var(--avocado-pale);
-  padding: 6px 12px;
-  font-size: 0.9rem;
-  font-weight: 700;
+  padding: 8px 13px;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.spy-status-strip .is-dead {
+  background: var(--pink-pale);
+  border-color: rgba(197, 106, 120, 0.44);
+  color: var(--pink-deep);
+}
+
+.spy-status-strip .is-round {
+  background: var(--paper);
 }
 
 .spy-mission-card {
@@ -2734,9 +2785,18 @@ body.lucide-ready .nav-links a:focus-visible {
 }
 
 .spy-rules {
+  display: grid;
+  gap: 6px;
   margin: 8px 0 0;
   padding-left: 20px;
   color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.spy-self h4 {
+  margin-top: 8px;
+  font-size: 1.08rem;
 }
 
 .spy-host-grid {
@@ -2792,6 +2852,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-player-row strong {
   overflow-wrap: anywhere;
+  font-size: 0.98rem;
 }
 
 .spy-player-row select,
@@ -2813,6 +2874,9 @@ body.lucide-ready .nav-links a:focus-visible {
   appearance: none;
   cursor: pointer;
   padding-right: 36px;
+  font-weight: 800;
+  color: var(--ink);
+  border-width: 1.5px;
   background-image:
     linear-gradient(45deg, transparent 50%, var(--ink) 50%),
     linear-gradient(135deg, var(--ink) 50%, transparent 50%),
@@ -3051,9 +3115,24 @@ body.lucide-ready .nav-links a:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .spy-profile {
+    justify-items: start;
+    gap: 12px;
+  }
+
   .spy-profile img {
     width: 72px;
     height: 72px;
+  }
+
+  .spy-role-badge {
+    font-size: 1.45rem;
+    padding-inline: 12px;
+  }
+
+  .spy-status-strip span {
+    font-size: 0.88rem;
+    padding: 7px 11px;
   }
 
   .spy-player-row img {
