@@ -1456,6 +1456,131 @@ document.addEventListener("DOMContentLoaded", () => {
     }).join("");
   }
 
+  const initTripLeaderboard = () => {
+    const mount = document.getElementById("tripLeaderboard");
+    if (!mount) return;
+
+    const config = window.HUE_SUPABASE || {};
+    const client = config.url && config.anonKey && window.supabase?.createClient
+      ? window.supabase.createClient(config.url, config.anonKey)
+      : null;
+    const defaultHosts = new Set(["gtm", "linh"]);
+    const fallbackMembers = (data.members || []).map((member, index) => ({
+      username: member.name,
+      displayName: member.name,
+      role: defaultHosts.has(member.name) ? "host" : "member",
+      avatar: `figures/people/${index + 1}.png`
+    }));
+    let leaderboardState = { members: fallbackMembers, results: [] };
+    let loading = false;
+    let errorMessage = "";
+
+    const sessionToken = () => getAuthMember()?.sessionToken || "";
+    const memberMeta = member => {
+      const index = fallbackMembers.findIndex(item => item.username === member.username);
+      return {
+        username: member.username,
+        displayName: member.username,
+        role: member.role || (defaultHosts.has(member.username) ? "host" : "member"),
+        avatar: `figures/people/${Math.max(index, 0) + 1}.png`
+      };
+    };
+
+    function rankedPlayers() {
+      const players = leaderboardState.members.map(memberMeta).filter(member => member.role !== "host");
+      const totals = new Map(players.map(player => [player.username, 0]));
+      leaderboardState.results.forEach(result => {
+        if (totals.has(result.username)) {
+          totals.set(result.username, totals.get(result.username) + Number(result.points || 0));
+        }
+      });
+      return players
+        .map(player => ({ ...player, total: totals.get(player.username) || 0 }))
+        .sort((a, b) => b.total - a.total || a.username.localeCompare(b.username, "vi"));
+    }
+
+    function render() {
+      const loggedIn = Boolean(sessionToken());
+      mount.innerHTML = `
+        <section class="crew-leaderboard-shell">
+          <div class="crew-leaderboard-title">
+            <div>
+              <span>${lucideIcon("trophy")} Phiếu bé ngoan</span>
+              <h3>Bảng xếp hạng chuyến đi</h3>
+              <p>Tổng điểm từ tất cả game. Host không tham gia xếp hạng.</p>
+            </div>
+          </div>
+          ${errorMessage ? `<p class="crew-leaderboard-error" role="status">${escapeHTML(errorMessage)}</p>` : ""}
+          ${loading ? `<div class="crew-leaderboard-loading"><span></span><span></span><span></span></div>` : !loggedIn ? `
+            <div class="game-empty-state">Đăng nhập để xem bảng xếp hạng của cả nhóm.</div>
+          ` : `
+            <div class="game-leaderboard-head is-overall" aria-hidden="true"><span>Hạng</span><span>Người chơi</span><span>Tổng điểm</span></div>
+            <div class="game-leaderboard-list">
+              ${rankedPlayers().map((player, index) => `
+                <div class="game-rank-row is-overall">
+                  <strong class="game-rank-number">${index + 1}</strong>
+                  <div class="game-rank-player"><img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}><span>${escapeHTML(player.username)}</span></div>
+                  <strong class="game-rank-total">${player.total}</strong>
+                </div>
+              `).join("")}
+            </div>
+          `}
+        </section>
+      `;
+      renderLucideIcons();
+    }
+
+    async function loadLeaderboard({ silent = false } = {}) {
+      if (!client || !sessionToken()) {
+        loading = false;
+        errorMessage = client ? "" : "Chưa cấu hình Supabase.";
+        leaderboardState = { members: fallbackMembers, results: [] };
+        render();
+        return;
+      }
+      if (!silent) {
+        loading = true;
+        render();
+      }
+      const { data: payload, error } = await client.rpc("trip_games_get_state", {
+        p_session_token: sessionToken()
+      });
+      loading = false;
+      if (error || !payload?.authenticated) {
+        errorMessage = error ? "Chưa cài migration game hub trên Supabase." : "Phiên đăng nhập đã hết hạn.";
+      } else {
+        errorMessage = "";
+        leaderboardState = {
+          members: payload.members || fallbackMembers,
+          results: payload.results || []
+        };
+      }
+      render();
+    }
+
+    window.addEventListener("hue-auth-change", () => loadLeaderboard());
+    window.addEventListener("hue-game-results-change", event => {
+      const payload = event.detail;
+      if (payload?.members && payload?.results) {
+        leaderboardState = { members: payload.members, results: payload.results };
+        errorMessage = "";
+        render();
+      } else {
+        loadLeaderboard({ silent: true });
+      }
+    });
+
+    window.setInterval(() => {
+      if (document.hidden || !sessionToken()) return;
+      loadLeaderboard({ silent: true });
+    }, 10000);
+
+    render();
+    loadLeaderboard();
+  };
+
+  initTripLeaderboard();
+
 
 
   // ---- Lucky wheel ----
@@ -1869,6 +1994,906 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }).join("");
 
+  const initGameMenus = () => {
+    const mount = document.getElementById("gameMenu");
+    const grid = document.getElementById("gameGrid");
+    if (!mount || !grid) return;
+
+    const config = window.HUE_SUPABASE || {};
+    const client = config.url && config.anonKey && window.supabase?.createClient
+      ? window.supabase.createClient(config.url, config.anonKey)
+      : null;
+    const defaultHosts = new Set(["gtm", "linh"]);
+    const fallbackMembers = (data.members || []).map((member, index) => ({
+      username: member.name,
+      displayName: member.name,
+      role: defaultHosts.has(member.name) ? "host" : "member",
+      avatar: `figures/people/${index + 1}.png`
+    }));
+
+    let activeGame = null;
+    let gameState = { viewer: null, members: fallbackMembers, teams: [], results: [] };
+    let statusMessage = "";
+    let statusKind = "";
+    let loading = false;
+    let teamPhotos = new Map();
+    let photosLoading = false;
+    let photoError = "";
+    let uploadingPhotos = false;
+    let imposterMusic = null;
+    let imposterMusicLoading = false;
+    let imposterMusicError = "";
+    let youtubePlayer = null;
+    let youtubeApiPromise = null;
+    let scheduledMusicRound = 0;
+    let imposterRealtime = null;
+    let imposterServerOffset = 0;
+
+    const sessionToken = () => getAuthMember()?.sessionToken || "";
+    const isHost = () => (gameState.viewer?.role || getAuthMember()?.role) === "host";
+    const memberMeta = username => {
+      const index = fallbackMembers.findIndex(member => member.username === username);
+      const dbMember = gameState.members.find(member => member.username === username);
+      return {
+        username,
+        displayName: username,
+        role: dbMember?.role || (defaultHosts.has(username) ? "host" : "member"),
+        avatar: `figures/people/${Math.max(index, 0) + 1}.png`
+      };
+    };
+    const players = () => gameState.members
+      .map(member => memberMeta(member.username))
+      .filter(member => member.role !== "host");
+    const normalizeTeams = teams => (teams || []).map(team => ({
+      gameKey: team.gameKey || team.game_key || "",
+      username: team.username || "",
+      teamNumber: Number(team.teamNumber ?? team.team_number ?? 0)
+    })).filter(team => team.gameKey && team.username && team.teamNumber);
+    const normalizeResults = results => (results || []).map(result => ({
+      gameKey: result.gameKey || result.game_key || "",
+      username: result.username || "",
+      points: Number(result.points || 0),
+      note: result.note || ""
+    }));
+    const applyPayload = payload => {
+      gameState = {
+        viewer: payload?.viewer || gameState.viewer,
+        members: payload?.members || gameState.members || fallbackMembers,
+        teams: normalizeTeams(payload?.teams),
+        results: normalizeResults(payload?.results)
+      };
+    };
+
+    function randomIndex(max) {
+      const values = new Uint32Array(1);
+      const limit = Math.floor(0x100000000 / max) * max;
+      do window.crypto.getRandomValues(values); while (values[0] >= limit);
+      return values[0] % max;
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let index = copy.length - 1; index > 0; index -= 1) {
+        const swapIndex = randomIndex(index + 1);
+        [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+      }
+      return copy;
+    }
+
+    const setStatus = (message = "", kind = "") => {
+      statusMessage = message;
+      statusKind = kind;
+    };
+
+    const parseClock = value => {
+      const parts = String(value || "").trim().split(":").map(Number);
+      if (parts.some(part => !Number.isFinite(part) || part < 0)) return null;
+      if (parts.length === 1) return parts[0];
+      if (parts.length === 2) return parts[0] * 60 + parts[1];
+      return null;
+    };
+
+    const youtubeVideoId = url => {
+      try {
+        const parsed = new URL(url);
+        if (parsed.hostname.includes("youtu.be")) return parsed.pathname.slice(1).split("/")[0];
+        if (parsed.hostname.includes("youtube.com")) return parsed.searchParams.get("v") || parsed.pathname.split("/").filter(Boolean).pop();
+      } catch (_) {}
+      return "";
+    };
+
+    function loadYoutubeApi() {
+      if (window.YT?.Player) return Promise.resolve(window.YT);
+      if (youtubeApiPromise) return youtubeApiPromise;
+      youtubeApiPromise = new Promise((resolve, reject) => {
+        const previousReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (typeof previousReady === "function") previousReady();
+          resolve(window.YT);
+        };
+        const script = document.createElement("script");
+        script.src = "https://www.youtube.com/iframe_api";
+        script.async = true;
+        script.onerror = () => reject(new Error("Không tải được YouTube player."));
+        document.head.appendChild(script);
+      });
+      return youtubeApiPromise;
+    }
+
+    async function unlockMusic(track) {
+      const videoId = youtubeVideoId(track?.youtubeUrl);
+      const dock = document.getElementById("imposterAudioPlayer");
+      if (!videoId || !dock) throw new Error("Link YouTube chưa hợp lệ.");
+      const YT = await loadYoutubeApi();
+      if (!youtubePlayer) {
+        await new Promise((resolve, reject) => {
+          dock.replaceChildren();
+          const playerMount = document.createElement("div");
+          playerMount.id = "imposterYoutubeFrame";
+          dock.appendChild(playerMount);
+          youtubePlayer = new YT.Player(playerMount, {
+            width: "1",
+            height: "1",
+            videoId,
+            playerVars: { playsinline: 1, controls: 0, rel: 0, origin: window.location.origin },
+            events: { onReady: resolve, onError: () => reject(new Error("YouTube không mở được video này.")) }
+          });
+        });
+      }
+      // A muted play/pause inside the Ready click establishes a user-initiated media session.
+      youtubePlayer.loadVideoById({ videoId, startSeconds: Number(track.startSeconds || 0) });
+      youtubePlayer.mute();
+      youtubePlayer.playVideo();
+      window.setTimeout(() => {
+        youtubePlayer.pauseVideo();
+        youtubePlayer.unMute();
+      }, 180);
+    }
+
+    function stopScheduledMusic() {
+      if (youtubePlayer?.stopVideo) youtubePlayer.stopVideo();
+      scheduledMusicRound = 0;
+    }
+
+    function scheduleMusicPlayback() {
+      const room = imposterMusic?.room;
+      const track = imposterMusic?.myTrack;
+      if (!room || room.status !== "playing" || !track || scheduledMusicRound === room.round) return;
+      if (!youtubePlayer) {
+        imposterMusicError = "Nhạc đã bắt đầu. Hãy bấm Sẵn sàng để phát ngay trên máy này.";
+        render();
+        return;
+      }
+      const videoId = youtubeVideoId(track.youtubeUrl);
+      if (!videoId) return;
+      const startAt = new Date(room.startsAt).getTime() - imposterServerOffset;
+      const delay = Math.max(0, startAt - Date.now());
+      const elapsed = Math.max(0, (Date.now() - startAt) / 1000);
+      const duration = Number(track.durationSeconds || 20);
+      if (elapsed >= duration) return;
+      scheduledMusicRound = room.round;
+      window.setTimeout(() => {
+        youtubePlayer.loadVideoById({ videoId, startSeconds: Number(track.startSeconds || 0) + elapsed });
+        youtubePlayer.unMute();
+        youtubePlayer.playVideo();
+        window.setTimeout(stopScheduledMusic, Math.max(0, (duration - elapsed) * 1000));
+      }, delay);
+    }
+
+    async function loadImposterMusicState() {
+      if (!client || !sessionToken()) {
+        imposterMusic = null;
+        imposterMusicError = "Đăng nhập để nhận bài nhạc riêng của bạn.";
+        return;
+      }
+      imposterMusicLoading = true;
+      const requestStartedAt = Date.now();
+      const { data: payload, error } = await client.rpc("imposter_music_get_state", { p_session_token: sessionToken() });
+      imposterMusicLoading = false;
+      if (error || !payload?.authenticated) {
+        imposterMusicError = error?.message || "Không tải được phòng nhạc. Hãy chạy migration Imposter music.";
+        return;
+      }
+      imposterMusic = payload;
+      if (payload.serverNow) {
+        // Estimate server time at receipt to counter small device clock differences.
+        imposterServerOffset = new Date(payload.serverNow).getTime() + ((Date.now() - requestStartedAt) / 2) - Date.now();
+      }
+      imposterMusicError = "";
+      scheduleMusicPlayback();
+    }
+
+    function renderImposterMusic() {
+      if (activeGame?.key !== "who-is-the-imposter") return "";
+      const room = imposterMusic?.room || { round: 0, status: "idle" };
+      const isMusicHost = Boolean(imposterMusic?.isHost);
+      const isPrepared = room.status === "prepared";
+      const isPlaying = room.status === "playing";
+      return `
+        <section class="imposter-music-room game-menu-panel" aria-live="polite">
+          <div class="imposter-music-head">
+            <div>
+              <span class="imposter-music-kicker">Phòng nhạc đồng bộ</span>
+              <h3>${isPlaying ? "Nhạc đang chạy" : isPrepared ? "Chờ mọi người sẵn sàng" : "Chưa có vòng nhạc"}</h3>
+              <p>${isPlaying ? "Mỗi máy sẽ vào bài theo cùng mốc thời gian." : isMusicHost ? "Người chơi sẽ bấm Sẵn sàng tại đây trước khi bạn phát nhạc." : "Bấm Sẵn sàng để cấp quyền phát nhạc cho trình duyệt của bạn."}</p>
+            </div>
+            <strong class="imposter-music-round">Vòng ${room.round || 0}</strong>
+          </div>
+          ${imposterMusicError ? `<p class="imposter-music-error" role="status">${escapeHTML(imposterMusicError)}</p>` : ""}
+          ${imposterMusicLoading ? `<div class="imposter-music-skeleton"><span></span><span></span></div>` : ""}
+          ${(isPrepared || isPlaying) && !isMusicHost ? `
+            <div class="imposter-player-ready">
+              <div><strong>${isPlaying ? "Nhạc đã bắt đầu" : imposterMusic?.ready ? "Máy bạn đã sẵn sàng" : "Tai nghe đã cắm chưa?"}</strong><span>${isPlaying ? "Nếu máy chưa phát, bấm Phát ngay để vào đúng đoạn còn lại." : imposterMusic?.ready ? "Chờ host đếm ngược và bấm bắt đầu." : "Nút này không phát nhạc ngay, chỉ mở quyền phát cho lúc bắt đầu."}</span></div>
+              <button type="button" data-imposter-ready>${lucideIcon("headphones")} ${isPlaying ? "Phát ngay" : imposterMusic?.ready ? "Sẵn sàng rồi" : "Sẵn sàng"}</button>
+            </div>
+          ` : `<div class="game-empty-state">${isMusicHost ? "Dùng menu quản lý bên dưới để chuẩn bị vòng nhạc." : "Host đang chuẩn bị nhạc cho vòng tiếp theo."}</div>`}
+        </section>
+      `;
+    }
+
+    function renderImposterMusicManager() {
+      if (activeGame?.key !== "who-is-the-imposter" || !imposterMusic?.isHost) return "";
+      const room = imposterMusic.room || { status: "idle" };
+      const isPrepared = room.status === "prepared";
+      const isPlaying = room.status === "playing";
+      const tracks = imposterMusic.tracks || [];
+      const playersForMusic = imposterMusic.players || [];
+      const hostRound = imposterMusic.hostRound || {};
+      const customSelect = (name, selectedValue, placeholder, options, disabled) => {
+        const selected = options.find(option => option.value === selectedValue);
+        return `
+          <div class="imposter-custom-select" data-custom-select>
+            <input type="hidden" name="${escapeHTML(name)}" value="${escapeHTML(selectedValue || "")}">
+            <button type="button" data-select-toggle aria-expanded="false" ${disabled ? "disabled" : ""}><span>${escapeHTML(selected?.label || placeholder)}</span><i aria-hidden="true"></i></button>
+            <div class="imposter-select-menu" role="listbox">
+              ${options.map(option => `<button type="button" role="option" data-select-option data-value="${escapeHTML(option.value)}" aria-selected="${option.value === selectedValue}">${escapeHTML(option.label)}</button>`).join("")}
+            </div>
+          </div>
+        `;
+      };
+      const trackChoices = tracks.map(track => ({
+        value: track.id,
+        label: `${track.label || "Bài chưa đặt tên"} (${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s)`
+      }));
+      const playerChoices = playersForMusic.map(player => ({ value: player.username, label: player.username }));
+      return `
+        <section class="game-menu-panel imposter-music-manager">
+          <div class="game-panel-heading"><div><h3>Quản lý phòng nhạc</h3><p>Chọn hai bài riêng, chọn imposter, rồi phát cho cả nhóm.</p></div></div>
+          <div class="imposter-host-status"><strong>${imposterMusic.readyCount || 0}/${imposterMusic.playerCount || 0}</strong><span>người chơi đã sẵn sàng</span></div>
+          <form class="imposter-round-form" data-imposter-round-form>
+            <label><span>Nhạc cho người thường</span>${customSelect("commonTrack", hostRound.commonTrackId, "Chọn bài", trackChoices, isPlaying)}</label>
+            <label><span>Nhạc cho imposter</span>${customSelect("imposterTrack", hostRound.imposterTrackId, "Chọn bài khác", trackChoices, isPlaying)}</label>
+            <label><span>Imposter</span>${customSelect("imposter", hostRound.imposterUsername, "Random hoặc chọn người", playerChoices, isPlaying)}</label>
+            <div class="imposter-round-actions">
+              <button type="button" data-imposter-random ${tracks.length < 2 || isPlaying ? "disabled" : ""}>${lucideIcon("shuffle")} Random vòng</button>
+              <button type="submit" ${tracks.length < 2 || isPlaying ? "disabled" : ""}>${lucideIcon("music-2")} ${isPrepared ? "Đổi vòng" : "Bắt đầu ván mới"}</button>
+              ${isPrepared ? `<button class="imposter-start" type="button" data-imposter-start>${lucideIcon("radio")} Bắt đầu sau 5 giây</button>` : ""}
+              ${isPlaying ? `<button class="imposter-finish" type="button" data-imposter-finish>${lucideIcon("square")} Kết thúc lượt</button>` : ""}
+            </div>
+          </form>
+          <form class="imposter-track-form" data-imposter-track-form>
+            <h4>Kho nhạc</h4>
+            <label><span>Link YouTube</span><input name="youtubeUrl" type="url" required placeholder="https://www.youtube.com/watch?v=..."></label>
+            <label><span>Tên gợi nhớ</span><input name="label" maxlength="100" placeholder="Ví dụ: Chorus bài A"></label>
+            <label><span>Bắt đầu</span><input name="startAt" inputmode="numeric" value="0:00" pattern="[0-9]{1,2}:[0-5][0-9]|[0-9]+" required></label>
+            <label><span>Nghe trong giây</span><input name="duration" type="number" min="5" max="180" value="20" required></label>
+            <button type="submit">${lucideIcon("plus")} Thêm bài</button>
+          </form>
+          ${tracks.length ? `<div class="imposter-track-list">${tracks.map(track => `<div><span>${escapeHTML(track.label || "Bài chưa đặt tên")}</span><small>${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s</small><button type="button" data-imposter-delete-track="${escapeHTML(track.id)}" aria-label="Xóa ${escapeHTML(track.label || "bài nhạc")}">${lucideIcon("trash-2")}</button></div>`).join("")}</div>` : `<p class="game-empty-state">Thêm ít nhất hai bài để host chuẩn bị một vòng.</p>`}
+        </section>
+      `;
+    }
+
+    async function loadGameState() {
+      if (!client) {
+        gameState = { viewer: null, members: fallbackMembers, teams: [], results: [] };
+        return;
+      }
+      loading = true;
+      render();
+      if (!sessionToken()) {
+        const { data: payload, error } = await client.rpc("trip_games_get_public_state");
+        loading = false;
+        if (error) {
+          setStatus("Chưa cài RPC public cho đội hình. Hãy chạy lại migration add_game_hub.sql.", "error");
+          gameState = { viewer: null, members: fallbackMembers, teams: [], results: [] };
+          return;
+        }
+        gameState = {
+          viewer: null,
+          members: fallbackMembers,
+          teams: normalizeTeams(payload?.teams),
+          results: []
+        };
+        return;
+      }
+      const { data: payload, error } = await client.rpc("trip_games_get_state", {
+        p_session_token: sessionToken()
+      });
+      loading = false;
+      if (error || !payload?.authenticated) {
+        setStatus(error ? "Chưa cài migration game hub trên Supabase." : "Phiên đăng nhập đã hết hạn.", "error");
+        gameState = { viewer: null, members: fallbackMembers, teams: [], results: [] };
+        return;
+      }
+      applyPayload(payload);
+    }
+
+    function currentResults() {
+      return new Map(gameState.results
+        .filter(result => result.gameKey === activeGame.key)
+        .map(result => [result.username, result]));
+    }
+
+    function renderRules() {
+      return `
+        <section class="game-menu-panel game-rules-panel">
+          <div class="game-rule-summary">
+            <span>${lucideIcon("clock-3")} ${escapeHTML(activeGame.duration || "Linh hoạt")}</span>
+            <span>${lucideIcon("users-round")} ${escapeHTML(activeGame.format || "Cả nhóm")}</span>
+          </div>
+          <h3>Luật chơi</h3>
+          <ol class="game-rule-list">
+            ${(activeGame.rules || []).map(rule => `<li>${escapeHTML(rule)}</li>`).join("")}
+          </ol>
+          ${activeGame.prep?.length ? `
+            <div class="game-prep-note">
+              <strong>${lucideIcon("backpack")} Chuẩn bị</strong>
+              <ul>${activeGame.prep.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
+            </div>
+          ` : ""}
+          <p class="game-scoring"><strong>Cách tính điểm:</strong> ${escapeHTML(activeGame.scoring || "Host nhập kết quả sau khi chơi.")}</p>
+          ${activeGame.key === "spy-game" ? `
+            <button class="game-spy-open" type="button" data-open-spy-game>${lucideIcon("scan-face")} Mở phòng vai trò bí mật</button>
+          ` : ""}
+        </section>
+      `;
+    }
+
+    function renderTeams() {
+      if (!activeGame.teamCount) return "";
+      const assignments = gameState.teams.filter(team => team.gameKey === activeGame.key);
+      const byTeam = Array.from({ length: activeGame.teamCount }, (_, index) => ({
+        number: index + 1,
+        members: assignments.filter(team => Number(team.teamNumber) === index + 1)
+      }));
+      return `
+        <section class="game-menu-panel game-team-panel">
+          <div class="game-panel-heading">
+            <div><h3>Chia đội</h3><p>${assignments.length ? "Đội hình chung trên mọi thiết bị." : "Host chưa chia đội cho game này."}</p></div>
+          </div>
+          ${assignments.length ? `
+            <div class="game-team-grid">
+              ${byTeam.map(team => `
+                <div class="game-team-card">
+                  <strong>Đội ${team.number}</strong>
+                  <div>${team.members.map(item => {
+                    const member = memberMeta(item.username);
+                    return `<span><img src="${escapeHTML(member.avatar)}" alt="" ${imgAttrs()}>${escapeHTML(member.username)}</span>`;
+                  }).join("")}</div>
+                </div>
+              `).join("")}
+            </div>
+          ` : `<div class="game-empty-state">Đội hình sẽ xuất hiện tại đây sau khi host chia đội.</div>`}
+        </section>
+      `;
+    }
+
+    function ownTeamNumber() {
+      const username = getAuthMember()?.username;
+      if (!username || activeGame?.key !== "anh-challenge-binh-minh") return 0;
+      return Number(gameState.teams.find(team =>
+        team.gameKey === activeGame.key && team.username === username
+      )?.teamNumber || 0);
+    }
+
+    async function loadTeamPhotos() {
+      if (!client || activeGame?.key !== "anh-challenge-binh-minh") return;
+      photosLoading = true;
+      photoError = "";
+      render();
+      const bucket = client.storage.from("trip-game-photos");
+      const loaded = new Map();
+      for (let teamNumber = 1; teamNumber <= activeGame.teamCount; teamNumber += 1) {
+        const folder = `${activeGame.key}/team-${teamNumber}`;
+        const { data: files, error } = await bucket.list(folder, {
+          limit: 100,
+          sortBy: { column: "created_at", order: "desc" }
+        });
+        if (error) {
+          photoError = "Chưa đọc được album ảnh công khai. Kiểm tra bucket và policy Storage.";
+          loaded.set(teamNumber, []);
+          continue;
+        }
+        loaded.set(teamNumber, (files || [])
+          .filter(file => file.name && file.name !== ".emptyFolderPlaceholder")
+          .map(file => ({
+            name: file.name,
+            url: bucket.getPublicUrl(`${folder}/${file.name}`).data.publicUrl
+          })));
+      }
+      teamPhotos = loaded;
+      photosLoading = false;
+    }
+
+    function renderPhotoGallery() {
+      if (activeGame?.key !== "anh-challenge-binh-minh") return "";
+      const myTeam = ownTeamNumber();
+      return `
+        <section class="game-menu-panel team-photo-panel">
+          <div class="game-panel-heading">
+            <div>
+              <h3>Album ảnh của đội</h3>
+              <p>Ảnh trong album được công khai cho tất cả mọi người.</p>
+            </div>
+          </div>
+          ${photoError ? `<p class="team-photo-error" role="status">${escapeHTML(photoError)}</p>` : ""}
+          ${photosLoading ? `<div class="team-photo-loading"><span></span><span></span></div>` : `
+            <div class="team-photo-groups">
+              ${Array.from({ length: activeGame.teamCount }, (_, index) => index + 1).map(teamNumber => {
+                const photos = teamPhotos.get(teamNumber) || [];
+                return `
+                  <div class="team-photo-group">
+                    <div class="team-photo-group-title">
+                      <strong>Đội ${teamNumber}</strong>
+                      <span>${photos.length} ảnh</span>
+                    </div>
+                    ${photos.length ? `
+                      <div class="team-photo-grid">
+                        ${photos.map(photo => `
+                          <a href="${escapeHTML(photo.url)}" target="_blank" rel="noopener noreferrer">
+                            <img src="${escapeHTML(photo.url)}" alt="Ảnh challenge của đội ${teamNumber}" ${imgAttrs()}>
+                          </a>
+                        `).join("")}
+                      </div>
+                    ` : `<div class="team-photo-empty">Đội ${teamNumber} chưa có ảnh.</div>`}
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          `}
+          ${myTeam ? `
+            <form class="team-photo-upload" data-team-photo-upload>
+              <label>
+                <span>Thêm ảnh cho Đội ${myTeam}</span>
+                <input type="file" name="photos" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple required>
+              </label>
+              <button type="submit" ${uploadingPhotos ? "disabled" : ""}>${lucideIcon("image-up")} ${uploadingPhotos ? "Đang upload..." : "Upload ảnh"}</button>
+              <small>Mỗi ảnh tối đa 10 MB. Thành viên nào trong đội cũng có thể thêm ảnh.</small>
+            </form>
+          ` : sessionToken() ? `<p class="team-photo-login-note">Bạn cần được host chia vào một đội trước khi upload ảnh.</p>` : `<p class="team-photo-login-note">Đăng nhập để upload ảnh cho đội của bạn.</p>`}
+        </section>
+      `;
+    }
+
+    function renderHostResults() {
+      if (!isHost()) return "";
+      const gameResults = currentResults();
+      return `
+        <section class="game-menu-panel game-host-results">
+          <div class="game-panel-heading"><div><h3>Nhập kết quả</h3><p>Điểm được cộng vào bảng tổng ngay sau khi lưu.</p></div></div>
+          <form data-game-results-form>
+            <div class="game-result-list">
+              ${players().map(player => {
+                const result = gameResults.get(player.username);
+                return `
+                  <label class="game-result-row">
+                    <img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}>
+                    <strong>${escapeHTML(player.username)}</strong>
+                    <span>Điểm<input type="number" name="points-${escapeHTML(player.username)}" min="0" max="100" value="${Number(result?.points || 0)}"></span>
+                    <span>Ghi chú<input type="text" name="note-${escapeHTML(player.username)}" maxlength="180" value="${escapeHTML(result?.note || "")}" placeholder="Đội thắng, top 3..."></span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+            <button class="game-save-results" type="submit">${lucideIcon("save")} Lưu kết quả</button>
+          </form>
+        </section>
+      `;
+    }
+
+    function renderHostTeamManager() {
+      if (!isHost() || !activeGame.teamCount) return "";
+      const assignments = gameState.teams.filter(team => team.gameKey === activeGame.key);
+      return `
+        <section class="game-menu-panel game-host-team-manager">
+          <div class="game-panel-heading">
+            <div>
+              <h3>Quản lý đội hình</h3>
+              <p>Random nhanh hoặc chọn đội thủ công cho từng người.</p>
+            </div>
+            <button type="button" data-random-teams>${lucideIcon("shuffle")} ${assignments.length ? "Random lại" : "Random đội"}</button>
+          </div>
+          <form class="game-team-editor" data-team-editor>
+            <div class="game-team-editor-head">
+              <strong>Chỉnh đội thủ công</strong>
+              <span>Chọn “Chưa xếp” để đưa một người ra khỏi đội.</span>
+            </div>
+            <div class="game-team-editor-list">
+              ${players().map(player => {
+                const currentTeam = Number(assignments.find(team => team.username === player.username)?.teamNumber || 0);
+                return `
+                  <label class="game-team-editor-row">
+                    <img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}>
+                    <strong>${escapeHTML(player.username)}</strong>
+                    <select data-team-player="${escapeHTML(player.username)}" aria-label="Chọn đội cho ${escapeHTML(player.username)}">
+                      <option value="0" ${currentTeam === 0 ? "selected" : ""}>Chưa xếp</option>
+                      ${Array.from({ length: activeGame.teamCount }, (_, index) => index + 1).map(teamNumber => `
+                        <option value="${teamNumber}" ${currentTeam === teamNumber ? "selected" : ""}>Đội ${teamNumber}</option>
+                      `).join("")}
+                    </select>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+            <div class="game-team-editor-actions">
+              ${assignments.length ? `<button class="game-team-clear" type="button" data-clear-teams>${lucideIcon("trash-2")} Xóa đội hình</button>` : ""}
+              <button class="game-team-save" type="submit">${lucideIcon("save")} Lưu đội hình</button>
+            </div>
+          </form>
+        </section>
+      `;
+    }
+
+    function renderHostConsole() {
+      if (!isHost()) return "";
+      return `
+        <section class="game-host-console">
+          <header class="game-host-console-title">
+            <span>${lucideIcon("shield-check")} Công cụ quản trò</span>
+            <h3>Điều khiển game</h3>
+            <p>Các thao tác quản trị được tách riêng khỏi phần người chơi nhìn thấy.</p>
+          </header>
+          <div class="game-host-console-content">
+            ${renderImposterMusicManager()}
+            ${renderHostTeamManager()}
+            ${renderHostResults()}
+          </div>
+        </section>
+      `;
+    }
+
+    function render() {
+      if (!activeGame) return;
+      mount.innerHTML = `
+        <div class="game-menu-shell">
+          <header class="game-menu-titlebar">
+            <div>
+              <span class="game-menu-time">${escapeHTML(activeGame.occasion)}</span>
+              <h2>${escapeHTML(activeGame.name)}</h2>
+              <p>${escapeHTML(activeGame.teaser)}</p>
+            </div>
+            <button class="game-menu-close" type="button" data-game-menu-close aria-label="Đóng menu game">${lucideIcon("x")}</button>
+          </header>
+          ${statusMessage ? `<p class="game-menu-status is-${escapeHTML(statusKind || "ok")}" role="status">${escapeHTML(statusMessage)}</p>` : ""}
+          ${loading ? `<div class="game-menu-loading" aria-label="Đang tải"><span></span><span></span><span></span></div>` : `
+            <div class="game-menu-layout is-single">
+              <div>${renderRules()}${renderTeams()}${renderPhotoGallery()}</div>
+            </div>
+            ${renderImposterMusic()}
+            ${renderHostConsole()}
+          `}
+        </div>
+      `;
+      renderLucideIcons();
+    }
+
+    async function openGame(gameKey) {
+      activeGame = data.games.find(game => game.key === gameKey);
+      if (!activeGame) return;
+      setStatus("");
+      mount.hidden = false;
+      render();
+      await loadGameState();
+      if (activeGame.key === "anh-challenge-binh-minh") await loadTeamPhotos();
+      if (activeGame.key === "who-is-the-imposter") await loadImposterMusicState();
+      render();
+      mount.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    async function saveTeamAssignments(assignments, successMessage) {
+      if (!client || !activeGame?.teamCount || !isHost()) {
+        setStatus("Chưa cấu hình Supabase nên không lưu được đội hình.", "error");
+        render();
+        return false;
+      }
+      const previousTeams = [...gameState.teams];
+      gameState.teams = [
+        ...gameState.teams.filter(team => team.gameKey !== activeGame.key),
+        ...assignments.map(assignment => ({ gameKey: activeGame.key, ...assignment }))
+      ];
+      setStatus("Đang lưu đội hình...", "ok");
+      render();
+      const { data: payload, error } = await client.rpc("trip_game_save_teams", {
+        p_session_token: sessionToken(),
+        p_game_key: activeGame.key,
+        p_assignments: assignments
+      });
+      if (error) {
+        gameState.teams = previousTeams;
+        setStatus(`Không lưu được đội hình: ${error.message || "Lỗi Supabase."}`, "error");
+        render();
+        return false;
+      }
+
+      const savedTeams = normalizeTeams(payload?.teams).filter(team => team.gameKey === activeGame.key);
+      applyPayload(payload);
+      if (assignments.length && !savedTeams.length) {
+        gameState.teams = [
+          ...gameState.teams.filter(team => team.gameKey !== activeGame.key),
+          ...assignments.map(assignment => ({ gameKey: activeGame.key, ...assignment }))
+        ];
+        setStatus("Đội hình đã đổi trên màn hình nhưng Supabase chưa trả về dữ liệu. Hãy chạy lại migration add_game_hub.sql.", "error");
+        render();
+        return false;
+      }
+      setStatus(successMessage, "ok");
+      render();
+      return true;
+    }
+
+    grid.addEventListener("click", event => {
+      const card = event.target.closest("[data-game-key]");
+      if (!card?.dataset.gameKey) return;
+      openGame(card.dataset.gameKey);
+    });
+
+    mount.addEventListener("click", async event => {
+      if (event.target.closest("[data-game-menu-close]")) {
+        mount.hidden = true;
+        activeGame = null;
+        return;
+      }
+      const selectOption = event.target.closest("[data-select-option]");
+      if (selectOption) {
+        const select = selectOption.closest("[data-custom-select]");
+        const input = select?.querySelector("input[type='hidden']");
+        const triggerLabel = select?.querySelector("[data-select-toggle] span");
+        if (select && input && triggerLabel) {
+          input.value = selectOption.dataset.value || "";
+          triggerLabel.textContent = selectOption.textContent;
+          select.querySelectorAll("[data-select-option]").forEach(option => {
+            option.setAttribute("aria-selected", String(option === selectOption));
+          });
+          select.classList.remove("is-open");
+          select.querySelector("[data-select-toggle]")?.setAttribute("aria-expanded", "false");
+        }
+        return;
+      }
+      const selectToggle = event.target.closest("[data-select-toggle]");
+      if (selectToggle) {
+        const select = selectToggle.closest("[data-custom-select]");
+        const opening = !select?.classList.contains("is-open");
+        mount.querySelectorAll("[data-custom-select].is-open").forEach(item => {
+          item.classList.remove("is-open");
+          item.querySelector("[data-select-toggle]")?.setAttribute("aria-expanded", "false");
+        });
+        if (opening && select) {
+          select.classList.add("is-open");
+          selectToggle.setAttribute("aria-expanded", "true");
+        }
+        return;
+      }
+      mount.querySelectorAll("[data-custom-select].is-open").forEach(select => {
+        select.classList.remove("is-open");
+        select.querySelector("[data-select-toggle]")?.setAttribute("aria-expanded", "false");
+      });
+      if (event.target.closest("[data-open-spy-game]")) {
+        window.dispatchEvent(new CustomEvent("hue-open-spy-game"));
+        return;
+      }
+      if (event.target.closest("[data-imposter-ready]")) {
+        if (!imposterMusic?.myTrack) return;
+        try {
+          await unlockMusic(imposterMusic.myTrack);
+          if (imposterMusic.room?.status === "playing") {
+            imposterMusicError = "";
+            scheduleMusicPlayback();
+            render();
+            return;
+          }
+          const { data: payload, error } = await client.rpc("imposter_music_set_ready", { p_session_token: sessionToken() });
+          if (error) throw error;
+          imposterMusic = payload;
+          imposterMusicError = "";
+          scheduleMusicPlayback();
+        } catch (error) {
+          imposterMusicError = error.message || "Máy chưa mở được YouTube. Kiểm tra mạng rồi thử lại.";
+        }
+        render();
+        return;
+      }
+      if (event.target.closest("[data-imposter-start]")) {
+        const { data: payload, error } = await client.rpc("imposter_music_start_round", { p_session_token: sessionToken() });
+        if (error) imposterMusicError = error.message || "Không bắt đầu được vòng.";
+        else {
+          imposterMusic = payload;
+          scheduleMusicPlayback();
+        }
+        render();
+        return;
+      }
+      if (event.target.closest("[data-imposter-finish]")) {
+        const { data: payload, error } = await client.rpc("imposter_music_finish_round", { p_session_token: sessionToken() });
+        if (error) imposterMusicError = error.message || "Không kết thúc được lượt.";
+        else {
+          imposterMusic = payload;
+          stopScheduledMusic();
+        }
+        render();
+        return;
+      }
+      if (event.target.closest("[data-imposter-random]")) {
+        const form = mount.querySelector("[data-imposter-round-form]");
+        const tracks = imposterMusic?.tracks || [];
+        const playersForMusic = imposterMusic?.players || [];
+        if (!form || tracks.length < 2 || !playersForMusic.length) return;
+        const picks = shuffle(tracks).slice(0, 2);
+        form.elements.commonTrack.value = picks[0].id;
+        form.elements.imposterTrack.value = picks[1].id;
+        form.elements.imposter.value = playersForMusic[randomIndex(playersForMusic.length)].username;
+        return;
+      }
+      const deleteTrack = event.target.closest("[data-imposter-delete-track]");
+      if (deleteTrack) {
+        const { data: payload, error } = await client.rpc("imposter_music_delete_track", {
+          p_session_token: sessionToken(), p_track_id: deleteTrack.dataset.imposterDeleteTrack
+        });
+        if (error) imposterMusicError = error.message || "Không xóa được bài.";
+        else imposterMusic = payload;
+        render();
+        return;
+      }
+      if (event.target.closest("[data-clear-teams]")) {
+        if (!window.confirm("Xóa toàn bộ đội hình của game này?")) return;
+        await saveTeamAssignments([], "Đã xóa đội hình.");
+        return;
+      }
+      if (!event.target.closest("[data-random-teams]") || !activeGame?.teamCount || !isHost()) return;
+      const assignments = shuffle(players()).map((player, index) => ({
+        username: player.username,
+        teamNumber: (index % activeGame.teamCount) + 1
+      }));
+      await saveTeamAssignments(assignments, "Đã random và lưu đội hình.");
+    });
+
+    mount.addEventListener("submit", async event => {
+      if (event.target.matches("[data-imposter-track-form]")) {
+        event.preventDefault();
+        const form = new FormData(event.target);
+        const startSeconds = parseClock(form.get("startAt"));
+        if (startSeconds === null) {
+          imposterMusicError = "Mốc bắt đầu dùng dạng 2:31 hoặc số giây.";
+          render();
+          return;
+        }
+        const { data: payload, error } = await client.rpc("imposter_music_add_track", {
+          p_session_token: sessionToken(),
+          p_youtube_url: String(form.get("youtubeUrl") || ""),
+          p_label: String(form.get("label") || ""),
+          p_start_seconds: startSeconds,
+          p_duration_seconds: Number(form.get("duration") || 20)
+        });
+        if (error) imposterMusicError = error.message || "Không thêm được bài.";
+        else imposterMusic = payload;
+        render();
+        return;
+      }
+      if (event.target.matches("[data-imposter-round-form]")) {
+        event.preventDefault();
+        const form = new FormData(event.target);
+        const { data: payload, error } = await client.rpc("imposter_music_prepare_round", {
+          p_session_token: sessionToken(),
+          p_common_track_id: String(form.get("commonTrack") || ""),
+          p_imposter_track_id: String(form.get("imposterTrack") || ""),
+          p_imposter_username: String(form.get("imposter") || "")
+        });
+        if (error) imposterMusicError = error.message || "Không chuẩn bị được vòng.";
+        else {
+          imposterMusic = payload;
+          scheduledMusicRound = 0;
+        }
+        render();
+        return;
+      }
+      if (!event.target.matches("[data-team-editor]") || !activeGame?.teamCount || !isHost()) return;
+      event.preventDefault();
+      const assignments = [...event.target.querySelectorAll("[data-team-player]")]
+        .map(select => ({ username: select.dataset.teamPlayer, teamNumber: Number(select.value) }))
+        .filter(assignment => assignment.username && assignment.teamNumber > 0);
+      await saveTeamAssignments(assignments, "Đã lưu đội hình chỉnh thủ công.");
+    });
+
+    mount.addEventListener("submit", async event => {
+      if (!event.target.matches("[data-team-photo-upload]") || activeGame?.key !== "anh-challenge-binh-minh") return;
+      event.preventDefault();
+      const myTeam = ownTeamNumber();
+      const files = [...(event.target.elements.photos?.files || [])];
+      if (!myTeam || !files.length || !sessionToken()) return;
+
+      uploadingPhotos = true;
+      photoError = "";
+      render();
+      let uploadFailure = "";
+      for (const file of files) {
+        const body = new FormData();
+        body.append("sessionToken", sessionToken());
+        body.append("gameKey", activeGame.key);
+        body.append("file", file);
+        try {
+          const response = await fetch(`${config.url}/functions/v1/team-photo-upload`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${config.anonKey}`,
+              apikey: config.anonKey
+            },
+            body
+          });
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(payload.error || "Upload thất bại.");
+        } catch (error) {
+          uploadFailure = error.message || "Không upload được ảnh.";
+          break;
+        }
+      }
+      uploadingPhotos = false;
+      await loadTeamPhotos();
+      if (uploadFailure) photoError = uploadFailure;
+      else if (!photoError) setStatus("Đã upload ảnh vào album công khai của đội.", "ok");
+      render();
+    });
+
+    mount.addEventListener("submit", async event => {
+      if (!event.target.matches("[data-game-results-form]") || !activeGame || !isHost()) return;
+      event.preventDefault();
+      if (!client) {
+        setStatus("Chưa cấu hình Supabase nên không lưu được kết quả.", "error");
+        render();
+        return;
+      }
+      const form = new FormData(event.target);
+      const results = players().map(player => ({
+        username: player.username,
+        points: Number(form.get(`points-${player.username}`) || 0),
+        note: String(form.get(`note-${player.username}`) || "").trim()
+      }));
+      const submit = event.target.querySelector("[type='submit']");
+      submit.disabled = true;
+      const { data: payload, error } = await client.rpc("trip_game_save_results", {
+        p_session_token: sessionToken(),
+        p_game_key: activeGame.key,
+        p_results: results
+      });
+      if (error) setStatus("Không lưu được kết quả.", "error");
+      else {
+        applyPayload(payload);
+        setStatus("Đã lưu kết quả và cập nhật bảng xếp hạng.", "ok");
+        window.dispatchEvent(new CustomEvent("hue-game-results-change", { detail: payload }));
+      }
+      render();
+    });
+
+    window.addEventListener("hue-auth-change", async () => {
+      if (mount.hidden || !activeGame) return;
+      await loadGameState();
+      if (activeGame.key === "anh-challenge-binh-minh") await loadTeamPhotos();
+      if (activeGame.key === "who-is-the-imposter") await loadImposterMusicState();
+      render();
+    });
+
+    if (client) {
+      imposterRealtime = client.channel("imposter-music-room")
+        .on("postgres_changes", { event: "*", schema: "public", table: "imposter_music_room" }, async () => {
+          if (activeGame?.key !== "who-is-the-imposter") return;
+          await loadImposterMusicState();
+          render();
+        })
+        .subscribe();
+    }
+  };
+
+  initGameMenus();
+
   const initSpyGame = () => {
     const mount = document.getElementById("spyGame");
     const grid = document.getElementById("gameGrid");
@@ -1937,6 +2962,7 @@ document.addEventListener("DOMContentLoaded", () => {
           role: hosts.has(player.username) ? "host" : spies.has(player.username) ? "spy" : "villager",
           alive: true
         })),
+        viewerIsHost: getAuthMember()?.role === "host",
         kills: []
       };
     }
@@ -1973,6 +2999,7 @@ document.addEventListener("DOMContentLoaded", () => {
           role: row.role || "villager",
           alive: row.alive ?? true
         })),
+        viewerIsHost: Boolean(payload?.isHost),
         kills: []
       };
       if (!next.assignments.length && next.isHost) next.assignments = createState("", false).assignments;
@@ -2191,7 +3218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function isHost() {
-      return assignmentOf()?.role === "host";
+      return state.viewerIsHost || getAuthMember()?.role === "host" || assignmentOf()?.role === "host";
     }
 
     function playerMeta(username) {
@@ -2444,9 +3471,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderLucideIcons();
     }
 
-    grid.addEventListener("click", async event => {
-      const card = event.target.closest("[data-game-key='spy-game']");
-      if (!card) return;
+    window.addEventListener("hue-open-spy-game", async () => {
       if (!sessionToken()) {
         document.getElementById("authLoginOpen")?.click();
         return;

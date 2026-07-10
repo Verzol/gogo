@@ -18,14 +18,18 @@ values
   ('san', 'San', 'member'),
   ('thảo', 'sóc nhí', 'member'),
   ('mi', 'Mi', 'member'),
-  ('linh', 'nung na lung linh', 'member'),
+  ('linh', 'nung na lung linh', 'host'),
   ('tamle', 'Tâm', 'member'),
   ('dan', 'An', 'member'),
   ('quanlele', '36', 'member'),
   ('minhtran', 'Trứng', 'member'),
-  ('gtm', 'Giang Mai', 'member')
+  ('gtm', 'Giang Mai', 'host')
 on conflict (username) do update
 set display_name = excluded.display_name,
+    role = case
+      when excluded.username in ('gtm', 'linh') then 'host'
+      else trip_members.role
+    end,
     updated_at = now();
 
 create table if not exists public.trip_sessions (

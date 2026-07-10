@@ -446,55 +446,185 @@ food: [
   // ---------- TRÒ CHƠI ----------
 games: [
   {
+    key: "ma-soi",
     name: "Ma Sói",
     occasion: "Tối ngày 1",
-    teaser: "10 mống, một đêm hehe"
+    teaser: "10 mống, một đêm hehe",
+    format: "Cá nhân theo phe",
+    duration: "45-60 phút mỗi ván",
+    scoring: "Mỗi người thuộc phe thắng nhận 1 điểm.",
+    rules: [
+      "Có 2 Ma Sói, 1 Thầy Bói, 1 Bác Sĩ và những người còn lại là Dân.",
+      "Ban đêm mọi người nhắm mắt. Ma Sói chọn người bị loại, Thầy Bói kiểm tra một người và Bác Sĩ chọn một người để cứu.",
+      "Ban ngày cả nhóm thảo luận rồi bỏ phiếu loại một người bị nghi là Ma Sói.",
+      "Phe Dân thắng khi loại hết Ma Sói. Phe Ma Sói thắng khi số Sói còn lại bằng số người phe Dân."
+    ],
+    prep: ["Chơi 2-3 ván.", "Quản trò đọc vai rõ ràng và giữ kín mọi lựa chọn ban đêm."]
   },
   {
-    name: "Săn Trend Biển Tân An",
+    key: "anh-challenge-binh-minh",
+    name: "Ảnh Challenge Bình Minh",
     occasion: "Sáng ngày 2",
-    teaser: "Mấy đứa sợ Tiktok đợi đấy"
+    teaser: "Bốc dáng, chạy máy, chốt ảnh",
+    format: "2 đội",
+    duration: "7 phút mỗi đội",
+    teamCount: 2,
+    scoring: "Mỗi thành viên đội có ảnh được vote cao nhất nhận 1 điểm.",
+    rules: [
+      "Chia thành 2 đội và bốc thăm một kiểu tạo dáng ngẫu nhiên.",
+      "Mỗi đội có 7 phút để tạo dáng và chụp ảnh tại bãi biển.",
+      "Đội còn lại hỗ trợ chụp, sau đó tất cả ảnh được đưa vào album nhóm.",
+      "Cả nhóm vote ảnh đẹp nhất để chọn đội thắng."
+    ],
+    prep: ["Dùng camera điện thoại và có thể dùng bộ lọc.", "Gửi ảnh vào cùng một album trước khi vote."]
   },
   {
+    key: "co-caro-tiep-suc",
     name: "Cờ Caro Tiếp Sức",
     occasion: "Sáng ngày 2",
-    teaser: "Ngu lắm mới thua =))"
+    teaser: "Ngu lắm mới thua =))",
+    format: "2 đội",
+    duration: "Khoảng 25 phút",
+    teamCount: 2,
+    scoring: "Mỗi thành viên đội thắng nhận 1 điểm.",
+    rules: [
+      "Mỗi đội lần lượt cử một người chạy lên đặt một quân cờ vào ô trống rồi chạy về đập tay người tiếp theo.",
+      "Mỗi đội chỉ có 3 quân cờ trên bàn.",
+      "Khi đã đặt đủ 3 quân mà chưa thắng, lượt tiếp theo phải di chuyển một quân cũ sang ô trống khác.",
+      "Đội đầu tiên tạo được một hàng ngang, dọc hoặc chéo gồm 3 quân là đội thắng."
+    ],
+    prep: ["Chuẩn bị 3 dây đỏ và 3 dây xanh.", "Kẻ bàn cờ đủ lớn để chạy và đặt quân an toàn."]
   },
   {
+    key: "rong-san-duoi",
     name: "Rồng Săn Đuôi",
     occasion: "Sáng ngày 2",
-    teaser: "MỆT."
+    teaser: "MỆT.",
+    format: "2 đội",
+    duration: "3 trận, 7 phút mỗi trận",
+    teamCount: 2,
+    scoring: "Mỗi thành viên đội thắng chung cuộc nhận 1 điểm.",
+    rules: [
+      "Mỗi đội xếp thành một hàng dọc, người sau giữ người trước và không được buông hàng.",
+      "Người đầu hàng tìm cách chạm vào người cuối của đội đối phương, đồng thời bảo vệ đuôi đội mình.",
+      "Không kéo, đẩy hoặc va chạm nguy hiểm với đội đối phương.",
+      "Sau 3 trận, đội ghi nhiều điểm hơn hoặc giữ được nhiều thành viên hơn là đội thắng."
+    ],
+    prep: ["Chọn khu vực cát phẳng, không có vật sắc.", "Dừng ngay nếu hàng bị ngã hoặc có va chạm mạnh."]
   },
   {
+    key: "vuot-ai-song-bien",
     name: "Vượt Ải Sóng Biển",
     occasion: "Sáng ngày 2",
-    teaser: "MẶC ĐỒ BƠI đi cho mát"
+    teaser: "MẶC ĐỒ BƠI đi cho mát",
+    format: "Cá nhân",
+    duration: "Khoảng 20 phút",
+    scoring: "Ba người trụ lại cuối cùng nhận 1 điểm.",
+    rules: [
+      "Cả nhóm đứng thành hàng ngang tại mép nước, ở khu vực an toàn do quản trò chọn.",
+      "Khi quản trò hô, mọi người phải nhảy đồng loạt để tránh con sóng đang vào.",
+      "Người để sóng chạm chân hoặc không nhảy đúng hiệu lệnh sẽ bị loại.",
+      "Trò chơi kết thúc khi còn lại 3 người."
+    ],
+    prep: ["Chỉ chơi khi sóng nhỏ và thời tiết an toàn.", "Không tiến ra vùng nước sâu, ưu tiên an toàn hơn kết quả."]
   },
   {
+    key: "truyen-nuoc",
     name: "Truyền Nước",
     occasion: "Sáng ngày 2",
-    teaser: "Hài lắm"
+    teaser: "Hài lắm",
+    format: "2 đội",
+    duration: "Khoảng 20 phút",
+    teamCount: 2,
+    scoring: "Mỗi thành viên đội có nhiều nước hơn nhận 1 điểm.",
+    rules: [
+      "Hai đội nằm hoặc ngồi thành hai hàng dọc.",
+      "Người đầu hàng lấy nước bằng đĩa và truyền lần lượt qua đầu cho người phía sau.",
+      "Người cuối hàng đổ phần nước nhận được vào bình của đội mình.",
+      "Khi hết giờ, đội có lượng nước trong bình cao hơn là đội thắng."
+    ],
+    prep: ["Chuẩn bị 2 đĩa nông và 2 bình trong suốt.", "Mặc đồ có thể bị ướt và tránh dùng bình thủy tinh ở khu vực chơi."]
   },
   {
+    key: "doan-tau-mu",
     name: "Đoàn Tàu Mù",
     occasion: "Sáng ngày 2",
-    teaser: "Erhhhh..."
+    teaser: "Erhhhh...",
+    format: "3 đội",
+    duration: "Khoảng 30 phút",
+    teamCount: 3,
+    scoring: "Mỗi thành viên đội hoàn thành đường đi nhanh và đúng luật nhất nhận 1 điểm.",
+    rules: [
+      "Mỗi đội xếp thành hàng dọc, người sau đặt tay lên vai người trước.",
+      "Tất cả nhắm mắt, chỉ người cuối hàng được mở mắt.",
+      "Người cuối truyền tín hiệu hướng đi bằng cách vỗ vai. Tín hiệu phải được truyền lần lượt lên đầu tàu.",
+      "Đội phối hợp vượt chướng ngại vật và về đích đúng luật nhanh nhất là đội thắng."
+    ],
+    prep: ["Một đội chơi, hai đội còn lại đứng làm chướng ngại vật an toàn rồi đổi lượt.", "Không dùng chướng ngại vật cứng hoặc sắc."]
   },
   {
+    key: "who-is-the-imposter",
     name: "Who Is The Imposter?",
     occasion: "Tối ngày 2",
-    teaser: "Trò này hay lắm (gtm spoil)"
+    teaser: "Trò này hay lắm (gtm spoil)",
+    format: "Cá nhân",
+    duration: "15-20 giây mỗi lượt nghe",
+    scoring: "Người tìm đúng imposter hoặc imposter sống sót nhận 1 điểm theo quyết định của host.",
+    rules: [
+      "Mọi người đeo tai nghe. Quản trò bật cùng một bài nhạc cho đa số và một bài khác cho imposter.",
+      "Khi nhạc chạy, mọi người phải nhún nhảy hoặc dùng động tác để thể hiện bài mình nghe.",
+      "Không được nói hoặc hát thành tiếng.",
+      "Sau mỗi lượt, cả nhóm thảo luận và vote người bị nghi là imposter."
+    ],
+    prep: ["Mỗi người dùng tai nghe và bấm Sẵn sàng trên web trước khi host bắt đầu.", "Host chuẩn bị link YouTube, mốc bắt đầu và thời lượng nghe cho từng bài.", "Âm lượng vừa đủ, không nghe quá lớn trong thời gian dài."]
   },
   {
-    name: "Phá Băng & Truth or Dare",
+    key: "su-that-va-loi-noi-doi",
+    name: "Sự Thật & Lời Nói Dối",
     occasion: "Tối ngày 2",
-    teaser: "Thảo tâm huyết trò này lắm đừng ai bỏ lỡ"
+    teaser: "Bịa cho khéo, đoán cho chuẩn",
+    format: "Cá nhân",
+    duration: "Khoảng 20 phút",
+    scoring: "Người đoán đúng nhiều nhất nhận 1 điểm.",
+    rules: [
+      "Theo vòng tròn, mỗi người nói một sự thật và một lời nói dối về bản thân.",
+      "Cả nhóm được thảo luận ngắn trước khi chọn câu nào là thật.",
+      "Người nói công bố đáp án sau khi mọi người đã chốt lựa chọn.",
+      "Host ghi lại số lần đoán đúng. Người có nhiều đáp án đúng nhất thắng."
+    ],
+    prep: ["Nghĩ trước một lời nói dối đủ hợp lý để khó bị phát hiện."]
+  },
+  {
+    key: "truth-or-dare",
+    name: "Truth or Dare",
+    occasion: "Tối ngày 2",
+    teaser: "Thảo tâm huyết trò này lắm đừng ai bỏ lỡ",
+    format: "Cá nhân",
+    duration: "30-45 phút",
+    scoring: "Host nhập điểm cho người hoàn thành thử thách nổi bật.",
+    rules: [
+      "Xoay chai hoặc dùng ứng dụng để chọn người chơi.",
+      "Người được chọn phải chọn Truth hoặc Dare.",
+      "Truth phải trả lời thật. Dare phải hoàn thành thử thách được rút.",
+      "Nếu từ chối cả hai, người chơi nhận một hình phạt vui do nhóm thống nhất."
+    ],
+    prep: ["Không hỏi hoặc yêu cầu điều quá riêng tư, nguy hiểm hay gây khó chịu.", "Hình phạt gợi ý là ăn một lát chanh."]
   },
   {
     name: "Ai Là Gián Điệp?",
     occasion: "Xuyên suốt chuyến đi",
     teaser: "Trông thế mà lại hay",
-    key: "spy-game"
+    key: "spy-game",
+    format: "Cá nhân theo phe",
+    duration: "Xuyên suốt chuyến đi",
+    scoring: "Dân thắng nhận 1 điểm mỗi người. Gián điệp thắng nhận 3 điểm mỗi người.",
+    rules: [
+      "Có 2 gián điệp, các thành viên còn lại là Dân. Host không tham gia và không xuất hiện trên bảng xếp hạng.",
+      "Mỗi gián điệp nhận 3-5 nhiệm vụ bí mật và phải hoàn thành mà không bị phát hiện.",
+      "Dân tìm gián điệp qua 2 vòng vote. Mỗi người chọn tối đa 2 người ở mỗi vòng.",
+      "Dân thắng khi loại đủ 2 gián điệp. Gián điệp thắng khi còn sống và hoàn thành nhiệm vụ."
+    ],
+    prep: ["Vai trò và nhiệm vụ được giữ kín cho tới khi game kết thúc."]
   }
 ],
 
