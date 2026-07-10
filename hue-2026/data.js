@@ -43,13 +43,13 @@ const TRIP_DATA = {
     com_hen_hoa_dong: {
       name: "Cơm hến Hoa Đông",
       mapsUrl: "https://maps.app.goo.gl/rZSw4jHgNeq7Yik6A",
-      image: "figures/food/com_hen_hoa_dong.png",
+      image: "figures/food/com_hen_hoa_dong.jpg",
       desc: "64 Kiệt 7 Ưng Bình"
     },
     nem_lui_ba_ty: {
       name: "Nem lụi Bà Tý",
       mapsUrl: "https://maps.app.goo.gl/vGsJBqUWKG34EAz27",
-      image: "figures/food/nem_lui_ba_ty.png",
+      image: "figures/food/nem_lui_ba_ty.jpg",
       desc: "81 Đào Duy Từ, tổ 1"
     },
     dai_noi: {
@@ -67,18 +67,18 @@ const TRIP_DATA = {
     ca_hue: {
       name: "Ca Huế trên sông Hương",
       mapsUrl: "https://maps.app.goo.gl/nD1mwo72odrW3qLw6",
-      image: "figures/places/ca_hue_tren_song_huong.png",
+      image: "figures/places/ca_hue_tren_song_huong.jpg",
       desc: "Điểm lên thuyền nghe ca Huế."
     },
     ca_phe_dang_thai_than: {
       name: "Cà phê Đặng Thái Thân",
-      image: "figures/food/ca_phe_dang_thai_than.png",
+      image: "figures/food/ca_phe_dang_thai_than.jpg",
       desc: "Đặng Thái Thân, Phú Xuân"
     },
     bun_canh_ca_loc_binh: {
       name: "Bún canh cá lóc Bình",
       mapsUrl: "https://maps.app.goo.gl/mwqh2GaBt9ipoxYu5",
-      image: "figures/food/bun_canh_ca_loc_binh.png",
+      image: "figures/food/bun_canh_ca_loc_binh.jpg",
       desc: "140 Trường Chinh, An Cựu"
     },
     bien_tan_an: {
@@ -102,7 +102,7 @@ const TRIP_DATA = {
     banh_ep_hue: {
       name: "Bánh Ép Huệ",
       mapsUrl: "https://maps.app.goo.gl/DHZz3REqpuA4AyUaA",
-      image: "figures/food/banh_ep_hue.png",
+      image: "figures/food/banh_ep_hue.jpg",
       desc: "1 Kiệt 145 Điện Biên Phủ."
     },
     cong_vien_phu_xuan: {
@@ -114,25 +114,25 @@ const TRIP_DATA = {
     banh_loc_dao_tan: {
       name: "Bánh lọc Đào Tấn dì Huệ",
       mapsUrl: "https://maps.app.goo.gl/iMVML5rChfnwAwBY9",
-      image: "figures/food/banh_loc_dao_tan.png",
+      image: "figures/food/banh_loc_dao_tan.jpg",
       desc: "47 Đào Tấn, Thuận Hóa"
     },
     banh_canh_o_buom: {
       name: "Bánh canh O Bướm",
       mapsUrl: "https://maps.app.goo.gl/qtWh42i8urNnHqty9",
-      image: "figures/food/banh_canh_o_buom.png",
+      image: "figures/food/banh_canh_o_buom.jpg",
       desc: "3 Trịnh Công Sơn, Phú Xuân"
     },
     che_thanh: {
       name: "Chè Thanh",
       mapsUrl: "https://maps.app.goo.gl/kifg4J74RdPb9GDS7",
-      image: "figures/food/che_thanh.png",
+      image: "figures/food/che_thanh.jpg",
       desc: "76-78 Mai Thúc Loan, Phú Xuân"
     },
     banh_mi_lo_cui: {
       name: "Bánh mì lò củi",
       mapsUrl: "https://maps.app.goo.gl/iP96k69Xqr6L96Rh7",
-      image: "figures/food/banh_mi_lo_cui.png",
+      image: "figures/food/banh_mi_lo_cui.jpg",
       desc: "149b Nhật Lệ."
     },
     lang_gia_long: {
@@ -150,13 +150,13 @@ const TRIP_DATA = {
     quan_banh_chi: {
       name: "Quán bánh Chi",
       mapsUrl: "https://maps.app.goo.gl/DmnHDajsCnXG86P76",
-      image: "figures/food/quan_banh_chi.png",
+      image: "figures/food/quan_banh_chi.jpg",
       desc: "52 Lê Viết Lượng, Vỹ Dạ"
     },
     donald_trung: {
       name: "Cuộn thịt heo Donald Trung",
       mapsUrl: "https://maps.app.goo.gl/mLL4xn1m8g948KB76",
-      image: "figures/food/donald_trung.png",
+      image: "figures/food/donald_trung.jpg",
       desc: "28 Hoàng Văn Thụ, Vỹ Dạ, Huế"
     },
     quoc_hoc_hue: {
@@ -291,7 +291,7 @@ const TRIP_DATA = {
       day: "Ngày 1",
       time: "20:30",
       title: "Ca Huế trên sông Hương",
-      image: "figures/places/ca_hue_tren_song_huong.png",
+      image: "figures/places/ca_hue_tren_song_huong.jpg",
       detailUrl: "https://cahuetrensonghuong.com/nghe-ca-hue-tren-song-huong/",
       meta: "Trải nghiệm buổi tối trên thuyền",
       desc: "Ca Huế hình thành từ dòng nhạc cung đình và dân gian xứ Huế, thường được nghe trên thuyền rồng giữa sông Hương. Đây là đoạn chậm lại của chuyến đi: nghe giọng Huế, tiếng đàn và những làn điệu đã đi cùng đời sống cố đô."
@@ -426,21 +426,21 @@ const TRIP_DATA = {
 food: [
   { name: "Bún bò O Loan", image: "figures/food/bun_bo_o_loan.jpg", address: "158B Phan Chu Trinh", desc: "Bún bò Huế đậm vị, hợp mở màn một ngày đi chơi." },
   { name: "Vịt lộn um bầu", image: "figures/food/vit_lon_um_bau.jpg", address: "9 Nguyễn Khuyến", desc: "Nghe lạ lạ mà ăn cuốn xỉu, béo ngậy cay cay." },
-  { name: "Bánh canh O Bướm", image: "figures/food/banh_canh_o_buom.png", address: "3 Trịnh Công Sơn", desc: "Bánh canh chuẩn vị Huế luônnn.", note: "Chỉ bán tối thôi nha" },
-  { name: "Bún canh cá lóc Bình", image: "figures/food/bun_canh_ca_loc_binh.png", address: "Gần trung tâm Huế", desc: "Tô nóng buổi tối, ăn xong ngủ là vừa." },
-  { name: "Quán bánh Chi", image: "figures/food/quan_banh_chi.png", address: "52 Lê Viết Lượng", desc: "Bèo, nậm, lọc ngon rẻ tụt quần.", note: "Nhớ ra sớm kẻo hết" },
-  { name: "Cuộn thịt heo Donald Trung", image: "figures/food/donald_trung.png", address: "28 Hoàng Văn Thụ", desc: "Cực phẩm nha mấy bà, không ăn phí nửa đời người!" },
+  { name: "Bánh canh O Bướm", image: "figures/food/banh_canh_o_buom.jpg", address: "3 Trịnh Công Sơn", desc: "Bánh canh chuẩn vị Huế luônnn.", note: "Chỉ bán tối thôi nha" },
+  { name: "Bún canh cá lóc Bình", image: "figures/food/bun_canh_ca_loc_binh.jpg", address: "Gần trung tâm Huế", desc: "Tô nóng buổi tối, ăn xong ngủ là vừa." },
+  { name: "Quán bánh Chi", image: "figures/food/quan_banh_chi.jpg", address: "52 Lê Viết Lượng", desc: "Bèo, nậm, lọc ngon rẻ tụt quần.", note: "Nhớ ra sớm kẻo hết" },
+  { name: "Cuộn thịt heo Donald Trung", image: "figures/food/donald_trung.jpg", address: "28 Hoàng Văn Thụ", desc: "Cực phẩm nha mấy bà, không ăn phí nửa đời người!" },
   { name: "Bánh mì O Tho", image: "figures/food/banh_mi_o_tho.jpg", address: "14 Trần Cao Vân", desc: "Ổ bánh mì thịt nướng giòn rụm, cắn miếng là ghiền." },
-  { name: "Bánh mì lò củi", image: "figures/food/banh_mi_lo_cui.png", address: "149 Nhật Lệ", desc: "Bữa sáng nhanh gọn trước khi chạy lịch ngày cuối." },
+  { name: "Bánh mì lò củi", image: "figures/food/banh_mi_lo_cui.jpg", address: "149 Nhật Lệ", desc: "Bữa sáng nhanh gọn trước khi chạy lịch ngày cuối." },
   { name: "Bún mắm nêm", image: "figures/food/bun_mam_nem.jpg", address: "Chợ Đông Ba", desc: "Rẻ bèo nhèo mà ngon dính cái nách." },
-  { name: "Bánh ép Huệ", image: "figures/food/banh_ep_hue.png", address: "1 Kiệt 145 Điện Biên Phủ", desc: "Bánh ép nóng hổi vừa thổi vừa ăn." },
-  { name: "Bánh lọc Đào Tấn dì Huệ", image: "figures/food/banh_loc_dao_tan.png", address: "Đào Tấn", desc: "Điểm ăn tối ngày 2, gọi thêm là hết đường về." },
-  { name: "Cơm hến Hoa Đông", image: "figures/food/com_hen_hoa_dong.png", address: "81 Đào Duy Từ", desc: "Cơm hến đúng mood Huế, ăn ít thui không ngon." },
-  { name: "Nem lụi Bà Tý", image: "figures/food/nem_lui_ba_ty.png", address: "81 Đào Duy Từ", desc: "Ăn kèm bữa trưa ngày đầu cho đủ bộ." },
+  { name: "Bánh ép Huệ", image: "figures/food/banh_ep_hue.jpg", address: "1 Kiệt 145 Điện Biên Phủ", desc: "Bánh ép nóng hổi vừa thổi vừa ăn." },
+  { name: "Bánh lọc Đào Tấn dì Huệ", image: "figures/food/banh_loc_dao_tan.jpg", address: "Đào Tấn", desc: "Điểm ăn tối ngày 2, gọi thêm là hết đường về." },
+  { name: "Cơm hến Hoa Đông", image: "figures/food/com_hen_hoa_dong.jpg", address: "81 Đào Duy Từ", desc: "Cơm hến đúng mood Huế, ăn ít thui không ngon." },
+  { name: "Nem lụi Bà Tý", image: "figures/food/nem_lui_ba_ty.jpg", address: "81 Đào Duy Từ", desc: "Ăn kèm bữa trưa ngày đầu cho đủ bộ." },
   { name: "Bún Hạnh", image: "figures/food/quan_bun_hanh.png", address: "Huế", desc: "Ăn sáng muộn sau team building, bù calo vừa mất." },
-  { name: "Chè Hẻm", image: "figures/food/che_hem.png", address: "1 Kiệt 29 Hùng Vương", desc: "Cú chốt với chè bột lọc heo quay độc lạ Bình Dương." },
-  { name: "Chè Thanh", image: "figures/food/che_thanh.png", address: "Huế", desc: "Chốt ngọt buổi tối, nhẹ nhàng mà đã." },
-  { name: "Cà phê Đặng Thái Thân", image: "figures/food/ca_phe_dang_thai_than.png", address: "Đặng Thái Thân", desc: "Sống ảo nhẹ nhàng buổi sáng trước khi đi lăng." }
+  { name: "Chè Hẻm", image: "figures/food/che_hem.jpg", address: "1 Kiệt 29 Hùng Vương", desc: "Cú chốt với chè bột lọc heo quay độc lạ Bình Dương." },
+  { name: "Chè Thanh", image: "figures/food/che_thanh.jpg", address: "Huế", desc: "Chốt ngọt buổi tối, nhẹ nhàng mà đã." },
+  { name: "Cà phê Đặng Thái Thân", image: "figures/food/ca_phe_dang_thai_than.jpg", address: "Đặng Thái Thân", desc: "Sống ảo nhẹ nhàng buổi sáng trước khi đi lăng." }
 ],
 
   // ---------- TRÒ CHƠI ----------

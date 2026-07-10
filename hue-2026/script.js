@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "'": "&#39;"
   })[char]);
 
+  const imgAttrs = ({ lazy = true } = {}) => `decoding="async"${lazy ? ' loading="lazy"' : ""}`;
+
   const blockLocationKeys = block => {
     if (Array.isArray(block.locations)) return block.locations;
     return block.location ? [block.location] : [];
@@ -89,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const account = authAccounts[index];
       if (!account) return;
       accountCurrent.innerHTML = `
-        <img src="figures/people/${index + 1}.png" alt="">
+        <img src="figures/people/${index + 1}.png" alt="" ${imgAttrs()}>
         <span>${escapeHTML(account.username)}</span>
       `;
       accountMenu.querySelectorAll("[role='option']").forEach(option => {
@@ -111,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderAccountMenu = () => {
       accountMenu.innerHTML = authAccounts.map((account, index) => `
         <button class="auth-account-option" type="button" role="option" data-username="${escapeHTML(account.username)}" aria-selected="false">
-          <img src="figures/people/${index + 1}.png" alt="">
+          <img src="figures/people/${index + 1}.png" alt="" ${imgAttrs()}>
           <span>${escapeHTML(account.username)}</span>
         </button>
       `).join("");
@@ -397,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!location) return "";
 
     const imageHTML = location.image
-      ? `<img src="${escapeHTML(location.image)}" alt="${escapeHTML(location.name)}">`
+      ? `<img src="${escapeHTML(location.image)}" alt="${escapeHTML(location.name)}" ${imgAttrs()}>`
       : `<span>${escapeHTML(location.name.slice(0, 2).toUpperCase())}</span>`;
 
     return `
@@ -414,7 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="location-actions">
               ${location.mapsUrl ? `
                 <a class="maps-button" href="${escapeHTML(location.mapsUrl)}" target="_blank" rel="noopener noreferrer">
-                  <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true">
+                  <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true" ${imgAttrs()}>
                   <span>Mở trong Google Maps</span>
                 </a>
               ` : ""}
@@ -499,6 +501,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let selectedReply = null;
     let pendingDelete = null;
     let chatScrollY = 0;
+    let chatLoaded = false;
+    let chatLoading = null;
+    let realtimeStarted = false;
 
     const getUserId = () => {
       const saved = localStorage.getItem("hueChatUserId");
@@ -561,8 +566,10 @@ document.addEventListener("DOMContentLoaded", () => {
       toggle.setAttribute("aria-expanded", String(open));
       setPageLocked(open);
       if (!open) return;
-      messages.scrollTop = messages.scrollHeight;
-      if (!isMobileChat()) (nameForm.hidden ? input : nameInput).focus();
+      ensureChatLoaded().finally(() => {
+        messages.scrollTop = messages.scrollHeight;
+        if (!isMobileChat()) (nameForm.hidden ? input : nameInput).focus();
+      });
     };
 
     const setMessageCount = count => {
@@ -780,11 +787,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const avatar = memberAvatarByUserId.get(message.user_id) || memberAvatarByName.get(cleanName(message.username));
       if (!avatar) return "";
       return `
-        <img class="chat-message-avatar" src="${escapeHTML(avatar)}" alt="${escapeHTML(message.username)}">
+        <img class="chat-message-avatar" src="${escapeHTML(avatar)}" alt="${escapeHTML(message.username)}" ${imgAttrs()}>
       `;
     };
 
-    const renderMessage = message => {
+    const renderMessage = (message, options = {}) => {
       if (!message?.id || knownIds.has(message.id)) return;
       knownIds.add(message.id);
 
@@ -833,9 +840,11 @@ document.addEventListener("DOMContentLoaded", () => {
         body: message.body
       });
 
-      const shouldStick = messages.scrollHeight - messages.scrollTop - messages.clientHeight < 80;
+      const shouldStick = options.stick === false
+        ? false
+        : messages.scrollHeight - messages.scrollTop - messages.clientHeight < 80;
       messages.appendChild(item);
-      renderLucideIcons();
+      if (options.icons !== false) renderLucideIcons();
 
       while (messages.children.length > messageLimit) {
         const first = messages.firstElementChild;
@@ -874,13 +883,27 @@ document.addEventListener("DOMContentLoaded", () => {
       messages.innerHTML = "";
       knownIds.clear();
       messageById.clear();
-      (rows || []).reverse().forEach(renderMessage);
+      (rows || []).reverse().forEach(row => renderMessage(row, { icons: false, stick: false }));
+      renderLucideIcons();
       await loadReactions((rows || []).map(row => row.id));
       setMessageCount(rows?.length || 0);
+      chatLoaded = true;
       setStatus(rows?.length ? "" : "Chưa có tin nào. Mở bát đi.", rows?.length ? "" : "empty");
     };
 
+    const loadMessageCount = async () => {
+      const { count, error } = await client
+        .from(table)
+        .select("id", { count: "exact", head: true });
+      if (!error) {
+        setMessageCount(count || 0);
+        setStatus("");
+      }
+    };
+
     const startRealtime = () => {
+      if (realtimeStarted) return;
+      realtimeStarted = true;
       client
         .channel("chat_messages")
         .on("postgres_changes", { event: "INSERT", schema: "public", table }, payload => {
@@ -906,6 +929,16 @@ document.addEventListener("DOMContentLoaded", () => {
         .subscribe();
     };
 
+    const ensureChatLoaded = () => {
+      if (chatLoaded) return Promise.resolve();
+      chatLoading ||= loadMessages()
+        .then(startRealtime)
+        .finally(() => {
+          chatLoading = null;
+        });
+      return chatLoading;
+    };
+
     window.addEventListener("hue-auth-change", event => {
       const member = event.detail;
       const displayName = member?.displayName || member?.username || "";
@@ -913,7 +946,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("hueChatName", displayName);
         nameInput.value = displayName;
         setNameFormVisible(false);
-        if (client) loadMessages().catch(() => setStatus("Không tải lại được chat.", "error"));
+        if (client && chatLoaded) loadMessages().catch(() => setStatus("Không tải lại được chat.", "error"));
         return;
       }
 
@@ -1084,9 +1117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     client = window.supabase.createClient(config.url, config.anonKey);
-    loadMessages()
-      .then(startRealtime)
-      .catch(() => setStatus("Không nối được Supabase. Kiểm tra URL, anon key và schema.", "error"));
+    loadMessageCount().catch(() => setStatus("Không nối được Supabase. Kiểm tra URL, anon key và schema.", "error"));
   };
 
   const initWeatherWidget = () => {
@@ -1403,7 +1434,7 @@ document.addEventListener("DOMContentLoaded", () => {
           --scale: ${pos.scale};
           --shadow: ${pos.shadow};
           --pop-delay: ${popDelay}s;
-        "><img src="${src}" alt="Thành viên ${i + 1}" /></div>
+        "><img src="${src}" alt="Thành viên ${i + 1}" ${imgAttrs({ lazy: false })}></div>
       `;
     }).join("");
   }
@@ -1416,7 +1447,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <div class="crew-card" style="--i: ${rot}">
           <div class="crew-avatar">
-            <img src="figures/people/${i + 1}.png" alt="${m.name}">
+            <img src="figures/people/${i + 1}.png" alt="${m.name}" ${imgAttrs()}>
           </div>
           <div class="crew-name">${m.name}</div>
           ${m.role ? `<div class="crew-role">${m.role}</div>` : ""}
@@ -1481,7 +1512,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const angle = memberAngles[index];
       return `
         <div class="wheel-person" data-angle="${angle}">
-          <img src="figures/people/${index + 1}.png" alt="${escapeHTML(member.name)}">
+          <img src="figures/people/${index + 1}.png" alt="${escapeHTML(member.name)}" ${imgAttrs()}>
           <span>${escapeHTML(member.name)}</span>
         </div>
       `;
@@ -1497,7 +1528,7 @@ document.addEventListener("DOMContentLoaded", () => {
       luckyResult.innerHTML = `
         <span class="lucky-result-label">Trúng rồi</span>
         <div class="lucky-result-photo">
-          <img src="figures/people/${index + 1}.png" alt="${escapeHTML(member.name)}">
+          <img src="figures/people/${index + 1}.png" alt="${escapeHTML(member.name)}" ${imgAttrs()}>
         </div>
         <h3>${escapeHTML(member.name)}</h3>
         <p>Nhân vật chính đã xuất hiện.</p>
@@ -1543,7 +1574,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="route-photo">
                 ${mapsUrl ? `
                   <a class="route-map-link" href="${escapeHTML(mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Mở ${escapeHTML(place.title)} trên Google Maps">
-                    <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true">
+                    <img class="maps-icon" src="figures/decor/google-maps.png" alt="" aria-hidden="true" ${imgAttrs()}>
                   </a>
                 ` : ""}
                 ${weatherPlaceKeys.has(place.key) ? `
@@ -1551,7 +1582,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${lucideIcon("sun")}
                   </button>
                 ` : ""}
-                <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.title)}">
+                <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.title)}" ${imgAttrs()}>
               </div>
               <div class="route-copy">
                 <div class="route-kicker">
@@ -1795,7 +1826,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return `
       <div class="dest-card dest-card-photo" style="--i: ${randomRot}">
         <span class="photo-stamp">Huế ✦</span>
-        ${dest.image ? `<div class="dest-photo"><img src="${dest.image}" alt="${dest.name}"></div>` : `<div class="dest-photo placeholder"></div>`}
+        ${dest.image ? `<div class="dest-photo"><img src="${dest.image}" alt="${dest.name}" ${imgAttrs()}></div>` : `<div class="dest-photo placeholder"></div>`}
         <div class="dest-info">
           <h3>${dest.name}</h3>
           <p>${dest.desc}</p>
@@ -1812,7 +1843,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <div class="dest-card dest-card-photo food-card" style="--i: ${randomRot}">
           <span class="photo-stamp food-stamp">Ăn ✦</span>
-          ${f.image ? `<div class="dest-photo food-photo"><img src="${f.image}" alt="${f.name}"></div>` : `<div class="dest-photo food-photo placeholder"></div>`}
+          ${f.image ? `<div class="dest-photo food-photo"><img src="${f.image}" alt="${f.name}" ${imgAttrs()}></div>` : `<div class="dest-photo food-photo placeholder"></div>`}
           <div class="dest-info food-info">
             <h3>${f.name}</h3>
             <p class="food-address">${lucideIcon("map-pin", "food-address-icon")} ${f.address}</p>
@@ -2173,7 +2204,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <section class="spy-panel spy-self">
           <div class="spy-profile">
-            <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}">
+            <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}" ${imgAttrs()}>
             <div>
               <div class="spy-role-line">
                 <span class="spy-kicker">Bạn là</span>
@@ -2228,7 +2259,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   const isPlayerHost = item.role === "host";
                   return `
                     <div class="spy-player-row ${!item.alive && !isPlayerHost ? "is-dead" : ""}">
-                      <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}">
+                      <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}" ${imgAttrs()}>
                       <strong>${escapeHTML(meta.displayName)}</strong>
                       <select data-spy-role="${escapeHTML(item.username)}">
                         ${Object.entries(roleLabels).map(([value, label]) => `<option value="${value}" ${item.role === value ? "selected" : ""}>${label}</option>`).join("")}

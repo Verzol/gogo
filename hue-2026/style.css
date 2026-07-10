@@ -48,10 +48,10 @@ body {
   font-family: var(--font-body);
   color: var(--ink);
   background-color: var(--cream-deep);
-  /* Nền giấy cũ toàn trang (background.png) + lớp kem mờ cho chữ dễ đọc */
+  /* Nền giấy cũ toàn trang + lớp kem mờ cho chữ dễ đọc */
   background-image:
     linear-gradient(rgba(255, 250, 240, 0.42), rgba(255, 250, 240, 0.42)),
-    url("figures/decor/background.png");
+    url("figures/decor/background.jpg");
   background-size: cover, cover;
   background-position: center, center;
   background-attachment: fixed, fixed;
@@ -125,6 +125,7 @@ section { padding: 60px 0; }
 .section-head p:last-child { color: var(--ink-soft); margin-bottom: 0; }
 
 @media (max-width: 640px) {
+  body { background-attachment: scroll, scroll; }
   section { padding: 44px 0; }
   .wrap { padding: 0 20px; }
 }
@@ -562,7 +563,7 @@ body.lucide-ready .nav-links a:focus-visible {
   background:
     radial-gradient(circle at 92% 0%, rgba(242, 200, 208, 0.72), transparent 38%),
     linear-gradient(rgba(255, 253, 248, 0.96), rgba(255, 253, 248, 0.96)),
-    url("figures/decor/background.png");
+    url("figures/decor/background.jpg");
   background-size: cover;
   border: 1px solid rgba(197, 106, 120, 0.22);
   box-shadow:
@@ -825,7 +826,7 @@ body.lucide-ready .nav-links a:focus-visible {
     background:
       radial-gradient(circle at 86% 0%, rgba(242, 200, 208, 0.62), transparent 28%),
       linear-gradient(rgba(255, 248, 232, 0.92), rgba(255, 248, 232, 0.92)),
-      url("figures/decor/background.png");
+      url("figures/decor/background.jpg");
     background-size: cover;
     padding: 10px;
     gap: 6px;
