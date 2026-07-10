@@ -2767,6 +2767,199 @@ body.lucide-ready .nav-links a:focus-visible {
   font-weight: 700;
 }
 
+.spy-vote-box {
+  border: 1.5px solid rgba(44, 51, 35, 0.22);
+  border-radius: 12px;
+  background: rgba(221, 229, 209, 0.55);
+  padding: 14px;
+  margin: 0 0 16px;
+}
+
+.spy-vote-box.is-closed {
+  background: rgba(255, 253, 248, 0.72);
+}
+
+.spy-vote-box.is-closed strong {
+  display: block;
+  color: var(--ink-soft);
+}
+
+.spy-vote-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.spy-vote-head strong {
+  display: block;
+  margin: 0;
+}
+
+.spy-vote-head > span {
+  border: 1.5px solid rgba(44, 51, 35, 0.28);
+  border-radius: 999px;
+  background: var(--paper);
+  padding: 5px 10px;
+  font-weight: 800;
+}
+
+.spy-vote-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.spy-vote-list label {
+  display: grid;
+  grid-template-columns: 18px 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  border: 1px solid rgba(44, 51, 35, 0.2);
+  border-radius: 12px;
+  background: var(--paper);
+  padding: 8px 11px;
+  color: var(--ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.spy-vote-list label.is-selected {
+  background: var(--avocado-pale);
+  border-color: rgba(111, 138, 86, 0.58);
+  box-shadow: inset 4px 0 0 var(--avocado);
+}
+
+.spy-vote-list label:has(input:disabled):not(.is-selected) {
+  opacity: 0.58;
+  cursor: default;
+}
+
+.spy-vote-list img {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  background: var(--cream);
+}
+
+.spy-vote-list span {
+  overflow-wrap: anywhere;
+}
+
+.spy-vote-list em {
+  border: 1px solid rgba(44, 51, 35, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.82);
+  padding: 4px 9px;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.spy-vote-list label.is-selected em {
+  background: var(--avocado);
+  border-color: var(--avocado);
+  color: var(--paper);
+}
+
+.spy-round-box .spy-vote-switch {
+  min-height: 40px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
+  box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.14);
+}
+
+.spy-round-box .spy-vote-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--gold);
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+.spy-round-box .spy-vote-switch:hover {
+  transform: translateY(-1px);
+}
+
+.spy-round-box .spy-vote-switch {
+  min-width: 170px;
+  justify-content: flex-start;
+  background: var(--paper);
+  border-color: rgba(44, 51, 35, 0.5);
+  padding: 6px 13px 6px 8px;
+}
+
+.spy-round-box .spy-vote-switch.is-on {
+  background: var(--avocado-pale);
+  border-color: var(--avocado);
+}
+
+.spy-vote-switch-track {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 24px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--pink-pale);
+  transition: background 0.18s ease;
+}
+
+.spy-vote-switch-track span {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  transition: transform 0.18s ease;
+}
+
+.spy-vote-switch.is-on .spy-vote-switch-track {
+  background: var(--avocado);
+}
+
+.spy-vote-switch.is-on .spy-vote-switch-track span {
+  transform: translateX(18px);
+}
+
+.spy-vote-switch strong {
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.spy-kill-button {
+  min-height: 34px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--pink-pale);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 6px 11px;
+}
+
+.spy-kill-button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
 .spy-paused {
   border: 2px solid var(--ink);
   border-radius: 12px;
@@ -2802,8 +2995,8 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-host-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 20px;
   margin-top: 16px;
 }
 
@@ -2811,6 +3004,28 @@ body.lucide-ready .nav-links a:focus-visible {
 .spy-self h4 {
   margin: 0 0 10px;
   font-size: 1rem;
+}
+
+.spy-host-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.spy-host-block-head h4 {
+  margin: 0;
+}
+
+.spy-host-block-head span {
+  border-radius: 999px;
+  background: var(--paper);
+  border: 1px solid rgba(44, 51, 35, 0.18);
+  padding: 4px 9px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
 }
 
 .spy-player-list,
@@ -2821,12 +3036,12 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-player-row {
   display: grid;
-  grid-template-columns: 42px minmax(76px, 1fr) minmax(112px, 0.8fr) minmax(74px, auto);
-  gap: 10px;
+  grid-template-columns: 42px minmax(120px, 1fr) 142px 86px minmax(150px, 1fr) 56px;
+  gap: 12px;
   align-items: center;
   background: rgba(221, 229, 209, 0.58);
   border-radius: 12px;
-  padding: 8px;
+  padding: 10px;
 }
 
 .spy-player-row.is-dead {
@@ -2844,6 +3059,45 @@ body.lucide-ready .nav-links a:focus-visible {
   font-size: 0.84rem;
   font-weight: 700;
   line-height: 1;
+}
+
+.spy-kill-spacer {
+  width: 52px;
+  justify-self: end;
+}
+
+.spy-player-votes {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.spy-player-votes span {
+  width: fit-content;
+  border-radius: 999px;
+  background: var(--paper);
+  padding: 4px 9px;
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.spy-player-votes small {
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+.spy-player-votes.is-muted {
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.spy-player-votes.is-muted span {
+  background: var(--paper);
+  color: var(--ink-soft);
 }
 
 .spy-player-row img {
@@ -2894,6 +3148,36 @@ body.lucide-ready .nav-links a:focus-visible {
   box-shadow: inset 0 -2px 0 rgba(111, 138, 86, 0.14);
 }
 
+.spy-player-row select.is-host {
+  background-color: rgba(201, 162, 74, 0.26);
+  border-color: rgba(147, 112, 35, 0.58);
+}
+
+.spy-player-row select.is-spy {
+  background-color: rgba(244, 211, 216, 0.9);
+  border-color: rgba(197, 106, 120, 0.62);
+}
+
+.spy-player-row select.is-villager {
+  background-color: rgba(221, 229, 209, 0.92);
+  border-color: rgba(111, 138, 86, 0.55);
+}
+
+.spy-player-row select option.is-host {
+  background: #f3df9c;
+  color: var(--ink);
+}
+
+.spy-player-row select option.is-spy {
+  background: #f4d3d8;
+  color: var(--ink);
+}
+
+.spy-player-row select option.is-villager {
+  background: #dde5d1;
+  color: var(--ink);
+}
+
 .spy-player-row select:hover,
 .spy-round-box select:hover,
 .spy-task-row input:not([type="checkbox"]):hover,
@@ -2923,6 +3207,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-player-row input[type="checkbox"],
 .spy-task-row input[type="checkbox"],
+.spy-vote-list input[type="checkbox"],
 .spy-round-box input[type="checkbox"] {
   appearance: none;
   flex: 0 0 auto;
@@ -2939,6 +3224,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-player-row input[type="checkbox"]::before,
 .spy-task-row input[type="checkbox"]::before,
+.spy-vote-list input[type="checkbox"]::before,
 .spy-round-box input[type="checkbox"]::before {
   content: "";
   position: absolute;
@@ -2954,6 +3240,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-player-row input[type="checkbox"]:checked,
 .spy-task-row input[type="checkbox"]:checked,
+.spy-vote-list input[type="checkbox"]:checked,
 .spy-round-box input[type="checkbox"]:checked {
   background: var(--avocado);
   border-color: var(--avocado);
@@ -2961,18 +3248,21 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-player-row input[type="checkbox"]:checked::before,
 .spy-task-row input[type="checkbox"]:checked::before,
+.spy-vote-list input[type="checkbox"]:checked::before,
 .spy-round-box input[type="checkbox"]:checked::before {
   transform: rotate(40deg) scale(1);
 }
 
 .spy-player-row input[type="checkbox"]:hover,
 .spy-task-row input[type="checkbox"]:hover,
+.spy-vote-list input[type="checkbox"]:hover,
 .spy-round-box input[type="checkbox"]:hover {
   border-color: var(--ink);
 }
 
 .spy-player-row input[type="checkbox"]:focus-visible,
 .spy-task-row input[type="checkbox"]:focus-visible,
+.spy-vote-list input[type="checkbox"]:focus-visible,
 .spy-round-box input[type="checkbox"]:focus-visible {
   outline: 3px solid rgba(197, 106, 120, 0.28);
   outline-offset: 2px;
@@ -3010,7 +3300,7 @@ body.lucide-ready .nav-links a:focus-visible {
   border-top: 1px dashed rgba(44, 51, 35, 0.38);
 }
 
-.spy-round-box label:first-child {
+.spy-round-box label:has(select) {
   display: grid;
   gap: 4px;
   min-width: 130px;
@@ -3087,6 +3377,23 @@ body.lucide-ready .nav-links a:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .spy-player-row {
+    grid-template-columns: 42px minmax(90px, 1fr) minmax(118px, 0.85fr);
+  }
+
+  .spy-player-row label,
+  .spy-player-state,
+  .spy-player-votes,
+  .spy-player-row .spy-kill-button {
+    grid-column: 2 / -1;
+  }
+
+  .spy-player-votes {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 10px;
+  }
+
   .spy-titlebar,
   .spy-host-head {
     align-items: flex-start;
@@ -3114,6 +3421,13 @@ body.lucide-ready .nav-links a:focus-visible {
   .spy-profile,
   .spy-player-row {
     grid-template-columns: 1fr;
+  }
+
+  .spy-player-row label,
+  .spy-player-state,
+  .spy-player-votes,
+  .spy-player-row .spy-kill-button {
+    grid-column: auto;
   }
 
   .spy-profile {

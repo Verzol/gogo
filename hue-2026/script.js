@@ -1957,11 +1957,16 @@ document.addEventListener("DOMContentLoaded", () => {
         round: session?.round || 1,
         tasksDone: Boolean(session?.tasksDone),
         winner: session?.winner || "",
+        votingOpen: Boolean(session?.votingOpen),
+        voteRound: session?.voteRound || 1,
+        myVotes: payload?.myVotes || [],
+        candidates: payload?.candidates || [],
+        voteTallies: payload?.voteTallies || [],
         missions: missions.map(mission => ({
           id: mission.id,
           title: mission.title,
           done: mission.done,
-          order: mission.mission_order
+          order: mission.order || mission.mission_order
         })),
         assignments: dbPlayers.map(row => ({
           username: row.username,
@@ -2085,6 +2090,35 @@ document.addEventListener("DOMContentLoaded", () => {
       state = stateFromPayload(payload);
     }
 
+    async function setVoting(open, round = state.voteRound || 1) {
+      if (!client || !state.sessionId) return;
+      const { data: payload, error } = await client.rpc("spy_game_set_voting", {
+        p_session_token: sessionToken(),
+        p_round: Number(round),
+        p_open: open
+      });
+      if (error) {
+        setDbError("Không cập nhật được trạng thái vote.");
+        console.warn("Cannot update spy game voting:", error);
+        return;
+      }
+      state = stateFromPayload(payload);
+    }
+
+    async function castVotes(targets) {
+      if (!client || !state.sessionId) return;
+      const { data: payload, error } = await client.rpc("spy_game_cast_votes", {
+        p_session_token: sessionToken(),
+        p_targets: targets
+      });
+      if (error) {
+        setDbError(error.message || "Không gửi được phiếu vote.");
+        console.warn("Cannot cast spy game votes:", error);
+        return;
+      }
+      state = stateFromPayload(payload);
+    }
+
     async function persistMission(mission, includeDone = true) {
       if (!client) {
         setDbError("Chưa cấu hình Supabase nên không lưu nhiệm vụ được.");
@@ -2184,6 +2218,59 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
 
+    function renderVotingView(assignment) {
+      if (assignment.role === "host" || state.status !== "running") return "";
+      if (!state.votingOpen) {
+        return `
+          <div class="spy-vote-box is-closed">
+            <div>
+              <span class="spy-kicker">Vote vòng ${state.voteRound || 1}</span>
+              <strong>Chưa mở vote</strong>
+            </div>
+          </div>
+        `;
+      }
+      if (!assignment.alive) {
+        return `
+          <div class="spy-vote-box is-closed">
+            <div>
+              <span class="spy-kicker">Vote vòng ${state.voteRound || 1}</span>
+              <strong>Bạn đã bị loại nên không thể vote.</strong>
+            </div>
+          </div>
+        `;
+      }
+
+      const selected = new Set(state.myVotes || []);
+      const candidates = (state.candidates || []).filter(candidate => candidate.alive && candidate.username !== assignment.username);
+      return `
+        <div class="spy-vote-box">
+          <div class="spy-vote-head">
+            <div>
+              <span class="spy-kicker">Vote vòng ${state.voteRound || 1}</span>
+              <strong>Chọn tối đa 2 người nghi là gián điệp</strong>
+            </div>
+            <span>${selected.size}/2</span>
+          </div>
+          <div class="spy-vote-list">
+            ${candidates.map(candidate => {
+              const meta = playerMeta(candidate.username);
+              const isSelected = selected.has(candidate.username);
+              const isDisabled = !isSelected && selected.size >= 2;
+              return `
+              <label class="${selected.has(candidate.username) ? "is-selected" : ""}">
+                <input type="checkbox" data-spy-vote-target="${escapeHTML(candidate.username)}" ${isSelected ? "checked" : ""} ${isDisabled ? "disabled" : ""}>
+                <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(candidate.username)}" ${imgAttrs()}>
+                <span>${escapeHTML(candidate.username)}</span>
+                <em>${isSelected ? "Đã chọn" : isDisabled ? "Đủ 2 phiếu" : "Chọn"}</em>
+              </label>
+            `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
     function renderPlayerView() {
       if (state.status !== "running" && !isHost()) {
         return `
@@ -2204,7 +2291,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <section class="spy-panel spy-self">
           <div class="spy-profile">
-            <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}" ${imgAttrs()}>
+            <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(assignment.username)}" ${imgAttrs()}>
             <div>
               <div class="spy-role-line">
                 <span class="spy-kicker">Bạn là</span>
@@ -2217,6 +2304,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="${assignment.alive ? "is-alive" : "is-dead"}">${assignment.alive ? "Còn sống" : "Đã bị loại"}</span>
             <span class="is-round">${statusText()}</span>
           </div>
+          ${renderVotingView(assignment)}
           ${assignment.role === "spy" ? `
             <div class="spy-mission-card">
               <span>Nhiệm vụ gián điệp</span>
@@ -2237,6 +2325,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderHostView() {
+      const tallyByUsername = new Map((state.voteTallies || []).map(tally => [tally.username, tally]));
       return `
         <section class="spy-panel spy-host">
           <div class="spy-host-head">
@@ -2252,19 +2341,38 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="spy-host-grid">
             <div class="spy-host-block">
-              <h4>Người chơi</h4>
+              <div class="spy-host-block-head">
+                <h4>Người chơi</h4>
+                <span>Vote vòng ${state.voteRound || 1}</span>
+              </div>
               <div class="spy-player-list">
                 ${state.assignments.map(item => {
                   const meta = playerMeta(item.username);
                   const isPlayerHost = item.role === "host";
+                  const tally = tallyByUsername.get(item.username);
+                  const voteCount = Number(tally?.count || 0);
+                  const voters = tally?.voters || [];
                   return `
                     <div class="spy-player-row ${!item.alive && !isPlayerHost ? "is-dead" : ""}">
-                      <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(meta.displayName)}" ${imgAttrs()}>
-                      <strong>${escapeHTML(meta.displayName)}</strong>
-                      <select data-spy-role="${escapeHTML(item.username)}">
-                        ${Object.entries(roleLabels).map(([value, label]) => `<option value="${value}" ${item.role === value ? "selected" : ""}>${label}</option>`).join("")}
+                      <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(item.username)}" ${imgAttrs()}>
+                      <strong>${escapeHTML(item.username)}</strong>
+                      <select class="is-${escapeHTML(item.role)}" data-spy-role="${escapeHTML(item.username)}">
+                        ${Object.entries(roleLabels).map(([value, label]) => `<option class="is-${escapeHTML(value)}" value="${value}" ${item.role === value ? "selected" : ""}>${label}</option>`).join("")}
                       </select>
-                      ${isPlayerHost ? `<span class="spy-player-state">Quản trò</span>` : `<label><input type="checkbox" data-spy-alive="${escapeHTML(item.username)}" ${item.alive ? "checked" : ""}> ${item.alive ? "Sống" : "Chết"}</label>`}
+                      ${isPlayerHost ? `<span class="spy-player-state">Host</span>` : `<label><input type="checkbox" data-spy-alive="${escapeHTML(item.username)}" ${item.alive ? "checked" : ""}> ${item.alive ? "Sống" : "Chết"}</label>`}
+                      ${isPlayerHost ? `
+                        <div class="spy-player-votes is-muted">
+                          <span>Quản trò</span>
+                          <small>Không vote</small>
+                        </div>
+                        <span class="spy-kill-spacer" aria-hidden="true"></span>
+                      ` : `
+                        <div class="spy-player-votes">
+                          <span>${voteCount} phiếu</span>
+                          <small>${voters.length ? `Từ: ${voters.map(escapeHTML).join(", ")}` : "Chưa có phiếu"}</small>
+                        </div>
+                        <button class="spy-kill-button" type="button" data-spy-kill-target="${escapeHTML(item.username)}" ${!item.alive ? "disabled" : ""}>Loại</button>
+                      `}
                     </div>
                   `;
                 }).join("")}
@@ -2293,6 +2401,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <option value="3" ${state.round > 2 ? "selected" : ""}>Kết thúc vote</option>
                   </select>
                 </label>
+                <button class="spy-vote-switch ${state.votingOpen ? "is-on" : ""}" type="button" data-spy-action="${state.votingOpen ? "close-vote" : "open-vote"}" aria-pressed="${state.votingOpen ? "true" : "false"}">
+                  <span class="spy-vote-switch-track" aria-hidden="true"><span></span></span>
+                  <strong>${state.votingOpen ? `Đang mở vote vòng ${state.round}` : `Đang đóng vote vòng ${state.round}`}</strong>
+                </button>
                 <label><input type="checkbox" data-spy-tasks-done ${state.tasksDone ? "checked" : ""} disabled> Gián điệp xong nhiệm vụ</label>
                 <button type="button" data-spy-action="judge">${lucideIcon("scale")}Chốt kết quả</button>
               </div>
@@ -2362,10 +2474,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (state.status === "running") await stopCurrentGame();
         else await startCurrentGame();
       }
+      if (action === "open-vote") await setVoting(true, Math.min(Number(state.round) || 1, 2));
+      if (action === "close-vote") await setVoting(false, Math.min(Number(state.round) || 1, 2));
       if (action === "judge") applyWinLogic();
       const deleteId = event.target.closest("[data-spy-task-delete]")?.dataset.spyTaskDelete;
-      if (action || deleteId) {
+      const killTarget = event.target.closest("[data-spy-kill-target]")?.dataset.spyKillTarget;
+      if (action || deleteId || killTarget) {
         if (deleteId && await deleteMission(deleteId)) state.missions = state.missions.filter(task => task.id !== deleteId);
+        if (killTarget) {
+          const target = assignmentOf(killTarget);
+          target.alive = false;
+          await persistPlayer(killTarget);
+        }
         if (action === "judge") await persistSession();
         render();
       }
@@ -2376,6 +2496,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const aliveName = event.target.dataset.spyAlive;
       const taskTitleId = event.target.dataset.spyTaskTitle;
       const taskDoneId = event.target.dataset.spyTaskDone;
+      const voteTarget = event.target.dataset.spyVoteTarget;
       if (roleName) assignmentOf(roleName).role = event.target.value;
       if (aliveName) assignmentOf(aliveName).alive = event.target.checked;
       const task = taskTitleId || taskDoneId ? state.missions.find(task => task.id === (taskTitleId || taskDoneId)) : null;
@@ -2383,7 +2504,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const oldTaskDone = task?.done || false;
       if (taskTitleId && task) task.title = event.target.value.trim();
       if (taskDoneId && task) task.done = event.target.checked;
-      if (event.target.matches("[data-spy-round]")) state.round = Number(event.target.value);
+      if (event.target.matches("[data-spy-round]")) {
+        state.round = Number(event.target.value);
+        state.voteRound = Math.min(state.round, 2);
+        state.votingOpen = false;
+        await persistSession();
+        await setVoting(false, state.voteRound);
+        render();
+        return;
+      }
+      if (voteTarget) {
+        const selectedVotes = new Set(state.myVotes || []);
+        if (event.target.checked) selectedVotes.add(voteTarget);
+        else selectedVotes.delete(voteTarget);
+        await castVotes([...selectedVotes].slice(0, 2));
+        render();
+        return;
+      }
       if (taskDoneId) state.tasksDone = state.missions.length > 0 && state.missions.every(mission => mission.done);
       applyWinLogic();
       if (roleName) await persistPlayer(roleName);
@@ -2392,7 +2529,7 @@ document.addEventListener("DOMContentLoaded", () => {
         task.title = oldTaskTitle;
         task.done = oldTaskDone;
       }
-      if (!state.isDraft && (taskDoneId || event.target.matches("[data-spy-round]"))) await persistSession();
+      if (!state.isDraft && taskDoneId) await persistSession();
       render();
     });
 
