@@ -2602,19 +2602,19 @@ body.lucide-ready .nav-links a:focus-visible {
   box-shadow: 0 2px 0 rgba(44, 51, 35, 0.28);
 }
 
-.crew-medal svg {
-  width: 17px;
-  height: 17px;
-  stroke-width: 2.4;
+.crew-medal-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }
 
 .rank-1 .crew-medal { background: #f5c842; color: #684b00; border-color: #fff4b5; }
 .rank-2 .crew-medal { background: #d6ddda; color: #46514e; border-color: #fff; }
 .rank-3 .crew-medal { background: #c27a45; color: #65341d; border-color: #f3c49f; }
 .rank-1 .crew-medal { width: 38px; height: 38px; }
-.rank-1 .crew-medal svg { width: 22px; height: 22px; }
+.rank-1 .crew-medal-icon { width: 28px; height: 28px; }
 
-.crew-podium-card img {
+.crew-podium-card > img {
   width: 66px;
   height: 66px;
   border: 4px solid #7b8885;
@@ -2623,8 +2623,8 @@ body.lucide-ready .nav-links a:focus-visible {
   object-position: center top;
 }
 
-.crew-podium-card.rank-1 img { width: 84px; height: 84px; border-color: #a77a12; }
-.crew-podium-card.rank-3 img { border-color: #95522d; }
+.crew-podium-card.rank-1 > img { width: 84px; height: 84px; border-color: #a77a12; }
+.crew-podium-card.rank-3 > img { border-color: #95522d; }
 .crew-podium-card strong { font-size: 0.95rem; }
 .crew-podium-card b { font-size: 0.82rem; color: var(--ink-soft); }
 
@@ -4895,8 +4895,7 @@ body.lucide-ready .nav-links a:focus-visible {
   .crew-podium-card.rank-2 { grid-column: 1; }
   .crew-podium-card.rank-3 { grid-column: 3; }
 
-  .crew-podium-card img,
-  .crew-podium-card.rank-1 img {
+  .crew-podium-card > img {
     width: 42px;
     height: 42px;
   }
@@ -4904,13 +4903,13 @@ body.lucide-ready .nav-links a:focus-visible {
   .crew-podium-card.rank-1 { min-height: 176px; }
   .crew-podium-card.rank-2 { min-height: 150px; }
   .crew-podium-card.rank-3 { min-height: 126px; }
-  .crew-podium-card.rank-1 img { width: 54px; height: 54px; }
+  .crew-podium-card.rank-1 > img { width: 54px; height: 54px; }
   .crew-podium-card strong { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.72rem; }
   .crew-podium-card b { font-size: 0.65rem; }
   .crew-medal { width: 24px; height: 24px; }
-  .crew-medal svg { width: 14px; height: 14px; }
+  .crew-medal-icon { width: 17px; height: 17px; }
   .rank-1 .crew-medal { width: 30px; height: 30px; }
-  .rank-1 .crew-medal svg { width: 18px; height: 18px; }
+  .rank-1 .crew-medal-icon { width: 23px; height: 23px; }
   .crew-penalty-heading { display: block; }
   .crew-penalty-row { grid-template-columns: 24px minmax(0, 1fr) auto; gap: 7px; }
   .crew-penalty-row b { grid-column: 3; grid-row: 1; }

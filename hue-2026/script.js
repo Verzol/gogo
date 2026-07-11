@@ -1526,7 +1526,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   ${winners.map((player, index) => `
                     <article class="crew-podium-card rank-${index + 1}">
                       <div class="crew-medal" aria-label="Huy chương ${index === 0 ? "vàng" : index === 1 ? "bạc" : "đồng"}">
-                        ${lucideIcon("medal")}
+                        <img class="crew-medal-icon" src="figures/decor/${["medal_gold.svg", "medal_silver.svg", "medal_bronze.svg"][index]}" alt="Huy chương ${index + 1}">
                       </div>
                       <img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}>
                       <strong>${escapeHTML(player.username)}</strong>
