@@ -2531,6 +2531,162 @@ body.lucide-ready .nav-links a:focus-visible {
   animation: game-menu-pulse 1.2s ease-in-out infinite alternate;
 }
 
+.crew-ranking-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 22px 0 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.crew-ranking-legend span {
+  border-radius: 999px;
+  padding: 7px 11px;
+}
+
+.crew-ranking-legend .is-reward {
+  color: #5d4611;
+  background: #f8e8a9;
+}
+
+.crew-ranking-legend .is-penalty {
+  color: var(--pink-deep);
+  background: var(--pink-pale);
+}
+
+.crew-podium {
+  display: grid;
+  grid-template-columns: 1fr 1.18fr 1fr;
+  align-items: end;
+  gap: 10px;
+  min-height: 270px;
+  padding-top: 28px;
+}
+
+.crew-podium-card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-height: 178px;
+  padding: 22px 10px 14px;
+  border: 2px solid rgba(44, 51, 35, 0.72);
+  border-radius: 14px 14px 8px 8px;
+  background: linear-gradient(145deg, #f4f5ef, #d5d9d0);
+  box-shadow: 4px 5px 0 rgba(44, 51, 35, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  text-align: center;
+  animation: crew-rank-in 0.5s ease both;
+}
+
+.crew-podium-card::after {
+  content: '';
+  position: absolute;
+  right: 9px;
+  bottom: 8px;
+  left: 9px;
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(44, 51, 35, 0.18);
+}
+
+.crew-podium-card.rank-1 {
+  z-index: 2;
+  min-height: 232px;
+  background: linear-gradient(145deg, #fff2a9, #e5b83f);
+  border-color: #a77a12;
+  animation-delay: 0.08s;
+}
+
+.crew-podium-card.rank-2 {
+  order: -1;
+  background: linear-gradient(145deg, #f8faf7, #b8c0bd);
+  border-color: #7b8885;
+  animation-delay: 0.16s;
+}
+
+.crew-podium-card.rank-3 {
+  background: linear-gradient(145deg, #f3d1b2, #b96f3b);
+  border-color: #95522d;
+  animation-delay: 0.24s;
+}
+
+.crew-medal {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.72);
+  background: #aeb8b5;
+  color: #36403d;
+  box-shadow: 0 2px 0 rgba(44, 51, 35, 0.28);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+.rank-1 .crew-medal { background: #f5c842; color: #684b00; border-color: #fff4b5; }
+.rank-2 .crew-medal { background: #d6ddda; color: #46514e; border-color: #fff; }
+.rank-3 .crew-medal { background: #c27a45; color: #65341d; border-color: #f3c49f; }
+.rank-1 .crew-medal { width: 38px; height: 38px; font-size: 1.15rem; }
+
+.crew-podium-card img {
+  width: 66px;
+  height: 66px;
+  border: 4px solid #7b8885;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.crew-podium-card.rank-1 img { width: 84px; height: 84px; border-color: #a77a12; }
+.crew-podium-card.rank-3 img { border-color: #95522d; }
+.crew-podium-card strong { font-size: 0.95rem; }
+.crew-podium-card b { font-size: 0.82rem; color: var(--ink-soft); }
+
+.crew-penalty-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 28px 0 8px;
+  padding-top: 16px;
+  border-top: 2px dashed rgba(44, 51, 35, 0.28);
+}
+
+.crew-penalty-heading span {
+  color: var(--pink-deep);
+  font-family: var(--font-doodle);
+  font-size: 1.15rem;
+}
+
+.crew-penalty-heading small { color: var(--ink-soft); }
+
+.crew-penalty-list { display: grid; gap: 7px; }
+
+.crew-penalty-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border: 1px solid rgba(185, 68, 83, 0.28);
+  border-radius: 10px;
+  background: rgba(255, 232, 234, 0.58);
+}
+
+.crew-penalty-row > strong { color: var(--pink-deep); font-size: 1.1rem; }
+.crew-penalty-row .game-rank-player { min-width: 0; }
+.crew-penalty-row .game-rank-player span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crew-penalty-row b { color: var(--ink-soft); font-size: 0.82rem; }
+.crew-penalty-row > span { color: var(--pink-deep); font-size: 0.62rem; font-weight: 900; letter-spacing: 0.08em; }
+
+@keyframes crew-rank-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ============================================================
    Games
    ============================================================ */
@@ -3977,10 +4133,6 @@ body.lucide-ready .nav-links a:focus-visible {
   background: var(--pink-pale);
 }
 
-.spy-role-badge.is-host {
-  background: var(--gold);
-}
-
 .spy-status-strip {
   flex-wrap: wrap;
   margin: 16px 0 18px;
@@ -4028,6 +4180,12 @@ body.lucide-ready .nav-links a:focus-visible {
 .spy-mission-list {
   display: grid;
   gap: 10px;
+}
+
+.spy-mission-hidden {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
 }
 
 .spy-mission-item {
@@ -4339,23 +4497,6 @@ body.lucide-ready .nav-links a:focus-visible {
   border: 1px solid rgba(197, 106, 120, 0.42);
 }
 
-.spy-player-state {
-  justify-self: start;
-  border: 1px solid rgba(44, 51, 35, 0.24);
-  border-radius: 999px;
-  background: var(--paper);
-  padding: 5px 9px;
-  color: var(--ink-soft);
-  font-size: 0.84rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.spy-kill-spacer {
-  width: 52px;
-  justify-self: end;
-}
-
 .spy-player-votes {
   display: grid;
   gap: 3px;
@@ -4377,17 +4518,6 @@ body.lucide-ready .nav-links a:focus-visible {
   color: var(--ink-soft);
   font-size: 0.78rem;
   overflow-wrap: anywhere;
-}
-
-.spy-player-votes.is-muted {
-  color: var(--ink-soft);
-  font-size: 0.84rem;
-  font-weight: 800;
-}
-
-.spy-player-votes.is-muted span {
-  background: var(--paper);
-  color: var(--ink-soft);
 }
 
 .spy-player-row img {
@@ -4438,11 +4568,6 @@ body.lucide-ready .nav-links a:focus-visible {
   box-shadow: inset 0 -2px 0 rgba(111, 138, 86, 0.14);
 }
 
-.spy-player-row select.is-host {
-  background-color: rgba(201, 162, 74, 0.26);
-  border-color: rgba(147, 112, 35, 0.58);
-}
-
 .spy-player-row select.is-spy {
   background-color: rgba(244, 211, 216, 0.9);
   border-color: rgba(197, 106, 120, 0.62);
@@ -4451,11 +4576,6 @@ body.lucide-ready .nav-links a:focus-visible {
 .spy-player-row select.is-villager {
   background-color: rgba(221, 229, 209, 0.92);
   border-color: rgba(111, 138, 86, 0.55);
-}
-
-.spy-player-row select option.is-host {
-  background: #f3df9c;
-  color: var(--ink);
 }
 
 .spy-player-row select option.is-spy {
@@ -4568,9 +4688,14 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .spy-task-row {
   display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) 40px;
+  grid-template-columns: 22px minmax(0, 1fr) 40px 40px;
   gap: 10px;
   align-items: center;
+}
+
+.spy-task-row .spy-task-visibility.is-visible {
+  background: var(--avocado-pale);
+  color: var(--avocado);
 }
 
 .spy-task-row > input[type="checkbox"] {
@@ -4676,7 +4801,6 @@ body.lucide-ready .nav-links a:focus-visible {
   }
 
   .spy-player-row label,
-  .spy-player-state,
   .spy-player-votes,
   .spy-player-row .spy-kill-button {
     grid-column: 2 / -1;
@@ -4764,6 +4888,37 @@ body.lucide-ready .nav-links a:focus-visible {
   .game-rank-row.is-overall {
     grid-template-columns: 34px minmax(100px, 1fr) 70px;
   }
+
+  .crew-podium {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    min-height: 0;
+  }
+
+  .crew-podium-card,
+  .crew-podium-card.rank-1 {
+    min-height: 0;
+    grid-template-columns: 30px 48px minmax(0, 1fr) auto;
+    justify-items: start;
+    align-items: center;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .crew-podium-card.rank-2 { order: initial; }
+
+  .crew-podium-card img,
+  .crew-podium-card.rank-1 img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .crew-podium-card strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .crew-podium-card b { grid-column: 3 / -1; grid-row: 2; }
+  .crew-penalty-heading { display: grid; gap: 2px; }
+  .crew-penalty-row { grid-template-columns: 24px minmax(0, 1fr) auto; gap: 7px; }
+  .crew-penalty-row > span { grid-column: 2; grid-row: 2; }
+  .crew-penalty-row b { grid-column: 3; grid-row: 1 / span 2; }
 
   .game-leaderboard-head {
     font-size: 0.62rem;
@@ -4858,6 +5013,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .crew-leaderboard-loading span,
+  .crew-podium-card,
   .photo-draw-loading span,
   .team-photo-loading span,
   .game-menu-loading span,
@@ -4889,7 +5045,6 @@ body.lucide-ready .nav-links a:focus-visible {
   }
 
   .spy-player-row label,
-  .spy-player-state,
   .spy-player-votes,
   .spy-player-row .spy-kill-button {
     grid-column: auto;

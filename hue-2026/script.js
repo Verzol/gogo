@@ -1487,7 +1487,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     function rankedPlayers() {
-      const players = leaderboardState.members.map(memberMeta).filter(member => member.role !== "host");
+      const photoPlayers = new Set(leaderboardState.results
+        .filter(result => result.gameKey === "anh-challenge-binh-minh")
+        .map(result => result.username));
+      const players = leaderboardState.members.map(memberMeta)
+        .filter(member => member.role !== "host" || photoPlayers.has(member.username));
       const totals = new Map(players.map(player => [player.username, 0]));
       leaderboardState.results.forEach(result => {
         if (totals.has(result.username)) {
@@ -1506,24 +1510,50 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="crew-leaderboard-title">
             <div>
               <span>${lucideIcon("trophy")} Phiếu bé ngoan</span>
-              <h3>Bảng xếp hạng chuyến đi</h3>
-              <p>Tổng điểm từ tất cả game. Quản trò không tham gia xếp hạng.</p>
+              <h3>Bảng xếp hạng</h3>
+              <p>Top 3 có thưởng. Hạng càng cao, phần thưởng càng lớn. Các hạng còn lại nhận phạt.</p>
             </div>
           </div>
           ${errorMessage ? `<p class="crew-leaderboard-error" role="status">${escapeHTML(errorMessage)}</p>` : ""}
           ${loading ? `<div class="crew-leaderboard-loading"><span></span><span></span><span></span></div>` : !loggedIn ? `
             <div class="game-empty-state">Đăng nhập để xem bảng xếp hạng của cả nhóm.</div>
           ` : `
-            <div class="game-leaderboard-head is-overall" aria-hidden="true"><span>Hạng</span><span>Người chơi</span><span>Tổng điểm</span></div>
-            <div class="game-leaderboard-list">
-              ${rankedPlayers().map((player, index) => `
-                <div class="game-rank-row is-overall">
-                  <strong class="game-rank-number">${index + 1}</strong>
-                  <div class="game-rank-player"><img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}><span>${escapeHTML(player.username)}</span></div>
-                  <strong class="game-rank-total">${player.total}</strong>
+            ${(() => {
+              const players = rankedPlayers();
+              const winners = players.slice(0, 3);
+              const punished = players.slice(3);
+              return `
+                <div class="crew-ranking-legend" aria-label="Luật thưởng phạt">
+                  <span class="is-reward"><strong>Top 3</strong> nhận thưởng</span>
+                  <span class="is-penalty"><strong>Hạng 4+</strong> nhận phạt</span>
                 </div>
-              `).join("")}
-            </div>
+                <div class="crew-podium" aria-label="Ba người dẫn đầu">
+                  ${winners.map((player, index) => `
+                    <article class="crew-podium-card rank-${index + 1}">
+                      <div class="crew-medal" aria-label="Huy chương ${index === 0 ? "vàng" : index === 1 ? "bạc" : "đồng"}">
+                        <span>${index + 1}</span>
+                      </div>
+                      <img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}>
+                      <strong>${escapeHTML(player.username)}</strong>
+                      <b>${player.total} điểm</b>
+                    </article>
+                  `).join("")}
+                </div>
+                ${punished.length ? `
+                  <div class="crew-penalty-heading"><span>Hạng bị phạt</span><small>Không ai muốn ở khu này</small></div>
+                  <div class="crew-penalty-list">
+                    ${punished.map((player, index) => `
+                      <div class="crew-penalty-row">
+                        <strong>${index + 4}</strong>
+                        <div class="game-rank-player"><img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}><span>${escapeHTML(player.username)}</span></div>
+                        <b>${player.total} điểm</b>
+                        <span>PHẠT</span>
+                      </div>
+                    `).join("")}
+                  </div>
+                ` : ""}
+              `;
+            })()}
           `}
         </section>
       `;
@@ -2053,7 +2083,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const players = () => gameState.members
       .map(member => memberMeta(member.username))
-      .filter(member => member.role !== "host");
+      .filter(member => isPhotoChallenge() || member.role !== "host");
     const normalizeTeams = teams => (teams || []).map(team => ({
       gameKey: team.gameKey || team.game_key || "",
       username: team.username || "",
@@ -2389,7 +2419,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <ul>${activeGame.prep.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
             </div>
           ` : ""}
-          <p class="game-scoring"><strong>Cách tính điểm:</strong> ${escapeHTML(activeGame.scoring || "Quản trò nhập kết quả sau khi chơi.")}</p>
+          ${activeGame.scoring ? `<p class="game-scoring"><strong>Cách tính điểm:</strong> ${escapeHTML(activeGame.scoring)}</p>` : ""}
           ${activeGame.key === "spy-game" ? `
             <button class="game-spy-open" type="button" data-open-spy-game>${lucideIcon("scan-face")} Mở phòng vai trò bí mật</button>
           ` : ""}
@@ -2434,12 +2464,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderPhotoChallengeBoard() {
       if (!isPhotoChallenge()) return "";
       const teamCount = effectiveTeamCount();
+      const poseCount = Number(activeGame.photoPoseCount || 2);
       return `
         <section class="game-menu-panel photo-pose-panel">
           <div class="game-panel-heading">
             <div>
               <h3>Bộ ảnh tạo dáng</h3>
-              <p>Mỗi đội bốc ngẫu nhiên 4 trong 5 dáng dưới đây.</p>
+              <p>Mỗi đội bốc ngẫu nhiên ${poseCount} trong 5 dáng dưới đây.</p>
             </div>
           </div>
           <div class="photo-pose-reference" aria-label="5 ảnh tạo dáng">
@@ -2452,7 +2483,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="photo-draw-heading">
             <strong>Phiếu bốc của từng đội</strong>
-            <span>Mỗi đội cần đủ 4 dáng</span>
+            <span>Mỗi đội cần đủ ${poseCount} dáng</span>
           </div>
           ${photoChallengeLoading ? `<div class="photo-draw-loading"><span></span><span></span></div>` : `
             <div class="photo-draw-teams">
@@ -2464,7 +2495,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   <article class="photo-draw-team">
                     <div class="photo-draw-team-title">
                       <strong>Đội ${teamNumber}</strong>
-                      <span class="${draws.length === 4 ? "is-ready" : ""}">${draws.length}/4 dáng</span>
+                      <span class="${draws.length === poseCount ? "is-ready" : ""}">${draws.length}/${poseCount} dáng</span>
                     </div>
                     ${draws.length ? `
                       <div class="photo-draw-grid">
@@ -2507,7 +2538,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${photoChallengeState.voteStatus === "draft" ? `
             <div class="game-empty-state">Quản trò sẽ mở vote sau khi các đội hoàn thành và upload ảnh.</div>
           ` : photoChallengeState.voteStatus === "open" ? `
-            ${!sessionToken() ? `<div class="game-empty-state">Đăng nhập để vote cho đội bạn thích.</div>` : isHost() ? `<div class="game-empty-state">Quản trò không tham gia vote. Số phiếu trực tiếp nằm trong công cụ quản trò.</div>` : !photoChallengeState.myTeam ? `<div class="game-empty-state">Bạn cần được chia đội trước khi vote.</div>` : `
+            ${!sessionToken() ? `<div class="game-empty-state">Đăng nhập để vote cho đội bạn thích.</div>` : isHost() && !isPhotoChallenge() ? `<div class="game-empty-state">Quản trò không tham gia vote. Số phiếu trực tiếp nằm trong công cụ quản trò.</div>` : !photoChallengeState.myTeam ? `<div class="game-empty-state">Bạn cần được chia đội trước khi vote.</div>` : `
               <div class="photo-vote-options">
                 ${Array.from({ length: teamCount }, (_, index) => index + 1)
                   .map(teamNumber => `
@@ -2627,7 +2658,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderHostResults() {
-      if (!isHost()) return "";
+      if (!isHost() || ["truth-or-dare", "su-that-va-loi-noi-doi"].includes(activeGame?.key)) return "";
       const gameResults = currentResults();
       return `
         <section class="game-menu-panel game-host-results">
@@ -2655,6 +2686,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderPhotoChallengeHostControls() {
       if (!isHost() || !isPhotoChallenge()) return "";
       const teamCount = effectiveTeamCount();
+      const poseCount = Number(activeGame.photoPoseCount || 2);
       const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally.voteCount]));
       return `
         <section class="game-menu-panel photo-host-controls">
@@ -2678,12 +2710,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="photo-host-setting is-draws">
             <div>
               <strong>Bốc ảnh tạo dáng</strong>
-              <span>Mỗi lần bốc chọn ngẫu nhiên 4 trong 5 ảnh.</span>
+              <span>Mỗi lần bốc chọn ngẫu nhiên ${poseCount} trong 5 ảnh.</span>
             </div>
             <div class="photo-host-draw-actions">
               <button type="button" class="is-primary" data-photo-draw="all">${lucideIcon("shuffle")} Bốc cho tất cả</button>
               ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
-                const hasDraw = photoChallengeState.draws.filter(draw => draw.teamNumber === teamNumber).length === 4;
+                const hasDraw = photoChallengeState.draws.filter(draw => draw.teamNumber === teamNumber).length === poseCount;
                 return `<button type="button" data-photo-draw="${teamNumber}">${lucideIcon("images")} ${hasDraw ? "Bốc lại" : "Bốc"} Đội ${teamNumber}</button>`;
               }).join("")}
             </div>
@@ -2752,7 +2784,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderHostConsole() {
-      if (!isHost()) return "";
+      // The spy game has its own player/host flow in the dedicated room modal.
+      if (!isHost() || activeGame?.key === "spy-game") return "";
       return `
         <section class="game-host-console">
           <header class="game-host-console-title">
@@ -2798,6 +2831,8 @@ document.addEventListener("DOMContentLoaded", () => {
     async function openGame(gameKey) {
       activeGame = data.games.find(game => game.key === gameKey);
       if (!activeGame) return;
+      // Switching cards closes the separate spy-room surface before opening the new game.
+      document.getElementById("spyGame")?.setAttribute("hidden", "");
       setStatus("");
       mount.hidden = false;
       render();
@@ -2861,6 +2896,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mount.addEventListener("click", async event => {
       if (event.target.closest("[data-game-menu-close]")) {
         mount.hidden = true;
+        document.getElementById("spyGame")?.setAttribute("hidden", "");
         activeGame = null;
         return;
       }
@@ -2968,7 +3004,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       const voteButton = event.target.closest("[data-photo-vote]");
-      if (voteButton && isPhotoChallenge() && !isHost()) {
+      if (voteButton && isPhotoChallenge()) {
         const { data: payload, error } = await client.rpc("photo_challenge_cast_vote", {
           p_session_token: sessionToken(),
           p_team_number: Number(voteButton.dataset.photoVote)
@@ -3213,23 +3249,25 @@ document.addEventListener("DOMContentLoaded", () => {
       ? window.supabase.createClient(config.url, config.anonKey)
       : null;
     const roleLabels = {
-      host: "Quản trò",
       villager: "Dân",
       spy: "Gián điệp"
     };
     const roleHints = {
-      host: "Quản lý nhiệm vụ, vai trò, trạng thái game.",
       villager: "Không có nhiệm vụ. Mục tiêu là tìm đủ 2 gián điệp.",
       spy: "Có nhiệm vụ riêng. Hoàn thành nhiệm vụ và sống sót qua vote."
     };
-    const players = (data.members || []).map((member, index) => ({
-      username: member.name,
-      displayName: member.name,
-      avatar: `figures/people/${index + 1}.png`
-    }));
+    let memberRoles = new Map((data.members || []).map(member => [member.name, member.role || ""]));
+    const players = () => (data.members || [])
+      .filter(member => memberRoles.get(member.name) !== "host")
+      .map((member, index) => ({
+        username: member.name,
+        displayName: member.name,
+        avatar: `figures/people/${(data.members || []).findIndex(item => item.name === member.name) + 1}.png`
+      }));
 
     let dbError = client ? "" : "Chưa cấu hình Supabase.";
     let confirmNewGameOpen = false;
+    let gameResults = [];
     let state;
     state = createState("");
 
@@ -3252,12 +3290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function createState(sessionId = state?.sessionId || "", randomizeSpies = false) {
-      const currentHosts = state?.assignments
-        ?.filter(item => item.role === "host")
-        .map(item => item.username) || [];
-      const defaultHosts = ["gtm", "linh"].filter(username => players.some(player => player.username === username));
-      const hosts = new Set(currentHosts.length ? currentHosts : defaultHosts);
-      const spies = new Set(randomizeSpies ? shuffle(players.map(player => player.username).filter(username => !hosts.has(username))).slice(0, 2) : []);
+      const spies = new Set(randomizeSpies ? shuffle(players().map(player => player.username)).slice(0, 2) : []);
       return {
         sessionId,
         isDraft: randomizeSpies || !sessionId,
@@ -3266,9 +3299,9 @@ document.addEventListener("DOMContentLoaded", () => {
         tasksDone: false,
         winner: "",
         missions: state?.missions || [],
-        assignments: players.map(player => ({
+        assignments: players().map(player => ({
           username: player.username,
-          role: hosts.has(player.username) ? "host" : spies.has(player.username) ? "spy" : "villager",
+          role: spies.has(player.username) ? "spy" : "villager",
           alive: true
         })),
         viewerIsHost: getAuthMember()?.role === "host",
@@ -3301,6 +3334,7 @@ document.addEventListener("DOMContentLoaded", () => {
           id: mission.id,
           title: mission.title,
           done: mission.done,
+          visibleToSpies: Boolean(mission.visibleToSpies ?? mission.visible_to_spies),
           order: mission.order || mission.mission_order
         })),
         assignments: dbPlayers.map(row => ({
@@ -3347,6 +3381,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadLatestSession() {
       return loadGameState();
+    }
+
+    async function loadGameResults() {
+      if (!client || !sessionToken()) return;
+      const { data: payload, error } = await client.rpc("trip_games_get_state", {
+        p_session_token: sessionToken()
+      });
+      if (!error) {
+        memberRoles = new Map((payload?.members || []).map(member => [member.username, member.role || ""]));
+        gameResults = payload?.results || [];
+        if (state?.isHost && !state.sessionId) state = createState("", false);
+      }
     }
 
     function draftNewGame() {
@@ -3519,7 +3565,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function currentPlayer() {
       const member = getAuthMember();
-      return member?.username || players[0]?.username || "";
+      return member?.username || players()[0]?.username || "";
     }
 
     function assignmentOf(username = currentPlayer()) {
@@ -3527,11 +3573,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function isHost() {
-      return state.viewerIsHost || getAuthMember()?.role === "host" || assignmentOf()?.role === "host";
+      if (typeof state.isHost === "boolean") return state.isHost;
+      return state.viewerIsHost || getAuthMember()?.role === "host";
     }
 
     function playerMeta(username) {
-      return players.find(player => player.username === username) || { username, displayName: username, avatar: "" };
+      return players().find(player => player.username === username) || { username, displayName: username, avatar: "" };
     }
 
     function statusText() {
@@ -3555,7 +3602,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderVotingView(assignment) {
-      if (assignment.role === "host" || state.status !== "running") return "";
+      if (state.status !== "running") return "";
       if (!state.votingOpen) {
         return `
           <div class="spy-vote-box is-closed">
@@ -3608,6 +3655,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderPlayerView() {
+      if (isHost()) {
+        return `
+          <section class="spy-panel spy-self">
+            <div class="spy-paused">
+              <span class="spy-kicker">Giao diện người chơi</span>
+              <h3>${statusText()}</h3>
+              <p>Quản trò điều khiển game từ công cụ quản lý bên dưới và không tham gia với vai trò trong game.</p>
+            </div>
+            <h4>Luật chơi</h4>
+            ${renderRules()}
+          </section>
+        `;
+      }
       if (state.status !== "running" && !isHost()) {
         return `
           <section class="spy-panel spy-self">
@@ -3645,12 +3705,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="spy-mission-card">
               <span>Nhiệm vụ gián điệp</span>
               <div class="spy-mission-list">
-                ${state.missions.map(mission => `
+                ${state.missions.filter(mission => mission.visibleToSpies).length ? state.missions.filter(mission => mission.visibleToSpies).map(mission => `
                   <div class="spy-mission-item ${mission.done ? "is-done" : ""}">
                     <strong>${escapeHTML(mission.title)}</strong>
                     <em>${mission.done ? "Đã hoàn thành" : "Chưa hoàn thành"}</em>
                   </div>
-                `).join("")}
+                `).join("") : `<p class="spy-mission-hidden">Quản trò chưa mở nhiệm vụ cho bạn.</p>`}
               </div>
             </div>
           ` : ""}
@@ -3684,31 +3744,22 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="spy-player-list">
                 ${state.assignments.map(item => {
                   const meta = playerMeta(item.username);
-                  const isPlayerHost = item.role === "host";
                   const tally = tallyByUsername.get(item.username);
                   const voteCount = Number(tally?.count || 0);
                   const voters = tally?.voters || [];
                   return `
-                    <div class="spy-player-row ${!item.alive && !isPlayerHost ? "is-dead" : ""}">
+                    <div class="spy-player-row ${!item.alive ? "is-dead" : ""}">
                       <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(item.username)}" ${imgAttrs()}>
                       <strong>${escapeHTML(item.username)}</strong>
                       <select class="is-${escapeHTML(item.role)}" data-spy-role="${escapeHTML(item.username)}">
                         ${Object.entries(roleLabels).map(([value, label]) => `<option class="is-${escapeHTML(value)}" value="${value}" ${item.role === value ? "selected" : ""}>${label}</option>`).join("")}
                       </select>
-                      ${isPlayerHost ? `<span class="spy-player-state">Quản trò</span>` : `<label><input type="checkbox" data-spy-alive="${escapeHTML(item.username)}" ${item.alive ? "checked" : ""}> ${item.alive ? "Sống" : "Chết"}</label>`}
-                      ${isPlayerHost ? `
-                        <div class="spy-player-votes is-muted">
-                          <span>Quản trò</span>
-                          <small>Không vote</small>
-                        </div>
-                        <span class="spy-kill-spacer" aria-hidden="true"></span>
-                      ` : `
-                        <div class="spy-player-votes">
-                          <span>${voteCount} phiếu</span>
-                          <small>${voters.length ? `Từ: ${voters.map(escapeHTML).join(", ")}` : "Chưa có phiếu"}</small>
-                        </div>
-                        <button class="spy-kill-button" type="button" data-spy-kill-target="${escapeHTML(item.username)}" ${!item.alive ? "disabled" : ""}>Loại</button>
-                      `}
+                      <label><input type="checkbox" data-spy-alive="${escapeHTML(item.username)}" ${item.alive ? "checked" : ""}> ${item.alive ? "Sống" : "Chết"}</label>
+                      <div class="spy-player-votes">
+                        <span>${voteCount} phiếu</span>
+                        <small>${voters.length ? `Từ: ${voters.map(escapeHTML).join(", ")}` : "Chưa có phiếu"}</small>
+                      </div>
+                      <button class="spy-kill-button" type="button" data-spy-kill-target="${escapeHTML(item.username)}" ${!item.alive ? "disabled" : ""}>Loại</button>
                     </div>
                   `;
                 }).join("")}
@@ -3725,6 +3776,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   <div class="spy-task-row">
                     <input type="checkbox" data-spy-task-done="${escapeHTML(task.id)}" ${task.done ? "checked" : ""} aria-label="Đánh dấu nhiệm vụ hoàn thành">
                     <input type="text" value="${escapeHTML(task.title)}" data-spy-task-title="${escapeHTML(task.id)}" maxlength="180">
+                    <button type="button" class="spy-task-visibility ${task.visibleToSpies ? "is-visible" : ""}" data-spy-task-visibility="${escapeHTML(task.id)}" aria-label="${task.visibleToSpies ? "Ẩn nhiệm vụ khỏi gián điệp" : "Hiển thị nhiệm vụ cho gián điệp"}" title="${task.visibleToSpies ? "Ẩn khỏi gián điệp" : "Hiển thị cho gián điệp"}">${lucideIcon(task.visibleToSpies ? "eye" : "eye-off")}</button>
                     <button type="button" data-spy-task-delete="${escapeHTML(task.id)}" aria-label="Xóa nhiệm vụ">${lucideIcon("trash-2")}</button>
                   </div>
                 `).join("")}
@@ -3750,6 +3802,34 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
 
+    function renderGameResults() {
+      if (!isHost()) return "";
+      const resultByUsername = new Map(gameResults.map(result => [result.username, result]));
+      const scorePlayers = state.assignments;
+      return `
+        <section class="game-menu-panel game-host-results">
+          <div class="game-panel-heading"><div><h3>Nhập kết quả</h3><p>Điểm được cộng vào bảng tổng ngay sau khi lưu.</p></div></div>
+          <form data-spy-game-results-form>
+            <div class="game-result-list">
+              ${scorePlayers.map(item => {
+                const result = resultByUsername.get(item.username);
+                const meta = playerMeta(item.username);
+                return `
+                  <label class="game-result-row">
+                    <img src="${escapeHTML(meta.avatar)}" alt="" ${imgAttrs()}>
+                    <strong>${escapeHTML(item.username)}</strong>
+                    <span>Điểm<input type="number" name="points-${escapeHTML(item.username)}" min="0" max="100" value="${Number(result?.points || 0)}"></span>
+                    <span>Ghi chú<input type="text" name="note-${escapeHTML(item.username)}" maxlength="180" value="${escapeHTML(result?.note || "")}" placeholder="Đội thắng, top 3..."></span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+            <button class="game-save-results" type="submit">${lucideIcon("save")} Lưu kết quả</button>
+          </form>
+        </section>
+      `;
+    }
+
     function render() {
       mount.innerHTML = `
         <div class="spy-shell">
@@ -3763,7 +3843,19 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="spy-content">
             ${renderPlayerView()}
-            ${isHost() ? renderHostView() : ""}
+            ${isHost() ? `
+              <section class="game-host-console">
+                <header class="game-host-console-title">
+                  <span>${lucideIcon("shield-check")} Công cụ quản lý</span>
+                  <h3>Điều khiển game</h3>
+                  <p>Các thao tác quản trị và nhập điểm được tách riêng khỏi phần người chơi.</p>
+                </header>
+                <div class="game-host-console-content">
+                  ${renderHostView()}
+                  ${renderGameResults()}
+                </div>
+              </section>
+            ` : ""}
           </div>
           <div class="spy-confirm" role="dialog" aria-modal="true" aria-labelledby="spyConfirmTitle" ${confirmNewGameOpen ? "" : "hidden"}>
             <div class="spy-confirm-box">
@@ -3786,7 +3878,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       mount.hidden = false;
+      document.getElementById("gameMenu")?.setAttribute("hidden", "");
       if (!(state.sessionId && await loadSession(state.sessionId))) await loadLatestSession();
+      await loadGameResults();
       render();
       mount.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -3794,6 +3888,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mount.addEventListener("click", async event => {
       if (event.target.closest("[data-spy-close]")) {
         mount.hidden = true;
+        document.getElementById("gameMenu")?.removeAttribute("hidden");
         confirmNewGameOpen = false;
         return;
       }
@@ -3812,7 +3907,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (action === "close-vote") await setVoting(false, Math.min(Number(state.round) || 1, 2));
       if (action === "judge") applyWinLogic();
       const deleteId = event.target.closest("[data-spy-task-delete]")?.dataset.spyTaskDelete;
+      const visibilityId = event.target.closest("[data-spy-task-visibility]")?.dataset.spyTaskVisibility;
       const killTarget = event.target.closest("[data-spy-kill-target]")?.dataset.spyKillTarget;
+      if (visibilityId) {
+        const task = state.missions.find(item => item.id === visibilityId);
+        if (!task || !client || !isHost()) return;
+        const { data: payload, error } = await client.rpc("spy_game_set_mission_visibility", {
+          p_session_token: sessionToken(),
+          p_id: visibilityId,
+          p_visible: !task.visibleToSpies
+        });
+        if (error) setDbError("Không cập nhật được trạng thái hiển thị nhiệm vụ.");
+        else state = stateFromPayload(payload);
+        render();
+        return;
+      }
       if (action || deleteId || killTarget) {
         if (deleteId && await deleteMission(deleteId)) state.missions = state.missions.filter(task => task.id !== deleteId);
         if (killTarget) {
@@ -3868,6 +3977,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     mount.addEventListener("submit", async event => {
+      if (event.target.matches("[data-spy-game-results-form]")) {
+        event.preventDefault();
+        if (!client || !isHost()) return;
+        const form = new FormData(event.target);
+        const results = state.assignments.map(item => ({
+          username: item.username,
+          points: Number(form.get(`points-${item.username}`) || 0),
+          note: String(form.get(`note-${item.username}`) || "").trim()
+        }));
+        const submit = event.target.querySelector("[type='submit']");
+        submit.disabled = true;
+        const { data: payload, error } = await client.rpc("trip_game_save_results", {
+          p_session_token: sessionToken(),
+          p_game_key: "spy-game",
+          p_results: results
+        });
+        if (error) setDbError("Không lưu được kết quả.");
+        else {
+          gameResults = payload?.results || results;
+          window.dispatchEvent(new CustomEvent("hue-game-results-change", { detail: payload }));
+        }
+        render();
+        return;
+      }
       if (!event.target.matches("[data-spy-task-form]")) return;
       event.preventDefault();
       const input = event.target.elements.title;

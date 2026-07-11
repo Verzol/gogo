@@ -33,19 +33,11 @@ language sql
 security definer
 set search_path = public, pg_temp
 as $$
-  select coalesce(
-    exists (
-      select 1
-      from public.spy_game_players p
-      where p.session_id = p_session_id
-        and p.username = p_username
-        and p.role = 'host'
-    ),
-    false
-  )
-  or (
-    p_session_id is null
-    and p_username = any(array['gtm', 'linh'])
+  select exists (
+    select 1
+    from public.trip_members m
+    where m.username = p_username
+      and m.role = 'host'
   );
 $$;
 
@@ -169,7 +161,7 @@ begin
     values (
       v_session_id,
       v_player->>'username',
-      case when v_player->>'role' in ('host', 'villager', 'spy') then v_player->>'role' else 'villager' end,
+      case when v_player->>'role' = 'spy' then 'spy' else 'villager' end,
       coalesce((v_player->>'alive')::boolean, true)
     );
   end loop;
@@ -226,7 +218,7 @@ begin
   if not public.spy_game_is_host(v_username, v_session_id) then raise exception 'Only host can update players'; end if;
 
   update public.spy_game_players
-  set role = case when p_role in ('host', 'villager', 'spy') then p_role else role end,
+  set role = case when p_role = 'spy' then 'spy' else 'villager' end,
       alive = p_alive
   where session_id = v_session_id
     and username = p_username;

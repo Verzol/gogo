@@ -203,7 +203,7 @@ begin
     select 'anh-challenge-binh-minh', v_team, pose_number
     from generate_series(1, 5) as poses(pose_number)
     order by random()
-    limit 4;
+    limit 2;
   end loop;
 
   return public.photo_challenge_get_state(p_session_token);
@@ -246,12 +246,12 @@ begin
 
     if exists (
       select 1 from generate_series(1, v_team_count) as teams(team_number)
-      where 4 <> (
+      where 2 <> (
         select count(*) from public.photo_challenge_draws d
         where d.game_key = 'anh-challenge-binh-minh'
           and d.team_number = teams.team_number
       )
-    ) then raise exception 'Every team needs exactly four poses'; end if;
+    ) then raise exception 'Every team needs exactly two poses'; end if;
   end if;
 
   if p_reset or p_status = 'draft' then
@@ -282,8 +282,6 @@ declare
 begin
   select * into v_member from public.trip_game_member_from_token(p_session_token);
   if v_member.username is null then raise exception 'Not authenticated'; end if;
-  if v_member.role = 'host' then raise exception 'Hosts cannot vote'; end if;
-
   select * into v_settings from public.photo_challenge_settings
   where game_key = 'anh-challenge-binh-minh';
   if v_settings.vote_status <> 'open' then raise exception 'Voting is not open'; end if;

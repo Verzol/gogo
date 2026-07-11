@@ -29,7 +29,6 @@ begin
       select distinct trim(raw_player_name) as player_name
       from unnest(p_players) as raw_player_name
       where trim(raw_player_name) <> ''
-        and not (trim(raw_player_name) = any(coalesce(p_hosts, array[]::text[])))
     ) clean_players
     order by random()
     limit 2
@@ -41,12 +40,18 @@ begin
       continue;
     end if;
 
+    if not exists (
+      select 1 from public.trip_members m
+      where m.username = v_player and m.role <> 'host'
+    ) then
+      continue;
+    end if;
+
     insert into public.spy_game_players (session_id, username, role, alive)
     values (
       v_session_id,
       v_player,
       case
-        when v_player = any(coalesce(p_hosts, array[]::text[])) then 'host'
         when v_player = any(v_spies) then 'spy'
         else 'villager'
       end,

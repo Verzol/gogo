@@ -199,7 +199,7 @@ begin
     values (
       v_session_id,
       v_player->>'username',
-      case when v_player->>'role' in ('host', 'villager', 'spy') then v_player->>'role' else 'villager' end,
+      case when v_player->>'role' = 'spy' then 'spy' else 'villager' end,
       coalesce((v_player->>'alive')::boolean, true)
     );
   end loop;

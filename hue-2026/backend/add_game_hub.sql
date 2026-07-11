@@ -60,11 +60,6 @@ as $$
   select exists (
     select 1 from public.trip_members m
     where m.username = p_username and m.role = 'host'
-  ) or exists (
-    select 1 from public.spy_game_players p
-    where p.session_id = p_session_id
-      and p.username = p_username
-      and p.role = 'host'
   );
 $$;
 
@@ -175,7 +170,8 @@ begin
   loop
     if exists (
       select 1 from public.trip_members
-      where username = v_assignment->>'username' and role <> 'host'
+      where username = v_assignment->>'username'
+        and (role <> 'host' or p_game_key = 'anh-challenge-binh-minh')
     ) then
       insert into public.trip_game_teams (game_key, username, team_number, updated_at)
       values (
@@ -209,12 +205,16 @@ begin
   if v_member.username is null or v_member.role <> 'host' then
     raise exception 'Only host can save results';
   end if;
+  if p_game_key in ('truth-or-dare', 'su-that-va-loi-noi-doi') then
+    raise exception 'This game does not use scoring';
+  end if;
 
   for v_result in select * from jsonb_array_elements(coalesce(p_results, '[]'::jsonb))
   loop
     if exists (
       select 1 from public.trip_members
-      where username = btrim(v_result->>'username') and role <> 'host'
+      where username = btrim(v_result->>'username')
+        and (role <> 'host' or p_game_key = 'anh-challenge-binh-minh')
     ) then
       insert into public.trip_game_results (game_key, username, points, note, updated_by, updated_at)
       values (

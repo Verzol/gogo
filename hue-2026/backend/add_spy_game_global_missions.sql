@@ -2,6 +2,7 @@ create table if not exists public.spy_game_missions (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   mission_order integer not null default 1,
+  visible_to_spies boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint spy_game_missions_title_len check (char_length(title) between 1 and 180)
@@ -65,7 +66,6 @@ begin
       select distinct trim(raw_player_name) as player_name
       from unnest(p_players) as raw_player_name
       where trim(raw_player_name) <> ''
-        and not (trim(raw_player_name) = any(coalesce(p_hosts, array[]::text[])))
     ) clean_players
     order by random()
     limit 2
@@ -77,12 +77,18 @@ begin
       continue;
     end if;
 
+    if not exists (
+      select 1 from public.trip_members m
+      where m.username = v_player and m.role <> 'host'
+    ) then
+      continue;
+    end if;
+
     insert into public.spy_game_players (session_id, username, role, alive)
     values (
       v_session_id,
       v_player,
       case
-        when v_player = any(coalesce(p_hosts, array[]::text[])) then 'host'
         when v_player = any(v_spies) then 'spy'
         else 'villager'
       end,

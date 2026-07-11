@@ -470,6 +470,7 @@ games: [
     duration: "7 phút mỗi đội",
     teamCount: 2,
     teamCountOptions: [2, 3],
+    photoPoseCount: 2,
     poseImages: [
       "figures/games/photo/1.jpg",
       "figures/games/photo/2.jpg",
@@ -480,11 +481,11 @@ games: [
     scoring: "Mỗi thành viên đội có ảnh được vote cao nhất nhận 1 điểm.",
     rules: [
       "Chia người chơi thành 2 hoặc 3 đội theo cấu hình của quản trò.",
-      "Mỗi đội bốc ngẫu nhiên 4 trong bộ 5 ảnh tạo dáng và phải thực hiện đủ 4 dáng đã nhận.",
+      "Mỗi đội bốc ngẫu nhiên 2 trong bộ 5 ảnh tạo dáng và phải thực hiện đủ 2 dáng đã nhận.",
       "Mỗi đội có 7 phút để tạo dáng và chụp ảnh tại bãi biển, sau đó thành viên trong đội upload ảnh vào album chung của đội.",
       "Khi quản trò mở vote, mỗi người chơi chọn một đội mình thích nhất. Đội nhận nhiều phiếu nhất thắng."
     ],
-    prep: ["Dùng camera điện thoại và có thể dùng bộ lọc.", "Mỗi đội kiểm tra đủ 4 dáng trước khi quản trò mở vote."]
+    prep: ["Dùng camera điện thoại và có thể dùng bộ lọc.", "Mỗi đội kiểm tra đủ 2 dáng trước khi quản trò mở vote."]
   },
   {
     key: "co-caro-tiep-suc",
@@ -593,7 +594,6 @@ games: [
     teaser: "Bịa cho khéo, đoán cho chuẩn",
     format: "Cá nhân",
     duration: "Khoảng 20 phút",
-    scoring: "Người đoán đúng nhiều nhất nhận 1 điểm.",
     rules: [
       "Theo vòng tròn, mỗi người nói một sự thật và một lời nói dối về bản thân.",
       "Cả nhóm được thảo luận ngắn trước khi chọn câu nào là thật.",
@@ -609,7 +609,6 @@ games: [
     teaser: "Thảo tâm huyết trò này lắm đừng ai bỏ lỡ",
     format: "Cá nhân",
     duration: "30-45 phút",
-    scoring: "Quản trò nhập điểm cho người hoàn thành thử thách nổi bật.",
     rules: [
       "Xoay chai hoặc dùng ứng dụng để chọn người chơi.",
       "Người được chọn phải chọn Truth hoặc Dare.",
