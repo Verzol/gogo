@@ -34,6 +34,8 @@
       <li><a href="#destinations"><span class="nav-icon" data-lucide="camera" aria-hidden="true"></span><span class="nav-label">Sống ảo</span></a></li>
       <li><a href="#food"><span class="nav-icon" data-lucide="soup" aria-hidden="true"></span><span class="nav-label">Bổ sung mỡ</span></a></li>
       <li><a href="#lucky"><span class="nav-icon" data-lucide="sparkles" aria-hidden="true"></span><span class="nav-label">Vòng quay</span></a></li>
+      <li><a href="#confessions"><span class="nav-icon" data-lucide="message-square-heart" aria-hidden="true"></span><span class="nav-label">Confession</span></a></li>
+      <li><a href="#reflections"><span class="nav-icon" data-lucide="book-heart" aria-hidden="true"></span><span class="nav-label">Cảm nhận</span></a></li>
     </ul>
     <div class="auth-bar" id="authBar">
       <button class="auth-login-button" id="authLoginOpen" type="button">Đăng nhập</button>
@@ -240,6 +242,81 @@
       <aside class="lucky-result" id="luckyResult" aria-live="polite">
       </aside>
     </div>
+  </div>
+</section>
+
+<section id="confessions" class="journal-page community-section confession-section">
+  <img src="figures/decor/sticker_lantern.png" class="deco-sticker" style="top: 18px; left: 2%; width: 82px; transform: rotate(-9deg);" alt="" decoding="async" loading="lazy">
+  <img src="figures/decor/sticker_lotus_3.png" class="deco-sticker" style="bottom: 28px; right: 2%; width: 92px; transform: rotate(10deg);" alt="" decoding="async" loading="lazy">
+  <div class="wrap">
+    <div class="section-head community-head">
+      <p class="eyebrow">Góc giấu tên</p>
+      <h2>Huế confession</h2>
+      <p>Điều muốn nói mà chưa biết gửi cho ai thì để lại ở đây.</p>
+    </div>
+    <div class="confession-layout">
+      <aside class="confession-note" aria-label="Lưu ý khi gửi confession">
+        <span class="confession-note-icon" data-lucide="heart-handshake" aria-hidden="true"></span>
+        <h3>Nhắn nhẹ tay thôi nhé</h3>
+        <p>Mỗi lời nhắn đều ẩn danh, nhưng hãy giữ góc này tử tế và hạn chế spam.</p>
+        <small>Hệ thống giới hạn tần suất gửi để cả nhóm đọc vui hơn.</small>
+      </aside>
+      <div class="confession-board">
+        <form class="confession-form" id="confessionForm">
+          <label for="confessionInput">Lời nhắn ẩn danh</label>
+          <textarea id="confessionInput" name="confessionInput" rows="4" maxlength="800" placeholder="Viết điều bạn muốn nói..." required></textarea>
+          <div class="community-form-footer">
+            <span class="field-count" id="confessionCount">0/800</span>
+            <button class="community-submit" id="confessionSubmit" type="submit">
+              <span class="ui-icon" data-lucide="send-horizontal" aria-hidden="true"></span>
+              Gửi confession
+            </button>
+          </div>
+          <p class="community-status" id="confessionStatus" role="status" hidden></p>
+        </form>
+        <div class="confession-feed-head">
+          <h3>Lời nhắn mới</h3>
+          <button class="community-refresh" id="confessionRefresh" type="button">
+            <span class="ui-icon" data-lucide="refresh-cw" aria-hidden="true"></span>
+            Làm mới
+          </button>
+        </div>
+        <div class="confession-list" id="confessionList" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reflections" class="journal-page community-section reflection-section" hidden>
+  <img src="figures/decor/sticker_flowers.png" class="deco-sticker" style="top: 24px; right: 2%; width: 92px; transform: rotate(8deg);" alt="" decoding="async" loading="lazy">
+  <img src="figures/decor/sticker_lotus_2.png" class="deco-sticker" style="bottom: 30px; left: 2%; width: 96px; transform: rotate(-9deg);" alt="" decoding="async" loading="lazy">
+  <div class="wrap">
+    <div class="section-head community-head">
+      <p class="eyebrow">Trang cuối cuốn sổ</p>
+      <h2>Cảm nhận về Huế</h2>
+      <p>Mỗi người một dòng, gom lại thành ký ức của cả nhóm.</p>
+    </div>
+    <div class="reflection-gate" id="reflectionGate" aria-live="polite"></div>
+    <form class="reflection-composer" id="reflectionForm" hidden>
+      <div class="reflection-composer-head">
+        <div class="reflection-avatar" id="reflectionComposerAvatar"></div>
+        <div>
+          <h3 id="reflectionComposerName">Viết một dòng cho chuyến đi</h3>
+          <p>Mỗi người có một cảm nhận, bạn luôn có thể sửa lại.</p>
+        </div>
+      </div>
+      <label for="reflectionInput">Cảm nhận của bạn</label>
+      <textarea id="reflectionInput" name="reflectionInput" rows="5" maxlength="1500" placeholder="Huế trong bạn sau chuyến đi này là..." required></textarea>
+      <div class="community-form-footer">
+        <span class="field-count" id="reflectionCount">0/1500</span>
+        <button class="community-submit" id="reflectionSubmit" type="submit">
+          <span class="ui-icon" data-lucide="pen-line" aria-hidden="true"></span>
+          Lưu cảm nhận
+        </button>
+      </div>
+      <p class="community-status" id="reflectionStatus" role="status" hidden></p>
+    </form>
+    <div class="reflection-list" id="reflectionList" aria-live="polite"></div>
   </div>
 </section>
 

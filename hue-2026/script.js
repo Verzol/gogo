@@ -1608,6 +1608,268 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initTripLeaderboard();
 
+  const initCommunityJournal = () => {
+    const config = window.HUE_SUPABASE || {};
+    const confessionForm = document.getElementById("confessionForm");
+    const confessionInput = document.getElementById("confessionInput");
+    const confessionCount = document.getElementById("confessionCount");
+    const confessionSubmit = document.getElementById("confessionSubmit");
+    const confessionStatus = document.getElementById("confessionStatus");
+    const confessionRefresh = document.getElementById("confessionRefresh");
+    const confessionList = document.getElementById("confessionList");
+    const reflectionSection = document.getElementById("reflections");
+    const reflectionGate = document.getElementById("reflectionGate");
+    const reflectionForm = document.getElementById("reflectionForm");
+    const reflectionInput = document.getElementById("reflectionInput");
+    const reflectionCount = document.getElementById("reflectionCount");
+    const reflectionSubmit = document.getElementById("reflectionSubmit");
+    const reflectionStatus = document.getElementById("reflectionStatus");
+    const reflectionList = document.getElementById("reflectionList");
+    const reflectionComposerAvatar = document.getElementById("reflectionComposerAvatar");
+    const reflectionComposerName = document.getElementById("reflectionComposerName");
+
+    if (!confessionForm || !confessionInput || !confessionCount || !confessionSubmit || !confessionStatus || !confessionRefresh || !confessionList || !reflectionSection || !reflectionGate || !reflectionForm || !reflectionInput || !reflectionCount || !reflectionSubmit || !reflectionStatus || !reflectionList || !reflectionComposerAvatar || !reflectionComposerName) return;
+
+    const client = config.url && config.anonKey && window.supabase?.createClient
+      ? window.supabase.createClient(config.url, config.anonKey)
+      : null;
+    const anonymousTokenKey = "hueConfessionToken";
+    const reflectionOpensAt = data.reflectionOpensAt || "2026-07-19T00:00:00+07:00";
+    let reflectionsState = null;
+    let reflectionsLoading = false;
+
+    const isUuid = value => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value || "");
+    const getAnonymousToken = () => {
+      const saved = localStorage.getItem(anonymousTokenKey);
+      if (isUuid(saved)) return saved;
+      const token = window.crypto?.randomUUID?.();
+      if (!token) return null;
+      localStorage.setItem(anonymousTokenKey, token);
+      return token;
+    };
+    const formatDate = value => new Intl.DateTimeFormat("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      timeZone: "Asia/Bangkok"
+    }).format(new Date(value));
+    const setStatus = (element, message = "", kind = "") => {
+      element.textContent = message;
+      element.dataset.kind = kind;
+      element.hidden = !message;
+    };
+    const updateCount = (input, output, max) => {
+      output.textContent = `${input.value.length}/${max}`;
+    };
+    const avatarFor = username => {
+      const index = (data.members || []).findIndex(member => member.name === username);
+      return `figures/people/${Math.max(index, 0) + 1}.png`;
+    };
+
+    const renderConfessionSkeleton = () => {
+      confessionList.innerHTML = `<div class="confession-loading" aria-label="Đang tải confession"><span></span><span></span><span></span></div>`;
+    };
+    const formatConfessionCode = row => row.code || `#${String(row.id).padStart(6, "0")}`;
+    const renderConfessions = rows => {
+      if (!rows?.length) {
+        confessionList.innerHTML = `<div class="community-empty confession-empty"><span class="ui-icon" data-lucide="mail-open" aria-hidden="true"></span><p>Chưa có lời nhắn nào. Bạn mở hàng nhé?</p></div>`;
+        renderLucideIcons();
+        return;
+      }
+      confessionList.innerHTML = rows.map((row, index) => `
+        <article class="confession-card" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
+          <div class="confession-card-meta"><strong>${escapeHTML(formatConfessionCode(row))}</strong><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
+          <p>${escapeHTML(row.body).replace(/\n/g, "<br>")}</p>
+        </article>
+      `).join("");
+    };
+    const loadConfessions = async ({ silent = false } = {}) => {
+      if (!client) {
+        setStatus(confessionStatus, "Confession cần Supabase để hoạt động.", "error");
+        return;
+      }
+      if (!silent) renderConfessionSkeleton();
+      confessionRefresh.disabled = true;
+      const { data: rows, error } = await client.rpc("trip_confession_list");
+      confessionRefresh.disabled = false;
+      if (error) {
+        confessionList.innerHTML = `<div class="community-empty"><p>Không tải được confession lúc này.</p></div>`;
+        setStatus(confessionStatus, "Kiểm tra migration Community Journal trên Supabase.", "error");
+        return;
+      }
+      setStatus(confessionStatus, "");
+      renderConfessions(rows || []);
+    };
+
+    const countdownText = opensAt => {
+      const difference = new Date(opensAt).getTime() - Date.now();
+      if (difference <= 0) return "Cảm nhận đang mở.";
+      const hours = Math.floor(difference / 3600000);
+      const days = Math.floor(hours / 24);
+      const minutes = Math.floor((difference % 3600000) / 60000);
+      return days ? `Còn ${days} ngày ${hours % 24} giờ` : `Còn ${hours} giờ ${minutes} phút`;
+    };
+    const renderReflections = () => {
+      const authMember = getAuthMember();
+      const state = reflectionsState || {
+        open: new Date(reflectionOpensAt).getTime() <= Date.now(),
+        opensAt: reflectionOpensAt,
+        authenticated: Boolean(authMember?.sessionToken),
+        viewer: authMember ? { username: authMember.username, displayName: authMember.displayName } : null,
+        reflections: []
+      };
+      const isLoggedIn = Boolean(authMember?.sessionToken && state.authenticated);
+      const reflections = state.reflections || [];
+      const isOpen = Boolean(state.open);
+
+      // Guests only see this section when there is a real reflection to read.
+      reflectionSection.hidden = !isLoggedIn && !reflections.length;
+      reflectionForm.hidden = !isLoggedIn || !isOpen;
+
+      if (isLoggedIn && !isOpen) {
+        reflectionGate.innerHTML = `
+          <div class="reflection-locked">
+            <span class="ui-icon" data-lucide="clock-3" aria-hidden="true"></span>
+            <div><strong>Mở từ 00:00 Chủ Nhật 19/07 (UTC+7)</strong><p>${escapeHTML(countdownText(state.opensAt || reflectionOpensAt))}. Khi về tới ngày cuối ở Huế, bạn sẽ có một trang để viết lại chuyến đi.</p></div>
+          </div>
+        `;
+      } else if (!isLoggedIn && reflections.length) {
+        reflectionGate.innerHTML = `<p class="reflection-public-note">Những dòng đã được lưu lại sau chuyến đi.</p>`;
+      } else if (isLoggedIn) {
+        reflectionGate.innerHTML = `<p class="reflection-public-note">Viết cho chính mình và cho cả nhóm. Bản ghi cũ sẽ được thay bằng lần lưu mới nhất.</p>`;
+      } else {
+        reflectionGate.innerHTML = "";
+      }
+
+      if (isLoggedIn && isOpen) {
+        const viewer = state.viewer || authMember;
+        reflectionComposerAvatar.innerHTML = `<img src="${escapeHTML(avatarFor(viewer.username))}" alt="">`;
+        reflectionComposerName.textContent = state.reflection ? "Chỉnh lại dòng đã viết" : "Viết một dòng cho chuyến đi";
+        reflectionSubmit.innerHTML = `${lucideIcon(state.reflection ? "save" : "pen-line")} ${state.reflection ? "Cập nhật cảm nhận" : "Lưu cảm nhận"}`;
+        if (document.activeElement !== reflectionInput) {
+          reflectionInput.value = state.reflection?.body || "";
+          updateCount(reflectionInput, reflectionCount, 1500);
+        }
+      }
+
+      if (!reflections.length) {
+        reflectionList.innerHTML = isLoggedIn && isOpen
+          ? `<div class="community-empty reflection-empty"><span class="ui-icon" data-lucide="book-open-text" aria-hidden="true"></span><p>Trang này đang chờ nét bút đầu tiên của nhóm.</p></div>`
+          : "";
+      } else {
+        reflectionList.innerHTML = reflections.map(reflection => `
+          <article class="reflection-entry">
+            <div class="reflection-author">
+              <img src="${escapeHTML(avatarFor(reflection.username))}" alt="">
+              <div><h3>${escapeHTML(reflection.displayName || reflection.username)}</h3><time datetime="${escapeHTML(reflection.updatedAt)}">${escapeHTML(formatDate(reflection.updatedAt))}</time></div>
+            </div>
+            <blockquote>${escapeHTML(reflection.body).replace(/\n/g, "<br>")}</blockquote>
+          </article>
+        `).join("");
+      }
+      renderLucideIcons();
+    };
+    const loadReflections = async () => {
+      if (!client) {
+        const loggedIn = Boolean(getAuthMember()?.sessionToken);
+        if (loggedIn) {
+          reflectionSection.hidden = false;
+          reflectionGate.innerHTML = `<div class="reflection-locked"><span class="ui-icon" data-lucide="triangle-alert" aria-hidden="true"></span><div><strong>Chưa kết nối được nhật ký</strong><p>Hãy chạy migration Community Journal trên Supabase trước.</p></div></div>`;
+          renderLucideIcons();
+        }
+        return;
+      }
+      if (reflectionsLoading) return;
+      reflectionsLoading = true;
+      const { data: payload, error } = await client.rpc("trip_reflections_get", {
+        p_session_token: getAuthMember()?.sessionToken || null
+      });
+      reflectionsLoading = false;
+      if (error) {
+        if (getAuthMember()?.sessionToken) {
+          reflectionSection.hidden = false;
+          reflectionGate.innerHTML = `<div class="reflection-locked"><span class="ui-icon" data-lucide="triangle-alert" aria-hidden="true"></span><div><strong>Không tải được cảm nhận</strong><p>Hãy kiểm tra migration Community Journal.</p></div></div>`;
+          renderLucideIcons();
+        }
+        return;
+      }
+      reflectionsState = payload || null;
+      renderReflections();
+    };
+
+    confessionInput.addEventListener("input", () => updateCount(confessionInput, confessionCount, 800));
+    reflectionInput.addEventListener("input", () => updateCount(reflectionInput, reflectionCount, 1500));
+    confessionRefresh.addEventListener("click", () => loadConfessions());
+    confessionForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      const body = confessionInput.value.trim();
+      const authorToken = getAnonymousToken();
+      if (!body || !authorToken) {
+        setStatus(confessionStatus, "Trình duyệt không tạo được mã ẩn danh để gửi tin.", "error");
+        return;
+      }
+      if (!client) {
+        setStatus(confessionStatus, "Confession chưa được cấu hình Supabase.", "error");
+        return;
+      }
+      confessionSubmit.disabled = true;
+      setStatus(confessionStatus, "Đang gửi...");
+      const { error } = await client.rpc("trip_confession_submit", {
+        p_author_token: authorToken,
+        p_body: body
+      });
+      confessionSubmit.disabled = false;
+      if (error) {
+        setStatus(confessionStatus, error.message || "Không gửi được confession.", "error");
+        return;
+      }
+      confessionInput.value = "";
+      updateCount(confessionInput, confessionCount, 800);
+      setStatus(confessionStatus, "Đã gửi ẩn danh. Cảm ơn bạn đã nhắn tử tế.", "ok");
+      await loadConfessions({ silent: true });
+    });
+    reflectionForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      const body = reflectionInput.value.trim();
+      const sessionToken = getAuthMember()?.sessionToken;
+      if (!sessionToken) {
+        document.getElementById("authLoginOpen")?.click();
+        return;
+      }
+      if (!body || !client) return;
+      reflectionSubmit.disabled = true;
+      setStatus(reflectionStatus, "Đang lưu...");
+      const { data: payload, error } = await client.rpc("trip_reflections_save", {
+        p_session_token: sessionToken,
+        p_body: body
+      });
+      reflectionSubmit.disabled = false;
+      if (error) {
+        setStatus(reflectionStatus, error.message || "Không lưu được cảm nhận.", "error");
+        return;
+      }
+      reflectionsState = payload || reflectionsState;
+      setStatus(reflectionStatus, "Đã lưu. Bạn có thể quay lại chỉnh sửa bất cứ lúc nào.", "ok");
+      renderReflections();
+    });
+
+    window.addEventListener("hue-auth-change", () => loadReflections());
+    window.setInterval(() => {
+      if (document.hidden) return;
+      loadConfessions({ silent: true });
+      loadReflections();
+    }, 60000);
+
+    updateCount(confessionInput, confessionCount, 800);
+    updateCount(reflectionInput, reflectionCount, 1500);
+    renderConfessionSkeleton();
+    loadConfessions();
+    loadReflections();
+  };
+
+  initCommunityJournal();
+
 
 
   // ---- Lucky wheel ----
