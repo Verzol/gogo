@@ -2667,6 +2667,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let scheduledMusicRound = 0;
     let imposterRealtime = null;
     let imposterServerOffset = 0;
+    let imposterRoundSaving = false;
 
     const sessionToken = () => getAuthMember()?.sessionToken || "";
     const isHost = () => (gameState.viewer?.role || getAuthMember()?.role) === "host";
@@ -2898,6 +2899,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const tracks = imposterMusic.tracks || [];
       const playersForMusic = imposterMusic.players || [];
       const hostRound = imposterMusic.hostRound || {};
+      const roundControlsDisabled = isPlaying || imposterRoundSaving;
       const customSelect = (name, selectedValue, placeholder, options, disabled) => {
         const selected = options.find(option => option.value === selectedValue);
         return `
@@ -2920,12 +2922,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="game-panel-heading"><div><h3>Quản lý phòng nhạc</h3><p>Chọn hai bài riêng, chọn imposter, rồi phát cho cả nhóm.</p></div></div>
           <div class="imposter-host-status"><strong>${imposterMusic.readyCount || 0}/${imposterMusic.playerCount || 0}</strong><span>người chơi đã sẵn sàng</span></div>
           <form class="imposter-round-form" data-imposter-round-form>
-            <label><span>Nhạc cho người thường</span>${customSelect("commonTrack", hostRound.commonTrackId, "Chọn bài", trackChoices, isPlaying)}</label>
-            <label><span>Nhạc cho imposter</span>${customSelect("imposterTrack", hostRound.imposterTrackId, "Chọn bài khác", trackChoices, isPlaying)}</label>
-            <label><span>Imposter</span>${customSelect("imposter", hostRound.imposterUsername, "Random hoặc chọn người", playerChoices, isPlaying)}</label>
+            <label><span>Nhạc cho người thường</span>${customSelect("commonTrack", hostRound.commonTrackId, "Chọn bài", trackChoices, roundControlsDisabled)}</label>
+            <label><span>Nhạc cho imposter</span>${customSelect("imposterTrack", hostRound.imposterTrackId, "Chọn bài khác", trackChoices, roundControlsDisabled)}</label>
+            <label><span>Imposter</span>${customSelect("imposter", hostRound.imposterUsername, "Random hoặc chọn người", playerChoices, roundControlsDisabled)}</label>
             <div class="imposter-round-actions">
-              <button type="button" data-imposter-random ${tracks.length < 2 || isPlaying ? "disabled" : ""}>${lucideIcon("shuffle")} Random vòng</button>
-              <button type="submit" ${tracks.length < 2 || isPlaying ? "disabled" : ""}>${lucideIcon("music-2")} ${isPrepared ? "Đổi vòng" : "Bắt đầu ván mới"}</button>
+              <button type="button" data-imposter-random ${tracks.length < 2 || roundControlsDisabled ? "disabled" : ""}>${lucideIcon("shuffle")} Random vòng</button>
+              <button type="submit" ${tracks.length < 2 || roundControlsDisabled ? "disabled" : ""}>${lucideIcon("music-2")} ${imposterRoundSaving ? "Đang chuẩn bị..." : isPrepared ? "Đổi vòng" : "Bắt đầu ván mới"}</button>
               ${isPrepared ? `<button class="imposter-start" type="button" data-imposter-start>${lucideIcon("radio")} Bắt đầu sau 5 giây</button>` : ""}
               ${isPlaying ? `<button class="imposter-finish" type="button" data-imposter-finish>${lucideIcon("square")} Kết thúc lượt</button>` : ""}
             </div>
@@ -2941,6 +2943,22 @@ document.addEventListener("DOMContentLoaded", () => {
           ${tracks.length ? `<div class="imposter-track-list">${tracks.map(track => `<div><span>${escapeHTML(track.label || "Bài chưa đặt tên")}</span><small>${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s</small><button type="button" data-imposter-delete-track="${escapeHTML(track.id)}" aria-label="Xóa ${escapeHTML(track.label || "bài nhạc")}">${lucideIcon("trash-2")}</button></div>`).join("")}</div>` : `<p class="game-empty-state">Thêm ít nhất hai bài để Quản trò chuẩn bị một vòng.</p>`}
         </section>
       `;
+    }
+
+    function setImposterSelectValue(form, name, value) {
+      const input = form?.querySelector(`input[name="${name}"]`);
+      const select = input?.closest("[data-custom-select]");
+      if (!input || !select) return false;
+      const option = [...select.querySelectorAll("[data-select-option]")]
+        .find(item => item.dataset.value === value);
+      if (!option) return false;
+
+      input.value = value;
+      select.querySelector("[data-select-toggle] span").textContent = option.textContent;
+      select.querySelectorAll("[data-select-option]").forEach(item => {
+        item.setAttribute("aria-selected", String(item === option));
+      });
+      return true;
     }
 
     async function loadGameState() {
@@ -3677,9 +3695,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const playersForMusic = imposterMusic?.players || [];
         if (!form || tracks.length < 2 || !playersForMusic.length) return;
         const picks = shuffle(tracks).slice(0, 2);
-        form.elements.commonTrack.value = picks[0].id;
-        form.elements.imposterTrack.value = picks[1].id;
-        form.elements.imposter.value = playersForMusic[randomIndex(playersForMusic.length)].username;
+        setImposterSelectValue(form, "commonTrack", picks[0].id);
+        setImposterSelectValue(form, "imposterTrack", picks[1].id);
+        setImposterSelectValue(form, "imposter", playersForMusic[randomIndex(playersForMusic.length)].username);
+        imposterMusicError = "";
         return;
       }
       const deleteTrack = event.target.closest("[data-imposter-delete-track]");
@@ -3729,19 +3748,51 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (event.target.matches("[data-imposter-round-form]")) {
         event.preventDefault();
+        if (imposterRoundSaving) return;
         const form = new FormData(event.target);
-        const { data: payload, error } = await client.rpc("imposter_music_prepare_round", {
-          p_session_token: sessionToken(),
-          p_common_track_id: String(form.get("commonTrack") || ""),
-          p_imposter_track_id: String(form.get("imposterTrack") || ""),
-          p_imposter_username: String(form.get("imposter") || "")
-        });
-        if (error) imposterMusicError = error.message || "Không chuẩn bị được vòng.";
-        else {
-          imposterMusic = payload;
-          scheduledMusicRound = 0;
+        const commonTrackId = String(form.get("commonTrack") || "");
+        const imposterTrackId = String(form.get("imposterTrack") || "");
+        const imposterUsername = String(form.get("imposter") || "");
+        if (!commonTrackId || !imposterTrackId || !imposterUsername) {
+          imposterMusicError = "Hãy chọn đủ bài cho người thường, bài cho imposter và người imposter.";
+          render();
+          return;
         }
+        if (commonTrackId === imposterTrackId) {
+          imposterMusicError = "Bài của imposter phải khác bài của người thường.";
+          render();
+          return;
+        }
+        imposterMusic = {
+          ...imposterMusic,
+          hostRound: {
+            ...imposterMusic.hostRound,
+            commonTrackId,
+            imposterTrackId,
+            imposterUsername
+          }
+        };
+        imposterRoundSaving = true;
         render();
+        try {
+          const { data: payload, error } = await client.rpc("imposter_music_prepare_round", {
+            p_session_token: sessionToken(),
+            p_common_track_id: commonTrackId,
+            p_imposter_track_id: imposterTrackId,
+            p_imposter_username: imposterUsername
+          });
+          if (error) imposterMusicError = error.message || "Không chuẩn bị được vòng.";
+          else {
+            imposterMusic = payload;
+            scheduledMusicRound = 0;
+            imposterMusicError = "";
+          }
+        } catch (error) {
+          imposterMusicError = error.message || "Không chuẩn bị được vòng.";
+        } finally {
+          imposterRoundSaving = false;
+          render();
+        }
         return;
       }
       if (!event.target.matches("[data-team-editor]") || !effectiveTeamCount() || !isHost()) return;
