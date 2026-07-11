@@ -2556,6 +2556,10 @@ body.lucide-ready .nav-links a:focus-visible {
   animation: crew-rank-in 0.5s ease both;
 }
 
+.crew-leaderboard-shell.is-static .crew-podium-card {
+  animation: none;
+}
+
 .crew-podium-card::after {
   content: '';
   position: absolute;

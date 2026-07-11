@@ -1503,10 +1503,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .sort((a, b) => b.total - a.total || a.username.localeCompare(b.username, "vi"));
     }
 
-    function render() {
+    function render({ animate = true } = {}) {
       const loggedIn = Boolean(sessionToken());
       mount.innerHTML = `
-        <section class="crew-leaderboard-shell">
+        <section class="crew-leaderboard-shell${animate ? "" : " is-static"}">
           <div class="crew-leaderboard-title">
             <div>
               <span>${lucideIcon("trophy")} Phiếu bé ngoan</span>
@@ -1572,14 +1572,17 @@ document.addEventListener("DOMContentLoaded", () => {
       loading = false;
       if (error || !payload?.authenticated) {
         errorMessage = error ? "Chưa cài migration game hub trên Supabase." : "Phiên đăng nhập đã hết hạn.";
+        render({ animate: !silent });
       } else {
         errorMessage = "";
-        leaderboardState = {
+        const nextState = {
           members: payload.members || fallbackMembers,
           results: payload.results || []
         };
+        const changed = JSON.stringify(nextState) !== JSON.stringify(leaderboardState);
+        leaderboardState = nextState;
+        if (!silent || changed) render({ animate: !silent });
       }
-      render();
     }
 
     window.addEventListener("hue-auth-change", () => loadLeaderboard());
