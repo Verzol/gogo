@@ -1662,6 +1662,82 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateCount = (input, output, max) => {
       output.textContent = `${input.value.length}/${max}`;
     };
+    const renderRichText = value => escapeHTML(value)
+      .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\r?\n/g, "<br>");
+    const renderMarkdownInline = value => {
+      let rendered = escapeHTML(value);
+      rendered = rendered.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s<)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      rendered = rendered.replace(/`([^`\n]+)`/g, "<code>$1</code>");
+      rendered = rendered.replace(/\*\*([^*\n]+)\*\*|__([^_\n]+)__/g, (_, asterisk, underscore) => `<strong>${asterisk || underscore}</strong>`);
+      rendered = rendered.replace(/~~([^~\n]+)~~/g, "<del>$1</del>");
+      return rendered.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
+    };
+    const renderReflectionMarkdown = value => {
+      const lines = String(value ?? "").replace(/\r\n?/g, "\n").split("\n");
+      const blocks = [];
+      let paragraph = [];
+      const flushParagraph = () => {
+        if (!paragraph.length) return;
+        blocks.push(`<p>${paragraph.map(renderMarkdownInline).join("<br>")}</p>`);
+        paragraph = [];
+      };
+
+      for (let index = 0; index < lines.length; index += 1) {
+        const line = lines[index];
+        if (!line.trim()) {
+          flushParagraph();
+          continue;
+        }
+        if (/^```/.test(line)) {
+          flushParagraph();
+          const codeLines = [];
+          index += 1;
+          while (index < lines.length && !/^```/.test(lines[index])) {
+            codeLines.push(lines[index]);
+            index += 1;
+          }
+          blocks.push(`<pre><code>${escapeHTML(codeLines.join("\n"))}</code></pre>`);
+          continue;
+        }
+        const heading = line.match(/^(#{1,3})\s+(.+)$/);
+        if (heading) {
+          flushParagraph();
+          const tag = ["h4", "h5", "h6"][heading[1].length - 1];
+          blocks.push(`<${tag}>${renderMarkdownInline(heading[2])}</${tag}>`);
+          continue;
+        }
+        if (/^>\s?/.test(line)) {
+          flushParagraph();
+          const quoteLines = [];
+          while (index < lines.length && /^>\s?/.test(lines[index])) {
+            quoteLines.push(lines[index].replace(/^>\s?/, ""));
+            index += 1;
+          }
+          index -= 1;
+          blocks.push(`<div class="markdown-quote">${quoteLines.map(renderMarkdownInline).join("<br>")}</div>`);
+          continue;
+        }
+        const listMatch = line.match(/^([-*])\s+(.+)$/);
+        const orderedMatch = line.match(/^\d+\.\s+(.+)$/);
+        if (listMatch || orderedMatch) {
+          flushParagraph();
+          const ordered = Boolean(orderedMatch);
+          const items = [ordered ? orderedMatch[1] : listMatch[2]];
+          const expression = ordered ? /^\d+\.\s+(.+)$/ : /^[-*]\s+(.+)$/;
+          while (index + 1 < lines.length && expression.test(lines[index + 1])) {
+            index += 1;
+            items.push(lines[index].match(expression)[1]);
+          }
+          const tag = ordered ? "ol" : "ul";
+          blocks.push(`<${tag}>${items.map(item => `<li>${renderMarkdownInline(item)}</li>`).join("")}</${tag}>`);
+          continue;
+        }
+        paragraph.push(line);
+      }
+      flushParagraph();
+      return blocks.join("");
+    };
     const avatarFor = username => {
       const index = (data.members || []).findIndex(member => member.name === username);
       return `figures/people/${Math.max(index, 0) + 1}.png`;
@@ -1680,7 +1756,7 @@ document.addEventListener("DOMContentLoaded", () => {
       confessionList.innerHTML = rows.map((row, index) => `
         <article class="confession-card" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
           <div class="confession-card-meta"><strong>${escapeHTML(formatConfessionCode(row))}</strong><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
-          <p>${escapeHTML(row.body).replace(/\n/g, "<br>")}</p>
+          <p>${renderRichText(row.body)}</p>
         </article>
       `).join("");
     };
@@ -1764,7 +1840,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <img src="${escapeHTML(avatarFor(reflection.username))}" alt="">
               <div><h3>${escapeHTML(reflection.displayName || reflection.username)}</h3><time datetime="${escapeHTML(reflection.updatedAt)}">${escapeHTML(formatDate(reflection.updatedAt))}</time></div>
             </div>
-            <blockquote>${escapeHTML(reflection.body).replace(/\n/g, "<br>")}</blockquote>
+            <blockquote>${renderReflectionMarkdown(reflection.body)}</blockquote>
           </article>
         `).join("");
       }

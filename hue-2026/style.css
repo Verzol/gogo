@@ -6859,6 +6859,7 @@ a:focus-visible, button:focus-visible {
 .confession-note p, .confession-note small { margin: 0; color: var(--ink-soft); line-height: 1.6; }
 .confession-note small { margin-top: auto; padding-top: 12px; border-top: 1px dashed rgba(44, 51, 35, 0.3); font-size: 0.78rem; }
 .confession-board { display: grid; gap: 20px; min-width: 0; }
+.confession-feed { display: grid; gap: 16px; margin-top: 30px; }
 
 .confession-form, .reflection-composer {
   display: grid;
@@ -6871,6 +6872,8 @@ a:focus-visible, button:focus-visible {
 }
 
 .confession-form label, .reflection-composer > label { color: var(--ink); font-size: 0.86rem; font-weight: 800; }
+.format-hint { color: var(--ink-soft); font-size: 0.75rem; line-height: 1.45; }
+.format-hint code { color: var(--nav-river-deep); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 700; }
 .confession-form textarea, .reflection-composer textarea {
   width: 100%;
   min-height: 108px;
@@ -6929,6 +6932,7 @@ a:focus-visible, button:focus-visible {
 .confession-card-meta strong { color: var(--pink-deep); font-family: var(--font-doodle); font-size: 1.08rem; }
 .confession-card-meta time, .reflection-author time { color: var(--ink-soft); font-size: 0.72rem; }
 .confession-card p { margin: 0; color: var(--ink); font-size: 0.92rem; line-height: 1.72; overflow-wrap: anywhere; }
+.confession-card p strong { color: var(--ink); font-weight: 800; }
 
 .community-empty, .confession-loading {
   grid-column: 1 / -1;
@@ -6985,6 +6989,22 @@ a:focus-visible, button:focus-visible {
 .reflection-entry blockquote::before, .reflection-entry blockquote::after { position: absolute; color: var(--pink-deep); font-family: var(--font-display); font-size: 4.1rem; font-weight: 700; line-height: 1; pointer-events: none; }
 .reflection-entry blockquote::before { content: '“'; top: 14px; left: 12px; }
 .reflection-entry blockquote::after { content: '”'; right: 12px; bottom: -6px; }
+.reflection-entry blockquote strong { color: var(--ink); font-weight: 700; }
+.reflection-entry blockquote p { margin: 0 0 16px; }
+.reflection-entry blockquote p:last-child { margin-bottom: 0; }
+.reflection-entry blockquote h4, .reflection-entry blockquote h5, .reflection-entry blockquote h6 { margin: 0 0 11px; color: var(--pink-deep); font-family: var(--font-doodle); line-height: 1.2; }
+.reflection-entry blockquote h4 { font-size: 1.4rem; }
+.reflection-entry blockquote h5 { font-size: 1.2rem; }
+.reflection-entry blockquote h6 { font-size: 1.04rem; }
+.reflection-entry blockquote em { font-style: italic; }
+.reflection-entry blockquote del { color: var(--ink-soft); }
+.reflection-entry blockquote a { color: var(--nav-river-deep); font-family: var(--font-body); font-size: 0.86em; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.reflection-entry blockquote code { border-radius: 4px; background: rgba(221, 229, 209, 0.82); color: var(--nav-river-deep); font: 700 0.76em ui-monospace, SFMono-Regular, Menlo, monospace; padding: 2px 5px; }
+.reflection-entry blockquote pre { overflow-x: auto; margin: 0 0 16px; padding: 13px; border-radius: 8px; background: rgba(44, 51, 35, 0.92); color: var(--paper); font: 0.78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
+.reflection-entry blockquote pre code { padding: 0; background: transparent; color: inherit; font: inherit; }
+.reflection-entry blockquote ul, .reflection-entry blockquote ol { margin: 0 0 16px; padding-left: 24px; }
+.reflection-entry blockquote li + li { margin-top: 4px; }
+.reflection-entry .markdown-quote { margin: 0 0 16px; padding: 7px 0 7px 15px; border-left: 3px solid var(--pink-deep); color: var(--ink-soft); font-style: italic; }
 
 @keyframes community-shimmer { to { background-position: -200% 0; } }
 
