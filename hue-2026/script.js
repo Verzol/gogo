@@ -1652,14 +1652,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const reflectionList = document.getElementById("reflectionList");
     const reflectionComposerAvatar = document.getElementById("reflectionComposerAvatar");
     const reflectionComposerName = document.getElementById("reflectionComposerName");
+    const reflectionFormVeil = document.getElementById("reflectionFormVeil");
+    const reflectionOpensAtText = document.getElementById("reflectionOpensAtText");
 
-    if (!confessionForm || !confessionInput || !confessionCount || !confessionSubmit || !confessionStatus || !confessionRefresh || !confessionList || !reflectionSection || !reflectionGate || !reflectionForm || !reflectionInput || !reflectionCount || !reflectionSubmit || !reflectionStatus || !reflectionList || !reflectionComposerAvatar || !reflectionComposerName) return;
+    if (!confessionForm || !confessionInput || !confessionCount || !confessionSubmit || !confessionStatus || !confessionRefresh || !confessionList || !reflectionSection || !reflectionGate || !reflectionForm || !reflectionInput || !reflectionCount || !reflectionSubmit || !reflectionStatus || !reflectionList || !reflectionComposerAvatar || !reflectionComposerName || !reflectionFormVeil || !reflectionOpensAtText) return;
 
     const client = config.url && config.anonKey && window.supabase?.createClient
       ? window.supabase.createClient(config.url, config.anonKey)
       : null;
     const anonymousTokenKey = "hueConfessionToken";
     const reflectionOpensAt = data.reflectionOpensAt || "2026-07-19T00:00:00+07:00";
+    let reflectionCountdownTimer = null;
     const confessionReactionOptions = ["❤️", "😂", "😮", "😢", "👍", "🔥", "🎉", "🙏", "💀", "🤡"];
     let reflectionsState = null;
     let reflectionsLoading = false;
@@ -1852,13 +1855,60 @@ document.addEventListener("DOMContentLoaded", () => {
       renderConfessions(rows || []);
     };
 
-    const countdownText = opensAt => {
+    const getReflectionCountdown = opensAt => {
       const difference = new Date(opensAt).getTime() - Date.now();
-      if (difference <= 0) return "Cảm nhận đang mở.";
-      const hours = Math.floor(difference / 3600000);
-      const days = Math.floor(hours / 24);
-      const minutes = Math.floor((difference % 3600000) / 60000);
-      return days ? `Còn ${days} ngày ${hours % 24} giờ` : `Còn ${hours} giờ ${minutes} phút`;
+      if (difference <= 0) return null;
+      const totalSeconds = Math.floor(difference / 1000);
+      return {
+        days: Math.floor(totalSeconds / 86400),
+        hours: Math.floor(totalSeconds % 86400 / 3600),
+        minutes: Math.floor(totalSeconds % 3600 / 60),
+        seconds: totalSeconds % 60
+      };
+    };
+    const formatReflectionOpensAt = opensAt => {
+      const date = new Date(opensAt);
+      const timeZone = "Asia/Bangkok";
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        day: "2-digit",
+        month: "2-digit",
+        timeZone
+      }).formatToParts(date);
+      const day = parts.find(part => part.type === "day")?.value;
+      const month = parts.find(part => part.type === "month")?.value;
+      const weekday = new Intl.DateTimeFormat("vi-VN", { weekday: "long", timeZone }).format(date);
+      const time = new Intl.DateTimeFormat("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23",
+        timeZone
+      }).format(date);
+      return `Mở từ ngày ${weekday.charAt(0).toUpperCase()}${weekday.slice(1)} ${day}/${month}, ${time} (UTC+7)`;
+    };
+    const renderReflectionCountdown = opensAt => {
+      const countdown = document.getElementById("reflectionCountdown");
+      if (!countdown) return false;
+      const remaining = getReflectionCountdown(opensAt);
+      if (!remaining) {
+        countdown.textContent = "Đã đến lúc mở trang viết.";
+        return false;
+      }
+      countdown.innerHTML = [
+        [remaining.days, "ngày"],
+        [remaining.hours, "giờ"],
+        [remaining.minutes, "phút"],
+        [remaining.seconds, "giây"]
+      ].map(([value, label]) => `<span><strong>${String(value).padStart(2, "0")}</strong><small>${label}</small></span>`).join("");
+      return true;
+    };
+    const startReflectionCountdown = opensAt => {
+      window.clearInterval(reflectionCountdownTimer);
+      if (!renderReflectionCountdown(opensAt)) return;
+      reflectionCountdownTimer = window.setInterval(() => {
+        if (renderReflectionCountdown(opensAt)) return;
+        window.clearInterval(reflectionCountdownTimer);
+        loadReflections();
+      }, 1000);
     };
     const renderReflections = () => {
       const authMember = getAuthMember();
@@ -1875,15 +1925,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Guests only see this section when there is a real reflection to read.
       reflectionSection.hidden = !isLoggedIn && !reflections.length;
-      reflectionForm.hidden = !isLoggedIn || !isOpen;
+      reflectionForm.hidden = !isLoggedIn;
+      reflectionForm.classList.toggle("is-locked", isLoggedIn && !isOpen);
+      reflectionFormVeil.hidden = !isLoggedIn || isOpen;
+      reflectionInput.disabled = !isOpen;
+      reflectionSubmit.disabled = !isOpen;
 
       if (isLoggedIn && !isOpen) {
-        reflectionGate.innerHTML = `
-          <div class="reflection-locked">
-            <span class="ui-icon" data-lucide="clock-3" aria-hidden="true"></span>
-            <div><strong>Mở từ 00:00 Chủ Nhật 19/07 (UTC+7)</strong><p>${escapeHTML(countdownText(state.opensAt || reflectionOpensAt))}. Khi về tới ngày cuối ở Huế, bạn sẽ có một trang để viết lại chuyến đi.</p></div>
-          </div>
-        `;
+        reflectionGate.innerHTML = "";
+        reflectionOpensAtText.textContent = formatReflectionOpensAt(state.opensAt || reflectionOpensAt);
       } else if (!isLoggedIn && reflections.length) {
         reflectionGate.innerHTML = `<p class="reflection-public-note">Những dòng đã được lưu lại sau chuyến đi.</p>`;
       } else if (isLoggedIn) {
@@ -1891,6 +1941,9 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         reflectionGate.innerHTML = "";
       }
+
+      window.clearInterval(reflectionCountdownTimer);
+      if (isLoggedIn && !isOpen) startReflectionCountdown(state.opensAt || reflectionOpensAt);
 
       if (isLoggedIn && isOpen) {
         const viewer = state.viewer || authMember;
