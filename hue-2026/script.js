@@ -777,11 +777,38 @@ document.addEventListener("DOMContentLoaded", () => {
       positionReactionPicker(item);
     };
 
-    const formatChatTime = value => new Intl.DateTimeFormat("vi-VN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "Asia/Bangkok"
-    }).format(new Date(value));
+    const formatChatTime = value => {
+      const date = new Date(value);
+      const timeZone = "Asia/Bangkok";
+      const dateParts = new Intl.DateTimeFormat("en-CA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone
+      }).formatToParts(date);
+      const todayParts = new Intl.DateTimeFormat("en-CA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        timeZone
+      }).formatToParts(new Date());
+      const toDateKey = parts => parts
+        .filter(part => part.type !== "literal")
+        .map(part => part.value)
+        .join("-");
+      const options = {
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZone
+      };
+      const time = new Intl.DateTimeFormat("vi-VN", options).format(date);
+
+      if (toDateKey(dateParts) === toDateKey(todayParts)) return time;
+
+      const day = dateParts.find(part => part.type === "day")?.value;
+      const month = dateParts.find(part => part.type === "month")?.value;
+      return `${day}/${month} ${time}`;
+    };
 
     const renderChatAvatar = message => {
       const avatar = memberAvatarByUserId.get(message.user_id) || memberAvatarByName.get(cleanName(message.username));
