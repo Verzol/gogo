@@ -29,6 +29,7 @@
     </button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#crew"><span class="nav-icon" data-lucide="users-round" aria-hidden="true"></span><span class="nav-label">Đồng bọn</span></a></li>
+      <li><a href="#packing"><span class="nav-icon" data-lucide="backpack" aria-hidden="true"></span><span class="nav-label">Đồ mang</span></a></li>
       <li><a href="#timeline"><span class="nav-icon" data-lucide="calendar-days" aria-hidden="true"></span><span class="nav-label">Lịch trình</span></a></li>
       <li><a href="#games"><span class="nav-icon" data-lucide="dice-5" aria-hidden="true"></span><span class="nav-label">Tấu hài</span></a></li>
       <li><a href="#destinations"><span class="nav-icon" data-lucide="camera" aria-hidden="true"></span><span class="nav-label">Sống ảo</span></a></li>
@@ -157,6 +158,33 @@
     </div>
     <div class="crew-grid" id="crewGrid"></div>
     <div class="crew-leaderboard" id="tripLeaderboard"></div>
+  </div>
+</section>
+
+<section id="packing" class="journal-page packing-section">
+  <img src="figures/decor/sticker_conicol_hat.png" class="deco-sticker" style="top: 20px; right: 2%; width: 108px; transform: rotate(11deg);" alt="" decoding="async" loading="lazy">
+  <img src="figures/decor/sticker_lotus.png" class="deco-sticker" style="bottom: 28px; left: 3%; width: 90px; transform: rotate(-10deg);" alt="" decoding="async" loading="lazy">
+  <div class="wrap">
+    <div class="section-head packing-head">
+      <h2>Nhớ đem gì?</h2>
+      <p>Cứ tích từng ô rồi đóng vali. Đồ dùng chung nhớ chốt người mang trước khi lên xe.</p>
+    </div>
+    <div class="packing-board">
+      <div class="packing-checklist">
+        <div class="packing-progress" aria-live="polite">
+          <span class="packing-progress-icon" data-lucide="backpack" aria-hidden="true"></span>
+          <span><strong id="packingProgress">0/0</strong> món đã sẵn sàng</span>
+        </div>
+        <div class="packing-groups" id="packingGroups"></div>
+      </div>
+      <aside class="dresscode-note" aria-labelledby="dresscodeTitle">
+        <div class="dresscode-note-icon" data-lucide="shirt" aria-hidden="true"></div>
+        <p>Set đồ lên hình</p>
+        <h3 id="dresscodeTitle">Đúng dresscode</h3>
+        <span class="dresscode-note-line" aria-hidden="true"></span>
+        <div class="dresscode-list" id="dresscodeList"></div>
+      </aside>
+    </div>
   </div>
 </section>
 

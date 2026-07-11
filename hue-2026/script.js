@@ -1483,6 +1483,90 @@ document.addEventListener("DOMContentLoaded", () => {
     }).join("");
   }
 
+  const initPackingList = () => {
+    const groupsMount = document.getElementById("packingGroups");
+    const dresscodeMount = document.getElementById("dresscodeList");
+    const progressMount = document.getElementById("packingProgress");
+    const groups = data.packingList?.groups || [];
+    if (!groupsMount || !dresscodeMount || !progressMount || !groups.length) return;
+
+    const storageKey = "huePackingChecklist";
+    let checkedItems = new Set();
+
+    try {
+      checkedItems = new Set(JSON.parse(localStorage.getItem(storageKey) || "[]"));
+    } catch {
+      checkedItems = new Set();
+    }
+
+    const checklistItems = groups.flatMap((group, groupIndex) =>
+      group.items.map((item, itemIndex) => ({
+        id: `packing-${groupIndex}-${itemIndex}`,
+        label: item
+      }))
+    );
+
+    groupsMount.innerHTML = groups.map((group, groupIndex) => `
+      <article class="packing-group packing-group--${escapeHTML(group.tone || "green")}${group.wide ? " packing-group--wide" : ""}">
+        <div class="packing-group-heading">
+          <span class="packing-group-icon">${lucideIcon(group.icon || "circle-check")}</span>
+          <div>
+            <h3>${escapeHTML(group.title)}</h3>
+            ${group.note ? `<p>${escapeHTML(group.note)}</p>` : ""}
+          </div>
+        </div>
+        <div class="packing-items">
+          ${group.items.map((item, itemIndex) => {
+            const id = `packing-${groupIndex}-${itemIndex}`;
+            return `
+              <label class="packing-item" for="${id}">
+                <input id="${id}" type="checkbox" data-packing-item="${id}"${checkedItems.has(id) ? " checked" : ""}>
+                <span>${escapeHTML(item)}</span>
+              </label>
+            `;
+          }).join("")}
+        </div>
+      </article>
+    `).join("");
+
+    const dresscodes = (data.days || []).flatMap(day =>
+      (day.blocks || []).filter(block => block.outfit).map(block => ({
+        day: `Ngày ${day.day}`,
+        activity: block.activity,
+        outfit: String(block.outfit).split(/\n+/).map(item => item.trim()).filter(Boolean).join(" / ")
+      }))
+    );
+
+    dresscodeMount.innerHTML = dresscodes.map(item => `
+      <div class="dresscode-item">
+        <span>${escapeHTML(item.day)}</span>
+        <strong>${escapeHTML(item.activity)}</strong>
+        <b>${escapeHTML(item.outfit)}</b>
+      </div>
+    `).join("");
+
+    const updateProgress = () => {
+      const checked = [...groupsMount.querySelectorAll("[data-packing-item]:checked")].map(input => input.dataset.packingItem);
+      progressMount.textContent = `${checked.length}/${checklistItems.length}`;
+      groupsMount.closest(".packing-checklist")?.classList.toggle("is-complete", checked.length === checklistItems.length);
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(checked));
+      } catch {
+        // The checklist stays usable even when the browser blocks local storage.
+      }
+    };
+
+    groupsMount.addEventListener("change", event => {
+      if (!event.target.matches("[data-packing-item]")) return;
+      updateProgress();
+    });
+
+    updateProgress();
+    renderLucideIcons();
+  };
+
+  initPackingList();
+
   const initTripLeaderboard = () => {
     const mount = document.getElementById("tripLeaderboard");
     if (!mount) return;

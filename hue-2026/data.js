@@ -21,6 +21,105 @@ const TRIP_DATA = {
     { name: "gtm", role: "" }
   ],
 
+  // ---------- NOTE ĐỒ CẦN MANG ----------
+  packingList: {
+    groups: [
+      {
+        title: "Trong vali",
+        icon: "luggage",
+        tone: "green",
+        items: [
+          "Đồ lót, đồ ngủ và tất dự phòng",
+          "3-4 bộ đồ đi chơi, đủ thay sau buổi biển",
+          "Áo khoác mỏng hoặc khăn choàng",
+          "Giày đi bộ êm và một đôi dép"
+        ]
+      },
+      {
+        title: "Giấy tờ & điện thoại",
+        icon: "wallet-cards",
+        tone: "gold",
+        items: [
+          "CCCD, tiền mặt và thẻ ngân hàng",
+          "Thông tin vé xe, giờ đón và số liên hệ",
+          "Điện thoại, sạc và pin dự phòng",
+          "Tai nghe, gối cổ hoặc bịt mắt cho chuyến xe đêm"
+        ]
+      },
+      {
+        title: "Chăm sóc cá nhân",
+        icon: "heart-pulse",
+        tone: "pink",
+        items: [
+          "Bàn chải, kem đánh răng, khăn mặt",
+          "Đồ skincare, dầu gội và lăn khử mùi",
+          "Thuốc đang dùng, thuốc đau đầu, đau bụng và băng cá nhân",
+          "Kính, lens và nước ngâm lens nếu dùng",
+          "Gel rửa tay khô"
+        ]
+      },
+      {
+        title: "Nắng mưa ngoài đường",
+        icon: "cloud-sun-rain",
+        tone: "blue",
+        items: [
+          "Kem chống nắng và xịt chống muỗi",
+          "Ô gấp gọn hoặc áo mưa mỏng",
+          "Bình nước cá nhân, khăn giấy và khẩu trang",
+          "Túi đeo nhỏ để cầm theo đồ quan trọng",
+          "Quạt mini hoặc khăn làm mát"
+        ]
+      },
+      {
+        title: "Biển & picnic",
+        icon: "waves",
+        tone: "blue",
+        items: [
+          "Đồ bơi hoặc bộ đồ thay ngay sau khi ướt",
+          "Khăn tắm và túi đựng đồ ướt",
+          "Túi chống nước cho điện thoại",
+          "Mũ, kính râm và dây buộc tóc"
+        ]
+      },
+      {
+        title: "Hội chị em nếu cần",
+        icon: "sparkles",
+        tone: "pink",
+        items: [
+          "Băng vệ sinh hoặc tampon và thuốc theo chu kỳ",
+          "Túi makeup, tẩy trang và bông tẩy trang",
+          "Áo dán, miếng lót hoặc phụ kiện cho set đồ chụp ảnh",
+          "Lược, kẹp tóc và dây buộc tóc dự phòng"
+        ]
+      },
+      {
+        title: "Hội anh em nếu cần",
+        icon: "scissors",
+        tone: "green",
+        items: [
+          "Đồ cạo râu, sáp tóc và lược",
+          "Lăn khử mùi hoặc nước hoa",
+          "Đồ lót và tất dự phòng",
+          "Thuốc cá nhân hoặc đồ chăm sóc da đang dùng"
+        ]
+      },
+      {
+        title: "Đồ dùng chung",
+        icon: "users-round",
+        tone: "shared",
+        note: "Chốt người mang trước khi đi!",
+        items: [
+          "Máy ảnh, hắt sáng và tripod",
+          "Bạt hoặc khăn picnic lớn",
+          "Loa mini và dây sạc",
+          "Ổ cắm kéo dài hoặc sạc nhiều cổng",
+          "Bộ bài, trò chơi, túi rác nhỏ, khăn ướt",
+          "Thùng nước"
+        ]
+      }
+    ]
+  },
+
   // ---------- GOOGLE MAPS ----------
   locations: {
     inn91: {
