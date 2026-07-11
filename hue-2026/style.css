@@ -3135,7 +3135,7 @@ body.lucide-ready .nav-links a:focus-visible {
   font-size: 1.25rem;
 }
 
-#imposterAudioPlayer { position: fixed; width: 1px; height: 1px; left: -10px; bottom: -10px; overflow: hidden; opacity: 0.01; pointer-events: none; }
+#imposterAudioPlayer { position: fixed; width: 200px; height: 200px; left: -220px; bottom: -220px; overflow: hidden; opacity: 0.01; pointer-events: none; }
 
 .imposter-music-room { width: 100%; box-sizing: border-box; overflow: hidden; margin-top: 18px; border: 2px solid var(--ink); background: radial-gradient(circle at 100% 0%, rgba(197, 106, 120, 0.18), transparent 35%), rgba(255, 253, 248, 0.94); }
 .imposter-music-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }

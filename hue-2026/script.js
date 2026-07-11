@@ -2665,6 +2665,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let youtubePlayer = null;
     let youtubeApiPromise = null;
     let scheduledMusicRound = 0;
+    let musicStartTimer = 0;
+    let musicStopTimer = 0;
     let imposterRealtime = null;
     let imposterServerOffset = 0;
     let imposterRoundSaving = false;
@@ -2766,17 +2768,25 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.YT?.Player) return Promise.resolve(window.YT);
       if (youtubeApiPromise) return youtubeApiPromise;
       youtubeApiPromise = new Promise((resolve, reject) => {
+        let settled = false;
+        const settle = callback => value => {
+          if (settled) return;
+          settled = true;
+          callback(value);
+        };
         const previousReady = window.onYouTubeIframeAPIReady;
         window.onYouTubeIframeAPIReady = () => {
           if (typeof previousReady === "function") previousReady();
-          resolve(window.YT);
+          settle(resolve)(window.YT);
         };
         const script = document.createElement("script");
         script.src = "https://www.youtube.com/iframe_api";
         script.async = true;
-        script.onerror = () => reject(new Error("Không tải được YouTube player."));
+        script.onerror = settle(() => reject(new Error("Không tải được YouTube player.")));
         document.head.appendChild(script);
+        window.setTimeout(settle(() => reject(new Error("YouTube phản hồi quá lâu. Kiểm tra mạng hoặc trình chặn quảng cáo."))), 15000);
       });
+      youtubeApiPromise.catch(() => { youtubeApiPromise = null; });
       return youtubeApiPromise;
     }
 
@@ -2792,27 +2802,59 @@ document.addEventListener("DOMContentLoaded", () => {
           playerMount.id = "imposterYoutubeFrame";
           dock.appendChild(playerMount);
           youtubePlayer = new YT.Player(playerMount, {
-            width: "1",
-            height: "1",
+            // YouTube requires a player viewport of at least 200 by 200 pixels.
+            width: "200",
+            height: "200",
             videoId,
             playerVars: { playsinline: 1, controls: 0, rel: 0, origin: window.location.origin },
-            events: { onReady: resolve, onError: () => reject(new Error("YouTube không mở được video này.")) }
+            events: {
+              onReady: resolve,
+              onError: event => {
+                youtubePlayer = null;
+                reject(new Error(`YouTube không mở được video này (mã ${event.data}).`));
+              }
+            }
           });
         });
       }
-      // A muted play/pause inside the Ready click establishes a user-initiated media session.
+      // Keep muted playback alive after the Ready click so the scheduled unmute is
+      // not treated as a brand-new autoplay request.
       youtubePlayer.loadVideoById({ videoId, startSeconds: Number(track.startSeconds || 0) });
       youtubePlayer.mute();
       youtubePlayer.playVideo();
-      window.setTimeout(() => {
-        youtubePlayer.pauseVideo();
-        youtubePlayer.unMute();
-      }, 180);
     }
 
     function stopScheduledMusic() {
+      window.clearTimeout(musicStartTimer);
+      window.clearTimeout(musicStopTimer);
       if (youtubePlayer?.stopVideo) youtubePlayer.stopVideo();
       scheduledMusicRound = 0;
+    }
+
+    function startMusicPlayback(track, elapsed) {
+      const videoId = youtubeVideoId(track?.youtubeUrl);
+      const duration = Number(track?.durationSeconds || 20);
+      if (!videoId || !youtubePlayer || elapsed >= duration) return false;
+      window.clearTimeout(musicStopTimer);
+      youtubePlayer.loadVideoById({ videoId, startSeconds: Number(track.startSeconds || 0) + elapsed });
+      youtubePlayer.unMute();
+      youtubePlayer.playVideo();
+      musicStopTimer = window.setTimeout(stopScheduledMusic, Math.max(0, (duration - elapsed) * 1000));
+      return true;
+    }
+
+    async function playMusicNow() {
+      const room = imposterMusic?.room;
+      const track = imposterMusic?.myTrack;
+      if (!room || room.status !== "playing" || !track) throw new Error("Chưa có nhạc để phát.");
+      const startAt = new Date(room.startsAt).getTime() - imposterServerOffset;
+      const elapsed = Math.max(0, (Date.now() - startAt) / 1000);
+      if (elapsed >= Number(track.durationSeconds || 20)) throw new Error("Lượt nhạc này đã kết thúc.");
+
+      await unlockMusic(track);
+      window.clearTimeout(musicStartTimer);
+      scheduledMusicRound = room.round;
+      if (!startMusicPlayback(track, elapsed)) throw new Error("Không thể phát bài nhạc này.");
     }
 
     function scheduleMusicPlayback() {
@@ -2832,11 +2874,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const duration = Number(track.durationSeconds || 20);
       if (elapsed >= duration) return;
       scheduledMusicRound = room.round;
-      window.setTimeout(() => {
-        youtubePlayer.loadVideoById({ videoId, startSeconds: Number(track.startSeconds || 0) + elapsed });
-        youtubePlayer.unMute();
-        youtubePlayer.playVideo();
-        window.setTimeout(stopScheduledMusic, Math.max(0, (duration - elapsed) * 1000));
+      window.clearTimeout(musicStartTimer);
+      musicStartTimer = window.setTimeout(() => {
+        const actualElapsed = Math.max(0, (Date.now() - startAt) / 1000);
+        if (!startMusicPlayback(track, actualElapsed)) {
+          imposterMusicError = "Lượt nhạc này đã kết thúc trước khi máy kịp phát.";
+          render();
+        }
       }, delay);
     }
 
@@ -3651,13 +3695,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.target.closest("[data-imposter-ready]")) {
         if (!imposterMusic?.myTrack) return;
         try {
-          await unlockMusic(imposterMusic.myTrack);
           if (imposterMusic.room?.status === "playing") {
+            await playMusicNow();
             imposterMusicError = "";
-            scheduleMusicPlayback();
             render();
             return;
           }
+          await unlockMusic(imposterMusic.myTrack);
           const { data: payload, error } = await client.rpc("imposter_music_set_ready", { p_session_token: sessionToken() });
           if (error) throw error;
           imposterMusic = payload;
