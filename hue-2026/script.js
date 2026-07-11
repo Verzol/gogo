@@ -1507,7 +1507,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div>
               <span>${lucideIcon("trophy")} Phiếu bé ngoan</span>
               <h3>Bảng xếp hạng chuyến đi</h3>
-              <p>Tổng điểm từ tất cả game. Host không tham gia xếp hạng.</p>
+              <p>Tổng điểm từ tất cả game. Quản trò không tham gia xếp hạng.</p>
             </div>
           </div>
           ${errorMessage ? `<p class="crew-leaderboard-error" role="status">${escapeHTML(errorMessage)}</p>` : ""}
@@ -2253,10 +2253,10 @@ document.addEventListener("DOMContentLoaded", () => {
           ${imposterMusicLoading ? `<div class="imposter-music-skeleton"><span></span><span></span></div>` : ""}
           ${(isPrepared || isPlaying) && !isMusicHost ? `
             <div class="imposter-player-ready">
-              <div><strong>${isPlaying ? "Nhạc đã bắt đầu" : imposterMusic?.ready ? "Máy bạn đã sẵn sàng" : "Tai nghe đã cắm chưa?"}</strong><span>${isPlaying ? "Nếu máy chưa phát, bấm Phát ngay để vào đúng đoạn còn lại." : imposterMusic?.ready ? "Chờ host đếm ngược và bấm bắt đầu." : "Nút này không phát nhạc ngay, chỉ mở quyền phát cho lúc bắt đầu."}</span></div>
+              <div><strong>${isPlaying ? "Nhạc đã bắt đầu" : imposterMusic?.ready ? "Máy bạn đã sẵn sàng" : "Tai nghe đã cắm chưa?"}</strong><span>${isPlaying ? "Nếu máy chưa phát, bấm Phát ngay để vào đúng đoạn còn lại." : imposterMusic?.ready ? "Chờ Quản trò đếm ngược và bấm bắt đầu." : "Nút này không phát nhạc ngay, chỉ mở quyền phát cho lúc bắt đầu."}</span></div>
               <button type="button" data-imposter-ready>${lucideIcon("headphones")} ${isPlaying ? "Phát ngay" : imposterMusic?.ready ? "Sẵn sàng rồi" : "Sẵn sàng"}</button>
             </div>
-          ` : `<div class="game-empty-state">${isMusicHost ? "Dùng menu quản lý bên dưới để chuẩn bị vòng nhạc." : "Host đang chuẩn bị nhạc cho vòng tiếp theo."}</div>`}
+          ` : `<div class="game-empty-state">${isMusicHost ? "Dùng menu quản lý bên dưới để chuẩn bị vòng nhạc." : "Quản trò đang chuẩn bị nhạc cho vòng tiếp theo."}</div>`}
         </section>
       `;
     }
@@ -2309,7 +2309,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <label><span>Nghe trong giây</span><input name="duration" type="number" min="5" max="180" value="20" required></label>
             <button type="submit">${lucideIcon("plus")} Thêm bài</button>
           </form>
-          ${tracks.length ? `<div class="imposter-track-list">${tracks.map(track => `<div><span>${escapeHTML(track.label || "Bài chưa đặt tên")}</span><small>${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s</small><button type="button" data-imposter-delete-track="${escapeHTML(track.id)}" aria-label="Xóa ${escapeHTML(track.label || "bài nhạc")}">${lucideIcon("trash-2")}</button></div>`).join("")}</div>` : `<p class="game-empty-state">Thêm ít nhất hai bài để host chuẩn bị một vòng.</p>`}
+          ${tracks.length ? `<div class="imposter-track-list">${tracks.map(track => `<div><span>${escapeHTML(track.label || "Bài chưa đặt tên")}</span><small>${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s</small><button type="button" data-imposter-delete-track="${escapeHTML(track.id)}" aria-label="Xóa ${escapeHTML(track.label || "bài nhạc")}">${lucideIcon("trash-2")}</button></div>`).join("")}</div>` : `<p class="game-empty-state">Thêm ít nhất hai bài để Quản trò chuẩn bị một vòng.</p>`}
         </section>
       `;
     }
@@ -2389,7 +2389,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <ul>${activeGame.prep.map(item => `<li>${escapeHTML(item)}</li>`).join("")}</ul>
             </div>
           ` : ""}
-          <p class="game-scoring"><strong>Cách tính điểm:</strong> ${escapeHTML(activeGame.scoring || "Host nhập kết quả sau khi chơi.")}</p>
+          <p class="game-scoring"><strong>Cách tính điểm:</strong> ${escapeHTML(activeGame.scoring || "Quản trò nhập kết quả sau khi chơi.")}</p>
           ${activeGame.key === "spy-game" ? `
             <button class="game-spy-open" type="button" data-open-spy-game>${lucideIcon("scan-face")} Mở phòng vai trò bí mật</button>
           ` : ""}
@@ -2408,7 +2408,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return `
         <section class="game-menu-panel game-team-panel">
           <div class="game-panel-heading">
-            <div><h3>Chia đội</h3><p>${assignments.length ? "Đội hình chung trên mọi thiết bị." : "Host chưa chia đội cho game này."}</p></div>
+            <div><h3>Chia đội</h3><p>${assignments.length ? "Đội hình chung trên mọi thiết bị." : "Quản trò chưa chia đội cho game này."}</p></div>
           </div>
           ${assignments.length ? `
             <div class="game-team-grid">
@@ -2422,7 +2422,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
               `).join("")}
             </div>
-          ` : `<div class="game-empty-state">Đội hình sẽ xuất hiện tại đây sau khi host chia đội.</div>`}
+          ` : `<div class="game-empty-state">Đội hình sẽ xuất hiện tại đây sau khi Quản trò chia đội.</div>`}
         </section>
       `;
     }
@@ -2621,7 +2621,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <button type="submit" ${uploadingPhotos ? "disabled" : ""}>${lucideIcon("image-up")} ${uploadingPhotos ? "Đang upload..." : "Upload ảnh"}</button>
               <small>Mỗi ảnh tối đa 10 MB. Thành viên nào trong đội cũng có thể thêm ảnh.</small>
             </form>
-          ` : sessionToken() ? `<p class="team-photo-login-note">Bạn cần được host chia vào một đội trước khi upload ảnh.</p>` : `<p class="team-photo-login-note">Đăng nhập để upload ảnh cho đội của bạn.</p>`}
+          ` : sessionToken() ? `<p class="team-photo-login-note">Bạn cần được Quản trò chia vào một đội trước khi upload ảnh.</p>` : `<p class="team-photo-login-note">Đăng nhập để upload ảnh cho đội của bạn.</p>`}
         </section>
       `;
     }
@@ -3695,7 +3695,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       <select class="is-${escapeHTML(item.role)}" data-spy-role="${escapeHTML(item.username)}">
                         ${Object.entries(roleLabels).map(([value, label]) => `<option class="is-${escapeHTML(value)}" value="${value}" ${item.role === value ? "selected" : ""}>${label}</option>`).join("")}
                       </select>
-                      ${isPlayerHost ? `<span class="spy-player-state">Host</span>` : `<label><input type="checkbox" data-spy-alive="${escapeHTML(item.username)}" ${item.alive ? "checked" : ""}> ${item.alive ? "Sống" : "Chết"}</label>`}
+                      ${isPlayerHost ? `<span class="spy-player-state">Quản trò</span>` : `<label><input type="checkbox" data-spy-alive="${escapeHTML(item.username)}" ${item.alive ? "checked" : ""}> ${item.alive ? "Sống" : "Chết"}</label>`}
                       ${isPlayerHost ? `
                         <div class="spy-player-votes is-muted">
                           <span>Quản trò</span>

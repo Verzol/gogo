@@ -577,14 +577,14 @@ games: [
     teaser: "Trò này hay lắm (gtm spoil)",
     format: "Cá nhân",
     duration: "15-20 giây mỗi lượt nghe",
-    scoring: "Người tìm đúng imposter hoặc imposter sống sót nhận 1 điểm theo quyết định của host.",
+    scoring: "Người tìm đúng imposter hoặc imposter sống sót nhận 1 điểm theo quyết định của Quản trò.",
     rules: [
       "Mọi người đeo tai nghe. Quản trò bật cùng một bài nhạc cho đa số và một bài khác cho imposter.",
       "Khi nhạc chạy, mọi người phải nhún nhảy hoặc dùng động tác để thể hiện bài mình nghe.",
       "Không được nói hoặc hát thành tiếng.",
       "Sau mỗi lượt, cả nhóm thảo luận và vote người bị nghi là imposter."
     ],
-    prep: ["Mỗi người dùng tai nghe và bấm Sẵn sàng trên web trước khi host bắt đầu.", "Host chuẩn bị link YouTube, mốc bắt đầu và thời lượng nghe cho từng bài.", "Âm lượng vừa đủ, không nghe quá lớn trong thời gian dài."]
+    prep: ["Mỗi người dùng tai nghe và bấm Sẵn sàng trên web trước khi Quản trò bắt đầu.", "Quản trò chuẩn bị link YouTube, mốc bắt đầu và thời lượng nghe cho từng bài.", "Âm lượng vừa đủ, không nghe quá lớn trong thời gian dài."]
   },
   {
     key: "su-that-va-loi-noi-doi",
@@ -598,7 +598,7 @@ games: [
       "Theo vòng tròn, mỗi người nói một sự thật và một lời nói dối về bản thân.",
       "Cả nhóm được thảo luận ngắn trước khi chọn câu nào là thật.",
       "Người nói công bố đáp án sau khi mọi người đã chốt lựa chọn.",
-      "Host ghi lại số lần đoán đúng. Người có nhiều đáp án đúng nhất thắng."
+      "Quản trò ghi lại số lần đoán đúng. Người có nhiều đáp án đúng nhất thắng."
     ],
     prep: ["Nghĩ trước một lời nói dối đủ hợp lý để khó bị phát hiện."]
   },
@@ -609,7 +609,7 @@ games: [
     teaser: "Thảo tâm huyết trò này lắm đừng ai bỏ lỡ",
     format: "Cá nhân",
     duration: "30-45 phút",
-    scoring: "Host nhập điểm cho người hoàn thành thử thách nổi bật.",
+    scoring: "Quản trò nhập điểm cho người hoàn thành thử thách nổi bật.",
     rules: [
       "Xoay chai hoặc dùng ứng dụng để chọn người chơi.",
       "Người được chọn phải chọn Truth hoặc Dare.",
@@ -627,7 +627,7 @@ games: [
     duration: "Xuyên suốt chuyến đi",
     scoring: "Dân thắng nhận 1 điểm mỗi người. Gián điệp thắng nhận 3 điểm mỗi người.",
     rules: [
-      "Có 2 gián điệp, các thành viên còn lại là Dân. Host không tham gia và không xuất hiện trên bảng xếp hạng.",
+      "Có 2 gián điệp, các thành viên còn lại là Dân. Quản trò không tham gia và không xuất hiện trên bảng xếp hạng.",
       "Mỗi gián điệp nhận 3-5 nhiệm vụ bí mật và phải hoàn thành mà không bị phát hiện.",
       "Dân tìm gián điệp qua 2 vòng vote. Mỗi người chọn tối đa 2 người ở mỗi vòng.",
       "Dân thắng khi loại đủ 2 gián điệp. Gián điệp thắng khi còn sống và hoàn thành nhiệm vụ."
