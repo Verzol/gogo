@@ -1633,8 +1633,10 @@ document.addEventListener("DOMContentLoaded", () => {
       : null;
     const anonymousTokenKey = "hueConfessionToken";
     const reflectionOpensAt = data.reflectionOpensAt || "2026-07-19T00:00:00+07:00";
+    const confessionReactionOptions = ["❤️", "😂", "😮", "😢", "👍", "🔥", "🎉", "🙏", "💀", "🤡"];
     let reflectionsState = null;
     let reflectionsLoading = false;
+    let confessionMasonryFrame = null;
 
     const isUuid = value => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value || "");
     const getAnonymousToken = () => {
@@ -1744,7 +1746,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderConfessionSkeleton = () => {
       confessionList.innerHTML = `<div class="confession-loading" aria-label="Đang tải confession"><span></span><span></span><span></span></div>`;
     };
+    const layoutConfessionMasonry = () => {
+      if (window.matchMedia("(max-width: 760px)").matches) {
+        confessionList.querySelectorAll(".confession-card").forEach(card => {
+          card.style.gridRowEnd = "";
+        });
+        return;
+      }
+      const styles = window.getComputedStyle(confessionList);
+      const rowHeight = Number.parseFloat(styles.gridAutoRows) || 8;
+      const rowGap = Number.parseFloat(styles.rowGap) || 0;
+      confessionList.querySelectorAll(".confession-card").forEach(card => {
+        const contentHeight = card.getBoundingClientRect().height;
+        const span = Math.ceil((contentHeight + rowGap) / (rowHeight + rowGap));
+        card.style.gridRowEnd = `span ${Math.max(span, 1)}`;
+      });
+    };
+    const scheduleConfessionMasonry = () => {
+      window.cancelAnimationFrame(confessionMasonryFrame);
+      confessionMasonryFrame = window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(layoutConfessionMasonry);
+      });
+    };
     const formatConfessionCode = row => row.code || `#${String(row.id).padStart(6, "0")}`;
+    const confessionReactionEntries = row => (row.reactions || [])
+      .filter(reaction => reaction?.emoji && Array.isArray(reaction.users) && reaction.users.length)
+      .sort((a, b) => b.users.length - a.users.length || a.emoji.localeCompare(b.emoji));
+    const renderConfessionReactions = row => {
+      const entries = confessionReactionEntries(row);
+      const userNames = users => users.map(user => user.displayName || user.username).join(", ");
+      return `
+        ${entries.length ? `<div class="confession-reactions">
+          ${entries.map(reaction => {
+            const names = userNames(reaction.users);
+            const active = reaction.users.some(user => user.username === currentUsername);
+            return `<button class="confession-reaction-chip${active ? " is-active" : ""}" type="button" data-confession-reaction data-confession-id="${escapeHTML(row.id)}" data-confession-emoji="${escapeHTML(reaction.emoji)}" title="Đã thả: ${escapeHTML(names)}" aria-label="${escapeHTML(reaction.emoji)} ${reaction.users.length} lượt. Đã thả: ${escapeHTML(names)}"><span>${escapeHTML(reaction.emoji)}</span><strong>${reaction.users.length}</strong></button>`;
+          }).join("")}
+        </div>` : ""}
+        ${entries.length ? `<p class="confession-reaction-users">${entries.map(reaction => `<span>${escapeHTML(reaction.emoji)} ${escapeHTML(userNames(reaction.users))}</span>`).join("")}</p>` : ""}
+      `;
+    };
+    const renderConfessionReactionPicker = row => `
+      <div class="confession-reaction-picker" data-confession-reaction-picker="${escapeHTML(row.id)}" hidden>
+        ${confessionReactionOptions.map(emoji => `<button type="button" data-confession-reaction data-confession-id="${escapeHTML(row.id)}" data-confession-emoji="${escapeHTML(emoji)}" aria-label="Thả ${escapeHTML(emoji)}">${escapeHTML(emoji)}</button>`).join("")}
+      </div>
+    `;
     const renderConfessions = rows => {
       if (!rows?.length) {
         confessionList.innerHTML = `<div class="community-empty confession-empty"><span class="ui-icon" data-lucide="mail-open" aria-hidden="true"></span><p>Chưa có lời nhắn nào. Bạn mở hàng nhé?</p></div>`;
@@ -1753,10 +1799,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       confessionList.innerHTML = rows.map((row, index) => `
         <article class="confession-card" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
-          <div class="confession-card-meta"><strong>${escapeHTML(formatConfessionCode(row))}</strong><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
+          <div class="confession-card-meta"><div class="confession-card-code"><strong>${escapeHTML(formatConfessionCode(row))}</strong><button class="confession-reaction-add" type="button" data-confession-reaction-add data-confession-id="${escapeHTML(row.id)}" aria-label="${getAuthMember()?.sessionToken ? "Thêm reaction" : "Đăng nhập để thả reaction"}">${lucideIcon("plus")}</button>${renderConfessionReactionPicker(row)}</div><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
           <p>${renderRichText(row.body)}</p>
+          ${renderConfessionReactions(row)}
         </article>
       `).join("");
+      scheduleConfessionMasonry();
+      renderLucideIcons();
     };
     const loadConfessions = async ({ silent = false } = {}) => {
       if (!client) {
@@ -1903,6 +1952,58 @@ document.addEventListener("DOMContentLoaded", () => {
       setStatus(confessionStatus, "Đã gửi ẩn danh. Cảm ơn bạn đã nhắn tử tế.", "ok");
       await loadConfessions({ silent: true });
     });
+    const closeConfessionReactionPickers = exceptId => {
+      confessionList.querySelectorAll("[data-confession-reaction-picker]").forEach(picker => {
+        const isOpen = picker.dataset.confessionReactionPicker === String(exceptId || "");
+        picker.hidden = !isOpen;
+        picker.closest(".confession-card")?.classList.toggle("is-reaction-picker-open", isOpen);
+      });
+    };
+    const toggleConfessionReaction = async (confessionId, emoji) => {
+      const sessionToken = getAuthMember()?.sessionToken;
+      if (!sessionToken) {
+        setStatus(confessionStatus, "Đăng nhập để thả icon cho confession.", "error");
+        document.getElementById("authLoginOpen")?.click();
+        return;
+      }
+      if (!client) {
+        setStatus(confessionStatus, "Reaction chưa được cấu hình Supabase.", "error");
+        return;
+      }
+      setStatus(confessionStatus, "Đang cập nhật reaction...");
+      const { error } = await client.rpc("trip_confession_toggle_reaction", {
+        p_session_token: sessionToken,
+        p_confession_id: Number(confessionId),
+        p_emoji: emoji
+      });
+      if (error) {
+        setStatus(confessionStatus, error.message || "Không cập nhật được reaction.", "error");
+        return;
+      }
+      closeConfessionReactionPickers();
+      setStatus(confessionStatus, "");
+      await loadConfessions({ silent: true });
+    };
+    confessionList.addEventListener("click", event => {
+      const addButton = event.target.closest("[data-confession-reaction-add]");
+      if (addButton) {
+        const confessionId = addButton.dataset.confessionId;
+        if (!getAuthMember()?.sessionToken) {
+          setStatus(confessionStatus, "Đăng nhập để thả icon cho confession.", "error");
+          document.getElementById("authLoginOpen")?.click();
+          return;
+        }
+        const picker = confessionList.querySelector(`[data-confession-reaction-picker="${confessionId}"]`);
+        const willOpen = picker?.hidden;
+        closeConfessionReactionPickers(willOpen ? confessionId : "");
+        return;
+      }
+      const reactionButton = event.target.closest("[data-confession-reaction]");
+      if (reactionButton) toggleConfessionReaction(reactionButton.dataset.confessionId, reactionButton.dataset.confessionEmoji);
+    });
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".confession-card")) closeConfessionReactionPickers();
+    });
     reflectionForm.addEventListener("submit", async event => {
       event.preventDefault();
       const body = reflectionInput.value.trim();
@@ -1929,6 +2030,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.addEventListener("hue-auth-change", () => loadReflections());
+    window.addEventListener("resize", scheduleConfessionMasonry);
     window.setInterval(() => {
       if (document.hidden) return;
       loadConfessions({ silent: true });
