@@ -466,17 +466,25 @@ games: [
     name: "Ảnh Challenge Bình Minh",
     occasion: "Sáng ngày 2",
     teaser: "Bốc dáng, chạy máy, chốt ảnh",
-    format: "2 đội",
+    format: "2 hoặc 3 đội",
     duration: "7 phút mỗi đội",
     teamCount: 2,
+    teamCountOptions: [2, 3],
+    poseImages: [
+      "figures/games/photo/1.jpg",
+      "figures/games/photo/2.jpg",
+      "figures/games/photo/3.jpg",
+      "figures/games/photo/4.jpg",
+      "figures/games/photo/5.jpg"
+    ],
     scoring: "Mỗi thành viên đội có ảnh được vote cao nhất nhận 1 điểm.",
     rules: [
-      "Chia thành 2 đội và bốc thăm một kiểu tạo dáng ngẫu nhiên.",
-      "Mỗi đội có 7 phút để tạo dáng và chụp ảnh tại bãi biển.",
-      "Đội còn lại hỗ trợ chụp, sau đó tất cả ảnh được đưa vào album nhóm.",
-      "Cả nhóm vote ảnh đẹp nhất để chọn đội thắng."
+      "Chia người chơi thành 2 hoặc 3 đội theo cấu hình của quản trò.",
+      "Mỗi đội bốc ngẫu nhiên 4 trong bộ 5 ảnh tạo dáng và phải thực hiện đủ 4 dáng đã nhận.",
+      "Mỗi đội có 7 phút để tạo dáng và chụp ảnh tại bãi biển, sau đó thành viên trong đội upload ảnh vào album chung của đội.",
+      "Khi quản trò mở vote, mỗi người chơi chọn một đội mình thích nhất. Đội nhận nhiều phiếu nhất thắng."
     ],
-    prep: ["Dùng camera điện thoại và có thể dùng bộ lọc.", "Gửi ảnh vào cùng một album trước khi vote."]
+    prep: ["Dùng camera điện thoại và có thể dùng bộ lọc.", "Mỗi đội kiểm tra đủ 4 dáng trước khi quản trò mở vote."]
   },
   {
     key: "co-caro-tiep-suc",

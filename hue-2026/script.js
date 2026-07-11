@@ -2020,6 +2020,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let photosLoading = false;
     let photoError = "";
     let uploadingPhotos = false;
+    let photoChallengeLoading = false;
+    let photoChallengeState = {
+      teamCount: 2,
+      voteStatus: "draft",
+      draws: [],
+      voteTallies: [],
+      myTeam: 0,
+      myVote: 0,
+      authenticated: false
+    };
     let imposterMusic = null;
     let imposterMusicLoading = false;
     let imposterMusicError = "";
@@ -2055,6 +2065,26 @@ document.addEventListener("DOMContentLoaded", () => {
       points: Number(result.points || 0),
       note: result.note || ""
     }));
+    const normalizePhotoChallenge = payload => ({
+      teamCount: Number(payload?.teamCount ?? payload?.team_count ?? 2),
+      voteStatus: payload?.voteStatus || payload?.vote_status || "draft",
+      draws: (payload?.draws || []).map(draw => ({
+        teamNumber: Number(draw.teamNumber ?? draw.team_number ?? 0),
+        poseNumber: Number(draw.poseNumber ?? draw.pose_number ?? 0)
+      })).filter(draw => draw.teamNumber && draw.poseNumber),
+      voteTallies: (payload?.voteTallies || payload?.vote_tallies || []).map(tally => ({
+        teamNumber: Number(tally.teamNumber ?? tally.team_number ?? 0),
+        voteCount: Number(tally.voteCount ?? tally.vote_count ?? 0)
+      })).filter(tally => tally.teamNumber),
+      myTeam: Number(payload?.myTeam ?? payload?.my_team ?? 0),
+      myVote: Number(payload?.myVote ?? payload?.my_vote ?? 0),
+      authenticated: Boolean(payload?.authenticated),
+      viewer: payload?.viewer || null
+    });
+    const isPhotoChallenge = () => activeGame?.key === "anh-challenge-binh-minh";
+    const effectiveTeamCount = () => isPhotoChallenge()
+      ? photoChallengeState.teamCount
+      : Number(activeGame?.teamCount || 0);
     const applyPayload = payload => {
       gameState = {
         viewer: payload?.viewer || gameState.viewer,
@@ -2319,6 +2349,23 @@ document.addEventListener("DOMContentLoaded", () => {
       applyPayload(payload);
     }
 
+    async function loadPhotoChallengeState({ silent = false } = {}) {
+      if (!client || !isPhotoChallenge()) return;
+      if (!silent) {
+        photoChallengeLoading = true;
+        render();
+      }
+      const rpcName = sessionToken() ? "photo_challenge_get_state" : "photo_challenge_public_state";
+      const args = sessionToken() ? { p_session_token: sessionToken() } : undefined;
+      const { data: payload, error } = await client.rpc(rpcName, args);
+      photoChallengeLoading = false;
+      if (error) {
+        setStatus("Chưa cài migration add_photo_challenge.sql trên Supabase.", "error");
+        return;
+      }
+      photoChallengeState = normalizePhotoChallenge(payload);
+    }
+
     function currentResults() {
       return new Map(gameState.results
         .filter(result => result.gameKey === activeGame.key)
@@ -2351,9 +2398,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderTeams() {
-      if (!activeGame.teamCount) return "";
+      const teamCount = effectiveTeamCount();
+      if (!teamCount) return "";
       const assignments = gameState.teams.filter(team => team.gameKey === activeGame.key);
-      const byTeam = Array.from({ length: activeGame.teamCount }, (_, index) => ({
+      const byTeam = Array.from({ length: teamCount }, (_, index) => ({
         number: index + 1,
         members: assignments.filter(team => Number(team.teamNumber) === index + 1)
       }));
@@ -2379,6 +2427,118 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
 
+    function poseImage(poseNumber) {
+      return activeGame.poseImages?.[poseNumber - 1] || "";
+    }
+
+    function renderPhotoChallengeBoard() {
+      if (!isPhotoChallenge()) return "";
+      const teamCount = effectiveTeamCount();
+      return `
+        <section class="game-menu-panel photo-pose-panel">
+          <div class="game-panel-heading">
+            <div>
+              <h3>Bộ ảnh tạo dáng</h3>
+              <p>Mỗi đội bốc ngẫu nhiên 4 trong 5 dáng dưới đây.</p>
+            </div>
+          </div>
+          <div class="photo-pose-reference" aria-label="5 ảnh tạo dáng">
+            ${(activeGame.poseImages || []).map((src, index) => `
+              <a href="${escapeHTML(src)}" target="_blank" rel="noopener noreferrer" class="photo-pose-reference-card">
+                <img src="${escapeHTML(src)}" alt="Dáng mẫu ${index + 1}" ${imgAttrs()}>
+                <span>Dáng ${index + 1}</span>
+              </a>
+            `).join("")}
+          </div>
+          <div class="photo-draw-heading">
+            <strong>Phiếu bốc của từng đội</strong>
+            <span>Mỗi đội cần đủ 4 dáng</span>
+          </div>
+          ${photoChallengeLoading ? `<div class="photo-draw-loading"><span></span><span></span></div>` : `
+            <div class="photo-draw-teams">
+              ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
+                const draws = photoChallengeState.draws
+                  .filter(draw => draw.teamNumber === teamNumber)
+                  .sort((a, b) => a.poseNumber - b.poseNumber);
+                return `
+                  <article class="photo-draw-team">
+                    <div class="photo-draw-team-title">
+                      <strong>Đội ${teamNumber}</strong>
+                      <span class="${draws.length === 4 ? "is-ready" : ""}">${draws.length}/4 dáng</span>
+                    </div>
+                    ${draws.length ? `
+                      <div class="photo-draw-grid">
+                        ${draws.map(draw => `
+                          <a href="${escapeHTML(poseImage(draw.poseNumber))}" target="_blank" rel="noopener noreferrer">
+                            <img src="${escapeHTML(poseImage(draw.poseNumber))}" alt="Đội ${teamNumber}, dáng ${draw.poseNumber}" ${imgAttrs()}>
+                            <span>${draw.poseNumber}</span>
+                          </a>
+                        `).join("")}
+                      </div>
+                    ` : `<div class="photo-draw-empty">Quản trò chưa bốc ảnh cho Đội ${teamNumber}.</div>`}
+                  </article>
+                `;
+              }).join("")}
+            </div>
+          `}
+        </section>
+      `;
+    }
+
+    function renderPhotoChallengeVoting() {
+      if (!isPhotoChallenge()) return "";
+      const teamCount = effectiveTeamCount();
+      const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally.voteCount]));
+      const maxVotes = Math.max(0, ...tallies.values());
+      const statusCopy = {
+        draft: "Vote chưa mở",
+        open: "Đang mở vote",
+        closed: "Đã chốt vote"
+      };
+      return `
+        <section class="game-menu-panel photo-vote-panel">
+          <div class="photo-vote-title">
+            <div>
+              <h3>Vote đội thắng</h3>
+              <p>Mỗi người chọn một đội mình thích nhất.</p>
+            </div>
+            <span class="is-${escapeHTML(photoChallengeState.voteStatus)}">${statusCopy[photoChallengeState.voteStatus]}</span>
+          </div>
+          ${photoChallengeState.voteStatus === "draft" ? `
+            <div class="game-empty-state">Quản trò sẽ mở vote sau khi các đội hoàn thành và upload ảnh.</div>
+          ` : photoChallengeState.voteStatus === "open" ? `
+            ${!sessionToken() ? `<div class="game-empty-state">Đăng nhập để vote cho đội bạn thích.</div>` : isHost() ? `<div class="game-empty-state">Quản trò không tham gia vote. Số phiếu trực tiếp nằm trong công cụ quản trò.</div>` : !photoChallengeState.myTeam ? `<div class="game-empty-state">Bạn cần được chia đội trước khi vote.</div>` : `
+              <div class="photo-vote-options">
+                ${Array.from({ length: teamCount }, (_, index) => index + 1)
+                  .map(teamNumber => `
+                    <button type="button" class="${photoChallengeState.myVote === teamNumber ? "is-selected" : ""}" data-photo-vote="${teamNumber}">
+                      <span>${photoChallengeState.myVote === teamNumber ? lucideIcon("check") : lucideIcon("heart")}</span>
+                      <strong>Đội ${teamNumber}</strong>
+                      <small>${photoChallengeState.myVote === teamNumber ? "Đã chọn" : "Chọn đội này"}</small>
+                    </button>
+                  `).join("")}
+              </div>
+              ${photoChallengeState.myVote ? `<p class="photo-vote-note">Bạn có thể đổi lựa chọn khi vote còn mở.</p>` : ""}
+            `}
+          ` : `
+            <div class="photo-vote-results">
+              ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
+                const votes = tallies.get(teamNumber) || 0;
+                const isWinner = maxVotes > 0 && votes === maxVotes;
+                return `
+                  <div class="photo-vote-result ${isWinner ? "is-winner" : ""}">
+                    <span>${isWinner ? lucideIcon("trophy") : lucideIcon("users")}</span>
+                    <strong>Đội ${teamNumber}</strong>
+                    <em>${votes} phiếu</em>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          `}
+        </section>
+      `;
+    }
+
     function ownTeamNumber() {
       const username = getAuthMember()?.username;
       if (!username || activeGame?.key !== "anh-challenge-binh-minh") return 0;
@@ -2388,13 +2548,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function loadTeamPhotos() {
-      if (!client || activeGame?.key !== "anh-challenge-binh-minh") return;
+      if (!client || !isPhotoChallenge()) return;
       photosLoading = true;
       photoError = "";
       render();
       const bucket = client.storage.from("trip-game-photos");
       const loaded = new Map();
-      for (let teamNumber = 1; teamNumber <= activeGame.teamCount; teamNumber += 1) {
+      for (let teamNumber = 1; teamNumber <= effectiveTeamCount(); teamNumber += 1) {
         const folder = `${activeGame.key}/team-${teamNumber}`;
         const { data: files, error } = await bucket.list(folder, {
           limit: 100,
@@ -2417,7 +2577,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderPhotoGallery() {
-      if (activeGame?.key !== "anh-challenge-binh-minh") return "";
+      if (!isPhotoChallenge()) return "";
       const myTeam = ownTeamNumber();
       return `
         <section class="game-menu-panel team-photo-panel">
@@ -2430,7 +2590,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${photoError ? `<p class="team-photo-error" role="status">${escapeHTML(photoError)}</p>` : ""}
           ${photosLoading ? `<div class="team-photo-loading"><span></span><span></span></div>` : `
             <div class="team-photo-groups">
-              ${Array.from({ length: activeGame.teamCount }, (_, index) => index + 1).map(teamNumber => {
+              ${Array.from({ length: effectiveTeamCount() }, (_, index) => index + 1).map(teamNumber => {
                 const photos = teamPhotos.get(teamNumber) || [];
                 return `
                   <div class="team-photo-group">
@@ -2492,8 +2652,64 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
 
+    function renderPhotoChallengeHostControls() {
+      if (!isHost() || !isPhotoChallenge()) return "";
+      const teamCount = effectiveTeamCount();
+      const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally.voteCount]));
+      return `
+        <section class="game-menu-panel photo-host-controls">
+          <div class="game-panel-heading">
+            <div>
+              <h3>Thiết lập thử thách ảnh</h3>
+              <p>Chọn số đội, bốc dáng và điều khiển lượt vote.</p>
+            </div>
+          </div>
+          <div class="photo-host-setting">
+            <div>
+              <strong>Số đội</strong>
+              <span>Đổi số đội sẽ reset vote và bỏ assignment vượt quá số đội mới.</span>
+            </div>
+            <div class="photo-team-count-switch" role="group" aria-label="Chọn số đội">
+              ${(activeGame.teamCountOptions || [2, 3]).map(count => `
+                <button type="button" class="${teamCount === count ? "is-active" : ""}" data-photo-team-count="${count}" aria-pressed="${teamCount === count}">${count} đội</button>
+              `).join("")}
+            </div>
+          </div>
+          <div class="photo-host-setting is-draws">
+            <div>
+              <strong>Bốc ảnh tạo dáng</strong>
+              <span>Mỗi lần bốc chọn ngẫu nhiên 4 trong 5 ảnh.</span>
+            </div>
+            <div class="photo-host-draw-actions">
+              <button type="button" class="is-primary" data-photo-draw="all">${lucideIcon("shuffle")} Bốc cho tất cả</button>
+              ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
+                const hasDraw = photoChallengeState.draws.filter(draw => draw.teamNumber === teamNumber).length === 4;
+                return `<button type="button" data-photo-draw="${teamNumber}">${lucideIcon("images")} ${hasDraw ? "Bốc lại" : "Bốc"} Đội ${teamNumber}</button>`;
+              }).join("")}
+            </div>
+          </div>
+          <div class="photo-host-setting is-voting">
+            <div>
+              <strong>Điều khiển vote</strong>
+              <span>${photoChallengeState.voteStatus === "open" ? "Người chơi đang có thể vote." : photoChallengeState.voteStatus === "closed" ? "Kết quả đã được công bố." : "Vote chưa bắt đầu."}</span>
+            </div>
+            <div class="photo-host-vote-actions">
+              ${photoChallengeState.voteStatus !== "open" ? `<button type="button" class="is-primary" data-photo-vote-status="open">${lucideIcon("play")} Mở vote</button>` : `<button type="button" class="is-primary" data-photo-vote-status="closed">${lucideIcon("square")} Đóng vote</button>`}
+              <button type="button" data-photo-vote-reset>${lucideIcon("rotate-ccw")} Reset vote</button>
+            </div>
+          </div>
+          <div class="photo-host-live-votes">
+            ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => `
+              <span><strong>Đội ${teamNumber}</strong><em>${tallies.get(teamNumber) || 0} phiếu</em></span>
+            `).join("")}
+          </div>
+        </section>
+      `;
+    }
+
     function renderHostTeamManager() {
-      if (!isHost() || !activeGame.teamCount) return "";
+      const teamCount = effectiveTeamCount();
+      if (!isHost() || !teamCount) return "";
       const assignments = gameState.teams.filter(team => team.gameKey === activeGame.key);
       return `
         <section class="game-menu-panel game-host-team-manager">
@@ -2518,7 +2734,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <strong>${escapeHTML(player.username)}</strong>
                     <select data-team-player="${escapeHTML(player.username)}" aria-label="Chọn đội cho ${escapeHTML(player.username)}">
                       <option value="0" ${currentTeam === 0 ? "selected" : ""}>Chưa xếp</option>
-                      ${Array.from({ length: activeGame.teamCount }, (_, index) => index + 1).map(teamNumber => `
+                      ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => `
                         <option value="${teamNumber}" ${currentTeam === teamNumber ? "selected" : ""}>Đội ${teamNumber}</option>
                       `).join("")}
                     </select>
@@ -2546,6 +2762,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </header>
           <div class="game-host-console-content">
             ${renderImposterMusicManager()}
+            ${renderPhotoChallengeHostControls()}
             ${renderHostTeamManager()}
             ${renderHostResults()}
           </div>
@@ -2568,7 +2785,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ${statusMessage ? `<p class="game-menu-status is-${escapeHTML(statusKind || "ok")}" role="status">${escapeHTML(statusMessage)}</p>` : ""}
           ${loading ? `<div class="game-menu-loading" aria-label="Đang tải"><span></span><span></span><span></span></div>` : `
             <div class="game-menu-layout is-single">
-              <div>${renderRules()}${renderTeams()}${renderPhotoGallery()}</div>
+              <div>${renderRules()}${renderTeams()}${renderPhotoChallengeBoard()}${renderPhotoGallery()}${renderPhotoChallengeVoting()}</div>
             </div>
             ${renderImposterMusic()}
             ${renderHostConsole()}
@@ -2585,14 +2802,17 @@ document.addEventListener("DOMContentLoaded", () => {
       mount.hidden = false;
       render();
       await loadGameState();
-      if (activeGame.key === "anh-challenge-binh-minh") await loadTeamPhotos();
+      if (isPhotoChallenge()) {
+        await loadPhotoChallengeState();
+        await loadTeamPhotos();
+      }
       if (activeGame.key === "who-is-the-imposter") await loadImposterMusicState();
       render();
       mount.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     async function saveTeamAssignments(assignments, successMessage) {
-      if (!client || !activeGame?.teamCount || !isHost()) {
+      if (!client || !effectiveTeamCount() || !isHost()) {
         setStatus("Chưa cấu hình Supabase nên không lưu được đội hình.", "error");
         render();
         return false;
@@ -2682,6 +2902,85 @@ document.addEventListener("DOMContentLoaded", () => {
         window.dispatchEvent(new CustomEvent("hue-open-spy-game"));
         return;
       }
+      const teamCountButton = event.target.closest("[data-photo-team-count]");
+      if (teamCountButton && isHost() && isPhotoChallenge()) {
+        const nextCount = Number(teamCountButton.dataset.photoTeamCount);
+        if (nextCount === effectiveTeamCount()) return;
+        if (!window.confirm(`Đổi sang ${nextCount} đội? Vote hiện tại sẽ được reset.`)) return;
+        const { data: payload, error } = await client.rpc("photo_challenge_set_team_count", {
+          p_session_token: sessionToken(),
+          p_team_count: nextCount
+        });
+        if (error) setStatus(error.message || "Không đổi được số đội.", "error");
+        else {
+          photoChallengeState = normalizePhotoChallenge(payload);
+          await loadGameState();
+          await loadTeamPhotos();
+          setStatus(`Đã chuyển game sang ${nextCount} đội.`, "ok");
+        }
+        render();
+        return;
+      }
+      const drawButton = event.target.closest("[data-photo-draw]");
+      if (drawButton && isHost() && isPhotoChallenge()) {
+        const drawTarget = drawButton.dataset.photoDraw;
+        const { data: payload, error } = await client.rpc("photo_challenge_randomize_draws", {
+          p_session_token: sessionToken(),
+          p_team_number: drawTarget === "all" ? null : Number(drawTarget)
+        });
+        if (error) setStatus(error.message || "Không bốc được ảnh tạo dáng.", "error");
+        else {
+          photoChallengeState = normalizePhotoChallenge(payload);
+          setStatus(drawTarget === "all" ? "Đã bốc 4 ảnh cho tất cả đội." : `Đã bốc 4 ảnh cho Đội ${drawTarget}.`, "ok");
+        }
+        render();
+        return;
+      }
+      const voteStatusButton = event.target.closest("[data-photo-vote-status]");
+      if (voteStatusButton && isHost() && isPhotoChallenge()) {
+        const nextStatus = voteStatusButton.dataset.photoVoteStatus;
+        const { data: payload, error } = await client.rpc("photo_challenge_set_vote_status", {
+          p_session_token: sessionToken(),
+          p_status: nextStatus,
+          p_reset: false
+        });
+        if (error) setStatus(error.message || "Không đổi được trạng thái vote.", "error");
+        else {
+          photoChallengeState = normalizePhotoChallenge(payload);
+          setStatus(nextStatus === "open" ? "Đã mở vote." : "Đã đóng và công bố kết quả vote.", "ok");
+        }
+        render();
+        return;
+      }
+      if (event.target.closest("[data-photo-vote-reset]") && isHost() && isPhotoChallenge()) {
+        if (!window.confirm("Xóa toàn bộ phiếu và đưa vote về trạng thái chưa mở?")) return;
+        const { data: payload, error } = await client.rpc("photo_challenge_set_vote_status", {
+          p_session_token: sessionToken(),
+          p_status: "draft",
+          p_reset: true
+        });
+        if (error) setStatus(error.message || "Không reset được vote.", "error");
+        else {
+          photoChallengeState = normalizePhotoChallenge(payload);
+          setStatus("Đã xóa toàn bộ phiếu vote.", "ok");
+        }
+        render();
+        return;
+      }
+      const voteButton = event.target.closest("[data-photo-vote]");
+      if (voteButton && isPhotoChallenge() && !isHost()) {
+        const { data: payload, error } = await client.rpc("photo_challenge_cast_vote", {
+          p_session_token: sessionToken(),
+          p_team_number: Number(voteButton.dataset.photoVote)
+        });
+        if (error) setStatus(error.message || "Không gửi được phiếu vote.", "error");
+        else {
+          photoChallengeState = normalizePhotoChallenge(payload);
+          setStatus(`Đã vote cho Đội ${voteButton.dataset.photoVote}.`, "ok");
+        }
+        render();
+        return;
+      }
       if (event.target.closest("[data-imposter-ready]")) {
         if (!imposterMusic?.myTrack) return;
         try {
@@ -2749,10 +3048,10 @@ document.addEventListener("DOMContentLoaded", () => {
         await saveTeamAssignments([], "Đã xóa đội hình.");
         return;
       }
-      if (!event.target.closest("[data-random-teams]") || !activeGame?.teamCount || !isHost()) return;
+      if (!event.target.closest("[data-random-teams]") || !effectiveTeamCount() || !isHost()) return;
       const assignments = shuffle(players()).map((player, index) => ({
         username: player.username,
-        teamNumber: (index % activeGame.teamCount) + 1
+        teamNumber: (index % effectiveTeamCount()) + 1
       }));
       await saveTeamAssignments(assignments, "Đã random và lưu đội hình.");
     });
@@ -2796,7 +3095,7 @@ document.addEventListener("DOMContentLoaded", () => {
         render();
         return;
       }
-      if (!event.target.matches("[data-team-editor]") || !activeGame?.teamCount || !isHost()) return;
+      if (!event.target.matches("[data-team-editor]") || !effectiveTeamCount() || !isHost()) return;
       event.preventDefault();
       const assignments = [...event.target.querySelectorAll("[data-team-player]")]
         .map(select => ({ username: select.dataset.teamPlayer, teamNumber: Number(select.value) }))
@@ -2876,7 +3175,10 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("hue-auth-change", async () => {
       if (mount.hidden || !activeGame) return;
       await loadGameState();
-      if (activeGame.key === "anh-challenge-binh-minh") await loadTeamPhotos();
+      if (isPhotoChallenge()) {
+        await loadPhotoChallengeState();
+        await loadTeamPhotos();
+      }
       if (activeGame.key === "who-is-the-imposter") await loadImposterMusicState();
       render();
     });
@@ -2890,6 +3192,13 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .subscribe();
     }
+
+    window.setInterval(async () => {
+      if (mount.hidden || !isPhotoChallenge() || document.hidden) return;
+      if (mount.contains(document.activeElement)) return;
+      await loadPhotoChallengeState({ silent: true });
+      render();
+    }, 5000);
   };
 
   initGameMenus();

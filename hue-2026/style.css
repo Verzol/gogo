@@ -3060,6 +3060,376 @@ body.lucide-ready .nav-links a:focus-visible {
   color: var(--pink-deep);
 }
 
+.photo-pose-panel {
+  overflow: hidden;
+}
+
+.photo-pose-reference {
+  display: grid;
+  grid-auto-columns: minmax(122px, 0.72fr);
+  grid-auto-flow: column;
+  gap: 10px;
+  margin: 15px -4px 0;
+  padding: 4px 4px 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.photo-pose-reference-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: 148px auto;
+  overflow: hidden;
+  border: 1.5px solid var(--ink);
+  border-radius: 11px;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+
+.photo-pose-reference-card img {
+  width: 100%;
+  height: 148px;
+  background: rgba(244, 235, 217, 0.48);
+  object-fit: contain;
+}
+
+.photo-pose-reference-card span {
+  border-top: 1px solid rgba(44, 51, 35, 0.18);
+  padding: 7px 9px;
+  font-family: var(--font-doodle);
+  font-weight: 900;
+  text-align: center;
+}
+
+.photo-draw-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 17px;
+  border-top: 1px dashed rgba(44, 51, 35, 0.3);
+  padding-top: 14px;
+}
+
+.photo-draw-heading span {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.photo-draw-teams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.photo-draw-team {
+  border: 1.5px solid rgba(44, 51, 35, 0.22);
+  border-radius: 12px;
+  background: var(--avocado-pale);
+  padding: 10px;
+}
+
+.photo-draw-team:nth-child(even) {
+  background: var(--pink-pale);
+}
+
+.photo-draw-team-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.photo-draw-team-title > strong {
+  font-family: var(--font-doodle);
+  font-size: 1.15rem;
+}
+
+.photo-draw-team-title > span {
+  border-radius: 999px;
+  background: var(--paper);
+  padding: 3px 8px;
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.photo-draw-team-title > span.is-ready {
+  background: var(--avocado);
+  color: var(--paper);
+}
+
+.photo-draw-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.photo-draw-grid a {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 0.82;
+  border: 1px solid var(--ink);
+  border-radius: 7px;
+  background: var(--paper);
+}
+
+.photo-draw-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-draw-grid span {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.photo-draw-empty {
+  display: grid;
+  min-height: 86px;
+  place-items: center;
+  border: 1px dashed rgba(44, 51, 35, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 253, 248, 0.6);
+  padding: 10px;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  text-align: center;
+}
+
+.photo-draw-loading {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.photo-draw-loading span {
+  min-height: 135px;
+  border-radius: 12px;
+  background: rgba(221, 229, 209, 0.62);
+  animation: game-menu-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.photo-vote-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.photo-vote-title h3,
+.photo-vote-title p {
+  margin: 0;
+}
+
+.photo-vote-title p {
+  margin-top: 4px;
+  color: var(--ink-soft);
+}
+
+.photo-vote-title > span {
+  flex: 0 0 auto;
+  border: 1px solid rgba(44, 51, 35, 0.24);
+  border-radius: 999px;
+  background: var(--paper);
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.photo-vote-title > span.is-open {
+  background: var(--avocado-pale);
+  color: var(--avocado);
+}
+
+.photo-vote-title > span.is-closed {
+  background: var(--gold);
+}
+
+.photo-vote-options,
+.photo-vote-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.photo-vote-options button {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-height: 112px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 12px;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.13);
+}
+
+.photo-vote-options button.is-selected {
+  background: var(--avocado-pale);
+  box-shadow: inset 0 0 0 3px var(--avocado);
+}
+
+.photo-vote-options button > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--pink-pale);
+  color: var(--pink-deep);
+}
+
+.photo-vote-options button.is-selected > span {
+  background: var(--avocado);
+  color: var(--paper);
+}
+
+.photo-vote-options small {
+  color: var(--ink-soft);
+}
+
+.photo-vote-note {
+  margin: 10px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.photo-vote-result {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 9px;
+  align-items: center;
+  border-radius: 11px;
+  background: rgba(244, 235, 217, 0.72);
+  padding: 10px;
+}
+
+.photo-vote-result.is-winner {
+  outline: 2px solid var(--gold);
+  background: rgba(201, 162, 74, 0.2);
+}
+
+.photo-vote-result > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--paper);
+}
+
+.photo-vote-result em {
+  border-radius: 999px;
+  background: var(--paper);
+  padding: 5px 9px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.photo-host-setting {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1.2fr);
+  gap: 18px;
+  align-items: center;
+  margin-top: 13px;
+  border-top: 1px dashed rgba(44, 51, 35, 0.26);
+  padding-top: 13px;
+}
+
+.photo-host-setting > div:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.photo-host-setting > div:first-child span {
+  color: var(--ink-soft);
+  font-size: 0.83rem;
+}
+
+.photo-team-count-switch,
+.photo-host-draw-actions,
+.photo-host-vote-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.photo-team-count-switch button,
+.photo-host-draw-actions button,
+.photo-host-vote-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.photo-team-count-switch button.is-active,
+.photo-host-draw-actions button.is-primary,
+.photo-host-vote-actions button.is-primary {
+  background: var(--gold);
+}
+
+.photo-host-live-votes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.photo-host-live-votes span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 10px;
+  background: var(--avocado-pale);
+  padding: 9px 11px;
+}
+
+.photo-host-live-votes span:nth-child(even) {
+  background: var(--pink-pale);
+}
+
+.photo-host-live-votes em {
+  font-style: normal;
+  font-weight: 900;
+}
+
 .team-photo-panel {
   overflow: hidden;
 }
@@ -4417,6 +4787,50 @@ body.lucide-ready .nav-links a:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .photo-pose-reference {
+    grid-auto-columns: 118px;
+  }
+
+  .photo-pose-reference-card {
+    grid-template-rows: 132px auto;
+  }
+
+  .photo-pose-reference-card img {
+    height: 132px;
+  }
+
+  .photo-draw-heading,
+  .photo-vote-title {
+    display: grid;
+  }
+
+  .photo-draw-teams,
+  .photo-draw-loading {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-host-setting {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .photo-team-count-switch,
+  .photo-host-draw-actions,
+  .photo-host-vote-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .photo-team-count-switch {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .photo-team-count-switch button,
+  .photo-host-draw-actions button,
+  .photo-host-vote-actions button {
+    width: 100%;
+  }
+
   .game-team-editor-list {
     grid-template-columns: 1fr;
   }
@@ -4444,6 +4858,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .crew-leaderboard-loading span,
+  .photo-draw-loading span,
   .team-photo-loading span,
   .game-menu-loading span,
   .imposter-music-skeleton span {
