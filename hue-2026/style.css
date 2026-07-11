@@ -2531,30 +2531,6 @@ body.lucide-ready .nav-links a:focus-visible {
   animation: game-menu-pulse 1.2s ease-in-out infinite alternate;
 }
 
-.crew-ranking-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 22px 0 14px;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.crew-ranking-legend span {
-  border-radius: 999px;
-  padding: 7px 11px;
-}
-
-.crew-ranking-legend .is-reward {
-  color: #5d4611;
-  background: #f8e8a9;
-}
-
-.crew-ranking-legend .is-penalty {
-  color: var(--pink-deep);
-  background: var(--pink-pale);
-}
-
 .crew-podium {
   display: grid;
   grid-template-columns: 1fr 1.18fr 1fr;
@@ -2566,6 +2542,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .crew-podium-card {
   position: relative;
+  grid-row: 1;
   display: grid;
   justify-items: center;
   gap: 6px;
@@ -2591,6 +2568,7 @@ body.lucide-ready .nav-links a:focus-visible {
 }
 
 .crew-podium-card.rank-1 {
+  grid-column: 2;
   z-index: 2;
   min-height: 232px;
   background: linear-gradient(145deg, #fff2a9, #e5b83f);
@@ -2599,13 +2577,14 @@ body.lucide-ready .nav-links a:focus-visible {
 }
 
 .crew-podium-card.rank-2 {
-  order: -1;
+  grid-column: 1;
   background: linear-gradient(145deg, #f8faf7, #b8c0bd);
   border-color: #7b8885;
   animation-delay: 0.16s;
 }
 
 .crew-podium-card.rank-3 {
+  grid-column: 3;
   background: linear-gradient(145deg, #f3d1b2, #b96f3b);
   border-color: #95522d;
   animation-delay: 0.24s;
@@ -2621,15 +2600,19 @@ body.lucide-ready .nav-links a:focus-visible {
   background: #aeb8b5;
   color: #36403d;
   box-shadow: 0 2px 0 rgba(44, 51, 35, 0.28);
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 1rem;
+}
+
+.crew-medal svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2.4;
 }
 
 .rank-1 .crew-medal { background: #f5c842; color: #684b00; border-color: #fff4b5; }
 .rank-2 .crew-medal { background: #d6ddda; color: #46514e; border-color: #fff; }
 .rank-3 .crew-medal { background: #c27a45; color: #65341d; border-color: #f3c49f; }
-.rank-1 .crew-medal { width: 38px; height: 38px; font-size: 1.15rem; }
+.rank-1 .crew-medal { width: 38px; height: 38px; }
+.rank-1 .crew-medal svg { width: 22px; height: 22px; }
 
 .crew-podium-card img {
   width: 66px;
@@ -4890,35 +4873,47 @@ body.lucide-ready .nav-links a:focus-visible {
   }
 
   .crew-podium {
-    grid-template-columns: 1fr;
-    align-items: stretch;
-    min-height: 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    gap: 5px;
+    min-height: 170px;
+    padding-top: 18px;
   }
 
   .crew-podium-card,
   .crew-podium-card.rank-1 {
-    min-height: 0;
-    grid-template-columns: 30px 48px minmax(0, 1fr) auto;
-    justify-items: start;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
     align-items: center;
-    text-align: left;
-    padding: 10px;
+    text-align: center;
+    gap: 3px;
+    padding: 10px 3px 11px;
   }
 
-  .crew-podium-card.rank-2 { order: initial; }
+  .crew-podium-card.rank-1 { grid-column: 2; }
+  .crew-podium-card.rank-2 { grid-column: 1; }
+  .crew-podium-card.rank-3 { grid-column: 3; }
 
   .crew-podium-card img,
   .crew-podium-card.rank-1 img {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 
-  .crew-podium-card strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .crew-podium-card b { grid-column: 3 / -1; grid-row: 2; }
-  .crew-penalty-heading { display: grid; gap: 2px; }
+  .crew-podium-card.rank-1 { min-height: 176px; }
+  .crew-podium-card.rank-2 { min-height: 150px; }
+  .crew-podium-card.rank-3 { min-height: 126px; }
+  .crew-podium-card.rank-1 img { width: 54px; height: 54px; }
+  .crew-podium-card strong { width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.72rem; }
+  .crew-podium-card b { font-size: 0.65rem; }
+  .crew-medal { width: 24px; height: 24px; }
+  .crew-medal svg { width: 14px; height: 14px; }
+  .rank-1 .crew-medal { width: 30px; height: 30px; }
+  .rank-1 .crew-medal svg { width: 18px; height: 18px; }
+  .crew-penalty-heading { display: block; }
   .crew-penalty-row { grid-template-columns: 24px minmax(0, 1fr) auto; gap: 7px; }
-  .crew-penalty-row > span { grid-column: 2; grid-row: 2; }
-  .crew-penalty-row b { grid-column: 3; grid-row: 1 / span 2; }
+  .crew-penalty-row b { grid-column: 3; grid-row: 1; }
 
   .game-leaderboard-head {
     font-size: 0.62rem;

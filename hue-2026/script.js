@@ -1511,7 +1511,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <div>
               <span>${lucideIcon("trophy")} Phiếu bé ngoan</span>
               <h3>Bảng xếp hạng</h3>
-              <p>Top 3 có thưởng. Hạng càng cao, phần thưởng càng lớn. Các hạng còn lại nhận phạt.</p>
             </div>
           </div>
           ${errorMessage ? `<p class="crew-leaderboard-error" role="status">${escapeHTML(errorMessage)}</p>` : ""}
@@ -1523,15 +1522,11 @@ document.addEventListener("DOMContentLoaded", () => {
               const winners = players.slice(0, 3);
               const punished = players.slice(3);
               return `
-                <div class="crew-ranking-legend" aria-label="Luật thưởng phạt">
-                  <span class="is-reward"><strong>Top 3</strong> nhận thưởng</span>
-                  <span class="is-penalty"><strong>Hạng 4+</strong> nhận phạt</span>
-                </div>
                 <div class="crew-podium" aria-label="Ba người dẫn đầu">
                   ${winners.map((player, index) => `
                     <article class="crew-podium-card rank-${index + 1}">
                       <div class="crew-medal" aria-label="Huy chương ${index === 0 ? "vàng" : index === 1 ? "bạc" : "đồng"}">
-                        <span>${index + 1}</span>
+                        ${lucideIcon("medal")}
                       </div>
                       <img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}>
                       <strong>${escapeHTML(player.username)}</strong>
@@ -1540,14 +1535,13 @@ document.addEventListener("DOMContentLoaded", () => {
                   `).join("")}
                 </div>
                 ${punished.length ? `
-                  <div class="crew-penalty-heading"><span>Hạng bị phạt</span><small>Không ai muốn ở khu này</small></div>
+                  <div class="crew-penalty-heading"><span>Hạng bị phạt</span></div>
                   <div class="crew-penalty-list">
                     ${punished.map((player, index) => `
                       <div class="crew-penalty-row">
                         <strong>${index + 4}</strong>
                         <div class="game-rank-player"><img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}><span>${escapeHTML(player.username)}</span></div>
                         <b>${player.total} điểm</b>
-                        <span>PHẠT</span>
                       </div>
                     `).join("")}
                   </div>
@@ -3663,8 +3657,6 @@ document.addEventListener("DOMContentLoaded", () => {
               <h3>${statusText()}</h3>
               <p>Quản trò điều khiển game từ công cụ quản lý bên dưới và không tham gia với vai trò trong game.</p>
             </div>
-            <h4>Luật chơi</h4>
-            ${renderRules()}
           </section>
         `;
       }
@@ -3676,8 +3668,6 @@ document.addEventListener("DOMContentLoaded", () => {
               <h3>Đang dừng</h3>
               <p>Quản trò chưa bắt đầu game. Vai trò và trạng thái sẽ hiện khi game chạy.</p>
             </div>
-            <h4>Luật chơi</h4>
-            ${renderRules()}
           </section>
         `;
       }
@@ -3714,8 +3704,6 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
           ` : ""}
-          <h4>Luật chơi</h4>
-          ${renderRules()}
         </section>
       `;
     }
@@ -3878,7 +3866,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       mount.hidden = false;
-      document.getElementById("gameMenu")?.setAttribute("hidden", "");
       if (!(state.sessionId && await loadSession(state.sessionId))) await loadLatestSession();
       await loadGameResults();
       render();
