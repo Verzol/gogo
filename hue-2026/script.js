@@ -2669,7 +2669,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let musicStopTimer = 0;
     let imposterRealtime = null;
     let imposterServerOffset = 0;
+    let imposterStartUiTimer = 0;
     let imposterRoundSaving = false;
+    let imposterReadySaving = false;
 
     const sessionToken = () => getAuthMember()?.sessionToken || "";
     const isHost = () => (gameState.viewer?.role || getAuthMember()?.role) === "host";
@@ -2764,6 +2766,28 @@ document.addEventListener("DOMContentLoaded", () => {
       return "";
     };
 
+    const roomStartTimestamp = room => {
+      const timestamp = new Date(room?.startsAt || "").getTime() - imposterServerOffset;
+      return Number.isFinite(timestamp) ? timestamp : null;
+    };
+
+    const musicHasStarted = room => {
+      const startsAt = roomStartTimestamp(room);
+      return room?.status === "playing" && (startsAt === null || Date.now() >= startsAt);
+    };
+
+    function scheduleImposterStartUiRefresh() {
+      window.clearTimeout(imposterStartUiTimer);
+      const room = imposterMusic?.room;
+      const startsAt = roomStartTimestamp(room);
+      if (activeGame?.key !== "who-is-the-imposter" || room?.status !== "playing" || startsAt === null || startsAt <= Date.now()) return;
+      imposterStartUiTimer = window.setTimeout(() => {
+        if (activeGame?.key !== "who-is-the-imposter") return;
+        scheduleMusicPlayback();
+        render();
+      }, Math.max(0, startsAt - Date.now()) + 20);
+    }
+
     function loadYoutubeApi() {
       if (window.YT?.Player) return Promise.resolve(window.YT);
       if (youtubeApiPromise) return youtubeApiPromise;
@@ -2847,7 +2871,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const room = imposterMusic?.room;
       const track = imposterMusic?.myTrack;
       if (!room || room.status !== "playing" || !track) throw new Error("Chưa có nhạc để phát.");
-      const startAt = new Date(room.startsAt).getTime() - imposterServerOffset;
+      const startAt = roomStartTimestamp(room);
+      if (startAt === null || Date.now() < startAt) throw new Error("Nhạc chưa bắt đầu.");
       const elapsed = Math.max(0, (Date.now() - startAt) / 1000);
       if (elapsed >= Number(track.durationSeconds || 20)) throw new Error("Lượt nhạc này đã kết thúc.");
 
@@ -2862,13 +2887,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const track = imposterMusic?.myTrack;
       if (!room || room.status !== "playing" || !track || scheduledMusicRound === room.round) return;
       if (!youtubePlayer) {
-        imposterMusicError = "Nhạc đã bắt đầu. Hãy bấm Sẵn sàng để phát ngay trên máy này.";
+        imposterMusicError = "Nhạc đã bắt đầu. Hãy bấm Phát ngay để phát trên máy này.";
         render();
         return;
       }
       const videoId = youtubeVideoId(track.youtubeUrl);
       if (!videoId) return;
-      const startAt = new Date(room.startsAt).getTime() - imposterServerOffset;
+      const startAt = roomStartTimestamp(room);
+      if (startAt === null) return;
       const delay = Math.max(0, startAt - Date.now());
       const elapsed = Math.max(0, (Date.now() - startAt) / 1000);
       const duration = Number(track.durationSeconds || 20);
@@ -2905,6 +2931,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       imposterMusicError = "";
       scheduleMusicPlayback();
+      scheduleImposterStartUiRefresh();
     }
 
     function renderImposterMusic() {
@@ -2913,13 +2940,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const isMusicHost = Boolean(imposterMusic?.isHost);
       const isPrepared = room.status === "prepared";
       const isPlaying = room.status === "playing";
+      const isPlaybackStarted = musicHasStarted(room);
+      const readyLocked = isPrepared && (Boolean(imposterMusic?.ready) || imposterReadySaving);
       return `
         <section class="imposter-music-room game-menu-panel" aria-live="polite">
           <div class="imposter-music-head">
             <div>
               <span class="imposter-music-kicker">Phòng nhạc đồng bộ</span>
-              <h3>${isPlaying ? "Nhạc đang chạy" : isPrepared ? "Chờ mọi người sẵn sàng" : "Chưa có vòng nhạc"}</h3>
-              <p>${isPlaying ? "Mỗi máy sẽ vào bài theo cùng mốc thời gian." : isMusicHost ? "Người chơi sẽ bấm Sẵn sàng tại đây trước khi bạn phát nhạc." : "Bấm Sẵn sàng để cấp quyền phát nhạc cho trình duyệt của bạn."}</p>
+              <h3>${isPlaybackStarted ? "Nhạc đang chạy" : isPlaying ? "Nhạc sắp bắt đầu" : isPrepared ? "Chờ mọi người sẵn sàng" : "Chưa có vòng nhạc"}</h3>
+              <p>${isPlaybackStarted ? "Mỗi máy sẽ vào bài theo cùng mốc thời gian." : isPlaying ? "Quản trò đã bắt đầu đếm ngược. Nhạc sẽ chạy sau 5 giây." : isMusicHost ? "Người chơi sẽ bấm Sẵn sàng tại đây trước khi bạn phát nhạc." : "Bấm Sẵn sàng để cấp quyền phát nhạc cho trình duyệt của bạn."}</p>
             </div>
             <strong class="imposter-music-round">Vòng ${room.round || 0}</strong>
           </div>
@@ -2927,8 +2956,8 @@ document.addEventListener("DOMContentLoaded", () => {
           ${imposterMusicLoading ? `<div class="imposter-music-skeleton"><span></span><span></span></div>` : ""}
           ${(isPrepared || isPlaying) && !isMusicHost ? `
             <div class="imposter-player-ready">
-              <div><strong>${isPlaying ? "Nhạc đã bắt đầu" : imposterMusic?.ready ? "Máy bạn đã sẵn sàng" : "Tai nghe đã cắm chưa?"}</strong><span>${isPlaying ? "Nếu máy chưa phát, bấm Phát ngay để vào đúng đoạn còn lại." : imposterMusic?.ready ? "Chờ Quản trò đếm ngược và bấm bắt đầu." : "Nút này không phát nhạc ngay, chỉ mở quyền phát cho lúc bắt đầu."}</span></div>
-              <button type="button" data-imposter-ready>${lucideIcon("headphones")} ${isPlaying ? "Phát ngay" : imposterMusic?.ready ? "Sẵn sàng rồi" : "Sẵn sàng"}</button>
+              <div><strong>${isPlaybackStarted ? "Nhạc đã bắt đầu" : isPlaying ? "Chuẩn bị phát nhạc" : imposterMusic?.ready ? "Máy bạn đã sẵn sàng" : "Tai nghe đã cắm chưa?"}</strong><span>${isPlaybackStarted ? "Nếu máy chưa phát, bấm Phát ngay để vào đúng đoạn còn lại." : isPlaying ? "Hãy chờ hết 5 giây đếm ngược." : imposterMusic?.ready ? "Chờ Quản trò đếm ngược và bấm bắt đầu." : "Nút này không phát nhạc ngay, chỉ mở quyền phát cho lúc bắt đầu."}</span></div>
+              ${isPrepared ? `<button class="${readyLocked ? "is-ready" : ""}" type="button" data-imposter-ready ${readyLocked ? "disabled aria-disabled=\"true\"" : ""}>${lucideIcon("headphones")} ${imposterReadySaving ? "Đang lưu..." : imposterMusic?.ready ? "Sẵn sàng rồi" : "Sẵn sàng"}</button>` : isPlaybackStarted ? `<button type="button" data-imposter-ready>${lucideIcon("headphones")} Phát ngay</button>` : ""}
             </div>
           ` : `<div class="game-empty-state">${isMusicHost ? "Dùng menu quản lý bên dưới để chuẩn bị vòng nhạc." : "Quản trò đang chuẩn bị nhạc cho vòng tiếp theo."}</div>`}
         </section>
@@ -2943,6 +2972,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const tracks = imposterMusic.tracks || [];
       const playersForMusic = imposterMusic.players || [];
       const hostRound = imposterMusic.hostRound || {};
+      const roundDuration = Number(imposterMusic.roundDurationSeconds || 0);
       const roundControlsDisabled = isPlaying || imposterRoundSaving;
       const customSelect = (name, selectedValue, placeholder, options, disabled) => {
         const selected = options.find(option => option.value === selectedValue);
@@ -2963,7 +2993,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const playerChoices = playersForMusic.map(player => ({ value: player.username, label: player.username }));
       return `
         <section class="game-menu-panel imposter-music-manager">
-          <div class="game-panel-heading"><div><h3>Quản lý phòng nhạc</h3><p>Chọn hai bài riêng, chọn imposter, rồi phát cho cả nhóm.</p></div></div>
+          <div class="game-panel-heading"><div><h3>Quản lý phòng nhạc</h3><p>${roundDuration ? `Cả nhóm sẽ nghe ${roundDuration} giây, theo đoạn nhạc ngắn hơn.` : "Chọn hai bài riêng, chọn imposter, rồi phát cho cả nhóm."}</p></div></div>
           <div class="imposter-host-status"><strong>${imposterMusic.readyCount || 0}/${imposterMusic.playerCount || 0}</strong><span>người chơi đã sẵn sàng</span></div>
           <form class="imposter-round-form" data-imposter-round-form>
             <label><span>Nhạc cho người thường</span>${customSelect("commonTrack", hostRound.commonTrackId, "Chọn bài", trackChoices, roundControlsDisabled)}</label>
@@ -3701,6 +3731,9 @@ document.addEventListener("DOMContentLoaded", () => {
             render();
             return;
           }
+          if (imposterMusic.room?.status !== "prepared" || imposterMusic.ready || imposterReadySaving) return;
+          imposterReadySaving = true;
+          render();
           await unlockMusic(imposterMusic.myTrack);
           const { data: payload, error } = await client.rpc("imposter_music_set_ready", { p_session_token: sessionToken() });
           if (error) throw error;
@@ -3709,6 +3742,8 @@ document.addEventListener("DOMContentLoaded", () => {
           scheduleMusicPlayback();
         } catch (error) {
           imposterMusicError = error.message || "Máy chưa mở được YouTube. Kiểm tra mạng rồi thử lại.";
+        } finally {
+          imposterReadySaving = false;
         }
         render();
         return;
@@ -3719,6 +3754,7 @@ document.addEventListener("DOMContentLoaded", () => {
         else {
           imposterMusic = payload;
           scheduleMusicPlayback();
+          scheduleImposterStartUiRefresh();
         }
         render();
         return;

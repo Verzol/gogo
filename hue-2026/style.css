@@ -3147,6 +3147,7 @@ body.lucide-ready .nav-links a:focus-visible {
 .imposter-player-ready span, .imposter-host-status span { color: var(--ink-soft); font-size: 0.85rem; }
 .imposter-player-ready button, .imposter-round-actions button, .imposter-track-form > button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 7px; border: 2px solid var(--ink); border-radius: 999px; background: var(--avocado); padding: 8px 14px; color: var(--paper); font: inherit; font-weight: 900; white-space: nowrap; cursor: pointer; box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.14); }
 .imposter-player-ready button:disabled, .imposter-round-actions button:disabled { cursor: not-allowed; opacity: 0.55; }
+.imposter-player-ready button.is-ready:disabled { background: #858982; color: rgba(255, 253, 248, 0.92); opacity: 1; box-shadow: none; }
 .imposter-player-ready button:active, .imposter-round-actions button:active, .imposter-track-form > button:active, .imposter-track-list button:active { transform: translateY(1px); }
 .imposter-host-status { justify-content: flex-start; background: var(--pink-pale); }
 .imposter-host-status strong { font-family: var(--font-doodle); font-size: 1.4rem; }
