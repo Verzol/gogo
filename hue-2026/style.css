@@ -7219,8 +7219,7 @@ a:focus-visible, button:focus-visible {
 .confession-card-meta time, .reflection-author time { color: var(--ink-soft); font-size: 0.72rem; }
 .confession-card p { margin: 0; color: var(--ink); font-size: 0.92rem; line-height: 1.72; overflow-wrap: anywhere; }
 .confession-card p strong { color: var(--ink); font-weight: 800; }
-.confession-reactions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 15px; }
-.confession-reaction-chip, .confession-reaction-add {
+.confession-reaction-add {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -7233,15 +7232,15 @@ a:focus-visible, button:focus-visible {
   font: 800 0.8rem var(--font-body);
   cursor: pointer;
 }
-.confession-reaction-chip { padding: 3px 9px; }
-.confession-reaction-chip.is-active { border-color: rgba(197, 106, 120, 0.72); background: var(--pink-pale); color: var(--pink-deep); }
-.confession-reaction-chip strong { font-size: 0.76rem; }
 .confession-reaction-add { width: 24px; min-height: 24px; padding: 0; opacity: 0.74; }
 .confession-reaction-add .ui-icon { width: 15px; height: 15px; }
 .confession-card:hover .confession-reaction-add, .confession-reaction-add:focus-visible { opacity: 1; }
-.confession-reaction-chip:hover, .confession-reaction-add:hover { border-color: var(--pink-deep); transform: translateY(-1px); }
-.confession-reaction-chip:active, .confession-reaction-add:active { transform: translateY(1px); }
-.confession-reaction-users { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 7px 0 0; color: var(--ink-soft); font-size: 0.72rem; line-height: 1.45; }
+.confession-reaction-add:hover { border-color: var(--pink-deep); transform: translateY(-1px); }
+.confession-reaction-add:active { transform: translateY(1px); }
+.confession-reaction-summary { margin: 14px 0 0; padding-top: 9px; border-top: 1px dashed rgba(44, 51, 35, 0.2); }
+.confession-reactor-list { display: flex; flex: 1; flex-wrap: wrap; gap: 5px 7px; min-width: 0; }
+.confession-reactor { display: inline-flex; align-items: center; gap: 5px; min-width: 0; padding: 3px 8px 3px 6px; border: 1px solid rgba(111, 138, 86, 0.26); border-radius: 999px; background: rgba(221, 229, 209, 0.5); color: var(--ink-soft); font-size: 0.72rem; font-weight: 700; line-height: 1.35; }
+.confession-reactor-emojis { flex: 0 0 auto; font-size: 0.88rem; letter-spacing: 0.02em; }
 .confession-reaction-picker { position: absolute; top: calc(100% + 7px); left: -6px; z-index: 2; display: grid; grid-template-columns: repeat(5, 34px); gap: 5px; width: max-content; padding: 7px; border: 1px solid rgba(44, 51, 35, 0.2); border-radius: 10px; background: var(--paper); box-shadow: 4px 6px 0 rgba(44, 51, 35, 0.16), 0 12px 24px rgba(44, 51, 35, 0.12); }
 .confession-reaction-picker[hidden] { display: none; }
 .confession-reaction-picker button { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 8px; background: transparent; font-size: 1.1rem; cursor: pointer; }

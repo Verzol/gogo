@@ -1888,16 +1888,34 @@ document.addEventListener("DOMContentLoaded", () => {
       .sort((a, b) => b.users.length - a.users.length || a.emoji.localeCompare(b.emoji));
     const renderConfessionReactions = row => {
       const entries = confessionReactionEntries(row);
-      const userNames = users => users.map(user => user.displayName || user.username).join(", ");
+      if (!entries.length) return "";
+
+      const reactionsByUser = new Map();
+      entries.forEach(reaction => {
+        reaction.users.forEach(user => {
+          const key = user.username || user.displayName;
+          if (!key) return;
+          if (!reactionsByUser.has(key)) {
+            reactionsByUser.set(key, {
+              name: user.displayName || user.username,
+              emojis: []
+            });
+          }
+          reactionsByUser.get(key).emojis.push(reaction.emoji);
+        });
+      });
+
       return `
-        ${entries.length ? `<div class="confession-reactions">
-          ${entries.map(reaction => {
-            const names = userNames(reaction.users);
-            const active = reaction.users.some(user => user.username === currentUsername);
-            return `<button class="confession-reaction-chip${active ? " is-active" : ""}" type="button" data-confession-reaction data-confession-id="${escapeHTML(row.id)}" data-confession-emoji="${escapeHTML(reaction.emoji)}" title="Đã thả: ${escapeHTML(names)}" aria-label="${escapeHTML(reaction.emoji)} ${reaction.users.length} lượt. Đã thả: ${escapeHTML(names)}"><span>${escapeHTML(reaction.emoji)}</span><strong>${reaction.users.length}</strong></button>`;
-          }).join("")}
-        </div>` : ""}
-        ${entries.length ? `<p class="confession-reaction-users">${entries.map(reaction => `<span>${escapeHTML(reaction.emoji)} ${escapeHTML(userNames(reaction.users))}</span>`).join("")}</p>` : ""}
+        <footer class="confession-reaction-summary" aria-label="Cảm xúc của mọi người">
+          <div class="confession-reactor-list">
+            ${Array.from(reactionsByUser.values()).map(reactor => `
+              <span class="confession-reactor">
+                <span class="confession-reactor-emojis" aria-hidden="true">${escapeHTML(reactor.emojis.join(" "))}</span>
+                <span>${escapeHTML(reactor.name)}</span>
+              </span>
+            `).join("")}
+          </div>
+        </footer>
       `;
     };
     const renderConfessionReactionPicker = row => `
@@ -1926,17 +1944,23 @@ document.addEventListener("DOMContentLoaded", () => {
         setStatus(confessionStatus, "Confession cần Supabase để hoạt động.", "error");
         return;
       }
-      if (!silent) renderConfessionSkeleton();
+      const hadConfessions = Boolean(confessionList.querySelector(".confession-card"));
+      if (!silent && !hadConfessions) renderConfessionSkeleton();
       confessionRefresh.disabled = true;
-      const { data: rows, error } = await client.rpc("trip_confession_list");
-      confessionRefresh.disabled = false;
-      if (error) {
-        confessionList.innerHTML = `<div class="community-empty"><p>Không tải được confession lúc này.</p></div>`;
-        setStatus(confessionStatus, "Kiểm tra migration Community Journal trên Supabase.", "error");
-        return;
+      try {
+        const { data: rows, error } = await client.rpc("trip_confession_list");
+        if (error) throw error;
+        renderConfessions(rows || []);
+        setStatus(confessionStatus, "");
+      } catch (error) {
+        console.error("Cannot load confessions:", error);
+        if (!hadConfessions) {
+          confessionList.innerHTML = `<div class="community-empty"><p>Không tải được confession lúc này. Hãy thử làm mới.</p></div>`;
+        }
+        setStatus(confessionStatus, "Không thể tải confession. Các lời nhắn đang có vẫn được giữ nguyên.", "error");
+      } finally {
+        confessionRefresh.disabled = false;
       }
-      setStatus(confessionStatus, "");
-      renderConfessions(rows || []);
     };
 
     const getReflectionCountdown = opensAt => {
