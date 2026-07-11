@@ -1871,7 +1871,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const rowHeight = Number.parseFloat(styles.gridAutoRows) || 8;
       const rowGap = Number.parseFloat(styles.rowGap) || 0;
       confessionList.querySelectorAll(".confession-card").forEach(card => {
-        const contentHeight = card.getBoundingClientRect().height;
+        // Measure the actual content, never the current grid span, so a card
+        // cannot grow itself on a later layout pass.
+        const contentBottom = Array.from(card.children)
+          .filter(child => !child.hidden)
+          .reduce((bottom, child) => Math.max(bottom, child.offsetTop + child.offsetHeight), 0);
+        const contentHeight = contentBottom + (Number.parseFloat(window.getComputedStyle(card).paddingBottom) || 0);
         const span = Math.ceil((contentHeight + rowGap) / (rowHeight + rowGap));
         card.style.gridRowEnd = `span ${Math.max(span, 1)}`;
       });
@@ -1906,7 +1911,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       return `
-        <footer class="confession-reaction-summary" aria-label="Cảm xúc của mọi người">
+        <div class="confession-reaction-summary" aria-label="Cảm xúc của mọi người">
           <div class="confession-reactor-list">
             ${Array.from(reactionsByUser.values()).map(reactor => `
               <span class="confession-reactor">
@@ -1915,7 +1920,7 @@ document.addEventListener("DOMContentLoaded", () => {
               </span>
             `).join("")}
           </div>
-        </footer>
+        </div>
       `;
     };
     const renderConfessionReactionPicker = row => `
@@ -1931,9 +1936,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       confessionList.innerHTML = rows.map((row, index) => `
         <article class="confession-card" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
-          <div class="confession-card-meta"><div class="confession-card-code"><strong>${escapeHTML(formatConfessionCode(row))}</strong><button class="confession-reaction-add" type="button" data-confession-reaction-add data-confession-id="${escapeHTML(row.id)}" aria-label="${getAuthMember()?.sessionToken ? "Thêm reaction" : "Đăng nhập để thả reaction"}">${lucideIcon("plus")}</button>${renderConfessionReactionPicker(row)}</div><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
-          <p>${renderRichText(row.body)}</p>
-          ${renderConfessionReactions(row)}
+          <div class="confession-card-sheet">
+            <div class="confession-card-meta"><div class="confession-card-code"><strong>${escapeHTML(formatConfessionCode(row))}</strong><button class="confession-reaction-add" type="button" data-confession-reaction-add data-confession-id="${escapeHTML(row.id)}" aria-label="${getAuthMember()?.sessionToken ? "Thêm reaction" : "Đăng nhập để thả reaction"}">${lucideIcon("plus")}</button>${renderConfessionReactionPicker(row)}</div><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
+            <p>${renderRichText(row.body)}</p>
+            ${renderConfessionReactions(row)}
+          </div>
         </article>
       `).join("");
       scheduleConfessionMasonry();

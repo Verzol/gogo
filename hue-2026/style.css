@@ -7201,6 +7201,14 @@ a:focus-visible, button:focus-visible {
 .confession-card {
   position: relative;
   min-height: 0;
+  align-self: stretch;
+  overflow: visible;
+}
+.confession-card-sheet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   padding: 17px 18px 16px;
   border: 1px solid rgba(44, 51, 35, 0.18);
   border-radius: 8px;
@@ -7210,8 +7218,9 @@ a:focus-visible, button:focus-visible {
   transform: rotate(var(--confession-rotation));
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.confession-card:hover { transform: translateY(-3px) rotate(0deg); box-shadow: 5px 8px 0 rgba(44, 51, 35, 0.12); }
-.confession-card:first-child { grid-column: span 2; background: linear-gradient(rgba(255, 249, 239, 0.91), rgba(255, 249, 239, 0.91)), repeating-linear-gradient(0deg, transparent 0 29px, rgba(197, 106, 120, 0.12) 30px 31px); }
+.confession-card:hover .confession-card-sheet { transform: translateY(-3px) rotate(0deg); box-shadow: 5px 8px 0 rgba(44, 51, 35, 0.12); }
+.confession-card:first-child { grid-column: span 2; }
+.confession-card:first-child .confession-card-sheet { background: linear-gradient(rgba(255, 249, 239, 0.91), rgba(255, 249, 239, 0.91)), repeating-linear-gradient(0deg, transparent 0 29px, rgba(197, 106, 120, 0.12) 30px 31px); }
 .confession-card-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
 .confession-card-code { position: relative; display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
 .confession-card.is-reaction-picker-open { z-index: 30; }
