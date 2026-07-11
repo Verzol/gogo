@@ -3889,7 +3889,7 @@ body.lucide-ready .nav-links a:focus-visible {
   overflow-wrap: anywhere;
 }
 
-.game-result-row span {
+.game-result-row > span {
   display: grid;
   gap: 4px;
   color: var(--ink-soft);
@@ -3913,6 +3913,35 @@ body.lucide-ready .nav-links a:focus-visible {
   outline: 3px solid rgba(197, 106, 120, 0.24);
   border-color: var(--pink-deep);
 }
+
+.game-score-stepper {
+  display: grid;
+  grid-template-columns: minmax(22px, 1fr) minmax(0, 1fr) minmax(22px, 1fr);
+  width: 100%;
+  min-width: 0;
+  align-items: stretch;
+  min-height: 38px;
+  overflow: hidden;
+  border: 1.5px solid rgba(44, 51, 35, 0.34);
+  border-radius: 9px;
+  background: var(--paper);
+}
+
+.game-score-stepper button {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(221, 229, 209, 0.68);
+  color: var(--ink);
+  font: 800 1.05rem/1 var(--font-body);
+  cursor: pointer;
+}
+
+.game-score-stepper button:hover:not(:disabled),
+.game-score-stepper button:focus-visible { background: var(--avocado); color: var(--paper); }
+.game-score-stepper button:focus-visible { position: relative; z-index: 1; outline: 3px solid rgba(197, 106, 120, 0.38); }
+.game-score-stepper button:disabled { cursor: not-allowed; opacity: 0.35; }
+.game-score-stepper output { display: grid; place-items: center; color: var(--ink); font-variant-numeric: tabular-nums; font-weight: 800; }
 
 .game-save-results {
   margin-top: 12px;

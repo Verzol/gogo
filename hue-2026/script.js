@@ -3182,13 +3182,14 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="game-result-list">
               ${players().map(player => {
                 const result = gameResults.get(player.username);
+                const points = Math.max(0, Math.min(100, Number(result?.points || 0)));
                 return `
-                  <label class="game-result-row">
+                  <div class="game-result-row">
                     <img src="${escapeHTML(player.avatar)}" alt="" ${imgAttrs()}>
                     <strong>${escapeHTML(player.username)}</strong>
-                    <span>Điểm<input type="number" name="points-${escapeHTML(player.username)}" min="0" max="100" value="${Number(result?.points || 0)}"></span>
+                    <span class="game-score-field"><span>Điểm</span><span class="game-score-stepper"><button type="button" data-score-step="-1" aria-label="Giảm điểm của ${escapeHTML(player.username)}" ${points === 0 ? "disabled" : ""}>-</button><output data-score-value>${points}</output><input type="hidden" name="points-${escapeHTML(player.username)}" value="${points}"><button type="button" data-score-step="1" aria-label="Tăng điểm của ${escapeHTML(player.username)}" ${points === 100 ? "disabled" : ""}>+</button></span></span>
                     <span>Ghi chú<input type="text" name="note-${escapeHTML(player.username)}" maxlength="180" value="${escapeHTML(result?.note || "")}" placeholder="Đội thắng, top 3..."></span>
-                  </label>
+                  </div>
                 `;
               }).join("")}
             </div>
@@ -3409,6 +3410,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     mount.addEventListener("click", async event => {
+      const scoreStepButton = event.target.closest("[data-score-step]");
+      if (scoreStepButton) {
+        const stepper = scoreStepButton.closest(".game-score-stepper");
+        const input = stepper?.querySelector("input[type='hidden']");
+        const output = stepper?.querySelector("[data-score-value]");
+        if (!input || !output) return;
+        const points = Math.max(0, Math.min(100, Number(input.value || 0) + Number(scoreStepButton.dataset.scoreStep)));
+        input.value = points;
+        output.textContent = points;
+        stepper.querySelector("[data-score-step='-1']").disabled = points === 0;
+        stepper.querySelector("[data-score-step='1']").disabled = points === 100;
+        return;
+      }
       if (event.target.closest("[data-game-menu-close]")) {
         mount.hidden = true;
         document.getElementById("spyGame")?.setAttribute("hidden", "");
@@ -4323,13 +4337,14 @@ document.addEventListener("DOMContentLoaded", () => {
               ${scorePlayers.map(item => {
                 const result = resultByUsername.get(item.username);
                 const meta = playerMeta(item.username);
+                const points = Math.max(0, Math.min(100, Number(result?.points || 0)));
                 return `
-                  <label class="game-result-row">
+                  <div class="game-result-row">
                     <img src="${escapeHTML(meta.avatar)}" alt="" ${imgAttrs()}>
                     <strong>${escapeHTML(item.username)}</strong>
-                    <span>Điểm<input type="number" name="points-${escapeHTML(item.username)}" min="0" max="100" value="${Number(result?.points || 0)}"></span>
+                    <span class="game-score-field"><span>Điểm</span><span class="game-score-stepper"><button type="button" data-score-step="-1" aria-label="Giảm điểm của ${escapeHTML(item.username)}" ${points === 0 ? "disabled" : ""}>-</button><output data-score-value>${points}</output><input type="hidden" name="points-${escapeHTML(item.username)}" value="${points}"><button type="button" data-score-step="1" aria-label="Tăng điểm của ${escapeHTML(item.username)}" ${points === 100 ? "disabled" : ""}>+</button></span></span>
                     <span>Ghi chú<input type="text" name="note-${escapeHTML(item.username)}" maxlength="180" value="${escapeHTML(result?.note || "")}" placeholder="Đội thắng, top 3..."></span>
-                  </label>
+                  </div>
                 `;
               }).join("")}
             </div>
@@ -4394,6 +4409,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     mount.addEventListener("click", async event => {
+      const scoreStepButton = event.target.closest("[data-score-step]");
+      if (scoreStepButton) {
+        const stepper = scoreStepButton.closest(".game-score-stepper");
+        const input = stepper?.querySelector("input[type='hidden']");
+        const output = stepper?.querySelector("[data-score-value]");
+        if (!input || !output) return;
+        const points = Math.max(0, Math.min(100, Number(input.value || 0) + Number(scoreStepButton.dataset.scoreStep)));
+        input.value = points;
+        output.textContent = points;
+        stepper.querySelector("[data-score-step='-1']").disabled = points === 0;
+        stepper.querySelector("[data-score-step='1']").disabled = points === 100;
+        return;
+      }
       if (event.target.closest("[data-spy-close]")) {
         mount.hidden = true;
         document.getElementById("gameMenu")?.removeAttribute("hidden");
