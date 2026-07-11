@@ -1504,7 +1504,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function render({ animate = true } = {}) {
-      const loggedIn = Boolean(sessionToken());
       mount.innerHTML = `
         <section class="crew-leaderboard-shell${animate ? "" : " is-static"}">
           <div class="crew-leaderboard-title">
@@ -1514,9 +1513,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
           ${errorMessage ? `<p class="crew-leaderboard-error" role="status">${escapeHTML(errorMessage)}</p>` : ""}
-          ${loading ? `<div class="crew-leaderboard-loading"><span></span><span></span><span></span></div>` : !loggedIn ? `
-            <div class="game-empty-state">Đăng nhập để xem bảng xếp hạng của cả nhóm.</div>
-          ` : `
+          ${loading ? `<div class="crew-leaderboard-loading"><span></span><span></span><span></span></div>` : `
             ${(() => {
               const players = rankedPlayers();
               const winners = players.slice(0, 3);
@@ -1555,9 +1552,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function loadLeaderboard({ silent = false } = {}) {
-      if (!client || !sessionToken()) {
+      if (!client) {
         loading = false;
-        errorMessage = client ? "" : "Chưa cấu hình Supabase.";
+        errorMessage = "Chưa cấu hình Supabase.";
         leaderboardState = { members: fallbackMembers, results: [] };
         render();
         return;
@@ -1566,11 +1563,12 @@ document.addEventListener("DOMContentLoaded", () => {
         loading = true;
         render();
       }
-      const { data: payload, error } = await client.rpc("trip_games_get_state", {
-        p_session_token: sessionToken()
-      });
+      const hasSession = Boolean(sessionToken());
+      const { data: payload, error } = hasSession
+        ? await client.rpc("trip_games_get_state", { p_session_token: sessionToken() })
+        : await client.rpc("trip_games_get_public_state");
       loading = false;
-      if (error || !payload?.authenticated) {
+      if (error || (hasSession && !payload?.authenticated)) {
         errorMessage = error ? "Chưa cài migration game hub trên Supabase." : "Phiên đăng nhập đã hết hạn.";
         render({ animate: !silent });
       } else {
@@ -1598,7 +1596,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     window.setInterval(() => {
-      if (document.hidden || !sessionToken()) return;
+      if (document.hidden) return;
       loadLeaderboard({ silent: true });
     }, 10000);
 
