@@ -977,6 +977,56 @@ body.lucide-ready .nav-links a:focus-visible {
   }
 }
 
+@media (max-width: 560px) {
+  .nav .wrap {
+    gap: 6px;
+    justify-content: flex-start;
+  }
+
+  .nav-brand {
+    flex: 0 0 42px;
+    width: 42px;
+    min-width: 42px;
+    padding: 4px;
+    justify-content: center;
+  }
+
+  .nav-brand span { display: none; }
+  .brand-logo { width: 34px; height: 34px; }
+
+  .nav-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .auth-bar {
+    min-width: 0;
+    margin-left: auto;
+  }
+
+  .auth-user {
+    position: relative;
+    top: auto;
+    right: auto;
+    max-width: min(202px, calc(100vw - 112px));
+    gap: 6px;
+    padding: 4px 5px 4px 9px;
+  }
+
+  .auth-user .auth-greeting-button {
+    max-width: 118px;
+    font-size: 0.74rem;
+  }
+
+  .auth-user strong { font-size: 0.92rem; }
+
+  .auth-user button {
+    min-height: 29px;
+    padding-inline: 8px;
+    font-size: 0.7rem;
+  }
+}
+
 /* ============================================================
    Hero - trang bìa sổ (collage + boarding pass)
    ============================================================ */
@@ -7343,8 +7393,9 @@ a:focus-visible, button:focus-visible {
   .confession-layout { grid-template-columns: 1fr; }
   .confession-note { min-height: 0; padding: 34px 24px 24px; transform: rotate(-0.5deg); }
   .confession-note small { margin-top: 4px; }
-  .confession-list { grid-template-columns: 1fr; }
-  .confession-list { grid-auto-rows: auto; grid-auto-flow: row; }
+  .confession-list { display: block; }
+  .confession-card { display: block; margin-bottom: 10px; }
+  .confession-card-sheet { position: relative; top: auto; left: auto; }
   .confession-card:first-child { grid-column: auto; }
   .confession-loading { grid-template-columns: 1fr; }
   .confession-loading span:not(:first-child) { display: none; }
