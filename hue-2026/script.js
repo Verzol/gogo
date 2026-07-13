@@ -1627,6 +1627,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let leaderboardState = { members: fallbackMembers, results: [] };
     let loading = false;
     let errorMessage = "";
+    let leaderboardRefreshTimer = 0;
+    let leaderboardRefreshInFlight = false;
+    let leaderboardRefreshQueued = false;
 
     const sessionToken = () => getAuthMember()?.sessionToken || "";
     const memberMeta = member => {
@@ -1740,6 +1743,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    function scheduleLeaderboardRefresh() {
+      leaderboardRefreshQueued = true;
+      if (leaderboardRefreshTimer) window.clearTimeout(leaderboardRefreshTimer);
+      leaderboardRefreshTimer = window.setTimeout(async () => {
+        leaderboardRefreshTimer = 0;
+        if (leaderboardRefreshInFlight) return;
+        leaderboardRefreshQueued = false;
+        leaderboardRefreshInFlight = true;
+        try {
+          await loadLeaderboard({ silent: true });
+        } finally {
+          leaderboardRefreshInFlight = false;
+          if (leaderboardRefreshQueued) scheduleLeaderboardRefresh();
+        }
+      }, 100);
+    }
+
     window.addEventListener("hue-auth-change", () => loadLeaderboard());
     window.addEventListener("hue-game-results-change", event => {
       const payload = event.detail;
@@ -1751,6 +1771,17 @@ document.addEventListener("DOMContentLoaded", () => {
         loadLeaderboard({ silent: true });
       }
     });
+
+    if (client) {
+      client.channel("trip-game-leaderboard-live")
+        .on("postgres_changes", {
+          event: "UPDATE",
+          schema: "public",
+          table: "trip_game_live_updates",
+          filter: "scope=eq.game-hub"
+        }, scheduleLeaderboardRefresh)
+        .subscribe();
+    }
 
     window.setInterval(() => {
       if (document.hidden) return;
@@ -1798,6 +1829,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let reflectionsLoading = false;
     let confessionMasonryFrame = null;
     const confessionById = new Map();
+    const communityRefreshTimers = new Map();
 
     const isUuid = value => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value || "");
     const getAnonymousToken = () => {
@@ -2166,6 +2198,16 @@ document.addEventListener("DOMContentLoaded", () => {
       renderReflections();
     };
 
+    const scheduleCommunityRefresh = scope => {
+      const existingTimer = communityRefreshTimers.get(scope);
+      if (existingTimer) window.clearTimeout(existingTimer);
+      communityRefreshTimers.set(scope, window.setTimeout(async () => {
+        communityRefreshTimers.delete(scope);
+        if (scope === "confessions") await loadConfessions({ silent: true });
+        if (scope === "reflections") await loadReflections();
+      }, 100));
+    };
+
     confessionInput.addEventListener("input", () => updateCount(confessionInput, confessionCount, 800));
     reflectionInput.addEventListener("input", () => updateCount(reflectionInput, reflectionCount, 1500));
     confessionRefresh.addEventListener("click", () => loadConfessions());
@@ -2313,6 +2355,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("hue-auth-change", () => loadReflections());
     window.addEventListener("resize", scheduleConfessionMasonry);
+    if (client) {
+      client.channel("community-journal-live")
+        .on("postgres_changes", {
+          event: "UPDATE",
+          schema: "public",
+          table: "community_journal_live_updates"
+        }, payload => scheduleCommunityRefresh(payload.new?.scope))
+        .subscribe();
+    }
     window.setInterval(() => {
       if (document.hidden) return;
       loadConfessions({ silent: true });
@@ -2776,6 +2827,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let photoChallengeRefreshTimer = 0;
     let photoChallengeRefreshInFlight = false;
     let photoChallengeRefreshQueued = false;
+    let photoAlbumRevision = 0;
+    let photoAlbumRefreshPending = false;
+    let gameHubRefreshTimer = 0;
+    let gameHubRefreshInFlight = false;
+    let gameHubRefreshQueued = false;
     let photoChallengeState = {
       teamCount: 2,
       voteStatus: "draft",
@@ -3250,13 +3306,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     }
 
-    async function loadGameState() {
+    async function loadGameState({ silent = false } = {}) {
       if (!client) {
         gameState = { viewer: null, members: fallbackMembers, teams: [], results: [] };
         return;
       }
-      loading = true;
-      render();
+      if (!silent) {
+        loading = true;
+        render();
+      }
       if (!sessionToken()) {
         const { data: payload, error } = await client.rpc("trip_games_get_public_state");
         loading = false;
@@ -3302,7 +3360,12 @@ document.addEventListener("DOMContentLoaded", () => {
       photoChallengeState = normalizePhotoChallenge(payload);
     }
 
-    function schedulePhotoChallengeRefresh() {
+    function schedulePhotoChallengeRefresh(payload) {
+      const nextAlbumRevision = Number(payload?.new?.album_revision ?? 0);
+      if (nextAlbumRevision > photoAlbumRevision) {
+        photoAlbumRevision = nextAlbumRevision;
+        photoAlbumRefreshPending = true;
+      }
       photoChallengeRefreshQueued = true;
       if (photoChallengeRefreshTimer) window.clearTimeout(photoChallengeRefreshTimer);
       photoChallengeRefreshTimer = window.setTimeout(async () => {
@@ -3319,10 +3382,37 @@ document.addEventListener("DOMContentLoaded", () => {
         photoChallengeRefreshInFlight = true;
         try {
           await loadPhotoChallengeState({ silent: true });
+          if (photoAlbumRefreshPending) {
+            photoAlbumRefreshPending = false;
+            await loadTeamPhotos({ silent: true });
+          }
           render();
         } finally {
           photoChallengeRefreshInFlight = false;
           if (photoChallengeRefreshQueued) schedulePhotoChallengeRefresh();
+        }
+      }, 100);
+    }
+
+    function scheduleGameHubRefresh() {
+      gameHubRefreshQueued = true;
+      if (gameHubRefreshTimer) window.clearTimeout(gameHubRefreshTimer);
+      gameHubRefreshTimer = window.setTimeout(async () => {
+        gameHubRefreshTimer = 0;
+        if (gameHubRefreshInFlight) return;
+        if (mount.hidden || !activeGame) {
+          gameHubRefreshQueued = false;
+          return;
+        }
+        gameHubRefreshQueued = false;
+        gameHubRefreshInFlight = true;
+        try {
+          await loadGameState({ silent: true });
+          if (isPhotoChallenge()) await loadPhotoChallengeState({ silent: true });
+          render();
+        } finally {
+          gameHubRefreshInFlight = false;
+          if (gameHubRefreshQueued) scheduleGameHubRefresh();
         }
       }, 100);
     }
@@ -3517,14 +3607,18 @@ document.addEventListener("DOMContentLoaded", () => {
             ${!sessionToken() ? `<div class="game-empty-state">Đăng nhập để vote cho đội bạn thích.</div>` : isHost() && !isPhotoChallenge() ? `<div class="game-empty-state">Quản trò không tham gia vote. Số phiếu trực tiếp nằm trong công cụ quản trò.</div>` : !photoChallengeState.myTeam ? `<div class="game-empty-state">Bạn cần được chia đội trước khi vote.</div>` : `
               <div class="photo-vote-options">
                 ${Array.from({ length: teamCount }, (_, index) => index + 1)
-                  .map(teamNumber => `
-                    <button type="button" class="${photoChallengeState.myVote === teamNumber ? "is-selected" : ""}" data-photo-vote="${teamNumber}">
+                  .map(teamNumber => {
+                    const isOwnTeam = photoChallengeState.myTeam === teamNumber;
+                    const isSelected = photoChallengeState.myVote === teamNumber;
+                    return `
+                    <button type="button" class="${isSelected ? "is-selected" : ""} ${isOwnTeam ? "is-own-team" : ""}" data-photo-vote="${teamNumber}" ${isOwnTeam ? 'disabled aria-label="Không thể vote cho đội của bạn"' : ""}>
                       <span class="photo-vote-option-icon">${photoChallengeState.myVote === teamNumber ? lucideIcon("check") : lucideIcon("heart")}</span>
                       <strong>Đội ${teamNumber}</strong>
-                      <small>${photoChallengeState.myVote === teamNumber ? "Đã chọn" : "Chọn đội này"}</small>
+                      <small>${isOwnTeam ? "Đội của bạn" : isSelected ? "Đã chọn" : "Chọn đội này"}</small>
                       ${voteDetail(teamNumber)}
                     </button>
-                  `).join("")}
+                  `;
+                  }).join("")}
               </div>
               ${photoChallengeState.myVote ? `<p class="photo-vote-note">Bạn có thể đổi lựa chọn khi vote còn mở.</p>` : ""}
             `}
@@ -4457,6 +4551,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (client) {
+      client.channel("trip-game-menu-live")
+        .on("postgres_changes", {
+          event: "UPDATE",
+          schema: "public",
+          table: "trip_game_live_updates",
+          filter: "scope=eq.game-hub"
+        }, scheduleGameHubRefresh)
+        .subscribe();
+
       photoChallengeRealtime = client.channel("photo-challenge-live")
         .on("postgres_changes", {
           event: "UPDATE",
@@ -4525,6 +4628,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let dbError = client ? "" : "Chưa cấu hình Supabase.";
     let confirmNewGameOpen = false;
     let gameResults = [];
+    let spyRealtimeTimer = 0;
+    let spyRealtimeRefreshInFlight = false;
+    let spyRealtimeRefreshQueued = false;
     let state;
     state = createState("");
 
@@ -4638,6 +4744,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadLatestSession() {
       return loadGameState();
+    }
+
+    function scheduleSpyRealtimeRefresh() {
+      spyRealtimeRefreshQueued = true;
+      if (spyRealtimeTimer) window.clearTimeout(spyRealtimeTimer);
+      spyRealtimeTimer = window.setTimeout(async () => {
+        spyRealtimeTimer = 0;
+        if (spyRealtimeRefreshInFlight) return;
+        if (mount.hidden || !sessionToken()) {
+          spyRealtimeRefreshQueued = false;
+          return;
+        }
+        spyRealtimeRefreshQueued = false;
+        spyRealtimeRefreshInFlight = true;
+        try {
+          await loadLatestSession();
+          render();
+        } finally {
+          spyRealtimeRefreshInFlight = false;
+          if (spyRealtimeRefreshQueued) scheduleSpyRealtimeRefresh();
+        }
+      }, 100);
     }
 
     async function loadGameResults() {
@@ -5290,12 +5418,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (client) {
       client
-        .channel("spy_game_sessions")
-        .on("postgres_changes", { event: "*", schema: "public", table: "spy_game_sessions" }, async payload => {
-          if (mount.hidden || !state.sessionId || payload.new?.id !== state.sessionId) return;
-          await loadSession(state.sessionId);
-          render();
-        })
+        .channel("spy-game-live")
+        .on("postgres_changes", {
+          event: "UPDATE",
+          schema: "public",
+          table: "spy_game_live_updates",
+          filter: "singleton=eq.true"
+        }, scheduleSpyRealtimeRefresh)
         .subscribe();
     }
 

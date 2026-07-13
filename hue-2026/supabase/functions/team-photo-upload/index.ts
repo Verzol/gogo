@@ -83,6 +83,12 @@ Deno.serve(async request => {
     const adminClient = createClient(supabaseUrl, serviceRoleKey, {
       auth: { persistSession: false, autoRefreshToken: false }
     });
+    const notifyAlbumChanged = async () => {
+      const { error } = await publicClient.rpc("photo_challenge_mark_album_changed", {
+        p_session_token: sessionToken
+      });
+      if (error) console.warn("Could not publish Photo Challenge album update:", error.message);
+    };
 
     if (action === "replace") {
       const folder = `${gameKey}/team-${targetTeam}`;
@@ -102,6 +108,7 @@ Deno.serve(async request => {
     if (action === "delete") {
       const { error: removeError } = await adminClient.storage.from("trip-game-photos").remove([objectPath]);
       if (removeError) return json({ error: removeError.message }, 500);
+      await notifyAlbumChanged();
       return json({ ok: true, action, path: objectPath, teamNumber: targetTeam });
     }
 
@@ -134,6 +141,7 @@ Deno.serve(async request => {
       }
     }
 
+    await notifyAlbumChanged();
     const { data: publicData } = adminClient.storage.from("trip-game-photos").getPublicUrl(newObjectPath);
     return json({ ok: true, action, teamNumber: targetTeam, path: newObjectPath, publicUrl: publicData.publicUrl });
   } catch (error) {
