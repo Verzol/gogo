@@ -19,6 +19,11 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
   headers: { ...corsHeaders, "Content-Type": "application/json" }
 });
 
+const photoPathTeam = (gameKey: string, objectPath: string) => {
+  const match = new RegExp(`^${gameKey}/team-([1-3])/[-a-zA-Z0-9_.]+$`).exec(objectPath);
+  return match ? Number(match[1]) : 0;
+};
+
 Deno.serve(async request => {
   if (request.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
@@ -34,12 +39,17 @@ Deno.serve(async request => {
     const form = await request.formData();
     const sessionToken = String(form.get("sessionToken") || "");
     const gameKey = String(form.get("gameKey") || "");
+    const action = String(form.get("action") || "upload");
+    const objectPath = String(form.get("objectPath") || "");
+    const slot = Number(form.get("slot") || 0);
     const file = form.get("file");
     if (gameKey !== "anh-challenge-binh-minh") return json({ error: "Invalid game." }, 400);
     if (!sessionToken) return json({ error: "Bạn cần đăng nhập." }, 401);
-    if (!(file instanceof File)) return json({ error: "Thiếu file ảnh." }, 400);
-    if (!allowedTypes.has(file.type)) return json({ error: "Định dạng ảnh không được hỗ trợ." }, 400);
-    if (file.size > 10 * 1024 * 1024) return json({ error: "Ảnh vượt quá 10 MB." }, 400);
+    if (!["upload", "replace", "delete"].includes(action)) return json({ error: "Thao tác ảnh không hợp lệ." }, 400);
+    if (action !== "delete" && ![1, 2].includes(slot)) return json({ error: "Vị trí ảnh không hợp lệ." }, 400);
+    if (action !== "delete" && !(file instanceof File)) return json({ error: "Thiếu file ảnh." }, 400);
+    if (file instanceof File && !allowedTypes.has(file.type)) return json({ error: "Định dạng ảnh không được hỗ trợ." }, 400);
+    if (file instanceof File && file.size > 10 * 1024 * 1024) return json({ error: "Ảnh vượt quá 10 MB." }, 400);
 
     const publicClient = createClient(supabaseUrl, anonKey, {
       auth: { persistSession: false, autoRefreshToken: false }
@@ -52,25 +62,80 @@ Deno.serve(async request => {
     }
 
     const username = String(state.viewer.username);
+    const viewerRole = String(state.viewer.role || "");
     const assignment = (state.teams || []).find((team: Record<string, unknown>) =>
       String(team.gameKey || team.game_key || "") === gameKey && String(team.username || "") === username
     );
-    const teamNumber = Number(assignment?.teamNumber ?? assignment?.team_number ?? 0);
-    if (!teamNumber) return json({ error: "Bạn chưa được chia vào đội của game này." }, 403);
+    const assignedTeam = Number(assignment?.teamNumber ?? assignment?.team_number ?? 0);
+    const targetTeam = action === "upload" ? assignedTeam : photoPathTeam(gameKey, objectPath);
+    if (!targetTeam) return json({ error: "Đường dẫn ảnh không hợp lệ." }, 400);
+    if (viewerRole !== "host" && assignedTeam !== targetTeam) {
+      return json({ error: "Bạn chỉ có thể quản lý ảnh của đội mình." }, 403);
+    }
 
-    const extension = allowedTypes.get(file.type);
-    const safeUsername = username.normalize("NFKD").replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 32) || "player";
-    const objectPath = `${gameKey}/team-${teamNumber}/${Date.now()}-${crypto.randomUUID()}-${safeUsername}.${extension}`;
+    const { data: photoState, error: photoStateError } = await publicClient.rpc("photo_challenge_get_state", {
+      p_session_token: sessionToken
+    });
+    if (photoStateError || photoState?.voteStatus !== "draft") {
+      return json({ error: "Album đã khóa khi vote bắt đầu. Hãy reset vote trước khi chỉnh ảnh." }, 409);
+    }
+
     const adminClient = createClient(supabaseUrl, serviceRoleKey, {
       auth: { persistSession: false, autoRefreshToken: false }
     });
+
+    if (action === "replace") {
+      const folder = `${gameKey}/team-${targetTeam}`;
+      const objectName = objectPath.slice(folder.length + 1);
+      const { data: existingPhotos, error: listError } = await adminClient.storage
+        .from("trip-game-photos")
+        .list(folder, { limit: 100 });
+      if (listError) return json({ error: listError.message }, 500);
+      if (!(existingPhotos || []).some(item => item.name === objectName)) {
+        return json({ error: "Ảnh cần thay không còn tồn tại." }, 404);
+      }
+      if (objectName.startsWith("slot-") && !objectName.startsWith(`slot-${slot}-`)) {
+        return json({ error: "Vị trí ảnh không khớp." }, 400);
+      }
+    }
+
+    if (action === "delete") {
+      const { error: removeError } = await adminClient.storage.from("trip-game-photos").remove([objectPath]);
+      if (removeError) return json({ error: removeError.message }, 500);
+      return json({ ok: true, action, path: objectPath, teamNumber: targetTeam });
+    }
+
+    if (action === "upload") {
+      const { data: existingPhotos, error: listError } = await adminClient.storage
+        .from("trip-game-photos")
+        .list(`${gameKey}/team-${targetTeam}`, { limit: 3 });
+      if (listError) return json({ error: listError.message }, 500);
+      const photoCount = (existingPhotos || []).filter(item => item.name && item.name !== ".emptyFolderPlaceholder").length;
+      if (photoCount >= 2) return json({ error: "Mỗi đội chỉ được nộp tối đa 2 ảnh. Hãy thay hoặc xóa ảnh cũ." }, 409);
+      if ((existingPhotos || []).some(item => item.name.startsWith(`slot-${slot}-`))) {
+        return json({ error: "Vị trí này đã có ảnh. Hãy dùng nút sửa để thay ảnh." }, 409);
+      }
+    }
+
+    const imageFile = file as File;
+    const extension = allowedTypes.get(imageFile.type);
+    const safeUsername = username.normalize("NFKD").replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 32) || "player";
+    const newObjectPath = `${gameKey}/team-${targetTeam}/slot-${slot}-${Date.now()}-${crypto.randomUUID()}-${safeUsername}.${extension}`;
     const { error: uploadError } = await adminClient.storage
       .from("trip-game-photos")
-      .upload(objectPath, file, { contentType: file.type, upsert: false });
+      .upload(newObjectPath, imageFile, { contentType: imageFile.type, upsert: false });
     if (uploadError) return json({ error: uploadError.message }, 500);
 
-    const { data: publicData } = adminClient.storage.from("trip-game-photos").getPublicUrl(objectPath);
-    return json({ ok: true, teamNumber, path: objectPath, publicUrl: publicData.publicUrl });
+    if (action === "replace") {
+      const { error: removeError } = await adminClient.storage.from("trip-game-photos").remove([objectPath]);
+      if (removeError) {
+        await adminClient.storage.from("trip-game-photos").remove([newObjectPath]);
+        return json({ error: removeError.message }, 500);
+      }
+    }
+
+    const { data: publicData } = adminClient.storage.from("trip-game-photos").getPublicUrl(newObjectPath);
+    return json({ ok: true, action, teamNumber: targetTeam, path: newObjectPath, publicUrl: publicData.publicUrl });
   } catch (error) {
     return json({ error: error instanceof Error ? error.message : "Unexpected upload error." }, 500);
   }

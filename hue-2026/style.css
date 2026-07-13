@@ -3567,6 +3567,10 @@ body.lucide-ready .nav-links a:focus-visible {
   background: var(--paper);
   color: var(--ink);
   text-decoration: none;
+  padding: 0;
+  font: inherit;
+  text-align: inherit;
+  cursor: zoom-in;
   scroll-snap-align: start;
 }
 
@@ -3602,16 +3606,17 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .photo-draw-teams {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 10px;
-  margin-top: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
 }
 
 .photo-draw-team {
   border: 1.5px solid rgba(44, 51, 35, 0.22);
   border-radius: 12px;
   background: var(--avocado-pale);
-  padding: 10px;
+  padding: 13px;
+  box-shadow: 3px 4px 0 rgba(44, 51, 35, 0.08);
 }
 
 .photo-draw-team:nth-child(even) {
@@ -3651,7 +3656,217 @@ body.lucide-ready .nav-links a:focus-visible {
   gap: 5px;
 }
 
-.photo-draw-grid a {
+.photo-submission-list {
+  display: grid;
+  gap: 12px;
+}
+
+.photo-submission-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.photo-submission-pose,
+.photo-submission-upload {
+  position: relative;
+  display: block;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1.5px solid var(--ink);
+  border-radius: 9px;
+  background: var(--paper);
+}
+
+.photo-submission-pose {
+  padding: 0;
+  color: var(--ink);
+  cursor: zoom-in;
+}
+
+.photo-submission-pose img,
+.photo-submission-upload.is-filled img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-submission-pose > span {
+  position: absolute;
+  left: 7px;
+  bottom: 7px;
+  border: 1px solid rgba(44, 51, 35, 0.55);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.9);
+  padding: 3px 8px;
+  font-family: var(--font-doodle);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.photo-submission-upload.is-filled > button:first-child {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: zoom-in;
+}
+
+.photo-submission-upload.is-filled > button:first-child:hover img,
+.photo-submission-upload.is-filled > button:first-child:focus-visible img {
+  transform: scale(1.035);
+}
+
+.photo-submission-upload.is-filled img {
+  transition: transform 0.2s ease;
+}
+
+.photo-submission-delete {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 1;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--pink-pale);
+  color: var(--pink-deep);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(44, 51, 35, 0.17);
+}
+
+.photo-submission-delete:hover:not(:disabled) {
+  background: var(--paper);
+  transform: translateY(-1px);
+}
+
+.photo-submission-delete:active:not(:disabled) {
+  box-shadow: none;
+  transform: translateY(1px);
+}
+
+.photo-submission-delete:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.photo-submission-delete .ui-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.photo-submission-upload.is-empty {
+  display: grid;
+  place-items: center;
+  border: 2px dashed rgba(44, 51, 35, 0.6);
+  background: rgba(255, 253, 248, 0.65);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.photo-submission-upload.is-empty:hover,
+.photo-submission-upload.is-empty:has(input:focus-visible) {
+  border-color: var(--avocado);
+  background: var(--paper);
+  transform: translateY(-1px);
+}
+
+.photo-submission-upload.is-empty input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.photo-submission-upload.is-empty > span {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 12px;
+  text-align: center;
+}
+
+.photo-submission-upload.is-empty .ui-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--avocado);
+}
+
+.photo-submission-upload.is-empty b {
+  font-family: var(--font-doodle);
+  font-size: 1rem;
+}
+
+.photo-submission-upload.is-empty small {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+}
+
+.photo-submission-upload.is-waiting {
+  display: grid;
+  place-items: center;
+  border-style: dashed;
+  border-color: rgba(44, 51, 35, 0.28);
+  background: rgba(255, 253, 248, 0.43);
+  color: var(--ink-soft);
+  padding: 12px;
+  text-align: center;
+}
+
+.photo-submission-upload.is-waiting span {
+  max-width: 12ch;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.photo-submission-overflow {
+  margin-top: 10px;
+  border-top: 1px dashed rgba(44, 51, 35, 0.28);
+  padding-top: 9px;
+}
+
+.photo-submission-overflow p {
+  margin: 0 0 7px;
+  color: var(--pink-deep);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.photo-submission-overflow > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.photo-submission-overflow button {
+  display: block;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border: 1px solid var(--ink);
+  border-radius: 7px;
+  background: var(--paper);
+  padding: 0;
+  cursor: zoom-in;
+}
+
+.photo-submission-overflow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-draw-grid a,
+.photo-draw-grid button {
   position: relative;
   display: block;
   overflow: hidden;
@@ -3659,6 +3874,8 @@ body.lucide-ready .nav-links a:focus-visible {
   border: 1px solid var(--ink);
   border-radius: 7px;
   background: var(--paper);
+  padding: 0;
+  cursor: zoom-in;
 }
 
 .photo-draw-grid img {
@@ -3793,6 +4010,31 @@ body.lucide-ready .nav-links a:focus-visible {
   color: var(--ink-soft);
 }
 
+.photo-vote-count {
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.88);
+  padding: 3px 7px;
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.photo-voter-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-style: normal;
+}
+
+.photo-voter-list i {
+  border-radius: 999px;
+  background: rgba(44, 51, 35, 0.08);
+  padding: 2px 5px;
+  font-style: normal;
+}
+
 .photo-vote-note {
   margin: 10px 0 0;
   color: var(--ink-soft);
@@ -3822,6 +4064,16 @@ body.lucide-ready .nav-links a:focus-visible {
   place-items: center;
   border-radius: 50%;
   background: var(--paper);
+}
+
+.photo-vote-result > div {
+  display: grid;
+  gap: 2px;
+}
+
+.photo-vote-result small {
+  color: var(--ink-soft);
+  font-size: 0.76rem;
 }
 
 .photo-vote-result em {
@@ -3886,6 +4138,30 @@ body.lucide-ready .nav-links a:focus-visible {
   background: var(--gold);
 }
 
+.photo-team-count-switch button:disabled,
+.photo-host-draw-actions button:disabled,
+.photo-host-vote-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
+  box-shadow: none;
+}
+
+.photo-host-vote-actions .photo-vote-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  min-width: 192px;
+  border: 1.5px solid rgba(44, 51, 35, 0.5);
+  background: var(--paper);
+  padding: 6px 13px 6px 8px;
+}
+
+.photo-host-vote-actions .photo-vote-switch.is-on {
+  background: var(--avocado-pale);
+  border-color: var(--avocado);
+}
+
 .photo-host-live-votes {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
@@ -3893,23 +4169,33 @@ body.lucide-ready .nav-links a:focus-visible {
   margin-top: 13px;
 }
 
-.photo-host-live-votes span {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+.photo-host-live-votes > div {
+  display: grid;
+  gap: 5px;
   border-radius: 10px;
   background: var(--avocado-pale);
   padding: 9px 11px;
 }
 
-.photo-host-live-votes span:nth-child(even) {
+.photo-host-live-votes > div > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.photo-host-live-votes > div:nth-child(even) {
   background: var(--pink-pale);
 }
 
 .photo-host-live-votes em {
   font-style: normal;
   font-weight: 900;
+}
+
+.photo-host-live-votes small {
+  color: var(--ink-soft);
+  font-size: 0.76rem;
 }
 
 .team-photo-panel {
@@ -3963,13 +4249,17 @@ body.lucide-ready .nav-links a:focus-visible {
   gap: 7px;
 }
 
-.team-photo-grid a {
+.team-photo-grid a,
+.team-photo-grid button {
+  position: relative;
   display: block;
   overflow: hidden;
   aspect-ratio: 1;
   border: 1.5px solid var(--ink);
   border-radius: 9px;
   background: var(--paper);
+  padding: 0;
+  cursor: zoom-in;
 }
 
 .team-photo-grid img {
@@ -3979,8 +4269,124 @@ body.lucide-ready .nav-links a:focus-visible {
   transition: transform 0.2s ease;
 }
 
-.team-photo-grid a:hover img {
+.team-photo-grid a:hover img,
+.team-photo-grid button:hover img {
   transform: scale(1.04);
+}
+
+.team-photo-manage-badge {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.team-photo-manage-badge .ui-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.photo-preview-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.photo-preview-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(44, 51, 35, 0.7);
+}
+
+.photo-preview-card {
+  position: relative;
+  display: grid;
+  width: min(760px, 100%);
+  max-height: min(88dvh, 860px);
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: 8px 10px 0 rgba(44, 51, 35, 0.3);
+}
+
+.photo-preview-card header,
+.photo-preview-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 13px;
+}
+
+.photo-preview-card header {
+  border-bottom: 1px solid rgba(44, 51, 35, 0.2);
+}
+
+.photo-preview-card header > strong {
+  font-family: var(--font-doodle);
+  font-size: 1.1rem;
+}
+
+.photo-preview-card header button,
+.photo-preview-card footer button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.photo-preview-card header button {
+  width: 36px;
+  padding: 0;
+}
+
+.photo-preview-card footer {
+  justify-content: flex-end;
+  border-top: 1px solid rgba(44, 51, 35, 0.2);
+}
+
+.photo-preview-card footer button:first-of-type {
+  background: var(--avocado-pale);
+}
+
+.photo-preview-card footer button.is-danger {
+  background: var(--pink-pale);
+  color: var(--pink-deep);
+}
+
+.photo-preview-card > img {
+  display: block;
+  width: 100%;
+  max-height: calc(88dvh - 126px);
+  background: rgba(44, 51, 35, 0.08);
+  object-fit: contain;
+}
+
+.photo-preview-card > p {
+  margin: 0;
+  padding: 12px 13px;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
 }
 
 .team-photo-empty {
@@ -5337,6 +5743,51 @@ body.lucide-ready .nav-links a:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .photo-draw-team {
+    padding: 10px;
+  }
+
+  .photo-submission-list {
+    gap: 9px;
+  }
+
+  .photo-submission-row {
+    gap: 7px;
+  }
+
+  .photo-submission-pose,
+  .photo-submission-upload {
+    aspect-ratio: 1 / 1;
+  }
+
+  .photo-submission-pose > span {
+    left: 5px;
+    bottom: 5px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+  }
+
+  .photo-submission-delete {
+    top: 5px;
+    right: 5px;
+    width: 31px;
+    height: 31px;
+  }
+
+  .photo-submission-upload.is-empty > span {
+    gap: 2px;
+    padding: 8px 4px;
+  }
+
+  .photo-submission-upload.is-empty .ui-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .photo-submission-upload.is-empty b {
+    font-size: 0.88rem;
+  }
+
   .photo-host-setting {
     grid-template-columns: 1fr;
     gap: 9px;
@@ -5376,6 +5827,19 @@ body.lucide-ready .nav-links a:focus-visible {
   }
 
   .team-photo-upload button {
+    width: 100%;
+  }
+
+  .photo-preview-dialog {
+    padding: 12px;
+  }
+
+  .photo-preview-card footer {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .photo-preview-card footer button {
     width: 100%;
   }
 

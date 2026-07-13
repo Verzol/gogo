@@ -2717,9 +2717,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let statusKind = "";
     let loading = false;
     let teamPhotos = new Map();
+    let photoOverflow = new Map();
     let photosLoading = false;
     let photoError = "";
     let uploadingPhotos = false;
+    let photoActionSaving = false;
+    let photoPreview = null;
+    let lastTeamPhotosLoad = 0;
     let photoChallengeLoading = false;
     let photoChallengeState = {
       teamCount: 2,
@@ -2781,7 +2785,8 @@ document.addEventListener("DOMContentLoaded", () => {
       })).filter(draw => draw.teamNumber && draw.poseNumber),
       voteTallies: (payload?.voteTallies || payload?.vote_tallies || []).map(tally => ({
         teamNumber: Number(tally.teamNumber ?? tally.team_number ?? 0),
-        voteCount: Number(tally.voteCount ?? tally.vote_count ?? 0)
+        voteCount: Number(tally.voteCount ?? tally.vote_count ?? 0),
+        voters: (tally.voters || []).map(voter => String(voter)).filter(Boolean)
       })).filter(tally => tally.teamNumber),
       myTeam: Number(payload?.myTeam ?? payload?.my_team ?? 0),
       myVote: Number(payload?.myVote ?? payload?.my_vote ?? 0),
@@ -3314,6 +3319,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!isPhotoChallenge()) return "";
       const teamCount = effectiveTeamCount();
       const poseCount = Number(activeGame.photoPoseCount || 2);
+      const myTeam = ownTeamNumber();
+      const albumLocked = photoChallengeState.voteStatus !== "draft";
       return `
         <section class="game-menu-panel photo-pose-panel">
           <div class="game-panel-heading">
@@ -3324,15 +3331,15 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="photo-pose-reference" aria-label="5 ảnh tạo dáng">
             ${(activeGame.poseImages || []).map((src, index) => `
-              <a href="${escapeHTML(src)}" target="_blank" rel="noopener noreferrer" class="photo-pose-reference-card">
+              <button type="button" class="photo-pose-reference-card" data-photo-preview-src="${escapeHTML(src)}" data-photo-preview-alt="Dáng mẫu ${index + 1}">
                 <img src="${escapeHTML(src)}" alt="Dáng mẫu ${index + 1}" ${imgAttrs()}>
                 <span>Dáng ${index + 1}</span>
-              </a>
+              </button>
             `).join("")}
           </div>
           <div class="photo-draw-heading">
-            <strong>Phiếu bốc của từng đội</strong>
-            <span>Mỗi đội cần đủ ${poseCount} dáng</span>
+            <strong>Phiếu bốc và ảnh nộp</strong>
+            <span>Mỗi dáng đi kèm một vị trí ảnh của đội</span>
           </div>
           ${photoChallengeLoading ? `<div class="photo-draw-loading"><span></span><span></span></div>` : `
             <div class="photo-draw-teams">
@@ -3340,27 +3347,58 @@ document.addEventListener("DOMContentLoaded", () => {
                 const draws = photoChallengeState.draws
                   .filter(draw => draw.teamNumber === teamNumber)
                   .sort((a, b) => a.poseNumber - b.poseNumber);
+                const photos = (teamPhotos.get(teamNumber) || []).slice(0, poseCount);
+                const photoCount = photos.filter(Boolean).length;
+                const overflowPhotos = photoOverflow.get(teamNumber) || [];
+                const canUpload = myTeam === teamNumber && !albumLocked;
                 return `
                   <article class="photo-draw-team">
                     <div class="photo-draw-team-title">
                       <strong>Đội ${teamNumber}</strong>
-                      <span class="${draws.length === poseCount ? "is-ready" : ""}">${draws.length}/${poseCount} dáng</span>
+                      <span class="${photoCount === poseCount && !overflowPhotos.length ? "is-ready" : ""}">${photoCount}/${poseCount} ảnh${overflowPhotos.length ? ` +${overflowPhotos.length} cũ` : ""}</span>
                     </div>
                     ${draws.length ? `
-                      <div class="photo-draw-grid">
-                        ${draws.map(draw => `
-                          <a href="${escapeHTML(poseImage(draw.poseNumber))}" target="_blank" rel="noopener noreferrer">
-                            <img src="${escapeHTML(poseImage(draw.poseNumber))}" alt="Đội ${teamNumber}, dáng ${draw.poseNumber}" ${imgAttrs()}>
-                            <span>${draw.poseNumber}</span>
-                          </a>
-                        `).join("")}
+                      <div class="photo-submission-list">
+                        ${draws.map((draw, index) => {
+                          const photo = photos[index];
+                          return `
+                            <div class="photo-submission-row">
+                              <button class="photo-submission-pose" type="button" data-photo-preview-src="${escapeHTML(poseImage(draw.poseNumber))}" data-photo-preview-alt="Đội ${teamNumber}, dáng ${draw.poseNumber}">
+                                <img src="${escapeHTML(poseImage(draw.poseNumber))}" alt="Đội ${teamNumber}, dáng ${draw.poseNumber}" ${imgAttrs()}>
+                                <span>Dáng ${draw.poseNumber}</span>
+                              </button>
+                              ${photo ? `
+                                <div class="photo-submission-upload is-filled">
+                                  <button type="button" data-photo-preview-src="${escapeHTML(photo.url)}" data-photo-preview-path="${escapeHTML(photo.path)}" data-photo-preview-team="${photo.teamNumber}" data-photo-preview-slot="${photo.slot}" data-photo-preview-alt="Ảnh nộp của Đội ${teamNumber}, dáng ${draw.poseNumber}">
+                                    <img src="${escapeHTML(photo.url)}" alt="Ảnh nộp của Đội ${teamNumber}, dáng ${draw.poseNumber}" ${imgAttrs()}>
+                                  </button>
+                                  ${canManagePhoto(photo) && !albumLocked ? `<button class="photo-submission-delete" type="button" data-photo-quick-delete-path="${escapeHTML(photo.path)}" data-photo-quick-delete-team="${photo.teamNumber}" data-photo-quick-delete-alt="Ảnh nộp của Đội ${teamNumber}, dáng ${draw.poseNumber}" aria-label="Xóa ảnh của Đội ${teamNumber}, dáng ${draw.poseNumber}" ${photoActionSaving ? "disabled" : ""}>${lucideIcon("trash-2")}</button>` : ""}
+                                </div>
+                              ` : canUpload ? `
+                                <label class="photo-submission-upload is-empty">
+                                  <input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" data-photo-slot-upload data-photo-slot="${index + 1}" ${photoActionSaving ? "disabled" : ""}>
+                                  <span>${lucideIcon("plus")}<b>Thêm ảnh</b><small>Dáng ${draw.poseNumber}</small></span>
+                                </label>
+                              ` : `<div class="photo-submission-upload is-waiting"><span>Chờ Đội ${teamNumber} upload</span></div>`}
+                            </div>
+                          `;
+                        }).join("")}
                       </div>
+                      ${overflowPhotos.length ? `
+                        <div class="photo-submission-overflow">
+                          <p>Ảnh cũ chưa gắn với dáng. Xóa ảnh thừa trước khi mở vote.</p>
+                          <div>${overflowPhotos.map(photo => `
+                            <button type="button" data-photo-preview-src="${escapeHTML(photo.url)}" data-photo-preview-path="${escapeHTML(photo.path)}" data-photo-preview-team="${photo.teamNumber}" data-photo-preview-alt="Ảnh cũ của Đội ${teamNumber}"><img src="${escapeHTML(photo.url)}" alt="Ảnh cũ của Đội ${teamNumber}" ${imgAttrs()}></button>
+                          `).join("")}</div>
+                        </div>
+                      ` : ""}
                     ` : `<div class="photo-draw-empty">Quản trò chưa bốc ảnh cho Đội ${teamNumber}.</div>`}
                   </article>
                 `;
               }).join("")}
             </div>
           `}
+          ${photoError ? `<p class="team-photo-error" role="status">${escapeHTML(photoError)}</p>` : ""}
         </section>
       `;
     }
@@ -3368,8 +3406,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderPhotoChallengeVoting() {
       if (!isPhotoChallenge()) return "";
       const teamCount = effectiveTeamCount();
-      const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally.voteCount]));
-      const maxVotes = Math.max(0, ...tallies.values());
+      const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally]));
+      const maxVotes = Math.max(0, ...[...tallies.values()].map(tally => tally.voteCount));
+      const voteDetail = teamNumber => {
+        const tally = tallies.get(teamNumber) || { voteCount: 0, voters: [] };
+        const voters = tally.voters || [];
+        return `
+          <span class="photo-vote-count">${tally.voteCount} phiếu</span>
+          ${sessionToken() ? `<span class="photo-voter-list">${voters.length ? voters.map(voter => `<i>${escapeHTML(voter)}</i>`).join("") : "Chưa ai vote"}</span>` : ""}
+        `;
+      };
       const statusCopy = {
         draft: "Vote chưa mở",
         open: "Đang mở vote",
@@ -3395,6 +3441,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       <span>${photoChallengeState.myVote === teamNumber ? lucideIcon("check") : lucideIcon("heart")}</span>
                       <strong>Đội ${teamNumber}</strong>
                       <small>${photoChallengeState.myVote === teamNumber ? "Đã chọn" : "Chọn đội này"}</small>
+                      ${voteDetail(teamNumber)}
                     </button>
                   `).join("")}
               </div>
@@ -3403,12 +3450,13 @@ document.addEventListener("DOMContentLoaded", () => {
           ` : `
             <div class="photo-vote-results">
               ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
-                const votes = tallies.get(teamNumber) || 0;
+                const tally = tallies.get(teamNumber) || { voteCount: 0, voters: [] };
+                const votes = tally.voteCount;
                 const isWinner = maxVotes > 0 && votes === maxVotes;
                 return `
                   <div class="photo-vote-result ${isWinner ? "is-winner" : ""}">
                     <span>${isWinner ? lucideIcon("trophy") : lucideIcon("users")}</span>
-                    <strong>Đội ${teamNumber}</strong>
+                    <div><strong>Đội ${teamNumber}</strong><small>${sessionToken() ? (tally.voters.length ? `Vote bởi: ${tally.voters.map(escapeHTML).join(", ")}` : "Chưa ai vote") : ""}</small></div>
                     <em>${votes} phiếu</em>
                   </div>
                 `;
@@ -3427,13 +3475,16 @@ document.addEventListener("DOMContentLoaded", () => {
       )?.teamNumber || 0);
     }
 
-    async function loadTeamPhotos() {
+    async function loadTeamPhotos({ silent = false } = {}) {
       if (!client || !isPhotoChallenge()) return;
-      photosLoading = true;
-      photoError = "";
-      render();
+      if (!silent) {
+        photosLoading = true;
+        photoError = "";
+        render();
+      }
       const bucket = client.storage.from("trip-game-photos");
       const loaded = new Map();
+      const overflow = new Map();
       for (let teamNumber = 1; teamNumber <= effectiveTeamCount(); teamNumber += 1) {
         const folder = `${activeGame.key}/team-${teamNumber}`;
         const { data: files, error } = await bucket.list(folder, {
@@ -3445,20 +3496,78 @@ document.addEventListener("DOMContentLoaded", () => {
           loaded.set(teamNumber, []);
           continue;
         }
-        loaded.set(teamNumber, (files || [])
+        const photos = (files || [])
           .filter(file => file.name && file.name !== ".emptyFolderPlaceholder")
           .map(file => ({
             name: file.name,
+            path: `${folder}/${file.name}`,
+            teamNumber,
+            createdAt: file.created_at || "",
             url: bucket.getPublicUrl(`${folder}/${file.name}`).data.publicUrl
-          })));
+          }))
+          .sort((first, second) => String(first.createdAt).localeCompare(String(second.createdAt)));
+        const slots = [null, null];
+        const legacyPhotos = [];
+        photos.forEach(photo => {
+          const slot = Number(/^slot-([12])(?:-|$)/.exec(photo.name)?.[1] || 0);
+          if (slot && !slots[slot - 1]) slots[slot - 1] = { ...photo, slot };
+          else legacyPhotos.push(photo);
+        });
+        const unassignedPhotos = [];
+        legacyPhotos.forEach(photo => {
+          const nextSlot = slots.findIndex(slot => !slot);
+          if (nextSlot !== -1) slots[nextSlot] = { ...photo, slot: nextSlot + 1 };
+          else unassignedPhotos.push(photo);
+        });
+        loaded.set(teamNumber, slots);
+        overflow.set(teamNumber, unassignedPhotos);
       }
       teamPhotos = loaded;
+      photoOverflow = overflow;
       photosLoading = false;
+      lastTeamPhotosLoad = Date.now();
+    }
+
+    const canManagePhoto = photo => Boolean(sessionToken()) && (isHost() || ownTeamNumber() === photo.teamNumber);
+    const photoSubmissionsExist = () => [...teamPhotos.values()].some(photos => photos.some(Boolean));
+
+    async function manageTeamPhoto(action, { path = "", file = null, slot = 0 } = {}) {
+      if (!sessionToken() || !isPhotoChallenge() || photoActionSaving) return false;
+      photoActionSaving = true;
+      photoError = "";
+      render();
+      try {
+        const body = new FormData();
+        body.append("sessionToken", sessionToken());
+        body.append("gameKey", activeGame.key);
+        body.append("action", action);
+        if (path) body.append("objectPath", path);
+        if (slot) body.append("slot", String(slot));
+        if (file) body.append("file", file);
+        const response = await fetch(`${config.url}/functions/v1/team-photo-upload`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${config.anonKey}`, apikey: config.anonKey },
+          body
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || "Không cập nhật được ảnh.");
+        photoPreview = null;
+        await loadTeamPhotos({ silent: true });
+        setStatus(action === "delete" ? "Đã xóa ảnh khỏi album." : action === "upload" ? "Đã thêm ảnh vào vị trí trống." : "Đã thay ảnh trong album.", "ok");
+        return true;
+      } catch (error) {
+        photoError = error.message || "Không cập nhật được ảnh.";
+        return false;
+      } finally {
+        photoActionSaving = false;
+        render();
+      }
     }
 
     function renderPhotoGallery() {
       if (!isPhotoChallenge()) return "";
       const myTeam = ownTeamNumber();
+      const galleryLocked = photoChallengeState.voteStatus !== "draft";
       return `
         <section class="game-menu-panel team-photo-panel">
           <div class="game-panel-heading">
@@ -3481,9 +3590,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${photos.length ? `
                       <div class="team-photo-grid">
                         ${photos.map(photo => `
-                          <a href="${escapeHTML(photo.url)}" target="_blank" rel="noopener noreferrer">
+                          <button type="button" data-photo-preview-src="${escapeHTML(photo.url)}" data-photo-preview-path="${escapeHTML(photo.path)}" data-photo-preview-team="${photo.teamNumber}" data-photo-preview-alt="Ảnh challenge của Đội ${teamNumber}">
                             <img src="${escapeHTML(photo.url)}" alt="Ảnh challenge của đội ${teamNumber}" ${imgAttrs()}>
-                          </a>
+                            ${canManagePhoto(photo) && !galleryLocked ? `<span class="team-photo-manage-badge">${lucideIcon("settings-2")}</span>` : ""}
+                          </button>
                         `).join("")}
                       </div>
                     ` : `<div class="team-photo-empty">Đội ${teamNumber} chưa có ảnh.</div>`}
@@ -3492,7 +3602,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }).join("")}
             </div>
           `}
-          ${myTeam ? `
+          ${myTeam && !galleryLocked ? `
             <form class="team-photo-upload" data-team-photo-upload>
               <label>
                 <span>Thêm ảnh cho Đội ${myTeam}</span>
@@ -3501,8 +3611,31 @@ document.addEventListener("DOMContentLoaded", () => {
               <button type="submit" ${uploadingPhotos ? "disabled" : ""}>${lucideIcon("image-up")} ${uploadingPhotos ? "Đang upload..." : "Upload ảnh"}</button>
               <small>Mỗi ảnh tối đa 10 MB. Thành viên nào trong đội cũng có thể thêm ảnh.</small>
             </form>
+          ` : myTeam ? `<p class="team-photo-login-note">Album đã khóa trong lúc vote. Quản trò cần reset vote trước khi chỉnh ảnh.</p>
           ` : sessionToken() ? `<p class="team-photo-login-note">Bạn cần được Quản trò chia vào một đội trước khi upload ảnh.</p>` : `<p class="team-photo-login-note">Đăng nhập để upload ảnh cho đội của bạn.</p>`}
         </section>
+      `;
+    }
+
+    function renderPhotoPreview() {
+      if (!photoPreview) return "";
+      const canManage = canManagePhoto(photoPreview) && photoChallengeState.voteStatus === "draft" && Boolean(photoPreview.path);
+      return `
+        <div class="photo-preview-dialog" role="dialog" aria-modal="true" aria-label="Xem ảnh" data-photo-preview-dialog>
+          <div class="photo-preview-backdrop" data-photo-preview-close></div>
+          <section class="photo-preview-card">
+            <header>
+              <strong>${escapeHTML(photoPreview.alt || "Xem ảnh")}</strong>
+              <button type="button" data-photo-preview-close aria-label="Đóng ảnh">${lucideIcon("x")}</button>
+            </header>
+            <img src="${escapeHTML(photoPreview.src)}" alt="${escapeHTML(photoPreview.alt || "")}">
+            ${canManage ? `
+              <footer>
+                <button type="button" class="is-danger" data-photo-delete ${photoActionSaving ? "disabled" : ""}>${lucideIcon("trash-2")} Xóa ảnh</button>
+              </footer>
+            ` : photoPreview.path ? `<p>Ảnh chỉ có thể xóa trước khi mở vote bởi thành viên đúng đội hoặc Quản trò.</p>` : ""}
+          </section>
+        </div>
       `;
     }
 
@@ -3537,7 +3670,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!isHost() || !isPhotoChallenge()) return "";
       const teamCount = effectiveTeamCount();
       const poseCount = Number(activeGame.photoPoseCount || 2);
-      const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally.voteCount]));
+      const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally]));
+      const votingOpen = photoChallengeState.voteStatus === "open";
+      const hasSubmissions = photoSubmissionsExist();
+      const canChangeSetup = photoChallengeState.voteStatus === "draft" && !hasSubmissions;
+      const voteLabel = votingOpen ? "Đang mở vote" : photoChallengeState.voteStatus === "closed" ? "Mở lại vote" : "Mở vote";
       return `
         <section class="game-menu-panel photo-host-controls">
           <div class="game-panel-heading">
@@ -3553,7 +3690,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="photo-team-count-switch" role="group" aria-label="Chọn số đội">
               ${(activeGame.teamCountOptions || [2, 3]).map(count => `
-                <button type="button" class="${teamCount === count ? "is-active" : ""}" data-photo-team-count="${count}" aria-pressed="${teamCount === count}">${count} đội</button>
+                <button type="button" class="${teamCount === count ? "is-active" : ""}" data-photo-team-count="${count}" aria-pressed="${teamCount === count}" ${count !== teamCount && !canChangeSetup ? "disabled" : ""}>${count} đội</button>
               `).join("")}
             </div>
           </div>
@@ -3563,27 +3700,33 @@ document.addEventListener("DOMContentLoaded", () => {
               <span>Mỗi lần bốc chọn ngẫu nhiên ${poseCount} trong 5 ảnh.</span>
             </div>
             <div class="photo-host-draw-actions">
-              <button type="button" class="is-primary" data-photo-draw="all">${lucideIcon("shuffle")} Bốc cho tất cả</button>
+              <button type="button" class="is-primary" data-photo-draw="all" ${!canChangeSetup ? "disabled" : ""}>${lucideIcon("shuffle")} Bốc cho tất cả</button>
               ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
                 const hasDraw = photoChallengeState.draws.filter(draw => draw.teamNumber === teamNumber).length === poseCount;
-                return `<button type="button" data-photo-draw="${teamNumber}">${lucideIcon("images")} ${hasDraw ? "Bốc lại" : "Bốc"} Đội ${teamNumber}</button>`;
+                const teamHasSubmission = (teamPhotos.get(teamNumber) || []).some(Boolean);
+                const canDrawTeam = photoChallengeState.voteStatus === "draft" && !teamHasSubmission;
+                return `<button type="button" data-photo-draw="${teamNumber}" ${!canDrawTeam ? "disabled" : ""}>${lucideIcon("images")} ${hasDraw ? "Bốc lại" : "Bốc"} Đội ${teamNumber}</button>`;
               }).join("")}
             </div>
           </div>
           <div class="photo-host-setting is-voting">
             <div>
               <strong>Điều khiển vote</strong>
-              <span>${photoChallengeState.voteStatus === "open" ? "Người chơi đang có thể vote." : photoChallengeState.voteStatus === "closed" ? "Kết quả đã được công bố." : "Vote chưa bắt đầu."}</span>
+              <span>${votingOpen ? "Album đã khóa. Người chơi có thể vote hoặc đổi lựa chọn." : photoChallengeState.voteStatus === "closed" ? "Kết quả đang công khai. Mở lại sẽ giữ phiếu hiện tại." : "Mở vote sau khi mỗi đội đã có ảnh trong album."}</span>
             </div>
             <div class="photo-host-vote-actions">
-              ${photoChallengeState.voteStatus !== "open" ? `<button type="button" class="is-primary" data-photo-vote-status="open">${lucideIcon("play")} Mở vote</button>` : `<button type="button" class="is-primary" data-photo-vote-status="closed">${lucideIcon("square")} Đóng vote</button>`}
+              <button class="photo-vote-switch ${votingOpen ? "is-on" : ""}" type="button" data-photo-vote-toggle aria-pressed="${votingOpen}">
+                <span class="spy-vote-switch-track" aria-hidden="true"><span></span></span>
+                <strong>${votingOpen ? "Đóng và công bố vote" : voteLabel}</strong>
+              </button>
               <button type="button" data-photo-vote-reset>${lucideIcon("rotate-ccw")} Reset vote</button>
             </div>
           </div>
           <div class="photo-host-live-votes">
-            ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => `
-              <span><strong>Đội ${teamNumber}</strong><em>${tallies.get(teamNumber) || 0} phiếu</em></span>
-            `).join("")}
+            ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
+              const tally = tallies.get(teamNumber) || { voteCount: 0, voters: [] };
+              return `<div><span><strong>Đội ${teamNumber}</strong><em>${tally.voteCount} phiếu</em></span><small>${tally.voters.length ? tally.voters.map(voter => escapeHTML(voter)).join(", ") : "Chưa ai vote"}</small></div>`;
+            }).join("")}
           </div>
         </section>
       `;
@@ -3592,6 +3735,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderHostTeamManager() {
       const teamCount = effectiveTeamCount();
       if (!isHost() || !teamCount) return "";
+      if (isPhotoChallenge() && photoSubmissionsExist()) {
+        return `
+          <section class="game-menu-panel game-host-team-manager">
+            <div class="game-panel-heading"><div><h3>Quản lý đội hình</h3><p>Đội hình đã được khóa sau khi có ảnh nộp để bảo toàn quyền quản lý và đối chiếu ảnh.</p></div></div>
+            <div class="game-empty-state">Xóa toàn bộ ảnh nộp rồi bốc/thiết lập lại nếu cần đổi thành viên giữa các đội.</div>
+          </section>
+        `;
+      }
       const assignments = gameState.teams.filter(team => team.gameKey === activeGame.key);
       return `
         <section class="game-menu-panel game-host-team-manager">
@@ -3668,12 +3819,13 @@ document.addEventListener("DOMContentLoaded", () => {
           ${statusMessage ? `<p class="game-menu-status is-${escapeHTML(statusKind || "ok")}" role="status">${escapeHTML(statusMessage)}</p>` : ""}
           ${loading ? `<div class="game-menu-loading" aria-label="Đang tải"><span></span><span></span><span></span></div>` : `
             <div class="game-menu-layout is-single">
-              <div>${renderRules()}${renderTeams()}${renderPhotoChallengeBoard()}${renderPhotoGallery()}${renderPhotoChallengeVoting()}</div>
+              <div>${renderRules()}${renderTeams()}${renderPhotoChallengeBoard()}${renderPhotoChallengeVoting()}</div>
             </div>
             ${renderImposterMusic()}
             ${renderHostConsole()}
           `}
         </div>
+        ${renderPhotoPreview()}
       `;
       renderLucideIcons();
     }
@@ -3774,6 +3926,34 @@ document.addEventListener("DOMContentLoaded", () => {
         activeGame = null;
         return;
       }
+      if (event.target.closest("[data-photo-preview-close]")) {
+        photoPreview = null;
+        render();
+        return;
+      }
+      const quickDeleteButton = event.target.closest("[data-photo-quick-delete-path]");
+      if (quickDeleteButton) {
+        if (!window.confirm(`Xóa ${quickDeleteButton.dataset.photoQuickDeleteAlt || "ảnh này"}?`)) return;
+        await manageTeamPhoto("delete", { path: quickDeleteButton.dataset.photoQuickDeletePath || "" });
+        return;
+      }
+      const photoPreviewButton = event.target.closest("[data-photo-preview-src]");
+      if (photoPreviewButton) {
+        photoPreview = {
+          src: photoPreviewButton.dataset.photoPreviewSrc || "",
+          path: photoPreviewButton.dataset.photoPreviewPath || "",
+          teamNumber: Number(photoPreviewButton.dataset.photoPreviewTeam || 0),
+          slot: Number(photoPreviewButton.dataset.photoPreviewSlot || 0),
+          alt: photoPreviewButton.dataset.photoPreviewAlt || ""
+        };
+        render();
+        return;
+      }
+      if (event.target.closest("[data-photo-delete]") && photoPreview?.path) {
+        if (!window.confirm("Xóa ảnh này khỏi album? Không thể hoàn tác.")) return;
+        await manageTeamPhoto("delete", { path: photoPreview.path });
+        return;
+      }
       const selectOption = event.target.closest("[data-select-option]");
       if (selectOption) {
         const select = selectOption.closest("[data-custom-select]");
@@ -3847,9 +4027,11 @@ document.addEventListener("DOMContentLoaded", () => {
         render();
         return;
       }
-      const voteStatusButton = event.target.closest("[data-photo-vote-status]");
+      const voteStatusButton = event.target.closest("[data-photo-vote-status], [data-photo-vote-toggle]");
       if (voteStatusButton && isHost() && isPhotoChallenge()) {
-        const nextStatus = voteStatusButton.dataset.photoVoteStatus;
+        const nextStatus = voteStatusButton.dataset.photoVoteToggle !== undefined
+          ? (photoChallengeState.voteStatus === "open" ? "closed" : "open")
+          : voteStatusButton.dataset.photoVoteStatus;
         const { data: payload, error } = await client.rpc("photo_challenge_set_vote_status", {
           p_session_token: sessionToken(),
           p_status: nextStatus,
@@ -3989,6 +4171,14 @@ document.addEventListener("DOMContentLoaded", () => {
       await saveTeamAssignments(assignments, "Đã random và lưu đội hình.");
     });
 
+    mount.addEventListener("change", async event => {
+      if (event.target.matches("[data-photo-slot-upload]")) {
+        const file = event.target.files?.[0];
+        if (file) await manageTeamPhoto("upload", { file, slot: Number(event.target.dataset.photoSlot || 0) });
+        return;
+      }
+    });
+
     mount.addEventListener("submit", async event => {
       if (event.target.matches("[data-imposter-track-edit-form]")) {
         event.preventDefault();
@@ -4100,6 +4290,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const myTeam = ownTeamNumber();
       const files = [...(event.target.elements.photos?.files || [])];
       if (!myTeam || !files.length || !sessionToken()) return;
+      if (files.length > 10) {
+        photoError = "Mỗi lần chỉ upload tối đa 10 ảnh để album dễ quản lý.";
+        render();
+        return;
+      }
 
       uploadingPhotos = true;
       photoError = "";
@@ -4109,6 +4304,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const body = new FormData();
         body.append("sessionToken", sessionToken());
         body.append("gameKey", activeGame.key);
+        body.append("action", "upload");
         body.append("file", file);
         try {
           const response = await fetch(`${config.url}/functions/v1/team-photo-upload`, {
@@ -4184,10 +4380,17 @@ document.addEventListener("DOMContentLoaded", () => {
         .subscribe();
     }
 
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape" || !photoPreview) return;
+      photoPreview = null;
+      render();
+    });
+
     window.setInterval(async () => {
       if (mount.hidden || !isPhotoChallenge() || document.hidden) return;
       if (mount.contains(document.activeElement)) return;
       await loadPhotoChallengeState({ silent: true });
+      if (Date.now() - lastTeamPhotosLoad > 15000) await loadTeamPhotos({ silent: true });
       render();
     }, 5000);
   };
