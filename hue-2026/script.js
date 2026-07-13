@@ -2744,6 +2744,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let imposterFinishSyncTimer = 0;
     let imposterRoundSaving = false;
     let imposterReadySaving = false;
+    let editingImposterTrackId = "";
 
     const sessionToken = () => getAuthMember()?.sessionToken || "";
     const isHost = () => (gameState.viewer?.role || getAuthMember()?.role) === "host";
@@ -3078,6 +3079,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const roundDuration = Number(imposterMusic.roundDurationSeconds || 0);
       const history = imposterMusic.history || [];
       const roundControlsDisabled = isPlaying || imposterRoundSaving;
+      const isTrackLocked = track => (isPrepared || isPlaying) && [hostRound.commonTrackId, hostRound.imposterTrackId].includes(track.id);
       const customSelect = (name, selectedValue, placeholder, options, disabled) => {
         const selected = options.find(option => option.value === selectedValue);
         return `
@@ -3118,7 +3120,27 @@ document.addEventListener("DOMContentLoaded", () => {
             <label><span>Nghe trong giây</span><input name="duration" type="number" min="5" max="180" value="20" required></label>
             <button type="submit">${lucideIcon("plus")} Thêm bài</button>
           </form>
-          ${tracks.length ? `<div class="imposter-track-list">${tracks.map(track => `<div><span>${escapeHTML(track.label || "Bài chưa đặt tên")}</span><small>${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s</small><button type="button" data-imposter-delete-track="${escapeHTML(track.id)}" aria-label="Xóa ${escapeHTML(track.label || "bài nhạc")}">${lucideIcon("trash-2")}</button></div>`).join("")}</div>` : `<p class="game-empty-state">Thêm ít nhất hai bài để Quản trò chuẩn bị một vòng.</p>`}
+          ${tracks.length ? `<div class="imposter-track-list">${tracks.map(track => {
+            const locked = isTrackLocked(track);
+            const editing = editingImposterTrackId === track.id && !locked;
+            return editing ? `
+              <form class="imposter-track-edit-form" data-imposter-track-edit-form data-track-id="${escapeHTML(track.id)}">
+                <label><span>Link YouTube</span><input name="youtubeUrl" type="url" required value="${escapeHTML(track.youtubeUrl || "")}"></label>
+                <label><span>Tên gợi nhớ</span><input name="label" maxlength="100" value="${escapeHTML(track.label || "")}"></label>
+                <label><span>Bắt đầu</span><input name="startAt" inputmode="numeric" required value="${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}"></label>
+                <label><span>Nghe trong giây</span><input name="duration" type="number" min="5" max="180" required value="${Number(track.durationSeconds || 20)}"></label>
+                <div><button type="submit">${lucideIcon("save")} Lưu</button><button type="button" data-imposter-cancel-edit>Hủy</button></div>
+              </form>
+            ` : `
+              <div class="imposter-track-row">
+                <span>${escapeHTML(track.label || "Bài chưa đặt tên")}</span><small>${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s</small>
+                <div class="imposter-track-actions">
+                  <button type="button" data-imposter-edit-track="${escapeHTML(track.id)}" aria-label="Sửa ${escapeHTML(track.label || "bài nhạc")}" ${locked ? "disabled" : ""}>${lucideIcon("pencil")}</button>
+                  <button type="button" data-imposter-delete-track="${escapeHTML(track.id)}" aria-label="Xóa ${escapeHTML(track.label || "bài nhạc")}" ${locked ? "disabled" : ""}>${lucideIcon("trash-2")}</button>
+                </div>
+              </div>
+            `;
+          }).join("")}</div>` : `<p class="game-empty-state">Thêm ít nhất hai bài để Quản trò chuẩn bị một vòng.</p>`}
           ${renderImposterMusicHistory(history)}
         </section>
       `;
@@ -3938,13 +3960,28 @@ document.addEventListener("DOMContentLoaded", () => {
         imposterMusicError = "";
         return;
       }
+      const editTrack = event.target.closest("[data-imposter-edit-track]");
+      if (editTrack) {
+        editingImposterTrackId = editTrack.dataset.imposterEditTrack || "";
+        imposterMusicError = "";
+        render();
+        return;
+      }
+      if (event.target.closest("[data-imposter-cancel-edit]")) {
+        editingImposterTrackId = "";
+        render();
+        return;
+      }
       const deleteTrack = event.target.closest("[data-imposter-delete-track]");
       if (deleteTrack) {
         const { data: payload, error } = await client.rpc("imposter_music_delete_track", {
           p_session_token: sessionToken(), p_track_id: deleteTrack.dataset.imposterDeleteTrack
         });
         if (error) imposterMusicError = error.message || "Không xóa được bài.";
-        else imposterMusic = payload;
+        else {
+          imposterMusic = payload;
+          editingImposterTrackId = "";
+        }
         render();
         return;
       }
@@ -3962,6 +3999,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     mount.addEventListener("submit", async event => {
+      if (event.target.matches("[data-imposter-track-edit-form]")) {
+        event.preventDefault();
+        const form = new FormData(event.target);
+        const startSeconds = parseClock(form.get("startAt"));
+        if (startSeconds === null) {
+          imposterMusicError = "Mốc bắt đầu dùng dạng 2:31 hoặc số giây.";
+          render();
+          return;
+        }
+        const { data: payload, error } = await client.rpc("imposter_music_update_track", {
+          p_session_token: sessionToken(),
+          p_track_id: event.target.dataset.trackId,
+          p_youtube_url: String(form.get("youtubeUrl") || ""),
+          p_label: String(form.get("label") || ""),
+          p_start_seconds: startSeconds,
+          p_duration_seconds: Number(form.get("duration") || 20)
+        });
+        if (error) imposterMusicError = error.message || "Không sửa được bài.";
+        else {
+          imposterMusic = payload;
+          editingImposterTrackId = "";
+          imposterMusicError = "";
+        }
+        render();
+        return;
+      }
       if (event.target.matches("[data-imposter-track-form]")) {
         event.preventDefault();
         const form = new FormData(event.target);

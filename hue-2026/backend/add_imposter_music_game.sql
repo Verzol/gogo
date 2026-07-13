@@ -156,6 +156,25 @@ begin
 end;
 $$;
 
+create or replace function public.imposter_music_update_track(p_session_token text, p_track_id uuid, p_youtube_url text, p_label text, p_start_seconds integer, p_duration_seconds integer)
+returns jsonb language plpgsql security definer set search_path = public, pg_temp
+as $$
+begin
+  perform public.imposter_music_is_host(p_session_token);
+  if exists (select 1 from public.imposter_music_room where singleton and status in ('prepared', 'playing') and p_track_id in (common_track_id, imposter_track_id)) then
+    raise exception 'Cannot edit a track used in the current round';
+  end if;
+  update public.imposter_music_tracks
+  set youtube_url = btrim(p_youtube_url),
+      label = left(btrim(coalesce(p_label, '')), 100),
+      start_seconds = greatest(0, least(coalesce(p_start_seconds, 0), 43200)),
+      duration_seconds = greatest(5, least(coalesce(p_duration_seconds, 20), 180))
+  where id = p_track_id;
+  if not found then raise exception 'Track not found'; end if;
+  return public.imposter_music_get_state(p_session_token);
+end;
+$$;
+
 create or replace function public.imposter_music_prepare_round(p_session_token text, p_common_track_id uuid, p_imposter_track_id uuid, p_imposter_username text)
 returns jsonb language plpgsql security definer set search_path = public, pg_temp
 as $$
@@ -279,8 +298,8 @@ begin
 end;
 $$;
 
-revoke all on function public.imposter_music_is_host(text), public.imposter_music_get_state(text), public.imposter_music_add_track(text, text, text, integer, integer), public.imposter_music_delete_track(text, uuid), public.imposter_music_prepare_round(text, uuid, uuid, text), public.imposter_music_set_ready(text), public.imposter_music_start_round(text), public.imposter_music_finish_round(text) from public;
-grant execute on function public.imposter_music_get_state(text), public.imposter_music_add_track(text, text, text, integer, integer), public.imposter_music_delete_track(text, uuid), public.imposter_music_prepare_round(text, uuid, uuid, text), public.imposter_music_set_ready(text), public.imposter_music_start_round(text), public.imposter_music_finish_round(text) to anon;
+revoke all on function public.imposter_music_is_host(text), public.imposter_music_get_state(text), public.imposter_music_add_track(text, text, text, integer, integer), public.imposter_music_delete_track(text, uuid), public.imposter_music_update_track(text, uuid, text, text, integer, integer), public.imposter_music_prepare_round(text, uuid, uuid, text), public.imposter_music_set_ready(text), public.imposter_music_start_round(text), public.imposter_music_finish_round(text) from public;
+grant execute on function public.imposter_music_get_state(text), public.imposter_music_add_track(text, text, text, integer, integer), public.imposter_music_delete_track(text, uuid), public.imposter_music_update_track(text, uuid, text, text, integer, integer), public.imposter_music_prepare_round(text, uuid, uuid, text), public.imposter_music_set_ready(text), public.imposter_music_start_round(text), public.imposter_music_finish_round(text) to anon;
 
 do $$ begin
   if exists (select 1 from pg_publication where pubname = 'supabase_realtime') and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'imposter_music_room') then
