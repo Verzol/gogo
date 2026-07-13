@@ -3672,7 +3672,7 @@ body.lucide-ready .nav-links a:focus-visible {
   position: relative;
   display: block;
   min-width: 0;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 5 / 4;
   overflow: hidden;
   border: 1.5px solid var(--ink);
   border-radius: 9px;
@@ -3690,7 +3690,7 @@ body.lucide-ready .nav-links a:focus-visible {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .photo-submission-pose > span {
@@ -5757,7 +5757,7 @@ body.lucide-ready .nav-links a:focus-visible {
 
   .photo-submission-pose,
   .photo-submission-upload {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 9 / 10;
   }
 
   .photo-submission-pose > span {

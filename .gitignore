@@ -1,4 +1,5 @@
 .agents/
 .history/
+supabase/
 AGENTS.md
 skills-lock.json
