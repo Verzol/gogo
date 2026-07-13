@@ -3973,9 +3973,11 @@ body.lucide-ready .nav-links a:focus-visible {
 
 .photo-vote-options button {
   display: grid;
+  grid-template-rows: 34px auto auto auto minmax(18px, auto);
   justify-items: center;
-  gap: 4px;
-  min-height: 112px;
+  align-content: start;
+  gap: 5px;
+  min-height: 164px;
   border: 2px solid var(--ink);
   border-radius: 12px;
   background: var(--paper);
@@ -3991,7 +3993,7 @@ body.lucide-ready .nav-links a:focus-visible {
   box-shadow: inset 0 0 0 3px var(--avocado);
 }
 
-.photo-vote-options button > span {
+.photo-vote-options .photo-vote-option-icon {
   display: grid;
   width: 34px;
   height: 34px;
@@ -4001,7 +4003,7 @@ body.lucide-ready .nav-links a:focus-visible {
   color: var(--pink-deep);
 }
 
-.photo-vote-options button.is-selected > span {
+.photo-vote-options button.is-selected .photo-vote-option-icon {
   background: var(--avocado);
   color: var(--paper);
 }
@@ -4011,28 +4013,40 @@ body.lucide-ready .nav-links a:focus-visible {
 }
 
 .photo-vote-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   border-radius: 999px;
   background: rgba(255, 253, 248, 0.88);
   padding: 3px 7px;
   font-size: 0.74rem;
   font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .photo-voter-list {
   display: flex;
+  width: 100%;
+  min-height: 38px;
+  align-items: center;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 3px;
+  gap: 5px;
   color: var(--ink-soft);
   font-size: 0.72rem;
   font-style: normal;
+  line-height: 1.25;
 }
 
-.photo-voter-list i {
-  border-radius: 999px;
-  background: rgba(44, 51, 35, 0.08);
-  padding: 2px 5px;
-  font-style: normal;
+.photo-voter-list img {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 1px 0 rgba(44, 51, 35, 0.18);
+  object-fit: cover;
 }
 
 .photo-vote-note {

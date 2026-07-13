@@ -581,7 +581,7 @@ games: [
     scoring: "Mỗi thành viên đội có ảnh được vote cao nhất nhận 1 điểm.",
     rules: [
       "Chia người chơi thành 3 đội để cả 5 dáng đều được phân bổ ngẫu nhiên.",
-      "Mỗi đội luôn có một bạn nữ trong nhóm Thảo, Mi và Linh; các thành viên còn lại được random vào đội.",
+      "Khi Quản trò random đội, Thảo, Mi và Linh được rải ngẫu nhiên vào ba đội khác nhau; chia thủ công vẫn hoàn toàn tự do.",
       "Mỗi đội bốc ngẫu nhiên 2 dáng. Cả 5 dáng đều xuất hiện và không đội nào trùng nguyên một cặp dáng.",
       "Mỗi đội có 7 phút để tạo dáng và chụp ảnh tại bãi biển, sau đó thành viên trong đội upload ảnh vào album chung của đội.",
       "Khi quản trò mở vote, mỗi người chơi chọn một đội mình thích nhất. Đội nhận nhiều phiếu nhất thắng."

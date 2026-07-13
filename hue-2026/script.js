@@ -2772,6 +2772,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let photoPreview = null;
     let lastTeamPhotosLoad = 0;
     let photoChallengeLoading = false;
+    let photoChallengeRealtime = null;
+    let photoChallengeRefreshTimer = 0;
+    let photoChallengeRefreshInFlight = false;
+    let photoChallengeRefreshQueued = false;
     let photoChallengeState = {
       teamCount: 2,
       voteStatus: "draft",
@@ -3298,6 +3302,31 @@ document.addEventListener("DOMContentLoaded", () => {
       photoChallengeState = normalizePhotoChallenge(payload);
     }
 
+    function schedulePhotoChallengeRefresh() {
+      photoChallengeRefreshQueued = true;
+      if (photoChallengeRefreshTimer) window.clearTimeout(photoChallengeRefreshTimer);
+      photoChallengeRefreshTimer = window.setTimeout(async () => {
+        photoChallengeRefreshTimer = 0;
+        if (photoChallengeRefreshInFlight) {
+          schedulePhotoChallengeRefresh();
+          return;
+        }
+        if (mount.hidden || !isPhotoChallenge()) {
+          photoChallengeRefreshQueued = false;
+          return;
+        }
+        photoChallengeRefreshQueued = false;
+        photoChallengeRefreshInFlight = true;
+        try {
+          await loadPhotoChallengeState({ silent: true });
+          render();
+        } finally {
+          photoChallengeRefreshInFlight = false;
+          if (photoChallengeRefreshQueued) schedulePhotoChallengeRefresh();
+        }
+      }, 100);
+    }
+
     function currentResults() {
       return new Map(gameState.results
         .filter(result => result.gameKey === activeGame.key)
@@ -3459,9 +3488,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const voteDetail = teamNumber => {
         const tally = tallies.get(teamNumber) || { voteCount: 0, voters: [] };
         const voters = tally.voters || [];
+        const voterAvatars = voters.map(voter => {
+          const member = memberMeta(voter);
+          return `<img src="${escapeHTML(member.avatar)}" alt="${escapeHTML(member.username)}" title="${escapeHTML(member.username)}" ${imgAttrs()}>`;
+        }).join("");
         return `
           <span class="photo-vote-count">${tally.voteCount} phiếu</span>
-          ${sessionToken() ? `<span class="photo-voter-list">${voters.length ? voters.map(voter => `<i>${escapeHTML(voter)}</i>`).join("") : "Chưa ai vote"}</span>` : ""}
+          ${sessionToken() ? `<span class="photo-voter-list"${voters.length ? ` aria-label="Đã vote: ${escapeHTML(voters.join(", "))}"` : ""}>${voters.length ? voterAvatars : "Chưa ai vote"}</span>` : ""}
         `;
       };
       const statusCopy = {
@@ -3486,7 +3519,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${Array.from({ length: teamCount }, (_, index) => index + 1)
                   .map(teamNumber => `
                     <button type="button" class="${photoChallengeState.myVote === teamNumber ? "is-selected" : ""}" data-photo-vote="${teamNumber}">
-                      <span>${photoChallengeState.myVote === teamNumber ? lucideIcon("check") : lucideIcon("heart")}</span>
+                      <span class="photo-vote-option-icon">${photoChallengeState.myVote === teamNumber ? lucideIcon("check") : lucideIcon("heart")}</span>
                       <strong>Đội ${teamNumber}</strong>
                       <small>${photoChallengeState.myVote === teamNumber ? "Đã chọn" : "Chọn đội này"}</small>
                       ${voteDetail(teamNumber)}
@@ -4199,7 +4232,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const women = ["thảo", "mi", "linh"]
           .map(username => players().find(player => player.username === username));
         if (effectiveTeamCount() !== 3 || women.some(player => !player)) {
-          setStatus("Ảnh Challenge cần đủ Thảo, Mi và Linh để mỗi đội có một bạn nữ.", "error");
+          setStatus("Random đội cần đủ Thảo, Mi và Linh để rải ngẫu nhiên vào ba đội.", "error");
           render();
           return;
         }
@@ -4424,6 +4457,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (client) {
+      photoChallengeRealtime = client.channel("photo-challenge-live")
+        .on("postgres_changes", {
+          event: "UPDATE",
+          schema: "public",
+          table: "photo_challenge_live_updates",
+          filter: "game_key=eq.anh-challenge-binh-minh"
+        }, schedulePhotoChallengeRefresh)
+        .subscribe(subscriptionStatus => {
+          if (subscriptionStatus === "CHANNEL_ERROR" && isPhotoChallenge() && !mount.hidden) {
+            setStatus("Không kết nối được cập nhật vote tức thì. Trang vẫn tự kiểm tra lại dữ liệu.", "error");
+          }
+        });
+
       imposterRealtime = client.channel("imposter-music-room")
         .on("postgres_changes", { event: "*", schema: "public", table: "imposter_music_room" }, async () => {
           if (activeGame?.key !== "who-is-the-imposter") return;
