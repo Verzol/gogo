@@ -2947,14 +2947,6 @@ document.addEventListener("DOMContentLoaded", () => {
       stopScheduledMusic();
     }
 
-    async function finishImposterRoundBeforeLeaving() {
-      if (!client || !isHost() || imposterMusic?.room?.status !== "playing") return;
-      const { data: payload, error } = await client.rpc("imposter_music_finish_round", {
-        p_session_token: sessionToken()
-      });
-      if (!error && payload) imposterMusic = payload;
-    }
-
     function startMusicPlayback(track, elapsed) {
       const videoId = youtubeVideoId(track?.youtubeUrl);
       const duration = Number(track?.durationSeconds || 20);
@@ -3690,7 +3682,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextGame = data.games.find(game => game.key === gameKey);
       if (!nextGame) return;
       if (activeGame?.key === "who-is-the-imposter" && nextGame.key !== "who-is-the-imposter") {
-        await finishImposterRoundBeforeLeaving();
         stopImposterMusicPlayback();
         imposterMusic = null;
         imposterMusicError = "";
@@ -3774,7 +3765,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (event.target.closest("[data-game-menu-close]")) {
         if (activeGame?.key === "who-is-the-imposter") {
-          await finishImposterRoundBeforeLeaving();
           stopImposterMusicPlayback();
           imposterMusic = null;
           imposterMusicError = "";
@@ -3851,7 +3841,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (error) setStatus(error.message || "Không bốc được ảnh tạo dáng.", "error");
         else {
           photoChallengeState = normalizePhotoChallenge(payload);
-          setStatus(drawTarget === "all" ? "Đã bốc 4 ảnh cho tất cả đội." : `Đã bốc 4 ảnh cho Đội ${drawTarget}.`, "ok");
+          const drawCount = drawTarget === "all" ? effectiveTeamCount() * Number(activeGame.photoPoseCount || 2) : Number(activeGame.photoPoseCount || 2);
+          setStatus(`Đã bốc ${drawCount} ảnh tạo dáng${drawTarget === "all" ? " cho tất cả đội" : ` cho Đội ${drawTarget}`}. Vote cũ đã được reset.`, "ok");
         }
         render();
         return;
@@ -4367,7 +4358,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function startDraftGame() {
       if (!client) {
         setDbError("Chưa cấu hình Supabase nên không tạo game được.");
-        return;
+        return false;
       }
 
       const { data: payload, error } = await client.rpc("spy_game_start_current", {
@@ -4378,12 +4369,13 @@ document.addEventListener("DOMContentLoaded", () => {
         alive: true
         }))
       });
-      if (error) {
+      if (error || !payload?.authenticated) {
         setDbError("Không tạo được game mới trong database.");
-        console.warn("Cannot start spy game:", error);
-        return;
+        console.warn("Cannot start spy game:", error || payload);
+        return false;
       }
       state = stateFromPayload(payload);
+      return true;
     }
 
     async function startCurrentGame() {
@@ -4552,8 +4544,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function applyWinLogic() {
       const killedSpies = state.assignments.filter(item => item.role === "spy" && !item.alive).length;
+      const aliveSpies = state.assignments.filter(item => item.role === "spy" && item.alive).length;
       if (killedSpies >= 2) state.winner = "villagers";
-      else if (state.round > 2) state.winner = state.tasksDone ? "spies" : "villagers";
+      else if (state.tasksDone && aliveSpies > 0) state.winner = "spies";
+      else if (state.round > 2) state.winner = "villagers";
       else state.winner = "";
     }
 
@@ -4680,6 +4674,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderHostView() {
       const tallyByUsername = new Map((state.voteTallies || []).map(tally => [tally.username, tally]));
+      const votingAvailable = state.status === "running" && !state.winner && state.round <= 2;
       return `
         <section class="spy-panel spy-host">
           <div class="spy-host-head">
@@ -4747,10 +4742,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <option value="3" ${state.round > 2 ? "selected" : ""}>Kết thúc vote</option>
                   </select>
                 </label>
-                <button class="spy-vote-switch ${state.votingOpen ? "is-on" : ""}" type="button" data-spy-action="${state.votingOpen ? "close-vote" : "open-vote"}" aria-pressed="${state.votingOpen ? "true" : "false"}">
-                  <span class="spy-vote-switch-track" aria-hidden="true"><span></span></span>
-                  <strong>${state.votingOpen ? `Đang mở vote vòng ${state.round}` : `Đang đóng vote vòng ${state.round}`}</strong>
-                </button>
+                ${votingAvailable ? `
+                  <button class="spy-vote-switch ${state.votingOpen ? "is-on" : ""}" type="button" data-spy-action="${state.votingOpen ? "close-vote" : "open-vote"}" aria-pressed="${state.votingOpen ? "true" : "false"}">
+                    <span class="spy-vote-switch-track" aria-hidden="true"><span></span></span>
+                    <strong>${state.votingOpen ? `Đang mở vote vòng ${state.round}` : `Đang đóng vote vòng ${state.round}`}</strong>
+                  </button>
+                ` : `<p class="spy-vote-finished">Đã kết thúc 2 vòng vote.</p>`}
                 <label><input type="checkbox" data-spy-tasks-done ${state.tasksDone ? "checked" : ""} disabled> Gián điệp xong nhiệm vụ</label>
                 <button type="button" data-spy-action="judge">${lucideIcon("scale")}Chốt kết quả</button>
               </div>
@@ -4867,8 +4864,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (action === "confirm-new") confirmNewGameOpen = true;
       if (action === "cancel-new") confirmNewGameOpen = false;
       if (action === "new") {
+        const previousState = state;
         draftNewGame();
         confirmNewGameOpen = false;
+        if (!(await startDraftGame())) state = previousState;
       }
       if (action === "toggle") {
         if (state.status === "running") await stopCurrentGame();
@@ -4923,7 +4922,6 @@ document.addEventListener("DOMContentLoaded", () => {
         state.voteRound = Math.min(state.round, 2);
         state.votingOpen = false;
         await persistSession();
-        await setVoting(false, state.voteRound);
         render();
         return;
       }

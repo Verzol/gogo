@@ -4671,6 +4671,13 @@ body.lucide-ready .nav-links a:focus-visible {
   color: var(--paper);
 }
 
+.spy-vote-finished {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
 .spy-round-box .spy-vote-switch {
   min-height: 40px;
   border: 2px solid var(--ink);
