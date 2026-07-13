@@ -566,10 +566,10 @@ games: [
     name: "Ảnh Challenge Bình Minh",
     occasion: "Sáng ngày 2",
     teaser: "Bốc dáng, chạy máy, chốt ảnh",
-    format: "2 hoặc 3 đội",
+    format: "3 đội",
     duration: "7 phút mỗi đội",
-    teamCount: 2,
-    teamCountOptions: [2, 3],
+    teamCount: 3,
+    teamCountOptions: [3],
     photoPoseCount: 2,
     poseImages: [
       "figures/games/photo/1.jpg",
@@ -580,8 +580,9 @@ games: [
     ],
     scoring: "Mỗi thành viên đội có ảnh được vote cao nhất nhận 1 điểm.",
     rules: [
-      "Chia người chơi thành 2 hoặc 3 đội theo cấu hình của quản trò.",
-      "Mỗi đội bốc ngẫu nhiên 2 trong bộ 5 ảnh tạo dáng và phải thực hiện đủ 2 dáng đã nhận.",
+      "Chia người chơi thành 3 đội để cả 5 dáng đều được phân bổ ngẫu nhiên.",
+      "Mỗi đội luôn có một bạn nữ trong nhóm Thảo, Mi và Linh; các thành viên còn lại được random vào đội.",
+      "Mỗi đội bốc ngẫu nhiên 2 dáng. Cả 5 dáng đều xuất hiện và không đội nào trùng nguyên một cặp dáng.",
       "Mỗi đội có 7 phút để tạo dáng và chụp ảnh tại bãi biển, sau đó thành viên trong đội upload ảnh vào album chung của đội.",
       "Khi quản trò mở vote, mỗi người chơi chọn một đội mình thích nhất. Đội nhận nhiều phiếu nhất thắng."
     ],

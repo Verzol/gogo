@@ -30,6 +30,32 @@ document.addEventListener("DOMContentLoaded", () => {
     "'": "&#39;"
   })[char]);
 
+  let toastDismissTimer = 0;
+  const dismissToast = () => {
+    if (toastDismissTimer) window.clearTimeout(toastDismissTimer);
+    document.getElementById("siteToast")?.remove();
+  };
+  const showToast = (message, kind = "success") => {
+    if (!message) return dismissToast();
+    dismissToast();
+    const toast = document.createElement("div");
+    toast.id = "siteToast";
+    toast.className = `site-toast is-${kind === "error" ? "error" : "success"}`;
+    toast.setAttribute("role", "status");
+    toast.innerHTML = `
+      <span>${lucideIcon(kind === "error" ? "circle-alert" : "circle-check")}</span>
+      <p>${escapeHTML(message)}</p>
+      <button type="button" data-site-toast-dismiss aria-label="Đóng thông báo">${lucideIcon("x")}</button>
+    `;
+    document.body.appendChild(toast);
+    renderLucideIcons();
+    toastDismissTimer = window.setTimeout(dismissToast, 5000);
+  };
+
+  document.addEventListener("click", event => {
+    if (event.target.closest("[data-site-toast-dismiss]")) dismissToast();
+  });
+
   const imgAttrs = ({ lazy = true } = {}) => `decoding="async"${lazy ? ' loading="lazy"' : ""}`;
 
   const blockLocationKeys = block => {
@@ -142,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const setError = message => {
       errorBox.textContent = message || "";
       errorBox.hidden = !message;
+      if (message) showToast(message, "error");
     };
 
     const saveSession = member => {
@@ -238,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       saveSession(row);
       modal.hidden = true;
+      showToast("Đã đăng nhập.");
     };
 
     const setInitialPassword = async () => {
@@ -261,6 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       saveSession(row);
       modal.hidden = true;
+      showToast("Đã lưu mật khẩu.");
     };
 
     const changeCurrentPassword = async () => {
@@ -290,6 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       saveSession(row);
       modal.hidden = true;
+      showToast("Đã đổi mật khẩu.");
     };
 
     form.addEventListener("submit", async event => {
@@ -335,7 +365,10 @@ document.addEventListener("DOMContentLoaded", () => {
       accountButton.focus();
     });
     cancel.addEventListener("click", closeModal);
-    logout.addEventListener("click", clearSession);
+    logout.addEventListener("click", () => {
+      clearSession();
+      showToast("Đã đăng xuất.");
+    });
     modal.addEventListener("click", event => {
       if (!event.target.closest("#authAccountSelect")) setAccountMenuOpen(false);
       if (event.target === modal) closeModal();
@@ -543,6 +576,7 @@ document.addEventListener("DOMContentLoaded", () => {
       status.textContent = text;
       status.dataset.kind = kind;
       status.hidden = !text;
+      if (text && (kind === "error" || kind === "ok")) showToast(text, kind === "error" ? "error" : "success");
     };
 
     const isMobileChat = () => window.matchMedia("(max-width: 560px)").matches;
@@ -628,6 +662,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setStatus(`Không xóa được tin nhắn: ${error.message || "kiểm tra SQL soft delete"}`, "error");
           } else {
             markMessageDeleted({ id: message.id });
+            setStatus("Đã xóa tin nhắn.", "ok");
           }
         });
     };
@@ -756,7 +791,10 @@ document.addEventListener("DOMContentLoaded", () => {
           .delete()
           .match({ message_id: messageId, user_id: currentUserId, emoji });
         if (error) setStatus("Không bỏ được reaction.", "error");
-        else removeReaction({ message_id: messageId, user_id: currentUserId, emoji });
+        else {
+          removeReaction({ message_id: messageId, user_id: currentUserId, emoji });
+          setStatus("Đã cập nhật reaction.", "ok");
+        }
         return;
       }
 
@@ -764,7 +802,10 @@ document.addEventListener("DOMContentLoaded", () => {
         .from(reactionTable)
         .insert({ message_id: messageId, user_id: currentUserId, emoji });
       if (error) setStatus("Không react được tin này.", "error");
-      else applyReaction({ message_id: messageId, user_id: currentUserId, emoji });
+      else {
+        applyReaction({ message_id: messageId, user_id: currentUserId, emoji });
+        setStatus("Đã cập nhật reaction.", "ok");
+      }
     };
 
     const openReactionPicker = item => {
@@ -1326,6 +1367,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderWeather(await fetchWeather(place, range, options), place);
       } catch (error) {
         body.dataset.loaded = "";
+        showToast("Không lấy được thời tiết. Kiểm tra mạng rồi thử lại.", "error");
         body.innerHTML = `
           <div class="weather-error">
             <strong>Không lấy được thời tiết.</strong>
@@ -1665,7 +1707,9 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadLeaderboard({ silent = false } = {}) {
       if (!client) {
         loading = false;
-        errorMessage = "Chưa cấu hình Supabase.";
+        const nextError = "Chưa cấu hình Supabase.";
+        if (errorMessage !== nextError) showToast(nextError, "error");
+        errorMessage = nextError;
         leaderboardState = { members: fallbackMembers, results: [] };
         render();
         return;
@@ -1680,7 +1724,9 @@ document.addEventListener("DOMContentLoaded", () => {
         : await client.rpc("trip_games_get_public_state");
       loading = false;
       if (error || (hasSession && !payload?.authenticated)) {
-        errorMessage = error ? "Chưa cài migration game hub trên Supabase." : "Phiên đăng nhập đã hết hạn.";
+        const nextError = error ? "Chưa cài migration game hub trên Supabase." : "Phiên đăng nhập đã hết hạn.";
+        if (errorMessage !== nextError) showToast(nextError, "error");
+        errorMessage = nextError;
         render({ animate: !silent });
       } else {
         errorMessage = "";
@@ -1773,6 +1819,7 @@ document.addEventListener("DOMContentLoaded", () => {
       element.textContent = message;
       element.dataset.kind = kind;
       element.hidden = !message;
+      if (message && (kind === "error" || kind === "ok")) showToast(message, kind === "error" ? "error" : "success");
     };
     const updateCount = (input, output, max) => {
       output.textContent = `${input.value.length}/${max}`;
@@ -2217,7 +2264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       closeConfessionReactionPickers();
       applyConfessionReaction(confessionId, reaction);
-      setStatus(confessionStatus, "");
+      setStatus(confessionStatus, "Đã cập nhật reaction.", "ok");
     };
     confessionList.addEventListener("click", event => {
       const addButton = event.target.closest("[data-confession-reaction-add]");
@@ -2825,6 +2872,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const setStatus = (message = "", kind = "") => {
       statusMessage = message;
       statusKind = kind;
+      if (message && (kind === "error" || kind === "ok")) showToast(message, kind === "error" ? "error" : "success");
     };
 
     const parseClock = value => {
@@ -3326,7 +3374,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="game-panel-heading">
             <div>
               <h3>Bộ ảnh tạo dáng</h3>
-              <p>Mỗi đội bốc ngẫu nhiên ${poseCount} trong 5 dáng dưới đây.</p>
+              <p>3 đội cùng bốc ${poseCount} dáng; cả 5 dáng dưới đây đều xuất hiện.</p>
             </div>
           </div>
           <div class="photo-pose-reference" aria-label="5 ảnh tạo dáng">
@@ -3557,6 +3605,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
       } catch (error) {
         photoError = error.message || "Không cập nhật được ảnh.";
+        setStatus(photoError, "error");
         return false;
       } finally {
         photoActionSaving = false;
@@ -3669,11 +3718,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderPhotoChallengeHostControls() {
       if (!isHost() || !isPhotoChallenge()) return "";
       const teamCount = effectiveTeamCount();
-      const poseCount = Number(activeGame.photoPoseCount || 2);
       const tallies = new Map(photoChallengeState.voteTallies.map(tally => [tally.teamNumber, tally]));
       const votingOpen = photoChallengeState.voteStatus === "open";
-      const hasSubmissions = photoSubmissionsExist();
-      const canChangeSetup = photoChallengeState.voteStatus === "draft" && !hasSubmissions;
       const voteLabel = votingOpen ? "Đang mở vote" : photoChallengeState.voteStatus === "closed" ? "Mở lại vote" : "Mở vote";
       return `
         <section class="game-menu-panel photo-host-controls">
@@ -3686,27 +3732,21 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="photo-host-setting">
             <div>
               <strong>Số đội</strong>
-              <span>Đổi số đội sẽ reset vote và bỏ assignment vượt quá số đội mới.</span>
+              <span>Game dùng 3 đội để phân bổ đủ 5 dáng, mỗi đội vẫn nộp đúng 2 ảnh.</span>
             </div>
             <div class="photo-team-count-switch" role="group" aria-label="Chọn số đội">
               ${(activeGame.teamCountOptions || [2, 3]).map(count => `
-                <button type="button" class="${teamCount === count ? "is-active" : ""}" data-photo-team-count="${count}" aria-pressed="${teamCount === count}" ${count !== teamCount && !canChangeSetup ? "disabled" : ""}>${count} đội</button>
+                <button type="button" class="${teamCount === count ? "is-active" : ""}" data-photo-team-count="${count}" aria-pressed="${teamCount === count}">${count} đội</button>
               `).join("")}
             </div>
           </div>
           <div class="photo-host-setting is-draws">
             <div>
               <strong>Bốc ảnh tạo dáng</strong>
-              <span>Mỗi lần bốc chọn ngẫu nhiên ${poseCount} trong 5 ảnh.</span>
+              <span>Bốc cả bộ: đủ 5 dáng, không đội nào trùng nguyên một cặp.</span>
             </div>
             <div class="photo-host-draw-actions">
-              <button type="button" class="is-primary" data-photo-draw="all" ${!canChangeSetup ? "disabled" : ""}>${lucideIcon("shuffle")} Bốc cho tất cả</button>
-              ${Array.from({ length: teamCount }, (_, index) => index + 1).map(teamNumber => {
-                const hasDraw = photoChallengeState.draws.filter(draw => draw.teamNumber === teamNumber).length === poseCount;
-                const teamHasSubmission = (teamPhotos.get(teamNumber) || []).some(Boolean);
-                const canDrawTeam = photoChallengeState.voteStatus === "draft" && !teamHasSubmission;
-                return `<button type="button" data-photo-draw="${teamNumber}" ${!canDrawTeam ? "disabled" : ""}>${lucideIcon("images")} ${hasDraw ? "Bốc lại" : "Bốc"} Đội ${teamNumber}</button>`;
-              }).join("")}
+              <button type="button" class="is-primary" data-photo-draw="all">${lucideIcon("shuffle")} ${photoChallengeState.draws.length ? "Bốc lại cả bộ" : "Bốc cả bộ"}</button>
             </div>
           </div>
           <div class="photo-host-setting is-voting">
@@ -3735,14 +3775,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderHostTeamManager() {
       const teamCount = effectiveTeamCount();
       if (!isHost() || !teamCount) return "";
-      if (isPhotoChallenge() && photoSubmissionsExist()) {
-        return `
-          <section class="game-menu-panel game-host-team-manager">
-            <div class="game-panel-heading"><div><h3>Quản lý đội hình</h3><p>Đội hình đã được khóa sau khi có ảnh nộp để bảo toàn quyền quản lý và đối chiếu ảnh.</p></div></div>
-            <div class="game-empty-state">Xóa toàn bộ ảnh nộp rồi bốc/thiết lập lại nếu cần đổi thành viên giữa các đội.</div>
-          </section>
-        `;
-      }
       const assignments = gameState.teams.filter(team => team.gameKey === activeGame.key);
       return `
         <section class="game-menu-panel game-host-team-manager">
@@ -3816,7 +3848,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <button class="game-menu-close" type="button" data-game-menu-close aria-label="Đóng menu game">${lucideIcon("x")}</button>
           </header>
-          ${statusMessage ? `<p class="game-menu-status is-${escapeHTML(statusKind || "ok")}" role="status">${escapeHTML(statusMessage)}</p>` : ""}
           ${loading ? `<div class="game-menu-loading" aria-label="Đang tải"><span></span><span></span><span></span></div>` : `
             <div class="game-menu-layout is-single">
               <div>${renderRules()}${renderTeams()}${renderPhotoChallengeBoard()}${renderPhotoChallengeVoting()}</div>
@@ -4021,8 +4052,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (error) setStatus(error.message || "Không bốc được ảnh tạo dáng.", "error");
         else {
           photoChallengeState = normalizePhotoChallenge(payload);
-          const drawCount = drawTarget === "all" ? effectiveTeamCount() * Number(activeGame.photoPoseCount || 2) : Number(activeGame.photoPoseCount || 2);
-          setStatus(`Đã bốc ${drawCount} ảnh tạo dáng${drawTarget === "all" ? " cho tất cả đội" : ` cho Đội ${drawTarget}`}. Vote cũ đã được reset.`, "ok");
+          setStatus("Đã bốc lại cả bộ dáng: đủ 5 dáng, không đội nào trùng nguyên một cặp. Vote cũ đã được reset.", "ok");
         }
         render();
         return;
@@ -4164,10 +4194,33 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       if (!event.target.closest("[data-random-teams]") || !effectiveTeamCount() || !isHost()) return;
-      const assignments = shuffle(players()).map((player, index) => ({
-        username: player.username,
-        teamNumber: (index % effectiveTeamCount()) + 1
-      }));
+      let assignments;
+      if (isPhotoChallenge()) {
+        const women = ["thảo", "mi", "linh"]
+          .map(username => players().find(player => player.username === username));
+        if (effectiveTeamCount() !== 3 || women.some(player => !player)) {
+          setStatus("Ảnh Challenge cần đủ Thảo, Mi và Linh để mỗi đội có một bạn nữ.", "error");
+          render();
+          return;
+        }
+        const teamOrder = shuffle([1, 2, 3]);
+        const protectedPlayers = new Set(women.map(player => player.username));
+        const remainingPlayers = shuffle(players().filter(player => !protectedPlayers.has(player.username)));
+        assignments = shuffle(women).map((player, index) => ({
+          username: player.username,
+          teamNumber: teamOrder[index]
+        }));
+        const remainingTeamOrder = shuffle(teamOrder);
+        assignments.push(...remainingPlayers.map((player, index) => ({
+          username: player.username,
+          teamNumber: remainingTeamOrder[index % remainingTeamOrder.length]
+        })));
+      } else {
+        assignments = shuffle(players()).map((player, index) => ({
+          username: player.username,
+          teamNumber: (index % effectiveTeamCount()) + 1
+        }));
+      }
       await saveTeamAssignments(assignments, "Đã random và lưu đội hình.");
     });
 

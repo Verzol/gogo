@@ -4699,18 +4699,73 @@ body.lucide-ready .nav-links a:focus-visible {
   opacity: 0.6;
 }
 
-.game-menu-status {
-  margin: 16px 0 0;
-  border-radius: 10px;
+.site-toast {
+  position: fixed;
+  top: calc(var(--nav-height) + 16px + env(safe-area-inset-top));
+  left: 50%;
+  z-index: 290;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  width: min(560px, calc(100vw - 28px));
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
   background: var(--avocado-pale);
-  padding: 10px 13px;
+  box-shadow: 5px 6px 0 rgba(44, 51, 35, 0.2);
   color: var(--ink);
-  font-weight: 800;
+  padding: 10px 10px 10px 13px;
+  transform: translateX(-50%);
+  animation: game-status-toast-in 0.2s ease-out;
 }
 
-.game-menu-status.is-error {
+.site-toast.is-success {
+  border-color: var(--avocado);
+  background: var(--avocado-pale);
+}
+
+.site-toast.is-error {
+  border-color: var(--pink-deep);
   background: var(--pink-pale);
   color: var(--pink-deep);
+}
+
+.site-toast > span {
+  display: grid;
+  place-items: center;
+}
+
+.site-toast > span .ui-icon {
+  width: 21px;
+  height: 21px;
+}
+
+.site-toast p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.site-toast button {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border: 1px solid rgba(44, 51, 35, 0.34);
+  border-radius: 50%;
+  background: rgba(255, 253, 248, 0.72);
+  color: inherit;
+  cursor: pointer;
+}
+
+.site-toast button:active {
+  transform: translateY(1px);
+}
+
+@keyframes game-status-toast-in {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
 }
 
 .game-menu-loading {
@@ -5854,7 +5909,8 @@ body.lucide-ready .nav-links a:focus-visible {
   .photo-draw-loading span,
   .team-photo-loading span,
   .game-menu-loading span,
-  .imposter-music-skeleton span {
+  .imposter-music-skeleton span,
+  .site-toast {
     animation: none;
   }
 
