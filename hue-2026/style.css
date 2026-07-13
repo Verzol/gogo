@@ -3198,6 +3198,24 @@ body.lucide-ready .nav-links a:focus-visible {
 .imposter-player-ready button, .imposter-round-actions button, .imposter-track-form > button { display: inline-flex; min-height: 42px; align-items: center; justify-content: center; gap: 7px; border: 2px solid var(--ink); border-radius: 999px; background: var(--avocado); padding: 8px 14px; color: var(--paper); font: inherit; font-weight: 900; white-space: nowrap; cursor: pointer; box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.14); }
 .imposter-player-ready button:disabled, .imposter-round-actions button:disabled { cursor: not-allowed; opacity: 0.55; }
 .imposter-player-ready button.is-ready:disabled { background: #858982; color: rgba(255, 253, 248, 0.92); opacity: 1; box-shadow: none; }
+.imposter-music-history { margin-top: 16px; border-top: 1px dashed rgba(44, 51, 35, 0.32); padding-top: 15px; }
+.imposter-music-history > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.imposter-music-history h4 { margin: 0; font-size: 1rem; }
+.imposter-music-history > div:first-child span, .imposter-music-history > p { margin: 4px 0 0; color: var(--ink-soft); font-size: 0.84rem; }
+.imposter-history-list { display: grid; gap: 10px; max-height: 540px; overflow: auto; margin-top: 10px; padding-right: 3px; }
+.imposter-history-card { border: 1.5px solid rgba(44, 51, 35, 0.24); border-radius: 11px; background: rgba(244, 235, 217, 0.48); padding: 11px; }
+.imposter-history-card header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.imposter-history-card header > span { border-radius: 999px; background: var(--gold-pale); padding: 3px 8px; font-size: 0.74rem; font-weight: 900; }
+.imposter-history-card header > span.is-finished { background: var(--avocado); color: var(--paper); }
+.imposter-history-card header > span.is-replaced { background: rgba(133, 137, 130, 0.22); color: var(--ink-soft); }
+.imposter-history-card p { margin: 8px 0; font-size: 0.85rem; }
+.imposter-history-card dl { display: grid; gap: 5px; margin: 0; }
+.imposter-history-card dl div { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 8px; font-size: 0.8rem; }
+.imposter-history-card dt { color: var(--ink-soft); font-weight: 800; }
+.imposter-history-card dd { display: grid; min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.imposter-history-card dd span { color: var(--ink-soft); }
+.imposter-history-card dd small { color: var(--ink-soft); font-size: 0.7rem; overflow-wrap: anywhere; }
+.imposter-history-card footer { margin-top: 9px; border-top: 1px dashed rgba(44, 51, 35, 0.2); padding-top: 8px; color: var(--ink-soft); font-size: 0.72rem; line-height: 1.45; }
 .imposter-player-ready button:active, .imposter-round-actions button:active, .imposter-track-form > button:active, .imposter-track-list button:active { transform: translateY(1px); }
 .imposter-host-status { justify-content: flex-start; background: var(--pink-pale); }
 .imposter-host-status strong { font-family: var(--font-doodle); font-size: 1.4rem; }

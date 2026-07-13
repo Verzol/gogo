@@ -1751,6 +1751,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let reflectionsState = null;
     let reflectionsLoading = false;
     let confessionMasonryFrame = null;
+    const confessionById = new Map();
 
     const isUuid = value => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value || "");
     const getAnonymousToken = () => {
@@ -1860,26 +1861,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderConfessionSkeleton = () => {
       confessionList.innerHTML = `<div class="confession-loading" aria-label="Đang tải confession"><span></span><span></span><span></span></div>`;
     };
-    const layoutConfessionMasonry = () => {
+    const layoutConfessionCard = card => {
       if (window.matchMedia("(max-width: 760px)").matches) {
-        confessionList.querySelectorAll(".confession-card").forEach(card => {
-          card.style.gridRowEnd = "";
-        });
+        card.style.gridRowEnd = "";
         return;
       }
       const styles = window.getComputedStyle(confessionList);
       const rowHeight = Number.parseFloat(styles.gridAutoRows) || 8;
       const rowGap = Number.parseFloat(styles.rowGap) || 0;
-      confessionList.querySelectorAll(".confession-card").forEach(card => {
-        // Measure the actual content, never the current grid span, so a card
-        // cannot grow itself on a later layout pass.
-        const contentBottom = Array.from(card.children)
-          .filter(child => !child.hidden)
-          .reduce((bottom, child) => Math.max(bottom, child.offsetTop + child.offsetHeight), 0);
-        const contentHeight = contentBottom + (Number.parseFloat(window.getComputedStyle(card).paddingBottom) || 0);
-        const span = Math.ceil((contentHeight + rowGap) / (rowHeight + rowGap));
-        card.style.gridRowEnd = `span ${Math.max(span, 1)}`;
-      });
+      // Measure the actual content, never the current grid span, so a card
+      // cannot grow itself on a later layout pass.
+      const contentBottom = Array.from(card.children)
+        .filter(child => !child.hidden)
+        .reduce((bottom, child) => Math.max(bottom, child.offsetTop + child.offsetHeight), 0);
+      const contentHeight = contentBottom + (Number.parseFloat(window.getComputedStyle(card).paddingBottom) || 0);
+      const span = Math.ceil((contentHeight + rowGap) / (rowHeight + rowGap));
+      card.style.gridRowEnd = `span ${Math.max(span, 1)}`;
+    };
+    const layoutConfessionMasonry = () => {
+      confessionList.querySelectorAll(".confession-card").forEach(layoutConfessionCard);
     };
     const scheduleConfessionMasonry = () => {
       window.cancelAnimationFrame(confessionMasonryFrame);
@@ -1930,12 +1930,15 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     const renderConfessions = rows => {
       if (!rows?.length) {
+        confessionById.clear();
         confessionList.innerHTML = `<div class="community-empty confession-empty"><span class="ui-icon" data-lucide="mail-open" aria-hidden="true"></span><p>Chưa có lời nhắn nào. Bạn mở hàng nhé?</p></div>`;
         renderLucideIcons();
         return;
       }
+      confessionById.clear();
+      rows.forEach(row => confessionById.set(String(row.id), row));
       confessionList.innerHTML = rows.map((row, index) => `
-        <article class="confession-card" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
+        <article class="confession-card" data-confession-id="${escapeHTML(row.id)}" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
           <div class="confession-card-sheet">
             <div class="confession-card-meta"><div class="confession-card-code"><strong>${escapeHTML(formatConfessionCode(row))}</strong><button class="confession-reaction-add" type="button" data-confession-reaction-add data-confession-id="${escapeHTML(row.id)}" aria-label="${getAuthMember()?.sessionToken ? "Thêm reaction" : "Đăng nhập để thả reaction"}">${lucideIcon("plus")}</button>${renderConfessionReactionPicker(row)}</div><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
             <p>${renderRichText(row.body)}</p>
@@ -2154,6 +2157,43 @@ document.addEventListener("DOMContentLoaded", () => {
         picker.closest(".confession-card")?.classList.toggle("is-reaction-picker-open", isOpen);
       });
     };
+    const renderConfessionReactionSummary = card => {
+      const confession = confessionById.get(card.dataset.confessionId);
+      const sheet = card.querySelector(".confession-card-sheet");
+      if (!confession || !sheet) return;
+      sheet.querySelector(".confession-reaction-summary")?.remove();
+      const summary = renderConfessionReactions(confession).trim();
+      if (summary) sheet.insertAdjacentHTML("beforeend", summary);
+      layoutConfessionCard(card);
+    };
+    const applyConfessionReaction = (confessionId, reaction) => {
+      const confession = confessionById.get(String(confessionId));
+      const username = reaction?.username;
+      const emoji = reaction?.emoji;
+      if (!confession || !username || !emoji) return;
+      const reactions = Array.isArray(confession.reactions) ? confession.reactions : [];
+      let group = reactions.find(item => item.emoji === emoji);
+      if (reaction.active) {
+        if (!group) {
+          group = { emoji, users: [] };
+          reactions.push(group);
+        }
+        if (!group.users.some(user => user.username === username)) {
+          group.users.push({
+            username,
+            displayName: getAuthMember()?.username === username
+              ? getAuthMember()?.displayName || username
+              : username
+          });
+        }
+      } else if (group) {
+        group.users = group.users.filter(user => user.username !== username);
+        if (!group.users.length) confession.reactions = reactions.filter(item => item !== group);
+      }
+      if (!confession.reactions) confession.reactions = reactions;
+      const card = confessionList.querySelector(`[data-confession-id="${CSS.escape(String(confessionId))}"]`);
+      if (card) renderConfessionReactionSummary(card);
+    };
     const toggleConfessionReaction = async (confessionId, emoji) => {
       const sessionToken = getAuthMember()?.sessionToken;
       if (!sessionToken) {
@@ -2166,7 +2206,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       setStatus(confessionStatus, "Đang cập nhật reaction...");
-      const { error } = await client.rpc("trip_confession_toggle_reaction", {
+      const { data: reaction, error } = await client.rpc("trip_confession_toggle_reaction", {
         p_session_token: sessionToken,
         p_confession_id: Number(confessionId),
         p_emoji: emoji
@@ -2176,8 +2216,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       closeConfessionReactionPickers();
+      applyConfessionReaction(confessionId, reaction);
       setStatus(confessionStatus, "");
-      await loadConfessions({ silent: true });
     };
     confessionList.addEventListener("click", event => {
       const addButton = event.target.closest("[data-confession-reaction-add]");
@@ -2701,6 +2741,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let imposterRealtime = null;
     let imposterServerOffset = 0;
     let imposterStartUiTimer = 0;
+    let imposterFinishSyncTimer = 0;
     let imposterRoundSaving = false;
     let imposterReadySaving = false;
 
@@ -2819,6 +2860,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }, Math.max(0, startsAt - Date.now()) + 20);
     }
 
+    function scheduleImposterFinishSync() {
+      window.clearTimeout(imposterFinishSyncTimer);
+      const room = imposterMusic?.room;
+      const startsAt = roomStartTimestamp(room);
+      const duration = Number(room?.durationSeconds || imposterMusic?.roundDurationSeconds || imposterMusic?.myTrack?.durationSeconds || 0);
+      if (activeGame?.key !== "who-is-the-imposter" || room?.status !== "playing" || startsAt === null || !duration) return;
+      imposterFinishSyncTimer = window.setTimeout(async () => {
+        if (activeGame?.key !== "who-is-the-imposter") return;
+        await loadImposterMusicState();
+        render();
+      }, Math.max(0, startsAt + duration * 1000 - Date.now()) + 100);
+    }
+
     function loadYoutubeApi() {
       if (window.YT?.Player) return Promise.resolve(window.YT);
       if (youtubeApiPromise) return youtubeApiPromise;
@@ -2886,6 +2940,20 @@ document.addEventListener("DOMContentLoaded", () => {
       scheduledMusicRound = 0;
     }
 
+    function stopImposterMusicPlayback() {
+      window.clearTimeout(imposterStartUiTimer);
+      window.clearTimeout(imposterFinishSyncTimer);
+      stopScheduledMusic();
+    }
+
+    async function finishImposterRoundBeforeLeaving() {
+      if (!client || !isHost() || imposterMusic?.room?.status !== "playing") return;
+      const { data: payload, error } = await client.rpc("imposter_music_finish_round", {
+        p_session_token: sessionToken()
+      });
+      if (!error && payload) imposterMusic = payload;
+    }
+
     function startMusicPlayback(track, elapsed) {
       const videoId = youtubeVideoId(track?.youtubeUrl);
       const duration = Number(track?.durationSeconds || 20);
@@ -2943,6 +3011,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadImposterMusicState() {
       if (!client || !sessionToken()) {
+        stopImposterMusicPlayback();
         imposterMusic = null;
         imposterMusicError = "Đăng nhập để nhận bài nhạc riêng của bạn.";
         return;
@@ -2952,9 +3021,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const { data: payload, error } = await client.rpc("imposter_music_get_state", { p_session_token: sessionToken() });
       imposterMusicLoading = false;
       if (error || !payload?.authenticated) {
+        stopImposterMusicPlayback();
         imposterMusicError = error?.message || "Không tải được phòng nhạc. Hãy chạy migration Imposter music.";
         return;
       }
+      if (imposterMusic?.room?.status === "playing" && payload.room?.status !== "playing") stopImposterMusicPlayback();
       imposterMusic = payload;
       if (payload.serverNow) {
         // Estimate server time at receipt to counter small device clock differences.
@@ -2963,6 +3034,7 @@ document.addEventListener("DOMContentLoaded", () => {
       imposterMusicError = "";
       scheduleMusicPlayback();
       scheduleImposterStartUiRefresh();
+      scheduleImposterFinishSync();
     }
 
     function renderImposterMusic() {
@@ -3004,6 +3076,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const playersForMusic = imposterMusic.players || [];
       const hostRound = imposterMusic.hostRound || {};
       const roundDuration = Number(imposterMusic.roundDurationSeconds || 0);
+      const history = imposterMusic.history || [];
       const roundControlsDisabled = isPlaying || imposterRoundSaving;
       const customSelect = (name, selectedValue, placeholder, options, disabled) => {
         const selected = options.find(option => option.value === selectedValue);
@@ -3046,6 +3119,46 @@ document.addEventListener("DOMContentLoaded", () => {
             <button type="submit">${lucideIcon("plus")} Thêm bài</button>
           </form>
           ${tracks.length ? `<div class="imposter-track-list">${tracks.map(track => `<div><span>${escapeHTML(track.label || "Bài chưa đặt tên")}</span><small>${Math.floor(track.startSeconds / 60)}:${String(track.startSeconds % 60).padStart(2, "0")}, ${track.durationSeconds}s</small><button type="button" data-imposter-delete-track="${escapeHTML(track.id)}" aria-label="Xóa ${escapeHTML(track.label || "bài nhạc")}">${lucideIcon("trash-2")}</button></div>`).join("")}</div>` : `<p class="game-empty-state">Thêm ít nhất hai bài để Quản trò chuẩn bị một vòng.</p>`}
+          ${renderImposterMusicHistory(history)}
+        </section>
+      `;
+    }
+
+    function formatImposterHistoryTime(value) {
+      const timestamp = new Date(value || "").getTime();
+      if (!Number.isFinite(timestamp)) return "Chưa có";
+      return new Intl.DateTimeFormat("vi-VN", { dateStyle: "short", timeStyle: "medium" }).format(new Date(timestamp));
+    }
+
+    function renderImposterMusicHistory(history) {
+      const statusLabels = {
+        prepared: "Đang chờ",
+        playing: "Đang phát",
+        finished: "Đã kết thúc",
+        replaced: "Đã thay vòng"
+      };
+      const finishReasonLabels = { manual: "Quản trò kết thúc", automatic: "Tự kết thúc", replaced: "Đổi vòng" };
+      if (!history.length) return `<section class="imposter-music-history"><h4>Lịch sử vòng chơi</h4><p>Chưa có vòng nào được lưu.</p></section>`;
+      return `
+        <section class="imposter-music-history">
+          <div><h4>Lịch sử vòng chơi</h4><span>${history.length} vòng</span></div>
+          <div class="imposter-history-list">
+            ${history.map(round => {
+              const commonTrack = round.commonTrack || {};
+              const imposterTrack = round.imposterTrack || {};
+              return `
+                <article class="imposter-history-card">
+                  <header><strong>Vòng ${Number(round.round || 0)}</strong><span class="is-${escapeHTML(round.status || "prepared")}">${escapeHTML(statusLabels[round.status] || "Không rõ")}</span></header>
+                  <p><b>Imposter:</b> ${escapeHTML(round.imposterUsername || "-")} · ${Number(round.playDurationSeconds || 0)} giây</p>
+                  <dl>
+                    <div><dt>Người thường</dt><dd><strong>${escapeHTML(commonTrack.label || "Bài chưa đặt tên")}</strong><span>${Number(commonTrack.startSeconds || 0)}s, ${Number(commonTrack.durationSeconds || 0)}s</span><small>${escapeHTML(commonTrack.youtubeUrl || "Không có link")}</small></dd></div>
+                    <div><dt>Imposter</dt><dd><strong>${escapeHTML(imposterTrack.label || "Bài chưa đặt tên")}</strong><span>${Number(imposterTrack.startSeconds || 0)}s, ${Number(imposterTrack.durationSeconds || 0)}s</span><small>${escapeHTML(imposterTrack.youtubeUrl || "Không có link")}</small></dd></div>
+                  </dl>
+                  <footer>Chuẩn bị: ${escapeHTML(formatImposterHistoryTime(round.preparedAt))} bởi ${escapeHTML(round.preparedBy || "-")} · Bắt đầu: ${escapeHTML(formatImposterHistoryTime(round.startsAt))} · Kết thúc: ${escapeHTML(formatImposterHistoryTime(round.finishedAt))}${round.finishedBy ? ` bởi ${escapeHTML(round.finishedBy)}` : ""}${round.finishReason ? ` (${escapeHTML(finishReasonLabels[round.finishReason] || round.finishReason)})` : ""}</footer>
+                </article>
+              `;
+            }).join("")}
+          </div>
         </section>
       `;
     }
@@ -3552,8 +3665,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function openGame(gameKey) {
-      activeGame = data.games.find(game => game.key === gameKey);
-      if (!activeGame) return;
+      const nextGame = data.games.find(game => game.key === gameKey);
+      if (!nextGame) return;
+      if (activeGame?.key === "who-is-the-imposter" && nextGame.key !== "who-is-the-imposter") {
+        await finishImposterRoundBeforeLeaving();
+        stopImposterMusicPlayback();
+        imposterMusic = null;
+        imposterMusicError = "";
+      }
+      activeGame = nextGame;
       // Switching cards closes the separate spy-room surface before opening the new game.
       document.getElementById("spyGame")?.setAttribute("hidden", "");
       setStatus("");
@@ -3631,6 +3751,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       if (event.target.closest("[data-game-menu-close]")) {
+        if (activeGame?.key === "who-is-the-imposter") {
+          await finishImposterRoundBeforeLeaving();
+          stopImposterMusicPlayback();
+          imposterMusic = null;
+          imposterMusicError = "";
+        }
         mount.hidden = true;
         document.getElementById("spyGame")?.setAttribute("hidden", "");
         activeGame = null;
@@ -3795,7 +3921,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (error) imposterMusicError = error.message || "Không kết thúc được lượt.";
         else {
           imposterMusic = payload;
-          stopScheduledMusic();
+          stopImposterMusicPlayback();
         }
         render();
         return;
