@@ -2821,6 +2821,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let uploadingPhotos = false;
     let photoActionSaving = false;
     let photoPreview = null;
+    let gameConfirmation = null;
     let lastTeamPhotosLoad = 0;
     let photoChallengeLoading = false;
     let photoChallengeRealtime = null;
@@ -3815,6 +3816,28 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }
 
+    function requestGameConfirmation({ title, message, confirmLabel, onConfirm }) {
+      gameConfirmation = { title, message, confirmLabel, onConfirm };
+      render();
+    }
+
+    function renderGameConfirmation() {
+      if (!gameConfirmation) return "";
+      return `
+        <div class="game-confirm" role="dialog" aria-modal="true" aria-labelledby="gameConfirmTitle">
+          <button class="game-confirm-backdrop" type="button" data-game-confirm-cancel aria-label="Hủy"></button>
+          <section class="game-confirm-box">
+            <h3 id="gameConfirmTitle">${escapeHTML(gameConfirmation.title)}</h3>
+            <p>${escapeHTML(gameConfirmation.message)}</p>
+            <div class="game-confirm-actions">
+              <button type="button" data-game-confirm-cancel>Hủy</button>
+              <button class="is-danger" type="button" data-game-confirm-accept>${escapeHTML(gameConfirmation.confirmLabel || "Xác nhận")}</button>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
     function renderHostResults() {
       if (!isHost() || ["truth-or-dare", "su-that-va-loi-noi-doi"].includes(activeGame?.key)) return "";
       const gameResults = currentResults();
@@ -3984,6 +4007,7 @@ document.addEventListener("DOMContentLoaded", () => {
           `}
         </div>
         ${renderPhotoPreview()}
+        ${renderGameConfirmation()}
       `;
       renderLucideIcons();
     }
@@ -4060,6 +4084,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     mount.addEventListener("click", async event => {
+      if (gameConfirmation) {
+        if (event.target.closest("[data-game-confirm-cancel]")) {
+          gameConfirmation = null;
+          render();
+          return;
+        }
+        if (event.target.closest("[data-game-confirm-accept]")) {
+          const onConfirm = gameConfirmation.onConfirm;
+          gameConfirmation = null;
+          render();
+          await onConfirm?.();
+          return;
+        }
+      }
       const scoreStepButton = event.target.closest("[data-score-step]");
       if (scoreStepButton) {
         const stepper = scoreStepButton.closest(".game-score-stepper");
@@ -4091,8 +4129,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const quickDeleteButton = event.target.closest("[data-photo-quick-delete-path]");
       if (quickDeleteButton) {
-        if (!window.confirm(`Xóa ${quickDeleteButton.dataset.photoQuickDeleteAlt || "ảnh này"}?`)) return;
-        await manageTeamPhoto("delete", { path: quickDeleteButton.dataset.photoQuickDeletePath || "" });
+        const alt = quickDeleteButton.dataset.photoQuickDeleteAlt || "ảnh này";
+        const path = quickDeleteButton.dataset.photoQuickDeletePath || "";
+        requestGameConfirmation({
+          title: "Xóa ảnh?",
+          message: `${alt} sẽ bị xóa khỏi album và không thể hoàn tác.`,
+          confirmLabel: "Xóa ảnh",
+          onConfirm: () => manageTeamPhoto("delete", { path })
+        });
         return;
       }
       const photoPreviewButton = event.target.closest("[data-photo-preview-src]");
@@ -4108,8 +4152,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       if (event.target.closest("[data-photo-delete]") && photoPreview?.path) {
-        if (!window.confirm("Xóa ảnh này khỏi album? Không thể hoàn tác.")) return;
-        await manageTeamPhoto("delete", { path: photoPreview.path });
+        const path = photoPreview.path;
+        requestGameConfirmation({
+          title: "Xóa ảnh?",
+          message: "Ảnh này sẽ bị xóa khỏi album và không thể hoàn tác.",
+          confirmLabel: "Xóa ảnh",
+          onConfirm: () => manageTeamPhoto("delete", { path })
+        });
         return;
       }
       const selectOption = event.target.closest("[data-select-option]");
@@ -4154,34 +4203,49 @@ document.addEventListener("DOMContentLoaded", () => {
       if (teamCountButton && isHost() && isPhotoChallenge()) {
         const nextCount = Number(teamCountButton.dataset.photoTeamCount);
         if (nextCount === effectiveTeamCount()) return;
-        if (!window.confirm(`Đổi sang ${nextCount} đội? Vote hiện tại sẽ được reset.`)) return;
-        const { data: payload, error } = await client.rpc("photo_challenge_set_team_count", {
-          p_session_token: sessionToken(),
-          p_team_count: nextCount
+        requestGameConfirmation({
+          title: `Đổi sang ${nextCount} đội?`,
+          message: "Đội hình, dáng đã bốc và toàn bộ phiếu vote hiện tại sẽ được reset.",
+          confirmLabel: "Đổi số đội",
+          onConfirm: async () => {
+            const { data: payload, error } = await client.rpc("photo_challenge_set_team_count", {
+              p_session_token: sessionToken(),
+              p_team_count: nextCount
+            });
+            if (error) setStatus(error.message || "Không đổi được số đội.", "error");
+            else {
+              photoChallengeState = normalizePhotoChallenge(payload);
+              await loadGameState();
+              await loadTeamPhotos();
+              setStatus(`Đã chuyển game sang ${nextCount} đội.`, "ok");
+            }
+            render();
+          }
         });
-        if (error) setStatus(error.message || "Không đổi được số đội.", "error");
-        else {
-          photoChallengeState = normalizePhotoChallenge(payload);
-          await loadGameState();
-          await loadTeamPhotos();
-          setStatus(`Đã chuyển game sang ${nextCount} đội.`, "ok");
-        }
-        render();
         return;
       }
       const drawButton = event.target.closest("[data-photo-draw]");
       if (drawButton && isHost() && isPhotoChallenge()) {
         const drawTarget = drawButton.dataset.photoDraw;
-        const { data: payload, error } = await client.rpc("photo_challenge_randomize_draws", {
-          p_session_token: sessionToken(),
-          p_team_number: drawTarget === "all" ? null : Number(drawTarget)
+        requestGameConfirmation({
+          title: photoChallengeState.draws.length ? "Bốc lại toàn bộ dáng?" : "Bốc toàn bộ dáng?",
+          message: photoChallengeState.draws.length
+            ? "Bộ dáng hiện tại và toàn bộ phiếu vote sẽ bị reset."
+            : "Mỗi đội sẽ nhận bộ dáng mới theo quy tắc phân bổ đủ 5 dáng.",
+          confirmLabel: photoChallengeState.draws.length ? "Bốc lại" : "Bốc dáng",
+          onConfirm: async () => {
+            const { data: payload, error } = await client.rpc("photo_challenge_randomize_draws", {
+              p_session_token: sessionToken(),
+              p_team_number: drawTarget === "all" ? null : Number(drawTarget)
+            });
+            if (error) setStatus(error.message || "Không bốc được ảnh tạo dáng.", "error");
+            else {
+              photoChallengeState = normalizePhotoChallenge(payload);
+              setStatus("Đã bốc lại cả bộ dáng: đủ 5 dáng, không đội nào trùng nguyên một cặp. Vote cũ đã được reset.", "ok");
+            }
+            render();
+          }
         });
-        if (error) setStatus(error.message || "Không bốc được ảnh tạo dáng.", "error");
-        else {
-          photoChallengeState = normalizePhotoChallenge(payload);
-          setStatus("Đã bốc lại cả bộ dáng: đủ 5 dáng, không đội nào trùng nguyên một cặp. Vote cũ đã được reset.", "ok");
-        }
-        render();
         return;
       }
       const voteStatusButton = event.target.closest("[data-photo-vote-status], [data-photo-vote-toggle]");
@@ -4203,18 +4267,24 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       if (event.target.closest("[data-photo-vote-reset]") && isHost() && isPhotoChallenge()) {
-        if (!window.confirm("Xóa toàn bộ phiếu và đưa vote về trạng thái chưa mở?")) return;
-        const { data: payload, error } = await client.rpc("photo_challenge_set_vote_status", {
-          p_session_token: sessionToken(),
-          p_status: "draft",
-          p_reset: true
+        requestGameConfirmation({
+          title: "Reset toàn bộ vote?",
+          message: "Tất cả phiếu sẽ bị xóa và album được mở lại để chỉnh ảnh.",
+          confirmLabel: "Reset vote",
+          onConfirm: async () => {
+            const { data: payload, error } = await client.rpc("photo_challenge_set_vote_status", {
+              p_session_token: sessionToken(),
+              p_status: "draft",
+              p_reset: true
+            });
+            if (error) setStatus(error.message || "Không reset được vote.", "error");
+            else {
+              photoChallengeState = normalizePhotoChallenge(payload);
+              setStatus("Đã xóa toàn bộ phiếu vote.", "ok");
+            }
+            render();
+          }
         });
-        if (error) setStatus(error.message || "Không reset được vote.", "error");
-        else {
-          photoChallengeState = normalizePhotoChallenge(payload);
-          setStatus("Đã xóa toàn bộ phiếu vote.", "ok");
-        }
-        render();
         return;
       }
       const voteButton = event.target.closest("[data-photo-vote]");
@@ -4258,24 +4328,38 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       if (event.target.closest("[data-imposter-start]")) {
-        const { data: payload, error } = await client.rpc("imposter_music_start_round", { p_session_token: sessionToken() });
-        if (error) imposterMusicError = error.message || "Không bắt đầu được vòng.";
-        else {
-          imposterMusic = payload;
-          scheduleMusicPlayback();
-          scheduleImposterStartUiRefresh();
-        }
-        render();
+        requestGameConfirmation({
+          title: "Bắt đầu lượt nhạc?",
+          message: "Mọi người sẽ nhận thời điểm bắt đầu chung sau 5 giây.",
+          confirmLabel: "Bắt đầu lượt",
+          onConfirm: async () => {
+            const { data: payload, error } = await client.rpc("imposter_music_start_round", { p_session_token: sessionToken() });
+            if (error) imposterMusicError = error.message || "Không bắt đầu được vòng.";
+            else {
+              imposterMusic = payload;
+              scheduleMusicPlayback();
+              scheduleImposterStartUiRefresh();
+            }
+            render();
+          }
+        });
         return;
       }
       if (event.target.closest("[data-imposter-finish]")) {
-        const { data: payload, error } = await client.rpc("imposter_music_finish_round", { p_session_token: sessionToken() });
-        if (error) imposterMusicError = error.message || "Không kết thúc được lượt.";
-        else {
-          imposterMusic = payload;
-          stopImposterMusicPlayback();
-        }
-        render();
+        requestGameConfirmation({
+          title: "Kết thúc lượt nhạc?",
+          message: "Nhạc sẽ dừng ngay cho tất cả người chơi và lượt này được chốt.",
+          confirmLabel: "Kết thúc lượt",
+          onConfirm: async () => {
+            const { data: payload, error } = await client.rpc("imposter_music_finish_round", { p_session_token: sessionToken() });
+            if (error) imposterMusicError = error.message || "Không kết thúc được lượt.";
+            else {
+              imposterMusic = payload;
+              stopImposterMusicPlayback();
+            }
+            render();
+          }
+        });
         return;
       }
       if (event.target.closest("[data-imposter-random]")) {
@@ -4304,51 +4388,70 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const deleteTrack = event.target.closest("[data-imposter-delete-track]");
       if (deleteTrack) {
-        const { data: payload, error } = await client.rpc("imposter_music_delete_track", {
-          p_session_token: sessionToken(), p_track_id: deleteTrack.dataset.imposterDeleteTrack
+        const trackId = deleteTrack.dataset.imposterDeleteTrack;
+        requestGameConfirmation({
+          title: "Xóa bài nhạc?",
+          message: "Bài nhạc này sẽ bị xóa khỏi danh sách và không thể khôi phục.",
+          confirmLabel: "Xóa bài",
+          onConfirm: async () => {
+            const { data: payload, error } = await client.rpc("imposter_music_delete_track", {
+              p_session_token: sessionToken(), p_track_id: trackId
+            });
+            if (error) imposterMusicError = error.message || "Không xóa được bài.";
+            else {
+              imposterMusic = payload;
+              editingImposterTrackId = "";
+            }
+            render();
+          }
         });
-        if (error) imposterMusicError = error.message || "Không xóa được bài.";
-        else {
-          imposterMusic = payload;
-          editingImposterTrackId = "";
-        }
-        render();
         return;
       }
       if (event.target.closest("[data-clear-teams]")) {
-        if (!window.confirm("Xóa toàn bộ đội hình của game này?")) return;
-        await saveTeamAssignments([], "Đã xóa đội hình.");
+        requestGameConfirmation({
+          title: "Xóa toàn bộ đội hình?",
+          message: "Tất cả thành viên sẽ trở về trạng thái chưa xếp đội.",
+          confirmLabel: "Xóa đội hình",
+          onConfirm: () => saveTeamAssignments([], "Đã xóa đội hình.")
+        });
         return;
       }
       if (!event.target.closest("[data-random-teams]") || !effectiveTeamCount() || !isHost()) return;
-      let assignments;
-      if (isPhotoChallenge()) {
-        const women = ["thảo", "mi", "linh"]
-          .map(username => players().find(player => player.username === username));
-        if (effectiveTeamCount() !== 3 || women.some(player => !player)) {
-          setStatus("Random đội cần đủ Thảo, Mi và Linh để rải ngẫu nhiên vào ba đội.", "error");
-          render();
-          return;
+      requestGameConfirmation({
+        title: "Random lại toàn bộ đội?",
+        message: "Đội hình hiện tại sẽ bị thay thế cho tất cả người chơi.",
+        confirmLabel: "Random đội",
+        onConfirm: async () => {
+          let assignments;
+          if (isPhotoChallenge()) {
+            const women = ["thảo", "mi", "linh"]
+              .map(username => players().find(player => player.username === username));
+            if (effectiveTeamCount() !== 3 || women.some(player => !player)) {
+              setStatus("Random đội cần đủ Thảo, Mi và Linh để rải ngẫu nhiên vào ba đội.", "error");
+              render();
+              return;
+            }
+            const teamOrder = shuffle([1, 2, 3]);
+            const protectedPlayers = new Set(women.map(player => player.username));
+            const remainingPlayers = shuffle(players().filter(player => !protectedPlayers.has(player.username)));
+            assignments = shuffle(women).map((player, index) => ({
+              username: player.username,
+              teamNumber: teamOrder[index]
+            }));
+            const remainingTeamOrder = shuffle(teamOrder);
+            assignments.push(...remainingPlayers.map((player, index) => ({
+              username: player.username,
+              teamNumber: remainingTeamOrder[index % remainingTeamOrder.length]
+            })));
+          } else {
+            assignments = shuffle(players()).map((player, index) => ({
+              username: player.username,
+              teamNumber: (index % effectiveTeamCount()) + 1
+            }));
+          }
+          await saveTeamAssignments(assignments, "Đã random và lưu đội hình.");
         }
-        const teamOrder = shuffle([1, 2, 3]);
-        const protectedPlayers = new Set(women.map(player => player.username));
-        const remainingPlayers = shuffle(players().filter(player => !protectedPlayers.has(player.username)));
-        assignments = shuffle(women).map((player, index) => ({
-          username: player.username,
-          teamNumber: teamOrder[index]
-        }));
-        const remainingTeamOrder = shuffle(teamOrder);
-        assignments.push(...remainingPlayers.map((player, index) => ({
-          username: player.username,
-          teamNumber: remainingTeamOrder[index % remainingTeamOrder.length]
-        })));
-      } else {
-        assignments = shuffle(players()).map((player, index) => ({
-          username: player.username,
-          teamNumber: (index % effectiveTeamCount()) + 1
-        }));
-      }
-      await saveTeamAssignments(assignments, "Đã random và lưu đội hình.");
+      });
     });
 
     mount.addEventListener("change", async event => {
@@ -4424,36 +4527,43 @@ document.addEventListener("DOMContentLoaded", () => {
           render();
           return;
         }
-        imposterMusic = {
-          ...imposterMusic,
-          hostRound: {
-            ...imposterMusic.hostRound,
-            commonTrackId,
-            imposterTrackId,
-            imposterUsername
+        requestGameConfirmation({
+          title: "Chuẩn bị vòng nhạc mới?",
+          message: "Lượt đang chờ trước đó sẽ bị thay bằng lựa chọn bài và Imposter mới.",
+          confirmLabel: "Chuẩn bị vòng",
+          onConfirm: async () => {
+            imposterMusic = {
+              ...imposterMusic,
+              hostRound: {
+                ...imposterMusic.hostRound,
+                commonTrackId,
+                imposterTrackId,
+                imposterUsername
+              }
+            };
+            imposterRoundSaving = true;
+            render();
+            try {
+              const { data: payload, error } = await client.rpc("imposter_music_prepare_round", {
+                p_session_token: sessionToken(),
+                p_common_track_id: commonTrackId,
+                p_imposter_track_id: imposterTrackId,
+                p_imposter_username: imposterUsername
+              });
+              if (error) imposterMusicError = error.message || "Không chuẩn bị được vòng.";
+              else {
+                imposterMusic = payload;
+                scheduledMusicRound = 0;
+                imposterMusicError = "";
+              }
+            } catch (error) {
+              imposterMusicError = error.message || "Không chuẩn bị được vòng.";
+            } finally {
+              imposterRoundSaving = false;
+              render();
+            }
           }
-        };
-        imposterRoundSaving = true;
-        render();
-        try {
-          const { data: payload, error } = await client.rpc("imposter_music_prepare_round", {
-            p_session_token: sessionToken(),
-            p_common_track_id: commonTrackId,
-            p_imposter_track_id: imposterTrackId,
-            p_imposter_username: imposterUsername
-          });
-          if (error) imposterMusicError = error.message || "Không chuẩn bị được vòng.";
-          else {
-            imposterMusic = payload;
-            scheduledMusicRound = 0;
-            imposterMusicError = "";
-          }
-        } catch (error) {
-          imposterMusicError = error.message || "Không chuẩn bị được vòng.";
-        } finally {
-          imposterRoundSaving = false;
-          render();
-        }
+        });
         return;
       }
       if (!event.target.matches("[data-team-editor]") || !effectiveTeamCount() || !isHost()) return;
@@ -4461,7 +4571,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const assignments = [...event.target.querySelectorAll("[data-team-player]")]
         .map(select => ({ username: select.dataset.teamPlayer, teamNumber: Number(select.value) }))
         .filter(assignment => assignment.username && assignment.teamNumber > 0);
-      await saveTeamAssignments(assignments, "Đã lưu đội hình chỉnh thủ công.");
+      requestGameConfirmation({
+        title: "Lưu đội hình mới?",
+        message: "Phân đội hiện tại sẽ được thay thế cho tất cả người chơi.",
+        confirmLabel: "Lưu đội hình",
+        onConfirm: () => saveTeamAssignments(assignments, "Đã lưu đội hình chỉnh thủ công.")
+      });
     });
 
     mount.addEventListener("submit", async event => {
@@ -4523,20 +4638,25 @@ document.addEventListener("DOMContentLoaded", () => {
         points: Number(form.get(`points-${player.username}`) || 0),
         note: String(form.get(`note-${player.username}`) || "").trim()
       }));
-      const submit = event.target.querySelector("[type='submit']");
-      submit.disabled = true;
-      const { data: payload, error } = await client.rpc("trip_game_save_results", {
-        p_session_token: sessionToken(),
-        p_game_key: activeGame.key,
-        p_results: results
+      requestGameConfirmation({
+        title: "Lưu kết quả game?",
+        message: "Điểm sẽ được cập nhật ngay vào bảng xếp hạng chung.",
+        confirmLabel: "Lưu kết quả",
+        onConfirm: async () => {
+          const { data: payload, error } = await client.rpc("trip_game_save_results", {
+            p_session_token: sessionToken(),
+            p_game_key: activeGame.key,
+            p_results: results
+          });
+          if (error) setStatus("Không lưu được kết quả.", "error");
+          else {
+            applyPayload(payload);
+            setStatus("Đã lưu kết quả và cập nhật bảng xếp hạng.", "ok");
+            window.dispatchEvent(new CustomEvent("hue-game-results-change", { detail: payload }));
+          }
+          render();
+        }
       });
-      if (error) setStatus("Không lưu được kết quả.", "error");
-      else {
-        applyPayload(payload);
-        setStatus("Đã lưu kết quả và cập nhật bảng xếp hạng.", "ok");
-        window.dispatchEvent(new CustomEvent("hue-game-results-change", { detail: payload }));
-      }
-      render();
     });
 
     window.addEventListener("hue-auth-change", async () => {
@@ -4583,9 +4703,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("keydown", event => {
-      if (event.key !== "Escape" || !photoPreview) return;
-      photoPreview = null;
-      render();
+      if (event.key !== "Escape") return;
+      if (gameConfirmation) {
+        gameConfirmation = null;
+        render();
+        return;
+      }
+      if (photoPreview) {
+        photoPreview = null;
+        render();
+      }
     });
 
     window.setInterval(async () => {
@@ -4626,7 +4753,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }));
 
     let dbError = client ? "" : "Chưa cấu hình Supabase.";
-    let confirmNewGameOpen = false;
+    let spyConfirmation = null;
     let gameResults = [];
     let spyRealtimeTimer = 0;
     let spyRealtimeRefreshInFlight = false;
@@ -4714,6 +4841,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setDbError(message) {
       dbError = message || "";
+    }
+
+    function requestSpyConfirmation({ title, message, confirmLabel, onConfirm }) {
+      spyConfirmation = { title, message, confirmLabel, onConfirm };
+      render();
     }
 
     async function loadGameState() {
@@ -5243,13 +5375,13 @@ document.addEventListener("DOMContentLoaded", () => {
               </section>
             ` : ""}
           </div>
-          <div class="spy-confirm" role="dialog" aria-modal="true" aria-labelledby="spyConfirmTitle" ${confirmNewGameOpen ? "" : "hidden"}>
+          <div class="spy-confirm" role="dialog" aria-modal="true" aria-labelledby="spyConfirmTitle" ${spyConfirmation ? "" : "hidden"}>
             <div class="spy-confirm-box">
-              <h4 id="spyConfirmTitle">Tạo game mới?</h4>
-              <p>Vai trò sẽ được random lại, trạng thái sống/chết và vòng chơi hiện tại sẽ reset.</p>
+              <h4 id="spyConfirmTitle">${escapeHTML(spyConfirmation?.title || "Xác nhận thao tác")}</h4>
+              <p>${escapeHTML(spyConfirmation?.message || "")}</p>
               <div class="spy-confirm-actions">
-                <button class="spy-confirm-cancel" type="button" data-spy-action="cancel-new">Hủy</button>
-                <button class="spy-confirm-create" type="button" data-spy-action="new">Tạo mới</button>
+                <button class="spy-confirm-cancel" type="button" data-spy-action="cancel-confirm">Hủy</button>
+                <button class="spy-confirm-create" type="button" data-spy-action="accept-confirm">${escapeHTML(spyConfirmation?.confirmLabel || "Xác nhận")}</button>
               </div>
             </div>
           </div>
@@ -5287,25 +5419,64 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.target.closest("[data-spy-close]")) {
         mount.hidden = true;
         document.getElementById("gameMenu")?.removeAttribute("hidden");
-        confirmNewGameOpen = false;
+        spyConfirmation = null;
         return;
       }
       const action = event.target.closest("[data-spy-action]")?.dataset.spyAction;
-      if (action === "confirm-new") confirmNewGameOpen = true;
-      if (action === "cancel-new") confirmNewGameOpen = false;
-      if (action === "new") {
-        const previousState = state;
-        draftNewGame();
-        confirmNewGameOpen = false;
-        if (!(await startDraftGame())) state = previousState;
+      if (action === "confirm-new") {
+        requestSpyConfirmation({
+          title: "Tạo game mới?",
+          message: "Vai trò sẽ được random lại, trạng thái sống/chết và vòng chơi hiện tại sẽ reset.",
+          confirmLabel: "Tạo mới",
+          onConfirm: async () => {
+            const previousState = state;
+            draftNewGame();
+            if (!(await startDraftGame())) state = previousState;
+          }
+        });
+        return;
+      }
+      if (action === "cancel-confirm") {
+        spyConfirmation = null;
+        render();
+        return;
+      }
+      if (action === "accept-confirm") {
+        const onConfirm = spyConfirmation?.onConfirm;
+        spyConfirmation = null;
+        await onConfirm?.();
+        render();
+        return;
       }
       if (action === "toggle") {
-        if (state.status === "running") await stopCurrentGame();
-        else await startCurrentGame();
+        const stopping = state.status === "running";
+        requestSpyConfirmation({
+          title: stopping ? "Dừng game?" : "Bắt đầu game?",
+          message: stopping
+            ? "Game sẽ dừng ngay và người chơi không thể tiếp tục vote."
+            : "Vai trò hiện tại sẽ được công khai theo trạng thái game đang chạy.",
+          confirmLabel: stopping ? "Dừng game" : "Bắt đầu",
+          onConfirm: () => stopping ? stopCurrentGame() : startCurrentGame()
+        });
+        return;
       }
-      if (action === "open-vote") await setVoting(true, Math.min(Number(state.round) || 1, 2));
-      if (action === "close-vote") await setVoting(false, Math.min(Number(state.round) || 1, 2));
-      if (action === "judge") applyWinLogic();
+      if (action === "open-vote" || action === "close-vote") {
+        await setVoting(action === "open-vote", Math.min(Number(state.round) || 1, 2));
+        render();
+        return;
+      }
+      if (action === "judge") {
+        requestSpyConfirmation({
+          title: "Chốt kết quả game?",
+          message: "Trạng thái thắng thua hiện tại sẽ được công bố cho tất cả người chơi.",
+          confirmLabel: "Chốt kết quả",
+          onConfirm: async () => {
+            applyWinLogic();
+            await persistSession();
+          }
+        });
+        return;
+      }
       const deleteId = event.target.closest("[data-spy-task-delete]")?.dataset.spyTaskDelete;
       const visibilityId = event.target.closest("[data-spy-task-visibility]")?.dataset.spyTaskVisibility;
       const killTarget = event.target.closest("[data-spy-kill-target]")?.dataset.spyKillTarget;
@@ -5322,15 +5493,28 @@ document.addEventListener("DOMContentLoaded", () => {
         render();
         return;
       }
-      if (action || deleteId || killTarget) {
-        if (deleteId && await deleteMission(deleteId)) state.missions = state.missions.filter(task => task.id !== deleteId);
-        if (killTarget) {
-          const target = assignmentOf(killTarget);
-          target.alive = false;
-          await persistPlayer(killTarget);
-        }
-        if (action === "judge") await persistSession();
-        render();
+      if (deleteId) {
+        requestSpyConfirmation({
+          title: "Xóa nhiệm vụ?",
+          message: "Nhiệm vụ này sẽ bị xóa khỏi game và không thể khôi phục.",
+          confirmLabel: "Xóa nhiệm vụ",
+          onConfirm: async () => {
+            if (await deleteMission(deleteId)) state.missions = state.missions.filter(task => task.id !== deleteId);
+          }
+        });
+        return;
+      }
+      if (killTarget) {
+        requestSpyConfirmation({
+          title: `Loại ${killTarget}?`,
+          message: "Người chơi này sẽ bị đánh dấu đã chết và các phiếu liên quan bị xóa.",
+          confirmLabel: "Loại người chơi",
+          onConfirm: async () => {
+            const target = assignmentOf(killTarget);
+            target.alive = false;
+            await persistPlayer(killTarget);
+          }
+        });
       }
     });
 
@@ -5348,11 +5532,19 @@ document.addEventListener("DOMContentLoaded", () => {
       if (taskTitleId && task) task.title = event.target.value.trim();
       if (taskDoneId && task) task.done = event.target.checked;
       if (event.target.matches("[data-spy-round]")) {
-        state.round = Number(event.target.value);
-        state.voteRound = Math.min(state.round, 2);
-        state.votingOpen = false;
-        await persistSession();
-        render();
+        const nextRound = Number(event.target.value);
+        if (nextRound === state.round) return;
+        requestSpyConfirmation({
+          title: nextRound > state.round ? `Chuyển sang vòng ${nextRound}?` : `Quay lại vòng ${nextRound}?`,
+          message: "Vote đang mở sẽ đóng. Hãy chắc rằng quản trò đã chốt xong trạng thái của vòng hiện tại.",
+          confirmLabel: "Đổi vòng",
+          onConfirm: async () => {
+            state.round = nextRound;
+            state.voteRound = Math.min(nextRound, 2);
+            state.votingOpen = false;
+            await persistSession();
+          }
+        });
         return;
       }
       if (voteTarget) {
@@ -5385,19 +5577,23 @@ document.addEventListener("DOMContentLoaded", () => {
           points: Number(form.get(`points-${item.username}`) || 0),
           note: String(form.get(`note-${item.username}`) || "").trim()
         }));
-        const submit = event.target.querySelector("[type='submit']");
-        submit.disabled = true;
-        const { data: payload, error } = await client.rpc("trip_game_save_results", {
-          p_session_token: sessionToken(),
-          p_game_key: "spy-game",
-          p_results: results
+        requestSpyConfirmation({
+          title: "Lưu kết quả game?",
+          message: "Điểm sẽ được cập nhật ngay vào bảng xếp hạng chung.",
+          confirmLabel: "Lưu kết quả",
+          onConfirm: async () => {
+            const { data: payload, error } = await client.rpc("trip_game_save_results", {
+              p_session_token: sessionToken(),
+              p_game_key: "spy-game",
+              p_results: results
+            });
+            if (error) setDbError("Không lưu được kết quả.");
+            else {
+              gameResults = payload?.results || results;
+              window.dispatchEvent(new CustomEvent("hue-game-results-change", { detail: payload }));
+            }
+          }
         });
-        if (error) setDbError("Không lưu được kết quả.");
-        else {
-          gameResults = payload?.results || results;
-          window.dispatchEvent(new CustomEvent("hue-game-results-change", { detail: payload }));
-        }
-        render();
         return;
       }
       if (!event.target.matches("[data-spy-task-form]")) return;
@@ -5436,8 +5632,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 5000);
 
     document.addEventListener("keydown", event => {
-      if (event.key !== "Escape" || !confirmNewGameOpen) return;
-      confirmNewGameOpen = false;
+      if (event.key !== "Escape" || !spyConfirmation) return;
+      spyConfirmation = null;
       render();
     });
   };

@@ -4328,6 +4328,79 @@ body.lucide-ready .nav-links a:focus-visible {
   padding: 20px;
 }
 
+.game-confirm {
+  position: fixed;
+  inset: 0;
+  z-index: 310;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.game-confirm-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(44, 51, 35, 0.42);
+  cursor: default;
+}
+
+.game-confirm-box {
+  position: relative;
+  z-index: 1;
+  width: min(390px, 100%);
+  display: grid;
+  gap: 10px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--paper);
+  padding: 18px;
+  box-shadow: 6px 7px 0 rgba(44, 51, 35, 0.2);
+}
+
+.game-confirm-box h3,
+.game-confirm-box p {
+  margin: 0;
+}
+
+.game-confirm-box h3 {
+  font-family: var(--font-doodle);
+  font-size: 1.35rem;
+}
+
+.game-confirm-box p {
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.game-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.game-confirm-actions button {
+  min-height: 38px;
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 7px 12px;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.game-confirm-actions button.is-danger {
+  background: var(--pink-deep);
+  color: var(--paper);
+}
+
+.game-confirm-actions button:active {
+  transform: translateY(1px);
+}
+
 .photo-preview-backdrop {
   position: absolute;
   inset: 0;
