@@ -3157,8 +3157,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="imposter-music-head">
             <div>
               <span class="imposter-music-kicker">Phòng nhạc đồng bộ</span>
-              <h3>${isPlaybackStarted ? "Nhạc đang chạy" : isPlaying ? "Nhạc sắp bắt đầu" : isPrepared ? "Chờ mọi người sẵn sàng" : "Chưa có vòng nhạc"}</h3>
-              <p>${isPlaybackStarted ? "Mỗi máy sẽ vào bài theo cùng mốc thời gian." : isPlaying ? "Quản trò đã bắt đầu đếm ngược. Nhạc sẽ chạy sau 5 giây." : isMusicHost ? "Người chơi sẽ bấm Sẵn sàng tại đây trước khi bạn phát nhạc." : "Bấm Sẵn sàng để cấp quyền phát nhạc cho trình duyệt của bạn."}</p>
+              <h3>${isPlaybackStarted ? "Nhạc đang chạy" : isPlaying ? "Nhạc sắp bắt đầu" : isPrepared ? "Chờ Quản trò bắt đầu" : "Chưa có vòng nhạc"}</h3>
+              <p>${isPlaybackStarted ? "Mỗi máy sẽ vào bài theo cùng mốc thời gian." : isPlaying ? "Quản trò đã bắt đầu đếm ngược. Nhạc sẽ chạy sau 5 giây." : isMusicHost ? "Bạn có thể bắt đầu bất cứ lúc nào; trạng thái sẵn sàng giúp biết máy nào đã cấp quyền phát nhạc." : "Bấm Sẵn sàng để cấp quyền phát cho trình duyệt của bạn."}</p>
             </div>
             <strong class="imposter-music-round">Vòng ${room.round || 0}</strong>
           </div>
@@ -3184,6 +3184,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const hostRound = imposterMusic.hostRound || {};
       const roundDuration = Number(imposterMusic.roundDurationSeconds || 0);
       const history = imposterMusic.history || [];
+      const readyByUsername = new Map((imposterMusic.readyPlayers || []).map(player => [player.username, player]));
       const roundControlsDisabled = isPlaying || imposterRoundSaving;
       const isTrackLocked = track => (isPrepared || isPlaying) && [hostRound.commonTrackId, hostRound.imposterTrackId].includes(track.id);
       const customSelect = (name, selectedValue, placeholder, options, disabled) => {
@@ -3207,6 +3208,16 @@ document.addEventListener("DOMContentLoaded", () => {
         <section class="game-menu-panel imposter-music-manager">
           <div class="game-panel-heading"><div><h3>Quản lý phòng nhạc</h3><p>${roundDuration ? `Cả nhóm sẽ nghe ${roundDuration} giây, theo đoạn nhạc ngắn hơn.` : "Chọn hai bài riêng, chọn imposter, rồi phát cho cả nhóm."}</p></div></div>
           <div class="imposter-host-status"><strong>${imposterMusic.readyCount || 0}/${imposterMusic.playerCount || 0}</strong><span>người chơi đã sẵn sàng</span></div>
+          <section class="imposter-ready-roster" aria-label="Trạng thái sẵn sàng của người chơi">
+            <div><strong>Trạng thái sẵn sàng</strong><span>Quản trò vẫn có thể bắt đầu lượt dù chưa đủ người.</span></div>
+            <div class="imposter-ready-people">
+              ${playersForMusic.map(player => {
+                const member = memberMeta(player.username);
+                const ready = readyByUsername.has(player.username);
+                return `<span class="${ready ? "is-ready" : "is-waiting"}" title="${escapeHTML(player.username)}: ${ready ? "đã sẵn sàng" : "chưa sẵn sàng"}"><img src="${escapeHTML(member.avatar)}" alt="${escapeHTML(player.username)}" ${imgAttrs()}><b>${escapeHTML(player.username)}</b><em>${ready ? lucideIcon("check") : lucideIcon("clock-3")}${ready ? "Sẵn sàng" : "Chưa sẵn sàng"}</em></span>`;
+              }).join("")}
+            </div>
+          </section>
           <form class="imposter-round-form" data-imposter-round-form>
             <label><span>Nhạc cho người thường</span>${customSelect("commonTrack", hostRound.commonTrackId, "Chọn bài", trackChoices, roundControlsDisabled)}</label>
             <label><span>Nhạc cho imposter</span>${customSelect("imposterTrack", hostRound.imposterTrackId, "Chọn bài khác", trackChoices, roundControlsDisabled)}</label>
@@ -3931,7 +3942,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="game-panel-heading">
             <div>
               <h3>Quản lý đội hình</h3>
-              <p>Random nhanh hoặc chọn đội thủ công cho từng người.</p>
+              <p>${isPhotoChallenge() ? "Có thể đổi đội bất kỳ lúc nào. Khi đội thay đổi, phiếu vote sẽ tự reset để kết quả luôn công bằng." : "Random nhanh hoặc chọn đội thủ công cho từng người."}</p>
             </div>
             <button type="button" data-random-teams>${lucideIcon("shuffle")} ${assignments.length ? "Random lại" : "Random đội"}</button>
           </div>
@@ -5236,6 +5247,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderHostView() {
       const tallyByUsername = new Map((state.voteTallies || []).map(tally => [tally.username, tally]));
+      const votedPlayers = new Set((state.voteTallies || []).flatMap(tally => tally.voters || []));
       const votingAvailable = state.status === "running" && !state.winner && state.round <= 2;
       return `
         <section class="spy-panel spy-host">
@@ -5262,6 +5274,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   const tally = tallyByUsername.get(item.username);
                   const voteCount = Number(tally?.count || 0);
                   const voters = tally?.voters || [];
+                  const hasVoted = votedPlayers.has(item.username);
                   return `
                     <div class="spy-player-row ${!item.alive ? "is-dead" : ""}">
                       <img src="${escapeHTML(meta.avatar)}" alt="${escapeHTML(item.username)}" ${imgAttrs()}>
@@ -5273,6 +5286,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       <div class="spy-player-votes">
                         <span>${voteCount} phiếu</span>
                         <small>${voters.length ? `Từ: ${voters.map(escapeHTML).join(", ")}` : "Chưa có phiếu"}</small>
+                        <small class="spy-player-vote-status ${hasVoted ? "is-voted" : ""}">${hasVoted ? "Đã gửi phiếu" : "Chưa gửi phiếu"}</small>
                       </div>
                       <button class="spy-kill-button" type="button" data-spy-kill-target="${escapeHTML(item.username)}" ${!item.alive ? "disabled" : ""}>Loại</button>
                     </div>
