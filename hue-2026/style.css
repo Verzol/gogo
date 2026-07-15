@@ -3223,14 +3223,16 @@ body.lucide-ready .nav-links a:focus-visible {
 .imposter-ready-roster > div:first-child { display: grid; gap: 3px; }
 .imposter-ready-roster > div:first-child span { color: var(--ink-soft); font-size: 0.82rem; line-height: 1.35; }
 .imposter-ready-people { display: flex; flex-wrap: wrap; gap: 8px; }
-.imposter-ready-people > span { display: grid; grid-template-columns: 30px auto; grid-template-areas: "avatar name" "avatar status"; align-items: center; column-gap: 7px; min-width: 142px; border: 1px solid rgba(44, 51, 35, 0.2); border-radius: 10px; background: var(--paper); padding: 7px 9px; }
+.imposter-ready-people > span { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; grid-template-areas: "avatar name role" "avatar status role"; align-items: center; column-gap: 7px; min-width: 142px; border: 1px solid rgba(44, 51, 35, 0.2); border-radius: 10px; background: var(--paper); padding: 7px 9px; }
 .imposter-ready-people img { grid-area: avatar; width: 30px; height: 30px; border: 1.5px solid var(--ink); border-radius: 50%; object-fit: cover; }
 .imposter-ready-people b { grid-area: name; min-width: 0; overflow: hidden; font-size: 0.8rem; line-height: 1.1; text-overflow: ellipsis; white-space: nowrap; }
 .imposter-ready-people em { grid-area: status; display: inline-flex; align-items: center; gap: 3px; color: var(--ink-soft); font-size: 0.68rem; font-style: normal; line-height: 1.2; }
 .imposter-ready-people em svg { width: 12px; height: 12px; }
+.imposter-ready-role { grid-area: role; border: 1px solid rgba(155, 75, 93, 0.42); border-radius: 999px; background: var(--pink-pale); padding: 3px 6px; color: #9b4b5d; font-size: 0.61rem; font-style: normal; font-weight: 900; letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap; }
 .imposter-ready-people > span.is-ready { border-color: rgba(111, 138, 86, 0.65); background: var(--avocado-pale); }
 .imposter-ready-people > span.is-ready em { color: #47643a; font-weight: 800; }
 .imposter-ready-people > span.is-waiting { opacity: 0.75; }
+.imposter-ready-people > span.is-imposter { border-color: rgba(155, 75, 93, 0.45); box-shadow: inset 0 0 0 1px rgba(155, 75, 93, 0.08); }
 .imposter-round-form, .imposter-track-form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
 .imposter-track-form { grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) minmax(100px, 0.75fr) minmax(120px, 0.85fr); align-items: end; border-top: 1px dashed rgba(44, 51, 35, 0.32); padding-top: 15px; }
 .imposter-track-form h4 { grid-column: 1 / -1; margin: 0; font-size: 1rem; }
@@ -3253,10 +3255,13 @@ body.lucide-ready .nav-links a:focus-visible {
 .imposter-track-form input[type="number"]::-webkit-inner-spin-button,
 .imposter-track-form input[type="number"]::-webkit-outer-spin-button { margin: 0; -webkit-appearance: none; }
 .imposter-track-form input::placeholder { color: rgba(90, 99, 75, 0.7); opacity: 1; }
-.imposter-round-actions { display: flex; grid-column: 1 / -1; flex-wrap: wrap; gap: 8px; }
-.imposter-round-actions button:first-child { background: var(--paper); color: var(--ink); }
-.imposter-round-actions .imposter-start { background: var(--pink-deep); }
-.imposter-round-actions .imposter-finish { background: var(--gold); color: var(--ink); }
+.imposter-round-actions { display: flex; grid-column: 1 / -1; flex-wrap: wrap; gap: 7px; }
+.imposter-round-actions button { min-height: 40px; padding: 7px 12px; }
+.imposter-round-actions .imposter-random { background: var(--paper); color: var(--ink); }
+.imposter-round-actions .imposter-save { background: var(--avocado); color: var(--paper); }
+.imposter-round-actions .imposter-open { background: var(--gold); color: var(--ink); }
+.imposter-round-actions .imposter-start { background: var(--pink-deep); color: var(--paper); }
+.imposter-round-actions .imposter-finish { background: var(--ink); color: var(--paper); }
 .imposter-track-list { display: grid; gap: 7px; margin-top: 14px; }
 .imposter-track-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 10px; border-radius: 10px; background: rgba(244, 235, 217, 0.65); padding: 8px 9px; }
 .imposter-track-row > span { overflow: hidden; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }

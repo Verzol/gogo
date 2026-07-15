@@ -3132,7 +3132,12 @@ document.addEventListener("DOMContentLoaded", () => {
         imposterMusicError = error?.message || "Không tải được phòng nhạc. Hãy chạy migration Imposter music.";
         return;
       }
-      if (imposterMusic?.room?.status === "playing" && payload.room?.status !== "playing") stopImposterMusicPlayback();
+      const previousRoom = imposterMusic?.room;
+      if (
+        previousRoom
+        && ["prepared", "playing"].includes(previousRoom.status)
+        && (payload.room?.round !== previousRoom.round || !["prepared", "playing"].includes(payload.room?.status))
+      ) stopImposterMusicPlayback();
       imposterMusic = payload;
       if (payload.serverNow) {
         // Estimate server time at receipt to counter small device clock differences.
@@ -3157,8 +3162,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="imposter-music-head">
             <div>
               <span class="imposter-music-kicker">Phòng nhạc đồng bộ</span>
-              <h3>${isPlaybackStarted ? "Nhạc đang chạy" : isPlaying ? "Nhạc sắp bắt đầu" : isPrepared ? "Chờ Quản trò bắt đầu" : "Chưa có vòng nhạc"}</h3>
-              <p>${isPlaybackStarted ? "Mỗi máy sẽ vào bài theo cùng mốc thời gian." : isPlaying ? "Quản trò đã bắt đầu đếm ngược. Nhạc sẽ chạy sau 5 giây." : isMusicHost ? "Bạn có thể bắt đầu bất cứ lúc nào; trạng thái sẵn sàng giúp biết máy nào đã cấp quyền phát nhạc." : "Bấm Sẵn sàng để cấp quyền phát cho trình duyệt của bạn."}</p>
+              <h3>${isPlaybackStarted ? "Nhạc đang chạy" : isPlaying ? "Nhạc sắp bắt đầu" : isPrepared ? "Chờ Quản trò bắt đầu" : room.status === "draft" && isMusicHost ? "Đã lưu lựa chọn vòng" : "Chưa có vòng nhạc"}</h3>
+              <p>${isPlaybackStarted ? "Mỗi máy sẽ vào bài theo cùng mốc thời gian." : isPlaying ? "Quản trò đã bắt đầu đếm ngược. Nhạc sẽ chạy sau 5 giây." : isPrepared ? (isMusicHost ? "Người chơi đang cấp quyền phát nhạc. Bạn có thể bắt đầu bất cứ lúc nào." : "Bấm Sẵn sàng để cấp quyền phát cho trình duyệt của bạn.") : isMusicHost ? "Random hoặc chọn tay, lưu lựa chọn rồi mở lượt cho người chơi." : "Quản trò đang chuẩn bị nhạc cho vòng tiếp theo."}</p>
             </div>
             <strong class="imposter-music-round">Vòng ${room.round || 0}</strong>
           </div>
@@ -3177,6 +3182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderImposterMusicManager() {
       if (activeGame?.key !== "who-is-the-imposter" || !imposterMusic?.isHost) return "";
       const room = imposterMusic.room || { status: "idle" };
+      const isDraft = room.status === "draft";
       const isPrepared = room.status === "prepared";
       const isPlaying = room.status === "playing";
       const tracks = imposterMusic.tracks || [];
@@ -3185,8 +3191,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const roundDuration = Number(imposterMusic.roundDurationSeconds || 0);
       const history = imposterMusic.history || [];
       const readyByUsername = new Map((imposterMusic.readyPlayers || []).map(player => [player.username, player]));
-      const roundControlsDisabled = isPlaying || imposterRoundSaving;
-      const isTrackLocked = track => (isPrepared || isPlaying) && [hostRound.commonTrackId, hostRound.imposterTrackId].includes(track.id);
+      const readyPhase = isPrepared || isPlaying;
+      const roundControlsDisabled = readyPhase || imposterRoundSaving;
+      const isTrackLocked = track => (isDraft || readyPhase) && [hostRound.commonTrackId, hostRound.imposterTrackId].includes(track.id);
       const customSelect = (name, selectedValue, placeholder, options, disabled) => {
         const selected = options.find(option => option.value === selectedValue);
         return `
@@ -3206,27 +3213,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const playerChoices = playersForMusic.map(player => ({ value: player.username, label: player.username }));
       return `
         <section class="game-menu-panel imposter-music-manager">
-          <div class="game-panel-heading"><div><h3>Quản lý phòng nhạc</h3><p>${roundDuration ? `Cả nhóm sẽ nghe ${roundDuration} giây, theo đoạn nhạc ngắn hơn.` : "Chọn hai bài riêng, chọn imposter, rồi phát cho cả nhóm."}</p></div></div>
-          <div class="imposter-host-status"><strong>${imposterMusic.readyCount || 0}/${imposterMusic.playerCount || 0}</strong><span>người chơi đã sẵn sàng</span></div>
-          <section class="imposter-ready-roster" aria-label="Trạng thái sẵn sàng của người chơi">
-            <div><strong>Trạng thái sẵn sàng</strong><span>Quản trò vẫn có thể bắt đầu lượt dù chưa đủ người.</span></div>
-            <div class="imposter-ready-people">
-              ${playersForMusic.map(player => {
-                const member = memberMeta(player.username);
-                const ready = readyByUsername.has(player.username);
-                return `<span class="${ready ? "is-ready" : "is-waiting"}" title="${escapeHTML(player.username)}: ${ready ? "đã sẵn sàng" : "chưa sẵn sàng"}"><img src="${escapeHTML(member.avatar)}" alt="${escapeHTML(player.username)}" ${imgAttrs()}><b>${escapeHTML(player.username)}</b><em>${ready ? lucideIcon("check") : lucideIcon("clock-3")}${ready ? "Sẵn sàng" : "Chưa sẵn sàng"}</em></span>`;
-              }).join("")}
-            </div>
-          </section>
+          <div class="game-panel-heading"><div><h3>Quản lý phòng nhạc</h3><p>${isDraft ? "Lựa chọn đã được lưu. Mở lượt để người chơi thấy nút Sẵn sàng." : readyPhase ? `Lượt đang hoạt động: ${roundDuration} giây, theo đoạn nhạc ngắn hơn.` : "Random hoặc chọn tay, lưu lựa chọn, rồi mới mở lượt cho người chơi sẵn sàng."}</p></div></div>
+          ${readyPhase ? `
+            <div class="imposter-host-status"><strong>${imposterMusic.readyCount || 0}/${imposterMusic.playerCount || 0}</strong><span>người chơi đã sẵn sàng</span></div>
+            <section class="imposter-ready-roster" aria-label="Trạng thái sẵn sàng của người chơi">
+              <div><strong>Trạng thái sẵn sàng</strong><span>Chỉ hiện sau khi Quản trò mở lượt; bạn vẫn có thể phát nhạc khi chưa đủ người.</span></div>
+              <div class="imposter-ready-people">
+                ${playersForMusic.map(player => {
+                  const member = memberMeta(player.username);
+                  const ready = readyByUsername.has(player.username);
+                  const isImposter = player.username === hostRound.imposterUsername;
+                  return `<span class="${ready ? "is-ready" : "is-waiting"} ${isImposter ? "is-imposter" : ""}" title="${escapeHTML(player.username)}: ${isImposter ? "Imposter, " : ""}${ready ? "đã sẵn sàng" : "chưa sẵn sàng"}"><img src="${escapeHTML(member.avatar)}" alt="${escapeHTML(player.username)}" ${imgAttrs()}><b>${escapeHTML(player.username)}</b><em>${ready ? lucideIcon("check") : lucideIcon("clock-3")}${ready ? "Sẵn sàng" : "Chưa sẵn sàng"}</em>${isImposter ? `<i class="imposter-ready-role">Imposter</i>` : ""}</span>`;
+                }).join("")}
+              </div>
+            </section>
+          ` : ""}
           <form class="imposter-round-form" data-imposter-round-form>
             <label><span>Nhạc cho người thường</span>${customSelect("commonTrack", hostRound.commonTrackId, "Chọn bài", trackChoices, roundControlsDisabled)}</label>
             <label><span>Nhạc cho imposter</span>${customSelect("imposterTrack", hostRound.imposterTrackId, "Chọn bài khác", trackChoices, roundControlsDisabled)}</label>
             <label><span>Imposter</span>${customSelect("imposter", hostRound.imposterUsername, "Random hoặc chọn người", playerChoices, roundControlsDisabled)}</label>
             <div class="imposter-round-actions">
-              <button type="button" data-imposter-random ${tracks.length < 2 || roundControlsDisabled ? "disabled" : ""}>${lucideIcon("shuffle")} Random vòng</button>
-              <button type="submit" ${tracks.length < 2 || roundControlsDisabled ? "disabled" : ""}>${lucideIcon("music-2")} ${imposterRoundSaving ? "Đang chuẩn bị..." : isPrepared ? "Đổi vòng" : "Bắt đầu ván mới"}</button>
-              ${isPrepared ? `<button class="imposter-start" type="button" data-imposter-start>${lucideIcon("radio")} Bắt đầu sau 5 giây</button>` : ""}
-              ${isPlaying ? `<button class="imposter-finish" type="button" data-imposter-finish>${lucideIcon("square")} Kết thúc lượt</button>` : ""}
+              <button class="imposter-random" type="button" data-imposter-random title="Random và lưu vòng mới" ${tracks.length < 2 || !playersForMusic.length || imposterRoundSaving ? "disabled" : ""}>${lucideIcon("shuffle")} Random</button>
+              ${!readyPhase ? `<button class="imposter-save" type="submit" title="${isDraft ? "Lưu lại lựa chọn" : "Lưu lựa chọn vòng"}" ${tracks.length < 2 || !playersForMusic.length || imposterRoundSaving ? "disabled" : ""}>${lucideIcon("save")} ${imposterRoundSaving ? "Đang lưu..." : "Lưu"}</button>` : ""}
+              ${isDraft ? `<button class="imposter-open" type="button" data-imposter-open title="Cho người chơi vào lượt và bấm Sẵn sàng" ${imposterRoundSaving ? "disabled" : ""}>${lucideIcon("headphones")} Mở lượt</button>` : ""}
+              ${isPrepared ? `<button class="imposter-start" type="button" data-imposter-start title="Phát nhạc đồng bộ sau 5 giây" ${imposterRoundSaving ? "disabled" : ""}>${lucideIcon("radio")} Phát nhạc</button>` : ""}
+              ${readyPhase ? `<button class="imposter-finish" type="button" data-imposter-finish title="Dừng lượt đang hoạt động" ${imposterRoundSaving ? "disabled" : ""}>${lucideIcon("square")} Dừng</button>` : ""}
             </div>
           </form>
           <form class="imposter-track-form" data-imposter-track-form>
@@ -4344,45 +4355,108 @@ document.addEventListener("DOMContentLoaded", () => {
           message: "Mọi người sẽ nhận thời điểm bắt đầu chung sau 5 giây.",
           confirmLabel: "Bắt đầu lượt",
           onConfirm: async () => {
-            const { data: payload, error } = await client.rpc("imposter_music_start_round", { p_session_token: sessionToken() });
-            if (error) imposterMusicError = error.message || "Không bắt đầu được vòng.";
-            else {
-              imposterMusic = payload;
-              scheduleMusicPlayback();
-              scheduleImposterStartUiRefresh();
-            }
+            imposterRoundSaving = true;
             render();
+            try {
+              const { data: payload, error } = await client.rpc("imposter_music_start_round", { p_session_token: sessionToken() });
+              if (error) imposterMusicError = error.message || "Không bắt đầu được vòng.";
+              else {
+                imposterMusic = payload;
+                scheduleMusicPlayback();
+                scheduleImposterStartUiRefresh();
+              }
+            } catch (error) {
+              imposterMusicError = error.message || "Không bắt đầu được vòng.";
+            } finally {
+              imposterRoundSaving = false;
+              render();
+            }
+          }
+        });
+        return;
+      }
+      if (event.target.closest("[data-imposter-open]")) {
+        requestGameConfirmation({
+          title: "Mở lượt sẵn sàng?",
+          message: "Người chơi sẽ nhận vai trò, thấy nút Sẵn sàng và lượt này được ghi vào lịch sử.",
+          confirmLabel: "Mở lượt",
+          onConfirm: async () => {
+            imposterRoundSaving = true;
+            render();
+            try {
+              const { data: payload, error } = await client.rpc("imposter_music_open_round", { p_session_token: sessionToken() });
+              if (error) imposterMusicError = error.message || "Không mở được lượt.";
+              else {
+                imposterMusic = payload;
+                imposterMusicError = "";
+              }
+            } catch (error) {
+              imposterMusicError = error.message || "Không mở được lượt.";
+            } finally {
+              imposterRoundSaving = false;
+              render();
+            }
           }
         });
         return;
       }
       if (event.target.closest("[data-imposter-finish]")) {
         requestGameConfirmation({
-          title: "Kết thúc lượt nhạc?",
-          message: "Nhạc sẽ dừng ngay cho tất cả người chơi và lượt này được chốt.",
-          confirmLabel: "Kết thúc lượt",
+          title: "Dừng lượt nhạc?",
+          message: "Nhạc sẽ dừng ngay, trạng thái Sẵn sàng được xóa và lượt đang hoạt động được chốt vào lịch sử.",
+          confirmLabel: "Dừng lượt",
           onConfirm: async () => {
-            const { data: payload, error } = await client.rpc("imposter_music_finish_round", { p_session_token: sessionToken() });
-            if (error) imposterMusicError = error.message || "Không kết thúc được lượt.";
-            else {
-              imposterMusic = payload;
-              stopImposterMusicPlayback();
-            }
+            imposterRoundSaving = true;
             render();
+            try {
+              const { data: payload, error } = await client.rpc("imposter_music_finish_round", { p_session_token: sessionToken() });
+              if (error) imposterMusicError = error.message || "Không kết thúc được lượt.";
+              else {
+                imposterMusic = payload;
+                stopImposterMusicPlayback();
+              }
+            } catch (error) {
+              imposterMusicError = error.message || "Không kết thúc được lượt.";
+            } finally {
+              imposterRoundSaving = false;
+              render();
+            }
           }
         });
         return;
       }
       if (event.target.closest("[data-imposter-random]")) {
-        const form = mount.querySelector("[data-imposter-round-form]");
         const tracks = imposterMusic?.tracks || [];
         const playersForMusic = imposterMusic?.players || [];
-        if (!form || tracks.length < 2 || !playersForMusic.length) return;
-        const picks = shuffle(tracks).slice(0, 2);
-        setImposterSelectValue(form, "commonTrack", picks[0].id);
-        setImposterSelectValue(form, "imposterTrack", picks[1].id);
-        setImposterSelectValue(form, "imposter", playersForMusic[randomIndex(playersForMusic.length)].username);
-        imposterMusicError = "";
+        if (tracks.length < 2 || !playersForMusic.length || imposterRoundSaving) return;
+        const randomizeRound = async () => {
+          imposterRoundSaving = true;
+          render();
+          try {
+            const { data: payload, error } = await client.rpc("imposter_music_randomize_round", { p_session_token: sessionToken() });
+            if (error) imposterMusicError = error.message || "Không random được vòng.";
+            else {
+              imposterMusic = payload;
+              stopImposterMusicPlayback();
+              imposterMusicError = "";
+            }
+          } catch (error) {
+            imposterMusicError = error.message || "Không random được vòng.";
+          } finally {
+            imposterRoundSaving = false;
+            render();
+          }
+        };
+        if (["prepared", "playing"].includes(imposterMusic?.room?.status)) {
+          requestGameConfirmation({
+            title: "Random vòng mới?",
+            message: "Lượt hiện tại sẽ dừng, toàn bộ trạng thái Sẵn sàng được xóa và lựa chọn mới sẽ được lưu ngay.",
+            confirmLabel: "Random vòng",
+            onConfirm: randomizeRound
+          });
+        } else {
+          await randomizeRound();
+        }
         return;
       }
       const editTrack = event.target.closest("[data-imposter-edit-track]");
@@ -4539,9 +4613,9 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         requestGameConfirmation({
-          title: "Chuẩn bị vòng nhạc mới?",
-          message: "Lượt đang chờ trước đó sẽ bị thay bằng lựa chọn bài và Imposter mới.",
-          confirmLabel: "Chuẩn bị vòng",
+          title: "Lưu lựa chọn vòng?",
+          message: "Lượt hiện tại sẽ dừng, trạng thái Sẵn sàng được xóa. Người chơi chỉ thấy vai trò sau khi bạn mở lượt.",
+          confirmLabel: "Lưu lựa chọn",
           onConfirm: async () => {
             imposterMusic = {
               ...imposterMusic,
@@ -4555,20 +4629,20 @@ document.addEventListener("DOMContentLoaded", () => {
             imposterRoundSaving = true;
             render();
             try {
-              const { data: payload, error } = await client.rpc("imposter_music_prepare_round", {
+              const { data: payload, error } = await client.rpc("imposter_music_save_draft", {
                 p_session_token: sessionToken(),
                 p_common_track_id: commonTrackId,
                 p_imposter_track_id: imposterTrackId,
                 p_imposter_username: imposterUsername
               });
-              if (error) imposterMusicError = error.message || "Không chuẩn bị được vòng.";
+              if (error) imposterMusicError = error.message || "Không lưu được lựa chọn vòng.";
               else {
                 imposterMusic = payload;
                 scheduledMusicRound = 0;
                 imposterMusicError = "";
               }
             } catch (error) {
-              imposterMusicError = error.message || "Không chuẩn bị được vòng.";
+              imposterMusicError = error.message || "Không lưu được lựa chọn vòng.";
             } finally {
               imposterRoundSaving = false;
               render();
