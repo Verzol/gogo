@@ -5,6 +5,7 @@ const TRIP_DATA = {
   subtitle: "3 ngày 2 đêm rong ruổi đuổi nhau ở Huế",
   dateRange: "16-20/07 · Thứ 5 đến Thứ 2",
   intro: "3 ngày lượn lờ từ Đại Nội ra tới biển, mục tiêu ăn sập Huế và có những kỷ niệm đẹp together. Let's goooo!",
+  heroCountdownAt: "2026-07-17T05:30:00+07:00",
   reflectionOpensAt: "2026-07-19T00:00:00+07:00",
 
   // ---------- THÀNH VIÊN ----------

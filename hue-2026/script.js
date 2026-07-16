@@ -1426,9 +1426,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("heroIntro").textContent = data.intro;
 
   const heroCountdown = document.getElementById("heroCountdown");
-  const heroCountdownNote = document.getElementById("heroCountdownNote");
+  const heroCountdownArrived = document.getElementById("heroCountdownArrived");
   if (heroCountdown) {
-    const targetTime = new Date("2026-07-16T05:30:00+07:00").getTime();
+    const targetTime = new Date(data.heroCountdownAt || "2026-07-17T05:30:00+07:00").getTime();
+    const countdownBox = heroCountdown.closest(".bp-countdown");
     const pad = value => String(value).padStart(2, "0");
     const countdownParts = {
       days: heroCountdown.querySelector('[data-countdown-part="days"]'),
@@ -1441,15 +1442,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (countdownParts[key]) countdownParts[key].textContent = pad(value);
       });
     };
+    const showCountdownArrival = () => {
+      countdownBox?.classList.add("is-complete");
+      heroCountdown.setAttribute("aria-hidden", "true");
+      if (heroCountdownArrived) heroCountdownArrived.hidden = false;
+    };
     const renderCountdown = () => {
       const remaining = targetTime - Date.now();
       if (remaining <= 0) {
         setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        if (heroCountdownNote) {
-          heroCountdownNote.hidden = false;
-          heroCountdownNote.textContent = "Đã tới giờ có mặt tại Huế";
-        }
-        return;
+        showCountdownArrival();
+        return false;
       }
 
       const totalSeconds = Math.floor(remaining / 1000);
@@ -1458,10 +1461,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
       setCountdown({ days, hours, minutes, seconds });
+      return true;
     };
 
-    renderCountdown();
-    window.setInterval(renderCountdown, 1000);
+    if (renderCountdown()) {
+      const countdownTimer = window.setInterval(() => {
+        if (!renderCountdown()) window.clearInterval(countdownTimer);
+      }, 1000);
+    }
   }
 
   // ---- Hero Stickers (Images 1.png - 10.png) ----
