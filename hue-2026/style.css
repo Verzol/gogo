@@ -1405,6 +1405,83 @@ body.lucide-ready .nav-links a:focus-visible {
   margin-bottom: 0;
 }
 
+/* A small scrapbook card that sends the group to the shared photo album. */
+.photo-album-link {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 11px;
+  width: min(100%, 372px);
+  min-height: 68px;
+  margin: 0 0 22px;
+  padding: 10px 14px 10px 11px;
+  border: 1.5px solid rgba(44, 51, 35, 0.52);
+  border-radius: 11px;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 94% 12%, rgba(231, 173, 182, 0.8), transparent 29%),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.98), rgba(221, 229, 209, 0.82));
+  box-shadow: 4px 5px 0 rgba(44, 51, 35, 0.17);
+  transform: rotate(1deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.photo-album-link:hover,
+.photo-album-link:focus-visible {
+  background:
+    radial-gradient(circle at 94% 12%, rgba(244, 211, 216, 0.96), transparent 31%),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.99), rgba(221, 229, 209, 0.96));
+  box-shadow: 6px 8px 0 rgba(44, 51, 35, 0.16);
+  transform: translateY(-2px) rotate(0deg);
+}
+
+.photo-album-link:active {
+  box-shadow: 2px 3px 0 rgba(44, 51, 35, 0.17);
+  transform: translateY(1px) rotate(1deg);
+}
+
+.photo-album-link__icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(197, 106, 120, 0.3);
+  border-radius: 9px;
+  color: var(--pink-deep);
+  background: rgba(255, 253, 248, 0.78);
+}
+
+.photo-album-link__icon svg,
+.photo-album-link__arrow svg {
+  width: 19px;
+  height: 19px;
+  stroke-width: 2.25;
+}
+
+.photo-album-link__copy {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.photo-album-link__copy strong {
+  font-family: var(--font-doodle);
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.photo-album-link__copy small {
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.photo-album-link__arrow {
+  display: grid;
+  place-items: center;
+  color: var(--avocado);
+}
+
 @media (max-width: 900px) {
   .hero-inner { justify-content: center; }
   .hero-collage { max-width: 560px; }
@@ -1416,6 +1493,7 @@ body.lucide-ready .nav-links a:focus-visible {
   .hero-title { font-size: clamp(2.8rem, 13vw, 4rem); }
   .hero-subtitle { max-width: 100%; }
   .boarding-pass { max-width: 100%; }
+  .photo-album-link { width: 100%; min-height: 62px; margin-bottom: 18px; }
   .bp-main { padding: 16px 16px; }
   .bp-meta { flex-wrap: wrap; gap: 10px 22px; }
   .bp-code { font-size: 1.6rem; }
