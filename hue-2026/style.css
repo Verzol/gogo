@@ -8136,6 +8136,7 @@ a:focus-visible, button:focus-visible {
 .reflection-composer { position: relative; isolation: isolate; max-width: 790px; margin: 0 auto 34px; padding: 24px; background: radial-gradient(circle at 95% 0%, rgba(242, 200, 208, 0.42), transparent 24%), rgba(255, 253, 248, 0.84); }
 .reflection-composer.is-locked > :not(.reflection-form-veil) { filter: blur(2.4px); opacity: 0.52; pointer-events: none; user-select: none; }
 .reflection-form-veil { position: absolute; inset: 0; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 8px; padding: 26px; color: var(--ink); text-align: center; }
+.reflection-form-veil[hidden] { display: none; }
 .reflection-form-veil > div { display: grid; justify-items: center; }
 .reflection-form-veil .ui-icon { width: 30px; height: 30px; color: var(--avocado); filter: drop-shadow(1px 2px 0 rgba(255, 253, 248, 0.9)); }
 .reflection-form-veil strong { font-family: var(--font-doodle); font-size: 1.12rem; }
