@@ -1829,6 +1829,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ? window.supabase.createClient(config.url, config.anonKey)
       : null;
     const anonymousTokenKey = "hueConfessionToken";
+    const reflectionDraftKeyPrefix = "hueReflectionDraft";
     const reflectionOpensAt = data.reflectionOpensAt || "2026-07-19T00:00:00+07:00";
     let reflectionCountdownTimer = null;
     const confessionReactionOptions = ["❤️", "😂", "😮", "😢", "👍", "🔥", "🎉", "🙏", "💀", "🤡"];
@@ -1846,6 +1847,43 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!token) return null;
       localStorage.setItem(anonymousTokenKey, token);
       return token;
+    };
+    const reflectionDraftKey = member => member?.username
+      ? `${reflectionDraftKeyPrefix}:${encodeURIComponent(member.username)}`
+      : null;
+    const getReflectionDraft = member => {
+      const key = reflectionDraftKey(member);
+      if (!key) return null;
+      try {
+        const draft = JSON.parse(localStorage.getItem(key) || "null");
+        return typeof draft?.body === "string" ? draft : null;
+      } catch {
+        return null;
+      }
+    };
+    const clearReflectionDraft = member => {
+      const key = reflectionDraftKey(member || getAuthMember());
+      if (!key) return;
+      try {
+        localStorage.removeItem(key);
+      } catch {
+        // A blocked storage area should not stop writing a reflection.
+      }
+    };
+    const saveReflectionDraft = body => {
+      const member = getAuthMember();
+      const key = reflectionDraftKey(member);
+      if (!key) return;
+      const savedBody = reflectionsState?.reflection?.body || "";
+      try {
+        if (body === savedBody) {
+          localStorage.removeItem(key);
+          return;
+        }
+        localStorage.setItem(key, JSON.stringify({ body, updatedAt: Date.now() }));
+      } catch {
+        // The in-memory textarea remains usable if local storage is unavailable.
+      }
     };
     const formatDate = value => new Intl.DateTimeFormat("vi-VN", {
       hour: "2-digit",
@@ -2151,13 +2189,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isLoggedIn && isOpen) {
         const viewer = state.viewer || authMember;
+        const draft = getReflectionDraft(authMember);
+        const composerBody = draft?.body ?? state.reflection?.body ?? "";
         reflectionComposerAvatar.innerHTML = `<img src="${escapeHTML(avatarFor(viewer.username))}" alt="">`;
         reflectionComposerName.textContent = state.reflection ? "Chỉnh lại dòng đã viết" : "Viết một dòng cho chuyến đi";
         reflectionSubmit.innerHTML = `${lucideIcon(state.reflection ? "save" : "pen-line")} ${state.reflection ? "Cập nhật cảm nhận" : "Lưu cảm nhận"}`;
-        if (document.activeElement !== reflectionInput) {
-          reflectionInput.value = state.reflection?.body || "";
-          updateCount(reflectionInput, reflectionCount, 1500);
-        }
+        if (document.activeElement !== reflectionInput && reflectionInput.value !== composerBody) reflectionInput.value = composerBody;
+        updateCount(reflectionInput, reflectionCount, 1500);
       }
 
       if (!reflections.length) {
@@ -2216,7 +2254,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     confessionInput.addEventListener("input", () => updateCount(confessionInput, confessionCount, 800));
-    reflectionInput.addEventListener("input", () => updateCount(reflectionInput, reflectionCount, 1500));
+    reflectionInput.addEventListener("input", () => {
+      updateCount(reflectionInput, reflectionCount, 1500);
+      saveReflectionDraft(reflectionInput.value);
+    });
     confessionRefresh.addEventListener("click", () => loadConfessions());
     confessionForm.addEventListener("submit", async event => {
       event.preventDefault();
@@ -2355,6 +2396,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setStatus(reflectionStatus, error.message || "Không lưu được cảm nhận.", "error");
         return;
       }
+      clearReflectionDraft();
       reflectionsState = payload || reflectionsState;
       setStatus(reflectionStatus, "Đã lưu. Bạn có thể quay lại chỉnh sửa bất cứ lúc nào.", "ok");
       renderReflections();

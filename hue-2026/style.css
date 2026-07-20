@@ -8231,39 +8231,48 @@ a:focus-visible, button:focus-visible {
 .reflection-author > img { width: 52px; height: 52px; }
 .reflection-author h3 { margin: 0; color: var(--ink); font-family: var(--font-doodle); font-size: 1.15rem; line-height: 1.1; }
 .reflection-entry blockquote {
+  --reflection-rule: 36px;
+  --reflection-content-top: 40px;
+  --reflection-content-bottom: 36px;
   position: relative;
   margin: 0;
-  padding: 40px 48px 35px;
+  padding: var(--reflection-content-top) 48px var(--reflection-content-bottom);
   border: 1px solid rgba(44, 51, 35, 0.22);
   border-radius: 8px;
-  background: linear-gradient(90deg, transparent 0 38px, rgba(197, 106, 120, 0.14) 39px 40px, transparent 41px), repeating-linear-gradient(0deg, rgba(255, 253, 248, 0.96) 0 30px, rgba(111, 138, 86, 0.1) 31px 32px);
+  background-color: rgba(255, 253, 248, 0.96);
+  background-image:
+    linear-gradient(90deg, transparent 0 38px, rgba(197, 106, 120, 0.14) 39px 40px, transparent 41px),
+    linear-gradient(to bottom, transparent 0 calc(var(--reflection-rule) - 1px), rgba(111, 138, 86, 0.12) calc(var(--reflection-rule) - 1px) var(--reflection-rule));
+  background-position: 0 0, 0 calc(var(--reflection-content-top) + 1px);
+  background-repeat: no-repeat, repeat-y;
+  background-size: auto, 100% var(--reflection-rule);
   box-shadow: 5px 6px 0 rgba(44, 51, 35, 0.1);
   color: var(--ink);
   font-family: var(--font-display);
   font-size: clamp(1.06rem, 2vw, 1.24rem);
   font-weight: 500;
-  line-height: 1.84;
+  line-height: var(--reflection-rule);
   overflow-wrap: anywhere;
 }
 .reflection-entry blockquote::before, .reflection-entry blockquote::after { position: absolute; color: var(--pink-deep); font-family: var(--font-display); font-size: 4.1rem; font-weight: 700; line-height: 1; pointer-events: none; }
 .reflection-entry blockquote::before { content: '“'; top: 14px; left: 12px; }
 .reflection-entry blockquote::after { content: '”'; right: 12px; bottom: -6px; }
 .reflection-entry blockquote strong { color: var(--ink); font-weight: 700; }
-.reflection-entry blockquote p { margin: 0 0 16px; }
+.reflection-entry blockquote p { margin: 0 0 var(--reflection-rule); }
 .reflection-entry blockquote p:last-child { margin-bottom: 0; }
-.reflection-entry blockquote h4, .reflection-entry blockquote h5, .reflection-entry blockquote h6 { margin: 0 0 11px; color: var(--pink-deep); font-family: var(--font-doodle); line-height: 1.2; }
+.reflection-entry blockquote h4, .reflection-entry blockquote h5, .reflection-entry blockquote h6 { margin: 0 0 var(--reflection-rule); color: var(--pink-deep); font-family: var(--font-doodle); line-height: var(--reflection-rule); }
 .reflection-entry blockquote h4 { font-size: 1.4rem; }
 .reflection-entry blockquote h5 { font-size: 1.2rem; }
 .reflection-entry blockquote h6 { font-size: 1.04rem; }
 .reflection-entry blockquote em { font-style: italic; }
 .reflection-entry blockquote del { color: var(--ink-soft); }
 .reflection-entry blockquote a { color: var(--nav-river-deep); font-family: var(--font-body); font-size: 0.86em; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.reflection-entry blockquote code { border-radius: 4px; background: rgba(221, 229, 209, 0.82); color: var(--nav-river-deep); font: 700 0.76em ui-monospace, SFMono-Regular, Menlo, monospace; padding: 2px 5px; }
-.reflection-entry blockquote pre { overflow-x: auto; margin: 0 0 16px; padding: 13px; border-radius: 8px; background: rgba(44, 51, 35, 0.92); color: var(--paper); font: 0.78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
+.reflection-entry blockquote code { border-radius: 4px; background: rgba(221, 229, 209, 0.82); color: var(--nav-river-deep); font: 700 0.76em/1 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 2px 5px; }
+.reflection-entry blockquote pre { overflow-x: auto; margin: 0 0 var(--reflection-rule); padding: 13px; border-radius: 8px; background: rgba(44, 51, 35, 0.92); color: var(--paper); font: 0.78rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; }
 .reflection-entry blockquote pre code { padding: 0; background: transparent; color: inherit; font: inherit; }
-.reflection-entry blockquote ul, .reflection-entry blockquote ol { margin: 0 0 16px; padding-left: 24px; }
-.reflection-entry blockquote li + li { margin-top: 4px; }
-.reflection-entry .markdown-quote { margin: 0 0 16px; padding: 7px 0 7px 15px; border-left: 3px solid var(--pink-deep); color: var(--ink-soft); font-style: italic; }
+.reflection-entry blockquote ul, .reflection-entry blockquote ol { margin: 0 0 var(--reflection-rule); padding-left: 26px; }
+.reflection-entry blockquote li + li { margin-top: 0; }
+.reflection-entry .markdown-quote { margin: 0 0 var(--reflection-rule); min-height: var(--reflection-rule); padding: 0 0 0 15px; border-left: 3px solid var(--pink-deep); color: var(--ink-soft); font-style: italic; }
 
 @keyframes community-shimmer { to { background-position: -200% 0; } }
 
@@ -8288,7 +8297,7 @@ a:focus-visible, button:focus-visible {
   .community-submit { width: 100%; }
   .confession-feed-head { align-items: flex-start; flex-direction: column; }
   .community-refresh { min-width: 126px; }
-  .reflection-entry blockquote { padding: 37px 36px 31px; font-size: 1.02rem; }
+  .reflection-entry blockquote { --reflection-rule: 32px; --reflection-content-top: 37px; --reflection-content-bottom: 32px; padding: var(--reflection-content-top) 32px var(--reflection-content-bottom) 48px; font-size: 1.02rem; }
   .reflection-entry blockquote::before { left: 7px; }
   .reflection-entry blockquote::after { right: 7px; }
 }
