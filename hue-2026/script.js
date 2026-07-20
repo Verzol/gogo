@@ -2235,10 +2235,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isLoggedIn && !isOpen) {
         reflectionGate.innerHTML = "";
         reflectionOpensAtText.textContent = formatReflectionOpensAt(state.opensAt || reflectionOpensAt);
-      } else if (!isLoggedIn && reflections.length) {
-        reflectionGate.innerHTML = `<p class="reflection-public-note">Những dòng đã được lưu lại sau chuyến đi.</p>`;
-      } else if (isLoggedIn) {
-        reflectionGate.innerHTML = `<p class="reflection-public-note">Viết cho chính mình và cho cả nhóm. Bản ghi cũ sẽ được thay bằng lần lưu mới nhất.</p>`;
       } else {
         reflectionGate.innerHTML = "";
       }

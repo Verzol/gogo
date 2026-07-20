@@ -2411,15 +2411,13 @@ body.lucide-ready .nav-links a:focus-visible {
 
   .time-row { grid-template-columns: 1fr; gap: 4px; }
   .time-row.is-current {
-    padding: 18px 14px 78px;
+    padding: 18px 14px;
   }
   .time-row.is-current::after {
     right: 12px;
   }
-  .route-runner {
-    right: 50%;
-    bottom: 12px;
-    transform: translateX(50%);
+  .time-row.is-current .route-runner {
+    display: none;
   }
   .day-card { padding: 30px 22px; }
   .location-card {
