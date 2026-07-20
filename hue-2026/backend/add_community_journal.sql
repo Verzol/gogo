@@ -91,9 +91,7 @@ create table if not exists public.trip_reflections (
   body text not null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  constraint trip_reflections_body_len check (
-    char_length(btrim(body)) between 1 and 1500
-  )
+  constraint trip_reflections_body_len check (char_length(btrim(body)) >= 1)
 );
 
 create index if not exists trip_reflections_updated_at_idx
@@ -185,8 +183,8 @@ begin
     raise exception 'Bạn cần đăng nhập để viết cảm nhận.';
   end if;
 
-  if char_length(v_body) not between 1 and 1500 then
-    raise exception 'Cảm nhận cần từ 1 đến 1500 ký tự.';
+  if char_length(v_body) < 1 then
+    raise exception 'Cảm nhận không được để trống.';
   end if;
 
   insert into public.trip_reflections (username, body, updated_at)

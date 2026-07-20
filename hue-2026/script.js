@@ -1942,7 +1942,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (message && (kind === "error" || kind === "ok")) showToast(message, kind === "error" ? "error" : "success");
     };
     const updateCount = (input, output, max) => {
-      output.textContent = `${input.value.length}/${max}`;
+      output.textContent = max ? `${input.value.length}/${max}` : `${input.value.length} ký tự`;
     };
     const renderRichText = value => escapeHTML(value)
       .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>")
@@ -2250,7 +2250,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reflectionComposerName.textContent = state.reflection ? "Chỉnh lại dòng đã viết" : "Viết một dòng cho chuyến đi";
         reflectionSubmit.innerHTML = `${lucideIcon(state.reflection ? "save" : "pen-line")} ${state.reflection ? "Cập nhật cảm nhận" : "Lưu cảm nhận"}`;
         if (document.activeElement !== reflectionInput && reflectionInput.value !== composerBody) reflectionInput.value = composerBody;
-        updateCount(reflectionInput, reflectionCount, 1500);
+        updateCount(reflectionInput, reflectionCount);
       }
 
       if (!reflections.length) {
@@ -2310,7 +2310,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     confessionInput.addEventListener("input", () => updateCount(confessionInput, confessionCount, 800));
     reflectionInput.addEventListener("input", () => {
-      updateCount(reflectionInput, reflectionCount, 1500);
+      updateCount(reflectionInput, reflectionCount);
       saveReflectionDraft(reflectionInput.value);
     });
     confessionRefresh.addEventListener("click", () => loadConfessions());
@@ -2502,7 +2502,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 60000);
 
     updateCount(confessionInput, confessionCount, 800);
-    updateCount(reflectionInput, reflectionCount, 1500);
+    updateCount(reflectionInput, reflectionCount);
     renderConfessionSkeleton();
     loadConfessions();
     loadReflections();
