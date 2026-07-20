@@ -58,6 +58,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const imgAttrs = ({ lazy = true } = {}) => `decoding="async"${lazy ? ' loading="lazy"' : ""}`;
 
+  const installFormDraftGuard = (root, scope) => {
+    const storageKey = () => {
+      const username = getAuthMember()?.username;
+      const scopeName = scope();
+      return username && scopeName ? `hueFormDraft:${scopeName}:${encodeURIComponent(username)}` : null;
+    };
+    const fieldId = field => {
+      const form = field.closest("form");
+      const formName = form
+        ? [...form.attributes].find(attribute => attribute.name.startsWith("data-"))?.name || form.className || "form"
+        : "field";
+      const fieldName = field.name || Object.keys(field.dataset).sort().map(key => `${key}:${field.dataset[key]}`).join("|");
+      return `${formName}:${fieldName}`;
+    };
+    const fields = () => [...root.querySelectorAll("input, textarea")].filter(field => {
+      const type = (field.type || "").toLowerCase();
+      return fieldName(field) && !["file", "checkbox", "radio", "button", "submit", "reset"].includes(type);
+    });
+    const fieldName = field => field.name || Object.keys(field.dataset).length;
+    const read = () => {
+      const key = storageKey();
+      if (!key) return {};
+      try { return JSON.parse(localStorage.getItem(key) || "{}") || {}; } catch { return {}; }
+    };
+    const write = () => {
+      const key = storageKey();
+      if (!key) return;
+      const draft = read();
+      fields().forEach(field => { draft[fieldId(field)] = field.value; });
+      try { localStorage.setItem(key, JSON.stringify(draft)); } catch {}
+    };
+    const restore = () => {
+      const draft = read();
+      fields().forEach(field => {
+        const value = draft[fieldId(field)];
+        if (typeof value === "string") field.value = value;
+      });
+    };
+    root.addEventListener("input", write);
+    return { restore, write };
+  };
+
   const blockLocationKeys = block => {
     if (Array.isArray(block.locations)) return block.locations;
     return block.location ? [block.location] : [];
@@ -2906,6 +2948,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let imposterRoundSaving = false;
     let imposterReadySaving = false;
     let editingImposterTrackId = "";
+    const gameDraftGuard = installFormDraftGuard(mount, () => `game:${activeGame?.key || ""}`);
 
     const sessionToken = () => getAuthMember()?.sessionToken || "";
     const isHost = () => (gameState.viewer?.role || getAuthMember()?.role) === "host";
@@ -4080,6 +4123,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ${renderPhotoPreview()}
         ${renderGameConfirmation()}
       `;
+      gameDraftGuard.restore();
       renderLucideIcons();
     }
 
@@ -4894,6 +4938,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let spyRealtimeRefreshQueued = false;
     let state;
     state = createState("");
+    const spyDraftGuard = installFormDraftGuard(mount, () => "spy-game");
 
     function randomIndex(max) {
       const values = new Uint32Array(1);
@@ -5524,6 +5569,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
+      spyDraftGuard.restore();
       renderLucideIcons();
     }
 
