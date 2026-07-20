@@ -8155,6 +8155,36 @@ a:focus-visible, button:focus-visible {
 .confession-card-meta time, .reflection-author time { color: var(--ink-soft); font-size: 0.72rem; }
 .confession-card p { margin: 0; color: var(--ink); font-size: 0.92rem; line-height: 1.72; overflow-wrap: anywhere; }
 .confession-card p strong { color: var(--ink); font-weight: 800; }
+.confession-reference {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.45em;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: rgba(242, 200, 208, 0.48);
+  color: var(--pink-deep);
+  font-family: var(--font-doodle);
+  font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-color: rgba(197, 106, 120, 0.36);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+.confession-reference:hover, .confession-reference:focus-visible {
+  background: var(--pink-deep);
+  color: var(--paper);
+  text-decoration-color: currentColor;
+  transform: translateY(-1px) rotate(-1deg);
+}
+.confession-reference:focus-visible { outline: 3px solid rgba(197, 106, 120, 0.3); outline-offset: 2px; }
+.confession-card.is-reference-target { z-index: 20; }
+.confession-card.is-reference-target .confession-card-sheet {
+  border-color: var(--pink-deep);
+  animation: confession-reference-highlight 2.8s ease both;
+}
 .confession-reaction-add {
   display: inline-flex;
   align-items: center;
@@ -8275,6 +8305,10 @@ a:focus-visible, button:focus-visible {
 .reflection-entry .markdown-quote { margin: 0 0 var(--reflection-rule); min-height: var(--reflection-rule); padding: 0 0 0 15px; border-left: 3px solid var(--pink-deep); color: var(--ink-soft); font-style: italic; }
 
 @keyframes community-shimmer { to { background-position: -200% 0; } }
+@keyframes confession-reference-highlight {
+  0%, 100% { box-shadow: 3px 4px 0 rgba(44, 51, 35, 0.1); }
+  14%, 60% { box-shadow: 0 0 0 6px rgba(197, 106, 120, 0.22), 6px 8px 0 rgba(44, 51, 35, 0.15); }
+}
 
 @media (max-width: 760px) {
   .confession-layout { grid-template-columns: 1fr; }
@@ -8304,6 +8338,8 @@ a:focus-visible, button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .confession-card, .community-submit, .community-refresh { transition: none; }
+  .confession-reference { transition: none; }
+  .confession-card.is-reference-target .confession-card-sheet { animation: none; box-shadow: 0 0 0 4px rgba(197, 106, 120, 0.28), 3px 4px 0 rgba(44, 51, 35, 0.1); }
   .confession-loading span { animation: none; }
 }
 

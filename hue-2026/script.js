@@ -1878,6 +1878,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let reflectionsState = null;
     let reflectionsLoading = false;
     let confessionMasonryFrame = null;
+    let confessionReferenceHighlightTimer = null;
     const confessionById = new Map();
     const communityRefreshTimers = new Map();
 
@@ -2054,6 +2055,22 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
     const formatConfessionCode = row => row.code || `#${String(row.id).padStart(6, "0")}`;
+    const normalizeConfessionId = value => String(value).replace(/^0+/, "") || "0";
+    const isEarlierConfessionReference = (referenceId, sourceId) => {
+      const target = confessionById.get(normalizeConfessionId(referenceId));
+      if (!target) return false;
+      try {
+        return BigInt(String(target.id)) < BigInt(String(sourceId));
+      } catch {
+        return false;
+      }
+    };
+    const renderConfessionBody = row => renderRichText(row.body)
+      .replace(/#(\d+)(?!\d)/g, (reference, referenceId) => {
+        if (!isEarlierConfessionReference(referenceId, row.id)) return reference;
+        const targetId = normalizeConfessionId(referenceId);
+        return `<a class="confession-reference" href="#confession-${targetId}" data-confession-reference="${referenceId}" aria-label="Xem confession #${referenceId}">#${referenceId}</a>`;
+      });
     const confessionReactionEntries = row => (row.reactions || [])
       .filter(reaction => reaction?.emoji && Array.isArray(reaction.users) && reaction.users.length)
       .sort((a, b) => b.users.length - a.users.length || a.emoji.localeCompare(b.emoji));
@@ -2104,10 +2121,10 @@ document.addEventListener("DOMContentLoaded", () => {
       confessionById.clear();
       rows.forEach(row => confessionById.set(String(row.id), row));
       confessionList.innerHTML = rows.map((row, index) => `
-        <article class="confession-card" data-confession-id="${escapeHTML(row.id)}" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
+        <article class="confession-card" id="confession-${escapeHTML(row.id)}" data-confession-id="${escapeHTML(row.id)}" style="--confession-rotation: ${(index % 2 ? 1 : -1) * (index % 3 + 0.4)}deg;">
           <div class="confession-card-sheet">
             <div class="confession-card-meta"><div class="confession-card-code"><strong>${escapeHTML(formatConfessionCode(row))}</strong><button class="confession-reaction-add" type="button" data-confession-reaction-add data-confession-id="${escapeHTML(row.id)}" aria-label="${getAuthMember()?.sessionToken ? "Thêm reaction" : "Đăng nhập để thả reaction"}">${lucideIcon("plus")}</button>${renderConfessionReactionPicker(row)}</div><time datetime="${escapeHTML(row.createdAt)}">${escapeHTML(formatDate(row.createdAt))}</time></div>
-            <p>${renderRichText(row.body)}</p>
+            <p>${renderConfessionBody(row)}</p>
             ${renderConfessionReactions(row)}
           </div>
         </article>
@@ -2326,7 +2343,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       confessionInput.value = "";
       updateCount(confessionInput, confessionCount, 800);
-      setStatus(confessionStatus, "Đã gửi ẩn danh. Cảm ơn bạn đã nhắn tử tế.", "ok");
+      setStatus(confessionStatus, "Đã gửi ẩn danh. Cảm ơn bạn.", "ok");
       await loadConfessions({ silent: true });
     });
     const closeConfessionReactionPickers = exceptId => {
@@ -2398,7 +2415,34 @@ document.addEventListener("DOMContentLoaded", () => {
       applyConfessionReaction(confessionId, reaction);
       setStatus(confessionStatus, "Đã cập nhật reaction.", "ok");
     };
+    const focusConfessionReference = referenceId => {
+      const confessionId = referenceId.replace(/^0+/, "") || "0";
+      const target = confessionList.querySelector(`#confession-${CSS.escape(confessionId)}`);
+      if (!target) {
+        setStatus(confessionStatus, `Không tìm thấy confession #${referenceId} trong danh sách đang hiển thị.`, "error");
+        return;
+      }
+      closeConfessionReactionPickers();
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "center"
+      });
+      target.classList.remove("is-reference-target");
+      void target.offsetWidth;
+      target.classList.add("is-reference-target");
+      window.clearTimeout(confessionReferenceHighlightTimer);
+      confessionReferenceHighlightTimer = window.setTimeout(() => {
+        target.classList.remove("is-reference-target");
+      }, 2800);
+    };
     confessionList.addEventListener("click", event => {
+      const reference = event.target.closest("[data-confession-reference]");
+      if (reference) {
+        event.preventDefault();
+        const referenceId = reference.dataset.confessionReference;
+        if (referenceId) focusConfessionReference(referenceId);
+        return;
+      }
       const addButton = event.target.closest("[data-confession-reaction-add]");
       if (addButton) {
         const confessionId = addButton.dataset.confessionId;
