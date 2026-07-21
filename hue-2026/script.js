@@ -2961,6 +2961,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let photoChallengeRefreshQueued = false;
     let photoAlbumRevision = 0;
     let photoAlbumRefreshPending = false;
+    let photoChallengeStateSignature = "";
+    let teamPhotosSignature = "";
     let gameHubRefreshTimer = 0;
     let gameHubRefreshInFlight = false;
     let gameHubRefreshQueued = false;
@@ -3033,6 +3035,14 @@ document.addEventListener("DOMContentLoaded", () => {
       authenticated: Boolean(payload?.authenticated),
       viewer: payload?.viewer || null
     });
+    const applyPhotoChallengePayload = payload => {
+      photoChallengeState = normalizePhotoChallenge(payload);
+      photoAlbumRevision = Math.max(photoAlbumRevision, Number(payload?.albumRevision || 0));
+      const nextSignature = JSON.stringify(photoChallengeState);
+      const changed = nextSignature !== photoChallengeStateSignature;
+      photoChallengeStateSignature = nextSignature;
+      return changed;
+    };
     const isPhotoChallenge = () => activeGame?.key === "anh-challenge-binh-minh";
     const effectiveTeamCount = () => isPhotoChallenge()
       ? photoChallengeState.teamCount
@@ -3512,7 +3522,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setStatus("Chưa cài migration add_photo_challenge.sql trên Supabase.", "error");
         return;
       }
-      photoChallengeState = normalizePhotoChallenge(payload);
+      return applyPhotoChallengePayload(payload);
     }
 
     function schedulePhotoChallengeRefresh(payload) {
@@ -3536,12 +3546,12 @@ document.addEventListener("DOMContentLoaded", () => {
         photoChallengeRefreshQueued = false;
         photoChallengeRefreshInFlight = true;
         try {
-          await loadPhotoChallengeState({ silent: true });
+          let shouldRender = await loadPhotoChallengeState({ silent: true });
           if (photoAlbumRefreshPending) {
             photoAlbumRefreshPending = false;
-            await loadTeamPhotos({ silent: true });
+            shouldRender = (await loadTeamPhotos({ silent: true })) || shouldRender;
           }
-          render();
+          if (shouldRender) render();
         } finally {
           photoChallengeRefreshInFlight = false;
           if (photoChallengeRefreshQueued) schedulePhotoChallengeRefresh();
@@ -3856,6 +3866,16 @@ document.addEventListener("DOMContentLoaded", () => {
       photoOverflow = overflow;
       photosLoading = false;
       lastTeamPhotosLoad = Date.now();
+      const nextSignature = JSON.stringify(
+        [...loaded.entries()].map(([teamNumber, photos]) => [
+          teamNumber,
+          photos.map(photo => photo ? [photo.path, photo.createdAt] : null),
+          (overflow.get(teamNumber) || []).map(photo => [photo.path, photo.createdAt])
+        ])
+      );
+      const changed = nextSignature !== teamPhotosSignature;
+      teamPhotosSignature = nextSignature;
+      return changed;
     }
 
     const canManagePhoto = photo => Boolean(sessionToken()) && (isHost() || ownTeamNumber() === photo.teamNumber);
@@ -3863,6 +3883,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function manageTeamPhoto(action, { path = "", file = null, slot = 0 } = {}) {
       if (!sessionToken() || !isPhotoChallenge() || photoActionSaving) return false;
+      if (file && file.size > 10 * 1024 * 1024) {
+        photoError = "Mỗi ảnh cần nhỏ hơn hoặc bằng 10 MB.";
+        render();
+        return false;
+      }
       photoActionSaving = true;
       photoError = "";
       render();
@@ -4369,7 +4394,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (error) setStatus(error.message || "Không đổi được số đội.", "error");
             else {
-              photoChallengeState = normalizePhotoChallenge(payload);
+              applyPhotoChallengePayload(payload);
               await loadGameState();
               await loadTeamPhotos();
               setStatus(`Đã chuyển game sang ${nextCount} đội.`, "ok");
@@ -4395,7 +4420,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (error) setStatus(error.message || "Không bốc được ảnh tạo dáng.", "error");
             else {
-              photoChallengeState = normalizePhotoChallenge(payload);
+              applyPhotoChallengePayload(payload);
               setStatus("Đã bốc lại cả bộ dáng: đủ 5 dáng, không đội nào trùng nguyên một cặp. Vote cũ đã được reset.", "ok");
             }
             render();
@@ -4415,7 +4440,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         if (error) setStatus(error.message || "Không đổi được trạng thái vote.", "error");
         else {
-          photoChallengeState = normalizePhotoChallenge(payload);
+          applyPhotoChallengePayload(payload);
           setStatus(nextStatus === "open" ? "Đã mở vote." : "Đã đóng và công bố kết quả vote.", "ok");
         }
         render();
@@ -4434,7 +4459,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (error) setStatus(error.message || "Không reset được vote.", "error");
             else {
-              photoChallengeState = normalizePhotoChallenge(payload);
+              applyPhotoChallengePayload(payload);
               setStatus("Đã xóa toàn bộ phiếu vote.", "ok");
             }
             render();
@@ -4450,7 +4475,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         if (error) setStatus(error.message || "Không gửi được phiếu vote.", "error");
         else {
-          photoChallengeState = normalizePhotoChallenge(payload);
+          applyPhotoChallengePayload(payload);
           setStatus(`Đã vote cho Đội ${voteButton.dataset.photoVote}.`, "ok");
         }
         render();
@@ -4936,9 +4961,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setInterval(async () => {
       if (mount.hidden || !isPhotoChallenge() || document.hidden) return;
       if (mount.contains(document.activeElement)) return;
-      await loadPhotoChallengeState({ silent: true });
-      if (Date.now() - lastTeamPhotosLoad > 15000) await loadTeamPhotos({ silent: true });
-      render();
+      const stateChanged = await loadPhotoChallengeState({ silent: true });
+      const photosChanged = Date.now() - lastTeamPhotosLoad > 15000
+        ? await loadTeamPhotos({ silent: true })
+        : false;
+      if (stateChanged || photosChanged) render();
     }, 5000);
   };
 
