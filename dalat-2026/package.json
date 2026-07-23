@@ -1,0 +1,12 @@
+{
+  "name": "dalat-2026",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "preview": "npm run preview --prefix frontend",
+    "archive": "node backend/scripts/archive.js"
+  }
+}
