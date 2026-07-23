@@ -1,0 +1,8 @@
+# Custom trip sessions and guest tokens are verified by trip-api, not Supabase
+# Auth JWTs. Keep the function's URL protected by its explicit CORS and token
+# checks in code.
+[functions.trip-api]
+verify_jwt = false
+
+[functions.team-photo-upload]
+verify_jwt = false

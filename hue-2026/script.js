@@ -146,10 +146,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!loginOpen || !authUser || !greetingButton || !greetingName || !userMenu || !changePassword || !logout || !modal || !form || !accountSelect || !accountButton || !accountCurrent || !accountMenu || !passwordField || !password || !newPasswordField || !newPassword || !submit || !cancel || !title || !copy || !modeLabel || !errorBox) return;
 
-    const sessionKey = "hueAuthSession";
-    const isConfigured = Boolean(config.url && config.anonKey && window.supabase?.createClient);
-    const client = isConfigured ? window.supabase.createClient(config.url, config.anonKey) : null;
+    const sessionKey = window.HUE_TRIP_API_CLIENT?.memberSessionKey || "hueAuthSession";
+    const isConfigured = Boolean(config.url && config.anonKey && window.HUE_TRIP_API_CLIENT?.createClient);
+    const client = isConfigured ? window.HUE_TRIP_API_CLIENT.createClient(config) : null;
     let mode = "login";
+    // A previous release stored a 30-day token in localStorage. It is revoked
+    // server-side during lockdown and must not be resurrected by this client.
+    try { localStorage.removeItem(sessionKey); } catch {}
 
     let selectedUsername = authAccounts[0]?.username || "";
     const accountField = accountSelect.closest("label");
@@ -215,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const saveSession = member => {
       authMember = member;
-      localStorage.setItem(sessionKey, JSON.stringify(member));
+      sessionStorage.setItem(sessionKey, JSON.stringify(member));
       localStorage.setItem("hueChatName", member.displayName || member.username);
       renderAuth();
       emitAuthChange();
@@ -223,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const clearSession = () => {
       authMember = null;
-      localStorage.removeItem(sessionKey);
+      sessionStorage.removeItem(sessionKey);
       renderAuth();
       emitAuthChange();
     };
@@ -243,20 +246,15 @@ document.addEventListener("DOMContentLoaded", () => {
       accountButton.disabled = Boolean(options.lockUsername);
       accountSelect.classList.toggle("is-disabled", Boolean(options.lockUsername));
       if (accountField) accountField.hidden = nextMode === "changePassword";
-      passwordField.hidden = nextMode === "firstPassword";
+      passwordField.hidden = false;
       newPasswordField.hidden = nextMode === "login";
       password.required = nextMode === "changePassword";
       newPassword.required = nextMode !== "login";
-      password.placeholder = nextMode === "changePassword" ? "" : "Để trống nếu đăng nhập lần đầu";
+      password.placeholder = "Nhập mật khẩu";
       password.value = "";
       newPassword.value = "";
 
-      if (nextMode === "firstPassword") {
-        modeLabel.textContent = "lần đầu đăng nhập";
-        title.textContent = "Điền mật khẩu cho tài khoản";
-        copy.textContent = "Tài khoản này chưa có mật khẩu. Đặt mật khẩu để dùng từ lần sau.";
-        submit.textContent = "Lưu mật khẩu";
-      } else if (nextMode === "changePassword") {
+      if (nextMode === "changePassword") {
         modeLabel.textContent = "tài khoản";
         title.textContent = "Đổi mật khẩu";
         copy.textContent = "Nhập mật khẩu cũ và mật khẩu mới.";
@@ -276,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       setMode(options.mode || "login", options);
       modal.hidden = false;
-      const target = mode === "firstPassword" ? newPassword : mode === "changePassword" ? password : accountButton;
+      const target = mode === "changePassword" ? password : accountButton;
       window.setTimeout(() => target.focus(), 0);
     };
 
@@ -296,42 +294,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (error) throw error;
 
       const row = rpcRow(data);
-      if (row?.needs_password) {
-        openModal({ mode: "firstPassword", required: true, lockUsername: true, username: selected });
-        return;
-      }
       if (!row?.authenticated) {
-        setError(row?.message || "Sai tài khoản hoặc mật khẩu.");
+        setError("Đăng nhập không thành công.");
         return;
       }
 
       saveSession(row);
       modal.hidden = true;
       showToast("Đã đăng nhập.");
-    };
-
-    const setInitialPassword = async () => {
-      const pass = newPassword.value.trim();
-      if (pass.length < 4) {
-        setError("Mật khẩu cần ít nhất 4 ký tự.");
-        return;
-      }
-
-      const { data, error } = await client.rpc("trip_set_initial_password", {
-        p_username: selectedUsername,
-        p_password: pass
-      });
-      if (error) throw error;
-
-      const row = rpcRow(data);
-      if (!row?.authenticated) {
-        setError(row?.message || "Không lưu được mật khẩu.");
-        return;
-      }
-
-      saveSession(row);
-      modal.hidden = true;
-      showToast("Đã lưu mật khẩu.");
     };
 
     const changeCurrentPassword = async () => {
@@ -341,8 +311,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setError("Nhập mật khẩu cũ.");
         return;
       }
-      if (pass.length < 4) {
-        setError("Mật khẩu mới cần ít nhất 4 ký tự.");
+      if (pass.length < 12) {
+        setError("Mật khẩu mới cần ít nhất 12 ký tự.");
         return;
       }
 
@@ -373,8 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       submit.disabled = true;
       try {
-        if (mode === "firstPassword") await setInitialPassword();
-        else if (mode === "changePassword") await changeCurrentPassword();
+        if (mode === "changePassword") await changeCurrentPassword();
         else await login();
       } catch (error) {
         setError(error.message || "Không đăng nhập được. Kiểm tra migration Supabase.");
@@ -407,7 +376,8 @@ document.addEventListener("DOMContentLoaded", () => {
       accountButton.focus();
     });
     cancel.addEventListener("click", closeModal);
-    logout.addEventListener("click", () => {
+    logout.addEventListener("click", async () => {
+      await client?.rpc("trip_logout");
       clearSession();
       showToast("Đã đăng xuất.");
     });
@@ -424,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.key === "Escape" && !modal.hidden) closeModal();
     });
 
-    const saved = JSON.parse(localStorage.getItem(sessionKey) || "null");
+    const saved = JSON.parse(sessionStorage.getItem(sessionKey) || "null");
     if (saved?.sessionToken && saved?.displayName) {
       authMember = saved;
     }
@@ -564,8 +534,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!widget || !toggle || !panel || !nameForm || !nameToggle || !nameInput || !status || !messages || !reactionPopover || !replyPreview || !form || !input || !sendButton || !unread || !confirmDialog || !deleteCancel || !deleteConfirm) return;
 
-    const table = "chat_messages";
-    const reactionTable = "chat_reactions";
     const messageLimit = 1000;
     const reactionOptions = ["❤️", "😂", "😮", "😢", "👍", "🔥", "🎉", "🙏", "💀", "🤡"];
     const knownIds = new Set();
@@ -579,17 +547,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let chatLoaded = false;
     let chatLoading = null;
     let realtimeStarted = false;
-
-    const getUserId = () => {
-      const saved = localStorage.getItem("hueChatUserId");
-      if (saved) return saved;
-      const generated = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      localStorage.setItem("hueChatUserId", generated);
-      return generated;
-    };
-
-    const currentUserId = getUserId();
-    const getChatAuthorId = () => getAuthMember()?.username || currentUserId;
+    let currentUserId = "";
+    const getChatAuthorId = () => currentUserId;
     const savedName = localStorage.getItem("hueChatName") || getAuthMember()?.displayName || "";
     nameInput.value = savedName;
     nameForm.hidden = Boolean(savedName);
@@ -606,13 +565,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (account) {
         memberAvatarByName.set(cleanName(account.displayName), avatar);
         memberAvatarByUserId.set(account.username, avatar);
+        memberAvatarByUserId.set(`member:${account.username}`, avatar);
       }
     });
     const replyText = value => {
       const text = cleanBody(value).replace(/\s+/g, " ");
       return text.length > 90 ? `${text.slice(0, 87)}...` : text;
     };
-    const isConfigured = Boolean(config.url && config.anonKey && window.supabase?.createClient);
+    const isConfigured = Boolean(config.url && config.anonKey && window.HUE_TRIP_API_CLIENT?.createClient);
 
     const setStatus = (text, kind = "") => {
       status.textContent = text;
@@ -689,24 +649,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (open) deleteConfirm.focus();
     };
 
-    const softDeleteMessage = message => {
-      const username = cleanName(localStorage.getItem("hueChatName"));
-      const authorId = getChatAuthorId();
-      if (!message || (message.user_id ? message.user_id !== authorId : message.username !== username)) return;
-      const query = client
-        .from(table)
-        .update({ body: "", reply_to_id: null, reply_to_username: null, reply_to_body: null })
-        .eq("id", message.id);
-      (message.user_id ? query.eq("user_id", authorId) : query.eq("username", username))
-        .then(({ error }) => {
-          if (error) {
-            console.error("Delete chat message failed:", error);
-            setStatus(`Không xóa được tin nhắn: ${error.message || "kiểm tra SQL soft delete"}`, "error");
-          } else {
-            markMessageDeleted({ id: message.id });
-            setStatus("Đã xóa tin nhắn.", "ok");
-          }
-        });
+    const softDeleteMessage = async message => {
+      if (!message || message.user_id !== getChatAuthorId()) return;
+      const { error } = await window.HUE_TRIP_API_CLIENT.chatDelete(config, message.id);
+      if (error) setStatus("Không xóa được tin nhắn.", "error");
+      else {
+        markMessageDeleted({ id: message.id });
+        setStatus("Đã xóa tin nhắn.", "ok");
+      }
     };
 
     const closeReactionPickers = except => {
@@ -803,14 +753,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderReactionBar(reaction.message_id);
     };
 
-    const loadReactions = async messageIds => {
-      if (!messageIds.length) return;
-      const { data: rows, error } = await client
-        .from(reactionTable)
-        .select("message_id, user_id, emoji")
-        .in("message_id", messageIds);
-
-      if (error) throw error;
+    const loadReactions = (rows, messageIds) => {
       reactionsByMessage.clear();
       (rows || []).forEach(applyReaction);
       messageIds.forEach(renderReactionBar);
@@ -827,25 +770,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (active) {
-        const { error } = await client
-          .from(reactionTable)
-          .delete()
-          .match({ message_id: messageId, user_id: currentUserId, emoji });
-        if (error) setStatus("Không bỏ được reaction.", "error");
-        else {
-          removeReaction({ message_id: messageId, user_id: currentUserId, emoji });
-          setStatus("Đã cập nhật reaction.", "ok");
-        }
-        return;
-      }
-
-      const { error } = await client
-        .from(reactionTable)
-        .insert({ message_id: messageId, user_id: currentUserId, emoji });
-      if (error) setStatus("Không react được tin này.", "error");
-      else {
-        applyReaction({ message_id: messageId, user_id: currentUserId, emoji });
+      const { data, error } = await window.HUE_TRIP_API_CLIENT.chatToggleReaction(config, messageId, emoji);
+      if (error) setStatus("Không cập nhật được reaction.", "error");
+      else if (data?.active) {
+        applyReaction(data);
+        setStatus("Đã cập nhật reaction.", "ok");
+      } else {
+        removeReaction(data);
         setStatus("Đã cập nhật reaction.", "ok");
       }
     };
@@ -905,9 +836,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!message?.id || knownIds.has(message.id)) return;
       knownIds.add(message.id);
 
-      const ownName = cleanName(localStorage.getItem("hueChatName"));
       const authorId = getChatAuthorId();
-      const isMine = message.user_id ? message.user_id === authorId : ownName && message.username === ownName;
+      const isMine = Boolean(authorId) && message.user_id === authorId;
       const isDeleted = !String(message.body || "").trim();
       const item = document.createElement("article");
       item.className = "chat-message";
@@ -982,31 +912,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const loadMessages = async () => {
       setStatus("Đang tải tin nhắn...");
-      const { data: rows, error } = await client
-        .from(table)
-        .select("id, user_id, username, body, created_at, reply_to_id, reply_to_username, reply_to_body")
-        .order("created_at", { ascending: false })
-        .limit(messageLimit);
-
+      const { data: state, error } = await window.HUE_TRIP_API_CLIENT.chatList(config);
       if (error) throw error;
+      const rows = state?.messages || [];
+      currentUserId = state?.viewerActorKey || "";
 
       messages.innerHTML = "";
       knownIds.clear();
       messageById.clear();
       (rows || []).reverse().forEach(row => renderMessage(row, { icons: false, stick: false }));
       renderLucideIcons();
-      await loadReactions((rows || []).map(row => row.id));
+      loadReactions(state?.reactions || [], rows.map(row => row.id));
       setMessageCount(rows?.length || 0);
       chatLoaded = true;
       setStatus(rows?.length ? "" : "Chưa có tin nào. Mở bát đi.", rows?.length ? "" : "empty");
     };
 
     const loadMessageCount = async () => {
-      const { count, error } = await client
-        .from(table)
-        .select("id", { count: "exact", head: true });
+      const { data, error } = await window.HUE_TRIP_API_CLIENT.chatList(config);
       if (!error) {
-        setMessageCount(count || 0);
+        currentUserId = data?.viewerActorKey || currentUserId;
+        setMessageCount(data?.count || 0);
         setStatus("");
       }
     };
@@ -1014,29 +940,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const startRealtime = () => {
       if (realtimeStarted) return;
       realtimeStarted = true;
-      client
-        .channel("chat_messages")
-        .on("postgres_changes", { event: "INSERT", schema: "public", table }, payload => {
-          renderMessage(payload.new);
-          setStatus("");
-        })
-        .on("postgres_changes", { event: "UPDATE", schema: "public", table }, payload => {
-          if (!String(payload.new?.body || "").trim()) markMessageDeleted(payload.new);
-        })
-        .subscribe(subscribeStatus => {
-          if (subscribeStatus === "SUBSCRIBED") setStatus("");
-          if (subscribeStatus === "CHANNEL_ERROR") setStatus("Realtime đang lỗi. Thử tải lại trang.", "error");
-        });
-
-      client
-        .channel("chat_reactions")
-        .on("postgres_changes", { event: "INSERT", schema: "public", table: reactionTable }, payload => {
-          applyReaction(payload.new);
-        })
-        .on("postgres_changes", { event: "DELETE", schema: "public", table: reactionTable }, payload => {
-          removeReaction(payload.old);
-        })
-        .subscribe();
+      window.setInterval(() => {
+        if (chatLoaded && !document.hidden) loadMessages().catch(() => {});
+      }, 5000);
     };
 
     const ensureChatLoaded = () => {
@@ -1099,19 +1005,19 @@ document.addEventListener("DOMContentLoaded", () => {
       input.style.height = "";
       sendButton.disabled = true;
 
-      const payload = { user_id: getChatAuthorId(), username, body };
+      const payload = { nickname: username, body };
       if (selectedReply) {
-        payload.reply_to_id = selectedReply.id;
-        payload.reply_to_username = selectedReply.username;
-        payload.reply_to_body = selectedReply.body;
+        payload.replyToId = selectedReply.id;
       }
 
-      const { error } = await client.from(table).insert(payload);
+      const { data, error } = await window.HUE_TRIP_API_CLIENT.chatSend(config, payload);
       sendButton.disabled = false;
       if (error) {
         input.value = body;
         setStatus("Không gửi được tin. Kiểm tra Supabase hoặc mạng.", "error");
       } else {
+        currentUserId = data?.user_id || currentUserId;
+        renderMessage(data);
         clearReply();
       }
     });
@@ -1179,9 +1085,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const deleteButton = event.target.closest("[data-delete-id]");
       if (deleteButton) {
         const message = messageById.get(deleteButton.dataset.deleteId);
-        const username = cleanName(localStorage.getItem("hueChatName"));
         const authorId = getChatAuthorId();
-        if (!message || (message.user_id ? message.user_id !== authorId : message.username !== username)) return;
+        if (!message || message.user_id !== authorId) return;
         pendingDelete = message;
         setConfirmOpen(true);
         return;
@@ -1226,7 +1131,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    client = window.supabase.createClient(config.url, config.anonKey);
+    client = window.HUE_TRIP_API_CLIENT.createClient(config);
     loadMessageCount().catch(() => setStatus("Không nối được Supabase. Kiểm tra URL, anon key và schema.", "error"));
   };
 
@@ -1663,8 +1568,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!mount) return;
 
     const config = window.HUE_SUPABASE || {};
-    const client = config.url && config.anonKey && window.supabase?.createClient
-      ? window.supabase.createClient(config.url, config.anonKey)
+    const client = config.url && config.anonKey && window.HUE_TRIP_API_CLIENT?.createClient
+      ? window.HUE_TRIP_API_CLIENT.createClient(config)
       : null;
     const defaultHosts = new Set(["gtm", "linh"]);
     const fallbackMembers = (data.members || []).map((member, index) => ({
@@ -1867,10 +1772,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!confessionForm || !confessionInput || !confessionCount || !confessionSubmit || !confessionStatus || !confessionRefresh || !confessionList || !reflectionSection || !reflectionGate || !reflectionForm || !reflectionInput || !reflectionCount || !reflectionSubmit || !reflectionStatus || !reflectionList || !reflectionComposerAvatar || !reflectionComposerName || !reflectionFormVeil || !reflectionOpensAtText) return;
 
-    const client = config.url && config.anonKey && window.supabase?.createClient
-      ? window.supabase.createClient(config.url, config.anonKey)
+    const client = config.url && config.anonKey && window.HUE_TRIP_API_CLIENT?.createClient
+      ? window.HUE_TRIP_API_CLIENT.createClient(config)
       : null;
-    const anonymousTokenKey = "hueConfessionToken";
     const reflectionDraftKeyPrefix = "hueReflectionDraft";
     const reflectionOpensAt = data.reflectionOpensAt || "2026-07-19T00:00:00+07:00";
     let reflectionCountdownTimer = null;
@@ -1882,15 +1786,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const confessionById = new Map();
     const communityRefreshTimers = new Map();
 
-    const isUuid = value => /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value || "");
-    const getAnonymousToken = () => {
-      const saved = localStorage.getItem(anonymousTokenKey);
-      if (isUuid(saved)) return saved;
-      const token = window.crypto?.randomUUID?.();
-      if (!token) return null;
-      localStorage.setItem(anonymousTokenKey, token);
-      return token;
-    };
     const reflectionDraftKey = member => member?.username
       ? `${reflectionDraftKeyPrefix}:${encodeURIComponent(member.username)}`
       : null;
@@ -2280,6 +2175,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return;
       }
+      if (!getAuthMember()?.sessionToken) {
+        reflectionsState = {
+          open: new Date(reflectionOpensAt).getTime() <= Date.now(),
+          opensAt: reflectionOpensAt,
+          authenticated: false,
+          reflections: []
+        };
+        renderReflections();
+        return;
+      }
       if (reflectionsLoading) return;
       reflectionsLoading = true;
       const { data: payload, error } = await client.rpc("trip_reflections_get", {
@@ -2317,11 +2222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     confessionForm.addEventListener("submit", async event => {
       event.preventDefault();
       const body = confessionInput.value.trim();
-      const authorToken = getAnonymousToken();
-      if (!body || !authorToken) {
-        setStatus(confessionStatus, "Trình duyệt không tạo được mã ẩn danh để gửi tin.", "error");
-        return;
-      }
+      if (!body) return;
       if (!client) {
         setStatus(confessionStatus, "Confession chưa được cấu hình Supabase.", "error");
         return;
@@ -2329,7 +2230,6 @@ document.addEventListener("DOMContentLoaded", () => {
       confessionSubmit.disabled = true;
       setStatus(confessionStatus, "Đang gửi...");
       const { error } = await client.rpc("trip_confession_submit", {
-        p_author_token: authorToken,
         p_body: body
       });
       confessionSubmit.disabled = false;
@@ -2929,8 +2829,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!mount || !grid) return;
 
     const config = window.HUE_SUPABASE || {};
-    const client = config.url && config.anonKey && window.supabase?.createClient
-      ? window.supabase.createClient(config.url, config.anonKey)
+    const client = config.url && config.anonKey && window.HUE_TRIP_API_CLIENT?.createClient
+      ? window.HUE_TRIP_API_CLIENT.createClient(config)
       : null;
     const defaultHosts = new Set(["gtm", "linh"]);
     const fallbackMembers = (data.members || []).map((member, index) => ({
@@ -3708,7 +3608,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                               ` : canUpload ? `
                                 <label class="photo-submission-upload is-empty">
-                                  <input type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" data-photo-slot-upload data-photo-slot="${index + 1}" ${photoActionSaving ? "disabled" : ""}>
+                                  <input type="file" accept="image/jpeg,image/png,image/webp" data-photo-slot-upload data-photo-slot="${index + 1}" ${photoActionSaving ? "disabled" : ""}>
                                   <span>${lucideIcon("plus")}<b>Thêm ảnh</b><small>Dáng ${draw.poseNumber}</small></span>
                                 </label>
                               ` : `<div class="photo-submission-upload is-waiting"><span>Chờ Đội ${teamNumber} upload</span></div>`}
@@ -3822,29 +3722,18 @@ document.addEventListener("DOMContentLoaded", () => {
         photoError = "";
         render();
       }
-      const bucket = client.storage.from("trip-game-photos");
       const loaded = new Map();
       const overflow = new Map();
+      const { data: photoPayload, error } = await window.HUE_TRIP_API_CLIENT.listPhotos(config);
+      if (error) {
+        photosLoading = false;
+        photoError = "Bạn cần đăng nhập để xem album ảnh.";
+        render();
+        return false;
+      }
       for (let teamNumber = 1; teamNumber <= effectiveTeamCount(); teamNumber += 1) {
-        const folder = `${activeGame.key}/team-${teamNumber}`;
-        const { data: files, error } = await bucket.list(folder, {
-          limit: 100,
-          sortBy: { column: "created_at", order: "desc" }
-        });
-        if (error) {
-          photoError = "Chưa đọc được album ảnh công khai. Kiểm tra bucket và policy Storage.";
-          loaded.set(teamNumber, []);
-          continue;
-        }
-        const photos = (files || [])
-          .filter(file => file.name && file.name !== ".emptyFolderPlaceholder")
-          .map(file => ({
-            name: file.name,
-            path: `${folder}/${file.name}`,
-            teamNumber,
-            createdAt: file.created_at || "",
-            url: bucket.getPublicUrl(`${folder}/${file.name}`).data.publicUrl
-          }))
+        const photos = (photoPayload?.photos || [])
+          .filter(photo => Number(photo.teamNumber) === teamNumber)
           .sort((first, second) => String(first.createdAt).localeCompare(String(second.createdAt)));
         const slots = [null, null];
         const legacyPhotos = [];
@@ -3881,31 +3770,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const canManagePhoto = photo => Boolean(sessionToken()) && (isHost() || ownTeamNumber() === photo.teamNumber);
     const photoSubmissionsExist = () => [...teamPhotos.values()].some(photos => photos.some(Boolean));
 
+    const preparePhotoForUpload = async file => {
+      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+        throw new Error("Chỉ nhận JPEG, PNG hoặc WebP; không nhận HEIC/HEIF.");
+      }
+      if (file.size > 5 * 1024 * 1024) throw new Error("Mỗi ảnh cần nhỏ hơn hoặc bằng 5 MiB.");
+      const source = await createImageBitmap(file);
+      if (!source.width || !source.height || source.width > 10000 || source.height > 10000 || source.width * source.height > 40000000) {
+        source.close();
+        throw new Error("Kích thước ảnh không hợp lệ.");
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = source.width;
+      canvas.height = source.height;
+      const context = canvas.getContext("2d", { alpha: true });
+      if (!context) {
+        source.close();
+        throw new Error("Trình duyệt không thể xử lý ảnh này.");
+      }
+      context.drawImage(source, 0, 0);
+      source.close();
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/webp", 0.88));
+      if (!blob || blob.size > 5 * 1024 * 1024) throw new Error("Ảnh sau khi xóa metadata cần nhỏ hơn hoặc bằng 5 MiB.");
+      return new File([blob], "photo.webp", { type: "image/webp" });
+    };
+
     async function manageTeamPhoto(action, { path = "", file = null, slot = 0 } = {}) {
       if (!sessionToken() || !isPhotoChallenge() || photoActionSaving) return false;
-      if (file && file.size > 10 * 1024 * 1024) {
-        photoError = "Mỗi ảnh cần nhỏ hơn hoặc bằng 10 MB.";
-        render();
-        return false;
-      }
       photoActionSaving = true;
       photoError = "";
       render();
       try {
-        const body = new FormData();
-        body.append("sessionToken", sessionToken());
-        body.append("gameKey", activeGame.key);
-        body.append("action", action);
-        if (path) body.append("objectPath", path);
-        if (slot) body.append("slot", String(slot));
-        if (file) body.append("file", file);
-        const response = await fetch(`${config.url}/functions/v1/team-photo-upload`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${config.anonKey}`, apikey: config.anonKey },
-          body
-        });
-        const payload = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(payload.error || "Không cập nhật được ảnh.");
+        const result = action === "delete"
+          ? await window.HUE_TRIP_API_CLIENT.deletePhoto(config, path)
+          : await window.HUE_TRIP_API_CLIENT.uploadPhoto(config, action, {
+            path,
+            slot,
+            file: await preparePhotoForUpload(file)
+          });
+        if (result.error) throw result.error;
         photoPreview = null;
         await loadTeamPhotos({ silent: true });
         setStatus(action === "delete" ? "Đã xóa ảnh khỏi album." : action === "upload" ? "Đã thêm ảnh vào vị trí trống." : "Đã thay ảnh trong album.", "ok");
@@ -3929,14 +3832,14 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="game-panel-heading">
             <div>
               <h3>Album ảnh của đội</h3>
-              <p>Ảnh trong album được công khai cho tất cả mọi người.</p>
+              <p>Album riêng tư, chỉ thành viên đã đăng nhập mới xem được.</p>
             </div>
           </div>
           ${photoError ? `<p class="team-photo-error" role="status">${escapeHTML(photoError)}</p>` : ""}
           ${photosLoading ? `<div class="team-photo-loading"><span></span><span></span></div>` : `
             <div class="team-photo-groups">
               ${Array.from({ length: effectiveTeamCount() }, (_, index) => index + 1).map(teamNumber => {
-                const photos = teamPhotos.get(teamNumber) || [];
+                const photos = (teamPhotos.get(teamNumber) || []).filter(Boolean);
                 return `
                   <div class="team-photo-group">
                     <div class="team-photo-group-title">
@@ -3962,10 +3865,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <form class="team-photo-upload" data-team-photo-upload>
               <label>
                 <span>Thêm ảnh cho Đội ${myTeam}</span>
-                <input type="file" name="photos" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple required>
+                <input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple required>
               </label>
               <button type="submit" ${uploadingPhotos ? "disabled" : ""}>${lucideIcon("image-up")} ${uploadingPhotos ? "Đang upload..." : "Upload ảnh"}</button>
-              <small>Mỗi ảnh tối đa 10 MB. Thành viên nào trong đội cũng có thể thêm ảnh.</small>
+              <small>JPEG, PNG hoặc WebP; ảnh được xóa metadata và giới hạn 5 MiB.</small>
             </form>
           ` : myTeam ? `<p class="team-photo-login-note">Album đã khóa trong lúc vote. Quản trò cần reset vote trước khi chỉnh ảnh.</p>
           ` : sessionToken() ? `<p class="team-photo-login-note">Bạn cần được Quản trò chia vào một đội trước khi upload ảnh.</p>` : `<p class="team-photo-login-note">Đăng nhập để upload ảnh cho đội của bạn.</p>`}
@@ -4838,23 +4741,18 @@ document.addEventListener("DOMContentLoaded", () => {
       photoError = "";
       render();
       let uploadFailure = "";
+      const usedSlots = new Set((teamPhotos.get(myTeam) || []).filter(Boolean).map(photo => photo.slot));
       for (const file of files) {
-        const body = new FormData();
-        body.append("sessionToken", sessionToken());
-        body.append("gameKey", activeGame.key);
-        body.append("action", "upload");
-        body.append("file", file);
+        const slot = [1, 2].find(candidate => !usedSlots.has(candidate));
+        if (!slot) {
+          uploadFailure = "Mỗi đội chỉ được nộp tối đa 2 ảnh.";
+          break;
+        }
         try {
-          const response = await fetch(`${config.url}/functions/v1/team-photo-upload`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${config.anonKey}`,
-              apikey: config.anonKey
-            },
-            body
-          });
-          const payload = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(payload.error || "Upload thất bại.");
+          const prepared = await preparePhotoForUpload(file);
+          const { error } = await window.HUE_TRIP_API_CLIENT.uploadPhoto(config, "upload", { file: prepared, slot });
+          if (error) throw error;
+          usedSlots.add(slot);
         } catch (error) {
           uploadFailure = error.message || "Không upload được ảnh.";
           break;
@@ -4863,7 +4761,7 @@ document.addEventListener("DOMContentLoaded", () => {
       uploadingPhotos = false;
       await loadTeamPhotos();
       if (uploadFailure) photoError = uploadFailure;
-      else if (!photoError) setStatus("Đã upload ảnh vào album công khai của đội.", "ok");
+      else if (!photoError) setStatus("Đã upload ảnh riêng tư của đội.", "ok");
       render();
     });
 
@@ -4977,8 +4875,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!mount || !grid) return;
 
     const config = window.HUE_SUPABASE || {};
-    const client = config.url && config.anonKey && window.supabase?.createClient
-      ? window.supabase.createClient(config.url, config.anonKey)
+    const client = config.url && config.anonKey && window.HUE_TRIP_API_CLIENT?.createClient
+      ? window.HUE_TRIP_API_CLIENT.createClient(config)
       : null;
     const roleLabels = {
       villager: "Dân",

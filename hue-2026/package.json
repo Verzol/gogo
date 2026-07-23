@@ -1,9 +1,11 @@
 {
-  "dependencies": {
-    "jimp": "^1.6.1",
-    "xlsx": "^0.18.5"
+  "scripts": {
+    "audit": "npm audit --audit-level=high",
+    "check:js": "node --check script.js && node --check trip-api-client.js",
+    "test:security": "node --test tests/security-contract.test.mjs tests/trip-api-negative.test.mjs",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
-    "playwright": "^1.61.1"
+    "playwright": "1.61.1"
   }
 }

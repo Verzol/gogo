@@ -1,5 +1,16 @@
 .agents/
 .history/
-supabase/
+/supabase/
+!hue-2026/supabase/
+!hue-2026/supabase/**
+hue-2026/supabase/.temp/
+hue-2026/backup/
+*.dump
+*.backup
+*.sql.gz
+.env.local
+.env.test
+hue-2026/test-results/
+/schema.sql
 AGENTS.md
 skills-lock.json
