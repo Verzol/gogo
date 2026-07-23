@@ -547,6 +547,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let chatLoaded = false;
     let chatLoading = null;
     let realtimeStarted = false;
+    let chatSnapshot = "";
     let currentUserId = "";
     const getChatAuthorId = () => currentUserId;
     const savedName = localStorage.getItem("hueChatName") || getAuthMember()?.displayName || "";
@@ -910,22 +911,35 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cached) cached.body = "";
     };
 
-    const loadMessages = async () => {
-      setStatus("Đang tải tin nhắn...");
+    const loadMessages = async ({ quiet = false } = {}) => {
+      if (!quiet) setStatus("Đang tải tin nhắn...");
       const { data: state, error } = await window.HUE_TRIP_API_CLIENT.chatList(config);
       if (error) throw error;
       const rows = state?.messages || [];
       currentUserId = state?.viewerActorKey || "";
+      const nextSnapshot = JSON.stringify({
+        viewerActorKey: currentUserId,
+        messages: rows,
+        reactions: state?.reactions || []
+      });
+
+      // Polling replaces Realtime after public table access was removed. Do
+      // nothing when the sanitized server state has not actually changed.
+      if (quiet && nextSnapshot === chatSnapshot) {
+        setMessageCount(state?.count || rows.length || 0);
+        return;
+      }
 
       messages.innerHTML = "";
       knownIds.clear();
       messageById.clear();
-      (rows || []).reverse().forEach(row => renderMessage(row, { icons: false, stick: false }));
+      rows.forEach(row => renderMessage(row, { icons: false, stick: false }));
       renderLucideIcons();
       loadReactions(state?.reactions || [], rows.map(row => row.id));
       setMessageCount(rows?.length || 0);
+      chatSnapshot = nextSnapshot;
       chatLoaded = true;
-      setStatus(rows?.length ? "" : "Chưa có tin nào. Mở bát đi.", rows?.length ? "" : "empty");
+      if (!quiet) setStatus(rows?.length ? "" : "Chưa có tin nào. Mở bát đi.", rows?.length ? "" : "empty");
     };
 
     const loadMessageCount = async () => {
@@ -940,9 +954,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const startRealtime = () => {
       if (realtimeStarted) return;
       realtimeStarted = true;
+      client
+        .channel("chat_messages")
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "chat_messages" }, payload => {
+          renderMessage(payload.new);
+          setStatus("");
+        })
+        .on("postgres_changes", { event: "UPDATE", schema: "public", table: "chat_messages" }, payload => {
+          if (!String(payload.new?.body || "").trim()) markMessageDeleted(payload.new);
+        })
+        .subscribe(subscriptionStatus => {
+          if (subscriptionStatus === "SUBSCRIBED") setStatus("");
+          if (subscriptionStatus === "CHANNEL_ERROR") setStatus("Realtime đang lỗi. Trang vẫn tự kiểm tra lại dữ liệu.", "error");
+        });
+
+      client
+        .channel("chat_reactions")
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "chat_reactions" }, payload => {
+          applyReaction(payload.new);
+        })
+        .on("postgres_changes", { event: "DELETE", schema: "public", table: "chat_reactions" }, payload => {
+          removeReaction(payload.old);
+        })
+        .subscribe();
+
+      // A quiet fallback repairs an interrupted socket without making polling
+      // the primary delivery mechanism.
       window.setInterval(() => {
-        if (chatLoaded && !document.hidden) loadMessages().catch(() => {});
-      }, 5000);
+        if (chatLoaded && !document.hidden) loadMessages({ quiet: true }).catch(() => {});
+      }, 60000);
     };
 
     const ensureChatLoaded = () => {

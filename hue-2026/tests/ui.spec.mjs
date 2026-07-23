@@ -7,6 +7,7 @@ test("desktop/mobile page shell has no browser errors", async ({ page }) => {
   await page.goto("/", { waitUntil: "networkidle" });
   await expect(page.locator("#authLoginOpen")).toBeVisible();
   await expect(page.locator("#chatToggle")).toBeVisible();
+  expect(await page.evaluate(() => typeof window.supabase?.createClient)).toBe("function");
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator("#navToggle").click();
   await expect(page.locator("#navLinks")).toBeVisible();

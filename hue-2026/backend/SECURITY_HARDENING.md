@@ -68,7 +68,18 @@ member signs in again with the same password.
    makes `trip-game-photos` private, removes public RLS/realtime access, grants
    only an explicit function allowlist to `service_role`, and deletes old
    sessions once.
-7. Configure the Render Dashboard's **Custom Headers** for path `/*`:
+7. If phase 1--3 were applied before this runbook's guest-session correction,
+   run [`04_fix_guest_session.sql`](04_fix_guest_session.sql). It fixes only
+   the private guest-token helper and is safe after lockdown.
+8. **Opt-in trade-off:** run [`05_restore_realtime_tradeoff.sql`](05_restore_realtime_tradeoff.sql)
+   only when the owner accepts public browser read/subscriptions for chat and
+   the listed live game tables. It restores instant updates but does not
+   restore browser writes or legacy RPC execution.
+9. **Optional:** configure the Render Dashboard's **Custom Headers** for path
+   `/*` if a Render owner later grants access. Render Static Sites only support
+   these headers through its Dashboard; there is no repository file or
+   Supabase migration that can apply them. Skipping this step does not affect
+   the Edge API, login, RLS, Storage privacy, or the static site's operation.
 
    | Header | Value |
    | --- | --- |
@@ -123,7 +134,8 @@ Also manually verify login with an old password (including a weak legacy bcrypt
 hash), generic login errors, 5 failures per 15 minutes by IP+account, 30 per
 hour by IP, logout, 12-hour expiry, password-change session revocation, guest
 chat ownership, confession reactions, member-only reflections/game/photos,
-expired photo links, and desktop/mobile UI. Watch the private audit/rate-limit
+expired photo links, and desktop/mobile UI. If the optional headers are later
+configured, also verify that the CSP has no browser errors. Watch the private audit/rate-limit
 tables for seven days after release; never export their raw session/token data.
 
 ## Rollback boundaries

@@ -13,6 +13,19 @@
   const configReady = config => Boolean(config?.url && config?.anonKey);
   const memberToken = () => String(read(memberSessionKey)?.sessionToken || "");
   const guest = () => read(guestSessionKey);
+  let realtimeClient = null;
+  let realtimeConfig = "";
+
+  const getRealtimeClient = config => {
+    const key = `${config?.url || ""}|${config?.anonKey || ""}`;
+    if (!configReady(config) || !window.supabase?.createClient) return null;
+    if (realtimeClient && realtimeConfig === key) return realtimeClient;
+    realtimeConfig = key;
+    realtimeClient = window.supabase.createClient(config.url, config.anonKey, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+    });
+    return realtimeClient;
+  };
 
   const endpoint = config => `${String(config.url).replace(/\/$/, "")}/functions/v1/trip-api`;
   const request = async (config, action, payload = {}, options = {}) => {
@@ -117,10 +130,11 @@
       }
       return result;
     },
-    // Realtime table subscriptions were removed with the public table grants.
-    // Existing sections use polling/API refresh, and this no-op preserves their
-    // lifecycle cleanup without recreating a database channel.
-    channel() {
+    // Table writes and RPCs remain Edge-only. The owner explicitly opted into
+    // public read-only Postgres Changes for the existing live UI channels.
+    channel(name) {
+      const client = getRealtimeClient(config);
+      if (client) return client.channel(name);
       return { on() { return this; }, subscribe() { return this; }, unsubscribe() { return Promise.resolve(); } };
     }
   });

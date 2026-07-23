@@ -190,13 +190,14 @@ declare
   v_token text := nullif(btrim(coalesce(p_guest_token, '')), '');
   v_nickname text;
 begin
-  delete from private.guest_sessions where expires_at <= now();
+  delete from private.guest_sessions as guest_session
+  where guest_session.expires_at <= now();
 
   if v_token is not null then
     select * into v_actor
-    from private.guest_sessions
-    where token_hash = extensions.digest(v_token, 'sha256')
-      and expires_at > now()
+    from private.guest_sessions as guest_session
+    where guest_session.token_hash = extensions.digest(v_token, 'sha256')
+      and guest_session.expires_at > now()
     limit 1
     for update;
   end if;
@@ -204,9 +205,9 @@ begin
   if found then
     if nullif(btrim(coalesce(p_nickname, '')), '') is not null then
       v_nickname := private.valid_guest_nickname(p_nickname);
-      update private.guest_sessions
+      update private.guest_sessions as guest_session
       set nickname = v_nickname, updated_at = now()
-      where actor_id = v_actor.actor_id
+      where guest_session.actor_id = v_actor.actor_id
       returning * into v_actor;
     end if;
     return query select v_token, 'guest:' || v_actor.actor_id::text, v_actor.nickname, v_actor.expires_at;
