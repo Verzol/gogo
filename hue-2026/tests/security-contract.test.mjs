@@ -54,3 +54,29 @@ test("Edge API is pinned, allowlisted, and does not accept browser object paths 
   assert.match(source, /createSignedUrl\(path, 300\)/);
   assert.doesNotMatch(source, /rpc\(action,/);
 });
+
+test("reflection submissions are never silently truncated by the Edge API", async () => {
+  const source = await read("supabase/functions/trip-api/index.ts");
+  const saveAction = source.match(/if \(action === "reflections\.save"\) return rpc\(admin, "trip_reflections_save", \{([\s\S]*?)\n  \}\);/);
+  assert.ok(saveAction, "reflection save action must exist");
+  assert.match(saveAction[1], /p_body:\s*cleanText\(payload\.body\)/);
+  assert.doesNotMatch(saveAction[1], /p_body:\s*cleanText\(payload\.body,\s*\d+\)/);
+});
+
+test("reflection reads are public while reflection saves still require a session", async () => {
+  const source = await read("supabase/functions/trip-api/index.ts");
+  assert.match(source, /if \(action === "reflections\.get"\) return rpc\(admin, "trip_reflections_get", \{ p_session_token: sessionToken\(request\) \|\| null \}\)/);
+  assert.match(source, /if \(action === "reflections\.save"\)[\s\S]*?p_session_token: requireSession\(request\)/);
+});
+
+test("reflection RPC returns published entries to guests", async () => {
+  const [securityPrepare, migration] = await Promise.all([
+    read("backend/02_security_prepare.sql"),
+    read("backend/make_reflections_public.sql")
+  ]);
+  for (const source of [securityPrepare, migration]) {
+    assert.match(source, /'authenticated', v_is_authenticated/);
+    assert.match(source, /'reflections', case when not v_is_open then '\[\]'::jsonb else coalesce\(\(/);
+    assert.doesNotMatch(source, /if not found then\s+return jsonb_build_object\([^;]*'reflections', '\[\]'::jsonb\)/);
+  }
+});

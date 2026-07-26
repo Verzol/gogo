@@ -2159,7 +2159,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const reflections = state.reflections || [];
       const isOpen = Boolean(state.open);
 
-      // Guests only see this section when there is a real reflection to read.
+      // Guests can read published reflections but cannot see the composer.
       reflectionSection.hidden = !isLoggedIn && !reflections.length;
       reflectionForm.hidden = !isLoggedIn;
       reflectionForm.classList.toggle("is-locked", isLoggedIn && !isOpen);
@@ -2215,21 +2215,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return;
       }
-      if (!getAuthMember()?.sessionToken) {
-        reflectionsState = {
-          open: new Date(reflectionOpensAt).getTime() <= Date.now(),
-          opensAt: reflectionOpensAt,
-          authenticated: false,
-          reflections: []
-        };
-        renderReflections();
-        return;
-      }
       if (reflectionsLoading) return;
       reflectionsLoading = true;
-      const { data: payload, error } = await client.rpc("trip_reflections_get", {
-        p_session_token: getAuthMember()?.sessionToken || null
-      });
+      const { data: payload, error } = await client.rpc("trip_reflections_get");
       reflectionsLoading = false;
       if (error) {
         if (getAuthMember()?.sessionToken) {
