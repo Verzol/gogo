@@ -1426,6 +1426,10 @@ body.lucide-ready .nav-links a:focus-visible {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
+.photo-album-link[hidden] {
+  display: none;
+}
+
 .photo-album-link:hover,
 .photo-album-link:focus-visible {
   background:

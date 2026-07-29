@@ -18,6 +18,16 @@ test("browser uses a local pinned Realtime client but keeps data writes and RPCs
   assert.doesNotMatch(adapter, /\.from\(|\.storage\.|window\.supabase\.rpc/);
 });
 
+test("photo album link is unavailable until a member session is validated", async () => {
+  const [page, script] = await Promise.all([read("index.html"), read("script.js")]);
+  assert.match(page, /id="photoAlbumLink"[^>]*data-href="https:\/\/drive\.google\.com\/[^>]*hidden/);
+  assert.doesNotMatch(page, /id="photoAlbumLink"[^>]*\shref=/);
+  assert.match(script, /let authSessionValidated = false/);
+  assert.match(script, /const loggedIn = Boolean\(authSessionValidated && authMember\?\.sessionToken && authMember\?\.displayName\)/);
+  assert.match(script, /photoAlbumLink\.hidden = !loggedIn/);
+  assert.match(script, /else photoAlbumLink\.removeAttribute\("href"\)/);
+});
+
 test("lockdown leaves no anon/authenticated grants in the new migrations", async () => {
   const migrations = await Promise.all([
     read("backend/01_emergency_revoke.sql"),
@@ -63,20 +73,27 @@ test("reflection submissions are never silently truncated by the Edge API", asyn
   assert.doesNotMatch(saveAction[1], /p_body:\s*cleanText\(payload\.body,\s*\d+\)/);
 });
 
-test("reflection reads are public while reflection saves still require a session", async () => {
+test("reflection reads and saves require a member session", async () => {
   const source = await read("supabase/functions/trip-api/index.ts");
-  assert.match(source, /if \(action === "reflections\.get"\) return rpc\(admin, "trip_reflections_get", \{ p_session_token: sessionToken\(request\) \|\| null \}\)/);
+  assert.match(source, /if \(action === "reflections\.get"\) return rpc\(admin, "trip_reflections_get", \{ p_session_token: requireSession\(request\) \}\)/);
   assert.match(source, /if \(action === "reflections\.save"\)[\s\S]*?p_session_token: requireSession\(request\)/);
 });
 
-test("reflection RPC returns published entries to guests", async () => {
+test("reflection RPC hides entries from callers without a member session", async () => {
   const [securityPrepare, migration] = await Promise.all([
     read("backend/02_security_prepare.sql"),
-    read("backend/make_reflections_public.sql")
+    read("backend/make_reflections_member_only.sql")
   ]);
   for (const source of [securityPrepare, migration]) {
-    assert.match(source, /'authenticated', v_is_authenticated/);
-    assert.match(source, /'reflections', case when not v_is_open then '\[\]'::jsonb else coalesce\(\(/);
-    assert.doesNotMatch(source, /if not found then\s+return jsonb_build_object\([^;]*'reflections', '\[\]'::jsonb\)/);
+    assert.match(source, /if not found then\s+return jsonb_build_object\([\s\S]*?'reflections', '\[\]'::jsonb[\s\S]*?\);/);
+    assert.doesNotMatch(source, /'authenticated', v_is_authenticated/);
   }
+});
+
+test("long reflection migration keeps only the non-empty-body check", async () => {
+  const source = await read("backend/fix_reflection_long_submissions.sql");
+  assert.match(source, /drop constraint if exists trip_reflections_body_len/);
+  assert.match(source, /check \(char_length\(btrim\(body\)\) >= 1\)/);
+  assert.match(source, /if char_length\(v_body\) < 1 then raise exception/);
+  assert.doesNotMatch(source, /2000|between 1 and/);
 });

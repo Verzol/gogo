@@ -22,18 +22,16 @@ const call = async (action, payload = {}, headers = {}) => {
   return { status: response.status, body: await response.json() };
 };
 
-test("guest cannot access member-only game or photos", { skip: !configured }, async () => {
-  for (const action of ["games.state", "photos.list"]) {
+test("guest cannot access member-only game, reflections, or photos", { skip: !configured }, async () => {
+  for (const action of ["games.state", "reflections.get", "photos.list"]) {
     const result = await call(action, {}, { "X-Trip-Guest": guest });
     assert.equal(result.status, 401, action);
   }
 });
 
-test("published reflections are readable without a session", { skip: !publicConfigured }, async () => {
+test("reflections require a member session", { skip: !publicConfigured }, async () => {
   const result = await call("reflections.get");
-  assert.equal(result.status, 200);
-  assert.equal(result.body.data?.authenticated, false);
-  assert.ok(Array.isArray(result.body.data?.reflections));
+  assert.equal(result.status, 401);
 });
 
 test("non-host cannot change game state", { skip: !configured }, async () => {

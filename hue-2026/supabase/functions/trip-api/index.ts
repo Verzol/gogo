@@ -441,7 +441,7 @@ const handleJson = async (admin: ReturnType<typeof supabaseAdmin>, request: Requ
   if (action === "confession.toggleReaction") return rpc(admin, "trip_confession_toggle_reaction", {
     p_session_token: requireSession(request), p_confession_id: integer(payload.confessionId), p_emoji: cleanText(payload.emoji, 16)
   });
-  if (action === "reflections.get") return rpc(admin, "trip_reflections_get", { p_session_token: sessionToken(request) || null });
+  if (action === "reflections.get") return rpc(admin, "trip_reflections_get", { p_session_token: requireSession(request) });
   if (action === "reflections.save") return rpc(admin, "trip_reflections_save", {
     p_session_token: requireSession(request), p_body: cleanText(payload.body)
   });

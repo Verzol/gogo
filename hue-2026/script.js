@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })).filter(account => account.username);
 
   let authMember = null;
+  let authSessionValidated = false;
 
   const getAuthMember = () => authMember;
 
@@ -143,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const copy = document.getElementById("authCopy");
     const modeLabel = document.getElementById("authModeLabel");
     const errorBox = document.getElementById("authError");
+    const photoAlbumLink = document.getElementById("photoAlbumLink");
 
     if (!loginOpen || !authUser || !greetingButton || !greetingName || !userMenu || !changePassword || !logout || !modal || !form || !accountSelect || !accountButton || !accountCurrent || !accountMenu || !passwordField || !password || !newPasswordField || !newPassword || !submit || !cancel || !title || !copy || !modeLabel || !errorBox) return;
 
@@ -218,6 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const saveSession = member => {
       authMember = member;
+      authSessionValidated = true;
       sessionStorage.setItem(sessionKey, JSON.stringify(member));
       localStorage.setItem("hueChatName", member.displayName || member.username);
       renderAuth();
@@ -226,16 +229,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const clearSession = () => {
       authMember = null;
+      authSessionValidated = false;
       sessionStorage.removeItem(sessionKey);
       renderAuth();
       emitAuthChange();
     };
 
     const renderAuth = () => {
-      const loggedIn = Boolean(authMember?.displayName);
+      const loggedIn = Boolean(authSessionValidated && authMember?.sessionToken && authMember?.displayName);
       loginOpen.hidden = loggedIn;
       authUser.hidden = !loggedIn;
       greetingName.textContent = authMember?.displayName || "";
+      if (photoAlbumLink) {
+        photoAlbumLink.hidden = !loggedIn;
+        if (loggedIn) photoAlbumLink.href = photoAlbumLink.dataset.href || "";
+        else photoAlbumLink.removeAttribute("href");
+      }
       setUserMenuOpen(false);
     };
 
@@ -353,6 +362,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     loginOpen.addEventListener("click", () => openModal());
+    photoAlbumLink?.addEventListener("click", event => {
+      if (authSessionValidated && authMember?.sessionToken) return;
+      event.preventDefault();
+    });
     greetingButton.addEventListener("click", event => {
       event.stopPropagation();
       setUserMenuOpen(userMenu.hidden);
@@ -2159,7 +2172,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const reflections = state.reflections || [];
       const isOpen = Boolean(state.open);
 
-      // Guests can read published reflections but cannot see the composer.
+      // Reflections are visible only to members with an active session.
       reflectionSection.hidden = !isLoggedIn && !reflections.length;
       reflectionForm.hidden = !isLoggedIn;
       reflectionForm.classList.toggle("is-locked", isLoggedIn && !isOpen);
@@ -2215,9 +2228,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return;
       }
+      if (!getAuthMember()?.sessionToken) {
+        reflectionsState = {
+          open: new Date(reflectionOpensAt).getTime() <= Date.now(),
+          opensAt: reflectionOpensAt,
+          authenticated: false,
+          reflections: []
+        };
+        renderReflections();
+        return;
+      }
       if (reflectionsLoading) return;
       reflectionsLoading = true;
-      const { data: payload, error } = await client.rpc("trip_reflections_get");
+      const { data: payload, error } = await client.rpc("trip_reflections_get", {
+        p_session_token: getAuthMember()?.sessionToken || null
+      });
       reflectionsLoading = false;
       if (error) {
         if (getAuthMember()?.sessionToken) {

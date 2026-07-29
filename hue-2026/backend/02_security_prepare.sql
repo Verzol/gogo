@@ -713,7 +713,7 @@ begin
 end;
 $$;
 
--- Published reflections are public; only the personal draft and composer need a member session.
+-- Reflections are visible only to members with an active session.
 create or replace function public.trip_reflections_get(p_session_token text default null)
 returns jsonb
 language plpgsql
@@ -722,21 +722,19 @@ set search_path = private, public, pg_temp
 as $$
 declare
   v_member record;
-  v_is_authenticated boolean;
   v_opens_at constant timestamptz := timestamptz '2026-07-19 00:00:00+07';
   v_is_open boolean := now() >= v_opens_at;
 begin
   select * into v_member from private.member_from_session(p_session_token);
-  v_is_authenticated := found;
+  if not found then
+    return jsonb_build_object('open', v_is_open, 'opensAt', v_opens_at, 'authenticated', false, 'viewer', null, 'reflection', null, 'reflections', '[]'::jsonb);
+  end if;
   return jsonb_build_object(
     'open', v_is_open,
     'opensAt', v_opens_at,
-    'authenticated', v_is_authenticated,
-    'viewer', case when not v_is_authenticated then null else jsonb_build_object(
-      'username', v_member.username,
-      'displayName', v_member.display_name
-    ) end,
-    'reflection', case when not v_is_authenticated or not v_is_open then null else (
+    'authenticated', true,
+    'viewer', jsonb_build_object('username', v_member.username, 'displayName', v_member.display_name),
+    'reflection', case when not v_is_open then null else (
       select jsonb_build_object('body', r.body, 'updatedAt', r.updated_at)
       from public.trip_reflections r where r.username = v_member.username
     ) end,
