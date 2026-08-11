@@ -65,6 +65,22 @@
     return rememberGuest(data);
   };
 
+  const ensureChatIdentity = async (config, nickname = "") => {
+    if (memberToken()) return null;
+    try {
+      await ensureGuest(config, nickname);
+      return null;
+    } catch (requestError) {
+      return error(requestError?.message);
+    }
+  };
+
+  const chatRequest = async (config, action, payload = {}, nickname = "") => {
+    const identityError = await ensureChatIdentity(config, nickname);
+    if (identityError) return { data: null, error: identityError };
+    return request(config, action, payload);
+  };
+
   const rpcAction = (name, args = {}) => {
     const map = {
       trip_login: ["auth.login", { username: args.p_username, password: args.p_password }],
@@ -146,20 +162,16 @@
     getGuest: guest,
     async ensureGuest(config, nickname) { return ensureGuest(config, nickname); },
     async chatList(config) {
-      await ensureGuest(config);
-      return request(config, "chat.list");
+      return chatRequest(config, "chat.list");
     },
     async chatSend(config, payload) {
-      await ensureGuest(config, payload.nickname || "");
-      return request(config, "chat.send", payload);
+      return chatRequest(config, "chat.send", payload, payload.nickname || "");
     },
     async chatDelete(config, messageId) {
-      await ensureGuest(config);
-      return request(config, "chat.delete", { messageId });
+      return chatRequest(config, "chat.delete", { messageId });
     },
     async chatToggleReaction(config, messageId, emoji) {
-      await ensureGuest(config);
-      return request(config, "chat.toggleReaction", { messageId, emoji });
+      return chatRequest(config, "chat.toggleReaction", { messageId, emoji });
     },
     async listPhotos(config) { return request(config, "photos.list"); },
     async deletePhoto(config, path) { return request(config, "photos.delete", { path }); },

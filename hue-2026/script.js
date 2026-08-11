@@ -1063,15 +1063,25 @@ document.addEventListener("DOMContentLoaded", () => {
         payload.replyToId = selectedReply.id;
       }
 
-      const { data, error } = await window.HUE_TRIP_API_CLIENT.chatSend(config, payload);
-      sendButton.disabled = false;
-      if (error) {
-        input.value = body;
-        setStatus("Không gửi được tin. Kiểm tra Supabase hoặc mạng.", "error");
-      } else {
+      try {
+        const { data, error } = await window.HUE_TRIP_API_CLIENT.chatSend(config, payload);
+        if (error) {
+          input.value = body;
+          const message = getAuthMember()?.sessionToken
+            ? error.message
+            : "Không gửi được tin. Nếu dùng tên thành viên, hãy đăng nhập trước hoặc chọn biệt danh khác.";
+          setStatus(message || "Không gửi được tin. Kiểm tra Supabase hoặc mạng.", "error");
+          return;
+        }
+
         currentUserId = data?.user_id || currentUserId;
         renderMessage(data);
         clearReply();
+      } catch (sendError) {
+        input.value = body;
+        setStatus(sendError?.message || "Không gửi được tin. Kiểm tra Supabase hoặc mạng.", "error");
+      } finally {
+        sendButton.disabled = false;
       }
     });
 

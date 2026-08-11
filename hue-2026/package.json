@@ -2,7 +2,7 @@
   "scripts": {
     "audit": "npm audit --audit-level=high",
     "check:js": "node --check script.js && node --check trip-api-client.js",
-    "test:security": "node --test tests/security-contract.test.mjs tests/trip-api-negative.test.mjs",
+    "test:security": "node --test tests/*.test.mjs",
     "test:e2e": "playwright test"
   },
   "devDependencies": {
