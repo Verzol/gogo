@@ -6,9 +6,10 @@ import { readFile } from "node:fs/promises";
 const source = await readFile(new URL("../trip-api-client.js", import.meta.url), "utf8");
 const config = { url: "https://example.supabase.co", anonKey: "publishable-key" };
 
-const loadClient = ({ memberSession, fetch }) => {
+const loadClient = ({ memberSession, guestSession, fetch }) => {
   const values = new Map();
   if (memberSession) values.set("hueAuthSession", JSON.stringify(memberSession));
+  if (guestSession) values.set("hueGuestSession", JSON.stringify(guestSession));
   const sessionStorage = {
     getItem: key => values.get(key) ?? null,
     setItem: (key, value) => values.set(key, value)
@@ -22,6 +23,7 @@ test("member chat sends with the member session without creating a guest", async
   const calls = [];
   const { client } = loadClient({
     memberSession: { sessionToken: "member-token" },
+    guestSession: { guestToken: "stale-guest-token", actorKey: "guest:stale" },
     fetch: async (_url, options) => {
       calls.push({ body: JSON.parse(options.body), headers: options.headers });
       return { ok: true, json: async () => ({ data: { id: "message-id" } }) };

@@ -34,7 +34,7 @@
     const session = memberToken();
     const guestToken = String(guest()?.guestToken || "");
     if (session) headers["X-Trip-Session"] = session;
-    if (guestToken) headers["X-Trip-Guest"] = guestToken;
+    else if (guestToken) headers["X-Trip-Guest"] = guestToken;
     let body;
     if (options.formData) {
       body = options.formData;

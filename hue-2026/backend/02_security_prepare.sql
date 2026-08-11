@@ -581,7 +581,9 @@ declare
   v_message public.chat_messages%rowtype;
 begin
   if char_length(v_body) not between 1 and 500 then raise exception 'Invalid chat message'; end if;
-  if nullif(btrim(coalesce(p_guest_token, '')), '') is not null and nullif(btrim(coalesce(p_nickname, '')), '') is not null then
+  if not exists (select 1 from private.member_from_session(p_session_token))
+     and nullif(btrim(coalesce(p_guest_token, '')), '') is not null
+     and nullif(btrim(coalesce(p_nickname, '')), '') is not null then
     select * into v_guest from private.issue_guest_session(p_guest_token, p_nickname);
     p_guest_token := v_guest.guest_token;
   end if;

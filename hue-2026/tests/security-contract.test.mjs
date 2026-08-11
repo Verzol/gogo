@@ -47,6 +47,18 @@ test("guest session helper qualifies table columns that collide with OUT fields"
   assert.match(source, /guest_session\.expires_at > now\(\)/i);
 });
 
+test("member chat takes precedence over a retained guest token", async () => {
+  const [adapter, prepare, hotfix] = await Promise.all([
+    read("trip-api-client.js"),
+    read("backend/02_security_prepare.sql"),
+    read("backend/06_fix_member_chat_guest_collision.sql")
+  ]);
+  assert.match(adapter, /if \(session\) headers\["X-Trip-Session"\] = session;\s*else if \(guestToken\)/);
+  for (const source of [prepare, hotfix]) {
+    assert.match(source, /if not exists \(select 1 from private\.member_from_session\(p_session_token\)\)/i);
+  }
+});
+
 test("Realtime restoration is read-only and explicit about its public-data trade-off", async () => {
   const source = await read("backend/05_restore_realtime_tradeoff.sql");
   assert.match(source, /grant select on table public/i);

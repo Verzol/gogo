@@ -71,11 +71,14 @@ member signs in again with the same password.
 7. If phase 1--3 were applied before this runbook's guest-session correction,
    run [`04_fix_guest_session.sql`](04_fix_guest_session.sql). It fixes only
    the private guest-token helper and is safe after lockdown.
-8. **Opt-in trade-off:** run [`05_restore_realtime_tradeoff.sql`](05_restore_realtime_tradeoff.sql)
+8. Run [`06_fix_member_chat_guest_collision.sql`](06_fix_member_chat_guest_collision.sql)
+   after lockdown. It lets an authenticated member send chat messages even if
+   the browser still has a guest token from before login.
+9. **Opt-in trade-off:** run [`05_restore_realtime_tradeoff.sql`](05_restore_realtime_tradeoff.sql)
    only when the owner accepts public browser read/subscriptions for chat and
    the listed live game tables. It restores instant updates but does not
    restore browser writes or legacy RPC execution.
-9. **Optional:** configure the Render Dashboard's **Custom Headers** for path
+10. **Optional:** configure the Render Dashboard's **Custom Headers** for path
    `/*` if a Render owner later grants access. Render Static Sites only support
    these headers through its Dashboard; there is no repository file or
    Supabase migration that can apply them. Skipping this step does not affect
