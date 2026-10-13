@@ -47,4 +47,5 @@ taxua-2026/
 
 - Content changes go in `data.js` only. Rendering lives in `main.js`. This is the split from hue-2026.
 - `data.js` must load before `main.js` (script tag order in `index.html`), since `main.js` reads the global `TRIP_DATA`.
+- Logo: `figures/decor/logo.png` (512px, nav + footer) and `favicon.png` (64px), cleaned from `figures/raw/Whimsical Gogo Mountain Sticker.png`. Flat cartoon style like hue-2026's logo, unlike the watercolor stickers, so it reads at favicon size.
 - Crew avatars are positional: `members[i]` uses `figures/people/${i + 1}.png`. Keep the array order in sync with the file numbering.

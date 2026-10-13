@@ -98,7 +98,9 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 12px); }
   -webkit-backdrop-filter:blur(14px) saturate(1.2);
   border-bottom:1px solid rgba(38,54,94,.12);
 }
-.brand{ font-family:var(--font-display); font-weight:600; font-size:1.3rem; color:var(--indigo); white-space:nowrap; }
+.brand{ display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:600; font-size:1.3rem; color:var(--indigo); white-space:nowrap; }
+.brand-logo{ width:50px; height:50px; transition:transform .3s ease; }
+.brand:hover .brand-logo{ transform:rotate(-6deg) scale(1.05); }
 .brand em{ font-style:italic; font-weight:400; color:var(--thread); }
 .nav-links{ display:flex; gap:26px; font-size:.85rem; font-weight:500; color:var(--slate); }
 .nav-links a{ position:relative; padding-bottom:2px; transition:color .2s; }
@@ -345,7 +347,7 @@ section[id]{ scroll-margin-top:calc(var(--nav-h) + 12px); }
 /* ---------- footer ---------- */
 .footer{ background:var(--indigo); color:var(--cloud); text-align:center; padding-bottom:48px; }
 .footer .wrap{ padding-top:clamp(40px,6vw,72px); }
-.footer-dino{ width:clamp(140px,18vw,220px); margin:0 auto 18px; transform:rotate(-3deg); }
+.footer-logo{ width:clamp(140px,18vw,200px); margin:0 auto 18px; transform:rotate(-3deg); filter:drop-shadow(0 10px 20px rgba(0,0,0,.25)); }
 .footer h2{ font-size:clamp(1.8rem,4.5vw,3rem); margin:0 0 24px; font-style:italic; font-weight:400; }
 .sign{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px 28px; font-size:.82rem; color:rgba(251,250,246,.72); }
 .sign .b{ font-family:var(--font-display); font-size:1.1rem; color:var(--cloud); }
