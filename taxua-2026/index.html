@@ -3,20 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tà Xùa x gogo — Nhật ký săn mây</title>
-  <script>document.documentElement.className += ' js-reveal';</script>
+  <title>Tà Xùa x gogo | Nhật ký săn mây</title>
+  <meta name="theme-color" content="#eef3f6" />
+  <script>
+    // Apply the preference before CSS paints; storage may be unavailable on file://.
+    (() => {
+      const root = document.documentElement;
+      let savedTheme;
+      try { savedTheme = localStorage.getItem('taxua-2026-theme'); } catch (_) {}
+      root.dataset.theme = savedTheme === 'light' || savedTheme === 'dark'
+        ? savedTheme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      root.classList.add('js-reveal');
+      const heroPreload = document.createElement('link');
+      heroPreload.rel = 'preload';
+      heroPreload.as = 'image';
+      heroPreload.href = './figures/decor/mountain_sky_' + (root.dataset.theme === 'dark' ? 'night' : 'day') + '.webp';
+      heroPreload.fetchPriority = 'high';
+      document.head.append(heroPreload);
+    })();
+  </script>
   <link rel="icon" type="image/png" href="./figures/decor/favicon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./fonts.css" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
   <!-- NAV -->
-  <nav class="nav">
-    <a href="#hero" class="brand"><img class="brand-logo" src="./figures/decor/logo.png" alt="gogo" /><span>Tà Xùa <em>x</em> gogo</span></a>
-    <button class="nav-toggle" id="navToggle" aria-label="Mở menu" aria-expanded="false" aria-controls="navLinks">☰</button>
+  <nav class="nav" aria-label="Điều hướng chính">
+    <a href="#hero" class="brand"><img class="brand-logo" width="50" height="50" src="./figures/decor/logo.webp" alt="gogo" /><span>Tà Xùa <em>x</em> gogo</span></a>
     <div class="nav-links" id="navLinks">
       <a href="#crew">Đồng Bọn</a>
       <a href="#packing">Đồ Mang</a>
@@ -24,42 +38,47 @@
       <a href="#destinations">Sống Ảo</a>
       <a href="#food">Bổ Sung Mỡ</a>
     </div>
+    <div class="nav-actions">
+      <div class="theme-toggle" role="group" aria-label="Giao diện sáng hoặc tối">
+        <button class="theme-option" type="button" data-theme-choice="light" aria-pressed="false"><span class="theme-icon theme-icon--sun" aria-hidden="true"></span><span>Sáng</span></button>
+        <button class="theme-option" type="button" data-theme-choice="dark" aria-pressed="false"><span class="theme-icon theme-icon--moon" aria-hidden="true"></span><span>Tối</span></button>
+      </div>
+      <button class="nav-toggle" type="button" id="navToggle" aria-label="Mở menu" aria-expanded="false" aria-controls="navLinks"><span class="menu-icon" aria-hidden="true"></span></button>
+    </div>
   </nav>
 
-  <!-- HERO — trời đêm chàm → bình minh → biển mây -->
+  <!-- HERO: nắng sớm / sương lạnh theo theme toàn trang -->
   <header class="hero" id="hero">
-    <img class="sticker s-hero-cloud1" src="./figures/decor/cloud-1.png" alt="" />
-    <img class="sticker s-hero-cloud2" src="./figures/decor/cloud-2.png" alt="" />
-    <img class="sticker s-hero-peach" src="./figures/decor/peach-branch.png" alt="" />
+    <img class="sticker s-hero-cloud1" data-sticker="cloud_1" src="./figures/decor/cloud_1_day.webp" alt="" decoding="async" />
+    <img class="sticker s-hero-cloud2" data-sticker="cloud_2" src="./figures/decor/cloud_2_day.webp" alt="" decoding="async" />
+    <img class="sticker s-hero-peach" data-sticker="peach_branch" src="./figures/decor/peach_branch_day.webp" alt="" decoding="async" />
     <div class="wrap">
-      <div class="hero-masthead reveal" id="heroMasthead"></div>
-      <h1 class="hero-title display reveal"><span id="heroTitle"></span> <span class="x">x</span> <span class="gogo">gogo</span></h1>
-      <div class="hero-lower reveal">
+      <div class="hero-copy">
+        <p class="hero-date reveal" id="heroDate"></p>
+        <h1 class="hero-title display reveal"><span id="heroTitle"></span> <span class="hero-wordmark"><span class="x">x</span> <span class="gogo">gogo</span></span></h1>
         <p class="hero-sub" id="heroSub"></p>
-        <div>
-          <p class="hero-date" id="heroDate"></p>
-          <p class="hero-meta" id="heroMeta"></p>
-        </div>
+        <a class="hero-link" href="#itinerary">Xem lịch trình <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <img class="hero-sunrise" src="./figures/decor/sunrise.png" alt="" aria-hidden="true" />
+    <img class="hero-landscape" width="527" height="298" data-sticker="mountain_sky" src="./figures/decor/mountain_sky_day.webp" alt="" aria-hidden="true" fetchpriority="high" />
     <div class="cloud-sea" aria-hidden="true">
       <div class="cloud-layer cloud-layer--back"></div>
       <div class="cloud-layer cloud-layer--front"></div>
     </div>
   </header>
 
+  <main>
+  <div class="trip-note wrap"><p id="heroMeta"></p></div>
   <!-- CREW -->
   <section id="crew" class="section-pad">
-    <img class="sticker s-crew-dino" src="./figures/decor/dino-ridge.png" alt="" />
-    <img class="sticker s-crew-cloud" src="./figures/decor/cloud-2.png" alt="" />
+    <img class="sticker s-crew-dino" data-sticker="dino_ridge" src="./figures/decor/dino_ridge_day.webp" alt="" loading="lazy" decoding="async" />
+    <img class="sticker s-crew-cloud" data-sticker="cloud_2" src="./figures/decor/cloud_2_day.webp" alt="" loading="lazy" decoding="async" />
     <div class="wrap">
       <div class="head-row reveal">
         <div>
-          <span class="eyebrow"><span class="peak">▲</span> Chặng 01 · Danh sách leo núi</span>
           <h2 class="head-title display">Đồng Bọn <em id="crewCount"></em></h2>
         </div>
-        <p class="head-sub">Mười người, một ngọn núi, không ai được bỏ lại dưới mây.</p>
+        <p class="head-sub">Bảy người, một ngọn núi, không ai được bỏ lại dưới mây.</p>
       </div>
       <div class="crew-grid reveal" id="crewGrid"></div>
     </div>
@@ -69,14 +88,13 @@
 
   <!-- PACKING -->
   <section id="packing" class="section-pad">
-    <img class="sticker s-pack-tea" src="./figures/decor/shan-tea.png" alt="" />
-    <img class="sticker s-pack-cloud" src="./figures/decor/cloud-1.png" alt="" />
+    <img class="sticker s-pack-tea" data-sticker="shan_tea" src="./figures/decor/shan_tea_day.webp" alt="" loading="lazy" decoding="async" />
+    <img class="sticker s-pack-cloud" data-sticker="cloud_1" src="./figures/decor/cloud_1_day.webp" alt="" loading="lazy" decoding="async" />
     <div class="wrap">
       <div class="packing-card reveal">
         <div class="loom-band" aria-hidden="true"></div>
         <div class="packing-inner">
           <div class="pack-left">
-            <span class="eyebrow"><span class="peak">▲</span> Chặng 02 · Nhớ đem gì</span>
             <h2 class="head-title display" id="packingTitle"></h2>
             <p class="hand-note" id="packingNote"></p>
           </div>
@@ -90,17 +108,16 @@
 
   <!-- ITINERARY -->
   <section id="itinerary" class="section-pad">
-    <img class="sticker s-itin-tree" src="./figures/decor/lone-tree.png" alt="" />
-    <img class="sticker s-itin-peach" src="./figures/decor/peach-branch.png" alt="" />
+    <img class="sticker s-itin-tree" data-sticker="lone_tree" src="./figures/decor/lone_tree_day.webp" alt="" loading="lazy" decoding="async" />
+    <img class="sticker s-itin-peach" data-sticker="peach_branch" src="./figures/decor/peach_branch_day.webp" alt="" loading="lazy" decoding="async" />
     <div class="wrap">
-      <div class="head-row reveal">
-        <div>
-          <span class="eyebrow"><span class="peak">▲</span> Chặng 03 · Kế hoạch tác chiến</span>
-          <h2 class="head-title display">Lịch Trình</h2>
-        </div>
-        <p class="head-sub">Giờ giấc có thể xê dịch theo mây. Riêng giờ dậy thì không.</p>
+      <div class="itinerary-heading reveal">
+        <h2 class="head-title display">Lịch Trình</h2>
+        <p class="itinerary-dates" id="itineraryDates"></p>
+        <p class="itinerary-description">Chọn một ngày để xem giờ đi, điểm ghé và những điều cần nhớ.</p>
       </div>
-      <div class="days reveal" id="daysList"></div>
+      <div class="days" id="daysList"></div>
+      <noscript><p>Bật JavaScript để xem lịch trên trang, hoặc <a href="https://docs.google.com/spreadsheets/d/1avQi4rDVT2_d2PAj-XphaUORJtsvHB64wNt44CQcOdA/edit#gid=20009742">xem lịch trình trong sheet</a>.</p></noscript>
     </div>
   </section>
 
@@ -108,11 +125,10 @@
 
   <!-- DESTINATIONS -->
   <section id="destinations" class="section-pad">
-    <img class="sticker s-dest-cloud" src="./figures/decor/cloud-2.png" alt="" />
+    <img class="sticker s-dest-cloud" data-sticker="cloud_2" src="./figures/decor/cloud_2_day.webp" alt="" loading="lazy" decoding="async" />
     <div class="wrap">
       <div class="head-row reveal">
         <div>
-          <span class="eyebrow"><span class="peak">▲</span> Chặng 04 · Toạ độ sống ảo</span>
           <h2 class="head-title display">Check-in trên mây</h2>
         </div>
         <p class="head-sub">Bốn điểm bắt buộc phải có mặt trên feed.</p>
@@ -125,11 +141,10 @@
 
   <!-- FOOD -->
   <section id="food" class="section-pad">
-    <img class="sticker s-food-cloud" src="./figures/decor/cloud-1.png" alt="" />
+    <img class="sticker s-food-cloud" data-sticker="cloud_1" src="./figures/decor/cloud_1_day.webp" alt="" loading="lazy" decoding="async" />
     <div class="wrap">
       <div class="head-row reveal">
         <div>
-          <span class="eyebrow"><span class="peak">▲</span> Chặng 05 · Bổ sung mỡ</span>
           <h2 class="head-title display">Ăn sập Tà Xùa</h2>
         </div>
         <p class="head-sub">Lạnh thì phải ăn. Ăn xong thì phải uống trà.</p>
@@ -138,15 +153,17 @@
     </div>
   </section>
 
+  </main>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="loom-band" aria-hidden="true"></div>
     <div class="wrap">
-      <img class="footer-logo" src="./figures/decor/logo.png" alt="gogo" />
+      <img class="footer-logo" width="200" height="200" loading="lazy" decoding="async" src="./figures/decor/logo.webp" alt="gogo" />
       <h2 class="display">Hẹn nhau trên biển mây.</h2>
       <div class="sign">
         <span class="b">Tà Xùa <em>'26</em></span>
-        <span>Ấn bản nội bộ · chỉ dành cho 10 mống</span>
+        <span>Ấn bản nội bộ · chỉ dành cho 7 mống</span>
         <span>Made with ☁️ &amp; chè Shan tuyết</span>
       </div>
     </div>

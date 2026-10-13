@@ -4,21 +4,15 @@ Concept: **"Nhật ký săn mây"** (cloud-hunting field journal) — a 5 a.m. t
 
 Stickers use the **same hand-drawn watercolor-pencil style as `../dalat-2026/STICKER-PROMPTS.md`**, so the gogo sites read as one series. Only the palette changes: Đà Lạt was avocado/clay, Tà Xùa is mist/indigo/dawn.
 
-Clouds and the ridge-line divider are **not** stickers — they are drawn as inline SVG/CSS (lighter, crisp at any size, animatable, and work over `file://`).
+The large cloud-sea edge and ridge-line divider use SVG/CSS. The small decorative cloud puffs are image stickers, with day/night variants like the other subjects.
 
 ---
 
-## Palette (matches `style.css` `:root`)
+## Day and night palette
 
-Render as natural pencil/watercolor tones, not flat digital color:
+The day sheet uses pale blue-gray clouds, natural greens, peach blossoms and warm sunrise light. The supplied night sheet keeps the watercolor texture and white die-cut borders, with indigo skies, moonlight and deeper blue clouds. Food, tea and flowers retain their natural colors.
 
-- Misty blue-gray (sky washes, distant mountains) — near `--mist #e8edf2` / `--slate #5d6878`
-- Deep indigo, H'Mông-dye blue (outlines of fabric, night sky, shadows) — near `--indigo #26365e`
-- Warm sunrise peach-orange (sun, glow on cloud tops) — near `--dawn #f3b48a`
-- Soft peach-blossom pink (flowers, cheeks of cute characters) — near `--peach #e58ea3`
-- Muted tea green (tea leaves, grass on the ridge) — near `--tea #5f7a48`
-- Brocade red, used sparingly (embroidery thread, tiny accents) — near `--thread #b8352a`
-- Near-black ink outlines — near `--ink #1f2430`
+The page themes are defined in `style.css`: the day surface is `#eef3f6` with accent `#284f67`; the night surface is `#101e2c` with accent `#b1d7e9`. Do not recolor the night stickers with CSS: their night palette is already painted into the supplied artwork.
 
 ## Base prompt
 
@@ -41,22 +35,39 @@ Negative prompt: `flat vector, clean digital linework, gradient mesh, 3D render,
 
 ## Sticker list
 
-The 10 priority stickers are done: cut from `figures/raw/Watercolor Adventure Sticker Collection.png` into `figures/decor/` (`cloud-1`, `cloud-2`, `dino-ridge`, `dolphin-rock`, `lone-tree`, `peach-branch`, `shan-tea`, `tao-meo`, `pork-skewer`, `black-chicken`, `sunrise`). They are ~250–530px on the long edge, below the 500–600px target, so regenerate at higher resolution if they look soft on retina.
+There are **11 pairs** of stickers. Each subject has four files in `figures/decor/`: `<subject>_day.png`, `<subject>_day.webp`, `<subject>_night.png`, `<subject>_night.webp`. PNG is the transparent source cutout; the website uses the normalized WebP pair.
 
-### Priority
+- Day source: `figures/raw/Watercolor Adventure Sticker Collection.png`. Existing cutouts were renamed, preserving their pixels.
+- Night source: `figures/raw/Watercolor Adventure Sticker Collection Night.png`. All 11 subjects were extracted separately, preserving the white outlines and alpha edges.
+- `logo.png`, `logo.webp` and `favicon.png` are shared and do not change with the theme.
 
-| File | Subject line |
+### Paired inventory
+
+| Subject filename prefix | Illustration |
 |---|---|
-| `cloud-1.png`, `cloud-2.png` | a fluffy cumulus cloud puff with a faint peach sunrise glow on its top edge (vary the shape per file) |
-| `dino-ridge.png` | a narrow grassy mountain ridge shaped like a dinosaur's spine, with a small cute cartoon dinosaur peeking its head over the ridge, clouds below |
-| `dolphin-rock.png` | a rocky outcrop jutting out over a sea of clouds, shaped like a dolphin's snout, with a tiny playful dolphin leaping beside it |
-| `lone-tree.png` | a single solitary pine tree on a bare hilltop, mist around its base |
-| `peach-branch.png` | a short branch of pink peach blossoms with a few buds and small leaves |
-| `shan-tea.png` | a sprig of Shan Tuyết tea with silvery-white downy buds, next to a small clay cup of hot tea with curling steam |
-| `tao-meo.png` | a small cluster of wild Vietnamese mountain crabapples (táo mèo), yellow-green with red blush, beside a glass jar of crabapple wine |
-| `pork-skewer.png` | grilled mountain pork skewers on a bamboo stick over glowing charcoal |
-| `black-chicken.png` | a cute round H'Mông black chicken with dark feathers and a red comb |
-| `sunrise.png` | a sun rising behind layered mountain ridges, rays fanning out |
+| `cloud_1` | Tall cloud puff |
+| `cloud_2` | Wide cloud puff |
+| `dino_ridge` | Dinosaur-spine ridge and the small dinosaur |
+| `dolphin_rock` | Rocky outcrop and dolphin |
+| `lone_tree` | Solitary tree above clouds |
+| `peach_branch` | Peach blossoms |
+| `shan_tea` | Shan Tuyết tea leaves and hot tea |
+| `tao_meo` | Crabapples and a jar of wine |
+| `pork_skewer` | Grilled pork skewers |
+| `black_chicken` | H'Mông black chicken |
+| `mountain_sky` | Sunrise by day; moonlit mountains by night |
+
+`mountain_sky` replaces the old `sunrise` filename so the name fits both modes. The previous hyphenated names are now underscore-separated. `data.js` points to the renamed daytime PNG; `imagePath()` and `stickerImage()` select the corresponding WebP for the active theme. Static decorations are marked with `data-sticker` and swap with the same theme handler.
+
+### Re-extract the night sheet
+
+Run from the repository root:
+
+```bash
+python3 taxua-2026/scripts/extract_night_stickers.py
+```
+
+The utility requires Pillow, NumPy and SciPy. It identifies the 11 opaque subjects, assigns soft alpha edges to the nearest subject, removes neighboring fragments and writes night PNG cutouts with a 5px transparent margin. Original day PNGs remain unchanged. It then regenerates both WebPs per subject: the night artwork is uniformly scaled to match the day's opaque bounding-box area, and both are centered on an identical canvas with enough room for their full outlines. This keeps apparent size and layout stable across themes without stretching the drawings. Their original proportions differ slightly, so individual widths/heights may still vary (up to 4.4%; bounding-box area differs by less than 0.4%). Subject centers are specific to the supplied 1536x1024 sheet; review them before using a different sheet.
 
 ### Optional
 
@@ -79,5 +90,5 @@ Seasonal: peach blossoms start late Oct–Nov and peak Dec–Jan; white mustard 
    magick generated.png -fuzz 8% -transparent white -trim +repage generated.png
    ```
 2. **Resize** to 500–600px on the long edge (2–3x the largest on-page size, for retina).
-3. **Save to** `figures/decor/<name>.png` (food stickers can go in `figures/food/`).
+3. **Save to** `figures/decor/<name>_day.png` or `<name>_night.png`, plus a matching WebP copy (food stickers can go in `figures/food/`).
 4. **Verify at display size** — shrink to its actual on-page width and check it still reads.
