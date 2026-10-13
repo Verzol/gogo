@@ -8,6 +8,7 @@ Mỗi chuyến đi là một thư mục riêng, tự chứa toàn bộ nội dun
 | --- | --- | --- |
 | `hue-2026/` | Huế | Đã xong |
 | `dalat-2026/` | Đà Lạt | Đang chuẩn bị |
+| `taxua-2026/` | Tà Xùa | Mới dựng khung |
 
 Mỗi web gồm lịch trình, danh sách đồng bọn, quán ăn, chỗ sống ảo, cùng vài
 thứ để nghịch trong chuyến đi (chat nhóm, hòm thư confession, nhật ký cảm
