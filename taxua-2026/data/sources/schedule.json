@@ -1,0 +1,286 @@
+{
+  "range": "'Lịch trình'!A1:J33",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "LỊCH TRÌNH TÀ XÙA 3N2Đ "
+    ],
+    [
+      "Ngày",
+      "Buổi",
+      "Thời gian",
+      "Điểm chính",
+      "Địa chỉ",
+      "Chi phí",
+      "Số lượng",
+      "Tổng chi phí",
+      "Ghi chú",
+      "Trang phục"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Mùa Trứ Homestay - 2 đêm",
+      "HomeStay Mùa Trứ Tà Xùa",
+      null,
+      null,
+      "3.600.000 đ"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Xe Hà Nội - Tà Xùa (khứ hồi)",
+      null,
+      null,
+      null,
+      "3.700.000 đ"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Thuê xe máy (xăng) - 2.5 ngày",
+      null,
+      "450.000 đ",
+      "4",
+      "1.800.000 đ"
+    ],
+    [
+      "NGÀY 0: HÀ NỘI - TÀ XÙA                                     "
+    ],
+    [
+      "Thứ 5 (22/10)",
+      "Đêm",
+      "21h30",
+      "Di chuyển Hà Nội- Tà Xùa\nXe đón lúc 21h30 tại Tập đoàn Viettel và xuất phát lúc 22h"
+    ],
+    [
+      "NGÀY 1: HỒ MẮT NGỌC - THÁC KHÔNG TÊN - LÀNG VĂN HÓA"
+    ],
+    [
+      "Thứ 6 (23/10)",
+      "Sáng",
+      "3h",
+      "Tới Tà Xùa\nVSCN, về homestay gửi đồ, nhận xe"
+    ],
+    [
+      null,
+      null,
+      "5h-6h",
+      "Ăn sáng (mì tôm)",
+      "Thào Coffee Tà Xùa",
+      "50.000 đ",
+      "7",
+      "350.000 đ"
+    ],
+    [
+      null,
+      null,
+      "6h-12h",
+      "Thác Không Tên\nĐẹp mà xa nhất nhưng buổi chiều cafe và hoàng hôn thì có thể xem xét đi",
+      "Thác Chua Tỳ",
+      "0 đ",
+      "7",
+      "0 đ"
+    ],
+    [
+      null,
+      "Trưa",
+      "12h ",
+      "Ăn trưa",
+      "Vị Nhà Tiệm Cơm Tà Xùa",
+      "70.000 đ",
+      "7",
+      "490.000 đ"
+    ],
+    [
+      null,
+      "Chiều",
+      "14h",
+      "Check in homestay và Nghỉ ngơi"
+    ],
+    [
+      null,
+      null,
+      "15h30",
+      "Ameii Hill \n",
+      "Ameii Hill",
+      "30.000 đ",
+      "7",
+      "210.000 đ",
+      "Đây là quán cafe mua nước hay không đều được. Đường đi bê tông nma hơi hẹp và dốc. Đi xe ôm 40k/ng/khứ hồi"
+    ],
+    [
+      null,
+      "Tối",
+      "19h15",
+      "Ăn tối (lẩu)",
+      "Nhà Hàng A Phủ",
+      "250.000 đ",
+      "7",
+      "1.750.000 đ",
+      "rồi về home chill chill "
+    ],
+    [
+      null,
+      null,
+      null,
+      "Ngắm sao\nThực ra là chụp ảnh có milky way. Có thể đi quanh home hoặc đi Khe Cải cách đó 800m là đẹp",
+      "Khe Cải",
+      null,
+      null,
+      null,
+      "18h30-20h30 đẹp nhất",
+      "sớm thế á =)))) bạn t 12h đêm mới đi "
+    ],
+    [
+      "NGÀY 2 - SỐNG LƯNG KHỦNG LONG- THẢO NGUYÊN TÀ XÙA - CÂY CÔ ĐƠN"
+    ],
+    [
+      "Thứ 7 (24/10)",
+      "Sáng",
+      "4h30",
+      "Thức dậy (Optional) \nCó thể săn bình minh và săn mây tại phòng của mình"
+    ],
+    [
+      null,
+      null,
+      "5h15",
+      "Ăn sáng tại home",
+      null,
+      "20.000 đ",
+      "7",
+      "140.000 đ"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Sống lưng khủng long\nSáng 6-8h sẽ đẹp vừa có thể săn mây và ánh sáng dịu, chiều 14-15h (15h-17h) . Từ trung tâm đến đây khoảng 10 km đoạn đường 500m cuối khó đi có thể thuê xe ôm 100k/1 người khứ hồi",
+      "Sống Lưng Khủng Long - điểm Săn Mây",
+      "30.000 đ",
+      "7",
+      "210.000 đ"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Hồ Mắt Ngọc (optional)\nCách home 4km. Hồ nhân tạo cạnh núi non hùng vĩ",
+      "Hồ Mắt Ngọc",
+      "0 đ",
+      "7",
+      "0 đ",
+      "cái này mn khen lắm lắm"
+    ],
+    [
+      null,
+      "trưa",
+      "11h",
+      "Ăn trưa",
+      "Bếp Củi - cơm nhà, lẩu và nướng",
+      "70.000 đ",
+      "7",
+      "490.000 đ"
+    ],
+    [
+      null,
+      null,
+      "12h",
+      "Nghỉ ngơi tại home",
+      null,
+      null,
+      null,
+      null,
+      "chuyển đồ sang phòng mới "
+    ],
+    [
+      null,
+      "Chiều",
+      "13h30-17h30",
+      "Thảo nguyên Tà Xùa",
+      "Thảo nguyên Tà Xùa",
+      "35.000 đ",
+      "7",
+      "245.000 đ"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Cây cô đơn + Lán cô đơn + Mỏm cá heo",
+      "Cây cô đơn Tà Xùa",
+      "20.000 đ",
+      "7",
+      "140.000 đ"
+    ],
+    [
+      null,
+      null,
+      "17h30",
+      "Ăn tối \nĂn mẹt đồ Tây Bắc các loại",
+      "Đồi Mây Tà Xùa",
+      "150.000 đ",
+      "7",
+      "1.050.000 đ"
+    ],
+    [
+      null,
+      "Tối",
+      "19h30",
+      "Tiệm Cà phê tháng 10\nỞ đây có live music từ 19h30 nghe chill chill, 21h có bắn pháo hoa tại trung tâm Mộc Châu",
+      "Cà phê Tháng 10 - Tà Xùa",
+      "90.000 đ",
+      "7",
+      "630.000 đ"
+    ],
+    [
+      "NGÀY 3: KHE CẢI - CAFE - VỀ HÀ NỘI"
+    ],
+    [
+      "Chủ nhật (25/10)",
+      "Sáng",
+      "4h30",
+      "Khe Cải \nNơi săn mây nổi tiếng. Cần check lại xem bình minh ở đây có đẹp không"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Ăn sáng",
+      null,
+      "20.000 đ",
+      "7",
+      "140.000 đ"
+    ],
+    [
+      null,
+      null,
+      null,
+      "Cà phê Làng Văn Hóa + Núi Đôi + Đồi Công viên Mây\nỞ đây ngắm hoàng hôn, có núi Đôi đi bộ cách đó 400m. Có vẻ ở đây là 1 tổ hợp. Đẹp đẹp ",
+      "Làng Văn Hóa Cafe Tà Xùa",
+      "60.000 đ",
+      "7",
+      "420.000 đ"
+    ],
+    [
+      null,
+      "Trưa",
+      "11h15",
+      "Ăn trưa (cơm lam, thịt nướng)",
+      "Trung tâm xã Tà Xùa",
+      "100.000 đ",
+      "7",
+      "700.000 đ",
+      "Checkin + mua kem ở trung tâm Tà Xùa (đối diện nhà Hmong Cafe)"
+    ],
+    [
+      null,
+      null,
+      "12h30",
+      "Di chuyển Tà Xùa - Hà Nội\nXe xuất phát lúc 12h30"
+    ]
+  ]
+}

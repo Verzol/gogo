@@ -1,0 +1,28 @@
+{
+  "measuredAt": "2026-10-14T09:44:36.476Z",
+  "scope": "After researched place introductions and longer scenery chapters. Sequential local Lighthouse simulations, while other behavioral checks may be running. Physical devices, field INP and production cache/compression not measured.",
+  "reports": [
+    {
+      "mode": "desktop",
+      "fetchTime": "2026-10-14T09:44:22.688Z",
+      "performance": 100,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 628.9746,
+      "cls": 0,
+      "tbtMs": 10,
+      "transferBytes": 925445
+    },
+    {
+      "mode": "mobile",
+      "fetchTime": "2026-10-14T09:44:30.113Z",
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 2857.795,
+      "cls": 0,
+      "tbtMs": 192.5,
+      "transferBytes": 818548
+    }
+  ]
+}

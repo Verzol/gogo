@@ -1,0 +1,78 @@
+{
+  "range": "Backgrounds!A1:L40",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "ID",
+      "Asset",
+      "Selection",
+      "Website use",
+      "Credit",
+      "License",
+      "Source page",
+      "Image link",
+      "Curation / crop notes",
+      "Drive pack"
+    ],
+    [
+      "B01",
+      "Dawn cloud sea",
+      "Selected — licensed background",
+      "Hero cloud sea / dawn backdrop",
+      "ki Zhang / Unsplash",
+      "Unsplash License",
+      "https://unsplash.com/photos/mountains-emerge-from-a-sea-of-clouds-at-dawn-Nk9AlZ5WPu8",
+      "https://images.unsplash.com/photo-1772089003225-6eccf98ddbf9?fm=jpg&w=2400&q=85",
+      "Atmospheric background; do not label as Tà Xùa. Visual pick: soft pastel sky, large cloud sea, clear space for title; strongest opening choice.",
+      "https://drive.google.com/file/d/1blK4Ivd7jVLIRXXrsR37FEOz6HsEbcGD/view?usp=drivesdk"
+    ],
+    [
+      "B02",
+      "Forest and mist",
+      "Selected — licensed background",
+      "Cool green valley / forest transition",
+      "Arindam Saha / Unsplash",
+      "Unsplash License",
+      "https://unsplash.com/photos/misty-mountains-covered-in-dense-evergreen-forest-khTsH7UlcsE",
+      "https://images.unsplash.com/photo-1772290456653-a46eb460c3a6?fm=jpg&w=2400&q=85",
+      "Generic background; no place identity implied. Cool forest texture; use sparingly behind waterfall/valley transitions.",
+      "https://drive.google.com/file/d/1blK4Ivd7jVLIRXXrsR37FEOz6HsEbcGD/view?usp=drivesdk"
+    ],
+    [
+      "B03",
+      "Milky Way over mountain silhouettes",
+      "Selected — licensed background",
+      "Night sky; primary candidate",
+      "Filip Kvasnak / Unsplash",
+      "Unsplash License",
+      "https://unsplash.com/photos/milky-way-galaxy-over-silhouetted-mountains-at-night-UeRIcbTthwE",
+      "https://images.unsplash.com/photo-1765825365130-52e276bca060?fm=jpg&w=2400&q=85",
+      "Decorative night background, not a forecast. Portrait orientation; strongest for phone night scenes. Use C04 wide star field for desktop.",
+      "https://drive.google.com/file/d/1blK4Ivd7jVLIRXXrsR37FEOz6HsEbcGD/view?usp=drivesdk"
+    ],
+    [
+      "B04",
+      "Layered blue mountains",
+      "Selected — licensed background",
+      "Layered mountain backdrop / blue hour",
+      "Willian Justen de Vasconcellos / Unsplash",
+      "Unsplash License",
+      "https://unsplash.com/photos/landscape-photography-of-mountains-with-fog-_MMP5j_fCqw",
+      "https://images.unsplash.com/photo-1521729839347-131a32f9abcb?fm=jpg&w=2400&q=85",
+      "Petrópolis, Brazil. Use as atmospheric backdrop, not a named Tà Xùa place. Wide layered composition; best desktop mountain backdrop and palette reference.",
+      "https://drive.google.com/file/d/1blK4Ivd7jVLIRXXrsR37FEOz6HsEbcGD/view?usp=drivesdk"
+    ],
+    [
+      "B05",
+      "Warm sunset and cloud valleys",
+      "Selected — licensed background",
+      "Golden-hour scenery / warm transitions",
+      "Lucas Gallone / Unsplash",
+      "Unsplash License",
+      "https://unsplash.com/photos/the-sun-is-setting-over-the-mountains-with-fog-GisayocrbK0",
+      "https://images.unsplash.com/photo-1710330535764-79932bac8de8?fm=jpg&w=2400&q=85",
+      "Monts du Lyonnais, France. Atmospheric backdrop only. Quiet sunset horizon; best warm afternoon/evening transition.",
+      "https://drive.google.com/file/d/1blK4Ivd7jVLIRXXrsR37FEOz6HsEbcGD/view?usp=drivesdk"
+    ]
+  ]
+}

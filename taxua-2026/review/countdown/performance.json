@@ -1,0 +1,28 @@
+{
+  "measuredAt": "2026-10-14T09:01:02.268Z",
+  "scope": "Fresh sequential Lighthouse 13.5.0 after the arrival countdown on the local Python preview. Chromium simulation; production cache/compression, physical devices and field INP not measured.",
+  "reports": [
+    {
+      "mode": "desktop",
+      "fetchTime": "2026-10-14T09:00:43.004Z",
+      "performance": 100,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 566.696,
+      "cls": 0,
+      "tbtMs": 1.5,
+      "transferBytes": 909378
+    },
+    {
+      "mode": "mobile",
+      "fetchTime": "2026-10-14T09:00:53.572Z",
+      "performance": 95,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 2853.3680000000004,
+      "cls": 0,
+      "tbtMs": 105,
+      "transferBytes": 913010
+    }
+  ]
+}

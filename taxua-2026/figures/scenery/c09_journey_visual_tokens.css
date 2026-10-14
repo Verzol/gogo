@@ -1,0 +1,16 @@
+﻿/* Original gogo scenery tokens. Inline SVGs allow ridge fills to inherit these values. */
+.gogo-scene { --sky-top:#dceef2; --sky-bottom:#f3dfba; --ridge-far:#9ab0bc; --ridge-mid:#648596; --ridge-near:#2e5362; --paper:#f7f6ef; --ink:#193244; --accent:#284f67; }
+.gogo-scene[data-phase="night"] { --sky-top:#0d1b2a; --sky-bottom:#203647; --ridge-far:#263f53; --ridge-mid:#1b3044; --ridge-near:#102336; }
+.gogo-scene[data-phase="dawn"] { --sky-top:#9fafcd; --sky-bottom:#f5c8b5; --ridge-far:#a4b4c5; --ridge-mid:#768caa; --ridge-near:#3f6179; }
+.gogo-scene[data-phase="morning"] { --sky-top:#dceef2; --sky-bottom:#edf1dc; --ridge-far:#9ab0bc; --ridge-mid:#648596; --ridge-near:#2e5362; }
+.gogo-scene[data-phase="noon"] { --sky-top:#d1e8ef; --sky-bottom:#e8f0e6; --ridge-far:#90afb0; --ridge-mid:#668b81; --ridge-near:#355c54; }
+.gogo-scene[data-phase="afternoon"] { --sky-top:#e5e5e4; --sky-bottom:#efd0a2; --ridge-far:#a6adb3; --ridge-mid:#7b8c93; --ridge-near:#426370; }
+.gogo-scene[data-phase="evening"] { --sky-top:#79718f; --sky-bottom:#d2aab4; --ridge-far:#847f9e; --ridge-mid:#5f6685; --ridge-near:#303e58; }
+.gogo-scene #ridge-far { fill:var(--ridge-far); }
+.gogo-scene #ridge-mid { fill:var(--ridge-mid); }
+.gogo-scene #ridge-near { fill:var(--ridge-near); }
+.gogo-paper { color:var(--ink,#193244); background:var(--paper,#f7f6ef); border:1px solid #d8e0df; border-radius:14px; padding:clamp(20px,4vw,40px); font-family:"Be Vietnam Pro",system-ui,sans-serif; }
+.gogo-paper h2 { font-family:Fraunces,Georgia,serif; }
+.gogo-annotation { font-family:"Patrick Hand",cursive; }
+.gogo-scene [data-decorative] { pointer-events:none; }
+@media (prefers-reduced-motion:reduce) { .gogo-scene [data-decorative] { animation:none; transition:none; } }

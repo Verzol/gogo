@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Dark phone navigation inherits a readable official Tabler stroke",
+    "Dark phone menu opens over HTTP",
+    "Dark phone menu opens under file://"
+  ],
+  "result": "passed",
+  "screenshot": "phone-dark-menu.png",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  }
+}

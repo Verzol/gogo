@@ -1,0 +1,216 @@
+{
+  "range": "Coverage_Status!A1:L40",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "Stop ID",
+      "Place / stop",
+      "Photo coverage",
+      "Selected asset IDs",
+      "Selected file / pack",
+      "Website note (vi)",
+      "Includes nearby places",
+      "Selection notes"
+    ],
+    [
+      "song_lung_khung_long",
+      "Sống lưng khủng long",
+      "Covered — place photo",
+      "P01",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "thac_chua_ty",
+      "Thác Chua Tỳ",
+      "Covered — place photo",
+      "P02",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "ameii_hill",
+      "Ameii Hill",
+      "Covered — place photo",
+      "P03",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "thao_nguyen_ta_xua",
+      "Thảo nguyên Tà Xùa",
+      "Covered — place photo",
+      "P04",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "cay_co_don",
+      "Cây Cô Đơn",
+      "Covered — place photo",
+      "P05",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "mom_ca_heo",
+      "Mỏm Cá Heo",
+      "Covered — place photo",
+      "P06",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "khe_cai",
+      "Khe Cải",
+      "Covered — place photo",
+      "P07",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "thao_coffee",
+      "Thào Coffee",
+      "Covered — place photo",
+      "P08, P08b",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "a_phu",
+      "Nhà hàng A Phủ",
+      "Covered — place photo",
+      "P10, P11",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "",
+      "",
+      "Use the selected place photo and its source credit."
+    ],
+    [
+      "ho_mat_ngoc",
+      "Hồ Mắt Ngọc",
+      "Covered — supplied photo",
+      "P12",
+      "https://drive.google.com/file/d/1yZyYO7dyJg_fQg_a9OsQ1wmztopqc3Ye/view?usp=drivesdk",
+      "",
+      "",
+      "Portrait lake, flowers, mountains and rainbow. Preserve the lake and cabin; use as a portrait or 4:3 card."
+    ],
+    [
+      "ca_phe_thang_10",
+      "Cà phê Tháng 10",
+      "Covered — supplied photo",
+      "P13",
+      "https://drive.google.com/file/d/1cAHgahhaB_Bbm42NgZB8E5A4apuqPY3N/view?usp=drivesdk",
+      "",
+      "",
+      "Wide café exterior with clear venue signage at bottom right. Keep the sign in a wide crop."
+    ],
+    [
+      "vi_nha_tiem_com",
+      "Vị Nhà Tiệm Cơm",
+      "Covered — supplied photo",
+      "P14",
+      "https://drive.google.com/file/d/1uhP8t4RP5n4dPXey3YJRD-dT1ZwFDMEZ/view?usp=drivesdk",
+      "",
+      "",
+      "Wide meal and terrace image; Vị Nhà branding visible on cups. Keep both food and mountain view."
+    ],
+    [
+      "bep_cui",
+      "Bếp Củi",
+      "Covered — supplied photo",
+      "P15",
+      "https://drive.google.com/file/d/1bBFqbK8X9NFtfU3VAGg845AaaQleKT1o/view?usp=drivesdk",
+      "",
+      "",
+      "Near-square communal meal image. Suitable for the Bếp Củi meal card."
+    ],
+    [
+      "mua_tru_homestay",
+      "Mùa Trứ Homestay",
+      "Covered — supplied photo",
+      "P16, P17, P18",
+      "https://drive.google.com/file/d/1-jnKYHV-X0KP4N7Husza9vHw8DUslTOR/view?usp=drivesdk",
+      "",
+      "",
+      "Use P16 as property cover, P17 for Best view 2, and P18 for Best view 4. These supersede the watermarked references."
+    ],
+    [
+      "lang_van_hoa_cafe",
+      "Làng Văn Hóa Café",
+      "Covered — illustrative alternative",
+      "F01",
+      "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "Ảnh minh họa.",
+      "Núi Đôi + Đồi Công viên Mây",
+      "User combined the café and nearby sights into one stop. Generic cloud-sea scenery selected because a usable exact café photo could not be retrieved. Use a small image caption; do not describe this as the actual venue."
+    ],
+    [
+      "lan_co_don",
+      "Lán Cô Đơn",
+      "Covered — illustrative alternative",
+      "F02",
+      "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "Ảnh minh họa.",
+      "",
+      "A source identified the actual hut, but its image link was expired and other indexed imagery was not suitable. Use the calm layered-mountain alternative; do not imply it depicts the hut."
+    ],
+    [
+      "doi_may",
+      "Đồi Mây Tà Xùa",
+      "Covered — place photo",
+      "P19, P20",
+      "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "",
+      "",
+      "Selected after comparing 12 gallery photos. Wide terrace, tree frame and cloud sea; no intrusive text or people. Preserve the venue context."
+    ],
+    [
+      "trung_tam_ta_xua",
+      "Trung tâm Tà Xùa — bữa trưa",
+      "Covered — illustrative alternative",
+      "F03",
+      "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "Ảnh minh họa.",
+      "",
+      "Selected platter from Đồi Mây's source gallery illustrates Tây Bắc food for the unnamed central-town lunch stop. Its stalls, menu and portions are not identified as the actual planned lunch venue."
+    ],
+    [
+      "departure_transport",
+      "Departure / transport intro",
+      "Covered — decorative assets",
+      "C08, C06, B03",
+      "https://drive.google.com/drive/folders/1LrigDe4pmjtfFqaqsubRPSykKZEJqcR8",
+      "",
+      "",
+      "Bus icon, route decoration and night scenery cover the transit introduction."
+    ],
+    [
+      "optional_people",
+      "Friend portraits / group photo",
+      "Optional",
+      "Own photos",
+      "",
+      "",
+      "",
+      "Personal photos can be added later; they are not required to complete the place-photo set."
+    ]
+  ]
+}

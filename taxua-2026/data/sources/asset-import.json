@@ -1,0 +1,834 @@
+[
+  {
+    "assetId": "P01",
+    "originalFilename": "p01_song_lung_khung_long.jpg",
+    "sha256": "2cca144251635c763e1cae0f2d418245ea8807d5af63a92d12b1092ea79211a6",
+    "method": "google-drive-original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/1kxnfke4YFP-EtSBHVaS7MVHdcbnk5mjA/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1kxnfke4YFP-EtSBHVaS7MVHdcbnk5mjA/view",
+    "credit": "User-supplied Sống Lưng Khủng Long photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p01_480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 18208
+      },
+      {
+        "src": "figures/places/p01_960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 64158
+      },
+      {
+        "src": "figures/places/p01_1159.webp",
+        "width": 1159,
+        "height": 773,
+        "bytes": 98494
+      }
+    ]
+  },
+  {
+    "assetId": "P02",
+    "originalFilename": "P02_source.jpg",
+    "sha256": "1409dc6ba0aeec27831ac66ade9e0db8edfe1eb93f4f8e0fb322f647fdb1aaed",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://www.24h.com.vn/du-lich-24h/thac-chua-ty-toa-do-an-minh-khien-dan-me-du-lich-ru-nhau-san-tim-c76a1706408.html",
+    "originalImageUrl": "https://cdn.24h.com.vn/upload/4-2025/images/2025-10-16/rs_740_1760598243-thac-chua-ty-xim-vanggiua-nui-rung-xim-vang-co-mot-con-thac-it-nguoi-biet-den-nhung-lai-khi-1-width740height986.jpg",
+    "credit": "k.ng_03, as credited by 24h",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p02_480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 48616
+      },
+      {
+        "src": "figures/places/p02_740.webp",
+        "width": 740,
+        "height": 986,
+        "bytes": 110338
+      }
+    ]
+  },
+  {
+    "assetId": "P03",
+    "originalFilename": "P03_source.jpg",
+    "sha256": "2745d0d6add385299fea8e75cba5732e20efb107aa4791af226d5c2e5fae2c6e",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://bablocal.com/post/ameii-hill-diem-check-in-moi-noi-o-ta-xua?lang=en",
+    "originalImageUrl": "https://cdn.bablocal.com/kham-pha/posts/2026-07/6a579d30213c2.jpg",
+    "credit": "Cáo Lang Thang / BAB Local",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p03_480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 54254
+      },
+      {
+        "src": "figures/places/p03_960.webp",
+        "width": 960,
+        "height": 1280,
+        "bytes": 186928
+      }
+    ]
+  },
+  {
+    "assetId": "P04",
+    "originalFilename": "P04_source.jpg",
+    "sha256": "e131db08a327ce7bd7fc5be80ad2a40931243717378725c8d35a702374bbd54d",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://dantri.com.vn/du-lich/thao-nguyen-xanh-muot-nhu-troi-au-cach-ha-noi-chi-5-tieng-di-chuyen-20240719112323740.htm",
+    "originalImageUrl": "https://cdnphoto.dantri.com.vn/-6gGb2ji1FsQXPPddJIlTB0bvX4%3D/zoom/1200_630/2024/07/19/thao-nguyen-ta-xua4-crop-1721362059856.jpeg",
+    "credit": "Dân trí / original photographer to confirm",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p04_480.webp",
+        "width": 480,
+        "height": 252,
+        "bytes": 14146
+      },
+      {
+        "src": "figures/places/p04_960.webp",
+        "width": 960,
+        "height": 504,
+        "bytes": 40252
+      },
+      {
+        "src": "figures/places/p04_1200.webp",
+        "width": 1200,
+        "height": 630,
+        "bytes": 57332
+      }
+    ]
+  },
+  {
+    "assetId": "P05",
+    "originalFilename": "P05_source.jpg",
+    "sha256": "5df24300944d27308166a0714fb1b12b67adae16bdbbfdb95c0dd3d3a404fc42",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://pystravel.vn/tin/18075-cay-co-don-ta-xua.html",
+    "originalImageUrl": "https://booking.pystravel.vn/uploads/posts/avatar/1752832608.jpg",
+    "credit": "PYS Travel / original photographer to confirm",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p05_480.webp",
+        "width": 480,
+        "height": 343,
+        "bytes": 53934
+      },
+      {
+        "src": "figures/places/p05_800.webp",
+        "width": 800,
+        "height": 571,
+        "bytes": 148470
+      }
+    ]
+  },
+  {
+    "assetId": "P06",
+    "originalFilename": "P06_source.jpg",
+    "sha256": "bc759ab6e384fe50b4e2b70b67259f4fe85fce9b6ed316a0cfb5f88b38bdb8ce",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://www.vietnamairlines.com/dk/vi/plan-book/travel/travel-guide/du-lich-ta-xua",
+    "originalImageUrl": "https://www.vietnamairlines.com/content/dam/legacy-site-assets/SEO-images/2025%20SEO/Thay%20Anh%20Traffic%20Tieng%20Viet/du%20lich%20ta%20xua/mom-ca-heo-ta-xua.jpeg?width=1366",
+    "credit": "Vietnam Airlines travel guide / original photographer to confirm",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p06_480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 12512
+      },
+      {
+        "src": "figures/places/p06_960.webp",
+        "width": 960,
+        "height": 639,
+        "bytes": 33762
+      },
+      {
+        "src": "figures/places/p06_1000.webp",
+        "width": 1000,
+        "height": 666,
+        "bytes": 37486
+      }
+    ]
+  },
+  {
+    "assetId": "P07",
+    "originalFilename": "P07_source.jpg",
+    "sha256": "e19c7ddfa836e3fa1d8febeabae3b9169554e4da1307012b49e556e449d1ad71",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://baoquangninh.vn/san-may-ta-xua-ngam-hoang-hon-o-ban-khe-cai-3333032.html",
+    "originalImageUrl": "https://media-cdn-v2.laodong.vn/storage/newsportal/2024/12/3/1430003/TX-2.jpg",
+    "credit": "Lao Động / source article credits",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p07_480.webp",
+        "width": 480,
+        "height": 319,
+        "bytes": 23248
+      },
+      {
+        "src": "figures/places/p07_960.webp",
+        "width": 960,
+        "height": 638,
+        "bytes": 56782
+      }
+    ]
+  },
+  {
+    "assetId": "P08",
+    "originalFilename": "P08_source.jpg",
+    "sha256": "cc4ef4d97d9f61f0ebe25d88fac8658344c13b3cdf0be416a730fe42f8b85832",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://www.vietnamesespecialtycoffee.com/vi/blog/discover-the-best-coffee-spots-with-stunning-mountain-views-in-ta-xua-son-la-vietnam",
+    "originalImageUrl": "https://mgisolutions-coffee.imgix.net/special-coffee/t%C3%A0-x%C3%B9a---th%E1%BA%A3o-coffee.jpg?fm=jpg&w=1600&q=90",
+    "credit": "Thào Coffee Tà Xùa, as credited by Vietnamese Specialty Coffee",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p08_480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 21128
+      },
+      {
+        "src": "figures/places/p08_960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 61142
+      },
+      {
+        "src": "figures/places/p08_1440.webp",
+        "width": 1440,
+        "height": 959,
+        "bytes": 109208
+      }
+    ]
+  },
+  {
+    "assetId": "P08b",
+    "originalFilename": "P08b_source.jpg",
+    "sha256": "48d17e7b5f39608ff9a25fb51cf1b62828cb5f9d6541bfb9a7eb1c4bad3b9316",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://www.vietnamesespecialtycoffee.com/vi/blog/discover-the-best-coffee-spots-with-stunning-mountain-views-in-ta-xua-son-la-vietnam",
+    "originalImageUrl": "https://mgisolutions-coffee.imgix.net/special-coffee/th%C3%A0o-t%C3%A0-x%C3%B9a-coffee.jpg?fm=jpg&w=1600&q=90",
+    "credit": "Thào Coffee Tà Xùa, as credited by Vietnamese Specialty Coffee",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p08b_480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 18536
+      },
+      {
+        "src": "figures/places/p08b_960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 47484
+      },
+      {
+        "src": "figures/places/p08b_1440.webp",
+        "width": 1440,
+        "height": 1080,
+        "bytes": 79858
+      }
+    ]
+  },
+  {
+    "assetId": "P10",
+    "originalFilename": "P10_source.jpg",
+    "sha256": "a39eb8a7d868045e38c9912972b1828abd1a6fe63b8215344bd6a7a301221451",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://taxua.vn/nha-hang-a-phu-dia-diem-am-thuc-ly-tuong-tai-ta-xua.html",
+    "originalImageUrl": "https://taxua.vn/wp-content/uploads/2023/02/nha-hang-a-phu-ta-xua1-1024x576.jpg",
+    "credit": "Taxua.vn / A Phủ; photographer to confirm",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p10_480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 28550
+      },
+      {
+        "src": "figures/places/p10_960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 87120
+      },
+      {
+        "src": "figures/places/p10_1024.webp",
+        "width": 1024,
+        "height": 576,
+        "bytes": 95094
+      }
+    ]
+  },
+  {
+    "assetId": "P11",
+    "originalFilename": "P11_source.jpg",
+    "sha256": "7bdc4f853c7d2e9b1b75d3a66ffbaa55013730c5ab0ea2dd10de83ceab692048",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://taxua.vn/nha-hang-a-phu-dia-diem-am-thuc-ly-tuong-tai-ta-xua.html",
+    "originalImageUrl": "https://taxua.vn/wp-content/uploads/2023/02/Thuc-don-nha-hang-a-phu1-1024x576.jpg",
+    "credit": "Taxua.vn / A Phủ; photographer to confirm",
+    "rightsStatus": "Reference; permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p11_480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 36766
+      },
+      {
+        "src": "figures/places/p11_960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 110776
+      },
+      {
+        "src": "figures/places/p11_1024.webp",
+        "width": 1024,
+        "height": 576,
+        "bytes": 124208
+      }
+    ]
+  },
+  {
+    "assetId": "P19",
+    "originalFilename": "P19_source.jpg",
+    "sha256": "4366614fac155bc385f9a51b22e3dc716337d670d0b45ed3d24844b9ebc006f0",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://www.homestaytaxua.com/nha-hang/nha-hang-doi-may",
+    "originalImageUrl": "https://qtkjxyuzgrhngjyguzys.supabase.co/storage/v1/object/public/images/homestays/1781410166880-936185.jpg",
+    "credit": "Đồi Mây / Homestay Tà Xùa; photographer not specified",
+    "rightsStatus": "Source reference; reuse permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p19_480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 33516
+      },
+      {
+        "src": "figures/places/p19_960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 110862
+      },
+      {
+        "src": "figures/places/p19_1440.webp",
+        "width": 1440,
+        "height": 1080,
+        "bytes": 214422
+      }
+    ]
+  },
+  {
+    "assetId": "P20",
+    "originalFilename": "P20_source.jpg",
+    "sha256": "b6818e54e6f78c1ffe92f49aa01ebeed7ce2ae6dbd4185d526466bf3020f31e4",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://www.homestaytaxua.com/nha-hang/nha-hang-doi-may",
+    "originalImageUrl": "https://qtkjxyuzgrhngjyguzys.supabase.co/storage/v1/object/public/images/homestays/1781410171452-341957.jpg",
+    "credit": "Đồi Mây / Homestay Tà Xùa; photographer not specified",
+    "rightsStatus": "Source reference; reuse permission not established",
+    "variants": [
+      {
+        "src": "figures/places/p20_480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 80006
+      },
+      {
+        "src": "figures/places/p20_960.webp",
+        "width": 960,
+        "height": 1280,
+        "bytes": 287030
+      },
+      {
+        "src": "figures/places/p20_1440.webp",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 589122
+      }
+    ]
+  },
+  {
+    "assetId": "F01",
+    "originalFilename": "F01_source.jpg",
+    "sha256": "3dd9631e26a7566cdd373888b20a6cd41646b64c360d7c4b0a1fc785d6115f61",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://unsplash.com/photos/mountains-emerge-from-a-sea-of-clouds-at-dawn-Nk9AlZ5WPu8",
+    "originalImageUrl": "https://images.unsplash.com/photo-1772089003225-6eccf98ddbf9?fm=jpg&w=2400&q=85",
+    "credit": "ki Zhang / Unsplash",
+    "rightsStatus": "Unsplash License",
+    "variants": [
+      {
+        "src": "figures/places/f01_480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 3602
+      },
+      {
+        "src": "figures/places/f01_960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 8940
+      },
+      {
+        "src": "figures/places/f01_1440.webp",
+        "width": 1440,
+        "height": 960,
+        "bytes": 15288
+      }
+    ]
+  },
+  {
+    "assetId": "F02",
+    "originalFilename": "F02_source.jpg",
+    "sha256": "2ed05e95a2bf9dc4ee2172543b727a622e31fbbf1fe06905599fa375c6079459",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://unsplash.com/photos/landscape-photography-of-mountains-with-fog-_MMP5j_fCqw",
+    "originalImageUrl": "https://images.unsplash.com/photo-1521729839347-131a32f9abcb?fm=jpg&w=2400&q=85",
+    "credit": "Willian Justen de Vasconcellos / Unsplash",
+    "rightsStatus": "Unsplash License",
+    "variants": [
+      {
+        "src": "figures/places/f02_480.webp",
+        "width": 480,
+        "height": 233,
+        "bytes": 2648
+      },
+      {
+        "src": "figures/places/f02_960.webp",
+        "width": 960,
+        "height": 465,
+        "bytes": 6584
+      },
+      {
+        "src": "figures/places/f02_1440.webp",
+        "width": 1440,
+        "height": 698,
+        "bytes": 11388
+      }
+    ]
+  },
+  {
+    "assetId": "F03",
+    "originalFilename": "F03_source.jpg",
+    "sha256": "e4a829f08a25ef69939f0a3a6e088b9df9d29b3d0ec768f0dfb19c1089685068",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://www.homestaytaxua.com/nha-hang/nha-hang-doi-may",
+    "originalImageUrl": "https://qtkjxyuzgrhngjyguzys.supabase.co/storage/v1/object/public/images/homestays/1781410161810-930250.jpg",
+    "credit": "Đồi Mây / Homestay Tà Xùa; photographer not specified",
+    "rightsStatus": "Source reference; reuse permission not established",
+    "variants": [
+      {
+        "src": "figures/places/f03_480.webp",
+        "width": 480,
+        "height": 496,
+        "bytes": 67644
+      },
+      {
+        "src": "figures/places/f03_960.webp",
+        "width": 960,
+        "height": 992,
+        "bytes": 200272
+      },
+      {
+        "src": "figures/places/f03_1440.webp",
+        "width": 1440,
+        "height": 1488,
+        "bytes": 398252
+      }
+    ]
+  },
+  {
+    "assetId": "B01",
+    "originalFilename": "B01_source.jpg",
+    "sha256": "3dd9631e26a7566cdd373888b20a6cd41646b64c360d7c4b0a1fc785d6115f61",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://unsplash.com/photos/mountains-emerge-from-a-sea-of-clouds-at-dawn-Nk9AlZ5WPu8",
+    "originalImageUrl": "https://images.unsplash.com/photo-1772089003225-6eccf98ddbf9?fm=jpg&w=2400&q=85",
+    "credit": "ki Zhang / Unsplash",
+    "rightsStatus": "Unsplash License",
+    "variants": [
+      {
+        "src": "figures/backgrounds/b01_640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 4602
+      },
+      {
+        "src": "figures/backgrounds/b01_1280.webp",
+        "width": 1280,
+        "height": 853,
+        "bytes": 11688
+      },
+      {
+        "src": "figures/backgrounds/b01_1920.webp",
+        "width": 1920,
+        "height": 1280,
+        "bytes": 20522
+      }
+    ]
+  },
+  {
+    "assetId": "B02",
+    "originalFilename": "B02_source.jpg",
+    "sha256": "77e7e3544ce0b501dff577839da11df0a5be69b20b5fb9cb74f2bccc4073341d",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://unsplash.com/photos/misty-mountains-covered-in-dense-evergreen-forest-khTsH7UlcsE",
+    "originalImageUrl": "https://images.unsplash.com/photo-1772290456653-a46eb460c3a6?fm=jpg&w=2400&q=85",
+    "credit": "Arindam Saha / Unsplash",
+    "rightsStatus": "Unsplash License",
+    "variants": [
+      {
+        "src": "figures/backgrounds/b02_640.webp",
+        "width": 640,
+        "height": 360,
+        "bytes": 45986
+      },
+      {
+        "src": "figures/backgrounds/b02_1280.webp",
+        "width": 1280,
+        "height": 720,
+        "bytes": 173618
+      },
+      {
+        "src": "figures/backgrounds/b02_1920.webp",
+        "width": 1920,
+        "height": 1080,
+        "bytes": 367746
+      }
+    ]
+  },
+  {
+    "assetId": "B03",
+    "originalFilename": "B03_source.jpg",
+    "sha256": "b7aa7c76312104d2c604d0f00fd54af1aebe5aa2b128f8fc48792dc12e3247f3",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://unsplash.com/photos/milky-way-galaxy-over-silhouetted-mountains-at-night-UeRIcbTthwE",
+    "originalImageUrl": "https://images.unsplash.com/photo-1765825365130-52e276bca060?fm=jpg&w=2400&q=85",
+    "credit": "Filip Kvasnak / Unsplash",
+    "rightsStatus": "Unsplash License",
+    "variants": [
+      {
+        "src": "figures/backgrounds/b03_640.webp",
+        "width": 640,
+        "height": 960,
+        "bytes": 18682
+      },
+      {
+        "src": "figures/backgrounds/b03_1280.webp",
+        "width": 1280,
+        "height": 1920,
+        "bytes": 84786
+      },
+      {
+        "src": "figures/backgrounds/b03_1920.webp",
+        "width": 1920,
+        "height": 2880,
+        "bytes": 210070
+      }
+    ]
+  },
+  {
+    "assetId": "B04",
+    "originalFilename": "B04_source.jpg",
+    "sha256": "2ed05e95a2bf9dc4ee2172543b727a622e31fbbf1fe06905599fa375c6079459",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://unsplash.com/photos/landscape-photography-of-mountains-with-fog-_MMP5j_fCqw",
+    "originalImageUrl": "https://images.unsplash.com/photo-1521729839347-131a32f9abcb?fm=jpg&w=2400&q=85",
+    "credit": "Willian Justen de Vasconcellos / Unsplash",
+    "rightsStatus": "Unsplash License",
+    "variants": [
+      {
+        "src": "figures/backgrounds/b04_640.webp",
+        "width": 640,
+        "height": 310,
+        "bytes": 3368
+      },
+      {
+        "src": "figures/backgrounds/b04_1280.webp",
+        "width": 1280,
+        "height": 620,
+        "bytes": 8536
+      },
+      {
+        "src": "figures/backgrounds/b04_1920.webp",
+        "width": 1920,
+        "height": 930,
+        "bytes": 15428
+      }
+    ]
+  },
+  {
+    "assetId": "B05",
+    "originalFilename": "B05_source.jpg",
+    "sha256": "111d68145bd1f88d363bb15d872e4c47c78975eb431b58e1b0d75698b05639bd",
+    "method": "original",
+    "fallbackReason": null,
+    "sourceUrl": "https://unsplash.com/photos/the-sun-is-setting-over-the-mountains-with-fog-GisayocrbK0",
+    "originalImageUrl": "https://images.unsplash.com/photo-1710330535764-79932bac8de8?fm=jpg&w=2400&q=85",
+    "credit": "Lucas Gallone / Unsplash",
+    "rightsStatus": "Unsplash License",
+    "variants": [
+      {
+        "src": "figures/backgrounds/b05_640.webp",
+        "width": 640,
+        "height": 384,
+        "bytes": 4840
+      },
+      {
+        "src": "figures/backgrounds/b05_1280.webp",
+        "width": 1280,
+        "height": 767,
+        "bytes": 12782
+      },
+      {
+        "src": "figures/backgrounds/b05_1920.webp",
+        "width": 1920,
+        "height": 1151,
+        "bytes": 23000
+      }
+    ]
+  },
+  {
+    "assetId": "P12",
+    "originalFilename": "P12_Ho_Mat_Ngoc_Original.jpg",
+    "sha256": "669b561bc90c7ebc662e221e809dd478563e482a9caecac48b760ce2e4daa8a9",
+    "method": "Drive supplied original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/1GVcnB5sE3gRMURtxo_Gq8LwQNuawZIx5/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1yZyYO7dyJg_fQg_a9OsQ1wmztopqc3Ye/view?usp=drivesdk",
+    "credit": "User-supplied Additional / Homestay photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p12_480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 62806
+      },
+      {
+        "src": "figures/places/p12_900.webp",
+        "width": 900,
+        "height": 1200,
+        "bytes": 202426
+      }
+    ]
+  },
+  {
+    "assetId": "P13",
+    "originalFilename": "P13_Ca_Phe_Thang_10_Original.jpg",
+    "sha256": "868e3fc52067df933610bc9bb5f7c4079dd4a328938fa7a254652010610de690",
+    "method": "Drive supplied original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/1wVKqlbZ72X49HURFWlbz-2wUUzObnqhn/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1cAHgahhaB_Bbm42NgZB8E5A4apuqPY3N/view?usp=drivesdk",
+    "credit": "User-supplied Additional / Homestay photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p13_480.webp",
+        "width": 480,
+        "height": 270,
+        "bytes": 48794
+      },
+      {
+        "src": "figures/places/p13_960.webp",
+        "width": 960,
+        "height": 540,
+        "bytes": 181650
+      },
+      {
+        "src": "figures/places/p13_1440.webp",
+        "width": 1440,
+        "height": 810,
+        "bytes": 368608
+      }
+    ]
+  },
+  {
+    "assetId": "P14",
+    "originalFilename": "P14_Vi_Nha_Tiem_Com_Original.png",
+    "sha256": "665c1e71b0c9fb2b1480fe2f61928e85f409113b8dd2bcd4001558fba0277c00",
+    "method": "Drive supplied original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/145sX-w_gVjYL5FwdwYT_qyOiPa_E1Dk6/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1uhP8t4RP5n4dPXey3YJRD-dT1ZwFDMEZ/view?usp=drivesdk",
+    "credit": "User-supplied Additional / Homestay photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p14_480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 27712
+      },
+      {
+        "src": "figures/places/p14_960.webp",
+        "width": 960,
+        "height": 719,
+        "bytes": 82536
+      },
+      {
+        "src": "figures/places/p14_1203.webp",
+        "width": 1203,
+        "height": 901,
+        "bytes": 123646
+      }
+    ]
+  },
+  {
+    "assetId": "P15",
+    "originalFilename": "P15_Bep_Cui_Original.png",
+    "sha256": "f53b1183146e642049d4cb17ee6f9e3c945129c3f921a8919c9f06df26a4cebf",
+    "method": "Drive supplied original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/1kRFDQvFe-4eSUWENSih5ch45cQjoiY_z/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1bBFqbK8X9NFtfU3VAGg845AaaQleKT1o/view?usp=drivesdk",
+    "credit": "User-supplied Additional / Homestay photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p15_480.webp",
+        "width": 480,
+        "height": 530,
+        "bytes": 65496
+      },
+      {
+        "src": "figures/places/p15_703.webp",
+        "width": 703,
+        "height": 776,
+        "bytes": 123800
+      }
+    ]
+  },
+  {
+    "assetId": "P16",
+    "originalFilename": "P16_Homestay_Exterior_Original.jpg",
+    "sha256": "0db55c73ad25646014dd1762e9b7e89abffea91648a9ab473efdff30ef7f3ae0",
+    "method": "Drive supplied original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/11X9HFOhTo3Q_8ozAelbmsJwTI_6-hFQJ/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1-jnKYHV-X0KP4N7Husza9vHw8DUslTOR/view?usp=drivesdk",
+    "credit": "User-supplied Additional / Homestay photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p16_480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 51092
+      },
+      {
+        "src": "figures/places/p16_960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 180008
+      },
+      {
+        "src": "figures/places/p16_1440.webp",
+        "width": 1440,
+        "height": 1080,
+        "bytes": 357420
+      }
+    ]
+  },
+  {
+    "assetId": "P17",
+    "originalFilename": "P17_Homestay_Best_View_2_Original.jpg",
+    "sha256": "f72f70775f2f4108a9625a35635879047cbad06656f41e05956c0f02aac8c421",
+    "method": "Drive supplied original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/1nRvSI-VYnBVK_G_k_T6sjM2ZOFJhOuCk/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1JUVzv4Y8yUX1NeBxLTwC0ARONvbnK3Mr/view?usp=drivesdk",
+    "credit": "User-supplied Additional / Homestay photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p17_480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 34176
+      },
+      {
+        "src": "figures/places/p17_960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 121792
+      },
+      {
+        "src": "figures/places/p17_1440.webp",
+        "width": 1440,
+        "height": 1080,
+        "bytes": 251702
+      }
+    ]
+  },
+  {
+    "assetId": "P18",
+    "originalFilename": "P18_Homestay_Best_View_4_Original.jpg",
+    "sha256": "1c7273db795e97799880ce1bf8ac1099240a06cf0a51b60ff9b20883960a5a94",
+    "method": "Drive supplied original",
+    "fallbackReason": null,
+    "sourceUrl": "https://drive.google.com/file/d/19B8ieje6hTB9H0_QhmOJOwyGevRZXd3h/view",
+    "originalImageUrl": "https://drive.google.com/file/d/1xhPBfzY2EpgnBab9nFuMKDIUkodrfFbA/view?usp=drivesdk",
+    "credit": "User-supplied Additional / Homestay photo",
+    "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+    "variants": [
+      {
+        "src": "figures/places/p18_480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 34698
+      },
+      {
+        "src": "figures/places/p18_960.webp",
+        "width": 960,
+        "height": 720,
+        "bytes": 134184
+      },
+      {
+        "src": "figures/places/p18_1440.webp",
+        "width": 1440,
+        "height": 1080,
+        "bytes": 299440
+      }
+    ]
+  }
+]

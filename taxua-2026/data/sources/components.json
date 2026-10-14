@@ -1,0 +1,94 @@
+{
+  "range": "Components!A1:L40",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "ID",
+      "File",
+      "Purpose",
+      "Source / type",
+      "Rights",
+      "Drive file"
+    ],
+    [
+      "C01",
+      "C01_mountain_layers.svg",
+      "Three separate generic ridge groups for parallax",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/11jLlHRzfhHvb4rhGoKd2gn7V8M6hqVhd/view?usp=drivesdk"
+    ],
+    [
+      "C02",
+      "C02_foreground_cloud_bank.svg",
+      "Transparent foreground cloud transition",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1cyknRNIqjrKokCBZeyADVhGSc-RAjmCF/view?usp=drivesdk"
+    ],
+    [
+      "C03",
+      "C03_distant_mist_wisps.svg",
+      "Transparent distant mist to drift behind photo cards",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1UIjvOae50g-3xEHmhBp7srxqq8Q-Q5-J/view?usp=drivesdk"
+    ],
+    [
+      "C04",
+      "C04_star_field.svg",
+      "Wide quiet night sky; transparent and reusable",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1ljKg0wzG7nbBP1cXeiSMDFKlx02F52mv/view?usp=drivesdk"
+    ],
+    [
+      "C05",
+      "C05_sun_glow.svg",
+      "Transparent warm sun/glow for dawn and late afternoon",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1NFwKjQF4ne276pzy2F0bk-f0RVkD7jb8/view?usp=drivesdk"
+    ],
+    [
+      "C06",
+      "C06_illustrative_route.svg",
+      "Decorative route line and a movable marker",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1OUGUbT35KAL6rz6-aldg1vEAB5ls8-Uu/view?usp=drivesdk"
+    ],
+    [
+      "C07",
+      "C07_paper_grain_tile.svg",
+      "Small subtle grain tile; no animated noise filter",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1-HSAch8JQF9iuGDnxNbXuCbhCj0kFYe5/view?usp=drivesdk"
+    ],
+    [
+      "C08",
+      "C08_tabler_icon_sprite.svg",
+      "18 official Tabler outline icons with embedded MIT notice",
+      "https://github.com/tabler/tabler-icons",
+      "MIT",
+      "https://drive.google.com/file/d/1DDqwBXR69YTSGC-ZCVhNWdVyZUEpVNnb/view?usp=drivesdk"
+    ],
+    [
+      "C09",
+      "C09_journey_visual_tokens.css",
+      "Phase palettes and journal reading surfaces",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1oXNBtEfygKBb6i77HIWP6lvaPefxlCPD/view?usp=drivesdk"
+    ],
+    [
+      "C10",
+      "C10_components_readme.txt",
+      "Usage, layer IDs, credits, and production notes",
+      "Original project component",
+      "Original project artwork / code",
+      "https://drive.google.com/file/d/1zTKJySJOVIJTAJZu-o4EKsLT5JIm4iIc/view?usp=drivesdk"
+    ]
+  ]
+}

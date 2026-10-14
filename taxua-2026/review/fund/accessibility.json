@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-10-14T08:23:53.377Z",
+  "scope": "Final fund reading state and navigation on desktop and phone",
+  "records": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 22
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 21
+        }
+      ]
+    }
+  ]
+}

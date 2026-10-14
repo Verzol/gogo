@@ -1,0 +1,7 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440">
+<title>Distant mountain mist wisps</title>
+<defs><linearGradient id="mist-soft"><stop offset="0" stop-color="#eef4f5" stop-opacity="0"/><stop offset=".25" stop-color="#eef4f5" stop-opacity=".22"/><stop offset=".7" stop-color="#eef4f5" stop-opacity=".4"/><stop offset="1" stop-color="#eef4f5" stop-opacity="0"/></linearGradient></defs>
+<g id="mist-back" fill="url(#mist-soft)">
+<path d="M0 760 Q340 685 720 775 T1500 755 T2560 770 L2560 900 Q2100 840 1600 895 T720 890 T0 900Z"/>
+<path d="M0 1045 Q300 960 620 1020 T1300 1030 T2040 995 T2560 1060 L2560 1170 Q2150 1115 1780 1150 T950 1125 T0 1160Z" opacity=".7"/>
+</g></svg>

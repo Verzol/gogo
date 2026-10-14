@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-14T11:35:50.896Z",
+  "checks": [
+    {
+      "name": "desktop",
+      "src": "http://127.0.0.1:8000/figures/places/p01_960.webp",
+      "loaded": true,
+      "alt": "Ảnh Sống lưng khủng long được chọn cho hành trình.",
+      "full": true,
+      "ratio": 1.4993851292486626,
+      "overflow": false
+    },
+    {
+      "name": "phone",
+      "src": "http://127.0.0.1:8000/figures/places/p01_480.webp",
+      "loaded": true,
+      "alt": "Ảnh Sống lưng khủng long được chọn cho hành trình.",
+      "full": true,
+      "ratio": 1.4993953048346353,
+      "overflow": false
+    },
+    {
+      "name": "file",
+      "loaded": true
+    }
+  ],
+  "errors": []
+}

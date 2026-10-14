@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440" preserveAspectRatio="none">
+<title>Soft foreground cloud bank</title>
+<defs><linearGradient id="cloud-shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dce8ec"/></linearGradient></defs>
+<g id="cloud-front" fill="url(#cloud-shade)">
+<path d="M0 1175 C25 1075 150 1040 240 1090 C265 975 410 910 510 995 C575 840 820 830 910 1005 C1015 910 1175 945 1225 1080 C1300 875 1550 885 1635 1045 C1720 945 1900 960 1940 1100 C1990 945 2180 935 2280 1080 C2370 1010 2505 1060 2560 1160 L2560 1440 L0 1440Z"/>
+</g></svg>

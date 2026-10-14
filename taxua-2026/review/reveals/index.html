@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tà Xùa reversible scroll review</title>
+  <style>
+    body { margin: 32px auto; padding: 0 20px; max-width: 1120px; font: 16px/1.6 system-ui,sans-serif; color: #193b46; background: #f8f6f0; }
+    h1,h2 { line-height: 1.2; }
+    a { color: inherit; }
+    .recordings { display: grid; grid-template-columns: 2fr 1fr; gap: 28px; align-items: start; }
+    video,img { width: 100%; }
+    video { background: #183b46; border-radius: 8px; }
+    .phone video { max-height: 720px; }
+    @media (max-width: 700px) { .recordings { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <p><a href="../../">Open the trip journal</a> · <a href="../motion/">Scenery and interactions</a> · <a href="checks.json">Reveal acceptance results</a> · <a href="artwork-checks.json">Artwork regression results</a></p>
+  <h1>Reversible scroll reveals</h1>
+  <p>Slow scroll down, a pause in the reading zone, and scroll back up through the same entrance range. Each recording shows a photo/text pair, room collage and expanded long note. Cards hold their position when scrolling stops and retreat along the same path when returning toward the bottom of the screen.</p>
+  <div class="recordings">
+    <section><h2>Desktop · 1440 × 900</h2><video controls preload="metadata"><source src="desktop.webm" type="video/webm"></video></section>
+    <section class="phone"><h2>Phone · 390 × 844</h2><video controls preload="metadata"><source src="phone.webm" type="video/webm"></video></section>
+  </div>
+  <p>Chromium emulation. The checks cover opacity and movement at matching forward/reverse scroll positions, pauses, the stable reading zone, gesture independence, keyboard focus, deep links, reloads, print and reduced motion. Recordings do not establish real-device frame rates.</p>
+</body>
+</html>

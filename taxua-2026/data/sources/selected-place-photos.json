@@ -1,0 +1,622 @@
+﻿{
+  "schemaVersion": 2,
+  "project": "gogo/taxua-2026",
+  "purpose": "Selected photo assets and image-caption rules for the later website implementation.",
+  "rules": {
+    "venueLinksRequired": false,
+    "sourceLinksUsedForCredits": true,
+    "scheduleControlsStoryOrder": true,
+    "combinedCafeStopId": "lang_van_hoa_cafe",
+    "illustrativeBadgeVi": "Ảnh minh họa",
+    "captionPlacement": "Immediately below each illustrative image; keep visible on phones.",
+    "captionMinimumRem": 0.75,
+    "downloadAndOptimizeForWebsite": true,
+    "previewPacksMayResizeImages": true
+  },
+  "summary": {
+    "placeAndMealStops": 18,
+    "illustrativeStops": 3,
+    "uncoveredPhotoStops": 0,
+    "selectedAssetEntries": 23,
+    "suppliedOriginalFiles": 8
+  },
+  "stops": [
+    {
+      "stopId": "song_lung_khung_long",
+      "name": "Sống lưng khủng long",
+      "assetIds": [
+        "P01"
+      ],
+      "primaryAssetId": "P01",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Sống lưng khủng long được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "thac_chua_ty",
+      "name": "Thác Chua Tỳ",
+      "assetIds": [
+        "P02"
+      ],
+      "primaryAssetId": "P02",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Thác Chua Tỳ được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "ameii_hill",
+      "name": "Ameii Hill",
+      "assetIds": [
+        "P03"
+      ],
+      "primaryAssetId": "P03",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Ameii Hill được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "thao_nguyen_ta_xua",
+      "name": "Thảo nguyên Tà Xùa",
+      "assetIds": [
+        "P04"
+      ],
+      "primaryAssetId": "P04",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Thảo nguyên Tà Xùa được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "cay_co_don",
+      "name": "Cây Cô Đơn",
+      "assetIds": [
+        "P05"
+      ],
+      "primaryAssetId": "P05",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Cây Cô Đơn được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "mom_ca_heo",
+      "name": "Mỏm Cá Heo",
+      "assetIds": [
+        "P06"
+      ],
+      "primaryAssetId": "P06",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Mỏm Cá Heo được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "khe_cai",
+      "name": "Khe Cải",
+      "assetIds": [
+        "P07"
+      ],
+      "primaryAssetId": "P07",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Khe Cải được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "thao_coffee",
+      "name": "Thào Coffee",
+      "assetIds": [
+        "P08",
+        "P08b"
+      ],
+      "primaryAssetId": "P08",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Thào Coffee được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "a_phu",
+      "name": "Nhà hàng A Phủ",
+      "assetIds": [
+        "P10",
+        "P11"
+      ],
+      "primaryAssetId": "P10",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Nhà hàng A Phủ được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "ho_mat_ngoc",
+      "name": "Hồ Mắt Ngọc",
+      "assetIds": [
+        "P12"
+      ],
+      "primaryAssetId": "P12",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Hồ Mắt Ngọc được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "ca_phe_thang_10",
+      "name": "Cà phê Tháng 10",
+      "assetIds": [
+        "P13"
+      ],
+      "primaryAssetId": "P13",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Cà phê Tháng 10 được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "vi_nha_tiem_com",
+      "name": "Vị Nhà Tiệm Cơm",
+      "assetIds": [
+        "P14"
+      ],
+      "primaryAssetId": "P14",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Vị Nhà Tiệm Cơm được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "bep_cui",
+      "name": "Bếp Củi",
+      "assetIds": [
+        "P15"
+      ],
+      "primaryAssetId": "P15",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Bếp Củi được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "mua_tru_homestay",
+      "name": "Mùa Trứ Homestay",
+      "assetIds": [
+        "P16",
+        "P17",
+        "P18"
+      ],
+      "primaryAssetId": "P16",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Mùa Trứ Homestay được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "lang_van_hoa_cafe",
+      "name": "Làng Văn Hóa Café",
+      "assetIds": [
+        "F01"
+      ],
+      "primaryAssetId": "F01",
+      "includesNearby": [
+        "Núi Đôi",
+        "Đồi Công viên Mây"
+      ],
+      "isIllustrative": true,
+      "captionVi": "Ảnh minh họa.",
+      "altVi": "Ảnh minh họa. Dùng cho thẻ Làng Văn Hóa Café.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "lan_co_don",
+      "name": "Lán Cô Đơn",
+      "assetIds": [
+        "F02"
+      ],
+      "primaryAssetId": "F02",
+      "includesNearby": [],
+      "isIllustrative": true,
+      "captionVi": "Ảnh minh họa.",
+      "altVi": "Ảnh minh họa. Dùng cho thẻ Lán Cô Đơn.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "doi_may",
+      "name": "Đồi Mây Tà Xùa",
+      "assetIds": [
+        "P19",
+        "P20"
+      ],
+      "primaryAssetId": "P19",
+      "includesNearby": [],
+      "isIllustrative": false,
+      "captionVi": "",
+      "altVi": "Ảnh Đồi Mây Tà Xùa được chọn cho hành trình.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    },
+    {
+      "stopId": "trung_tam_ta_xua",
+      "name": "Trung tâm Tà Xùa — bữa trưa",
+      "assetIds": [
+        "F03"
+      ],
+      "primaryAssetId": "F03",
+      "includesNearby": [],
+      "isIllustrative": true,
+      "captionVi": "Ảnh minh họa.",
+      "altVi": "Ảnh minh họa. Dùng cho thẻ Trung tâm Tà Xùa — bữa trưa.",
+      "coverage": "covered",
+      "venueLinkRequired": false
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "P01",
+      "label": "Dinosaur ridge — Háng Đồng",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/1kxnfke4YFP-EtSBHVaS7MVHdcbnk5mjA/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1kxnfke4YFP-EtSBHVaS7MVHdcbnk5mjA/view",
+      "credit": "User-supplied Sống Lưng Khủng Long photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "storedReferenceUrl": "https://drive.google.com/file/d/1kxnfke4YFP-EtSBHVaS7MVHdcbnk5mjA/view",
+      "originalFilename": "IMG_6884.JPG",
+      "renamedFilename": "P01_Song_Lung_Khung_Long_Original.jpg",
+      "previousSelection": {
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sống_lưng_khủng_long_Tà_Xùa.jpg",
+        "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1e/S%E1%BB%91ng_l%C6%B0ng_kh%E1%BB%A7ng_long_T%C3%A0_X%C3%B9a.jpg",
+        "credit": "NKSTTSSHNVN",
+        "rightsStatus": "CC BY-SA 4.0",
+        "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+        "storedReferenceUrl": "https://drive.google.com/file/d/1jrqzIXd8-SqWE8xiWz_Sjowsk6UVlWuO/view"
+      }
+    },
+    {
+      "assetId": "P02",
+      "label": "Thác Chua Tỳ",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://www.24h.com.vn/du-lich-24h/thac-chua-ty-toa-do-an-minh-khien-dan-me-du-lich-ru-nhau-san-tim-c76a1706408.html",
+      "originalImageUrl": "https://cdn.24h.com.vn/upload/4-2025/images/2025-10-16/rs_740_1760598243-thac-chua-ty-xim-vanggiua-nui-rung-xim-vang-co-mot-con-thac-it-nguoi-biet-den-nhung-lai-khi-1-width740height986.jpg",
+      "credit": "k.ng_03, as credited by 24h",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P03",
+      "label": "Ameii Hill — huts and mountain view",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://bablocal.com/post/ameii-hill-diem-check-in-moi-noi-o-ta-xua?lang=en",
+      "originalImageUrl": "https://cdn.bablocal.com/kham-pha/posts/2026-07/6a579d30213c2.jpg",
+      "credit": "Cáo Lang Thang / BAB Local",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P04",
+      "label": "Thảo nguyên Tà Xùa — open meadow",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://dantri.com.vn/du-lich/thao-nguyen-xanh-muot-nhu-troi-au-cach-ha-noi-chi-5-tieng-di-chuyen-20240719112323740.htm",
+      "originalImageUrl": "https://cdnphoto.dantri.com.vn/-6gGb2ji1FsQXPPddJIlTB0bvX4%3D/zoom/1200_630/2024/07/19/thao-nguyen-ta-xua4-crop-1721362059856.jpeg",
+      "credit": "Dân trí / original photographer to confirm",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P05",
+      "label": "Cây Cô Đơn — tree and river valley",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://pystravel.vn/tin/18075-cay-co-don-ta-xua.html",
+      "originalImageUrl": "https://booking.pystravel.vn/uploads/posts/avatar/1752832608.jpg",
+      "credit": "PYS Travel / original photographer to confirm",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P06",
+      "label": "Mỏm Cá Heo — silhouette at sunset",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://www.vietnamairlines.com/dk/vi/plan-book/travel/travel-guide/du-lich-ta-xua",
+      "originalImageUrl": "https://www.vietnamairlines.com/content/dam/legacy-site-assets/SEO-images/2025%20SEO/Thay%20Anh%20Traffic%20Tieng%20Viet/du%20lich%20ta%20xua/mom-ca-heo-ta-xua.jpeg?width=1366",
+      "credit": "Vietnam Airlines travel guide / original photographer to confirm",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P07",
+      "label": "Khe Cải — cloud-hunting viewpoint",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://baoquangninh.vn/san-may-ta-xua-ngam-hoang-hon-o-ban-khe-cai-3333032.html",
+      "originalImageUrl": "https://media-cdn-v2.laodong.vn/storage/newsportal/2024/12/3/1430003/TX-2.jpg",
+      "credit": "Lao Động / source article credits",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P08",
+      "label": "Thào Coffee — mountain café",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://www.vietnamesespecialtycoffee.com/vi/blog/discover-the-best-coffee-spots-with-stunning-mountain-views-in-ta-xua-son-la-vietnam",
+      "originalImageUrl": "https://mgisolutions-coffee.imgix.net/special-coffee/t%C3%A0-x%C3%B9a---th%E1%BA%A3o-coffee.jpg?fm=jpg&w=1600&q=90",
+      "credit": "Thào Coffee Tà Xùa, as credited by Vietnamese Specialty Coffee",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P08b",
+      "label": "Thào Coffee — alternative café view",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://www.vietnamesespecialtycoffee.com/vi/blog/discover-the-best-coffee-spots-with-stunning-mountain-views-in-ta-xua-son-la-vietnam",
+      "originalImageUrl": "https://mgisolutions-coffee.imgix.net/special-coffee/th%C3%A0o-t%C3%A0-x%C3%B9a-coffee.jpg?fm=jpg&w=1600&q=90",
+      "credit": "Thào Coffee Tà Xùa, as credited by Vietnamese Specialty Coffee",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P10",
+      "label": "Nhà hàng A Phủ — exterior",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://taxua.vn/nha-hang-a-phu-dia-diem-am-thuc-ly-tuong-tai-ta-xua.html",
+      "originalImageUrl": "https://taxua.vn/wp-content/uploads/2023/02/nha-hang-a-phu-ta-xua1-1024x576.jpg",
+      "credit": "Taxua.vn / A Phủ; photographer to confirm",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P11",
+      "label": "A Phủ — hotpot",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://taxua.vn/nha-hang-a-phu-dia-diem-am-thuc-ly-tuong-tai-ta-xua.html",
+      "originalImageUrl": "https://taxua.vn/wp-content/uploads/2023/02/Thuc-don-nha-hang-a-phu1-1024x576.jpg",
+      "credit": "Taxua.vn / A Phủ; photographer to confirm",
+      "rightsStatus": "Reference; permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view?usp=drivesdk",
+      "storedReferenceUrl": "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    },
+    {
+      "assetId": "P12",
+      "label": "Hồ Mắt Ngọc",
+      "kind": "supplied_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/1GVcnB5sE3gRMURtxo_Gq8LwQNuawZIx5/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1yZyYO7dyJg_fQg_a9OsQ1wmztopqc3Ye/view?usp=drivesdk",
+      "storedCopyUrl": "https://drive.google.com/file/d/1yZyYO7dyJg_fQg_a9OsQ1wmztopqc3Ye/view?usp=drivesdk",
+      "driveFileId": "1yZyYO7dyJg_fQg_a9OsQ1wmztopqc3Ye",
+      "fileName": "P12_Ho_Mat_Ngoc_Original.jpg",
+      "credit": "User-supplied Additional / Homestay photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "selectionNote": "Portrait lake, flowers, mountains and rainbow. Preserve the lake and cabin; use as a portrait or 4:3 card."
+    },
+    {
+      "assetId": "P13",
+      "label": "Cà phê Tháng 10",
+      "kind": "supplied_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/1wVKqlbZ72X49HURFWlbz-2wUUzObnqhn/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1cAHgahhaB_Bbm42NgZB8E5A4apuqPY3N/view?usp=drivesdk",
+      "storedCopyUrl": "https://drive.google.com/file/d/1cAHgahhaB_Bbm42NgZB8E5A4apuqPY3N/view?usp=drivesdk",
+      "driveFileId": "1cAHgahhaB_Bbm42NgZB8E5A4apuqPY3N",
+      "fileName": "P13_Ca_Phe_Thang_10_Original.jpg",
+      "credit": "User-supplied Additional / Homestay photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "selectionNote": "Wide café exterior with clear venue signage at bottom right. Keep the sign in a wide crop."
+    },
+    {
+      "assetId": "P14",
+      "label": "Vị Nhà Tiệm Cơm",
+      "kind": "supplied_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/145sX-w_gVjYL5FwdwYT_qyOiPa_E1Dk6/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1uhP8t4RP5n4dPXey3YJRD-dT1ZwFDMEZ/view?usp=drivesdk",
+      "storedCopyUrl": "https://drive.google.com/file/d/1uhP8t4RP5n4dPXey3YJRD-dT1ZwFDMEZ/view?usp=drivesdk",
+      "driveFileId": "1uhP8t4RP5n4dPXey3YJRD-dT1ZwFDMEZ",
+      "fileName": "P14_Vi_Nha_Tiem_Com_Original.png",
+      "credit": "User-supplied Additional / Homestay photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "selectionNote": "Wide meal and terrace image; Vị Nhà branding visible on cups. Keep both food and mountain view."
+    },
+    {
+      "assetId": "P15",
+      "label": "Bếp Củi",
+      "kind": "supplied_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/1kRFDQvFe-4eSUWENSih5ch45cQjoiY_z/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1bBFqbK8X9NFtfU3VAGg845AaaQleKT1o/view?usp=drivesdk",
+      "storedCopyUrl": "https://drive.google.com/file/d/1bBFqbK8X9NFtfU3VAGg845AaaQleKT1o/view?usp=drivesdk",
+      "driveFileId": "1bBFqbK8X9NFtfU3VAGg845AaaQleKT1o",
+      "fileName": "P15_Bep_Cui_Original.png",
+      "credit": "User-supplied Additional / Homestay photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "selectionNote": "Near-square communal meal image. Suitable for the Bếp Củi meal card."
+    },
+    {
+      "assetId": "P16",
+      "label": "Homestay — exterior",
+      "kind": "supplied_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/11X9HFOhTo3Q_8ozAelbmsJwTI_6-hFQJ/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1-jnKYHV-X0KP4N7Husza9vHw8DUslTOR/view?usp=drivesdk",
+      "storedCopyUrl": "https://drive.google.com/file/d/1-jnKYHV-X0KP4N7Husza9vHw8DUslTOR/view?usp=drivesdk",
+      "driveFileId": "1-jnKYHV-X0KP4N7Husza9vHw8DUslTOR",
+      "fileName": "P16_Homestay_Exterior_Original.jpg",
+      "credit": "User-supplied Additional / Homestay photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "selectionNote": "Unwatermarked homestay exterior from the supplied room folders. Use as the property cover."
+    },
+    {
+      "assetId": "P17",
+      "label": "Homestay — Căn Best view 2",
+      "kind": "supplied_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/1nRvSI-VYnBVK_G_k_T6sjM2ZOFJhOuCk/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1JUVzv4Y8yUX1NeBxLTwC0ARONvbnK3Mr/view?usp=drivesdk",
+      "storedCopyUrl": "https://drive.google.com/file/d/1JUVzv4Y8yUX1NeBxLTwC0ARONvbnK3Mr/view?usp=drivesdk",
+      "driveFileId": "1JUVzv4Y8yUX1NeBxLTwC0ARONvbnK3Mr",
+      "fileName": "P17_Homestay_Best_View_2_Original.jpg",
+      "credit": "User-supplied Additional / Homestay photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "selectionNote": "Best view 2: room, chair and misty mountain window. Selected for its calm composition and cloud view."
+    },
+    {
+      "assetId": "P18",
+      "label": "Homestay — Căn Best view 4",
+      "kind": "supplied_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://drive.google.com/file/d/19B8ieje6hTB9H0_QhmOJOwyGevRZXd3h/view",
+      "originalImageUrl": "https://drive.google.com/file/d/1xhPBfzY2EpgnBab9nFuMKDIUkodrfFbA/view?usp=drivesdk",
+      "storedCopyUrl": "https://drive.google.com/file/d/1xhPBfzY2EpgnBab9nFuMKDIUkodrfFbA/view?usp=drivesdk",
+      "driveFileId": "1xhPBfzY2EpgnBab9nFuMKDIUkodrfFbA",
+      "fileName": "P18_Homestay_Best_View_4_Original.jpg",
+      "credit": "User-supplied Additional / Homestay photo",
+      "rightsStatus": "Supplied for this project; original photographer rights and attribution retained",
+      "selectionNote": "Best view 4: two beds and a wide mountain window. Selected for the clear room overview without a photographer reflected in the mirror."
+    },
+    {
+      "assetId": "P19",
+      "label": "Đồi Mây — cloud-view terrace",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://www.homestaytaxua.com/nha-hang/nha-hang-doi-may",
+      "originalImageUrl": "https://qtkjxyuzgrhngjyguzys.supabase.co/storage/v1/object/public/images/homestays/1781410166880-936185.jpg",
+      "credit": "Đồi Mây / Homestay Tà Xùa; photographer not specified",
+      "rightsStatus": "Source reference; reuse permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "selectionNote": "Selected after comparing 12 gallery photos. Wide terrace, tree frame and cloud sea; no intrusive text or people. Preserve the venue context."
+    },
+    {
+      "assetId": "P20",
+      "label": "Đồi Mây — meal with cloud view",
+      "kind": "place_photo",
+      "isIllustrative": false,
+      "captionVi": "",
+      "sourceUrl": "https://www.homestaytaxua.com/nha-hang/nha-hang-doi-may",
+      "originalImageUrl": "https://qtkjxyuzgrhngjyguzys.supabase.co/storage/v1/object/public/images/homestays/1781410171452-341957.jpg",
+      "credit": "Đồi Mây / Homestay Tà Xùa; photographer not specified",
+      "rightsStatus": "Source reference; reuse permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "selectionNote": "Pastel cloud valley and hotpot table on brocade. Suitable for a phone card. Original lighting is descriptive of the photo, not the scheduled visit."
+    },
+    {
+      "assetId": "F01",
+      "label": "Làng Văn Hóa Café — illustrative cloud view",
+      "kind": "illustrative_photo",
+      "isIllustrative": true,
+      "captionVi": "Ảnh minh họa.",
+      "sourceUrl": "https://unsplash.com/photos/mountains-emerge-from-a-sea-of-clouds-at-dawn-Nk9AlZ5WPu8",
+      "originalImageUrl": "https://images.unsplash.com/photo-1772089003225-6eccf98ddbf9?fm=jpg&w=2400&q=85",
+      "credit": "ki Zhang / Unsplash",
+      "rightsStatus": "Unsplash License",
+      "previewPackUrl": "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "selectionNote": "User combined the café and nearby sights into one stop. Generic cloud-sea scenery selected because a usable exact café photo could not be retrieved. Use a small image caption; do not describe this as the actual venue."
+    },
+    {
+      "assetId": "F02",
+      "label": "Lán Cô Đơn — illustrative mountain view",
+      "kind": "illustrative_photo",
+      "isIllustrative": true,
+      "captionVi": "Ảnh minh họa.",
+      "sourceUrl": "https://unsplash.com/photos/landscape-photography-of-mountains-with-fog-_MMP5j_fCqw",
+      "originalImageUrl": "https://images.unsplash.com/photo-1521729839347-131a32f9abcb?fm=jpg&w=2400&q=85",
+      "credit": "Willian Justen de Vasconcellos / Unsplash",
+      "rightsStatus": "Unsplash License",
+      "previewPackUrl": "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "selectionNote": "A source identified the actual hut, but its image link was expired and other indexed imagery was not suitable. Use the calm layered-mountain alternative; do not imply it depicts the hut."
+    },
+    {
+      "assetId": "F03",
+      "label": "Central Tà Xùa lunch — illustrative Tây Bắc meal",
+      "kind": "illustrative_photo",
+      "isIllustrative": true,
+      "captionVi": "Ảnh minh họa.",
+      "sourceUrl": "https://www.homestaytaxua.com/nha-hang/nha-hang-doi-may",
+      "originalImageUrl": "https://qtkjxyuzgrhngjyguzys.supabase.co/storage/v1/object/public/images/homestays/1781410161810-930250.jpg",
+      "credit": "Đồi Mây / Homestay Tà Xùa; photographer not specified",
+      "rightsStatus": "Source reference; reuse permission not established",
+      "previewPackUrl": "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk",
+      "selectionNote": "Selected platter from Đồi Mây's source gallery illustrates Tây Bắc food for the unnamed central-town lunch stop. Its stalls, menu and portions are not identified as the actual planned lunch venue."
+    }
+  ],
+  "transitIntro": {
+    "kind": "decorative_illustration",
+    "assetIds": [
+      "C08",
+      "C06",
+      "B03"
+    ],
+    "description": "Use the bus icon, route decoration and night scenery for the departure marker; a pickup-building photograph is not needed."
+  },
+  "optionalPersonalImages": {
+    "required": false,
+    "description": "Friend portraits and a group photo can be added later."
+  }
+}

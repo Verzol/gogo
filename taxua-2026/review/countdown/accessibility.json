@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-14T09:02:06.814Z",
+  "scope": "Final opening hero, countdown and navigation at desktop and phone widths.",
+  "checks": [
+    {
+      "width": 1440,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 31
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 28
+        }
+      ]
+    }
+  ]
+}

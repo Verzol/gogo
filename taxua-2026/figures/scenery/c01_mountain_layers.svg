@@ -1,0 +1,7 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440">
+<title>Generic misty mountain layers</title>
+<desc>Original stylized scenery. These silhouettes are not a map or a named Tà Xùa landmark. Inline this SVG to animate the three named groups independently.</desc>
+<g id="ridge-far" fill="#9ab0bc"><path d="M0 890 Q120 840 245 785 Q340 810 440 725 Q550 645 650 690 Q760 715 885 620 Q960 595 1060 665 Q1160 710 1270 675 Q1380 610 1480 635 Q1630 735 1750 670 Q1870 610 1980 680 Q2100 745 2225 650 Q2380 610 2560 755 L2560 1440 L0 1440Z"/></g>
+<g id="ridge-mid" fill="#648596"><path d="M0 1020 Q180 925 350 880 Q480 930 610 845 Q770 735 905 850 Q1025 930 1175 810 Q1320 725 1455 820 Q1580 865 1720 795 Q1870 720 2030 810 Q2250 860 2560 765 L2560 1440 L0 1440Z"/></g>
+<g id="ridge-near" fill="#2e5362"><path d="M0 1190 Q180 1020 365 1035 Q510 1100 675 985 Q820 900 945 1010 Q1090 1105 1250 1080 Q1410 1035 1575 1110 Q1730 1160 1905 1015 Q2080 940 2260 1015 Q2400 1065 2560 965 L2560 1440 L0 1440Z"/></g>
+</svg>

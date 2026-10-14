@@ -1,0 +1,1630 @@
+{
+  "checkedAt": "2026-10-14T09:35:27.624Z",
+  "checks": [
+    "desktop retains native scrolling without pinning",
+    "desktop opening landscape blends across multiple wheel steps",
+    "desktop blends retain an opaque full-color photograph underneath",
+    "desktop reverse scrolling reconstructs the same dissolve",
+    "desktop holds the daytime photograph at thao-coffee",
+    "desktop holds the daytime photograph at waterfall",
+    "desktop holds the daytime photograph at vi-nha",
+    "desktop sunset yields to the scheduled night",
+    "desktop navigation visibly travels before reaching its destination",
+    "desktop long navigation blends only to the destination scenery",
+    "desktop navigation ends at the real anchor with focus",
+    "desktop navigation clears its temporary visual layers",
+    "desktop browser back restores the preceding location",
+    "desktop wheel interrupts navigation without later resuming",
+    "desktop keyboard interrupts navigation",
+    "desktop rapid navigation selects the final destination",
+    "desktop notebook visibly unfolds instead of appearing instantly",
+    "desktop notebook reversals end open and readable",
+    "desktop notebook closes after its animation",
+    "desktop photo deck has a visible outgoing/incoming transition",
+    "desktop photo deck clears temporary layers and height",
+    "desktop repeated photo clicks leave exactly one selected view",
+    "desktop packing feedback settles without moving the stamp",
+    "desktop supporting section food reveals gradually",
+    "desktop supporting section food holds at a paused scroll position",
+    "desktop supporting section food is fully readable in its reading zone",
+    "desktop supporting section food reverses at the same position",
+    "desktop supporting section practical reveals gradually",
+    "desktop supporting section practical holds at a paused scroll position",
+    "desktop supporting section practical is fully readable in its reading zone",
+    "desktop supporting section practical reverses at the same position",
+    "desktop footer remains readable after its entrance",
+    "desktop reduced motion disposes every scroll animation",
+    "desktop reduced motion leaves the open notebook intact",
+    "desktop reduced-motion navigation is immediate",
+    "desktop repeated motion preference changes do not accumulate triggers",
+    "phone retains native scrolling without pinning",
+    "phone opening landscape blends across multiple wheel steps",
+    "phone blends retain an opaque full-color photograph underneath",
+    "phone reverse scrolling reconstructs the same dissolve",
+    "phone holds the daytime photograph at thao-coffee",
+    "phone holds the daytime photograph at waterfall",
+    "phone holds the daytime photograph at vi-nha",
+    "phone sunset yields to the scheduled night",
+    "phone navigation visibly travels before reaching its destination",
+    "phone long navigation blends only to the destination scenery",
+    "phone navigation ends at the real anchor with focus",
+    "phone navigation clears its temporary visual layers",
+    "phone browser back restores the preceding location",
+    "phone wheel interrupts navigation without later resuming",
+    "phone keyboard interrupts navigation",
+    "phone rapid navigation selects the final destination",
+    "phone notebook visibly unfolds instead of appearing instantly",
+    "phone notebook reversals end open and readable",
+    "phone notebook closes after its animation",
+    "phone photo deck has a visible outgoing/incoming transition",
+    "phone photo deck clears temporary layers and height",
+    "phone repeated photo clicks leave exactly one selected view",
+    "phone packing feedback settles without moving the stamp",
+    "phone menu visibly animates open",
+    "phone closing menu becomes inert immediately",
+    "phone menu closes and restores toggle focus",
+    "phone menu reversals end fully open",
+    "phone supporting section food reveals gradually",
+    "phone supporting section food holds at a paused scroll position",
+    "phone supporting section food is fully readable in its reading zone",
+    "phone supporting section food reverses at the same position",
+    "phone supporting section practical reveals gradually",
+    "phone supporting section practical holds at a paused scroll position",
+    "phone supporting section practical is fully readable in its reading zone",
+    "phone supporting section practical reverses at the same position",
+    "phone footer remains readable after its entrance",
+    "phone reduced motion disposes every scroll animation",
+    "phone reduced motion leaves the open notebook intact",
+    "phone reduced-motion navigation is immediate",
+    "phone repeated motion preference changes do not accumulate triggers",
+    "Delayed scenery retains the outgoing photograph",
+    "Delayed scenery finishes after decoding",
+    "Delayed manual scrolling retains an opaque photograph",
+    "Late manual scenery visibly dissolves after decoding",
+    "Late manual scenery clears its temporary layer",
+    "Failed destination image preserves a visible photograph and usable page",
+    "Motion scenarios have no uncaught browser errors"
+  ],
+  "samples": {
+    "desktop-opening": [
+      {
+        "y": 0,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 60,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 120,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 180,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 240,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 300,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.0146795,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 1,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 360,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.227622,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 420,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.569534,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 480,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.880136,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 540,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 600,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 660,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 720,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 780,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 840,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 900,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 960,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1020,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1080,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1140,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1200,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1260,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1320,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      }
+    ],
+    "phone-opening": [
+      {
+        "y": 0,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 60,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 120,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 180,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 240,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 300,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.061089,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 360,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.35734,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 420,
+        "phase": "opening",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.727497,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 480,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 0.977112,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 540,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 600,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 660,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 720,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 780,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 840,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 900,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 960,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1020,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1080,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1140,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1200,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      },
+      {
+        "y": 1260,
+        "phase": "night",
+        "photos": [
+          {
+            "id": "B01",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B02",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B03",
+            "opacity": 1,
+            "z": 1
+          },
+          {
+            "id": "B04",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "B05",
+            "opacity": 0,
+            "z": 0
+          }
+        ],
+        "ghosts": 0,
+        "target": "",
+        "hash": ""
+      }
+    ]
+  },
+  "videos": [
+    "desktop.webm",
+    "phone.webm"
+  ],
+  "checkCount": 83,
+  "errors": []
+}

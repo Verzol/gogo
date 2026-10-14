@@ -1,0 +1,129 @@
+{
+  "range": "Read_Me!A1:L40",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "Item",
+      "Details",
+      "Link"
+    ],
+    [
+      "Start here",
+      "Selected photos, downloads, source credits, illustration captions and usage notes.",
+      "https://docs.google.com/spreadsheets/d/1TtM-crH8NQdo6bFouU_nmMeLP3eXVJddLmEEUqPOiIw/edit"
+    ],
+    [
+      "Original place-photo selection",
+      "11 selected views in the first preview pack. Additional selections are listed below.",
+      "https://docs.google.com/document/d/1ru3RCORmf0gJ_PF4d62s3Xmb2T_2VYLJLcaCsnMu1Mk/edit"
+    ],
+    [
+      "Place photo download",
+      "ZIP contains an HTML selection guide and embedded image copies.",
+      "https://drive.google.com/file/d/1v555HtFqO8zXDhiqCjS_pzJg_Y-rNOGx/view"
+    ],
+    [
+      "Background download",
+      "5 licensed atmospheric backgrounds. These are not represented as Tà Xùa locations.",
+      "https://drive.google.com/file/d/1blK4Ivd7jVLIRXXrsR37FEOz6HsEbcGD/view?usp=drivesdk"
+    ],
+    [
+      "Original downloads",
+      "Seven selected supplied files are saved as original Drive copies (P12–P18). Preview ZIPs may resize/re-encode photos; the catalog retains source/original links.",
+      "https://drive.google.com/drive/folders/1Fxu_n9XWGaFhLoGu4nFI2z6NFHyvkPUR"
+    ],
+    [
+      "Reusable scenery",
+      "10 actual SVG/CSS/text files, including three mountain groups, clouds, stars, glow, route, grain, and an 18-icon Tabler sprite.",
+      "https://drive.google.com/drive/folders/1LrigDe4pmjtfFqaqsubRPSykKZEJqcR8"
+    ],
+    [
+      "Existing artwork",
+      "22 existing day/night stickers plus logo and favicon. Website WebP and PNG master URLs are listed.",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "Typography",
+      "Retain Be Vietnam Pro, Fraunces and Patrick Hand; exact WOFF2 and license URLs are in Reuse_from_Repo.",
+      "https://github.com/Verzol/gogo/tree/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts"
+    ],
+    [
+      "Rights labels",
+      "The Wikimedia ridge is CC BY-SA 4.0. Backgrounds use Unsplash License. Tabler uses MIT. Other location images are source references requiring permission or approved originals before publication.",
+      "https://unsplash.com/license"
+    ],
+    [
+      "Best opening",
+      "B01 dawn cloud sea: soft pastel sky, open title space, gentle cloud texture.",
+      "https://unsplash.com/photos/mountains-emerge-from-a-sea-of-clouds-at-dawn-Nk9AlZ5WPu8"
+    ],
+    [
+      "Best desktop mountains",
+      "B04: wide overlapping blue ridges with a restrained warm horizon.",
+      "https://unsplash.com/photos/landscape-photography-of-mountains-with-fog-_MMP5j_fCqw"
+    ],
+    [
+      "Best evening",
+      "B05: quiet warm horizon and cloud-filled valleys.",
+      "https://unsplash.com/photos/the-sun-is-setting-over-the-mountains-with-fog-GisayocrbK0"
+    ],
+    [
+      "Best phone night",
+      "B03: portrait Milky Way with dark mountain silhouettes. Use the wide C04 star field for desktop.",
+      "https://unsplash.com/photos/milky-way-galaxy-over-silhouetted-mountains-at-night-UeRIcbTthwE"
+    ],
+    [
+      "Photo coverage",
+      "All 18 Tà Xùa destination and meal stops are covered: 15 use place/supplied photos, 3 use labeled alternatives. The old manual-get list is now Coverage_Status.",
+      "https://docs.google.com/spreadsheets/d/1TtM-crH8NQdo6bFouU_nmMeLP3eXVJddLmEEUqPOiIw/edit#gid=1204"
+    ],
+    [
+      "Source snapshot",
+      "Existing gogo assets taken from the current public repository snapshot.",
+      "282015e6a4d6be6d5c9762a33fd1e4134c3e4990"
+    ],
+    [
+      "Visual review",
+      "Supplied images and all homestay photos were inspected. Twelve Đồi Mây gallery photos were compared; the terrace and meal-with-valley photos were selected.",
+      "https://docs.google.com/presentation/d/13EgoPqkCti9bxaXInjtTQwbHYK6kOXDp8R10_nVdV1k/edit"
+    ],
+    [
+      "Vector readback",
+      "Uploaded SVG and palette CSS read back correctly, with only normal text-file line-ending differences.",
+      "Verified"
+    ],
+    [
+      "Additional selections",
+      "Seven selected supplied originals plus a five-image preview pack: two Đồi Mây photos and three illustrative alternatives.",
+      "https://docs.google.com/document/d/18Zi7eQZT7sIbkpjLfPK-e5zbwuy7xdC9X-KVEYbRBww/edit"
+    ],
+    [
+      "Additional preview download",
+      "ZIP verified: five image copies and an HTML guide.",
+      "https://drive.google.com/file/d/1Jepy8szBagHgzZtTXMY16zvTJQP06-_F/view?usp=drivesdk"
+    ],
+    [
+      "Photo mapping for implementation",
+      "Raw JSON maps the 18 stops to 23 selected asset entries and includes the illustrative flags and Vietnamese captions.",
+      "https://drive.google.com/file/d/1-M9ktm7dn8q87DpisY7TwQb_otcuTDaK/view?usp=drivesdk"
+    ],
+    [
+      "One Làng Văn Hóa stop",
+      "Làng Văn Hóa Café includes Núi Đôi and Đồi Công viên Mây. Use one combined card / story stop with F01.",
+      "https://docs.google.com/spreadsheets/d/1TtM-crH8NQdo6bFouU_nmMeLP3eXVJddLmEEUqPOiIw/edit#gid=1204"
+    ],
+    [
+      "Illustrative image notes",
+      "F01: Ảnh minh họa. F02: Ảnh minh họa. F03: Ảnh minh họa. Keep these immediately beneath the image in small readable text.",
+      "https://drive.google.com/file/d/1-M9ktm7dn8q87DpisY7TwQb_otcuTDaK/view"
+    ],
+    [
+      "Venue links",
+      "Venue links are optional and removed from the manual requirements. Source links are retained for image credits and downloads."
+    ],
+    [
+      "Personal photos",
+      "Friend portraits and a group photo remain optional. Place-photo collection can proceed without them."
+    ]
+  ]
+}

@@ -1,0 +1,2072 @@
+{
+  "checkedAt": "2026-10-14T09:32:15.246Z",
+  "checks": [
+    "desktop opening hero is immediately readable",
+    "desktop ticket has a measurable reveal range",
+    "desktop ticket starts transparent with real displacement",
+    "desktop ticket reveals gradually across several positions",
+    "desktop ticket finishes fully visible and settled",
+    "desktop ticket stays stable during small reading-zone reversals",
+    "desktop ticket reverses exactly at 3/4",
+    "desktop ticket reverses exactly at 2/4",
+    "desktop ticket reverses exactly at 1/4",
+    "desktop ticket reverses exactly at 0/4",
+    "desktop ticket holds partial progress while paused",
+    "desktop ticket causes no horizontal overflow",
+    "desktop photo has a measurable reveal range",
+    "desktop photo starts transparent with real displacement",
+    "desktop photo reveals gradually across several positions",
+    "desktop photo finishes fully visible and settled",
+    "desktop photo stays stable during small reading-zone reversals",
+    "desktop photo reverses exactly at 3/4",
+    "desktop photo reverses exactly at 2/4",
+    "desktop photo reverses exactly at 1/4",
+    "desktop photo reverses exactly at 0/4",
+    "desktop photo holds partial progress while paused",
+    "desktop photo causes no horizontal overflow",
+    "desktop text has a measurable reveal range",
+    "desktop text starts transparent with real displacement",
+    "desktop text reveals gradually across several positions",
+    "desktop text finishes fully visible and settled",
+    "desktop text stays stable during small reading-zone reversals",
+    "desktop text reverses exactly at 3/4",
+    "desktop text reverses exactly at 2/4",
+    "desktop text reverses exactly at 1/4",
+    "desktop text reverses exactly at 0/4",
+    "desktop text holds partial progress while paused",
+    "desktop text causes no horizontal overflow",
+    "desktop collage has a measurable reveal range",
+    "desktop collage starts transparent with real displacement",
+    "desktop collage reveals gradually across several positions",
+    "desktop collage finishes fully visible and settled",
+    "desktop collage stays stable during small reading-zone reversals",
+    "desktop collage reverses exactly at 3/4",
+    "desktop collage reverses exactly at 2/4",
+    "desktop collage reverses exactly at 1/4",
+    "desktop collage reverses exactly at 0/4",
+    "desktop collage holds partial progress while paused",
+    "desktop collage causes no horizontal overflow",
+    "desktop room-two has a measurable reveal range",
+    "desktop room-two starts transparent with real displacement",
+    "desktop room-two reveals gradually across several positions",
+    "desktop room-two finishes fully visible and settled",
+    "desktop room-two stays stable during small reading-zone reversals",
+    "desktop room-two reverses exactly at 3/4",
+    "desktop room-two reverses exactly at 2/4",
+    "desktop room-two reverses exactly at 1/4",
+    "desktop room-two reverses exactly at 0/4",
+    "desktop room-two holds partial progress while paused",
+    "desktop room-two causes no horizontal overflow",
+    "desktop room-three has a measurable reveal range",
+    "desktop room-three starts transparent with real displacement",
+    "desktop room-three reveals gradually across several positions",
+    "desktop room-three finishes fully visible and settled",
+    "desktop room-three stays stable during small reading-zone reversals",
+    "desktop room-three reverses exactly at 3/4",
+    "desktop room-three reverses exactly at 2/4",
+    "desktop room-three reverses exactly at 1/4",
+    "desktop room-three reverses exactly at 0/4",
+    "desktop room-three holds partial progress while paused",
+    "desktop room-three causes no horizontal overflow",
+    "desktop cluster-photo has a measurable reveal range",
+    "desktop cluster-photo starts transparent with real displacement",
+    "desktop cluster-photo reveals gradually across several positions",
+    "desktop cluster-photo finishes fully visible and settled",
+    "desktop cluster-photo stays stable during small reading-zone reversals",
+    "desktop cluster-photo reverses exactly at 3/4",
+    "desktop cluster-photo reverses exactly at 2/4",
+    "desktop cluster-photo reverses exactly at 1/4",
+    "desktop cluster-photo reverses exactly at 0/4",
+    "desktop cluster-photo holds partial progress while paused",
+    "desktop cluster-photo causes no horizontal overflow",
+    "desktop cluster-text has a measurable reveal range",
+    "desktop cluster-text starts transparent with real displacement",
+    "desktop cluster-text reveals gradually across several positions",
+    "desktop cluster-text finishes fully visible and settled",
+    "desktop cluster-text stays stable during small reading-zone reversals",
+    "desktop cluster-text reverses exactly at 3/4",
+    "desktop cluster-text reverses exactly at 2/4",
+    "desktop cluster-text reverses exactly at 1/4",
+    "desktop cluster-text reverses exactly at 0/4",
+    "desktop cluster-text holds partial progress while paused",
+    "desktop cluster-text causes no horizontal overflow",
+    "desktop sticker has a measurable reveal range",
+    "desktop sticker starts transparent with real displacement",
+    "desktop sticker reveals gradually across several positions",
+    "desktop sticker finishes fully visible and settled",
+    "desktop sticker stays stable during small reading-zone reversals",
+    "desktop sticker reverses exactly at 3/4",
+    "desktop sticker reverses exactly at 2/4",
+    "desktop sticker reverses exactly at 1/4",
+    "desktop sticker reverses exactly at 0/4",
+    "desktop sticker holds partial progress while paused",
+    "desktop sticker causes no horizontal overflow",
+    "desktop crew has a measurable reveal range",
+    "desktop crew starts transparent with real displacement",
+    "desktop crew reveals gradually across several positions",
+    "desktop crew finishes fully visible and settled",
+    "desktop crew stays stable during small reading-zone reversals",
+    "desktop crew reverses exactly at 3/4",
+    "desktop crew reverses exactly at 2/4",
+    "desktop crew reverses exactly at 1/4",
+    "desktop crew reverses exactly at 0/4",
+    "desktop crew holds partial progress while paused",
+    "desktop crew causes no horizontal overflow",
+    "desktop packing has a measurable reveal range",
+    "desktop packing starts transparent with real displacement",
+    "desktop packing reveals gradually across several positions",
+    "desktop packing finishes fully visible and settled",
+    "desktop packing stays stable during small reading-zone reversals",
+    "desktop packing reverses exactly at 3/4",
+    "desktop packing reverses exactly at 2/4",
+    "desktop packing reverses exactly at 1/4",
+    "desktop packing reverses exactly at 0/4",
+    "desktop packing holds partial progress while paused",
+    "desktop packing causes no horizontal overflow",
+    "desktop destination has a measurable reveal range",
+    "desktop destination starts transparent with real displacement",
+    "desktop destination reveals gradually across several positions",
+    "desktop destination finishes fully visible and settled",
+    "desktop destination stays stable during small reading-zone reversals",
+    "desktop destination reverses exactly at 3/4",
+    "desktop destination reverses exactly at 2/4",
+    "desktop destination reverses exactly at 1/4",
+    "desktop destination reverses exactly at 0/4",
+    "desktop destination holds partial progress while paused",
+    "desktop destination causes no horizontal overflow",
+    "desktop food has a measurable reveal range",
+    "desktop food starts transparent with real displacement",
+    "desktop food reveals gradually across several positions",
+    "desktop food finishes fully visible and settled",
+    "desktop food stays stable during small reading-zone reversals",
+    "desktop food reverses exactly at 3/4",
+    "desktop food reverses exactly at 2/4",
+    "desktop food reverses exactly at 1/4",
+    "desktop food reverses exactly at 0/4",
+    "desktop food holds partial progress while paused",
+    "desktop food causes no horizontal overflow",
+    "desktop facts has a measurable reveal range",
+    "desktop facts starts transparent with real displacement",
+    "desktop facts reveals gradually across several positions",
+    "desktop facts finishes fully visible and settled",
+    "desktop facts stays stable during small reading-zone reversals",
+    "desktop facts reverses exactly at 3/4",
+    "desktop facts reverses exactly at 2/4",
+    "desktop facts reverses exactly at 1/4",
+    "desktop facts reverses exactly at 0/4",
+    "desktop facts holds partial progress while paused",
+    "desktop facts causes no horizontal overflow",
+    "desktop footer has a measurable reveal range",
+    "desktop footer starts transparent with real displacement",
+    "desktop footer reveals gradually across several positions",
+    "desktop footer finishes fully visible and settled",
+    "desktop footer stays stable during small reading-zone reversals",
+    "desktop footer reverses exactly at 3/4",
+    "desktop footer reverses exactly at 2/4",
+    "desktop footer reverses exactly at 1/4",
+    "desktop footer reverses exactly at 0/4",
+    "desktop footer holds partial progress while paused",
+    "desktop footer causes no horizontal overflow",
+    "desktop every scrapbook/support item has reveal coverage",
+    "desktop collage photographs have distinct entrance positions",
+    "desktop photos enter from both layout sides",
+    "desktop long note unfolds fully without clipping its text",
+    "desktop expanded long note reverses along its original path",
+    "desktop long note closes with its scroll controller intact",
+    "desktop photo clicks preserve reversible outer motion",
+    "desktop keyboard focus exposes its component",
+    "desktop blur restores scroll progress and future reversal",
+    "desktop focused content can still retreat later",
+    "desktop direct link starts with its heading readable",
+    "desktop direct link leaves future components hidden",
+    "desktop reload preserves a readable destination",
+    "desktop print exposes all foreground content",
+    "desktop reduced motion removes travel and keeps all content visible",
+    "phone opening hero is immediately readable",
+    "phone ticket has a measurable reveal range",
+    "phone ticket starts transparent with real displacement",
+    "phone ticket reveals gradually across several positions",
+    "phone ticket finishes fully visible and settled",
+    "phone ticket stays stable during small reading-zone reversals",
+    "phone ticket reverses exactly at 3/4",
+    "phone ticket reverses exactly at 2/4",
+    "phone ticket reverses exactly at 1/4",
+    "phone ticket reverses exactly at 0/4",
+    "phone ticket holds partial progress while paused",
+    "phone ticket causes no horizontal overflow",
+    "phone ticket uses vertical travel",
+    "phone photo has a measurable reveal range",
+    "phone photo starts transparent with real displacement",
+    "phone photo reveals gradually across several positions",
+    "phone photo finishes fully visible and settled",
+    "phone photo stays stable during small reading-zone reversals",
+    "phone photo reverses exactly at 3/4",
+    "phone photo reverses exactly at 2/4",
+    "phone photo reverses exactly at 1/4",
+    "phone photo reverses exactly at 0/4",
+    "phone photo holds partial progress while paused",
+    "phone photo causes no horizontal overflow",
+    "phone photo uses vertical travel",
+    "phone text has a measurable reveal range",
+    "phone text starts transparent with real displacement",
+    "phone text reveals gradually across several positions",
+    "phone text finishes fully visible and settled",
+    "phone text stays stable during small reading-zone reversals",
+    "phone text reverses exactly at 3/4",
+    "phone text reverses exactly at 2/4",
+    "phone text reverses exactly at 1/4",
+    "phone text reverses exactly at 0/4",
+    "phone text holds partial progress while paused",
+    "phone text causes no horizontal overflow",
+    "phone text uses vertical travel",
+    "phone collage has a measurable reveal range",
+    "phone collage starts transparent with real displacement",
+    "phone collage reveals gradually across several positions",
+    "phone collage finishes fully visible and settled",
+    "phone collage stays stable during small reading-zone reversals",
+    "phone collage reverses exactly at 3/4",
+    "phone collage reverses exactly at 2/4",
+    "phone collage reverses exactly at 1/4",
+    "phone collage reverses exactly at 0/4",
+    "phone collage holds partial progress while paused",
+    "phone collage causes no horizontal overflow",
+    "phone collage uses vertical travel",
+    "phone room-two has a measurable reveal range",
+    "phone room-two starts transparent with real displacement",
+    "phone room-two reveals gradually across several positions",
+    "phone room-two finishes fully visible and settled",
+    "phone room-two stays stable during small reading-zone reversals",
+    "phone room-two reverses exactly at 3/4",
+    "phone room-two reverses exactly at 2/4",
+    "phone room-two reverses exactly at 1/4",
+    "phone room-two reverses exactly at 0/4",
+    "phone room-two holds partial progress while paused",
+    "phone room-two causes no horizontal overflow",
+    "phone room-two uses vertical travel",
+    "phone room-three has a measurable reveal range",
+    "phone room-three starts transparent with real displacement",
+    "phone room-three reveals gradually across several positions",
+    "phone room-three finishes fully visible and settled",
+    "phone room-three stays stable during small reading-zone reversals",
+    "phone room-three reverses exactly at 3/4",
+    "phone room-three reverses exactly at 2/4",
+    "phone room-three reverses exactly at 1/4",
+    "phone room-three reverses exactly at 0/4",
+    "phone room-three holds partial progress while paused",
+    "phone room-three causes no horizontal overflow",
+    "phone room-three uses vertical travel",
+    "phone cluster-photo has a measurable reveal range",
+    "phone cluster-photo starts transparent with real displacement",
+    "phone cluster-photo reveals gradually across several positions",
+    "phone cluster-photo finishes fully visible and settled",
+    "phone cluster-photo stays stable during small reading-zone reversals",
+    "phone cluster-photo reverses exactly at 3/4",
+    "phone cluster-photo reverses exactly at 2/4",
+    "phone cluster-photo reverses exactly at 1/4",
+    "phone cluster-photo reverses exactly at 0/4",
+    "phone cluster-photo holds partial progress while paused",
+    "phone cluster-photo causes no horizontal overflow",
+    "phone cluster-photo uses vertical travel",
+    "phone cluster-text has a measurable reveal range",
+    "phone cluster-text starts transparent with real displacement",
+    "phone cluster-text reveals gradually across several positions",
+    "phone cluster-text finishes fully visible and settled",
+    "phone cluster-text stays stable during small reading-zone reversals",
+    "phone cluster-text reverses exactly at 3/4",
+    "phone cluster-text reverses exactly at 2/4",
+    "phone cluster-text reverses exactly at 1/4",
+    "phone cluster-text reverses exactly at 0/4",
+    "phone cluster-text holds partial progress while paused",
+    "phone cluster-text causes no horizontal overflow",
+    "phone cluster-text uses vertical travel",
+    "phone sticker has a measurable reveal range",
+    "phone sticker starts transparent with real displacement",
+    "phone sticker reveals gradually across several positions",
+    "phone sticker finishes fully visible and settled",
+    "phone sticker stays stable during small reading-zone reversals",
+    "phone sticker reverses exactly at 3/4",
+    "phone sticker reverses exactly at 2/4",
+    "phone sticker reverses exactly at 1/4",
+    "phone sticker reverses exactly at 0/4",
+    "phone sticker holds partial progress while paused",
+    "phone sticker causes no horizontal overflow",
+    "phone sticker uses vertical travel",
+    "phone crew has a measurable reveal range",
+    "phone crew starts transparent with real displacement",
+    "phone crew reveals gradually across several positions",
+    "phone crew finishes fully visible and settled",
+    "phone crew stays stable during small reading-zone reversals",
+    "phone crew reverses exactly at 3/4",
+    "phone crew reverses exactly at 2/4",
+    "phone crew reverses exactly at 1/4",
+    "phone crew reverses exactly at 0/4",
+    "phone crew holds partial progress while paused",
+    "phone crew causes no horizontal overflow",
+    "phone crew uses vertical travel",
+    "phone packing has a measurable reveal range",
+    "phone packing starts transparent with real displacement",
+    "phone packing reveals gradually across several positions",
+    "phone packing finishes fully visible and settled",
+    "phone packing stays stable during small reading-zone reversals",
+    "phone packing reverses exactly at 3/4",
+    "phone packing reverses exactly at 2/4",
+    "phone packing reverses exactly at 1/4",
+    "phone packing reverses exactly at 0/4",
+    "phone packing holds partial progress while paused",
+    "phone packing causes no horizontal overflow",
+    "phone packing uses vertical travel",
+    "phone destination has a measurable reveal range",
+    "phone destination starts transparent with real displacement",
+    "phone destination reveals gradually across several positions",
+    "phone destination finishes fully visible and settled",
+    "phone destination stays stable during small reading-zone reversals",
+    "phone destination reverses exactly at 3/4",
+    "phone destination reverses exactly at 2/4",
+    "phone destination reverses exactly at 1/4",
+    "phone destination reverses exactly at 0/4",
+    "phone destination holds partial progress while paused",
+    "phone destination causes no horizontal overflow",
+    "phone destination uses vertical travel",
+    "phone food has a measurable reveal range",
+    "phone food starts transparent with real displacement",
+    "phone food reveals gradually across several positions",
+    "phone food finishes fully visible and settled",
+    "phone food stays stable during small reading-zone reversals",
+    "phone food reverses exactly at 3/4",
+    "phone food reverses exactly at 2/4",
+    "phone food reverses exactly at 1/4",
+    "phone food reverses exactly at 0/4",
+    "phone food holds partial progress while paused",
+    "phone food causes no horizontal overflow",
+    "phone food uses vertical travel",
+    "phone facts has a measurable reveal range",
+    "phone facts starts transparent with real displacement",
+    "phone facts reveals gradually across several positions",
+    "phone facts finishes fully visible and settled",
+    "phone facts stays stable during small reading-zone reversals",
+    "phone facts reverses exactly at 3/4",
+    "phone facts reverses exactly at 2/4",
+    "phone facts reverses exactly at 1/4",
+    "phone facts reverses exactly at 0/4",
+    "phone facts holds partial progress while paused",
+    "phone facts causes no horizontal overflow",
+    "phone facts uses vertical travel",
+    "phone footer has a measurable reveal range",
+    "phone footer starts transparent with real displacement",
+    "phone footer reveals gradually across several positions",
+    "phone footer finishes fully visible and settled",
+    "phone footer stays stable during small reading-zone reversals",
+    "phone footer reverses exactly at 3/4",
+    "phone footer reverses exactly at 2/4",
+    "phone footer reverses exactly at 1/4",
+    "phone footer reverses exactly at 0/4",
+    "phone footer holds partial progress while paused",
+    "phone footer causes no horizontal overflow",
+    "phone footer uses vertical travel",
+    "phone every scrapbook/support item has reveal coverage",
+    "phone collage photographs have distinct entrance positions",
+    "phone long note unfolds fully without clipping its text",
+    "phone expanded long note reverses along its original path",
+    "phone long note closes with its scroll controller intact",
+    "phone photo clicks preserve reversible outer motion",
+    "phone keyboard focus exposes its component",
+    "phone blur restores scroll progress and future reversal",
+    "phone focused content can still retreat later",
+    "phone direct link starts with its heading readable",
+    "phone direct link leaves future components hidden",
+    "phone reload preserves a readable destination",
+    "phone print exposes all foreground content",
+    "phone reduced motion removes travel and keeps all content visible",
+    "reduced-motion phone menu opens",
+    "reduced-motion phone menu closes",
+    "all reveal scenarios have no uncaught browser errors"
+  ],
+  "samples": {
+    "desktop-ticket": {
+      "range": {
+        "start": 191,
+        "end": 569
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 64,
+          "rotation": 0,
+          "scroll": 191,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 53.9046,
+          "rotation": 0,
+          "scroll": 286,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 32,
+          "rotation": 0,
+          "scroll": 380,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 9.90491,
+          "rotation": 0,
+          "scroll": 475,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 569,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 32,
+        "rotation": 0,
+        "scroll": 380,
+        "overflow": false
+      }
+    },
+    "desktop-photo": {
+      "range": {
+        "start": 2094,
+        "end": 2472
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": -90,
+          "y": 24,
+          "rotation": 1.6,
+          "scroll": 2094,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": -75.8033,
+          "y": 20.2142,
+          "rotation": 1.34761,
+          "scroll": 2189,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": -45,
+          "y": 12,
+          "rotation": 0.8,
+          "scroll": 2283,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": -13.9288,
+          "y": 3.71434,
+          "rotation": 0.247623,
+          "scroll": 2378,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 2472,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": -45,
+        "y": 12,
+        "rotation": 0.8,
+        "scroll": 2283,
+        "overflow": false
+      }
+    },
+    "desktop-text": {
+      "range": {
+        "start": 2137,
+        "end": 2515
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 2137,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 2232,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 2326,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 2421,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 2515,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 2326,
+        "overflow": false
+      }
+    },
+    "desktop-collage": {
+      "range": {
+        "start": 4763,
+        "end": 5141
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 90,
+          "y": 24,
+          "rotation": -1.6,
+          "scroll": 4763,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 75.8033,
+          "y": 20.2142,
+          "rotation": -1.34761,
+          "scroll": 4858,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 45,
+          "y": 12,
+          "rotation": -0.8,
+          "scroll": 4952,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 13.9288,
+          "y": 3.71434,
+          "rotation": -0.247623,
+          "scroll": 5047,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 5141,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 45,
+        "y": 12,
+        "rotation": -0.8,
+        "scroll": 4952,
+        "overflow": false
+      }
+    },
+    "desktop-room-two": {
+      "range": {
+        "start": 5191,
+        "end": 5569
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 90,
+          "y": 24,
+          "rotation": -1.6,
+          "scroll": 5191,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 75.8033,
+          "y": 20.2142,
+          "rotation": -1.34761,
+          "scroll": 5286,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 45,
+          "y": 12,
+          "rotation": -0.8,
+          "scroll": 5380,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 13.9288,
+          "y": 3.71434,
+          "rotation": -0.247623,
+          "scroll": 5475,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 5569,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 45,
+        "y": 12,
+        "rotation": -0.8,
+        "scroll": 5380,
+        "overflow": false
+      }
+    },
+    "desktop-room-three": {
+      "range": {
+        "start": 5207,
+        "end": 5585
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 90,
+          "y": 24,
+          "rotation": -1.6,
+          "scroll": 5207,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 75.8033,
+          "y": 20.2142,
+          "rotation": -1.34761,
+          "scroll": 5302,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 45,
+          "y": 12,
+          "rotation": -0.8,
+          "scroll": 5396,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 13.9288,
+          "y": 3.71434,
+          "rotation": -0.247623,
+          "scroll": 5491,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 5585,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 45,
+        "y": 12,
+        "rotation": -0.8,
+        "scroll": 5396,
+        "overflow": false
+      }
+    },
+    "desktop-cluster-photo": {
+      "range": {
+        "start": 14497,
+        "end": 14875
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": -90,
+          "y": 24,
+          "rotation": 1.6,
+          "scroll": 14497,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": -75.8033,
+          "y": 20.2142,
+          "rotation": 1.34761,
+          "scroll": 14592,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": -45,
+          "y": 12,
+          "rotation": 0.8,
+          "scroll": 14686,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": -13.9288,
+          "y": 3.71434,
+          "rotation": 0.247623,
+          "scroll": 14781,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 14875,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": -45,
+        "y": 12,
+        "rotation": 0.8,
+        "scroll": 14686,
+        "overflow": false
+      }
+    },
+    "desktop-cluster-text": {
+      "range": {
+        "start": 14672,
+        "end": 15050
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 14672,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 14767,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 14861,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 14956,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 15050,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 14861,
+        "overflow": false
+      }
+    },
+    "desktop-sticker": {
+      "range": {
+        "start": 25780,
+        "end": 26158
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 25780,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 25875,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 25969,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 26064,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 26158,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 25969,
+        "overflow": false
+      }
+    },
+    "desktop-crew": {
+      "range": {
+        "start": 25362,
+        "end": 25740
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 25362,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 25457,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 25551,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 25646,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 25740,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 25551,
+        "overflow": false
+      }
+    },
+    "desktop-packing": {
+      "range": {
+        "start": 25780,
+        "end": 26158
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 25780,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 25875,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 25969,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 26064,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 26158,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 25969,
+        "overflow": false
+      }
+    },
+    "desktop-destination": {
+      "range": {
+        "start": 26760,
+        "end": 27138
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 26760,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 26855,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 26949,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 27044,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 27138,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 26949,
+        "overflow": false
+      }
+    },
+    "desktop-food": {
+      "range": {
+        "start": 27416,
+        "end": 27794
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 27416,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 27511,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 27605,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 27700,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 27794,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 27605,
+        "overflow": false
+      }
+    },
+    "desktop-facts": {
+      "range": {
+        "start": 28033,
+        "end": 28411
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 28033,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139507,
+          "x": 0,
+          "y": 37.0594,
+          "rotation": 0,
+          "scroll": 28128,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 28222,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886579,
+          "x": 0,
+          "y": 6.80963,
+          "rotation": 0,
+          "scroll": 28317,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 28411,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 28222,
+        "overflow": false
+      }
+    },
+    "desktop-footer": {
+      "range": {
+        "start": 28852,
+        "end": 29174
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 44,
+          "rotation": 0,
+          "scroll": 28852,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139783,
+          "x": 0,
+          "y": 37.048,
+          "rotation": 0,
+          "scroll": 28933,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 22,
+          "rotation": 0,
+          "scroll": 29013,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886833,
+          "x": 0,
+          "y": 6.79829,
+          "rotation": 0,
+          "scroll": 29094,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 29174,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 22,
+        "rotation": 0,
+        "scroll": 29013,
+        "overflow": false
+      }
+    },
+    "phone-ticket": {
+      "range": {
+        "start": 214,
+        "end": 568
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 214,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 303,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 391,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 480,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 568,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 391,
+        "overflow": false
+      }
+    },
+    "phone-photo": {
+      "range": {
+        "start": 2385,
+        "end": 2739
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 34,
+          "rotation": 0.8,
+          "scroll": 2385,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 28.6334,
+          "rotation": 0.673727,
+          "scroll": 2474,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 17,
+          "rotation": 0.4,
+          "scroll": 2562,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 5.25859,
+          "rotation": 0.123732,
+          "scroll": 2651,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 2739,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 17,
+        "rotation": 0.4,
+        "scroll": 2562,
+        "overflow": false
+      }
+    },
+    "phone-text": {
+      "range": {
+        "start": 2785,
+        "end": 3139
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 2785,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 2874,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 2962,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 3051,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 3139,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 2962,
+        "overflow": false
+      }
+    },
+    "phone-collage": {
+      "range": {
+        "start": 6143,
+        "end": 6497
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 34,
+          "rotation": -0.8,
+          "scroll": 6143,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 28.6334,
+          "rotation": -0.673727,
+          "scroll": 6232,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 17,
+          "rotation": -0.4,
+          "scroll": 6320,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 5.25859,
+          "rotation": -0.123732,
+          "scroll": 6409,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 6497,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 17,
+        "rotation": -0.4,
+        "scroll": 6320,
+        "overflow": false
+      }
+    },
+    "phone-room-two": {
+      "range": {
+        "start": 6416,
+        "end": 6770
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 34,
+          "rotation": 0.8,
+          "scroll": 6416,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 28.6334,
+          "rotation": 0.673727,
+          "scroll": 6505,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 17,
+          "rotation": 0.4,
+          "scroll": 6593,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 5.25859,
+          "rotation": 0.123732,
+          "scroll": 6682,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 6770,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 17,
+        "rotation": 0.4,
+        "scroll": 6593,
+        "overflow": false
+      }
+    },
+    "phone-room-three": {
+      "range": {
+        "start": 6431,
+        "end": 6786
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 34,
+          "rotation": -0.8,
+          "scroll": 6431,
+          "overflow": false
+        },
+        {
+          "opacity": 0.138766,
+          "x": 0,
+          "y": 28.6605,
+          "rotation": -0.674366,
+          "scroll": 6520,
+          "overflow": false
+        },
+        {
+          "opacity": 0.519009,
+          "x": 0,
+          "y": 16.9282,
+          "rotation": -0.39831,
+          "scroll": 6609,
+          "overflow": false
+        },
+        {
+          "opacity": 0.884331,
+          "x": 0,
+          "y": 5.33945,
+          "rotation": -0.125634,
+          "scroll": 6697,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 6786,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.519009,
+        "x": 0,
+        "y": 16.9282,
+        "rotation": -0.39831,
+        "scroll": 6609,
+        "overflow": false
+      }
+    },
+    "phone-cluster-photo": {
+      "range": {
+        "start": 18631,
+        "end": 18985
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 34,
+          "rotation": -0.8,
+          "scroll": 18631,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 28.6334,
+          "rotation": -0.673727,
+          "scroll": 18720,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 17,
+          "rotation": -0.4,
+          "scroll": 18808,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 5.25859,
+          "rotation": -0.123732,
+          "scroll": 18897,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 18985,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 17,
+        "rotation": -0.4,
+        "scroll": 18808,
+        "overflow": false
+      }
+    },
+    "phone-cluster-text": {
+      "range": {
+        "start": 19110,
+        "end": 19464
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 19110,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 19199,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 19287,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 19376,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 19464,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 19287,
+        "overflow": false
+      }
+    },
+    "phone-sticker": {
+      "range": {
+        "start": 32513,
+        "end": 32867
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 32513,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 32602,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 32690,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 32779,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 32867,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 32690,
+        "overflow": false
+      }
+    },
+    "phone-crew": {
+      "range": {
+        "start": 31720,
+        "end": 32074
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 31720,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 31809,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 31897,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 31986,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 32074,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 31897,
+        "overflow": false
+      }
+    },
+    "phone-packing": {
+      "range": {
+        "start": 32941,
+        "end": 33295
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 32941,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 33030,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 33118,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 33207,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 33295,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 33118,
+        "overflow": false
+      }
+    },
+    "phone-destination": {
+      "range": {
+        "start": 33932,
+        "end": 34286
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 33932,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 34021,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 34109,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 34198,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 34286,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 34109,
+        "overflow": false
+      }
+    },
+    "phone-food": {
+      "range": {
+        "start": 34911,
+        "end": 35265
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 34911,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 35000,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 35088,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 35177,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 35265,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 35088,
+        "overflow": false
+      }
+    },
+    "phone-facts": {
+      "range": {
+        "start": 35755,
+        "end": 36109
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 35755,
+          "overflow": false
+        },
+        {
+          "opacity": 0.139614,
+          "x": 0,
+          "y": 21.8961,
+          "rotation": 0,
+          "scroll": 35844,
+          "overflow": false
+        },
+        {
+          "opacity": 0.516664,
+          "x": 0,
+          "y": 13,
+          "rotation": 0,
+          "scroll": 35932,
+          "overflow": false
+        },
+        {
+          "opacity": 0.886677,
+          "x": 0,
+          "y": 4.02128,
+          "rotation": 0,
+          "scroll": 36021,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 36109,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.516664,
+        "x": 0,
+        "y": 13,
+        "rotation": 0,
+        "scroll": 35932,
+        "overflow": false
+      }
+    },
+    "phone-footer": {
+      "range": {
+        "start": 37143,
+        "end": 37490
+      },
+      "samples": [
+        {
+          "opacity": 0,
+          "x": 0,
+          "y": 26,
+          "rotation": 0,
+          "scroll": 37143,
+          "overflow": false
+        },
+        {
+          "opacity": 0.138786,
+          "x": 0,
+          "y": 21.9164,
+          "rotation": 0,
+          "scroll": 37230,
+          "overflow": false
+        },
+        {
+          "opacity": 0.519064,
+          "x": 0,
+          "y": 12.9438,
+          "rotation": 0,
+          "scroll": 37317,
+          "overflow": false
+        },
+        {
+          "opacity": 0.884313,
+          "x": 0,
+          "y": 4.08358,
+          "rotation": 0,
+          "scroll": 37403,
+          "overflow": false
+        },
+        {
+          "opacity": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "scroll": 37490,
+          "overflow": false
+        }
+      ],
+      "paused": {
+        "opacity": 0.519064,
+        "x": 0,
+        "y": 12.9438,
+        "rotation": 0,
+        "scroll": 37317,
+        "overflow": false
+      }
+    }
+  },
+  "videos": [
+    "desktop.webm",
+    "phone.webm"
+  ],
+  "errors": [],
+  "checkCount": 379
+}

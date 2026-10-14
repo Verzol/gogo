@@ -1,0 +1,321 @@
+{
+  "range": "Reuse_from_Repo!A1:L40",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "Asset",
+      "Category",
+      "Use",
+      "Original PNG / file",
+      "Optimized WebP",
+      "Credit / license note",
+      "Drive preview pack"
+    ],
+    [
+      "black_chicken_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/black_chicken_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/black_chicken_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "black_chicken_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/black_chicken_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/black_chicken_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "cloud_1_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_1_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_1_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "cloud_1_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_1_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_1_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "cloud_2_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_2_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_2_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "cloud_2_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_2_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/cloud_2_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "dino_ridge_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dino_ridge_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dino_ridge_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "dino_ridge_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dino_ridge_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dino_ridge_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "dolphin_rock_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dolphin_rock_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dolphin_rock_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "dolphin_rock_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dolphin_rock_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/dolphin_rock_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "favicon.png",
+      "Brand",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/favicon.png",
+      "",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "logo.png",
+      "Brand",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/logo.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/logo.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "lone_tree_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/lone_tree_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/lone_tree_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "lone_tree_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/lone_tree_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/lone_tree_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "mountain_sky_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/mountain_sky_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/mountain_sky_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "mountain_sky_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/mountain_sky_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/mountain_sky_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "peach_branch_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/peach_branch_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/peach_branch_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "peach_branch_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/peach_branch_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/peach_branch_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "pork_skewer_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/pork_skewer_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/pork_skewer_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "pork_skewer_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/pork_skewer_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/pork_skewer_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "shan_tea_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/shan_tea_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/shan_tea_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "shan_tea_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/shan_tea_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/shan_tea_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "tao_meo_day.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/tao_meo_day.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/tao_meo_day.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "tao_meo_night.png",
+      "Paired illustration",
+      "Reuse the existing gogo identity",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/tao_meo_night.png",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/decor/tao_meo_night.webp",
+      "Existing gogo project asset; retain project source and any original permissions",
+      "https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view?usp=drivesdk"
+    ],
+    [
+      "be_vietnam_pro_normal_400.woff2",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/be_vietnam_pro_normal_400.woff2",
+      "",
+      "Use with the corresponding OFL license in the repo",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "be_vietnam_pro_normal_500.woff2",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/be_vietnam_pro_normal_500.woff2",
+      "",
+      "Use with the corresponding OFL license in the repo",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "be_vietnam_pro_normal_600.woff2",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/be_vietnam_pro_normal_600.woff2",
+      "",
+      "Use with the corresponding OFL license in the repo",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "be_vietnam_pro_normal_700.woff2",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/be_vietnam_pro_normal_700.woff2",
+      "",
+      "Use with the corresponding OFL license in the repo",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "bevietnampro_OFL.txt",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/bevietnampro_OFL.txt",
+      "",
+      "OFL license text",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "fraunces_OFL.txt",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/fraunces_OFL.txt",
+      "",
+      "OFL license text",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "fraunces_italic_400.woff2",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/fraunces_italic_400.woff2",
+      "",
+      "Use with the corresponding OFL license in the repo",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "fraunces_normal_600.woff2",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/fraunces_normal_600.woff2",
+      "",
+      "Use with the corresponding OFL license in the repo",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "patrick_hand_normal_400.woff2",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/patrick_hand_normal_400.woff2",
+      "",
+      "Use with the corresponding OFL license in the repo",
+      "Already in the repo; source link provided"
+    ],
+    [
+      "patrickhand_OFL.txt",
+      "Font / license",
+      "Keep existing typography",
+      "https://raw.githubusercontent.com/Verzol/gogo/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026/figures/fonts/patrickhand_OFL.txt",
+      "",
+      "OFL license text",
+      "Already in the repo; source link provided"
+    ]
+  ]
+}

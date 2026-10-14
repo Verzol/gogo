@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tà Xùa motion review</title>
+  <style>
+    body { margin: 32px auto; padding: 0 20px; max-width: 1120px; font: 16px/1.6 system-ui,sans-serif; color: #193b46; background: #f8f6f0; }
+    h1,h2 { line-height: 1.2; }
+    a { color: inherit; }
+    .recordings { display: grid; grid-template-columns: 2fr 1fr; gap: 28px; align-items: start; }
+    video { width: 100%; background: #183b46; border-radius: 8px; }
+    .phone video { max-height: 720px; }
+    @media (max-width: 700px) { .recordings { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <p><a href="../../">Open the trip journal</a> · <a href="../">Screenshot gallery</a> · <a href="checks.json">Motion acceptance results</a> · <a href="../reveals/">Slow forward/reverse component reveals</a></p>
+  <h1>Tà Xùa motion review</h1>
+  <p>Desktop and phone browser recordings cover a gradual scenery dissolve, shared-background stops, sunset/night, distant navigation, interruptions, unfolding notes, photo decks, supporting sections and reduced-motion preference changes. Use the video controls to pause or scrub through a transition.</p>
+  <div class="recordings">
+    <section><h2>Desktop · 1440 × 900</h2><video controls preload="metadata" poster="desktop-sunset.png"><source src="desktop.webm" type="video/webm"></video></section>
+    <section class="phone"><h2>Phone · 390 × 844</h2><video controls preload="metadata" poster="phone-sunset.png"><source src="phone.webm" type="video/webm"></video></section>
+  </div>
+  <p>Chromium emulation. The recordings demonstrate behavior; frame sampling and functional checks do not establish real-device frame rates.</p>
+</body>
+</html>
