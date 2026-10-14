@@ -8,7 +8,7 @@ const JourneyScenery = (() => {
     bluehour:{terrain:'_bluehour',near:'ridge_near',moon:true,stars:true,cloud:true},
     daylight:{terrain:'',near:'ridge_serrated',sun:true,cloud:true,detail:'rock_outcrop'},
     jade:{terrain:'',near:'meadow_left',sun:true,cloud:true,detail:'solitary_tree',lake:true},
-    afternoon:{terrain:'',near:'meadow_right',sun:true,cloud:true,detail:'hillside_hut'}
+    afternoon:{terrain:'',near:'meadow_right',sun:true,rays:false,cloud:true,detail:'hillside_hut'}
   };
   const loads = new Map();
   const panelLoads = new Map();
@@ -36,7 +36,7 @@ const JourneyScenery = (() => {
       panel.dataset.background = id;
       panel.style.opacity = id === 'sunrise' ? 1 : 0;
       panel.innerHTML = `<div class="painted-sky"></div>${p.stars ? stars() : ''}
-        ${p.sun ? `<div class="painted-sun">${cutout('sun_rays','sun-rays')}${cutout('sun_disc','sun-disc')}</div>` : ''}
+        ${p.sun ? `<div class="painted-sun">${p.rays !== false ? cutout('sun_rays','sun-rays') : ''}${cutout('sun_disc','sun-disc')}</div>` : ''}
         ${p.moon ? cutout('moon','painted-moon') : ''}
         ${p.cloud ? cutout('cloud_sky_puff','sky-cloud') + cutout('cloud_distant_wisp','high-wisp') : ''}
         <div class="painted-terrain">
