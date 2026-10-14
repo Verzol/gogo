@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-14T10:48:24.406Z",
+  "checkedAt": "2026-10-14T15:51:34.276Z",
   "checks": [
     "desktop day headings start with fixed daytime artwork",
     "desktop early cloud-watching uses the official decorative Lucide sunrise",
@@ -9,18 +9,22 @@
     "desktop schedule artwork remains daytime while scrolling to arrival",
     "sunrise participates in the existing reversible reveal at its note",
     "sunrise reverses to the same scroll opacity",
-    "desktop rapid artwork retargeting restores full opacity",
-    "desktop artwork swaps preserve reversible scroll progress",
-    "desktop failed artwork decode preserves the old image and clears dimming",
+    "desktop painted backpack stays fixed at departure",
+    "desktop painted backpack stays fixed at thang-10",
+    "desktop painted backpack stays fixed at home-breakfast",
+    "desktop new backpack is fully visible in its reading zone",
+    "desktop new backpack reverses at the same scroll position",
     "phone day headings start with fixed daytime artwork",
     "phone early cloud-watching uses the official decorative Lucide sunrise",
     "phone schedule artwork remains daytime while scrolling to departure",
     "phone schedule artwork remains daytime while scrolling to room-clouds",
     "phone schedule artwork remains daytime while scrolling to thang-10",
     "phone schedule artwork remains daytime while scrolling to arrival",
-    "phone rapid artwork retargeting restores full opacity",
-    "phone artwork swaps preserve reversible scroll progress",
-    "phone failed artwork decode preserves the old image and clears dimming",
+    "phone painted backpack stays fixed at departure",
+    "phone painted backpack stays fixed at thang-10",
+    "phone painted backpack stays fixed at home-breakfast",
+    "phone new backpack is fully visible in its reading zone",
+    "phone new backpack reverses at the same scroll position",
     "reduced fixed schedule artwork survives departure",
     "reduced fixed schedule artwork survives arrival",
     "reduced sunrise remains available",
@@ -33,5 +37,5 @@
     "artwork regression has no uncaught browser errors"
   ],
   "errors": [],
-  "checkCount": 30
+  "checkCount": 34
 }

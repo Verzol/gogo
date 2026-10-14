@@ -16,7 +16,7 @@ async function jump(page,id) {
 }
 async function state(page) {
   return page.evaluate(() => ({y:scrollY,phase:scenery.dataset.phase,
-    photos:[...document.querySelectorAll('.scene-photo')].map(img => ({id:img.dataset.background,opacity:Number(img.style.opacity),z:Number(img.style.zIndex)})),
+    photos:[...document.querySelectorAll('.scene-panel')].map(img => ({id:img.dataset.background,opacity:Number(img.style.opacity),z:Number(img.style.zIndex)})),
     ghosts:document.querySelectorAll('.deck-ghost,.navigation-scene,.scene-catchup').length,
     target:document.activeElement.id,hash:location.hash
   }));
@@ -28,7 +28,7 @@ async function state(page) {
     const context = await browser.newContext({viewport,recordVideo:{dir:output,size:viewport}});
     const p = await context.newPage();
     p.on('pageerror',e => {errors.push(e.stack);console.error(e.stack);});
-    await p.goto('http://127.0.0.1:8000');
+    await p.goto('http://127.0.0.1:8000/taxua-2026/');
     await p.evaluate(() => document.fonts.ready);
     await wait(1100);
     check(name+' retains native scrolling without pinning',await p.locator('.pin-spacer').count() === 0);
@@ -40,7 +40,7 @@ async function state(page) {
       await wait(650);
       openingSamples.push(await state(p));
     }
-    const partial = openingSamples.filter(s => s.photos.some(i => i.id === 'B03' && i.opacity > .03 && i.opacity < .97));
+    const partial = openingSamples.filter(s => s.photos.some(i => i.id === 'night' && i.opacity > .03 && i.opacity < .97));
     check(name+' opening landscape blends across multiple wheel steps',partial.length >= 3);
     check(name+' blends retain an opaque full-color photograph underneath',openingSamples.every(s => s.photos.some(i => i.opacity >= .999)));
     report.samples[name+'-opening'] = openingSamples;
@@ -52,7 +52,7 @@ async function state(page) {
     // Nearby stops sharing the same photograph should hold it steady.
     for (const id of ['thao-coffee','waterfall','vi-nha']) {
       await jump(p,id);
-      check(name+' holds the daytime photograph at '+id,(await state(p)).photos.find(i => i.id === 'B01').opacity === 1);
+      check(name+' holds the daytime photograph at '+id,(await state(p)).photos.find(i => i.id === 'jade').opacity === 1);
     }
     await jump(p,'a-phu');await p.screenshot({path:path.join(output,name+'-sunset.png')});
     await jump(p,'thang-10');await p.screenshot({path:path.join(output,name+'-night.png')});
@@ -65,7 +65,7 @@ async function state(page) {
     const midway = await state(p);
     const targetY = await p.locator('#day-3').evaluate(el => el.getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop));
     check(name+' navigation visibly travels before reaching its destination',midway.y > 0 && midway.y < targetY - 100);
-    check(name+' long navigation blends only to the destination scenery',midway.photos.filter(i => i.opacity > 0).every(i => i.id === 'B04'));
+    check(name+' long navigation blends only to the destination scenery',midway.photos.filter(i => i.opacity > 0).every(i => i.id === 'bluehour'));
     await wait(1300);
     const arrived = await state(p);
     check(name+' navigation ends at the real anchor with focus',arrived.hash === '#day-3' && arrived.target === 'day-3' && Math.abs(arrived.y - targetY) < 2);
@@ -159,10 +159,10 @@ async function state(page) {
   delayed.on('pageerror',e => errors.push(e.message));
   let deliverNavigationImage;
   const navigationImageGate = new Promise(resolve => {deliverNavigationImage=resolve;});
-  await delayed.route('**/backgrounds/b04_*.webp',async route => { await navigationImageGate; await route.continue(); });
-  await delayed.goto('http://127.0.0.1:8000',{waitUntil:'domcontentloaded'});await wait(1000);
+  await delayed.route('**/ridge_far_bluehour.webp',async route => { await navigationImageGate; await route.continue(); });
+  await delayed.goto('http://127.0.0.1:8000/taxua-2026/',{waitUntil:'domcontentloaded'});await wait(1000);
   await delayed.locator('[data-chapter="day-3"]').click();await wait(1250);
-  check('Delayed scenery retains the outgoing photograph',await delayed.locator('.navigation-scene').count() === 1 && await delayed.locator('.navigation-photo').evaluateAll(a => a.some(i => i.naturalWidth && Number(i.style.opacity) === 1)));
+  check('Delayed scenery retains the outgoing photograph',await delayed.locator('.navigation-scene').count() === 1 && await delayed.locator('.navigation-panel').evaluateAll(a => a.some(i => i.dataset.ready && Number(i.style.opacity) === 1)));
   deliverNavigationImage();await wait(2000);
   check('Delayed scenery finishes after decoding',await delayed.locator('.navigation-scene').count() === 0 && (await state(delayed)).phase === 'predawn');
   await delayed.close();
@@ -170,23 +170,23 @@ async function state(page) {
   manual.on('pageerror',e => errors.push(e.stack));
   let deliverManualImage;
   const manualImageGate = new Promise(resolve => {deliverManualImage=resolve;});
-  await manual.route('**/backgrounds/b04_*.webp',async route => { await manualImageGate; await route.continue(); });
-  await manual.goto('http://127.0.0.1:8000',{waitUntil:'domcontentloaded'});await wait(1000);
+  await manual.route('**/ridge_far_bluehour.webp',async route => { await manualImageGate; await route.continue(); });
+  await manual.goto('http://127.0.0.1:8000/taxua-2026/',{waitUntil:'domcontentloaded'});await wait(1000);
   await manual.evaluate(() => scrollTo(0,document.getElementById('day-3').getBoundingClientRect().top + scrollY - 110));
   await wait(1000);
-  check('Delayed manual scrolling retains an opaque photograph',await manual.locator('.scene-photo').evaluateAll(a => a.some(i => i.naturalWidth && Number(i.style.opacity) === 1)));
+  check('Delayed manual scrolling retains an opaque photograph',await manual.locator('.scene-panel').evaluateAll(a => a.some(i => i.dataset.ready && Number(i.style.opacity) === 1)));
   deliverManualImage();
   await manual.waitForSelector('.scene-catchup',{state:'attached'});await wait(150);
   check('Late manual scenery visibly dissolves after decoding',await manual.locator('.scene-catchup').evaluate(el => {const opacity=Number(getComputedStyle(el).opacity);return opacity > 0 && opacity < 1;}));
   await wait(900);
-  check('Late manual scenery clears its temporary layer',await manual.locator('.scene-catchup').count() === 0 && (await state(manual)).photos.find(i => i.id === 'B04').opacity === 1);
+  check('Late manual scenery clears its temporary layer',await manual.locator('.scene-catchup').count() === 0 && (await state(manual)).photos.find(i => i.id === 'bluehour').opacity === 1);
   await manual.close();
   const missing = await browser.newPage();
   missing.on('pageerror',e => errors.push(e.stack));
-  await missing.route('**/backgrounds/b04_*.webp',route => route.fulfill({status:200,contentType:'image/webp',body:'invalid image for decode failure verification'}));
-  await missing.goto('http://127.0.0.1:8000');await wait(1000);
+  await missing.route('**/ridge_far_bluehour.webp',route => route.fulfill({status:200,contentType:'image/webp',body:'invalid image for decode failure verification'}));
+  await missing.goto('http://127.0.0.1:8000/taxua-2026/');await wait(1000);
   await missing.locator('[data-chapter="day-3"]').click();await wait(1500);
-  check('Failed destination image preserves a visible photograph and usable page',await missing.locator('.navigation-scene').count() === 0 && await missing.locator('.scene-photo').evaluateAll(a => a.some(i => i.naturalWidth && Number(i.style.opacity) === 1)) && await missing.locator('.event').count() === 24);
+  check('Failed destination image preserves a visible photograph and usable page',await missing.locator('.navigation-scene').count() === 0 && await missing.locator('.scene-panel').evaluateAll(a => a.some(i => i.dataset.ready && Number(i.style.opacity) === 1)) && await missing.locator('.event').count() === 24);
   await missing.close();
   if(errors.length)console.error(errors);
   check('Motion scenarios have no uncaught browser errors',errors.length === 0);

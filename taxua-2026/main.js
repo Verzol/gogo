@@ -148,7 +148,7 @@ function renderEvent(block, dayIndex) {
     inner = renderEventBody(block) + `<div class="stay-photos">${ids.map(id => photo(id, block.stopId, roomNames[id], '(max-width:767px) 80vw, 420px')).join('')}</div>`;
   }
   if (block.kind === 'note') inner = renderEventBody(block) + (block.sticker ? `<span class="sticker schedule-icon" aria-hidden="true">${icon(phaseIcon(block.phase))}</span>` : '');
-  if (block.kind === 'transit') inner = `<div class="transit-heading">${icon('bus','transit-icon')}<span>gogo / Tà Xùa</span>${icon('ticket')}</div>` + renderEventBody(block);
+  if (block.kind === 'transit') inner = `<div class="transit-heading"><img class="travel-art" src="./figures/decor/painted/bus_sticker.webp" width="110" height="82" alt="" loading="lazy"><span>gogo / Tà Xùa</span>${icon('ticket')}</div>` + renderEventBody(block);
   if (block.kind === 'cluster') {
     inner = `<div class="cluster-intro">${renderEventBody(block)}</div><div class="cluster-grid">${block.places.map((place,index) => `<article class="cluster-card" id="place-${esc(place.stopId)}" data-stop-id="${esc(place.stopId)}"><div class="postcard">${photo(place.photoIds[0],place.stopId,null,'(max-width:767px) 80vw, (max-width:1200px) 45vw, 500px')}</div><div class="event-body event-body--place"><p class="place-number">${String(index + 1).padStart(2,'0')} / dừng chân</p><h4>${esc(place.name)}</h4>${renderPlaceGuide(TRIP_DATA.placeGuides[place.stopId])}${place.stopId === 'mom_ca_heo' ? `<p class="warning">${icon('flag')}Giữ khoảng cách với mép đá; chọn chỗ đứng vững.</p>` : ''}</div></article>`).join('')}</div>`;
   }
@@ -253,12 +253,17 @@ const JourneyUI = (() => {
   let frame = 0;
   let lastKey = '';
   let sceneRequest = 0;
-  const backgrounds = new Map();
   const sections = () => Array.from(document.querySelectorAll('.hero, .day-heading, .event, #fund, #crew'));
   function sceneFor(element, phaseOverride) {
     const phase = phaseOverride || element.dataset.phase || 'opening';
     const chapter = phaseOverride && phaseOverride === element.dataset.phaseEnd ? element.dataset.sceneryChapterEnd : element.dataset.sceneryChapter;
-    return {...JOURNEY_SCENES[phase],phase,background:element.dataset.backdrop || JOURNEY_CHAPTERS[chapter] || JOURNEY_SCENES[phase].background};
+    let background = element.dataset.backdrop || JOURNEY_CHAPTERS[chapter] || JOURNEY_SCENES[phase].background;
+    // Within a night chapter, lighting follows the actual stop: breakfast is
+    // daylight, while a predawn lookout still carries the last few stars.
+    if (['night','bluehour'].includes(background) && ['predawn','dawn','morning'].includes(phase)) {
+      background = phase === 'predawn' ? 'bluehour' : 'jade';
+    }
+    return {...JOURNEY_SCENES[phase],phase,background};
   }
   function setChapter(element, phaseOverride) {
     document.querySelectorAll('[data-chapter]').forEach(link => {
@@ -273,7 +278,7 @@ const JourneyUI = (() => {
     }
     document.getElementById('scenery').dataset.phase = scene.phase;
     document.documentElement.dataset.scene = scene.phase;
-    document.documentElement.dataset.navTone = ['B02','B03'].includes(scene.background) ? 'light' : 'dark';
+
     // Schedule artwork belongs to its own period, independently of scrolling.
     document.querySelectorAll('img[data-sticker]:not([data-sticker-phase])').forEach(img => {
       const next = './' + stickerPath(img.dataset.sticker,scene.phase);
@@ -281,26 +286,20 @@ const JourneyUI = (() => {
       else if (img.getAttribute('src') !== next) img.src = next;
     });
   }
-  function loadBackground(id) {
-    const img = document.querySelector('[data-background="' + id + '"]');
-    if (img && !img.getAttribute('src')) img.src = img.dataset.src;
-    if (!img) return Promise.resolve(false);
-    const src = img.currentSrc || img.src;
-    if (!backgrounds.has(src)) backgrounds.set(src,img.decode().then(() => true,() => false));
-    return backgrounds.get(src);
-  }
+  function setSceneryTone(id) { document.documentElement.dataset.navTone = id === 'sunrise' ? 'dark' : 'light'; }
+  function loadBackground(id) { return JourneyScenery.load(id); }
   function applyScene(element,phaseOverride) {
     const scene = sceneFor(element,phaseOverride);
     const request = ++sceneRequest;
-    const incoming = document.querySelector('[data-background="' + scene.background + '"]');
     const show = () => {
       if (request !== sceneRequest) return;
-      document.querySelectorAll('.scene-photo').forEach(img => { img.style.opacity = img.dataset.background === scene.background ? 1 : 0; });
+      document.querySelectorAll('.scene-panel').forEach(img => { img.style.opacity = img.dataset.background === scene.background ? 1 : 0; });
     };
     const decoded = loadBackground(scene.background);
-    if (incoming?.complete && incoming.naturalWidth) show();
+    if (JourneyScenery.isReady(scene.background)) show();
     else decoded.then(ok => { if (ok) show(); });
     setChapter(element,phaseOverride);
+    setSceneryTone(scene.background);
   }
   function syncFallback() {
     frame = 0;
@@ -333,29 +332,8 @@ const JourneyUI = (() => {
     if (frame) cancelAnimationFrame(frame); frame = 0;
   }
   function initBackgrounds() {
-    document.getElementById('scenePhotos').insertAdjacentHTML('beforeend',['B02','B03','B04','B05'].map(id => {
-      const a = TRIP_ASSETS.assets[id];
-      const coverWidth = Math.max(innerWidth,innerHeight * a.width / a.height) * Math.min(devicePixelRatio || 1,1.5);
-      const variant = a.variants.find(v => v.width >= coverWidth) || a.variants[a.variants.length - 1];
-      return `<img class="scene-photo" data-background="${id}" data-src="./${variant.src}" width="${variant.width}" height="${variant.height}" alt="" decoding="async">`;
-    }).join(''));
+    JourneyScenery.init();
     applyScene(document.getElementById('top'));
-    // A phone-loaded portrait sky must also stay sharp after a desktop resize.
-    let resizeTimer;
-    addEventListener('resize',() => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        document.querySelectorAll('.scene-photo:not([data-background="B01"])').forEach(img => {
-          const a = TRIP_ASSETS.assets[img.dataset.background];
-          const coverWidth = Math.max(innerWidth,innerHeight * a.width / a.height) * Math.min(devicePixelRatio || 1,1.5);
-          const variant = a.variants.find(v => v.width >= coverWidth) || a.variants[a.variants.length - 1];
-          if (variant.width <= Number(img.getAttribute('width'))) return;
-          img.dataset.src = './' + variant.src;
-          img.setAttribute('width',variant.width); img.setAttribute('height',variant.height);
-          if (img.getAttribute('src')) img.src = img.dataset.src;
-        });
-      },100);
-    });
     if ('IntersectionObserver' in window) {
       const nearby = new IntersectionObserver(entries => entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -366,7 +344,7 @@ const JourneyUI = (() => {
       sections().forEach(el => nearby.observe(el));
     }
   }
-  return {sceneFor,setChapter,loadBackground,applyScene,startFallback,stopFallback,initBackgrounds};
+  return {sceneFor,setChapter,setSceneryTone,loadBackground,applyScene,startFallback,stopFallback,initBackgrounds};
 })();
 function boot() {
   renderDays(); renderFund(); renderCrew(); renderPacking(); renderSupportingContent();

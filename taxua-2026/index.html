@@ -7,12 +7,11 @@
   <meta name="description" content="Tà Xùa x gogo, 22-25/10/2026. Nhật ký săn mây của hội bạn: lịch trình, điểm ghé, bữa ăn và những điều cần mang.">
   <title>Tà Xùa x gogo | Nhật ký săn mây</title>
   <link rel="icon" href="./figures/decor/favicon.png?v=sunrise-2026">
-  <link rel="preload" href="./figures/backgrounds/b01_1920.webp" as="image" media="(min-width:768px)">
-  <link rel="preload" href="./figures/backgrounds/b01_1280.webp" imagesrcset="./figures/backgrounds/b01_1280.webp 1x, ./figures/backgrounds/b01_1920.webp 1.5x" as="image" media="(max-width:767px)">
-  <link rel="preload" href="./figures/fonts/patrick_hand_normal_400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./figures/scenery/painted/ridge_far.webp" as="image">
   <link rel="stylesheet" href="./fonts.css">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./countdown.css">
+  <link rel="stylesheet" href="./scenery.css">
 
 </head>
 <body>
@@ -44,7 +43,7 @@
   </defs></svg>
   <!-- End Lucide sprite -->
   <div id="scenery" class="scenery" aria-hidden="true">
-    <div class="scene-photos" id="scenePhotos"><picture><source media="(max-width:767px)" srcset="./figures/backgrounds/b01_1280.webp 1x, ./figures/backgrounds/b01_1920.webp 1.5x"><img class="scene-photo" data-background="B01" src="./figures/backgrounds/b01_1920.webp" width="1920" height="1280" alt="" fetchpriority="high" decoding="async"></picture></div>
+    <div class="scene-layers" id="sceneLayers"></div>
   </div>
   <nav class="nav" aria-label="Điều hướng chính">
     <a class="brand" href="#top" aria-label="Tà Xùa x gogo, đầu trang">
@@ -94,7 +93,7 @@
     <section class="support-section wrap" id="packing">
       <div class="packing paper">
         <div class="loom-band" aria-hidden="true"></div>
-        <div class="packing-heading"><img src="./figures/decor/shan_tea_day.webp" data-sticker="shan_tea" alt="" width="110" height="110" loading="lazy"><h2 id="packingTitle"></h2><p id="packingNote"></p><p class="packing-status" id="packingStatus" role="status"></p></div>
+        <div class="packing-heading"><img class="painted-backpack" src="./figures/decor/painted/backpack_sticker.webp" alt="" width="105" height="120" loading="lazy"><h2 id="packingTitle"></h2><p id="packingNote"></p><p class="packing-status" id="packingStatus" role="status"></p></div>
         <ul class="checklist" id="packingList"></ul>
       </div>
     </section>
@@ -121,6 +120,7 @@
   <script defer src="./data.js"></script>
   <script defer src="./assets.js"></script>
   <script defer src="./scene-config.js"></script>
+  <script defer src="./scenery.js"></script>
   <script defer src="./main.js"></script>
   <script defer src="./vendor/gsap.min.js"></script>
   <script defer src="./vendor/ScrollTrigger.min.js"></script>

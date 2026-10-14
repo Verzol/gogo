@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-14T09:35:27.624Z",
+  "checkedAt": "2026-10-14T16:07:54.105Z",
   "checks": [
     "desktop retains native scrolling without pinning",
     "desktop opening landscape blends across multiple wheel steps",
@@ -92,27 +92,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -126,27 +131,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -160,27 +170,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -194,27 +209,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -228,27 +248,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -262,32 +287,37 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.0146795,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
         ],
-        "ghosts": 1,
+        "ghosts": 0,
         "target": "",
         "hash": ""
       },
@@ -296,27 +326,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.227622,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -330,27 +365,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.569534,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -364,27 +404,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.880136,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -398,32 +443,37 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 6.05625e-11,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
         ],
-        "ghosts": 0,
+        "ghosts": 1,
         "target": "",
         "hash": ""
       },
@@ -432,27 +482,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.0196699,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -466,27 +521,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.0740824,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -500,27 +560,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.156241,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -534,27 +599,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.25928,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -568,27 +638,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.376154,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -602,27 +677,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.499971,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -636,27 +716,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.623848,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -670,27 +755,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.740722,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -704,27 +794,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.84376,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -738,27 +833,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.925919,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -772,27 +872,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.980331,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -806,27 +911,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
+            "id": "sunrise",
+            "opacity": 1,
             "z": 0
           },
           {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "night",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -840,27 +950,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "night",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "bluehour",
+            "opacity": 0.141133,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -876,27 +991,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -910,27 +1030,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -944,27 +1069,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -978,27 +1108,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1012,27 +1147,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
             "z": 1
           },
           {
-            "id": "B02",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B03",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1046,27 +1186,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.061089,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1080,27 +1225,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.35734,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1114,27 +1264,32 @@
         "phase": "opening",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.727497,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1148,27 +1303,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 1,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
-            "opacity": 0.977112,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "night",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "bluehour",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1182,27 +1342,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.00717667,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1216,27 +1381,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.0523065,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1250,27 +1420,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.13168,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1284,27 +1459,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.23695,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1318,27 +1498,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.35956,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1352,27 +1537,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.491149,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1386,27 +1576,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.623297,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1420,27 +1615,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.747584,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1454,27 +1654,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.855591,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1488,27 +1693,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.938898,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1522,27 +1732,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "sunrise",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "night",
+            "opacity": 0.989084,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "bluehour",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "daylight",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
@@ -1556,32 +1771,37 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "night",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "bluehour",
+            "opacity": 0.0110158,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }
         ],
-        "ghosts": 0,
+        "ghosts": 1,
         "target": "",
         "hash": ""
       },
@@ -1590,27 +1810,32 @@
         "phase": "night",
         "photos": [
           {
-            "id": "B01",
+            "id": "sunrise",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B02",
-            "opacity": 0,
-            "z": 0
-          },
-          {
-            "id": "B03",
+            "id": "night",
             "opacity": 1,
+            "z": 0
+          },
+          {
+            "id": "bluehour",
+            "opacity": 0.171843,
             "z": 1
           },
           {
-            "id": "B04",
+            "id": "daylight",
             "opacity": 0,
             "z": 0
           },
           {
-            "id": "B05",
+            "id": "jade",
+            "opacity": 0,
+            "z": 0
+          },
+          {
+            "id": "afternoon",
             "opacity": 0,
             "z": 0
           }

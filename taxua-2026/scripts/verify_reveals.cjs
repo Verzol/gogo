@@ -47,7 +47,7 @@ async function travel(page,from,to,duration=2200) {
     const context = await browser.newContext({viewport});
     const p = await context.newPage();
     p.on('pageerror',error => report.errors.push(error.stack));
-    await p.goto('http://127.0.0.1:8000');await p.evaluate(() => document.fonts.ready);await wait(700);
+    await p.goto('http://127.0.0.1:8000/taxua-2026/');await p.evaluate(() => document.fonts.ready);await wait(700);
     check(name+' opening hero is immediately readable',await p.locator('#heroTitle').evaluate(el => Number(getComputedStyle(el).opacity) === 1 && !el.closest('.scroll-reveal-hidden')));
     const cases = [
       ['ticket','#departure .event-inner'],['photo','#thao-coffee .postcard'],
@@ -126,7 +126,7 @@ async function travel(page,from,to,duration=2200) {
     check(name+' blur restores scroll progress and future reversal',equal(beforeFocus,await sample(link))&&!!await bounds(link));
     await scroll(p,linkRange.start);check(name+' focused content can still retreat later',(await sample(link)).opacity<.005);
     // Reload and direct-link initialization, without a once-only history.
-    await p.goto('http://127.0.0.1:8000/#day-2');await wait(800);
+    await p.goto('http://127.0.0.1:8000/taxua-2026/#day-2');await wait(800);
     check(name+' direct link starts with its heading readable',await p.locator('#day-2 h2').evaluate(el=>Number(getComputedStyle(el).opacity)===1));
     check(name+' direct link leaves future components hidden',await p.locator('#village-cafe h3').evaluate(el=>Number(getComputedStyle(el).opacity)===0));
     await p.reload();await wait(800);
@@ -144,7 +144,7 @@ async function travel(page,from,to,duration=2200) {
     // rather than test jumps. Their timestamps form a review contact sheet.
     const recorded = await browser.newContext({viewport,recordVideo:{dir:output,size:viewport}});
     const videoPage = await recorded.newPage();
-    await videoPage.goto('http://127.0.0.1:8000');await wait(700);
+    await videoPage.goto('http://127.0.0.1:8000/taxua-2026/');await wait(700);
     for(const selector of ['#thao-coffee .postcard','#check-in .stay-photos > figure']) {
       const ranges=await videoPage.locator(selector).evaluateAll(items=>items.map(el=>{const t=ScrollTrigger.getAll().find(t=>t.trigger===el);return {start:t.start,end:t.end};}));
       const r={start:Math.min(...ranges.map(r=>r.start)),end:Math.max(...ranges.map(r=>r.end))};

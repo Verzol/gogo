@@ -1,4 +1,4 @@
-/* Floating trip scrapbook. Photography stays full-color and unfiltered.
+/* Floating trip scrapbook over layered watercolor scenery.
    Depth: scenery 0, content 1, chapter links 9, navigation 10, skip link 20. */
 :root {
   color-scheme: dark;
@@ -34,13 +34,9 @@ svg { width: 21px; height: 21px; flex-shrink: 0; vertical-align: middle; }
 .skip-link { position: fixed; left: 16px; top: -100px; padding: 12px 20px; z-index: 20; color: #183b46; background: #fffdf7; }
 .skip-link:focus { top: 12px; }
 .scenery { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: #183b46; }
-.scene-photos { position: absolute; inset: 0; }
 .navigation-scene,.scene-catchup,.frozen-scene { position: absolute; inset: 0; z-index: 0; }
 .scene-catchup { z-index: 3; }
 .frozen-scene { z-index: 3; }
-.scene-photo,.navigation-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-.scene-photo[data-background="B01"] { object-position: 50% 63%; opacity: 1; }
-.scene-photo[data-background="B03"] { object-position: 50% 25%; }
 /* Transparent navigation: only the individual controls occupy a surface. */
 .nav { position: fixed; inset: 18px 32px auto; z-index: 10; display: flex; align-items: center; gap: 18px; pointer-events: none; color: var(--nav-ink); }
 .nav a,.nav button { pointer-events: auto; }

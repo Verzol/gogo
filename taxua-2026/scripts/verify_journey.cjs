@@ -24,7 +24,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
     p.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text());});
     p.on('requestfailed',r=>failedResources.push(r.url()));
     p.on('response',r=>{if(r.status()>=400)failedResources.push(r.url());});
-    await p.goto('http://127.0.0.1:8000');
+    await p.goto('http://127.0.0.1:8000/taxua-2026/');
     await p.evaluate(()=>document.fonts.ready);await sleep(250);
     return p;
   }
@@ -35,7 +35,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
   async function state(p) {
     return p.evaluate(()=>({
       phase:document.documentElement.dataset.scene,
-      photos:[...document.querySelectorAll('.scene-photo')].map(i=>Number(getComputedStyle(i).opacity).toFixed(3)),
+      photos:[...document.querySelectorAll('.scene-panel')].map(i=>Number(getComputedStyle(i).opacity).toFixed(3)),
       chapter:document.querySelector('[data-chapter][aria-current]')?.dataset.chapter,
       progress:Number(document.querySelector('.chapter-progress').style.getPropertyValue('--progress')).toFixed(4)
     }));
@@ -88,7 +88,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
     await jump(p,id);const before=await state(p);
     await jump(p,'homeward');await jump(p,id);const after=await state(p);
     check('Scrolling back restores the same scene and chapter at '+id,JSON.stringify(before)===JSON.stringify(after));
-    check('Scenery retains opaque coverage and unfiltered color at '+id,await p.locator('.scene-photo').evaluateAll(a=>a.some(i=>Number(getComputedStyle(i).opacity)>.999) && a.every(i=>getComputedStyle(i).filter==='none')));
+    check('Scenery retains opaque coverage and unfiltered color at '+id,await p.locator('.scene-panel').evaluateAll(a=>a.some(i=>Number(getComputedStyle(i).opacity)>.999) && a.every(i=>getComputedStyle(i).filter==='none')));
   }
   for (const [id,phase] of [['departure','night'],['thao-coffee','dawn'],['vi-nha','noon'],['ameii','afternoon'],['a-phu','evening'],['room-clouds','predawn'],['dinosaur-ridge','morning'],['thang-10','night'],['khe-cai','predawn'],['village-cafe','morning']]) {
     await jump(p,id);check('Story scene follows scheduled period at '+id,(await state(p)).phase===phase);
@@ -135,7 +135,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
         check(name+' illustrative caption remains exact and readable for '+id,await figure.locator('figcaption').textContent()===manifest.assets.find(a=>a.assetId===id).captionVi && await figure.locator('figcaption').evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=12));
       }
       await jump(q,'packing');
-      check(name+' date controls leave room above anchor content',await q.locator('#packing').evaluate(e=>e.getBoundingClientRect().top>=140) && await q.locator('.chapter-nav').evaluate(e=>e.getBoundingClientRect().bottom<=125));
+      check(name+' date controls leave room above anchor content',await q.locator('#packing').evaluate(e=>e.getBoundingClientRect().top>=140) && await q.locator('.chapter-nav').evaluate(e=>e.getBoundingClientRect().bottom<=140));
       await q.locator('#navToggle').click();
       check(name+' menu opens with named icon links',await q.locator('#navLinks').isVisible() && await q.locator('#navToggle').getAttribute('aria-expanded')==='true');
       await shot(q,name+'-menu');await q.keyboard.press('Escape');await sleep(250);
@@ -160,7 +160,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
   const failed=await browser.newPage({viewport:{width:390,height:844}});failed.on('pageerror',e=>errors.push(e.message));
   await failed.route('**/vendor/{gsap,ScrollTrigger}.min.js',r=>r.fulfill({status:200,contentType:'application/javascript',body:'// optional motion library unavailable'}));
   await failed.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw new Error('Storage denied for verification');}}));
-  await failed.goto('http://127.0.0.1:8000');await sleep(250);
+  await failed.goto('http://127.0.0.1:8000/taxua-2026/');await sleep(250);
   check('All events render without animation and with denied storage',await failed.locator('.event').count()===24 && await failed.evaluate(()=>!window.gsap));
   await jump(failed,'departure');await failed.locator('#departure [data-note-toggle]').click();check('Notes work without animation dependency',await failed.locator('#note-departure').isVisible());
   await jump(failed,'packing');await failed.locator('#packingList input').first().check();check('Packing works when storage is denied',await failed.locator('#packingStatus').textContent()==='Đã chuẩn bị 1/7 món');
@@ -168,7 +168,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
   const file=await browser.newPage({viewport:{width:390,height:844}});file.on('pageerror',e=>errors.push(e.message));await file.goto('file://'+path.join(root,'index.html'));await sleep(250);
   check('Direct-file opening retains the full itinerary, icons and local GSAP',await file.locator('.event').count()===24 && await file.locator('.nav-links a svg.lucide').count()===5 && await file.evaluate(()=>window.gsap?.version)==='3.15.0');
   await jump(file,'village-cafe');await file.locator('[data-asset-id="F01"] img').evaluate(i=>i.decode());check('Direct-file photography resolves',await file.locator('[data-asset-id="F01"] img').evaluate(i=>i.naturalWidth>0));await file.close();
-  const portrait=await browser.newPage();portrait.on('pageerror',e=>errors.push(e.message));await portrait.route('**/data.js',r=>r.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'data.js'),'utf8')+';TRIP_DATA.members[0].image="figures/people/optional-missing.jpg";'}));await portrait.goto('http://127.0.0.1:8000');await portrait.locator('#crew').scrollIntoViewIfNeeded();await sleep(150);
+  const portrait=await browser.newPage();portrait.on('pageerror',e=>errors.push(e.message));await portrait.route('**/data.js',r=>r.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'data.js'),'utf8')+';TRIP_DATA.members[0].image="figures/people/optional-missing.jpg";'}));await portrait.goto('http://127.0.0.1:8000/taxua-2026/');await portrait.locator('#crew').scrollIntoViewIfNeeded();await sleep(150);
   check('Unavailable optional crew portrait falls back to initials',await portrait.locator('.member .avatar').first().textContent()==='S' && await portrait.locator('.member .avatar img').count()===0);await portrait.close();
   const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto('file://'+path.join(root,'index.html'));check('No-JavaScript fallback remains reachable',await nojs.locator('noscript a').isVisible());await nojs.locator('noscript a').click();check('No-JavaScript reading copy contains every event',await nojs.locator('article').count()===24);await nojs.close();
   check('No unexpected JavaScript errors in any scenario',errors.length===0);

@@ -1,4 +1,4 @@
-/* Regression for rapid artwork swaps while scroll reveals remain active. */
+/* Period-correct schedule art and fixed painted backpack reveal regression. */
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert/strict');
@@ -12,7 +12,7 @@ async function bounds(item) {return item.evaluate(el=>{const t=ScrollTrigger.get
   const browser = await chromium.launch();
   for(const [name,viewport] of [['desktop',{width:1440,height:900}],['phone',{width:390,height:844}]]) {
     const p=await browser.newPage({viewport});p.on('pageerror',error=>report.errors.push(error.stack));
-    await p.goto('http://127.0.0.1:8000');await p.evaluate(()=>document.fonts.ready);await wait(700);
+    await p.goto('http://127.0.0.1:8000/taxua-2026/');await p.evaluate(()=>document.fonts.ready);await wait(700);
     const scheduleArtwork = () => p.locator('.day-heading img[data-sticker]').evaluateAll(images => images.length === 3 && images.every(img => img.dataset.stickerPhase === 'morning' && img.getAttribute('src').endsWith('_day.webp')));
     check(name+' day headings start with fixed daytime artwork',await scheduleArtwork());
     check(name+' early cloud-watching uses the official decorative Lucide sunrise',await p.locator('#room-clouds .event-inner > .schedule-icon').evaluate(el => el.getAttribute('aria-hidden') === 'true' && el.querySelector('use').getAttribute('href') === '#trip-sunrise' && !!document.getElementById('trip-sunrise')));
@@ -30,24 +30,24 @@ async function bounds(item) {return item.evaluate(el=>{const t=ScrollTrigger.get
     }
     const artwork = p.locator('.packing-heading > img');const artworkRange=await bounds(artwork);
     await scroll(p,artworkRange.end+10);
-    for(const phase of ['predawn','morning','night','noon']) {
-      await artwork.evaluate((img,phase)=>JourneyMotion.sticker(img,'./'+stickerPath(img.dataset.sticker,phase)),phase);await wait(80);
+    const original = await artwork.getAttribute('src');
+    for (const id of ['departure','thang-10','home-breakfast']) {
+      await p.evaluate(id => scrollTo(0,document.getElementById(id).getBoundingClientRect().top + scrollY),id);await wait(950);
+      check(name+' painted backpack stays fixed at '+id,await artwork.getAttribute('src')===original);
     }
-    await wait(700);
-    check(name+' rapid artwork retargeting restores full opacity',await artwork.evaluate(img=>img.getAttribute('src')==='./'+stickerPath(img.dataset.sticker,'noon')&&!img.style.getPropertyValue('--gesture-opacity')&&Number(getComputedStyle(img).opacity)===1));
     await scroll(p,(artworkRange.start+artworkRange.end)/2);
-    check(name+' artwork swaps preserve reversible scroll progress',await artwork.evaluate(img=>Number(getComputedStyle(img).opacity)>.3&&Number(getComputedStyle(img).opacity)<.8)&&!!await bounds(artwork));
-    await p.route('**/missing-motion-sticker.webp',route=>route.fulfill({status:200,contentType:'image/webp',body:'invalid image for artwork decode failure'}));
-    const oldArtwork=await artwork.getAttribute('src');
-    await artwork.evaluate(img=>JourneyMotion.sticker(img,'./missing-motion-sticker.webp'));await wait(500);
-    check(name+' failed artwork decode preserves the old image and clears dimming',await artwork.getAttribute('src')===oldArtwork&&await artwork.evaluate(img=>img.naturalWidth>0&&!img.style.getPropertyValue('--gesture-opacity')));
+    const forward = await artwork.evaluate(img=>Number(getComputedStyle(img).opacity));
+    await scroll(p,artworkRange.end+10);
+    check(name+' new backpack is fully visible in its reading zone',await artwork.evaluate(img=>img.naturalWidth>0&&Number(getComputedStyle(img).opacity)===1));
+    await scroll(p,(artworkRange.start+artworkRange.end)/2);
+    check(name+' new backpack reverses at the same scroll position',forward>.3&&forward<.8&&await artwork.evaluate((img,forward)=>Math.abs(Number(getComputedStyle(img).opacity)-forward)<.015,forward));
     await p.close();
   }
   for(const mode of ['reduced','no-gsap','file']) {
     const p=await browser.newPage({reducedMotion:mode === 'reduced' ? 'reduce' : 'no-preference'});
     p.on('pageerror',error=>report.errors.push(error.stack));
     if(mode === 'no-gsap') await p.route('**/vendor/gsap*.js',route=>route.abort());
-    await p.goto(mode === 'file' ? 'file://'+path.resolve(__dirname,'../index.html') : 'http://127.0.0.1:8000');await wait(700);
+    await p.goto(mode === 'file' ? 'file://'+path.resolve(__dirname,'../index.html') : 'http://127.0.0.1:8000/taxua-2026/');await wait(700);
     for(const id of ['departure','arrival']) {
       await p.evaluate(id=>scrollTo(0,document.getElementById(id).getBoundingClientRect().top+scrollY-110),id);await wait(1000);
       check(mode+' fixed schedule artwork survives '+id,await p.locator('.day-heading img[data-sticker]').evaluateAll(images=>images.length === 3 && images.every(img=>img.getAttribute('src').endsWith('_day.webp'))));

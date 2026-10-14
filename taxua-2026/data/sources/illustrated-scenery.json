@@ -1,0 +1,513 @@
+{
+  "sources": {
+    "concept_sunrise": {
+      "uploadFilename": "Misty Mountain Dawn in Watercolor.png",
+      "path": "figures/raw/illustrated_scenery/concept_sunrise.png",
+      "sha256": "0e5a7371bb67970b266ae97d653044937ffb6c8ac61037ecf867ea7078c38149",
+      "width": 1672,
+      "height": 941,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "concept_night": {
+      "uploadFilename": "Moonlit Mountain Valley Retreat.png",
+      "path": "figures/raw/illustrated_scenery/concept_night.png",
+      "sha256": "e69fd034023b36b8647b529014329e35f0bf7db8807725b8502f950aefc53453",
+      "width": 1672,
+      "height": 941,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "concept_daylight": {
+      "uploadFilename": "Panoramic Mountain Valley with Lake and Tree.png",
+      "path": "figures/raw/illustrated_scenery/concept_daylight.png",
+      "sha256": "5e2f2da93a3cb900adf227823fbb86a7a13ac93cb6eddd6ea709eea538ee5aa2",
+      "width": 1672,
+      "height": 941,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "concept_afternoon": {
+      "uploadFilename": "Golden Valley at Sunset.png",
+      "path": "figures/raw/illustrated_scenery/concept_afternoon.png",
+      "sha256": "98f3679b70040358389337f08348be13ea66db6fdd3ebbb8778677d9eb300ae1",
+      "width": 1672,
+      "height": 941,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "ridge_far": {
+      "uploadFilename": "Translucent Watercolor Mountain Panorama.png",
+      "path": "figures/raw/illustrated_scenery/ridge_far.png",
+      "sha256": "71abbcc3e19d2a502360084420f22adceef15b91be42771aaff6134c7f770fcd",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "ridge_mid": {
+      "uploadFilename": "Panoramic Watercolor Mountain Range.png",
+      "path": "figures/raw/illustrated_scenery/ridge_mid.png",
+      "sha256": "e92874f91853c4962b5302106f39f1aa7b183cdc0ac8761eddaaba41046a7818",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "ridge_near": {
+      "uploadFilename": "Painterly Teal Mountain Range on Transparent Background.png",
+      "path": "figures/raw/illustrated_scenery/ridge_near.png",
+      "sha256": "1ec9aae87135e96f7d1233fda232bbfbd3dc299630deba29aa4f138ef9ec6a67",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "ridge_serrated": {
+      "uploadFilename": "Watercolor Mountain Range Cutout.png",
+      "path": "figures/raw/illustrated_scenery/ridge_serrated.png",
+      "sha256": "21e29cbf8a0334148af2ab536473dcbbf7f15628a4e976e23513adf844410f67",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "meadow_left": {
+      "uploadFilename": "Watercolor Hillside Ridge Cutout.png",
+      "path": "figures/raw/illustrated_scenery/meadow_left.png",
+      "sha256": "fa3473721551529999278cffda5b5fa180b5d500a344fc52c8ee9960cdcaac10",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "meadow_right": {
+      "uploadFilename": "Watercolor Mountain Ridge Landscape.png",
+      "path": "figures/raw/illustrated_scenery/meadow_right.png",
+      "sha256": "67a5af5ca1cebaedb477d8b7a211157f00162f02f640ee7acfcda21b28e63886",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "cloud_sheet": {
+      "uploadFilename": "Three Watercolor Clouds PNG Set.png",
+      "path": "figures/raw/illustrated_scenery/cloud_sheet.png",
+      "sha256": "fefdbd7932226ab44d2d956c7c18bcde63737a1fc7469a51b9ed501864a0fe23",
+      "width": 1536,
+      "height": 1024,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "celestial_sheet": {
+      "uploadFilename": "Watercolor Celestial Sticker Set.png",
+      "path": "figures/raw/illustrated_scenery/celestial_sheet.png",
+      "sha256": "fa7c57240b1b036c482278a8c8d2ab6645fd29e72562b0b44caaf24ac1891827",
+      "width": 1254,
+      "height": 1254,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "environment_sheet": {
+      "uploadFilename": "Watercolor Landscape Cutout Collection.png",
+      "path": "figures/raw/illustrated_scenery/environment_sheet.png",
+      "sha256": "3a44b5a390ebd53d0cff4f7c1bc54405fa246370c18ba9787d824beace75e3a6",
+      "width": 1536,
+      "height": 1024,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "travel_sticker_sheet": {
+      "uploadFilename": "Watercolor Travel Sticker Collection.png",
+      "path": "figures/raw/illustrated_scenery/travel_sticker_sheet.png",
+      "sha256": "81e8b54ec5f4762a0b5ea6c0f07d76e8aade00fdc484e5e52161ccdb507eb7ae",
+      "width": 1254,
+      "height": 1254,
+      "rights": "User-generated artwork supplied for this project"
+    }
+  },
+  "assets": {
+    "ridge_far": {
+      "source": "ridge_far",
+      "crop": null,
+      "width": 2172,
+      "height": 330,
+      "png": "figures/scenery/painted/ridge_far.png",
+      "src": "figures/scenery/painted/ridge_far.webp",
+      "bytes": 171344
+    },
+    "ridge_far_night": {
+      "source": "ridge_far",
+      "crop": null,
+      "width": 2172,
+      "height": 330,
+      "png": "figures/scenery/painted/ridge_far_night.png",
+      "src": "figures/scenery/painted/ridge_far_night.webp",
+      "bytes": 60536
+    },
+    "ridge_far_bluehour": {
+      "source": "ridge_far",
+      "crop": null,
+      "width": 2172,
+      "height": 330,
+      "png": "figures/scenery/painted/ridge_far_bluehour.png",
+      "src": "figures/scenery/painted/ridge_far_bluehour.webp",
+      "bytes": 69252
+    },
+    "ridge_mid": {
+      "source": "ridge_mid",
+      "crop": null,
+      "width": 2172,
+      "height": 475,
+      "png": "figures/scenery/painted/ridge_mid.png",
+      "src": "figures/scenery/painted/ridge_mid.webp",
+      "bytes": 236684
+    },
+    "ridge_mid_night": {
+      "source": "ridge_mid",
+      "crop": null,
+      "width": 2172,
+      "height": 475,
+      "png": "figures/scenery/painted/ridge_mid_night.png",
+      "src": "figures/scenery/painted/ridge_mid_night.webp",
+      "bytes": 108612
+    },
+    "ridge_mid_bluehour": {
+      "source": "ridge_mid",
+      "crop": null,
+      "width": 2172,
+      "height": 475,
+      "png": "figures/scenery/painted/ridge_mid_bluehour.png",
+      "src": "figures/scenery/painted/ridge_mid_bluehour.webp",
+      "bytes": 125594
+    },
+    "ridge_near": {
+      "source": "ridge_near",
+      "crop": null,
+      "width": 2172,
+      "height": 451,
+      "png": "figures/scenery/painted/ridge_near.png",
+      "src": "figures/scenery/painted/ridge_near.webp",
+      "bytes": 182908
+    },
+    "ridge_near_night": {
+      "source": "ridge_near",
+      "crop": null,
+      "width": 2172,
+      "height": 451,
+      "png": "figures/scenery/painted/ridge_near_night.png",
+      "src": "figures/scenery/painted/ridge_near_night.webp",
+      "bytes": 79568
+    },
+    "ridge_near_bluehour": {
+      "source": "ridge_near",
+      "crop": null,
+      "width": 2172,
+      "height": 451,
+      "png": "figures/scenery/painted/ridge_near_bluehour.png",
+      "src": "figures/scenery/painted/ridge_near_bluehour.webp",
+      "bytes": 92304
+    },
+    "ridge_serrated": {
+      "source": "ridge_serrated",
+      "crop": null,
+      "width": 2172,
+      "height": 441,
+      "png": "figures/scenery/painted/ridge_serrated.png",
+      "src": "figures/scenery/painted/ridge_serrated.webp",
+      "bytes": 249128
+    },
+    "ridge_serrated_night": {
+      "source": "ridge_serrated",
+      "crop": null,
+      "width": 2172,
+      "height": 441,
+      "png": "figures/scenery/painted/ridge_serrated_night.png",
+      "src": "figures/scenery/painted/ridge_serrated_night.webp",
+      "bytes": 114698
+    },
+    "ridge_serrated_bluehour": {
+      "source": "ridge_serrated",
+      "crop": null,
+      "width": 2172,
+      "height": 441,
+      "png": "figures/scenery/painted/ridge_serrated_bluehour.png",
+      "src": "figures/scenery/painted/ridge_serrated_bluehour.webp",
+      "bytes": 133686
+    },
+    "meadow_left": {
+      "source": "meadow_left",
+      "crop": null,
+      "width": 2172,
+      "height": 485,
+      "png": "figures/scenery/painted/meadow_left.png",
+      "src": "figures/scenery/painted/meadow_left.webp",
+      "bytes": 271360
+    },
+    "meadow_left_night": {
+      "source": "meadow_left",
+      "crop": null,
+      "width": 2172,
+      "height": 485,
+      "png": "figures/scenery/painted/meadow_left_night.png",
+      "src": "figures/scenery/painted/meadow_left_night.webp",
+      "bytes": 110592
+    },
+    "meadow_left_bluehour": {
+      "source": "meadow_left",
+      "crop": null,
+      "width": 2172,
+      "height": 485,
+      "png": "figures/scenery/painted/meadow_left_bluehour.png",
+      "src": "figures/scenery/painted/meadow_left_bluehour.webp",
+      "bytes": 141256
+    },
+    "meadow_right": {
+      "source": "meadow_right",
+      "crop": null,
+      "width": 2172,
+      "height": 463,
+      "png": "figures/scenery/painted/meadow_right.png",
+      "src": "figures/scenery/painted/meadow_right.webp",
+      "bytes": 301900
+    },
+    "meadow_right_night": {
+      "source": "meadow_right",
+      "crop": null,
+      "width": 2172,
+      "height": 463,
+      "png": "figures/scenery/painted/meadow_right_night.png",
+      "src": "figures/scenery/painted/meadow_right_night.webp",
+      "bytes": 137454
+    },
+    "meadow_right_bluehour": {
+      "source": "meadow_right",
+      "crop": null,
+      "width": 2172,
+      "height": 463,
+      "png": "figures/scenery/painted/meadow_right_bluehour.png",
+      "src": "figures/scenery/painted/meadow_right_bluehour.webp",
+      "bytes": 167034
+    },
+    "cloud_valley_ribbon": {
+      "source": "cloud_sheet",
+      "crop": [
+        0,
+        0,
+        1536,
+        432
+      ],
+      "width": 1482,
+      "height": 320,
+      "png": "figures/scenery/painted/cloud_valley_ribbon.png",
+      "src": "figures/scenery/painted/cloud_valley_ribbon.webp",
+      "bytes": 119678
+    },
+    "cloud_sky_puff": {
+      "source": "cloud_sheet",
+      "crop": [
+        0,
+        432,
+        1536,
+        794
+      ],
+      "width": 815,
+      "height": 305,
+      "png": "figures/scenery/painted/cloud_sky_puff.png",
+      "src": "figures/scenery/painted/cloud_sky_puff.webp",
+      "bytes": 55790
+    },
+    "cloud_distant_wisp": {
+      "source": "cloud_sheet",
+      "crop": [
+        0,
+        794,
+        1536,
+        1024
+      ],
+      "width": 1393,
+      "height": 147,
+      "png": "figures/scenery/painted/cloud_distant_wisp.png",
+      "src": "figures/scenery/painted/cloud_distant_wisp.webp",
+      "bytes": 51132
+    },
+    "sun_disc": {
+      "source": "celestial_sheet",
+      "crop": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "width": 512,
+      "height": 512,
+      "png": "figures/scenery/painted/sun_disc.png",
+      "src": "figures/scenery/painted/sun_disc.webp",
+      "bytes": 11518
+    },
+    "sun_rays": {
+      "source": "celestial_sheet",
+      "crop": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "width": 512,
+      "height": 512,
+      "png": "figures/scenery/painted/sun_rays.png",
+      "src": "figures/scenery/painted/sun_rays.webp",
+      "bytes": 37854
+    },
+    "moon": {
+      "source": "celestial_sheet",
+      "crop": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "width": 472,
+      "height": 468,
+      "png": "figures/scenery/painted/moon.png",
+      "src": "figures/scenery/painted/moon.webp",
+      "bytes": 37778
+    },
+    "star_motif": {
+      "source": "celestial_sheet",
+      "crop": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "width": 291,
+      "height": 434,
+      "png": "figures/scenery/painted/star_motif.png",
+      "src": "figures/scenery/painted/star_motif.webp",
+      "bytes": 14696
+    },
+    "winding_road": {
+      "source": "environment_sheet",
+      "crop": [
+        0,
+        0,
+        520,
+        520
+      ],
+      "width": 468,
+      "height": 440,
+      "png": "figures/scenery/painted/winding_road.png",
+      "src": "figures/scenery/painted/winding_road.webp",
+      "bytes": 55030
+    },
+    "lake": {
+      "source": "environment_sheet",
+      "crop": [
+        520,
+        0,
+        1030,
+        520
+      ],
+      "width": 502,
+      "height": 312,
+      "png": "figures/scenery/painted/lake.png",
+      "src": "figures/scenery/painted/lake.webp",
+      "bytes": 45784
+    },
+    "solitary_tree": {
+      "source": "environment_sheet",
+      "crop": [
+        1030,
+        0,
+        1536,
+        520
+      ],
+      "width": 485,
+      "height": 485,
+      "png": "figures/scenery/painted/solitary_tree.png",
+      "src": "figures/scenery/painted/solitary_tree.webp",
+      "bytes": 87282
+    },
+    "hillside_hut": {
+      "source": "environment_sheet",
+      "crop": [
+        0,
+        550,
+        535,
+        1024
+      ],
+      "width": 526,
+      "height": 335,
+      "png": "figures/scenery/painted/hillside_hut.png",
+      "src": "figures/scenery/painted/hillside_hut.webp",
+      "bytes": 67534
+    },
+    "rock_outcrop": {
+      "source": "environment_sheet",
+      "crop": [
+        535,
+        550,
+        1030,
+        1024
+      ],
+      "width": 479,
+      "height": 397,
+      "png": "figures/scenery/painted/rock_outcrop.png",
+      "src": "figures/scenery/painted/rock_outcrop.webp",
+      "bytes": 77462
+    },
+    "bus_sticker": {
+      "source": "travel_sticker_sheet",
+      "crop": [
+        0,
+        0,
+        655,
+        590
+      ],
+      "width": 633,
+      "height": 439,
+      "png": "figures/decor/painted/bus_sticker.png",
+      "src": "figures/decor/painted/bus_sticker.webp",
+      "bytes": 87136
+    },
+    "headlamp_sticker": {
+      "source": "travel_sticker_sheet",
+      "crop": [
+        655,
+        0,
+        1254,
+        590
+      ],
+      "width": 576,
+      "height": 388,
+      "png": "figures/decor/painted/headlamp_sticker.png",
+      "src": "figures/decor/painted/headlamp_sticker.webp",
+      "bytes": 73736
+    },
+    "cloud_coffee_sticker": {
+      "source": "travel_sticker_sheet",
+      "crop": [
+        0,
+        590,
+        655,
+        1254
+      ],
+      "width": 599,
+      "height": 549,
+      "png": "figures/decor/painted/cloud_coffee_sticker.png",
+      "src": "figures/decor/painted/cloud_coffee_sticker.webp",
+      "bytes": 73946
+    },
+    "backpack_sticker": {
+      "source": "travel_sticker_sheet",
+      "crop": [
+        655,
+        590,
+        1254,
+        1254
+      ],
+      "width": 528,
+      "height": 599,
+      "png": "figures/decor/painted/backpack_sticker.png",
+      "src": "figures/decor/painted/backpack_sticker.webp",
+      "bytes": 101610
+    }
+  },
+  "generated": {
+    "paper_grain": {
+      "path": "figures/scenery/painted/paper_grain.png",
+      "width": 256,
+      "height": 256,
+      "seed": 2026,
+      "sha256": "5cb7e224d8fd4f1ecf1ecfe98b594bbc1ee3bfea00d7a2714ba32ebad6ba58de"
+    }
+  }
+}

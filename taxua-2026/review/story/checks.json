@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-14T09:43:35.371Z",
+  "timestamp": "2026-10-14T16:00:15.099Z",
   "checks": [
     "desktop all 18 places have sourced introductions",
     "desktop each place introduction appears once in the story",
@@ -12,10 +12,10 @@
     "desktop clustered stops have space for separate reading moments",
     "desktop one scenery chapter holds across thao-coffee, waterfall, vi-nha",
     "desktop one scenery chapter holds across check-in, ameii, a-phu",
-    "desktop one scenery chapter holds across stars, room-clouds, home-breakfast",
+    "desktop one scenery chapter holds across home-breakfast",
     "desktop one scenery chapter holds across dinosaur-ridge, lake, bep-cui, room-change",
     "desktop one scenery chapter holds across meadow, afternoon-cluster, doi-may",
-    "desktop one scenery chapter holds across thang-10, day-3, khe-cai",
+    "desktop one scenery chapter holds across day-3, khe-cai",
     "desktop one scenery chapter holds across last-breakfast, village-cafe, town-lunch, homeward, fund, crew",
     "desktop fast jump keeps one outgoing snapshot while dissolving",
     "desktop fast jump skips all crossed scenery",
@@ -38,10 +38,10 @@
     "phone clustered stops have space for separate reading moments",
     "phone one scenery chapter holds across thao-coffee, waterfall, vi-nha",
     "phone one scenery chapter holds across check-in, ameii, a-phu",
-    "phone one scenery chapter holds across stars, room-clouds, home-breakfast",
+    "phone one scenery chapter holds across home-breakfast",
     "phone one scenery chapter holds across dinosaur-ridge, lake, bep-cui, room-change",
     "phone one scenery chapter holds across meadow, afternoon-cluster, doi-may",
-    "phone one scenery chapter holds across thang-10, day-3, khe-cai",
+    "phone one scenery chapter holds across day-3, khe-cai",
     "phone one scenery chapter holds across last-breakfast, village-cafe, town-lunch, homeward, fund, crew",
     "phone fast jump keeps one outgoing snapshot while dissolving",
     "phone fast jump skips all crossed scenery",
@@ -62,16 +62,16 @@
     {
       "width": 1440,
       "viewportHeight": 900,
-      "storyHeight": 24162,
+      "storyHeight": 24259,
       "clusterHeight": 3566,
-      "growth": 0.48561239547466806
+      "growth": 0.491576487948844
     },
     {
       "width": 390,
       "viewportHeight": 900,
-      "storyHeight": 30517,
+      "storyHeight": 30555,
       "clusterHeight": 4136,
-      "growth": 0.46907042795937026
+      "growth": 0.4708997256053531
     }
   ],
   "screenshots": [

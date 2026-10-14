@@ -27,7 +27,7 @@ async function travel(p,from,to) {
     const context=await browser.newContext({viewport,...(['desktop','phone'].includes(name)?{recordVideo:{dir:output,size:viewport}}:{})});
     await context.route(url,route=>route.fulfill({contentType:'text/html',body:'<title>MoMo link verification</title>Local click verification only.'}));
     const p=await context.newPage();p.on('pageerror',e=>report.errors.push(e.stack));
-    await p.goto('http://127.0.0.1:8000');await p.evaluate(()=>document.fonts.ready);await wait(500);
+    await p.goto('http://127.0.0.1:8000/taxua-2026/');await p.evaluate(()=>document.fonts.ready);await wait(500);
     check(name+' fund follows the travel story and precedes crew',await p.locator('#fund').evaluate(el=>el.previousElementSibling.id==='itinerary'&&el.nextElementSibling.id==='crew'));
     check(name+' contribution and destination are exact',await p.locator('.fund-amount strong').textContent()==='2.400.000'&&await p.locator('.fund-amount > span').textContent()==='₫ / mỗi người'&&await p.locator('.fund-link').getAttribute('href')===url);
     check(name+' interface preserves transparent scenery',await p.locator('#fund,.fund-composition,.fund-copy,.fund-pocket').evaluateAll(items=>items.every(el=>getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(el).backdropFilter==='none')));
@@ -70,14 +70,14 @@ async function travel(p,from,to) {
   for(const mode of ['reduce','missing-gsap','file']) {
     const p=await browser.newPage({viewport:{width:390,height:844},...(mode==='reduce'?{reducedMotion:'reduce'}:{})});p.on('pageerror',e=>report.errors.push(e.stack));
     if(mode==='missing-gsap')await p.route('**/vendor/{gsap,ScrollTrigger}.min.js',r=>r.fulfill({contentType:'application/javascript',body:'// optional library absent'}));
-    await p.goto(mode==='file'?'file://'+path.join(root,'index.html'):'http://127.0.0.1:8000');await wait(600);await scene(p);
+    await p.goto(mode==='file'?'file://'+path.join(root,'index.html'):'http://127.0.0.1:8000/taxua-2026/');await wait(600);await scene(p);
     check(mode+' retains fund content and exact link',await p.locator('.fund-amount strong').textContent()==='2.400.000'&&await p.locator('.fund-link').getAttribute('href')===url);
     if(mode!=='file')check(mode+' exposes all fund components without travel',await p.locator('.fund-copy > *, .fund-tally, .fund-action').evaluateAll(items=>items.every(el=>Number(getComputedStyle(el).opacity)===1)));
     await p.emulateMedia({media:'print'});
     check(mode+' print retains fund content',await p.locator('.fund-action').evaluate(el=>Number(getComputedStyle(el).opacity)===1));await p.close();
   }
   const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto('file://'+path.join(root,'itinerary.html'));
-  check('reading copy includes the contribution and exact MoMo link',await nojs.locator('#fundTitle').textContent()==='Heo đất cũng đi Tà Xùa.'&&await nojs.locator('a[href="'+url+'"]').count()===1&&await nojs.locator('article').count()===24);await nojs.close();
+  check('reading copy includes the contribution and exact MoMo link',await nojs.locator('#fundTitle').textContent()==='Thành viên thứ 8: Heo đất!'&&await nojs.locator('a[href="'+url+'"]').count()===1&&await nojs.locator('article').count()===24);await nojs.close();
   check('all fund scenarios have no uncaught browser errors',report.errors.length===0);
   report.checkCount=report.checks.length;fs.writeFileSync(path.join(output,'checks.json'),JSON.stringify(report,null,2)+'\n');await browser.close();
   console.log('Passed '+report.checkCount+' fund checks; screenshots and recordings in review/fund/.');

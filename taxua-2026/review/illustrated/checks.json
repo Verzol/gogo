@@ -1,0 +1,1072 @@
+{
+  "checkedAt": "2026-10-14T16:06:35.928Z",
+  "checks": [
+    "desktop all six composed scenes decode",
+    "desktop photographic backgrounds are absent",
+    "desktop scenery is full width with no blur",
+    "desktop mountain framing does not bury the opening words",
+    "desktop no horizontal overflow at opening",
+    "desktop scheduled lighting respects morning stops",
+    "desktop settled scene at departure",
+    "desktop no overflow at departure",
+    "desktop settled scene at thao-coffee",
+    "desktop no overflow at thao-coffee",
+    "desktop settled scene at ameii",
+    "desktop no overflow at ameii",
+    "desktop settled scene at stars",
+    "desktop no overflow at stars",
+    "desktop settled scene at dinosaur-ridge",
+    "desktop no overflow at dinosaur-ridge",
+    "desktop settled scene at khe-cai",
+    "desktop no overflow at khe-cai",
+    "desktop settled scene at fund",
+    "desktop no overflow at fund",
+    "desktop opening blend spans several scroll steps",
+    "desktop dissolves always retain opaque coverage",
+    "desktop reverse scroll reproduces the same scenery blend",
+    "desktop distant navigation retains a frozen outgoing composition",
+    "desktop navigation goes directly to destination scenery",
+    "desktop navigation finishes with focus and clears snapshots",
+    "desktop wheel input interrupts navigation cleanly",
+    "desktop returning to breakfast restores a daylight scene",
+    "desktop supporting content remains in bounds",
+    "phone all six composed scenes decode",
+    "phone photographic backgrounds are absent",
+    "phone scenery is full width with no blur",
+    "phone mountain framing does not bury the opening words",
+    "phone no horizontal overflow at opening",
+    "phone scheduled lighting respects morning stops",
+    "phone settled scene at departure",
+    "phone no overflow at departure",
+    "phone settled scene at thao-coffee",
+    "phone no overflow at thao-coffee",
+    "phone settled scene at ameii",
+    "phone no overflow at ameii",
+    "phone settled scene at stars",
+    "phone no overflow at stars",
+    "phone settled scene at dinosaur-ridge",
+    "phone no overflow at dinosaur-ridge",
+    "phone settled scene at khe-cai",
+    "phone no overflow at khe-cai",
+    "phone settled scene at fund",
+    "phone no overflow at fund",
+    "phone opening blend spans several scroll steps",
+    "phone dissolves always retain opaque coverage",
+    "phone reverse scroll reproduces the same scenery blend",
+    "phone distant navigation retains a frozen outgoing composition",
+    "phone navigation goes directly to destination scenery",
+    "phone navigation finishes with focus and clears snapshots",
+    "phone wheel input interrupts navigation cleanly",
+    "phone returning to breakfast restores a daylight scene",
+    "phone supporting content remains in bounds",
+    "narrow all six composed scenes decode",
+    "narrow photographic backgrounds are absent",
+    "narrow scenery is full width with no blur",
+    "narrow mountain framing does not bury the opening words",
+    "narrow no horizontal overflow at opening",
+    "narrow scheduled lighting respects morning stops",
+    "narrow supporting content remains in bounds",
+    "tablet all six composed scenes decode",
+    "tablet photographic backgrounds are absent",
+    "tablet scenery is full width with no blur",
+    "tablet mountain framing does not bury the opening words",
+    "tablet no horizontal overflow at opening",
+    "tablet scheduled lighting respects morning stops",
+    "tablet supporting content remains in bounds",
+    "wide all six composed scenes decode",
+    "wide photographic backgrounds are absent",
+    "wide scenery is full width with no blur",
+    "wide mountain framing does not bury the opening words",
+    "wide no horizontal overflow at opening",
+    "wide scheduled lighting respects morning stops",
+    "wide supporting content remains in bounds",
+    "landscape all six composed scenes decode",
+    "landscape photographic backgrounds are absent",
+    "landscape scenery is full width with no blur",
+    "landscape mountain framing does not bury the opening words",
+    "landscape no horizontal overflow at opening",
+    "landscape scheduled lighting respects morning stops",
+    "landscape supporting content remains in bounds",
+    "reduce scenery still follows morning lighting",
+    "reduce all 24 events remain available",
+    "reduce content stays visible without motion",
+    "reduce print exposes content and hides the scenery",
+    "missing-gsap scenery still follows morning lighting",
+    "missing-gsap all 24 events remain available",
+    "missing-gsap content stays visible without motion",
+    "missing-gsap print exposes content and hides the scenery",
+    "file scenery still follows morning lighting",
+    "file all 24 events remain available",
+    "file print exposes content and hides the scenery",
+    "cold-http scenery still follows morning lighting",
+    "cold-http all 24 events remain available",
+    "cold-http print exposes content and hides the scenery",
+    "failed optional cutout keeps an opaque blue-hour sky",
+    "scrolling continues after failed artwork",
+    "navigation waits with outgoing composition while a layer decodes",
+    "late layer completes navigation and removes its snapshot",
+    "normal scenarios have no browser errors",
+    "normal scenarios have no failed resources"
+  ],
+  "errors": [],
+  "failedResources": [],
+  "screenshots": [
+    "desktop-opening.png",
+    "desktop-departure.png",
+    "desktop-thao-coffee.png",
+    "desktop-ameii.png",
+    "desktop-stars.png",
+    "desktop-dinosaur-ridge.png",
+    "desktop-khe-cai.png",
+    "desktop-fund.png",
+    "desktop-packing.png",
+    "phone-opening.png",
+    "phone-departure.png",
+    "phone-thao-coffee.png",
+    "phone-ameii.png",
+    "phone-stars.png",
+    "phone-dinosaur-ridge.png",
+    "phone-khe-cai.png",
+    "phone-fund.png",
+    "phone-packing.png",
+    "narrow-opening.png",
+    "narrow-packing.png",
+    "tablet-opening.png",
+    "tablet-packing.png",
+    "wide-opening.png",
+    "wide-packing.png",
+    "landscape-opening.png",
+    "landscape-packing.png"
+  ],
+  "samples": [
+    {
+      "name": "desktop",
+      "samples": [
+        {
+          "y": 0,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 90,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 180,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 270,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 360,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 450,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 540,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 6.05625e-11,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 630,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.0429677,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 720,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.156241,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 810,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.316387,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 900,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.499971,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 990,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.683615,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 1080,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.84376,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "phone",
+      "samples": [
+        {
+          "y": 0,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 84.4,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 168.8,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 253.20000000000002,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 337.6,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 422,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 506.4,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 1
+            },
+            {
+              "id": "night",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 590.8,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.0431629,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 675.1999999999999,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.155887,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 759.5999999999999,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.317276,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 843.9999999999999,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.500001,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 928.3999999999999,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.682725,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        },
+        {
+          "y": 1012.7999999999998,
+          "layers": [
+            {
+              "id": "sunrise",
+              "opacity": 1,
+              "z": 0
+            },
+            {
+              "id": "night",
+              "opacity": 0.844114,
+              "z": 1
+            },
+            {
+              "id": "bluehour",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "daylight",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "jade",
+              "opacity": 0,
+              "z": 0
+            },
+            {
+              "id": "afternoon",
+              "opacity": 0,
+              "z": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "checkCount": 106,
+  "finalFraming": {
+    "checkedAt": "2026-10-14T16:11:06.753Z",
+    "checks": [
+      "landscape final framing and soft landscape edge passed",
+      "desktop final framing and soft landscape edge passed",
+      "wide final framing and soft landscape edge passed"
+    ]
+  }
+}

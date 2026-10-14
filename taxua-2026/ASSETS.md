@@ -2,7 +2,25 @@
 
 The live Drive catalog, selected-photo JSON and Lịch trình A1:J33 were read on 2026-10-14. The raw source snapshots in `data/sources/` preserve their contents. Their authority is the detailed schedule, not the asset array order or stale day headings. The original external sources were left unchanged.
 
-## Import and reproducibility
+## Illustrated scenery
+
+The 14 user-generated uploads are organized under `figures/raw/illustrated_scenery/` with descriptive lowercase names. Originals remain byte-for-byte intact; `data/sources/illustrated-scenery.json` maps the upload names to their canonical paths, native sizes, SHA-256 hashes, measured sheet crops and derivative paths.
+
+Four full landscape concepts are composition/palette references, retained at their native 1672×941 resolution. They are not loaded as flattened website wallpapers. Six transparent terrain exports (2172×724 before trimming) and four component sheets supply the live stage. `figures/scenery/painted/` holds trimmed mountain bands, localized clouds, celestial pieces and environment details; `figures/decor/painted/` holds the four travel stickers. PNGs preserve alpha; WebP copies at quality 88 are served to the browser. Six terrain bands also have texture-preserving night and blue-hour palette variants. No source is upscaled during preparation.
+
+The sun disc and ray ring share centered 512px canvases; their relative sizes accommodate the supplied ray ring's smaller central hole. Source-cell crops retain the bus edge across the nominal quadrant boundary. Faint alpha specks below 3/255 are removed before trimming. A deterministic 256px paper-grain tile is created locally and lightly overlays the stage.
+
+To rerun the optional extraction helper (Pillow and NumPy required):
+
+```sh
+python3 scripts/prepare_illustrated_scenery.py
+```
+
+`scenery.js` builds the six live worlds with a full-viewport CSS sky, seeded SVG stars, independent painted bands and small edge accents. Shared WebPs are cached and each panel waits for decoding before a transition. Missing individual cutouts are hidden while the sky remains usable. On wide screens, band heights are bounded so terrain stays out of the main reading zone; phone scenes use a wider, cropped terrain stage. Concept prompts and sheet maps remain in `prompts/illustrated_scenery/`.
+
+The previous B01-B05 photographs and their credit records below are archived assets, no longer requested by the interactive scenery. The 23 destination/meal photographs remain documentary content inside the story.
+
+## Earlier photo import and reproducibility
 
 All 23 selected place/meal photo entries and five atmospheric backgrounds were downloaded from their originals. P12-P18 were downloaded as complete raw bytes through the connected Google Drive tool, including the two full-resolution Best view room files. No preview fallback was used. The three Drive preview packs were also downloaded and their HTML guides checked; `imageN.jpg` was matched by the preceding asset heading, never by numeric order.
 

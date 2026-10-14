@@ -1,12 +1,18 @@
 # Implementation and acceptance review
 
-## Current design
+## Current illustrated design
 
-An open, playful trip scrapbook over full-color scenic photography, following the user's 14 October redesign plan. Native HTML/CSS/classic JavaScript remain the foundation. The installed `design-taste-frontend` skill was applied from `/home/san/gogo/.agents/skills/design-taste-frontend/SKILL.md`; the user's visual direction overrides its generic defaults. Dials: design variance 8, motion intensity 5, visual density 3.
+The website is now an open watercolor mountain journal. The user's 14 generated images are organized into canonical source files and alpha cutouts, with source hashes/crops in `data/sources/illustrated-scenery.json`. The existing static HTML/CSS/classic-script stack, gogo logo, Patrick Hand and Be Vietnam Pro remain. The `redesign-existing-projects` skill guided the audit while the user's illustrated-background direction supplied the visual brief.
 
-The gogo logo, existing artwork and self-hosted Vietnamese typography remain. Patrick Hand now carries headings, stamps and short notes; Be Vietnam Pro carries practical reading text. The photographs supply the palette, with warm accents for times and annotations.
+Four complete scenes serve as reference compositions. Six live worlds use self-designed scalable skies, sparse deterministic SVG stars, independently placed painted ridges, local clouds and small landscape accents. The opening has a lowered mountain horizon so the headline and arrival clock stay on clear sky. Short landscape screens gently fade terrain out of the left reading lane. Daylight is rich teal; blue hour retains faint stars, night uses cool painted terrain, and afternoon has a warm rose/copper sky. Band heights are capped on wide screens and the phone terrain uses a broader cropped stage.
 
-## Acceptance mapping
+Scenery retains the established slow dissolves, reversible content reveals, interruptible navigation and fast-scroll catch-up. A shared phase-aware resolver brightens night chapters into blue hour and then daylight before breakfast. Panels wait for their component images to decode; a failed optional piece leaves the scalable sky instead of blocking travel. Small mountain drift follows scroll position reversibly; reduced motion disables it. The bus ticket, coffee accent and packing backpack use the new stickers. Photo content, source times, all 18 researched introductions, seven-member roster, eighth-member fund and arrival countdown remain intact.
+
+Current validation: 106 illustrated-scenery checks, 301 full-journey checks, 83 motion checks, 379 reversible-reveal checks, 67 countdown checks, 155 fund checks, 34 artwork checks and 56 story/content checks passed. Ordinary HTTP journeys have no console errors or failed resources; direct-file viewing was also checked with no console errors. All 14 original hashes/native dimensions and all 34 derivative dimensions/alpha channels were verified. No commit or deployment was performed.
+
+Current browser evidence is recorded by `scripts/verify_illustrated_scenery.cjs` in `review/illustrated/`. Existing journey, reveal, countdown, fund and artwork helpers provide regression coverage. The earlier photographic implementation and its historical metrics below remain for provenance.
+
+## Earlier photographic redesign acceptance
 
 | Requested change | Implemented behavior and evidence |
 | --- | --- |

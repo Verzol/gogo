@@ -1,6 +1,6 @@
 {
   "browser": "Chromium via Playwright",
-  "timestamp": "2026-10-14T09:43:34.159Z",
+  "timestamp": "2026-10-14T16:00:15.105Z",
   "checks": [
     "All 24 source events remain in detailed-sheet order",
     "Confirmed times exactly match the source snapshot",

@@ -4,7 +4,7 @@ A complete Vietnamese, scroll-driven journal for the 22-25 October 2026 trip. Th
 
 ## Preview
 
-Open `index.html` directly, or use the running preview at **http://localhost:8000**. If port 8000 is already in use, reuse the existing server. Otherwise, from this directory:
+Open `index.html` directly, or use the running repository-root preview at **http://localhost:8000/taxua-2026/** (a server started inside this folder uses **http://localhost:8000/**). If port 8000 is already in use, reuse the existing server. Otherwise, from this directory:
 
 ```sh
 python3 -m http.server 8000
@@ -17,8 +17,10 @@ No installation, backend, build command, runtime npm, Google login, or network c
 - `data.js`: members, packing, food, practical costs, the fund invitation and every schedule event. Keep `sourceRow`, `time: null`, `optional`, and source uncertainty intact. `phase` is an editorial lighting cue, never a visit time or device-clock reading.
 - `assets.js`: generated classic-script photo metadata, dimensions, crop preferences, credits, flags and captions. It is deliberately compact; edit source records and rerun the preparation helper rather than hand-editing this generated file.
 - `main.js`: ordinary rendering, day anchors, responsive menu, unfolding notes, photo decks, real packing checkboxes and the motion-independent scenery fallback.
-- `scene-config.js`: scheduled scene labels and photographic background choices. The three travel days each return to predawn; all five backgrounds use their full natural color, with no permanent cloud/ridge overlays.
-- `motion.js`: local GSAP 3.15.0 / ScrollTrigger enhancement. A smoothed scene controller holds repeated photographs and joins different scenery with longer dissolves. Continuous reversible scroll reveals, interruptible smooth anchor travel, unfolding notes, photo decks and phone-menu gestures share one motion owner. No scroll hijacking or pinning. Breakpoint/reduced-motion contexts revert old timelines; refresh remeasures after fonts, unfolded notes, and photo changes settle.
+- `scene-config.js`: eight broad story chapters and their illustrated lighting presets. Night chapters develop into blue hour and daylight as the scheduled stops advance.
+- `scenery.js` / `scenery.css`: six composed watercolor worlds, scalable skies and seeded SVG stars, transparent mountain bands, small clouds and landscape cutouts. Shared assets decode before scenic travel; optional failed art leaves a usable sky. Terrain framing adapts to phones and wide screens.
+- `scripts/prepare_illustrated_scenery.py`: organize supplied originals, extract sheet components and create PNG/WebP derivatives. The source map and hashes are in `data/sources/illustrated-scenery.json`.
+- `motion.js`: local GSAP 3.15.0 / ScrollTrigger enhancement. A smoothed scene controller holds repeated scenery and joins different scenery with longer dissolves. Continuous reversible scroll reveals, interruptible smooth anchor travel, unfolding notes, photo decks and phone-menu gestures share one motion owner. No scroll hijacking or pinning. Breakpoint/reduced-motion contexts revert old timelines; refresh remeasures after fonts, unfolded notes, and photo changes settle.
 - `style.css`: transparent scrapbook layouts, handwritten time stamps, icon navigation and explicit phone fallbacks.
 - `countdown.css`: the transparent handwritten arrival clock and its phone/print layouts, kept small and separate from the main stylesheet.
 - `itinerary.html`: complete no-JavaScript reading copy. Regenerate it after content changes with `node scripts/export_itinerary.cjs`. This is an optional maintenance command, never a build requirement.
@@ -31,12 +33,15 @@ The opening countdown reads the `arrival` event directly: currently 03:00 on 23 
 
 Classic scripts defer in their existing dependency order so the opening scenery and headline can paint promptly. The clock reserves space during loading to keep the hero steady.
 
+The current illustrated review runs with `node scripts/verify_illustrated_scenery.cjs`; it uses the repository-root preview by default (`TRIP_PREVIEW_URL` overrides it). It checks real decoding, lighting, forward/reverse blends, fast navigation, delayed/missing cutouts, responsive framing, direct files and reduced motion.
+
 ## Sources and review
 
 - [Asset sources, credits, licenses and conversion notes](ASSETS.md)
 - [Design workflow, decisions and full acceptance review](IMPLEMENTATION.md)
 - [Draft PR description / review artifact](REVIEW.md)
-- [Representative browser screenshots](review/index.html)
+- [Current illustrated scenery screenshots and checks](review/illustrated/index.html)
+- [Earlier photographic redesign screenshots](review/index.html)
 - [Desktop/phone transition recordings and motion checks](review/motion/index.html)
 - [Forward/reverse component recordings and reveal checks](review/reveals/index.html)
 - [Fund epilogue screenshots and recordings](review/fund/index.html)

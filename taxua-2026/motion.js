@@ -18,7 +18,7 @@
       if (!context.conditions.motion) return;
       JourneyUI.stopFallback();
       const sections = Array.from(document.querySelectorAll('.hero, .day-heading, .event, #fund, #crew'));
-      const photos = Array.from(document.querySelectorAll('.scene-photo'));
+      const panels = Array.from(document.querySelectorAll('.scene-panel'));
       const progress = document.querySelector('.chapter-progress');
       const ready = new Set();
       const pending = new Set();
@@ -70,7 +70,7 @@
             if (ok && waitingBackground === id) {
               const snapshot = catchup?.snapshot && Number(catchup.snapshot.style.opacity || 1) === 1 ? catchup.snapshot : sceneSnapshot('scene-catchup');
               finishCatchup();
-              document.getElementById('scenePhotos').appendChild(snapshot);
+              document.getElementById('sceneLayers').appendChild(snapshot);
               const state = catchup = {snapshot};
               state.tween = animate(snapshot,{opacity:0,duration:.6,ease:'power2.inOut',onComplete:() => {
                 snapshot.remove();
@@ -82,19 +82,19 @@
         });
       }
       function sceneSnapshot(className) {
-        const scenePhotos = document.getElementById('scenePhotos');
-        const cover = scenePhotos.querySelector(':scope > .scene-catchup');
+        const sceneLayers = document.getElementById('sceneLayers');
+        const cover = sceneLayers.querySelector(':scope > .scene-catchup');
         // Repeated flings before a fade begins can reuse the opaque frozen
         // composition, instead of nesting another copy on every scroll event.
-        const snapshot = (cover && Number(cover.style.opacity || 1) > .995 ? cover : scenePhotos).cloneNode(true);
+        const snapshot = (cover && Number(cover.style.opacity || 1) > .995 ? cover : sceneLayers).cloneNode(true);
         snapshot.removeAttribute('id');
         snapshot.className = className;
         snapshot.style.opacity = 1;
         snapshot.querySelectorAll('.scene-catchup,.navigation-scene').forEach(layer => {layer.className = 'frozen-scene';});
-        snapshot.querySelectorAll('.scene-photo').forEach(photo => {
-          const original = photos.find(item => item.dataset.background === photo.dataset.background);
-          photo.style.objectPosition = getComputedStyle(original).objectPosition;
-          photo.classList.replace('scene-photo','navigation-photo');
+        snapshot.querySelectorAll('.scene-panel').forEach(photo => {
+          const original = panels.find(item => item.dataset.background === photo.dataset.background);
+          photo.style.setProperty('--scenery-drift',original.style.getPropertyValue('--scenery-drift'));
+          photo.classList.replace('scene-panel','navigation-panel');
           photo.removeAttribute('data-background');
         });
         return snapshot;
@@ -106,9 +106,9 @@
         catchup = null;
       }
       function paint(from,to,amount) {
-        // The outgoing photo remains opaque underneath the incoming one.
-        // This avoids a dark/white dip midway through a photographic dissolve.
-        photos.forEach(photo => {
+        JourneyUI.setSceneryTone(amount > .5 ? to : from);
+        // The outgoing world stays opaque beneath the incoming one.
+        panels.forEach(photo => {
           const id = photo.dataset.background;
           const opacity = id === to ? (from === to ? 1 : amount) : id === from ? 1 : 0;
           const z = id === to ? 1 : 0;
@@ -137,6 +137,13 @@
             const after = Math.min(innerHeight * .18,gap * .1);
             next.end = point.position + after;
             next.start = Math.max(previous.end,point.position - Math.min(innerHeight * 1.05,gap * .42));
+          }
+          if (previous?.scene.background === 'sunrise') {
+            // Let the dark opening copy leave the sky before night arrives.
+            // Later scenes retain the established broad chapter boundaries.
+            const hero = document.getElementById('top');
+            next.start = Math.max(previous.end,hero.offsetHeight - innerHeight * .4);
+            next.end = next.start + innerHeight * .8;
           }
           changes.push(next);
         });
@@ -175,16 +182,25 @@
         }
         waitingBackground = '';
         let outgoing = amount === 1 ? incoming : changes[index - 1].scene.background;
+        // Nearby loading may have decoded the other half of this blend before
+        // motion requested it. A cold landing needs both worlds, not the hero.
+        if (JourneyScenery.isReady(outgoing)) ready.add(outgoing);
+        if (!ready.has(outgoing) && !unavailable.has(outgoing)) {
+          waitingBackground = outgoing;
+          prepare(outgoing);
+          return;
+        }
         if (!ready.has(outgoing)) {
           // Fast manual travel can skip unloaded earlier scenes. Use the
-          // currently visible photograph rather than replaying those scenes.
-          const opaque = photos.filter(photo => Number(photo.style.opacity) === 1).sort((a,b) => Number(b.style.zIndex) - Number(a.style.zIndex))[0];
+          // currently visible world rather than replaying those scenes.
+          const opaque = panels.filter(photo => Number(photo.style.opacity) === 1).sort((a,b) => Number(b.style.zIndex) - Number(a.style.zIndex))[0];
           outgoing = opaque?.dataset.background || incoming;
         }
         paint(outgoing,incoming,amount);
+        JourneyScenery.drift(y);
       }
       build();
-      photos.filter(photo => photo.complete && photo.naturalWidth).forEach(photo => ready.add(photo.dataset.background));
+      panels.filter(photo => JourneyScenery.isReady(photo.dataset.background)).forEach(photo => ready.add(photo.dataset.background));
       const scrollAnimation = gsap.fromTo(proxy,{y:0},{y:distance,duration:1,ease:'none',paused:true,
         onUpdate:() => {
           progress.style.setProperty('--progress',clamp(proxy.y / distance()));
@@ -202,14 +218,14 @@
         if (!alive || navigation || Math.abs(scrollY - proxy.y) < innerHeight * 1.8) return;
         const snapshot = sceneSnapshot('scene-catchup');
         finishCatchup();
-        document.getElementById('scenePhotos').appendChild(snapshot);
+        document.getElementById('sceneLayers').appendChild(snapshot);
         const state = catchup = {snapshot};
         trigger.update();
         trigger.getTween()?.progress(1);
         proxy.y = scrollY;
         renderAt(scrollY);
         // If decode is still pending, prepare() keeps this opaque snapshot
-        // until the landing photograph is ready, then starts its dissolve.
+        // until the landing artwork is ready, then starts its dissolve.
         if (!waitingBackground && catchup === state) state.tween = animate(snapshot,{opacity:0,duration:.85,ease:'power2.inOut',onComplete:() => {
           snapshot.remove();
           if (catchup === state) catchup = null;
@@ -476,7 +492,7 @@
       }
       function navigate(target,hash,historyMode = 'push') {
         const snapshot = sceneSnapshot('navigation-scene');
-        const fallbackBackground = navigation?.fallbackBackground || photos.filter(photo => Number(photo.style.opacity) === 1).sort((a,b) => Number(b.style.zIndex) - Number(a.style.zIndex))[0]?.dataset.background || 'B01';
+        const fallbackBackground = navigation?.fallbackBackground || panels.filter(photo => Number(photo.style.opacity) === 1).sort((a,b) => Number(b.style.zIndex) - Number(a.style.zIndex))[0]?.dataset.background || 'sunrise';
         finishCatchup();
         finishNavigation(false);
         waitingBackground = '';
@@ -486,18 +502,19 @@
         const scene = JourneyUI.sceneFor(point.el,point.phase);
         // Preserve the current composite while the target image loads, then
         // dissolve just once, regardless of the number of crossed chapters.
-        const targetPhoto = photos.find(photo => photo.dataset.background === scene.background);
+        const targetPhoto = panels.find(photo => photo.dataset.background === scene.background);
         const state = {target,y,snapshot,fallbackBackground,amount:0,started:false,arrived:false,blend:() => {
           if (!alive || navigation !== state || !ready.has(scene.background)) return;
           if (state.started) return;
           state.started = true;
           state.fade = gsap.to(state,{amount:1,duration:.75,ease:'power2.inOut',onUpdate:() => {
             targetPhoto.style.opacity = state.amount;
+            JourneyUI.setSceneryTone(state.amount > .5 ? scene.background : fallbackBackground);
           },onComplete:() => { if (state.arrived) finishNavigation(); }});
         }};
         navigation = state;
-        photos.forEach(photo => { photo.style.opacity = 0; photo.style.zIndex = photo === targetPhoto ? 2 : 0; });
-        document.getElementById('scenePhotos').appendChild(snapshot);
+        panels.forEach(photo => { photo.style.opacity = 0; photo.style.zIndex = photo === targetPhoto ? 2 : 0; });
+        document.getElementById('sceneLayers').appendChild(snapshot);
         prepare(scene.background);
         state.blend();
         const start = scrollY;
@@ -576,13 +593,12 @@
         ScrollTrigger.removeEventListener('refreshInit',rebuild);
         ScrollTrigger.removeEventListener('refresh',afterRefresh);
         ['note','deck','menu','label','packing','sticker'].forEach(key => delete api[key]);
-        photos.forEach(photo => photo.style.removeProperty('z-index'));
+        panels.forEach(photo => photo.style.removeProperty('z-index'));
         JourneyUI.startFallback();
       };
     });
     if (document.fonts) document.fonts.ready.then(refresh);
-    const opening = document.querySelector('[data-background="B01"]');
-    if (opening && !opening.complete) opening.addEventListener('load',refresh,{once:true});
+    JourneyUI.loadBackground('sunrise').then(refresh);
     addEventListener('pageshow',refresh);
     addEventListener('pagehide',() => clearTimeout(refreshTimer));
     api.dispose = () => { clearTimeout(refreshTimer); media.revert(); JourneyUI.startFallback(); };

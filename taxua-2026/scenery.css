@@ -1,0 +1,134 @@
+/* Six composed worlds, built from transparent painted cutouts and vector skies.
+   The terrain fills continue below each cutout, beyond the visible viewport. */
+.scenery { background: #f3c490; }
+.scene-layers,.scene-panel,.navigation-panel { position: absolute; inset: 0; }
+.scene-panel,.navigation-panel { overflow: hidden; opacity: 0; --scenery-drift: 0px; --far-fill: #315e70; --mid-fill: #254b57; --near-fill: #183e45; }
+.painted-sky { position: absolute; inset: 0; background: linear-gradient(180deg,#f5cf9f 0%,#efb284 53%,#b9c3b2 80%,#376272 100%); }
+.scene-night { --far-fill: #20374c; --mid-fill: #1c3445; --near-fill: #142b3c; }
+.scene-night .painted-sky { background: radial-gradient(ellipse at 85% 20%,#234356 0,transparent 55%),linear-gradient(#101e34,#1a344b 60%,#4c6772); }
+.scene-bluehour { --far-fill: #3d6278; --mid-fill: #305169; --near-fill: #243e54; }
+.scene-bluehour .painted-sky { background: linear-gradient(#213956 0%,#355672 52%,#b98888 85%,#698899); }
+.scene-daylight .painted-sky { background: linear-gradient(#205371 0%,#316773 54%,#92b2a7 86%,#49747a); }
+.scene-jade .painted-sky { background: linear-gradient(#225462 0%,#3a7173 52%,#a4b79c 86%,#466d59); }
+.scene-afternoon .painted-sky { background: linear-gradient(#553f52 0%,#82555d 52%,#e4a16b 85%,#799081); }
+.painted-piece { position: absolute; height: auto; max-width: none; }
+.painted-stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+.scene-bluehour .painted-stars { opacity: .28; }
+.painted-sun { position: absolute; width: clamp(180px,18vw,340px); aspect-ratio: 1; top: 12%; right: 15%; transform: translateY(calc(var(--scenery-drift) * -.2)); }
+.painted-sun img { width: 100%; height: 100%; }
+.scene-sunrise .painted-sun { width: clamp(240px,30vw,470px); top: 17%; right: 9%; }
+.scene-afternoon .painted-sun { top: 35%; right: 12%; }
+.painted-moon { width: clamp(46px,5.5vw,80px); top: 16%; right: 19%; transform: translateY(calc(var(--scenery-drift) * -.2)); }
+.scene-bluehour .painted-moon { opacity: .6; }
+.sky-cloud { width: clamp(180px,22vw,390px); right: -3%; top: 42%; transform: translateY(calc(var(--scenery-drift) * -.35)); }
+.high-wisp { width: clamp(230px,30vw,520px); left: -9%; top: 18%; opacity: .55; }
+.scene-bluehour .sky-cloud,.scene-bluehour .high-wisp { opacity: .18; }
+.painted-terrain { position: absolute; left: 50%; bottom: 0; width: max(116%,1150px); height: 100%; transform: translateX(-50%); }
+.ridge-band { position: absolute; width: 100%; left: 0; transform: translateY(calc(var(--scenery-drift) * var(--depth))); }
+.ridge-image { position: relative; width: 100%; }
+.ridge-fill { position: absolute; inset: calc(100% - 3px) 0 auto; height: 100vh; background: var(--fill); }
+.ridge-far { bottom: 23%; --fill: var(--far-fill); --depth: -.3; }
+.ridge-mid { bottom: 5%; width: 110%; left: -5%; --fill: var(--mid-fill); --depth: -.65; }
+.ridge-near { bottom: -21%; width: 116%; left: -8%; --fill: var(--near-fill); --depth: -1; }
+.valley-cloud { width: 46%; left: -15%; bottom: 29%; transform: translateY(calc(var(--scenery-drift) * -.5)); opacity: .7; }
+.valley-lake { width: 13%; left: 61%; bottom: 4%; opacity: .88; }
+.landscape-detail { width: clamp(100px,10vw,190px); bottom: -2%; transform: translateY(calc(var(--scenery-drift) * -.9)); }
+.detail-solitary_tree { right: 9%; width: clamp(130px,15vw,250px); bottom: 0; }
+.detail-rock_outcrop { left: 7%; }
+.detail-hillside_hut { right: 12%; bottom: 1%; }
+/* A little paper tooth joins vector sky and painted pigment, without blur. */
+.scenery::after { content: ''; position: absolute; inset: 0; opacity: .045; background: url('./figures/scenery/painted/paper_grain.png') repeat; }
+.hero h1,.hero-sub,.hero-actions,.arrival-countdown { color: #173e46; text-shadow: none; }
+.hero-extra,.countdown-unit--days { color: #994d31; }
+.hero-stamp { color: #173e46; }
+.hero-stamp::before { content: ''; position: absolute; inset: -42px; background: url('./figures/decor/painted/cloud_coffee_sticker.webp') center / contain no-repeat; opacity: .95; }
+.hero-stamp > * { visibility: hidden; }
+/* Scenery has a quiet sky behind the reading zone. A small ink tint handles
+   the occasions when a moving mountain crosses a paragraph. */
+.event-body,.section-heading,.packing-heading,.practical,.footer,.fund-copy { text-shadow: 0 1px 3px rgb(8 29 37 / .6); }
+.event-body::before,.section-heading::before,.packing-heading::before,.practical::before,.footer::before,.fund-copy::before { inset: -35px -18px; background: radial-gradient(ellipse closest-side,rgb(13 38 46 / .18),transparent); mask-image: none; }
+.day-heading { text-shadow: 0 1px 3px rgb(8 29 37 / .6); }
+.travel-art { width: 110px; height: 82px; object-fit: contain; }
+.transit-heading .travel-art { margin-right: 12px; }
+.packing-heading .painted-backpack { width: 105px; height: 120px; object-fit: contain; transform: rotate(8deg); margin-bottom: 24px; }
+@media (max-width: 767px) {
+  .painted-terrain { width: 1150px; }
+  .ridge-far { bottom: 20%; }
+  .ridge-mid { bottom: 5%; }
+  .ridge-near { bottom: -12%; }
+  .scene-sunrise .painted-sun { width: 230px; right: -55px; top: 9%; }
+  .painted-sun { width: 180px; right: -40px; top: 10%; }
+  .scene-afternoon .painted-sun { top: 30%; }
+  .painted-moon { right: 12%; top: 18%; width: 48px; }
+  .sky-cloud { right: -80px; top: 58%; width: 220px; }
+  .high-wisp { left: -95px; top: 10%; width: 280px; }
+  .valley-cloud { width: 350px; left: 16%; bottom: 26%; }
+  .detail-solitary_tree { right: 27%; width: 140px; }
+  .detail-hillside_hut { right: 29%; width: 100px; }
+  .detail-rock_outcrop { left: 31%; width: 100px; }
+  .valley-lake { left: 52%; width: 150px; }
+  .hero-sub,.hero-actions,.arrival-countdown { color: #173e46; text-shadow: none; }
+  .travel-art { width: 85px; height: 65px; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .painted-terrain { width: 110%; min-width: 850px; }
+  .ridge-far { bottom: 3%; }
+  .ridge-mid { bottom: -28%; }
+  .ridge-near { bottom: -56%; }
+  .landscape-detail,.valley-lake { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .scene-panel { --scenery-drift: 0px !important; } }
+@media print { .hero-stamp::before { display: none; } }
+/* The opening keeps its words above the horizon; the landscape arrives at
+   the foot of the page rather than crossing the headline and clock. */
+.scene-sunrise .ridge-far { bottom: -7%; }
+.scene-sunrise .ridge-mid { bottom: -25%; }
+.scene-sunrise .ridge-near { bottom: -38%; }
+.scene-sunrise .valley-cloud { bottom: 4%; left: -20%; width: 35%; }
+.scene-sunrise .sky-cloud { top: 67%; right: -7%; width: 300px; }
+.scene-sunrise .high-wisp { top: 19%; left: -13%; opacity: .4; }
+.scene-sunrise .painted-sun { width: 300px; top: 20%; right: 14%; }
+.sun-rays { opacity: .35; }
+.painted-sun { width: clamp(140px,13vw,220px); }
+.ridge-near { bottom: -12%; }
+.hero { padding-bottom: 190px; }
+.hero-stamp { top: 34%; right: 17%; width: 120px; height: 120px; border: 0; }
+.hero-stamp::before { inset: -16px; }
+[data-scene="opening"] .chapter-nav { color: #173e46; text-shadow: none; }
+[data-scene="opening"] .chapter-nav a { background: rgb(255 239 208 / .2); }
+@media (min-width: 1200px) { .arrival-countdown { top: 42%; } }
+@media (max-width: 767px) {
+  .hero { padding-bottom: 94px; }
+  .scene-sunrise .ridge-far { bottom: -5%; }
+  .scene-sunrise .ridge-mid { bottom: -20%; }
+  .scene-sunrise .ridge-near { bottom: -25%; }
+  .scene-sunrise .painted-sun { width: 160px; right: -32px; top: 15%; }
+  .scene-sunrise .sky-cloud { top: 76%; right: -90px; width: 200px; }
+  .scene-sunrise .high-wisp { top: 10%; left: -120px; }
+  .scene-sunrise .valley-cloud { bottom: 0; left: 20%; width: 230px; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .scene-sunrise .ridge-far { bottom: -15%; }
+  .scene-sunrise .ridge-mid { bottom: -43%; }
+  .scene-sunrise .ridge-near { bottom: -73%; }
+}
+@media (min-width: 768px) {
+  .ridge-far .ridge-image { height: clamp(150px,17vw,28vh); }
+  .ridge-mid .ridge-image { height: clamp(230px,25vw,40vh); }
+  .ridge-near .ridge-image { height: clamp(230px,27vw,44vh); }
+  .hero-stamp { top: 24%; right: 12%; }
+}
+@media (max-width: 767px) {
+  [data-scene="opening"] .chapter-nav { color: #fffdf7; text-shadow: 0 1px 3px #173e46; }
+  [data-scene="opening"] .chapter-nav a { background: rgb(7 27 33 / .3); }
+}
+
+.checklist label { background: transparent; }
+@media print {
+  .hero h1,.hero-sub,.hero-actions,.arrival-countdown,.countdown-unit--days { color: var(--ink); text-shadow: none; }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  /* A short screen needs a clear left reading lane throughout the tall hero.
+     Keep the painted peaks at the right edge beside the sun. */
+  .scene-sunrise .painted-terrain { mask-image: linear-gradient(90deg,transparent 60%,#000 90%); }
+}
