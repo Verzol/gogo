@@ -66,6 +66,6 @@ The default path points to the existing Playwright installation in `../hue-2026/
 
 The focused artwork regression verifies rapid day/night retargeting, independent scroll progress and failed-decode recovery in `review/reveals/artwork-checks.json`.
 
-The fund epilogue follows the journey home, before crew. `TRIP_DATA.fund` holds its text, 2,400,000 VND contribution per person and the exact MoMo URL. The fund script checks responsive layouts, reversible reveals, keyboard/link behavior, reduced motion, missing GSAP, direct-file use and the no-JavaScript reading copy. Link clicks are intercepted locally; no contribution is submitted.
+The fund epilogue follows the seven-member crew section, before packing. `TRIP_DATA.fund` holds its text, 2,400,000 VND contribution per person and the exact MoMo URL. The fund script checks responsive layouts, reversible reveals, keyboard/link behavior, reduced motion, missing GSAP, direct-file use and the no-JavaScript reading copy. Link clicks are intercepted locally; no contribution is submitted.
 
 Place introductions live in `TRIP_DATA.placeGuides`. The interactive story uses concise `storyTitle`, `storyCue` and `storyNote` copy, while original source schedule fields remain available in the linked reading copy. Run `node scripts/export_itinerary.cjs` after changing content. Broad `sceneryChapter` keys hold backgrounds across related stops; event phases still control labels and artwork.

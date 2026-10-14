@@ -119,7 +119,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
   for(const [name,viewport] of [['desktop',{width:1440,height:900}],['wide',{width:2560,height:1080}],['phone',{width:390,height:844}],['narrow',{width:320,height:780}]]) {
     console.log('Reviewing '+name+' full journey');
     const q=await page({viewport});result.viewports.push(viewport);
-    const ids=['top',...blocks.map(b=>b.id),'fund','crew','packing','destinations','food','practical'];
+    const ids=['top',...blocks.map(b=>b.id),'crew','fund','packing','destinations','food','practical'];
     for(const id of ids) {
       await jump(q,id);
       check('Full-page responsive layout stays inside '+name+' viewport at '+id,await q.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

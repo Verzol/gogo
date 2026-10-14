@@ -28,7 +28,7 @@ async function travel(p,from,to) {
     await context.route(url,route=>route.fulfill({contentType:'text/html',body:'<title>MoMo link verification</title>Local click verification only.'}));
     const p=await context.newPage();p.on('pageerror',e=>report.errors.push(e.stack));
     await p.goto('http://127.0.0.1:8000/taxua-2026/');await p.evaluate(()=>document.fonts.ready);await wait(500);
-    check(name+' fund follows the travel story and precedes crew',await p.locator('#fund').evaluate(el=>el.previousElementSibling.id==='itinerary'&&el.nextElementSibling.id==='crew'));
+    check(name+' fund follows crew and precedes packing',await p.locator('#fund').evaluate(el=>el.previousElementSibling.id==='crew'&&el.nextElementSibling.id==='packing'));
     check(name+' contribution and destination are exact',await p.locator('.fund-amount strong').textContent()==='2.400.000'&&await p.locator('.fund-amount > span').textContent()==='₫ / mỗi người'&&await p.locator('.fund-link').getAttribute('href')===url);
     check(name+' interface preserves transparent scenery',await p.locator('#fund,.fund-composition,.fund-copy,.fund-pocket').evaluateAll(items=>items.every(el=>getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(el).backdropFilter==='none')));
     check(name+' pig uses an official resolved Lucide symbol',await p.locator('.fund-pig use').evaluate(el=>!!document.querySelector(el.getAttribute('href'))));

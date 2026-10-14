@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-14T16:07:54.105Z",
+  "checkedAt": "2026-10-14T17:40:13.706Z",
   "checks": [
     "desktop retains native scrolling without pinning",
     "desktop opening landscape blends across multiple wheel steps",
@@ -449,7 +449,7 @@
           },
           {
             "id": "night",
-            "opacity": 6.05625e-11,
+            "opacity": 5.33329e-10,
             "z": 1
           },
           {
@@ -488,7 +488,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.0196699,
+            "opacity": 0.0196686,
             "z": 1
           },
           {
@@ -527,7 +527,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.0740824,
+            "opacity": 0.0740652,
             "z": 1
           },
           {
@@ -566,7 +566,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.156241,
+            "opacity": 0.156244,
             "z": 1
           },
           {
@@ -605,7 +605,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.25928,
+            "opacity": 0.259259,
             "z": 1
           },
           {
@@ -644,7 +644,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.376154,
+            "opacity": 0.376165,
             "z": 1
           },
           {
@@ -683,7 +683,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.499971,
+            "opacity": 0.500016,
             "z": 1
           },
           {
@@ -722,7 +722,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.623848,
+            "opacity": 0.623866,
             "z": 1
           },
           {
@@ -761,7 +761,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.740722,
+            "opacity": 0.740723,
             "z": 1
           },
           {
@@ -800,7 +800,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.84376,
+            "opacity": 0.843741,
             "z": 1
           },
           {
@@ -839,7 +839,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.925919,
+            "opacity": 0.925924,
             "z": 1
           },
           {
@@ -878,7 +878,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.980331,
+            "opacity": 0.980325,
             "z": 1
           },
           {
@@ -912,18 +912,18 @@
         "photos": [
           {
             "id": "sunrise",
-            "opacity": 1,
+            "opacity": 0,
             "z": 0
           },
           {
             "id": "night",
             "opacity": 1,
-            "z": 1
+            "z": 0
           },
           {
             "id": "bluehour",
-            "opacity": 0,
-            "z": 0
+            "opacity": 1.42861e-8,
+            "z": 1
           },
           {
             "id": "daylight",
@@ -941,13 +941,13 @@
             "z": 0
           }
         ],
-        "ghosts": 0,
+        "ghosts": 1,
         "target": "",
         "hash": ""
       },
       {
         "y": 1320,
-        "phase": "night",
+        "phase": "predawn",
         "photos": [
           {
             "id": "sunrise",
@@ -961,7 +961,7 @@
           },
           {
             "id": "bluehour",
-            "opacity": 0.141133,
+            "opacity": 0.807445,
             "z": 1
           },
           {
@@ -1348,7 +1348,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.00717667,
+            "opacity": 0.00718637,
             "z": 1
           },
           {
@@ -1372,7 +1372,7 @@
             "z": 0
           }
         ],
-        "ghosts": 0,
+        "ghosts": 1,
         "target": "",
         "hash": ""
       },
@@ -1387,7 +1387,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.0523065,
+            "opacity": 0.0523224,
             "z": 1
           },
           {
@@ -1426,7 +1426,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.13168,
+            "opacity": 0.131691,
             "z": 1
           },
           {
@@ -1465,7 +1465,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.23695,
+            "opacity": 0.236937,
             "z": 1
           },
           {
@@ -1504,7 +1504,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.35956,
+            "opacity": 0.359528,
             "z": 1
           },
           {
@@ -1543,7 +1543,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.491149,
+            "opacity": 0.491098,
             "z": 1
           },
           {
@@ -1582,7 +1582,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.623297,
+            "opacity": 0.623299,
             "z": 1
           },
           {
@@ -1621,7 +1621,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.747584,
+            "opacity": 0.74757,
             "z": 1
           },
           {
@@ -1660,7 +1660,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.855591,
+            "opacity": 0.855566,
             "z": 1
           },
           {
@@ -1699,7 +1699,7 @@
           },
           {
             "id": "night",
-            "opacity": 0.938898,
+            "opacity": 0.938871,
             "z": 1
           },
           {
@@ -1768,7 +1768,7 @@
       },
       {
         "y": 1200,
-        "phase": "night",
+        "phase": "predawn",
         "photos": [
           {
             "id": "sunrise",
@@ -1782,7 +1782,7 @@
           },
           {
             "id": "bluehour",
-            "opacity": 0.0110158,
+            "opacity": 0.257478,
             "z": 1
           },
           {
@@ -1807,7 +1807,7 @@
       },
       {
         "y": 1260,
-        "phase": "night",
+        "phase": "predawn",
         "photos": [
           {
             "id": "sunrise",
@@ -1816,12 +1816,12 @@
           },
           {
             "id": "night",
-            "opacity": 1,
+            "opacity": 0,
             "z": 0
           },
           {
             "id": "bluehour",
-            "opacity": 0.171843,
+            "opacity": 1,
             "z": 1
           },
           {

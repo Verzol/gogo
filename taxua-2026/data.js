@@ -27,7 +27,7 @@ const TRIP_DATA = {
   "fund": {
     "eyebrow": "+1 đây rồi · Quỹ vi vu",
     "title": "Thành viên thứ 8: Heo đất!",
-    "intro": "Đây là +1 ở đầu nhật ký: heo đất giữ quỹ vi vu cho cả hội.",
+    "intro": "Heo đất cũng đi Tà Xùa.",
     "contributionIntro": "Mỗi đứa góp",
     "contributionOutro": "vào heo chung nhé.",
     "reminder": "Ai chưa góp thì ghé heo một chút nha!",

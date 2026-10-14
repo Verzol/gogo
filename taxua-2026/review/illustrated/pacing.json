@@ -1,0 +1,38 @@
+[
+  {
+    "before": {
+      "width": 1440,
+      "page": 30205,
+      "story": 24259,
+      "cluster": 3566,
+      "khe": 1530
+    },
+    "after": {
+      "width": 1440,
+      "page": 25860,
+      "story": 20234,
+      "cluster": 2899,
+      "khe": 1125,
+      "pageReduction": 0.14385035590134088,
+      "storyReduction": 0.16591780370171894
+    }
+  },
+  {
+    "before": {
+      "width": 390,
+      "page": 38761,
+      "story": 30555,
+      "cluster": 4136,
+      "khe": 1530
+    },
+    "after": {
+      "width": 390,
+      "page": 32987,
+      "story": 25020,
+      "cluster": 3300,
+      "khe": 1125,
+      "pageReduction": 0.14896416501122267,
+      "storyReduction": 0.18114874815905746
+    }
+  }
+]

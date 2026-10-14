@@ -14,7 +14,7 @@ const groups = [
   ['thao-coffee','waterfall','vi-nha'], ['check-in','ameii','a-phu'],
   ['home-breakfast'], ['dinosaur-ridge','lake','bep-cui','room-change'],
   ['meadow','afternoon-cluster','doi-may'], ['day-3','khe-cai'],
-  ['last-breakfast','village-cafe','town-lunch','homeward','fund','crew']
+  ['last-breakfast','village-cafe','town-lunch','homeward','crew','fund']
 ];
 async function jump(p,id) {
   await p.evaluate(id=>{const el=document.getElementById(id);scrollTo(0,el.getBoundingClientRect().top+scrollY-110);},id);
@@ -25,7 +25,7 @@ async function scenery(p) {
 }
 (async()=>{
   const browser = await chromium.launch({headless:true});
-  for(const [name,width,baseline] of [['desktop',1440,16264],['phone',390,20773]]) {
+  for(const [name,width,baseline] of [['desktop',1440,24259],['phone',390,30555]]) {
     const p = await browser.newPage({viewport:{width,height:900}});
     p.on('pageerror',e=>report.errors.push(e.message));
     await p.goto('http://127.0.0.1:8000/taxua-2026/');await p.evaluate(()=>document.fonts.ready);await wait(500);
@@ -38,8 +38,8 @@ async function scenery(p) {
     check(name+' live music remains unconfirmed',await p.locator('#note-thang-10').textContent().then(t=>t.includes('chưa được xác nhận')));
     check(name+' shared afternoon has three individual anchors',await p.locator('.cluster-card[id]').count()===3);
     const measurement = await p.evaluate(()=>({width:innerWidth,viewportHeight:innerHeight,storyHeight:document.getElementById('daysList').offsetHeight,clusterHeight:document.getElementById('afternoon-cluster').offsetHeight}));
-    measurement.growth=measurement.storyHeight/baseline-1;report.measurements.push(measurement);
-    check(name+' travel story gives substantially more scroll room',measurement.growth>=.35 && measurement.growth<.65);
+    measurement.reduction=1-measurement.storyHeight/baseline;report.measurements.push(measurement);
+    check(name+' travel story is shorter without crowding the reading moments',measurement.reduction>=.13 && measurement.reduction<.3);
     check(name+' clustered stops have space for separate reading moments',measurement.clusterHeight>measurement.viewportHeight*3);
     // A chapter must actually hold its photograph while visiting its stops.
     for(const group of groups) {

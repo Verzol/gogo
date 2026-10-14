@@ -8,9 +8,15 @@ Four complete scenes serve as reference compositions. Six live worlds use self-d
 
 Scenery retains the established slow dissolves, reversible content reveals, interruptible navigation and fast-scroll catch-up. A shared phase-aware resolver brightens night chapters into blue hour and then daylight before breakfast. Panels wait for their component images to decode; a failed optional piece leaves the scalable sky instead of blocking travel. Small mountain drift follows scroll position reversibly; reduced motion disables it. The bus ticket, coffee accent and packing backpack use the new stickers. Photo content, source times, all 18 researched introductions, seven-member roster, eighth-member fund and arrival countdown remain intact.
 
-Current validation: 106 illustrated-scenery checks, 301 full-journey checks, 83 motion checks, 379 reversible-reveal checks, 67 countdown checks, 155 fund checks, 34 artwork checks and 56 story/content checks passed. Ordinary HTTP journeys have no console errors or failed resources; direct-file viewing was also checked with no console errors. All 14 original hashes/native dimensions and all 34 derivative dimensions/alpha channels were verified. No commit or deployment was performed.
+Illustrated redesign validation (14 October): 106 illustrated-scenery checks, 301 full-journey checks, 83 motion checks, 379 reversible-reveal checks, 67 countdown checks, 155 fund checks, 34 artwork checks and 56 story/content checks passed. Ordinary HTTP journeys have no console errors or failed resources; direct-file viewing was also checked with no console errors. All 14 original hashes/native dimensions and all 34 derivative dimensions/alpha channels were verified. No commit or deployment was performed.
 
 Current browser evidence is recorded by `scripts/verify_illustrated_scenery.cjs` in `review/illustrated/`. Existing journey, reveal, countdown, fund and artwork helpers provide regression coverage. The earlier photographic implementation and its historical metrics below remain for provenance.
+
+## Shorter scrolling, 15 October
+
+Reduced event/day spacing, photo-section minimum heights, clustered-stop gaps and the extended Khe Cải section. Phone photo sections now use natural content height. No text, photos, warnings or schedule entries were removed; the opening and existing motion timings remain intact.
+
+At a 900px viewport, itinerary height changed from 24,259 to 20,234px on desktop (16.6% shorter) and 30,555 to 25,020px on phones (18.1% shorter). The whole page is 14.4% and 14.9% shorter respectively. Measurements are in `review/illustrated/pacing.json`. The shorter layout passed 56 story checks, 83 motion checks and 12 representative forward/reverse reveal checks at desktop, phone and 320px widths; the focused compact review found no overflow or browser errors.
 
 ## Earlier photographic redesign acceptance
 

@@ -85,14 +85,14 @@ main,.footer { position: relative; z-index: 1; }
 .event-body::before,.section-heading::before,.packing-heading::before,.practical::before,.footer::before,.fund-copy::before { content: ""; position: absolute; z-index: -1; inset: -40px -18px; background: linear-gradient(105deg,rgb(5 24 29 / .24),rgb(5 24 29 / .06) 80%,transparent); opacity: var(--reading-opacity,1); mask-image: linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent),linear-gradient(0deg,transparent,#000 35px,#000 calc(100% - 35px),transparent); mask-composite: intersect; pointer-events: none; }
 .event-body { padding: 12px 8px; min-width: 0; }
 .event-body--place::before { inset: -65px -40px; background: radial-gradient(ellipse closest-side at 50% 50%,rgb(5 24 29 / .24),rgb(5 24 29 / .12) 55%,transparent 100%); mask-image: none; }
-.day-heading { width: min(1080px,calc(100% - 180px)); margin: 140px auto 70px; padding: 24px 0 24px 28px; border-left: 1px dashed var(--line); position: relative; text-shadow: 0 2px 7px rgb(0 0 0 / .65); }
+.day-heading { width: min(1080px,calc(100% - 180px)); margin: 95px auto 45px; padding: 24px 0 24px 28px; border-left: 1px dashed var(--line); position: relative; text-shadow: 0 2px 7px rgb(0 0 0 / .65); }
 .day-heading h2 { max-width: 760px; }
 .day-heading p { max-width: 530px; margin-top: 18px; font-size: .94rem; }
 .day-date { display: flex; gap: 18px; align-items: center; font-family: 'Patrick Hand',cursive; font-size: 1.25rem; margin-bottom: 15px; }
 .day-date strong { color: var(--accent); font-weight: 400; transform: rotate(-7deg); border: 1px solid currentColor; border-radius: 50%; padding: 6px 15px; }
 .day-heading .sticker { position: absolute; right: 10px; top: 4px; width: 110px; height: 110px; object-fit: contain; transform: rotate(9deg); }
-.event { width: min(1080px,calc(100% - 180px)); margin: 0 auto; padding: 155px 0; position: relative; scroll-margin-top: 115px; }
-.event[data-visual="photo"]:not(.event--rest):not(.event--cluster) { min-height: 100svh; display: grid; align-content: center; }
+.event { width: min(1080px,calc(100% - 180px)); margin: 0 auto; padding: 100px 0; position: relative; scroll-margin-top: 115px; }
+.event[data-visual="photo"]:not(.event--rest):not(.event--cluster) { min-height: 82svh; display: grid; align-content: center; }
 .event-inner { display: grid; grid-template-columns: 1.05fr 1fr; gap: 74px; align-items: center; }
 .event h3 { font-size: clamp(2.3rem,3.6vw,3.6rem); }
 .event-meta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 22px; }
@@ -150,7 +150,7 @@ main,.footer { position: relative; z-index: 1; }
 .stay-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; min-width: 0; transform: rotate(2deg); }
 .stay-photos > figure:first-child { grid-column: 1 / -1; width: 88%; margin: 0 auto; }
 .stay-photos .photo { aspect-ratio: var(--photo-ratio); object-fit: contain; border: 1px solid var(--line); padding: 5px; }
-.event--rest,.event--note { width: min(720px,calc(100% - 260px)); padding-block: 145px; }
+.event--rest,.event--note { width: min(720px,calc(100% - 260px)); padding-block: 95px; }
 .event--rest .event-inner { grid-template-columns: 170px 1fr; gap: 38px; }
 .event--rest h3,.event--note h3 { font-size: 2.6rem; }
 .event--note .event-inner { grid-template-columns: 1fr 90px; gap: 30px; }
@@ -165,9 +165,9 @@ main,.footer { position: relative; z-index: 1; }
 .event--transit .event-body::before { inset: -22px -18px; }
 .event[data-visual="text"]:not(.event--transit) .event-inner { display: block; max-width: 620px; margin-inline: auto; }
 .event--cluster .event-inner { display: block; }
-.cluster-intro { max-width: 680px; margin-bottom: 100px; }
-.cluster-grid { display: grid; gap: 110px; }
-.cluster-card { display: grid; grid-template-columns: 1.05fr 1fr; gap: 74px; align-items: center; min-height: 100svh; padding-block: 100px; position: relative; scroll-margin-top: 115px; }
+.cluster-intro { max-width: 680px; margin-bottom: 65px; }
+.cluster-grid { display: grid; gap: 65px; }
+.cluster-card { display: grid; grid-template-columns: 1.05fr 1fr; gap: 74px; align-items: center; min-height: 84svh; padding-block: 55px; position: relative; scroll-margin-top: 115px; }
 .cluster-card:nth-child(2) .postcard { grid-column: 2; grid-row: 1; transform: rotate(3deg); }
 .cluster-card:nth-child(2) .event-body { grid-column: 1; grid-row: 1; }
 .cluster-card:nth-child(3) .postcard { transform: rotate(-3deg); }
@@ -175,11 +175,11 @@ main,.footer { position: relative; z-index: 1; }
 .place-number { color: var(--accent); font-family: 'Patrick Hand',cursive; font-size: 1.5rem; margin-bottom: 20px; transform: rotate(-4deg); }
 .cluster-card .photo { aspect-ratio: 4/5; max-height: 550px; }
 /* Give the final night enough room to become dawn within the Khe Cải chapter. */
-#khe-cai { min-height: 170svh; }
+#khe-cai { min-height: 125svh; }
 .cluster-card .photo--full { aspect-ratio: var(--photo-ratio); }
-.support-section { padding: 110px 0; }
+.support-section { padding: 85px 0; }
 /* A handwritten fund epilogue: scenery between the words, coins and pig. */
-.fund { padding-block: 140px 125px; }
+.fund { padding-block: 100px 95px; }
 .fund-composition { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(280px,.85fr); gap: 30px 90px; align-items: start; }
 .fund-copy { grid-column: 1; grid-row: 1; max-width: 540px; }
 .fund-eyebrow { font-family: 'Patrick Hand',cursive; font-size: 1.2rem; color: var(--accent); margin-bottom: 20px; transform: rotate(-3deg); width: fit-content; border-bottom: 1px dashed currentColor; }
@@ -303,7 +303,7 @@ main,.footer { position: relative; z-index: 1; }
   .crew-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 767px) {
-  .fund { padding-block: 110px 90px; }
+  .fund { padding-block: 85px 70px; }
   .fund-composition { grid-template-columns: minmax(0,1fr); gap: 34px; }
   .fund-copy { grid-column: 1; grid-row: 1; }
   .fund h2 { font-size: clamp(3rem,12vw,4rem); }
@@ -335,12 +335,13 @@ main,.footer { position: relative; z-index: 1; }
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 15px; margin-top: 24px; }
   .button { font-size: 1.3rem; }
   .scroll-note { max-width: none; font-size: 1.05rem; }
-  .day-heading { margin: 100px auto 36px; padding-left: 18px; }
+  .day-heading { margin: 70px auto 28px; padding-left: 18px; }
   .day-heading h2 { font-size: 3rem; }
   .day-heading p { font-size: .88rem; }
   .day-date { font-size: 1.05rem; gap: 12px; flex-wrap: wrap; }
   .day-heading .sticker { display: none; }
-  .event { padding-block: 180px; scroll-margin-top: 148px; }
+  .event { padding-block: 85px; scroll-margin-top: 148px; }
+  .event[data-visual="photo"]:not(.event--rest):not(.event--cluster) { min-height: 0; }
   .event-inner,.event--cafe .event-inner,.event--meal .event-inner,.event--stay .event-inner,.event--rest .event-inner { display: flex; flex-direction: column; gap: 42px; align-items: stretch; }
   .event--wide:nth-child(even) .postcard,.event--wide:nth-child(even) .event-body { grid-column: auto; grid-row: auto; }
   .event-body { padding: 8px 4px; }
@@ -361,14 +362,14 @@ main,.footer { position: relative; z-index: 1; }
   .stay-photos { gap: 14px; width: 92%; margin-inline: auto; }
   .event--stay .event-body { order: 2; }
   .event--stay .stay-photos { order: 1; }
-  .cluster-intro { margin-bottom: 80px; }
-  .cluster-grid { gap: 120px; }
-  .cluster-card { display: flex; flex-direction: column; align-items: stretch; gap: 45px; min-height: 120svh; padding-block: 80px; scroll-margin-top: 148px; }
+  .cluster-intro { margin-bottom: 50px; }
+  .cluster-grid { gap: 65px; }
+  .cluster-card { display: flex; flex-direction: column; align-items: stretch; gap: 38px; min-height: 0; padding-block: 40px; scroll-margin-top: 148px; }
   .cluster-card .postcard { width: 86%; }
   .cluster-card:nth-child(2) .postcard { margin-left: auto; margin-right: 0; }
   .cluster-card .photo { max-height: none; }
   .cluster-card h4 { font-size: 2.8rem; }
-  .support-section { padding-block: 90px; }
+  .support-section { padding-block: 70px; }
   .section-heading { margin-bottom: 48px; }
   .section-heading h2 { font-size: 3.4rem; }
   .section-heading p { font-size: .89rem; }

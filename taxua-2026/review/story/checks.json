@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-14T16:00:15.099Z",
+  "timestamp": "2026-10-14T17:40:13.702Z",
   "checks": [
     "desktop all 18 places have sourced introductions",
     "desktop each place introduction appears once in the story",
@@ -8,7 +8,7 @@
     "desktop optional and unknown times remain explicit",
     "desktop live music remains unconfirmed",
     "desktop shared afternoon has three individual anchors",
-    "desktop travel story gives substantially more scroll room",
+    "desktop travel story is shorter without crowding the reading moments",
     "desktop clustered stops have space for separate reading moments",
     "desktop one scenery chapter holds across thao-coffee, waterfall, vi-nha",
     "desktop one scenery chapter holds across check-in, ameii, a-phu",
@@ -34,7 +34,7 @@
     "phone optional and unknown times remain explicit",
     "phone live music remains unconfirmed",
     "phone shared afternoon has three individual anchors",
-    "phone travel story gives substantially more scroll room",
+    "phone travel story is shorter without crowding the reading moments",
     "phone clustered stops have space for separate reading moments",
     "phone one scenery chapter holds across thao-coffee, waterfall, vi-nha",
     "phone one scenery chapter holds across check-in, ameii, a-phu",
@@ -62,16 +62,16 @@
     {
       "width": 1440,
       "viewportHeight": 900,
-      "storyHeight": 24259,
-      "clusterHeight": 3566,
-      "growth": 0.491576487948844
+      "storyHeight": 20234,
+      "clusterHeight": 2899,
+      "reduction": 0.16591780370171894
     },
     {
       "width": 390,
       "viewportHeight": 900,
-      "storyHeight": 30555,
-      "clusterHeight": 4136,
-      "growth": 0.4708997256053531
+      "storyHeight": 25020,
+      "clusterHeight": 3300,
+      "reduction": 0.18114874815905746
     }
   ],
   "screenshots": [

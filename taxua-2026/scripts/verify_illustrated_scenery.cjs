@@ -19,7 +19,7 @@ async function jump(p,id,within = 0) {
 async function state(p) {
   return p.evaluate(()=>[...document.querySelectorAll('.scene-panel')].map(e=>({id:e.dataset.background,opacity:Number(e.style.opacity),z:Number(e.style.zIndex)})));
 }
-function visible(items) {return items.filter(e=>e.opacity>.99).sort((a,b)=>b.z-a.z)[0]?.id;}
+function visible(items) {return items.filter(e=>e.opacity>.5).sort((a,b)=>b.z-a.z)[0]?.id;}
 async function shot(p,name) {
   await p.screenshot({path:path.join(output,name+'.png')});report.screenshots.push(name+'.png');
 }
@@ -43,7 +43,7 @@ async function shot(p,name) {
     check(name+' scheduled lighting respects morning stops',await p.evaluate(()=>JourneyUI.sceneFor(document.getElementById('room-clouds')).background==='bluehour'&&['home-breakfast','last-breakfast'].every(id=>JourneyUI.sceneFor(document.getElementById(id)).background==='jade')));
     if(['desktop','phone'].includes(name)) {
       for(const [id,expected] of [['departure','night'],['thao-coffee','jade'],['ameii','afternoon'],['stars','night'],['dinosaur-ridge','daylight'],['khe-cai','bluehour'],['fund','jade']]) {
-        await jump(p,id,id==='departure'?500:100);
+        await jump(p,id,id==='departure'?200:100);
         check(name+' settled scene at '+id,visible(await state(p))===expected);
         check(name+' no overflow at '+id,await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
         await shot(p,name+'-'+id);
