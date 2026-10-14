@@ -26,8 +26,8 @@ const TRIP_DATA = {
   },
   "fund": {
     "eyebrow": "+1 đây rồi · Quỹ vi vu",
-    "title": "Heo đất cũng đi Tà Xùa.",
-    "intro": "Mây thì miễn phí, chuyến đi thì có quỹ.",
+    "title": "Thành viên thứ 8: Heo đất!",
+    "intro": "Đây là +1 ở đầu nhật ký: heo đất giữ quỹ vi vu cho cả hội.",
     "contributionIntro": "Mỗi đứa góp",
     "contributionOutro": "vào heo chung nhé.",
     "reminder": "Ai chưa góp thì ghé heo một chút nha!",
@@ -36,7 +36,7 @@ const TRIP_DATA = {
     "action": "Góp quỹ vi vu",
     "actionHint": "Mở quỹ trên MoMo",
     "scribble": "Nuôi heo, nuôi chuyến đi.",
-    "pigNote": "+1 của hội mình",
+    "pigNote": "thành viên thứ 8 của hội mình",
     "url": "https://quy.momo.vn/v2/YTavDjFUV4?cover=6749"
   },
   "masthead": [

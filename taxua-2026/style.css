@@ -44,9 +44,10 @@ svg { width: 21px; height: 21px; flex-shrink: 0; vertical-align: middle; }
 /* Transparent navigation: only the individual controls occupy a surface. */
 .nav { position: fixed; inset: 18px 32px auto; z-index: 10; display: flex; align-items: center; gap: 18px; pointer-events: none; color: var(--nav-ink); }
 .nav a,.nav button { pointer-events: auto; }
-.brand { display: flex; align-items: center; gap: 9px; text-decoration: none; font-family: 'Patrick Hand',cursive; font-size: 1.6rem; text-shadow: 0 1px 8px rgb(0 0 0 / .45); }
-.brand img { width: 45px; height: 45px; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .2)); }
-.brand em { font-size: 1.1rem; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-family: 'Patrick Hand',cursive; font-size: 2.5rem; line-height: 1.15; text-shadow: 0 1px 8px rgb(0 0 0 / .45); }
+.brand > span { white-space: nowrap; }
+.brand img { width: 80px; height: 80px; flex-shrink: 0; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .2)); }
+.brand em { font-size: .7em; }
 .nav-links { display: flex; gap: 10px; margin-left: auto; }
 .nav-links a,.nav-toggle { position: relative; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid rgb(255 255 255 / .3); border-radius: 50%; background: rgb(8 30 36 / .22); text-decoration: none; transition: transform .2s,background .2s; }
 .nav-links a:hover,.nav-toggle:hover { transform: translateY(-3px) rotate(-5deg); background: rgb(8 30 36 / .4); }
@@ -248,7 +249,7 @@ main,.footer { position: relative; z-index: 1; }
 .cost-note { font-size: .85rem; margin-top: 20px; }
 .footer { text-align: center; padding: 80px 30px 130px; width: min(760px,calc(100% - 180px)); }
 .footer::before { inset: 0 0 30px; }
-.footer img { margin: auto; width: 90px; height: 90px; }
+.footer img { margin: auto; width: 160px; height: 160px; }
 .footer h2 { font-size: 4.5rem; margin-top: 20px; }
 .footer p { font-size: .83rem; margin: 24px auto; }
 .footer a { font-family: 'Patrick Hand',cursive; font-size: 1.4rem; }
@@ -293,7 +294,7 @@ main,.footer { position: relative; z-index: 1; }
   .fund-arrow { left: -65px; width: 100px; }
   .nav { inset: 16px 22px auto; }
   .nav-toggle { display: grid; }
-  .nav-links { display: none; position: absolute; right: 0; top: 62px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgb(7 27 33 / .9); color: #fffdf7; }
+  .nav-links { display: none; position: absolute; right: 0; top: calc(100% + 12px); padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgb(7 27 33 / .9); color: #fffdf7; }
   .nav-links.open,.nav-links.closing { display: flex; }
   .nav-links.closing { pointer-events: none; }
   .nav-label { font-size: .9rem; }
@@ -323,9 +324,8 @@ main,.footer { position: relative; z-index: 1; }
   html { scroll-padding-top: 148px; }
   .wrap,.event,.event--meal,.event--rest,.event--note,.event--transit,.day-heading { width: calc(100% - 48px); }
   .nav { inset: 12px 18px auto; }
-  .brand { font-size: 1.35rem; }
-  .brand em { font-size: 1rem; }
-  .brand img { width: 38px; height: 38px; }
+  .brand { font-size: 2rem; gap: 10px; }
+  .brand img { width: 64px; height: 64px; }
   .nav-toggle { width: 42px; height: 42px; }
   .nav-links.open,.nav-links.closing { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px 20px; padding: 20px 20px 36px; }
   .nav-label { visibility: visible; opacity: 1; top: calc(100% + 3px); background: transparent; padding: 0; font-size: .8rem; }
@@ -393,8 +393,9 @@ main,.footer { position: relative; z-index: 1; }
   .trip-facts { grid-template-columns: 1fr; gap: 28px; }
   .practical-costs { grid-template-columns: 1fr; gap: 25px; }
   .footer { width: calc(100% - 48px); padding: 75px 10px 110px; }
+  .footer img { width: 128px; height: 128px; }
   .footer h2 { font-size: 3.5rem; }
-  .chapter-nav { position: sticky; top: 68px; right: auto; transform: none; flex-direction: row; justify-content: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); margin: -64px auto 16px; height: 48px; }
+  .chapter-nav { position: sticky; top: 84px; right: auto; transform: none; flex-direction: row; justify-content: center; gap: 12px; width: max-content; max-width: calc(100% - 32px); margin: -64px auto 16px; height: 48px; }
   .chapter-nav a { font-size: .96rem; width: 61px; padding: 6px 2px; background: rgb(7 27 33 / .38); }
   .chapter-nav a span { font-size: .58rem; }
   .chapter-weather,.chapter-progress { display: none; }
