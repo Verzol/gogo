@@ -14,7 +14,7 @@
 .countdown-arrival { font-size: .78rem; line-height: 1.7; }
 .countdown-arrival > span { display: block; }
 .arrival-countdown.is-arrived .countdown-unit--days { color: inherit; }
-@media (min-width: 1350px) {
+@media (min-width: 1200px) {
   .arrival-countdown { position: absolute; left: calc(100% + 48px); top: 60%; width: 340px; margin-top: 0; }
 }
 @media (max-width: 767px) {

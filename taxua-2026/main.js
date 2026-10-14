@@ -162,8 +162,11 @@ function renderCrew() {
   const members = TRIP_DATA.members;
   document.getElementById('crewCount').textContent = '(' + members.length + ' mống)';
   document.getElementById('footerCount').textContent = 'Tà Xùa 2026 · Ấn bản nội bộ cho ' + members.length + ' đồng bọn';
-  const count = members.length === 7 ? 'Bảy đứa' : members.length + ' đứa';
-  if (members.length !== 7) document.getElementById('heroTitle').innerHTML = esc(count) + ',<br><em>một biển mây.</em>';
+  document.getElementById('heroMemberCount').textContent = members.length;
+  document.getElementById('heroMemberLabel').textContent = TRIP_DATA.hero.memberLabel;
+  document.getElementById('heroSky').textContent = TRIP_DATA.hero.title;
+  document.getElementById('heroScrollLabel').textContent = TRIP_DATA.hero.scrollAction;
+  document.getElementById('heroScrollNote').textContent = TRIP_DATA.hero.scrollNote;
   document.getElementById('heroDate').textContent = '22-25/10/2026 · Tà Xùa, Sơn La';
   document.getElementById('heroSub').textContent = TRIP_DATA.subtitle;
   document.getElementById('crewGrid').innerHTML = members.map(member => `<article class="member"><div class="avatar"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="${esc(member.name)}" loading="lazy" width="52" height="52">` : ''}</div><div><h3>${esc(member.name)}</h3><p>${esc(member.role)}</p></div></article>`).join('');

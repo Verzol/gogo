@@ -3,7 +3,13 @@
 // Classic script, loaded before main.js. Edit trip content here.
 const TRIP_DATA = {
   "tripName": "Tà Xùa",
-  "subtitle": "Ba ngày trên núi. Đi cùng nhau, mang về một trời mây.",
+  "subtitle": "Có một đồng bọn bí mật đi cùng hội mình.",
+  "hero": {
+    "memberLabel": "đồng bọn,",
+    "title": "một biển mây.",
+    "scrollAction": "Cuộn xuống để biết",
+    "scrollNote": "+1 là ai? Bật mí ở cuối chuyến đi."
+  },
   "dateRange": "22-25/10/2026 · 3 ngày 2 đêm",
   "intro": "Một cuốn nhật ký săn mây cho hội bạn thân, đủ lạnh, đủ no, đủ mây.",
   "countdown": {
@@ -19,7 +25,7 @@ const TRIP_DATA = {
     ]
   },
   "fund": {
-    "eyebrow": "Ngoại truyện · Quỹ vi vu",
+    "eyebrow": "+1 đây rồi · Quỹ vi vu",
     "title": "Heo đất cũng đi Tà Xùa.",
     "intro": "Mây thì miễn phí, chuyến đi thì có quỹ.",
     "contributionIntro": "Mỗi đứa góp",
@@ -30,7 +36,7 @@ const TRIP_DATA = {
     "action": "Góp quỹ vi vu",
     "actionHint": "Mở quỹ trên MoMo",
     "scribble": "Nuôi heo, nuôi chuyến đi.",
-    "pigNote": "heo chung của hội mình",
+    "pigNote": "+1 của hội mình",
     "url": "https://quy.momo.vn/v2/YTavDjFUV4?cover=6749"
   },
   "masthead": [

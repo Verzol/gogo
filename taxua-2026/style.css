@@ -66,6 +66,13 @@ svg { width: 21px; height: 21px; flex-shrink: 0; vertical-align: middle; }
 .hero-date { display: inline-block; font-family: 'Patrick Hand',cursive; font-size: 1.35rem; padding: 0 0 6px; border-bottom: 1px dashed currentColor; transform: rotate(-3deg); margin-bottom: 28px; }
 .hero h1 { color: #fffdf7; text-shadow: 0 2px 5px rgb(16 40 49 / .65); font-size: clamp(4.5rem,8.2vw,8.6rem); line-height: 1.03; letter-spacing: -.025em; }
 .hero h1 em { display: inline-block; transform: rotate(-3deg); padding-bottom: .1em; }
+.hero-party { display: flex; align-items: center; gap: .2em; margin-bottom: .12em; }
+#heroMemberCount { font-size: 1.4em; line-height: 1; }
+.hero-extra { position: relative; display: inline-block; color: var(--accent); font-size: .7em; line-height: 1; padding: .12em .28em .18em; transform: rotate(9deg); }
+.hero-extra::after { content: ''; position: absolute; inset: 0; border: 1.5px solid currentColor; border-radius: 49% 51% 45% 55% / 54% 44% 56% 46%; transform: rotate(-5deg); pointer-events: none; }
+.hero-question { position: absolute; right: -.22em; top: -.42em; font-size: .45em; transform: rotate(15deg); }
+.hero-party-label { font-size: .34em; line-height: 1.2; max-width: 4ch; transform: rotate(-4deg); }
+#heroSky { display: block; font-size: .74em; line-height: 1.12; white-space: nowrap; }
 .hero-sub { color: #fffdf7; font-size: .95rem; max-width: 365px; margin-top: 26px; font-weight: 500; text-shadow: 0 1px 4px rgb(16 40 49 / .85); }
 .hero-actions { color: #fffdf7; text-shadow: 0 1px 4px rgb(16 40 49 / .85); display: flex; align-items: center; gap: 28px; margin-top: 32px; }
 .button { display: inline-flex; align-items: center; gap: 15px; padding: 10px 21px; border: 1px solid currentColor; border-radius: 53% 47% 49% 51% / 47% 56% 44% 53%; font-family: 'Patrick Hand',cursive; font-size: 1.4rem; text-decoration: none; background: rgb(255 255 255 / .1); transition: transform .2s; }
@@ -324,10 +331,12 @@ main,.footer { position: relative; z-index: 1; }
   .nav-label { visibility: visible; opacity: 1; top: calc(100% + 3px); background: transparent; padding: 0; font-size: .8rem; }
   .hero { min-height: 100svh; padding: 135px 26px 94px; align-items: flex-start; }
   .hero-copy { width: 100%; }
-  .hero-date { font-size: 1.02rem; margin-bottom: 30px; }
+  .hero-date { font-size: 1.02rem; margin-bottom: 22px; }
   .hero h1 { color: #163c48; text-shadow: none; font-size: clamp(3.5rem,13.7vw,6rem); }
-  .hero-sub { font-size: .86rem; max-width: 290px; margin-top: 25px; }
-  .hero-actions { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .hero-extra { color: #914731; }
+  .hero-party-label { font-size: .36em; }
+  .hero-sub { font-size: .86rem; max-width: 290px; margin-top: 20px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 15px; margin-top: 24px; }
   .button { font-size: 1.3rem; }
   .scroll-note { max-width: none; font-size: 1.05rem; }
   .day-heading { margin: 100px auto 36px; padding-left: 18px; }
