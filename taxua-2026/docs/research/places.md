@@ -1,5 +1,7 @@
 # Place introductions: research notes
 
+[Documentation index](../README.md) · [Travel story](../story.md) · [Sources](../sources.md)
+
 Researched 14 October 2026. Original Vietnamese summaries live in `TRIP_DATA.placeGuides`; each introduction appears once in the travel story and has a small reading-source link. The detailed schedule stays in the original block fields and `itinerary.html`.
 
 Research used the official Vietnam Tourism guide, reporting from VnExpress, Báo Tin tức, Báo Sơn La and Dân trí, plus local guides, travel operators, directories and firsthand visitor reports. Direct venue-owner documentation was not available for every café or restaurant. Venue histories, founding dates and unverifiable claims were therefore omitted. No prices, opening hours or performance dates from research replace the group schedule.

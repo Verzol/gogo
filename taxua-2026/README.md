@@ -1,71 +1,50 @@
-# Tà Xùa x gogo: nhật ký săn mây
+# Tà Xùa x gogo · Nhật ký săn mây
 
-A complete Vietnamese, scroll-driven journal for the 22-25 October 2026 trip. The connected schedule and asset catalog were refreshed on 14 October 2026. The 24 schedule events stay in chronological order, with photos covering 18 unique stops. The three illustrative alternatives retain their captions immediately below their photos.
+Vietnamese trip journal for **22–25 October 2026**: 24 schedule events, 18 researched stops, seven travelers and one symbolic fund pig. The page pairs documentary photos with six composed watercolor worlds, reversible scroll reveals and playful transparent layouts.
 
-## Preview
+## Start a session
 
-Open `index.html` directly, or use the running repository-root preview at **http://localhost:8000/taxua-2026/** (a server started inside this folder uses **http://localhost:8000/**). If port 8000 is already in use, reuse the existing server. Otherwise, from this directory:
+Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing. Paths in feature tables are relative to `taxua-2026/`; maintenance commands run from `taxua-2026/` unless stated otherwise.
 
-```sh
-python3 -m http.server 8000
-```
+| Task / feature | Guide |
+| --- | --- |
+| Schedule, place descriptions, notes/photos, packing, destinations, food and costs | [Travel story](story.md) |
+| Illustrated worlds, chapter mapping, cutouts and scenery preparation | [Scenery](scenery.md) |
+| Scroll reveals, background dissolves, navigation, gestures and spacing | [Motion](motion.md) |
+| Hero 7+1, crew, arrival countdown and MoMo invitation | [Group features](group.md) |
+| Logo, fonts, stickers, icon sprite and licenses | [Identity](identity.md) |
+| Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
+| Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |
+| Preview, focused browser checks and evidence limits | [Verification](verification.md) |
 
-No installation, backend, build command, runtime npm, Google login, or network connection is required for the website. Render Static Site settings remain: root `taxua-2026`, empty build command, publish directory `.`. Publishing is separate from this implementation.
+## Documentation layout
 
-## Maintain
+- `docs/README.md`: entry point and feature index.
+- `docs/*.md`: feature guides, sources, verification, architecture and recorded review.
+- `docs/research/`: place research and identity caveats.
+- `docs/prompts/stickers.md`: paired sticker brief; `docs/prompts/illustrated_scenery/`: large-art prompts and sheet map.
+- `AGENTS.md` stays at the site root. Raw source JSON, artwork, licenses and browser evidence remain beside their owning assets/tools.
 
-- `data.js`: members, packing, food, practical costs, the fund invitation and every schedule event. Keep `sourceRow`, `time: null`, `optional`, and source uncertainty intact. `phase` is an editorial lighting cue, never a visit time or device-clock reading.
-- `assets.js`: generated classic-script photo metadata, dimensions, crop preferences, credits, flags and captions. It is deliberately compact; edit source records and rerun the preparation helper rather than hand-editing this generated file.
-- `main.js`: ordinary rendering, day anchors, responsive menu, unfolding notes, photo decks, real packing checkboxes and the motion-independent scenery fallback.
-- `scene-config.js`: eight broad story chapters and their illustrated lighting presets. Night chapters develop into blue hour and daylight as the scheduled stops advance.
-- `scenery.js` / `scenery.css`: six composed watercolor worlds, scalable skies and seeded SVG stars, transparent mountain bands, small clouds and landscape cutouts. Shared assets decode before scenic travel; optional failed art leaves a usable sky. Terrain framing adapts to phones and wide screens.
-- `scripts/prepare_illustrated_scenery.py`: organize supplied originals, extract sheet components and create PNG/WebP derivatives. The source map and hashes are in `data/sources/illustrated-scenery.json`.
-- `motion.js`: local GSAP 3.15.0 / ScrollTrigger enhancement. A smoothed scene controller holds repeated scenery and joins different scenery with longer dissolves. Continuous reversible scroll reveals, interruptible smooth anchor travel, unfolding notes, photo decks and phone-menu gestures share one motion owner. No scroll hijacking or pinning. Breakpoint/reduced-motion contexts revert old timelines; refresh remeasures after fonts, unfolded notes, and photo changes settle.
-- `style.css`: transparent scrapbook layouts, handwritten time stamps, icon navigation and explicit phone fallbacks.
-- `countdown.css`: the transparent handwritten arrival clock and its phone/print layouts, kept small and separate from the main stylesheet.
-- `itinerary.html`: complete no-JavaScript reading copy. Regenerate it after content changes with `node scripts/export_itinerary.cjs`. This is an optional maintenance command, never a build requirement.
+## Run and publish
 
-Navigation uses an inline sprite of official Lucide 1.23.0 icons, matching Hue's icon family. The pinned bundle is retained only as an asset-preparation source; visitors download the 22 used symbols instead of the full library. Regenerate them with `node scripts/prepare_icons.cjs` when the icon list changes. There is no reading-theme switch or saved/system theme behavior. Text and navigation contrast follow the scenery, while stickers use the appropriate day/night artwork. The desktop day selector is a slim route rail in the outer margin; phone date links sit below the top controls and remain sticky while scrolling.
-
-Notes unfold through accessible buttons; photo decks provide previous/next buttons and announce the current view. All exact times, uncertainty, warnings and illustrative captions remain. Packing uses `taxua-2026-packing`; unavailable, invalid, or denied storage does not stop the controls. Missing optional portraits fall back to initials.
-
-The opening countdown reads the `arrival` event directly: currently 03:00 on 23 October 2026 in Vietnam (UTC+07:00), rather than the night-before departure. Its copy is in `TRIP_DATA.countdown`. It recomputes from the device clock every second, refreshes after returning to the page, respects reduced motion, and stops at zero with a scheduled-arrival message. The timer does not announce every tick to screen readers. Run `node scripts/verify_countdown.cjs` for its focused browser checks and desktop/phone screenshots in `review/countdown/`.
-
-Classic scripts defer in their existing dependency order so the opening scenery and headline can paint promptly. The clock reserves space during loading to keep the hero steady.
-
-The current illustrated review runs with `node scripts/verify_illustrated_scenery.cjs`; it uses the repository-root preview by default (`TRIP_PREVIEW_URL` overrides it). It checks real decoding, lighting, forward/reverse blends, fast navigation, delayed/missing cutouts, responsive framing, direct files and reduced motion.
-
-## Sources and review
-
-- [Asset sources, credits, licenses and conversion notes](ASSETS.md)
-- [Design workflow, decisions and full acceptance review](IMPLEMENTATION.md)
-- [Draft PR description / review artifact](REVIEW.md)
-- [Current illustrated scenery screenshots and checks](review/illustrated/index.html)
-- [Earlier photographic redesign screenshots](review/index.html)
-- [Desktop/phone transition recordings and motion checks](review/motion/index.html)
-- [Forward/reverse component recordings and reveal checks](review/reveals/index.html)
-- [Fund epilogue screenshots and recordings](review/fund/index.html)
-- `review/browser-checks.json`: reproducible behavioral evidence.
-- [Researched places, pacing screenshots and checks](review/story/index.html)
-- [Place research sources and identity notes](data/sources/place-research.md)
-- `review/story/performance.json`: post-story desktop/mobile Lighthouse measurements and their limits.
-- `review/performance.json`: preceding arrival-countdown performance baseline.
-
-Optional verification uses an existing Playwright installation; it adds no runtime dependency:
+Open `index.html` directly, or use **http://127.0.0.1:8000/taxua-2026/** when port 8000 serves the repository root. A server started inside this folder uses **http://127.0.0.1:8000/**. Check/reuse an existing server; if unused, from `taxua-2026/` run:
 
 ```sh
-PLAYWRIGHT_PATH=/path/to/node_modules/playwright node scripts/verify_journey.cjs
-PLAYWRIGHT_PATH=/path/to/node_modules/playwright node scripts/verify_motion.cjs
-PLAYWRIGHT_PATH=/path/to/node_modules/playwright node scripts/verify_reveals.cjs
-PLAYWRIGHT_PATH=/path/to/node_modules/playwright node scripts/verify_artwork.cjs
-PLAYWRIGHT_PATH=/path/to/node_modules/playwright node scripts/verify_fund.cjs
-PLAYWRIGHT_PATH=/path/to/node_modules/playwright node scripts/verify_story.cjs
+python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-The default path points to the existing Playwright installation in `../hue-2026/node_modules`. The static server must be running on port 8000. The journey script visits every schedule event, checks interactions and fallbacks, and captures review screenshots. The motion script measures gradual/reversible scene blends, navigation interruptions, rapid interaction reversals, image decoding, preference cleanup and reversible supporting-section reveals, and records desktop/phone demonstrations. The reveal script samples physical scroll positions in both directions, paused partial states, stable reading zones, collages, long notes, gesture independence, focus, reload/deep-link initialization, print and reduced motion. It records slower forward/reverse demonstrations in `review/reveals/`.
+Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN, backend or Google login. All runtime assets are local. Render Static Site: root `taxua-2026`, empty build command, publish directory `.`; no environment variables.
 
-The focused artwork regression verifies rapid day/night retargeting, independent scroll progress and failed-decode recovery in `review/reveals/artwork-checks.json`.
+## Code map
 
-The fund epilogue follows the seven-member crew section, before packing. `TRIP_DATA.fund` holds its text, 2,400,000 VND contribution per person and the exact MoMo URL. The fund script checks responsive layouts, reversible reveals, keyboard/link behavior, reduced motion, missing GSAP, direct-file use and the no-JavaScript reading copy. Link clicks are intercepted locally; no contribution is submitted.
+- `data.js` = trip content; `assets.js` = generated photo metadata; `index.html` = shell/order/navigation.
+- `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
+- `scenery.js` / `scenery.css` = painted stage; `motion.js` = optional GSAP enhancement.
+- `style.css`, `countdown.css`, `fonts.css` = page, clock and typography.
+- `scripts/` = optional preparation/verification helpers; `data/sources/` = provenance snapshots, not runtime fetches.
+- `figures/raw/` = supplied masters; other `figures/` folders = local runtime assets/retained references.
+- `itinerary.html` = generated full reading copy; `review/` = historical browser evidence. `backend/` is reserved and unused.
 
-Place introductions live in `TRIP_DATA.placeGuides`. The interactive story uses concise `storyTitle`, `storyCue` and `storyNote` copy, while original source schedule fields remain available in the linked reading copy. Run `node scripts/export_itinerary.cjs` after changing content. Broad `sceneryChapter` keys hold backgrounds across related stops; event phases still control labels and artwork.
+Section order: **hero → itinerary → crew → fund → packing → destinations → food → practical → footer**.
+
+After content edits: `node scripts/export_itinerary.cjs`. Keep the owning guide current. [Architecture](architecture.md) is the architecture pointer; [Recorded review](review.md) indexes recorded evidence, not a fresh test result.
