@@ -28,6 +28,7 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 | Script | Use after changing | Evidence written under `review/` |
 | --- | --- | --- |
 | `verify_weather.cjs` | Cloud opening, weather data/cache, previews, date eligibility and fallbacks | `sky-weather/` |
+| `verify_mobile_ui.cjs` | Phone cloud phases, forecast readability/selection, itinerary-only dates, menu/anchors, day overview, wheel disclosure and 200% text scaling | `/tmp/taxua-mobile-ui-review/` by default; `TRIP_REVIEW_DIR` overrides |
 | `verify_journey.cjs` | Schedule fidelity, photos, controls, responsive/fallback behavior | `browser-checks.json`, root screenshots/gallery |
 | `verify_story.cjs` | 18 place guides, reading copy, chapter holds and pacing | `story/` |
 | `verify_illustrated_scenery.cjs` | Layer decoding, worlds, phase correctness, framing and blends | `illustrated/` |

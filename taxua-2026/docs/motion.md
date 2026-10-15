@@ -10,6 +10,8 @@
 - `scenery.js`: decoded panel readiness, reversible terrain drift, independently measured physical opening descent and continuous offscreen-recycling cloud tracks. Cloud playback rates change without resetting their phase; pause/reduced-motion/visibility controls preserve their pose.
 - `weather.js` / `weather.css`: optional hero previews, ambient loops and the decorative-motion pause control; see [Sky and weather](weather.md).
 
+Mobile navigation compacts the brand after 24px of scrolling (or with enlarged root text). The date rail lives inside the itinerary, remains sticky only there, and becomes invisible/inert outside that reading region. Short landscape uses a collapsible date chooser. Mobile menu destinations include fund, wheel and practical details. `main.js:initNav` measures the header/date height into `--nav-offset`; native scroll padding and enhanced anchor travel share it. Event/cluster scroll margins do not add a second offset. Native day/wheel disclosures request a measurement refresh; no scrolling is pinned or intercepted for them.
+
 ## Scenic transitions
 
 - Native manual scrolling stays native; no pinning or scroll hijacking. Consecutive identical worlds hold steady.

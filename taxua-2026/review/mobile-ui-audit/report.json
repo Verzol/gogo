@@ -1,0 +1,1627 @@
+{
+  "reviewDate": "2026-10-16",
+  "baselineCommit": "5b1b4a53686ac059491f4702cb0055dbb726c11c",
+  "scope": "Read-only runtime audit; implementation plan only.",
+  "evidenceImages": [
+    "opening.webp",
+    "navigation-wheel.webp",
+    "reading-support.webp"
+  ],
+  "mainAudit": {
+    "viewports": [
+      {
+        "name": "390",
+        "metrics": {
+          "width": 390,
+          "height": 844,
+          "documentHeight": 34390,
+          "overflow": 0,
+          "geometry": {
+            ".hero": {
+              "top": 0,
+              "height": 1187,
+              "width": 390,
+              "font": "16px"
+            },
+            ".hero-copy": {
+              "top": 128,
+              "height": 354,
+              "width": 338,
+              "font": "16px"
+            },
+            ".hero-summary": {
+              "top": 520,
+              "height": 567,
+              "width": 338,
+              "font": "16px"
+            },
+            "#tripWeather": {
+              "top": 520,
+              "height": 366,
+              "width": 338,
+              "font": "16px"
+            },
+            "#arrivalCountdown": {
+              "top": 909,
+              "height": 178,
+              "width": 338,
+              "font": "16px"
+            },
+            "#itinerary": {
+              "top": 1187,
+              "height": 24962,
+              "width": 390,
+              "font": "16px"
+            },
+            "#crew": {
+              "top": 26149,
+              "height": 2156,
+              "width": 342,
+              "font": "16px"
+            },
+            "#cloudWheel": {
+              "top": 27109,
+              "height": 1127,
+              "width": 342,
+              "font": "16px"
+            },
+            ".wheel-stage": {
+              "top": 27380,
+              "height": 378,
+              "width": 342,
+              "font": "16px"
+            },
+            ".wheel-notes": {
+              "top": 27783,
+              "height": 479,
+              "width": 342,
+              "font": "16px"
+            },
+            "#fund": {
+              "top": 28306,
+              "height": 1004,
+              "width": 342,
+              "font": "16px"
+            },
+            "#packing": {
+              "top": 29310,
+              "height": 1213,
+              "width": 342,
+              "font": "16px"
+            },
+            "#destinations": {
+              "top": 30523,
+              "height": 964,
+              "width": 342,
+              "font": "16px"
+            },
+            "#food": {
+              "top": 31486,
+              "height": 829,
+              "width": 342,
+              "font": "16px"
+            },
+            "#practical": {
+              "top": 32316,
+              "height": 1435,
+              "width": 342,
+              "font": "16px"
+            },
+            ".footer": {
+              "top": 33750,
+              "height": 604,
+              "width": 342,
+              "font": "16px"
+            },
+            ".nav": {
+              "top": 12,
+              "height": 64,
+              "width": 354,
+              "font": "16px"
+            },
+            ".chapter-nav": {
+              "top": 1123,
+              "height": 48,
+              "width": 280,
+              "font": "16px"
+            },
+            ".nav-toggle": {
+              "top": 23,
+              "height": 42,
+              "width": 42,
+              "font": "16px"
+            },
+            ".weather-range": {
+              "top": 682,
+              "height": 30,
+              "width": 70,
+              "font": "26.4px"
+            },
+            ".weather-condition": {
+              "top": 720,
+              "height": 31,
+              "width": 51,
+              "font": "11.04px"
+            },
+            ".weather-probability": {
+              "top": 758,
+              "height": 17,
+              "width": 85,
+              "font": "10.56px"
+            },
+            ".weather-detail": {
+              "top": 796,
+              "height": 26,
+              "width": 338,
+              "font": "11.2px"
+            },
+            ".event-description": {
+              "top": 3523,
+              "height": 100,
+              "width": 334,
+              "font": "14.24px"
+            },
+            ".place-source": {
+              "top": 3723,
+              "height": 44,
+              "width": 334,
+              "font": "11.68px"
+            },
+            ".postcard figcaption": {
+              "top": 17761,
+              "height": 47,
+              "width": 281,
+              "font": "12.64px"
+            },
+            ".note-toggle": {
+              "top": 1690,
+              "height": 50,
+              "width": 103,
+              "font": "20px"
+            },
+            ".deck-control": null,
+            ".member p": {
+              "top": 26576,
+              "height": 22,
+              "width": 161,
+              "font": "12.48px"
+            },
+            ".wheel-fairness": {
+              "top": 28242,
+              "height": 20,
+              "width": 288,
+              "font": "11.52px"
+            },
+            ".checklist span": {
+              "top": 29912,
+              "height": 51,
+              "width": 207,
+              "font": "14.08px"
+            },
+            ".checklist small": {
+              "top": 29942,
+              "height": 22,
+              "width": 207,
+              "font": "12.32px"
+            },
+            ".trip-facts dd": {
+              "top": 32645,
+              "height": 25,
+              "width": 342,
+              "font": "14.4px"
+            }
+          },
+          "smallTargets": [
+            {
+              "selector": "#navToggle",
+              "label": "Mở menu",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Xem lịch nhóm gốc ↗",
+              "w": 144,
+              "h": 18,
+              "font": 13.6,
+              "display": "inline"
+            },
+            {
+              "selector": "scroll-reveal scroll-reveal-hidden",
+              "label": "Về đầu nhật ký ↑",
+              "w": 134,
+              "h": 30,
+              "font": 22.4,
+              "display": "inline"
+            }
+          ]
+        },
+        "interactions": [
+          {
+            "weatherTap": "rain"
+          },
+          {
+            "menuExpanded": "true"
+          },
+          {
+            "noteExpanded": "true"
+          },
+          {
+            "wheelWinner": "mi",
+            "banner": 1
+          },
+          {
+            "menuClosesAfterNavigation": "false",
+            "packingAnchorTop": 148
+          },
+          {
+            "packingToggled": true
+          }
+        ],
+        "events": [
+          {
+            "id": "departure",
+            "title": "Hẹn nhau, lên xe",
+            "height": 640,
+            "body": true
+          },
+          {
+            "id": "arrival",
+            "title": "Chạm Tà Xùa",
+            "height": 642,
+            "body": true
+          },
+          {
+            "id": "thao-coffee",
+            "title": "Thào Coffee",
+            "height": 1030,
+            "body": true
+          },
+          {
+            "id": "waterfall",
+            "title": "Thác Chua Tỳ",
+            "height": 1233,
+            "body": true
+          },
+          {
+            "id": "vi-nha",
+            "title": "Vị Nhà Tiệm Cơm",
+            "height": 925,
+            "body": true
+          },
+          {
+            "id": "check-in",
+            "title": "Mùa Trứ Homestay",
+            "height": 1170,
+            "body": true
+          },
+          {
+            "id": "ameii",
+            "title": "Ameii Hill",
+            "height": 1208,
+            "body": true
+          },
+          {
+            "id": "a-phu",
+            "title": "Nhà hàng A Phủ",
+            "height": 1053,
+            "body": true
+          },
+          {
+            "id": "stars",
+            "title": "Một tối nhìn lên trời",
+            "height": 581,
+            "body": true
+          },
+          {
+            "id": "room-clouds",
+            "title": "Bình minh bên cửa sổ",
+            "height": 411,
+            "body": true
+          },
+          {
+            "id": "home-breakfast",
+            "title": "Bữa sáng ở Mùa Trứ",
+            "height": 375,
+            "body": true
+          },
+          {
+            "id": "dinosaur-ridge",
+            "title": "Sống Lưng Khủng Long",
+            "height": 1147,
+            "body": true
+          },
+          {
+            "id": "lake",
+            "title": "Hồ Mắt Ngọc",
+            "height": 1208,
+            "body": true
+          },
+          {
+            "id": "bep-cui",
+            "title": "Bếp Củi",
+            "height": 977,
+            "body": true
+          },
+          {
+            "id": "room-change",
+            "title": "Về home một chút",
+            "height": 417,
+            "body": true
+          },
+          {
+            "id": "meadow",
+            "title": "Thảo nguyên Tà Xùa",
+            "height": 979,
+            "body": true
+          },
+          {
+            "id": "afternoon-cluster",
+            "title": "Ba lần dừng chân.",
+            "height": 3300,
+            "body": true
+          },
+          {
+            "id": "doi-may",
+            "title": "Đồi Mây Tà Xùa",
+            "height": 1107,
+            "body": true
+          },
+          {
+            "id": "thang-10",
+            "title": "Cà phê Tháng 10",
+            "height": 968,
+            "body": true
+          },
+          {
+            "id": "khe-cai",
+            "title": "Khe Cải",
+            "height": 1067,
+            "body": true
+          },
+          {
+            "id": "last-breakfast",
+            "title": "Bữa sáng cuối",
+            "height": 386,
+            "body": true
+          },
+          {
+            "id": "village-cafe",
+            "title": "Làng Văn Hóa Café",
+            "height": 1148,
+            "body": true
+          },
+          {
+            "id": "town-lunch",
+            "title": "Trung tâm Tà Xùa",
+            "height": 1109,
+            "body": true
+          },
+          {
+            "id": "homeward",
+            "title": "Mang một trời mây về",
+            "height": 586,
+            "body": true
+          }
+        ],
+        "deckClass": "postcard photo-deck scroll-reveal scroll-reveal-hidden",
+        "metricsAtEnd": {
+          "width": 390,
+          "height": 844,
+          "documentHeight": 34366,
+          "overflow": 0,
+          "geometry": {
+            ".hero": {
+              "top": 0,
+              "height": 1187,
+              "width": 390,
+              "font": "16px"
+            },
+            ".hero-copy": {
+              "top": 128,
+              "height": 354,
+              "width": 338,
+              "font": "16px"
+            },
+            ".hero-summary": {
+              "top": 520,
+              "height": 567,
+              "width": 338,
+              "font": "16px"
+            },
+            "#tripWeather": {
+              "top": 520,
+              "height": 366,
+              "width": 338,
+              "font": "16px"
+            },
+            "#arrivalCountdown": {
+              "top": 909,
+              "height": 178,
+              "width": 338,
+              "font": "16px"
+            },
+            "#itinerary": {
+              "top": 1187,
+              "height": 24962,
+              "width": 390,
+              "font": "16px"
+            },
+            "#crew": {
+              "top": 26149,
+              "height": 2132,
+              "width": 342,
+              "font": "16px"
+            },
+            "#cloudWheel": {
+              "top": 27109,
+              "height": 1103,
+              "width": 342,
+              "font": "16px"
+            },
+            ".wheel-stage": {
+              "top": 27354,
+              "height": 378,
+              "width": 342,
+              "font": "16px"
+            },
+            ".wheel-notes": {
+              "top": 27757,
+              "height": 455,
+              "width": 342,
+              "font": "16px"
+            },
+            "#fund": {
+              "top": 28282,
+              "height": 1004,
+              "width": 342,
+              "font": "16px"
+            },
+            "#packing": {
+              "top": 29286,
+              "height": 1213,
+              "width": 342,
+              "font": "16px"
+            },
+            "#destinations": {
+              "top": 30498,
+              "height": 964,
+              "width": 342,
+              "font": "16px"
+            },
+            "#food": {
+              "top": 31462,
+              "height": 829,
+              "width": 342,
+              "font": "16px"
+            },
+            "#practical": {
+              "top": 32292,
+              "height": 1435,
+              "width": 342,
+              "font": "16px"
+            },
+            ".footer": {
+              "top": 33726,
+              "height": 604,
+              "width": 342,
+              "font": "16px"
+            },
+            ".nav": {
+              "top": 29150,
+              "height": 64,
+              "width": 354,
+              "font": "16px"
+            },
+            ".chapter-nav": {
+              "top": 29222,
+              "height": 48,
+              "width": 280,
+              "font": "16px"
+            },
+            ".nav-toggle": {
+              "top": 29161,
+              "height": 42,
+              "width": 42,
+              "font": "16px"
+            },
+            ".weather-range": {
+              "top": 682,
+              "height": 30,
+              "width": 70,
+              "font": "26.4px"
+            },
+            ".weather-condition": {
+              "top": 720,
+              "height": 31,
+              "width": 51,
+              "font": "11.04px"
+            },
+            ".weather-probability": {
+              "top": 758,
+              "height": 17,
+              "width": 85,
+              "font": "10.56px"
+            },
+            ".weather-detail": {
+              "top": 796,
+              "height": 26,
+              "width": 338,
+              "font": "11.2px"
+            },
+            ".event-description": {
+              "top": 3497,
+              "height": 100,
+              "width": 334,
+              "font": "14.24px"
+            },
+            ".place-source": {
+              "top": 3697,
+              "height": 44,
+              "width": 334,
+              "font": "11.68px"
+            },
+            ".postcard figcaption": {
+              "top": 17725,
+              "height": 51,
+              "width": 282,
+              "font": "12.64px"
+            },
+            ".note-toggle": {
+              "top": 1664,
+              "height": 50,
+              "width": 103,
+              "font": "20px"
+            },
+            ".deck-control": null,
+            ".member p": {
+              "top": 26550,
+              "height": 22,
+              "width": 161,
+              "font": "12.48px"
+            },
+            ".wheel-fairness": {
+              "top": 28192,
+              "height": 20,
+              "width": 288,
+              "font": "11.52px"
+            },
+            ".checklist span": {
+              "top": 29885,
+              "height": 51,
+              "width": 207,
+              "font": "14.08px"
+            },
+            ".checklist small": {
+              "top": 29915,
+              "height": 22,
+              "width": 207,
+              "font": "12.32px"
+            },
+            ".trip-facts dd": {
+              "top": 32621,
+              "height": 25,
+              "width": 342,
+              "font": "14.4px"
+            }
+          },
+          "smallTargets": [
+            {
+              "selector": "#navToggle",
+              "label": "Mở menu",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn sáng tại Thào Coffee",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn sáng tại Thào Coffee",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Xem lịch nhóm gốc ↗",
+              "w": 144,
+              "h": 18,
+              "font": 13.6,
+              "display": "inline"
+            },
+            {
+              "selector": "scroll-reveal scroll-reveal-hidden",
+              "label": "Về đầu nhật ký ↑",
+              "w": 134,
+              "h": 30,
+              "font": 22.4,
+              "display": "inline"
+            }
+          ]
+        },
+        "brokenImages": []
+      },
+      {
+        "name": "320",
+        "metrics": {
+          "width": 320,
+          "height": 740,
+          "documentHeight": 34806,
+          "overflow": 0,
+          "geometry": {
+            ".hero": {
+              "top": 0,
+              "height": 1218,
+              "width": 320,
+              "font": "16px"
+            },
+            ".hero-copy": {
+              "top": 128,
+              "height": 373,
+              "width": 280,
+              "font": "16px"
+            },
+            ".hero-summary": {
+              "top": 539,
+              "height": 579,
+              "width": 280,
+              "font": "16px"
+            },
+            "#tripWeather": {
+              "top": 539,
+              "height": 378,
+              "width": 280,
+              "font": "16px"
+            },
+            "#arrivalCountdown": {
+              "top": 940,
+              "height": 178,
+              "width": 280,
+              "font": "16px"
+            },
+            "#itinerary": {
+              "top": 1218,
+              "height": 25133,
+              "width": 320,
+              "font": "16px"
+            },
+            "#crew": {
+              "top": 26351,
+              "height": 2163,
+              "width": 280,
+              "font": "16px"
+            },
+            "#cloudWheel": {
+              "top": 27310,
+              "height": 1134,
+              "width": 280,
+              "font": "16px"
+            },
+            ".wheel-stage": {
+              "top": 27630,
+              "height": 316,
+              "width": 280,
+              "font": "16px"
+            },
+            ".wheel-notes": {
+              "top": 27971,
+              "height": 499,
+              "width": 280,
+              "font": "16px"
+            },
+            "#fund": {
+              "top": 28514,
+              "height": 1022,
+              "width": 280,
+              "font": "16px"
+            },
+            "#packing": {
+              "top": 29536,
+              "height": 1272,
+              "width": 280,
+              "font": "16px"
+            },
+            "#destinations": {
+              "top": 30807,
+              "height": 985,
+              "width": 280,
+              "font": "16px"
+            },
+            "#food": {
+              "top": 31793,
+              "height": 831,
+              "width": 280,
+              "font": "16px"
+            },
+            "#practical": {
+              "top": 32623,
+              "height": 1460,
+              "width": 280,
+              "font": "16px"
+            },
+            ".footer": {
+              "top": 34083,
+              "height": 688,
+              "width": 280,
+              "font": "16px"
+            },
+            ".nav": {
+              "top": 12,
+              "height": 64,
+              "width": 284,
+              "font": "16px"
+            },
+            ".chapter-nav": {
+              "top": 1154,
+              "height": 48,
+              "width": 253,
+              "font": "16px"
+            },
+            ".nav-toggle": {
+              "top": 23,
+              "height": 42,
+              "width": 42,
+              "font": "16px"
+            },
+            ".weather-range": {
+              "top": 701,
+              "height": 28,
+              "width": 67,
+              "font": "24px"
+            },
+            ".weather-condition": {
+              "top": 735,
+              "height": 31,
+              "width": 51,
+              "font": "11.04px"
+            },
+            ".weather-probability": {
+              "top": 773,
+              "height": 32,
+              "width": 83,
+              "font": "10.56px"
+            },
+            ".weather-detail": {
+              "top": 827,
+              "height": 26,
+              "width": 280,
+              "font": "11.2px"
+            },
+            ".event-description": {
+              "top": 3538,
+              "height": 125,
+              "width": 272,
+              "font": "14.24px"
+            },
+            ".place-source": {
+              "top": 3763,
+              "height": 44,
+              "width": 272,
+              "font": "11.68px"
+            },
+            ".postcard figcaption": {
+              "top": 17885,
+              "height": 45,
+              "width": 228,
+              "font": "12.64px"
+            },
+            ".note-toggle": {
+              "top": 1762,
+              "height": 50,
+              "width": 103,
+              "font": "20px"
+            },
+            ".deck-control": null,
+            ".member p": {
+              "top": 26777,
+              "height": 22,
+              "width": 130,
+              "font": "12.48px"
+            },
+            ".wheel-fairness": {
+              "top": 28429,
+              "height": 40,
+              "width": 266,
+              "font": "11.52px"
+            },
+            ".checklist span": {
+              "top": 30196,
+              "height": 51,
+              "width": 207,
+              "font": "14.08px"
+            },
+            ".checklist small": {
+              "top": 30226,
+              "height": 22,
+              "width": 207,
+              "font": "12.32px"
+            },
+            ".trip-facts dd": {
+              "top": 32953,
+              "height": 25,
+              "width": 280,
+              "font": "14.4px"
+            }
+          },
+          "smallTargets": [
+            {
+              "selector": "#navToggle",
+              "label": "Mở menu",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Xem lịch nhóm gốc ↗",
+              "w": 144,
+              "h": 18,
+              "font": 13.6,
+              "display": "inline"
+            },
+            {
+              "selector": "scroll-reveal scroll-reveal-hidden",
+              "label": "Về đầu nhật ký ↑",
+              "w": 134,
+              "h": 30,
+              "font": 22.4,
+              "display": "inline"
+            }
+          ]
+        },
+        "enlarged": {
+          "hero": {
+            "overflow": 0
+          },
+          "wheel": {
+            "overflow": 0
+          },
+          "packing": {
+            "overflow": 0
+          },
+          "practical": {
+            "overflow": 0
+          }
+        }
+      },
+      {
+        "name": "430",
+        "metrics": {
+          "width": 430,
+          "height": 932,
+          "documentHeight": 34425,
+          "overflow": 0,
+          "geometry": {
+            ".hero": {
+              "top": 0,
+              "height": 1201,
+              "width": 430,
+              "font": "16px"
+            },
+            ".hero-copy": {
+              "top": 128,
+              "height": 367,
+              "width": 378,
+              "font": "16px"
+            },
+            ".hero-summary": {
+              "top": 533,
+              "height": 567,
+              "width": 370,
+              "font": "16px"
+            },
+            "#tripWeather": {
+              "top": 533,
+              "height": 366,
+              "width": 370,
+              "font": "16px"
+            },
+            "#arrivalCountdown": {
+              "top": 923,
+              "height": 178,
+              "width": 370,
+              "font": "16px"
+            },
+            "#itinerary": {
+              "top": 1201,
+              "height": 25257,
+              "width": 430,
+              "font": "16px"
+            },
+            "#crew": {
+              "top": 26458,
+              "height": 2138,
+              "width": 382,
+              "font": "16px"
+            },
+            "#cloudWheel": {
+              "top": 27359,
+              "height": 1167,
+              "width": 382,
+              "font": "16px"
+            },
+            ".wheel-stage": {
+              "top": 27630,
+              "height": 418,
+              "width": 382,
+              "font": "16px"
+            },
+            ".wheel-notes": {
+              "top": 28073,
+              "height": 479,
+              "width": 382,
+              "font": "16px"
+            },
+            "#fund": {
+              "top": 28596,
+              "height": 1018,
+              "width": 382,
+              "font": "16px"
+            },
+            "#packing": {
+              "top": 29613,
+              "height": 1213,
+              "width": 382,
+              "font": "16px"
+            },
+            "#destinations": {
+              "top": 30826,
+              "height": 827,
+              "width": 382,
+              "font": "16px"
+            },
+            "#food": {
+              "top": 31653,
+              "height": 806,
+              "width": 382,
+              "font": "16px"
+            },
+            "#practical": {
+              "top": 32459,
+              "height": 1327,
+              "width": 382,
+              "font": "16px"
+            },
+            ".footer": {
+              "top": 33786,
+              "height": 604,
+              "width": 382,
+              "font": "16px"
+            },
+            ".nav": {
+              "top": 12,
+              "height": 64,
+              "width": 394,
+              "font": "16px"
+            },
+            ".chapter-nav": {
+              "top": 1137,
+              "height": 48,
+              "width": 280,
+              "font": "16px"
+            },
+            ".nav-toggle": {
+              "top": 23,
+              "height": 42,
+              "width": 42,
+              "font": "16px"
+            },
+            ".weather-range": {
+              "top": 696,
+              "height": 30,
+              "width": 70,
+              "font": "26.4px"
+            },
+            ".weather-condition": {
+              "top": 733,
+              "height": 31,
+              "width": 51,
+              "font": "11.04px"
+            },
+            ".weather-probability": {
+              "top": 771,
+              "height": 17,
+              "width": 85,
+              "font": "10.56px"
+            },
+            ".weather-detail": {
+              "top": 810,
+              "height": 26,
+              "width": 370,
+              "font": "11.2px"
+            },
+            ".event-description": {
+              "top": 3555,
+              "height": 100,
+              "width": 374,
+              "font": "14.24px"
+            },
+            ".place-source": {
+              "top": 3756,
+              "height": 44,
+              "width": 374,
+              "font": "11.68px"
+            },
+            ".postcard figcaption": {
+              "top": 17901,
+              "height": 49,
+              "width": 316,
+              "font": "12.64px"
+            },
+            ".note-toggle": {
+              "top": 1674,
+              "height": 50,
+              "width": 103,
+              "font": "20px"
+            },
+            ".deck-control": null,
+            ".member p": {
+              "top": 26826,
+              "height": 22,
+              "width": 181,
+              "font": "12.48px"
+            },
+            ".wheel-fairness": {
+              "top": 28532,
+              "height": 20,
+              "width": 288,
+              "font": "11.52px"
+            },
+            ".checklist span": {
+              "top": 30215,
+              "height": 51,
+              "width": 207,
+              "font": "14.08px"
+            },
+            ".checklist small": {
+              "top": 30245,
+              "height": 22,
+              "width": 207,
+              "font": "12.32px"
+            },
+            ".trip-facts dd": {
+              "top": 32730,
+              "height": 25,
+              "width": 382,
+              "font": "14.4px"
+            }
+          },
+          "smallTargets": [
+            {
+              "selector": "#navToggle",
+              "label": "Mở menu",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn lẩu tại A Phủ",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 41,
+              "h": 41,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Xem lịch nhóm gốc ↗",
+              "w": 144,
+              "h": 18,
+              "font": 13.6,
+              "display": "inline"
+            },
+            {
+              "selector": "scroll-reveal scroll-reveal-hidden",
+              "label": "Về đầu nhật ký ↑",
+              "w": 134,
+              "h": 30,
+              "font": 22.4,
+              "display": "inline"
+            }
+          ]
+        }
+      },
+      {
+        "name": "landscape",
+        "metrics": {
+          "width": 844,
+          "height": 390,
+          "documentHeight": 26313,
+          "overflow": 0,
+          "geometry": {
+            ".hero": {
+              "top": 0,
+              "height": 815,
+              "width": 844,
+              "font": "16px"
+            },
+            ".hero-copy": {
+              "top": 135,
+              "height": 438,
+              "width": 342,
+              "font": "16px"
+            },
+            ".hero-summary": {
+              "top": 135,
+              "height": 590,
+              "width": 308,
+              "font": "16px"
+            },
+            "#tripWeather": {
+              "top": 135,
+              "height": 376,
+              "width": 308,
+              "font": "16px"
+            },
+            "#arrivalCountdown": {
+              "top": 541,
+              "height": 185,
+              "width": 308,
+              "font": "16px"
+            },
+            "#itinerary": {
+              "top": 815,
+              "height": 19694,
+              "width": 844,
+              "font": "16px"
+            },
+            "#crew": {
+              "top": 20509,
+              "height": 1528,
+              "width": 664,
+              "font": "16px"
+            },
+            "#cloudWheel": {
+              "top": 21215,
+              "height": 738,
+              "width": 664,
+              "font": "16px"
+            },
+            ".wheel-stage": {
+              "top": 21568,
+              "height": 375,
+              "width": 339,
+              "font": "16px"
+            },
+            ".wheel-notes": {
+              "top": 21514,
+              "height": 482,
+              "width": 295,
+              "font": "16px"
+            },
+            "#fund": {
+              "top": 22037,
+              "height": 680,
+              "width": 664,
+              "font": "16px"
+            },
+            "#packing": {
+              "top": 22718,
+              "height": 788,
+              "width": 664,
+              "font": "16px"
+            },
+            "#destinations": {
+              "top": 23505,
+              "height": 645,
+              "width": 664,
+              "font": "16px"
+            },
+            "#food": {
+              "top": 24150,
+              "height": 581,
+              "width": 664,
+              "font": "16px"
+            },
+            "#practical": {
+              "top": 24731,
+              "height": 851,
+              "width": 664,
+              "font": "16px"
+            },
+            ".footer": {
+              "top": 25582,
+              "height": 696,
+              "width": 664,
+              "font": "16px"
+            },
+            ".nav": {
+              "top": 16,
+              "height": 80,
+              "width": 800,
+              "font": "16px"
+            },
+            ".chapter-nav": {
+              "top": 166,
+              "height": 212,
+              "width": 60,
+              "font": "16px"
+            },
+            ".nav-toggle": {
+              "top": 33,
+              "height": 46,
+              "width": 46,
+              "font": "16px"
+            },
+            ".weather-range": {
+              "top": 307,
+              "height": 30,
+              "width": 70,
+              "font": "26.4px"
+            },
+            ".weather-condition": {
+              "top": 344,
+              "height": 31,
+              "width": 51,
+              "font": "11.04px"
+            },
+            ".weather-probability": {
+              "top": 382,
+              "height": 17,
+              "width": 85,
+              "font": "10.56px"
+            },
+            ".weather-detail": {
+              "top": 421,
+              "height": 26,
+              "width": 308,
+              "font": "11.2px"
+            },
+            ".event-description": {
+              "top": 2615,
+              "height": 132,
+              "width": 279,
+              "font": "15.04px"
+            },
+            ".place-source": {
+              "top": 2878,
+              "height": 44,
+              "width": 279,
+              "font": "11.68px"
+            },
+            ".postcard figcaption": {
+              "top": 14093,
+              "height": 44,
+              "width": 289,
+              "font": "12.64px"
+            },
+            ".note-toggle": {
+              "top": 1365,
+              "height": 50,
+              "width": 103,
+              "font": "20px"
+            },
+            ".deck-control": null,
+            ".member p": {
+              "top": 20826,
+              "height": 22,
+              "width": 110,
+              "font": "12.48px"
+            },
+            ".wheel-fairness": {
+              "top": 21976,
+              "height": 20,
+              "width": 288,
+              "font": "11.52px"
+            },
+            ".checklist span": {
+              "top": 22898,
+              "height": 51,
+              "width": 207,
+              "font": "14.08px"
+            },
+            ".checklist small": {
+              "top": 22927,
+              "height": 22,
+              "width": 207,
+              "font": "12.32px"
+            },
+            ".trip-facts dd": {
+              "top": 25025,
+              "height": 25,
+              "width": 300,
+              "font": "14.4px"
+            }
+          },
+          "smallTargets": [
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn sáng tại Thào Coffee",
+              "w": 40,
+              "h": 40,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn lẩu tại A Phủ",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn lẩu tại A Phủ",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh trước: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Ảnh tiếp: Ăn mẹt đồ Tây Bắc tại Đồi Mây",
+              "w": 42,
+              "h": 42,
+              "font": 16,
+              "display": "grid"
+            },
+            {
+              "selector": "",
+              "label": "Xem lịch nhóm gốc ↗",
+              "w": 144,
+              "h": 18,
+              "font": 13.6,
+              "display": "inline"
+            },
+            {
+              "selector": "scroll-reveal scroll-reveal-hidden",
+              "label": "Về đầu nhật ký ↑",
+              "w": 134,
+              "h": 30,
+              "font": 22.4,
+              "display": "inline"
+            }
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredFailures": [],
+    "notes": [
+      "Weather uses deterministic demonstration data, not a live forecast.",
+      "Chromium phone emulation; no physical-device or Safari assessment."
+    ]
+  },
+  "followup": {
+    "errors": [],
+    "photo": {
+      "before": "Góc 1 / 2",
+      "after": "Góc 2 / 2",
+      "visibleSlides": 1
+    },
+    "wheelChoiceToggled": true,
+    "wheelNoRepeat": true,
+    "centeredText": [
+      {
+        "selector": "warning scroll-reveal",
+        "font": "13.28px",
+        "color": "rgb(255, 253, 247)",
+        "opacity": 1
+      },
+      {
+        "selector": "cost scroll-reveal",
+        "font": "12.8px",
+        "color": "rgb(255, 253, 247)",
+        "opacity": 1
+      },
+      {
+        "selector": "practical-costs",
+        "font": "16px",
+        "color": "rgb(255, 253, 247)",
+        "opacity": 1
+      }
+    ],
+    "enlarged200": {
+      "overflow": 0,
+      "heroSky": {
+        "width": 284.4541015625,
+        "scrollWidth": 352
+      }
+    }
+  },
+  "limits": [
+    "Chromium emulation only; no physical devices, Safari or Firefox.",
+    "Forecast intercepted with deterministic data; not a live weather check.",
+    "Root font-size checks at 20px and 32px simulate 125% and 200% text scaling, not browser or OS zoom.",
+    "No contrast-ratio, frame-rate, battery or low-end-device measurements.",
+    "Screenshots may include intentional entry/reverse reveals; faded edge content is not a verified resting-state contrast failure."
+  ]
+}

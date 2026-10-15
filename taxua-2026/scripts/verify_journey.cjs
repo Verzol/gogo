@@ -17,14 +17,20 @@ const sleep = ms => new Promise(r=>setTimeout(r,ms));
 const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim().split('h');return h.padStart(2,'0')+':'+(m||'00').padStart(2,'0');}).join('-') : null;
 (async () => {
   const browser = await chromium.launch({headless:true});
-  const errors = [], consoleErrors = [], failedResources = [];
+  const errors = [], consoleErrors = [], failedResources = [], interruptedResources = [];
+  const stubWeather = p => p.route('https://api.open-meteo.com/**',r=>r.fulfill({json:{daily:{time:['2026-10-23','2026-10-24','2026-10-25'],weather_code:[0,63,73],temperature_2m_min:[12,13,11],temperature_2m_max:[18,20,17]}}}));
   async function page(options = {}) {
     const p = await browser.newPage({viewport:{width:1440,height:900},...options});
     p.on('pageerror',error=>errors.push(error.message));
     p.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text());});
-    p.on('requestfailed',r=>failedResources.push(r.url()));
+    p.on('requestfailed',r=>{
+      const error = r.failure()?.errorText;
+      // Responsive image swaps, removed cloud copies and page reloads can
+      // cancel an in-flight request. Check those URLs separately below.
+      (error === 'net::ERR_ABORTED' ? interruptedResources : failedResources).push({url:r.url(),error});
+    });
     p.on('response',r=>{if(r.status()>=400)failedResources.push(r.url());});
-    await p.goto('http://127.0.0.1:8000/taxua-2026/');
+    await stubWeather(p);await p.goto('http://127.0.0.1:8000/taxua-2026/');
     await p.evaluate(()=>document.fonts.ready);await sleep(250);
     return p;
   }
@@ -54,7 +60,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
   check('P16-P18 room photos and labels remain available',await p.locator('#check-in [data-asset-id]').evaluateAll(a=>a.map(e=>e.dataset.assetId).join(','))==='P16,P17,P18' && /Best view 2/.test(await p.locator('#check-in').textContent()) && /Best view 4/.test(await p.locator('#check-in').textContent()));
   check('Dinner/stargazing conflict stays visible',await p.locator('#stars .warning').isVisible() && /19:15/.test(await p.locator('#stars .warning').textContent()));
   check('No theme selector or persistent artificial scenery remains',await p.locator('[data-theme-choice],.scene-ridges,.scene-cloud,.scene-mist,.scene-wash').count()===0);
-  check('Topbar uses five locally delivered Lucide icons with accessible names',await p.locator('.nav-links a svg.lucide').count()===5 && await p.locator('.nav-links a').evaluateAll(a=>a.every(e=>e.getAttribute('aria-label'))));
+  check('Desktop topbar retains five visible local icons and mobile destinations are named',await p.locator('.nav-links a svg.lucide:visible').count()===5 && await p.locator('.nav-links a').evaluateAll(a=>a.every(e=>e.getAttribute('aria-label'))));
   check('Text-only stops use the full desktop reading width',await p.locator('.event[data-visual="text"]:not(.event--transit) .event-body').evaluateAll(a=>a.length>0 && a.every(e=>e.getBoundingClientRect().width>=400)));
   check('Every Lucide symbol resolves locally',await p.locator('svg.lucide use').evaluateAll(a=>a.every(e=>document.querySelector(e.getAttribute('href')))));
   check('Primary card/navigation containers are transparent and unblurred',await p.locator('.nav,.event-body,.postcard,.section-heading,.member,.packing,.dish,.footer').evaluateAll(a=>a.every(e=>getComputedStyle(e).backgroundColor==='rgba(0, 0, 0, 0)' && getComputedStyle(e).backdropFilter==='none')));
@@ -128,14 +134,14 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
     }
     await q.locator('.footer').scrollIntoViewIfNeeded();await sleep(1100);await shot(q,name+'-footer');
     const bad=await q.locator('img[src]').evaluateAll(a=>a.filter(i=>i.complete && !i.naturalWidth).map(i=>i.getAttribute('src')));
-    check('Every delivered image resolves across '+name+' journey',bad.length===0);
+    check('Every delivered image resolves across '+name+' journey: '+JSON.stringify(bad),bad.length===0);
     if(viewport.width<768) {
       for(const id of ['F01','F02','F03']) {
         const figure=q.locator('[data-asset-id="'+id+'"]').first();await figure.scrollIntoViewIfNeeded();
         check(name+' illustrative caption remains exact and readable for '+id,await figure.locator('figcaption').textContent()===manifest.assets.find(a=>a.assetId===id).captionVi && await figure.locator('figcaption').evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=12));
       }
       await jump(q,'packing');
-      check(name+' date controls leave room above anchor content',await q.locator('#packing').evaluate(e=>e.getBoundingClientRect().top>=140) && await q.locator('.chapter-nav').evaluate(e=>e.getBoundingClientRect().bottom<=140));
+      check(name+' support anchors clear navigation and hide itinerary-only dates',await q.locator('#packing').evaluate(e=>e.getBoundingClientRect().top >= document.querySelector('.nav').getBoundingClientRect().bottom) && await q.locator('.chapter-nav').evaluate(e=>getComputedStyle(e).visibility==='hidden' && e.inert));
       await q.locator('#navToggle').click();
       check(name+' menu opens with named icon links',await q.locator('#navLinks').isVisible() && await q.locator('#navToggle').getAttribute('aria-expanded')==='true');
       await shot(q,name+'-menu');await q.keyboard.press('Escape');await sleep(250);
@@ -160,20 +166,29 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
   const failed=await browser.newPage({viewport:{width:390,height:844}});failed.on('pageerror',e=>errors.push(e.message));
   await failed.route('**/vendor/{gsap,ScrollTrigger}.min.js',r=>r.fulfill({status:200,contentType:'application/javascript',body:'// optional motion library unavailable'}));
   await failed.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw new Error('Storage denied for verification');}}));
-  await failed.goto('http://127.0.0.1:8000/taxua-2026/');await sleep(250);
+  await stubWeather(failed);await failed.goto('http://127.0.0.1:8000/taxua-2026/');await sleep(250);
   check('All events render without animation and with denied storage',await failed.locator('.event').count()===24 && await failed.evaluate(()=>!window.gsap));
   await jump(failed,'departure');await failed.locator('#departure [data-note-toggle]').click();check('Notes work without animation dependency',await failed.locator('#note-departure').isVisible());
   await jump(failed,'packing');await failed.locator('#packingList input').first().check();check('Packing works when storage is denied',await failed.locator('#packingStatus').textContent()==='Đã chuẩn bị 1/7 món');
   await jump(failed,'village-cafe');check('Fallback synchronizes a distant direct day jump',(await state(failed)).chapter==='day-3');await failed.close();
-  const file=await browser.newPage({viewport:{width:390,height:844}});file.on('pageerror',e=>errors.push(e.message));await file.goto('file://'+path.join(root,'index.html'));await sleep(250);
-  check('Direct-file opening retains the full itinerary, icons and local GSAP',await file.locator('.event').count()===24 && await file.locator('.nav-links a svg.lucide').count()===5 && await file.evaluate(()=>window.gsap?.version)==='3.15.0');
+  const file=await browser.newPage({viewport:{width:390,height:844}});file.on('pageerror',e=>errors.push(e.message));await stubWeather(file);await file.goto('file://'+path.join(root,'index.html'));await sleep(250);
+  check('Direct-file opening retains the full itinerary, icons and local GSAP',await file.locator('.event').count()===24 && await file.locator('.nav-links a svg.lucide').count()===8 && await file.evaluate(()=>window.gsap?.version)==='3.15.0');
   await jump(file,'village-cafe');await file.locator('[data-asset-id="F01"] img').evaluate(i=>i.decode());check('Direct-file photography resolves',await file.locator('[data-asset-id="F01"] img').evaluate(i=>i.naturalWidth>0));await file.close();
-  const portrait=await browser.newPage();portrait.on('pageerror',e=>errors.push(e.message));await portrait.route('**/data.js',r=>r.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'data.js'),'utf8')+';TRIP_DATA.members[0].image="figures/people/optional-missing.jpg";'}));await portrait.goto('http://127.0.0.1:8000/taxua-2026/');await portrait.locator('#crew').scrollIntoViewIfNeeded();await sleep(150);
+  const portrait=await browser.newPage();portrait.on('pageerror',e=>errors.push(e.message));await portrait.route('**/data.js',r=>r.fulfill({contentType:'application/javascript',body:fs.readFileSync(path.join(root,'data.js'),'utf8')+';TRIP_DATA.members[0].image="figures/people/optional-missing.jpg";'}));await stubWeather(portrait);await portrait.goto('http://127.0.0.1:8000/taxua-2026/');await portrait.locator('#crew').scrollIntoViewIfNeeded();await sleep(150);
   check('Unavailable optional crew portrait falls back to initials',await portrait.locator('.member .avatar').first().textContent()==='S' && await portrait.locator('.member .avatar img').count()===0);await portrait.close();
   const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto('file://'+path.join(root,'index.html'));check('No-JavaScript fallback remains reachable',await nojs.locator('noscript a').isVisible());await nojs.locator('noscript a').click();check('No-JavaScript reading copy contains every event',await nojs.locator('article').count()===24);await nojs.close();
+  const delivery = await browser.newContext();
+  for (const url of new Set(interruptedResources.map(resource=>resource.url))) {
+    const response = await delivery.request.get(url);
+    check('Browser-canceled responsive asset still resolves: '+url,response.ok() && (await response.body()).length>0);
+  }
+  await delivery.close();
   check('No unexpected JavaScript errors in any scenario',errors.length===0);
-  check('No ordinary-run console errors or failed resources',consoleErrors.length===0 && failedResources.length===0);
-  result.checkCount=result.checks.length;result.errorCount=errors.length;result.consoleErrors=consoleErrors;result.failedResources=failedResources;
+  if (consoleErrors.length || failedResources.length) {
+    fs.writeFileSync(path.join(output,'resource-failures.json'),JSON.stringify({consoleErrors,failedResources},null,2)+'\n');
+  }
+  check('No ordinary-run console errors or failed resources: '+JSON.stringify({consoleErrors,failedResources}),consoleErrors.length===0 && failedResources.length===0);
+  result.checkCount=result.checks.length;result.errorCount=errors.length;result.consoleErrors=consoleErrors;result.failedResources=failedResources;result.interruptedResources=interruptedResources;
   fs.writeFileSync(path.join(output,'browser-checks.json'),JSON.stringify(result,null,2)+'\n');
   await browser.close();console.log('Passed '+result.checks.length+' behavioral browser checks. Evidence and screenshots are in review/.');
 })().catch(error=>{console.error(error);process.exit(1);});

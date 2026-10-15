@@ -11,8 +11,14 @@ const report = {checkedAt:new Date().toISOString(),checks:[],samples:{},videos:[
 const check = (name,value) => { assert(value,name); report.checks.push(name); };
 const wait = ms => new Promise(resolve => setTimeout(resolve,ms));
 async function jump(page,id) {
-  await page.evaluate(id => scrollTo(0,id === 'top' ? 0 : document.getElementById(id).getBoundingClientRect().top + scrollY - (innerWidth < 768 ? 148 : 110)),id);
+  await page.evaluate(id => scrollTo(0,id === 'top' ? 0 : document.getElementById(id).getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)),id);
   await wait(1050);
+}
+async function selectDay(page,day) {
+  // Phone dates are intentionally available only inside the itinerary.
+  const link=page.locator('[data-chapter="'+day+'"]');
+  if (!await link.isVisible()) await jump(page,'departure');
+  await link.click();
 }
 async function state(page) {
   return page.evaluate(() => ({y:scrollY,phase:scenery.dataset.phase,
@@ -61,7 +67,7 @@ async function state(page) {
     // Distant anchor navigation shows just the destination image over a frozen
     // outgoing composite. It should not flash intermediate daytime/night scenes.
     await jump(p,'top');
-    await p.locator('[data-chapter="day-3"]').click();
+    await selectDay(p,'day-3');
     await wait(130);
     const midway = await state(p);
     const targetY = await p.locator('#day-3').evaluate(el => el.getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop));
@@ -74,17 +80,17 @@ async function state(page) {
     await p.goBack();await wait(1000);
     check(name+' browser back restores the preceding location',(await state(p)).hash !== '#day-3');
     // An actual wheel input must stop programmatic travel promptly.
-    await jump(p,'top');await p.locator('[data-chapter="day-3"]').click();await wait(130);
+    await jump(p,'top');await selectDay(p,'day-3');await wait(130);
     await p.mouse.wheel(0,80);await wait(180);const stopped = (await state(p)).y;
     await wait(650);const later = await state(p);
     check(name+' wheel interrupts navigation without later resuming',Math.abs(later.y - stopped) < 3 && later.y < targetY - 100 && later.ghosts === 0);
-    await jump(p,'top');await p.locator('[data-chapter="day-3"]').click();await wait(130);
+    await jump(p,'top');await selectDay(p,'day-3');await wait(130);
     await p.keyboard.press('ArrowDown');await wait(250);const keyStop = (await state(p)).y;
     await wait(650);
     check(name+' keyboard interrupts navigation',Math.abs((await state(p)).y - keyStop) < 3);
     // Rapid retargeting must end at the last chosen day and keep focus there.
-    await p.locator('[data-chapter="day-1"]').click();await wait(100);
-    await p.locator('[data-chapter="day-2"]').click();await wait(1400);
+    await selectDay(p,'day-1');await wait(100);
+    await selectDay(p,'day-2');await wait(1400);
     check(name+' rapid navigation selects the final destination',(await state(p)).target === 'day-2' && (await state(p)).ghosts === 0);
     await jump(p,'departure');
     const note = p.locator('#note-departure');
@@ -143,7 +149,7 @@ async function state(page) {
     await p.emulateMedia({reducedMotion:'reduce'});await wait(250);
     check(name+' reduced motion disposes every scroll animation',await p.evaluate(() => ScrollTrigger.getAll().length === 0));
     check(name+' reduced motion leaves the open notebook intact',await note.isVisible() && await note.evaluate(el => !el.style.height));
-    await p.locator('[data-chapter="day-3"]').click();await wait(100);
+    await selectDay(p,'day-3');await wait(100);
     check(name+' reduced-motion navigation is immediate',await p.locator('#day-3').evaluate(el => el.getBoundingClientRect().top < innerHeight / 2));
     await p.emulateMedia({reducedMotion:'no-preference'});await wait(300);
     await p.emulateMedia({reducedMotion:'reduce'});await p.emulateMedia({reducedMotion:'no-preference'});await wait(300);
@@ -162,7 +168,7 @@ async function state(page) {
   const navigationImageGate = new Promise(resolve => {deliverNavigationImage=resolve;});
   await delayed.route('**/ridge_far_bluehour.webp',async route => { await navigationImageGate; await route.continue(); });
   await delayed.goto('http://127.0.0.1:8000/taxua-2026/',{waitUntil:'domcontentloaded'});await wait(1000);
-  await delayed.locator('[data-chapter="day-3"]').click();await wait(1250);
+  await selectDay(delayed,'day-3');await wait(1250);
   check('Delayed scenery retains the outgoing photograph',await delayed.locator('.navigation-scene').count() === 1 && await delayed.locator('.navigation-panel').evaluateAll(a => a.some(i => i.dataset.ready && Number(i.style.opacity) === 1)));
   deliverNavigationImage();await wait(2000);
   check('Delayed scenery finishes after decoding',await delayed.locator('.navigation-scene').count() === 0 && (await state(delayed)).phase === 'predawn');
@@ -186,7 +192,7 @@ async function state(page) {
   missing.on('pageerror',e => errors.push(e.stack));
   await missing.route('**/ridge_far_bluehour.webp',route => route.fulfill({status:200,contentType:'image/webp',body:'invalid image for decode failure verification'}));
   await missing.goto('http://127.0.0.1:8000/taxua-2026/');await wait(1000);
-  await missing.locator('[data-chapter="day-3"]').click();await wait(1500);
+  await selectDay(missing,'day-3');await wait(1500);
   check('Failed destination image preserves a visible photograph and usable page',await missing.locator('.navigation-scene').count() === 0 && await missing.locator('.scene-panel').evaluateAll(a => a.some(i => i.dataset.ready && Number(i.style.opacity) === 1)) && await missing.locator('.event').count() === 24);
   await missing.close();
   if(errors.length)console.error(errors);

@@ -156,6 +156,8 @@ function renderEvent(block, dayIndex) {
 }
 function renderDays() {
   const days = TRIP_DATA.days;
+  document.getElementById('dayOverview').innerHTML = `<h2 id="overviewTitle">Chuyến đi, từng ngày</h2>${days.map(day => `<details class="day-overview"><summary><time datetime="${esc(day.dateISO)}">${esc(day.date)}</time><span>${esc(day.label)}</span></summary><p>${esc(day.summary)}</p><ol>${day.blocks.map(block => `<li><a href="#${esc(block.id)}"><span>${esc(block.time == null ? block.period : block.time)}</span>${esc(block.storyTitle || block.activity)}</a></li>`).join('')}</ol></details>`).join('')}`;
+  document.querySelectorAll('.day-overview').forEach(detail => detail.addEventListener('toggle',() => window.JourneyMotion?.refresh()));
   document.getElementById('daysList').innerHTML = days.map((day,index) => `${index > 0 ? `<header class="day-heading" id="day-${index}" data-phase="predawn" data-scenery-chapter="${esc(day.sceneryChapter)}" data-day="day-${index}"><div class="day-date"><strong>${esc(day.label)}</strong><time datetime="${esc(day.dateISO)}">${esc(day.weekday)}, ${esc(day.date)}/2026</time></div><h2>${esc(day.title)}</h2><p>${esc(day.summary)}</p><a class="reading-copy" href="./itinerary.html#schedule-${index}">Xem giờ giấc & ghi chú ↗</a>${stickerImage(index === 1 ? 'shan_tea' : index === 2 ? 'dino_ridge' : 'mountain_sky','sticker','morning')}</header>` : ''}${day.blocks.map(block => renderEvent(block,index)).join('')}`).join('');
 }
 function renderCrew() {
@@ -208,7 +210,11 @@ function createWheelCelebration(root,dial,result,name,copy,reduced) {
     clear();
     if (document.hidden || !inView(root)) return;
     const mobile = smallScreen.matches;
-    if (mobile) {
+    const nameBox = name.getBoundingClientRect();
+    const navBottom = document.querySelector('.nav').getBoundingClientRect().bottom;
+    let opacity = 1;
+    for (let element = name; element && element !== root.parentElement; element = element.parentElement) opacity *= Number(getComputedStyle(element).opacity);
+    if (mobile && (nameBox.top < navBottom + 8 || nameBox.bottom > innerHeight || opacity < .8)) {
       banner.innerHTML = `<span>${esc(copy.celebration)}</span><strong>${esc(winner)}!</strong>`;
       banner.hidden = false;
     }
@@ -283,6 +289,11 @@ function initCloudWheel() {
   root.innerHTML = `
     <div class="wheel-heading"><p class="wheel-eyebrow">${esc(copy.eyebrow)}</p><h3 id="wheelTitle">${esc(copy.title)}</h3><p>${esc(copy.intro)}</p></div>
     <div class="wheel-composition">
+      <details class="wheel-settings" open><summary>Cho ai vào vòng? <span id="wheelSelection"></span></summary>
+        <fieldset class="wheel-participants"><legend>${esc(copy.participants)}</legend><div class="wheel-choices">${members.map((member,index) => `<label><input type="checkbox" data-wheel-person="${index}" checked><span>${esc(member.name)}</span></label>`).join('')}</div></fieldset>
+        <div class="wheel-options"><label class="wheel-repeat"><input type="checkbox" id="wheelNoRepeat"><span>${esc(copy.noRepeat)}</span></label><button class="wheel-reset" type="button">${esc(copy.reset)} <span aria-hidden="true">↺</span></button></div>
+        <p class="wheel-fairness">${esc(copy.fairness)}</p>
+      </details>
       <div class="wheel-stage">
         <span class="wheel-scribble" aria-hidden="true">để mây chọn giùm</span>
         <div class="wheel-dial" id="wheelDial">
@@ -300,10 +311,7 @@ function initCloudWheel() {
       </div>
       <div class="wheel-notes">
         <div class="wheel-result" aria-live="polite" aria-atomic="true"><img class="wheel-result-cloud" src="./figures/scenery/painted/cloud_sky_puff.webp" width="498" height="298" alt="" aria-hidden="true" loading="lazy"><p class="wheel-result-kicker">${esc(copy.waiting)}</p><p class="wheel-result-name">?</p><p class="wheel-result-note">${esc(copy.waitingNote)}</p></div>
-        <fieldset class="wheel-participants"><legend>${esc(copy.participants)}</legend><div class="wheel-choices">${members.map((member,index) => `<label><input type="checkbox" data-wheel-person="${index}" checked><span>${esc(member.name)}</span></label>`).join('')}</div></fieldset>
-        <div class="wheel-options"><label class="wheel-repeat"><input type="checkbox" id="wheelNoRepeat"><span>${esc(copy.noRepeat)}</span></label><button class="wheel-reset" type="button">${esc(copy.reset)} <span aria-hidden="true">↺</span></button></div>
         <p class="wheel-availability" id="wheelAvailability" aria-live="polite"></p>
-        <p class="wheel-fairness">${esc(copy.fairness)}</p>
       </div>
     </div>`;
   const rotor = root.querySelector('.wheel-rotor');
@@ -313,6 +321,12 @@ function initCloudWheel() {
   const reset = root.querySelector('.wheel-reset');
   const noRepeat = root.querySelector('#wheelNoRepeat');
   const participants = root.querySelector('.wheel-participants');
+  const settings = root.querySelector('.wheel-settings');
+  const compact = matchMedia('(max-width:767px), (max-height:520px) and (orientation:landscape)');
+  const syncSettings = () => { settings.open = !compact.matches; };
+  compact.addEventListener('change',syncSettings);
+  settings.addEventListener('toggle',() => window.JourneyMotion?.refresh());
+  syncSettings();
   const choices = Array.from(root.querySelectorAll('[data-wheel-person]'));
   const result = root.querySelector('.wheel-result');
   const kicker = root.querySelector('.wheel-result-kicker');
@@ -340,6 +354,7 @@ function initCloudWheel() {
   function update() {
     const remaining = eligible();
     const selected = choices.filter(choice => choice.checked).length;
+    root.querySelector('#wheelSelection').textContent = selected + ' đồng bọn';
     // Keep keyboard focus on the action during a spin; click handling enforces
     // aria-disabled without a native disabled toggle dropping focus to <body>.
     spin.setAttribute('aria-disabled',String(spinning || !remaining.length));
@@ -489,6 +504,50 @@ function initNav() {
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
   const mobile = matchMedia('(max-width:1023px)');
+  const chapter = document.querySelector('.chapter-nav');
+  const chapterToggle = document.getElementById('chapterToggle');
+  const itinerary = document.getElementById('itinerary');
+  let navOffset = 110;
+  const landscape = matchMedia('(max-height:520px) and (orientation:landscape)');
+  const closeDates = () => {
+    chapter.dataset.open = 'false';
+    chapterToggle.setAttribute('aria-expanded','false');
+  };
+  chapterToggle.addEventListener('click',() => {
+    const open = chapter.dataset.open !== 'true';
+    chapter.dataset.open = String(open);
+    chapterToggle.setAttribute('aria-expanded',String(open));
+    window.JourneyMotion?.refresh();
+  });
+  chapter.querySelectorAll('a').forEach(link => link.addEventListener('click',closeDates));
+  landscape.addEventListener('change',closeDates);
+  const syncCompact = () => {
+    document.documentElement.dataset.navCompact = String(scrollY > 24 || parseFloat(getComputedStyle(document.documentElement).fontSize) > 20);
+    const box = itinerary.getBoundingClientRect();
+    const phone = innerWidth < 768 || landscape.matches;
+    const active = box.top <= navOffset + 1 && box.bottom > navOffset + 1;
+    document.documentElement.dataset.itineraryActive = String(active);
+    chapter.inert = phone && !active;
+    if (!active) closeDates();
+  };
+  const measureNavigation = () => {
+    syncCompact();
+    const phone = innerWidth < 768 || landscape.matches;
+    const dateHeight = innerWidth < 768 && !landscape.matches ? chapter.offsetHeight : 0;
+    navOffset = phone ? document.querySelector('.nav').offsetHeight + dateHeight + 24 : 110;
+    document.documentElement.style.setProperty('--nav-offset',navOffset + 'px');
+  };
+  let navFrame = 0;
+  addEventListener('scroll',() => {
+    if (!navFrame) navFrame = requestAnimationFrame(() => { navFrame = 0; syncCompact(); });
+  },{passive:true});
+  addEventListener('resize',measureNavigation);
+  if (window.ResizeObserver) {
+    const observer = new ResizeObserver(measureNavigation);
+    observer.observe(document.querySelector('.nav'));
+    observer.observe(chapter);
+  }
+  measureNavigation();
   const setOpen = open => {
     const changed = links.classList.contains('open') !== open;
     links.classList.toggle('open',open);
@@ -503,6 +562,7 @@ function initNav() {
   mobile.addEventListener('change',() => setOpen(false));
   document.addEventListener('keydown',event => {
     if (event.key === 'Escape' && links.classList.contains('open')) { setOpen(false); toggle.focus(); }
+    if (event.key === 'Escape' && chapter.dataset.open === 'true') { closeDates(); chapterToggle.focus(); }
   });
   document.addEventListener('click',event => {
     if (links.classList.contains('open') && !event.target.closest('.nav')) setOpen(false);

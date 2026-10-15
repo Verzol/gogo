@@ -68,6 +68,9 @@
       <a href="#packing" aria-label="Đồ mang"><svg class="lucide lucide-backpack" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-backpack"></use></svg><span class="nav-label">Đồ mang</span></a>
       <a href="#destinations" aria-label="Sống ảo"><svg class="lucide lucide-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-camera"></use></svg><span class="nav-label">Sống ảo</span></a>
       <a href="#food" aria-label="Ăn uống"><svg class="lucide lucide-soup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-soup"></use></svg><span class="nav-label">Ăn uống</span></a>
+      <a class="nav-mobile-link" href="#fund" aria-label="Quỹ nhóm"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-piggy-bank"></use></svg><span class="nav-label">Quỹ nhóm</span></a>
+      <a class="nav-mobile-link" href="#cloudWheel" aria-label="Vòng quay"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-users-round"></use></svg><span class="nav-label">Vòng quay</span></a>
+      <a class="nav-mobile-link" href="#practical" aria-label="Lưu ý"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-notebook-pen"></use></svg><span class="nav-label">Lưu ý</span></a>
     </div>
     <button class="nav-toggle" id="navToggle" type="button" aria-label="Mở menu" aria-controls="navLinks" aria-expanded="false"><svg class="lucide lucide-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-menu"></use></svg><svg class="lucide lucide-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-x"></use></svg></button>
   </nav>
@@ -84,17 +87,21 @@
     </div>
     <div class="hero-stamp" aria-hidden="true"><span>gogo</span><small>Nhật ký săn mây</small></div>
   </header>
-  <nav class="chapter-nav" aria-label="Chọn ngày trong nhật ký">
-    <span class="chapter-weather" id="chapterWeather">Trên biển mây</span>
-    <a href="#departure" data-chapter="day-0">Đêm đi</a>
-    <a href="#day-1" data-chapter="day-1">23/10<span>Ngày 1</span></a>
-    <a href="#day-2" data-chapter="day-2">24/10<span>Ngày 2</span></a>
-    <a href="#day-3" data-chapter="day-3">25/10<span>Ngày 3</span></a>
-    <span class="chapter-progress" aria-hidden="true"></span>
-  </nav>
   <main>
     <section id="itinerary" aria-label="Lịch trình liên tục từ Hà Nội đến Tà Xùa và trở về">
       <h2 class="sr-only">Lịch trình 22-25/10/2026</h2>
+      <div class="itinerary-overview wrap" id="dayOverview" aria-labelledby="overviewTitle"></div>
+      <nav class="chapter-nav" aria-label="Chọn ngày trong nhật ký">
+        <button class="chapter-toggle" id="chapterToggle" type="button" aria-expanded="false" aria-controls="chapterDates">Chọn ngày <span aria-hidden="true">⌄</span></button>
+        <div class="chapter-dates" id="chapterDates">
+          <span class="chapter-weather" id="chapterWeather">Trên biển mây</span>
+          <a href="#departure" data-chapter="day-0">Đêm đi</a>
+          <a href="#day-1" data-chapter="day-1">23/10<span>Ngày 1</span></a>
+          <a href="#day-2" data-chapter="day-2">24/10<span>Ngày 2</span></a>
+          <a href="#day-3" data-chapter="day-3">25/10<span>Ngày 3</span></a>
+          <span class="chapter-progress" aria-hidden="true"></span>
+        </div>
+      </nav>
       <div id="daysList"></div>
       <noscript><p class="paper no-script">Bật JavaScript để xem nhật ký tương tác, hoặc mở <a href="./itinerary.html">bản lịch trình đầy đủ</a>.</p></noscript>
     </section>

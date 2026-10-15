@@ -73,10 +73,10 @@
 .weather-day[aria-pressed="true"]::after { content: ''; position: absolute; inset: 0 3px -3px; border: 1px solid currentColor; border-radius: 48% 52% 45% 55% / 8% 10% 12% 9%; transform: rotate(-2deg); pointer-events: none; }
 .weather-day[aria-disabled="true"] { cursor: default; }
 .trip-weather button:focus-visible { outline: 2px solid #386b80; outline-offset: 4px; }
-.weather-context { height: 3.5rem; padding-top: 10px; font-size: .7rem; line-height: 1.65; }
+.weather-status { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 76px; }
+.weather-context { padding-top: 8px; font-size: .75rem; line-height: 1.5; }
 .weather-context p { margin: 0; }
-.weather-detail { font-weight: 500; min-height: 2.3em; line-height: 1.15; }
-.weather-footer { min-height: 44px; display: flex; align-items: center; justify-content: flex-end; }
+.weather-detail { font-weight: 500; line-height: 1.5; }
 .weather-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
 .weather-controls button { min-height: 44px; padding: 5px 0; border: 0; background: transparent; color: inherit; font-size: .69rem; cursor: pointer; text-underline-offset: 4px; text-decoration: underline; }
 .weather-controls [hidden] { display: none; }
@@ -117,23 +117,40 @@
   .hero-stamp { display: none; }
 }
 @media (max-width: 767px) {
-  .hero { grid-template-columns: minmax(0,1fr); gap: 38px; padding: 128px 26px 100px; align-items: start; }
-  .hero h1 { font-size: clamp(3.2rem,13.7vw,6rem); }
+  .hero { grid-template-columns: minmax(0,1fr); gap: 22px; padding: 94px 26px 64px; align-items: start; }
+  .hero h1 { font-size: clamp(3rem,12vw,5rem); }
+  .hero-date { margin-bottom: 14px; }
+  .hero-sub { margin-top: 12px; }
+  .hero-actions { gap: 8px; margin-top: 16px; }
+  .hero .scroll-note { font-size: .94rem; }
+  #heroSky { white-space: normal; text-wrap: balance; }
   .hero-summary { justify-self: start; width: min(100%,370px); }
-  .hero-summary .arrival-countdown { margin-top: 23px; padding-top: 17px; }
-  .hero-summary .countdown-number { font-size: 2.4rem; }
-  .hero-summary .countdown-unit--days .countdown-number { font-size: 2.8rem; }
+  .hero-summary .arrival-countdown { margin-top: 8px; padding-top: 14px; }
+  .hero-summary .countdown-number { font-size: 2.1rem; }
+  .hero-summary .countdown-unit--days .countdown-number { font-size: 2.5rem; }
   .trip-weather h2 { font-size: 2rem; margin-bottom: 11px; }
-  .weather-day { min-height: 145px; }
-  .opening-cloud--left { width: 105%; left: -65%; top: -1%; }
-  .opening-cloud--right { width: 105%; right: -68%; top: 30%; }
-  .opening-cloud--high { width: 90%; right: -30%; top: -7%; opacity: .75; }
-  .opening-cloud--low { display: none; }
-  .opening-cloud--far { width: 180%; left: -40%; bottom: 4%; opacity: .5; }
-  .opening-cloud--passing { width: 200%; left: -35%; bottom: -16%; opacity: .85; }
-  .opening-overcast { width: 125%; top: -9%; right: -55%; }
+  .weather-day { gap: 4px; min-height: 150px; padding: 8px 3px; }
+  .weather-day time { line-height: 1.25; }
+  .weather-icon { display: grid; place-items: center; }
+  .weather-condition { font-size: .78rem; min-height: 2.8em; text-wrap: balance; }
+  .weather-range { white-space: normal; }
+  .weather-probability { font-size: .75rem; }
+  .weather-status { min-height: 64px; }
+  .weather-controls button { font-size: .75rem; }
   [data-scene="opening"] .chapter-nav { color: #173e46; text-shadow: none; }
   [data-scene="opening"] .chapter-nav a { background: rgb(248 237 211 / .55); }
+}
+/* Full-width masks belong only to the moving artwork: the sky stays untouched.
+   Three lanes leave the middle clear even as individual clouds cross it. */
+@media (max-width: 767px), (max-height: 520px) and (orientation: landscape) {
+  .opening-cloud { width: 100%; left: 0; right: auto; mask-image: linear-gradient(90deg,#000, rgb(0 0 0 / .18) 28%,rgb(0 0 0 / .08) 65%,#000); }
+  .opening-cloud img { width: 66%; }
+  .opening-cloud--high { top: -5%; bottom: auto; opacity: .8; mask-image: none; }
+  .opening-cloud--left { top: 29%; bottom: auto; opacity: .55; }
+  .opening-cloud--left img { width: 58%; }
+  .opening-cloud--far { top: auto; bottom: -6%; opacity: .4; }
+  .opening-cloud--far img { width: 105%; }
+  .opening-cloud--right,.opening-cloud--low,.opening-cloud--passing,.opening-overcast { display: none; }
 }
 @media (max-width: 359px) { .hero { padding-inline: 20px; } .weather-range { font-size: 1.5rem; } }
 @media (max-height: 520px) and (orientation: landscape) {

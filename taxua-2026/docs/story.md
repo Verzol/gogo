@@ -22,6 +22,8 @@
 
 ## Place introductions and layouts
 
+- Phones show a four-day overview derived from `TRIP_DATA.days` before the continuous journal. Each native disclosure lists its original event times/periods and links to stable event IDs; no duplicate schedule source or inferred time is added. All events/guides remain expanded in the journal. Disclosure changes refresh optional motion measurements.
+
 - `placeGuides[stopId]` contains `name`, `paragraphs` and `source` (`label`, `url`) for 18 stops. Each guide appears once with a reading link.
 - Research identities/caveats: [Place research](research/places.md). Add sourced Vietnamese summaries; omit unsupported histories, prices, opening hours and weather guarantees.
 - Mùa Trứ's introduction appears at check-in, not at early luggage drop (`showPlaceGuide:false`).

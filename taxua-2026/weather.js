@@ -82,8 +82,8 @@
   }
   root.innerHTML = `<div class="weather-heading"><div><p class="weather-eyebrow">${esc(config.region)}</p><h2 id="weatherTitle">${esc(config.title)}</h2></div><button type="button" class="weather-motion" id="weatherMotion" aria-pressed="false"></button></div>
     <div class="weather-days" role="group" aria-label="Thời tiết những ngày ở Tà Xùa">${dates.map(date => `<button class="weather-day" type="button" data-date="${date}" aria-pressed="false" aria-disabled="true"><time datetime="${date}">${shortDate(date)}</time><span class="weather-icon">${icon('cloud')}</span><span class="weather-range">— / —°</span><span class="weather-condition">${esc(config.loading)}</span><span class="weather-probability"></span></button>`).join('')}</div>
-    <div class="weather-context"><p class="weather-detail" id="weatherDetail" role="status" aria-live="polite"></p><p id="weatherFreshness"></p></div>
-    <div class="weather-footer"><div class="weather-controls"><button type="button" id="weatherReset" hidden>${esc(config.reset)}</button><button type="button" class="weather-retry" id="weatherRetry" hidden>${esc(config.retry)}</button></div></div>`;
+    <div class="weather-status"><div class="weather-context"><p class="weather-detail" id="weatherDetail" role="status" aria-live="polite"></p><p id="weatherFreshness"></p></div>
+    <div class="weather-controls"><button type="button" id="weatherReset" hidden>${esc(config.reset)}</button><button type="button" class="weather-retry" id="weatherRetry" hidden>${esc(config.retry)}</button></div></div>`;
   root.hidden = false;
   const buttons = [...root.querySelectorAll('.weather-day')];
   const resetButton = document.getElementById('weatherReset');
@@ -111,8 +111,9 @@
       button.querySelector('.weather-icon').innerHTML = icon(enabled ? condition(day).glyph : 'cloud');
       button.querySelector('.weather-range').textContent = enabled ? `${display(day.temperature_2m_min)} / ${display(day.temperature_2m_max)}°` : '— / —°';
       button.querySelector('.weather-condition').textContent = enabled ? condition(day).label : failed && eligible(date) ? 'Chưa có dự báo' : dateStatus(date);
-      button.querySelector('.weather-probability').textContent = enabled && day.precipitation_probability_max !== null ? `Giáng thủy ${display(day.precipitation_probability_max)}%` : '';
-      button.setAttribute('aria-label',`${shortDate(date)}: ${enabled ? `${condition(day).label}, thấp ${display(day.temperature_2m_min)}, cao ${display(day.temperature_2m_max)} độ C` : dateStatus(date)}`);
+      const probability = enabled && day.precipitation_probability_max !== null ? display(day.precipitation_probability_max) : '';
+      button.querySelector('.weather-probability').textContent = probability ? `${condition(day).precipitation === 'snow' ? 'Tuyết' : 'Mưa'} ${probability}%` : '';
+      button.setAttribute('aria-label',`${shortDate(date)}: ${enabled ? `${condition(day).label}, thấp ${display(day.temperature_2m_min)}, cao ${display(day.temperature_2m_max)} độ C${probability ? `, xác suất giáng thủy ${probability}%` : ''}` : dateStatus(date)}`);
     });
     retryButton.hidden = !failed || !dates.some(eligible);
     retryButton.disabled = fetching || Date.now() < cooldownUntil;

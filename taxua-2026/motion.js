@@ -348,7 +348,7 @@
       reveal(document.querySelector('.footer').children);
       reveal(document.querySelector('.fund-copy').children);
       reveal(document.querySelectorAll('.fund-illustration, .fund-tally, .fund-action, .fund-arrow'),{stagger:true});
-      reveal(document.querySelectorAll('.wheel-heading, .wheel-stage, .wheel-notes'),{stagger:true});
+      reveal(document.querySelectorAll('.wheel-heading, .wheel-settings, .wheel-stage, .wheel-notes'),{stagger:true});
       // The opening hero is immediately readable; all later reading groups
       // enter and retreat at their own physical position, on every visit.
       const revealFocused = () => {

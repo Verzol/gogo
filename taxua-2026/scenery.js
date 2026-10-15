@@ -21,6 +21,7 @@ const JourneyScenery = (() => {
   const cloudMotions = new Map();
   const cloudStreams = new WeakMap();
   let windRate = 1;
+  const compactSky = matchMedia('(max-width:767px), (max-height:520px) and (orientation:landscape)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const smooth = value => { const p = Math.max(0,Math.min(1,value)); return p * p * (3 - 2 * p); };
   function cutout(name,role,extra = '') {
@@ -63,29 +64,45 @@ const JourneyScenery = (() => {
     initOpening(stage);
     initCloudFlow(stage);
   }
-  // Three evenly spaced clouds share each one-way track. An incoming copy
-  // arrives before the preceding cloud leaves; every reset is fully offscreen.
+  // Bounded, staggered copies share each one-way track. Phones use fewer lanes
+  // and copies; every reset remains fully offscreen at either composition.
   // Playback-rate updates retain time/position when a forecast changes wind.
-  function moveCloud(image,speed) {
+  function moveCloud(image,speed,copies = 3) {
     if (!image.animate) return;
     const translate = parseFloat(getComputedStyle(image).translate) || 0;
     const box = image.getBoundingClientRect();
-    if (!box.width) return;
     let stream = cloudStreams.get(image);
+    if (!box.width || !copies) {
+      (stream || [image]).forEach(cloud => {
+        cloudMotions.get(cloud)?.animation.cancel();
+        cloudMotions.delete(cloud);
+        if (cloud !== image) cloud.remove();
+      });
+      image.style.removeProperty('translate');
+      cloudStreams.delete(image);
+      return;
+    }
     if (!stream) {
       stream = [image];
-      for (let i = 1; i < 3; i++) {
-        const copy = image.cloneNode(true);
-        copy.classList.add('cloud-repeat');
-        copy.removeAttribute('fetchpriority');
-        copy.addEventListener('error',() => { copy.hidden = true; });
-        stream[stream.length - 1].after(copy);
-        stream.push(copy);
-      }
       cloudStreams.set(image,stream);
     }
+    while (stream.length > copies) {
+      const cloud = stream.pop();
+      cloudMotions.get(cloud)?.animation.cancel();
+      cloudMotions.delete(cloud);
+      cloud.remove();
+    }
+    while (stream.length < copies) {
+      const copy = image.cloneNode(true);
+      copy.classList.add('cloud-repeat');
+      copy.removeAttribute('fetchpriority');
+      copy.addEventListener('error',() => { copy.hidden = true; });
+      stream[stream.length - 1].after(copy);
+      stream.push(copy);
+    }
     const left = box.left - translate;
-    const margin = Math.max(64,innerWidth * .3);
+    const isOpening = !image.closest('.scene-panel');
+    const margin = Math.max(40,innerWidth * (compactSky.matches && isOpening ? .12 : .3));
     const from = -box.width - left - margin;
     const to = innerWidth - left + margin;
     const duration = (to - from) / speed * 1000;
@@ -105,7 +122,7 @@ const JourneyScenery = (() => {
     const paused = reduced.matches || document.hidden || document.documentElement.dataset.motionPaused === 'true';
     cloudMotions.forEach(({animation,panel}) => {
       const active = !paused && (panel ? panel.dataset.ambient === 'true' : !opening.hidden);
-      const rate = panel ? 1 : windRate;
+      const rate = panel ? 1 : compactSky.matches ? Math.min(2.4,windRate) : windRate;
       if (animation.playbackRate !== rate) animation.updatePlaybackRate(rate);
       if (active && animation.playState !== 'running') animation.play();
       if (!active && animation.playState !== 'paused') animation.pause();
@@ -113,11 +130,7 @@ const JourneyScenery = (() => {
   }
   function initCloudFlow(stage) {
     const speeds = {far:8,left:20,right:17,high:13,low:23,passing:26};
-    opening.querySelectorAll('.opening-cloud').forEach(holder => {
-      const type = Object.keys(speeds).find(key => holder.classList.contains('opening-cloud--' + key));
-      moveCloud(holder.firstElementChild,speeds[type]);
-    });
-    stage.querySelectorAll('.sky-cloud:not(.cloud-repeat),.high-wisp:not(.cloud-repeat)').forEach(image => moveCloud(image,image.classList.contains('high-wisp') ? 6 : 10));
+    measureClouds();
     const observer = new MutationObserver(records => {
       if (!opening.hidden && records.some(record => record.target === opening)) measureClouds();
       syncCloudFlow();
@@ -131,11 +144,14 @@ const JourneyScenery = (() => {
       // Re-measure only on layout changes, never in an animation frame loop.
       opening.querySelectorAll('.opening-cloud').forEach(holder => {
         const type = Object.keys(speeds).find(key => holder.classList.contains('opening-cloud--' + key));
-        moveCloud(holder.firstElementChild,speeds[type]);
+        const phone = {high:[10,1],left:[15,2],far:[8,2]}[type];
+        const scale = Math.max(.85,Math.min(1.1,innerWidth / 390));
+        moveCloud(holder.firstElementChild,compactSky.matches && phone ? phone[0] * scale : speeds[type],compactSky.matches ? phone?.[1] || 0 : 3);
       });
       stage.querySelectorAll('.scene-panel .sky-cloud:not(.cloud-repeat),.scene-panel .high-wisp:not(.cloud-repeat)').forEach(image => moveCloud(image,image.classList.contains('high-wisp') ? 6 : 10));
       const overcast = document.querySelector('#openingOvercast img');
-      if (overcast) moveCloud(overcast,14);
+      if (overcast) moveCloud(overcast,14,compactSky.matches ? 0 : 3);
+      document.getElementById('weatherParticles')?.style.setProperty('--wind-speed',compactSky.matches ? Math.min(2.4,windRate) : windRate);
     }
     addEventListener('resize',measureClouds);
   }
@@ -191,7 +207,8 @@ const JourneyScenery = (() => {
     opening.style.opacity = (1 - exit).toFixed(4);
     if (opening.hidden !== (p >= 1)) opening.hidden = p >= 1;
     opening.style.setProperty('--cloud-exit',staticMode ? '0px' : (-innerHeight * p * .6).toFixed(2) + 'px');
-    opening.style.setProperty('--cloud-part',staticMode ? '0px' : (innerWidth * p * .24).toFixed(2) + 'px');
+    // Keep lateral descent inside the track's offscreen margin at either size.
+    opening.style.setProperty('--cloud-part',staticMode ? '0px' : (innerWidth * p * (compactSky.matches ? .08 : .24)).toFixed(2) + 'px');
     panels.forEach(panel => {
       const depth = panel.querySelector('.opening-depth');
       depth.style.transform = `translateY(${staticMode ? 0 : (innerHeight * (1 - terrainProgress) * .72).toFixed(2)}px)`;
@@ -214,7 +231,7 @@ const JourneyScenery = (() => {
     particles.dataset.weather = state?.precipitation || '';
     particles.dataset.rain = state?.rainType || '';
     particles.style.setProperty('--rain-strength',state?.intensity || .4);
-    particles.style.setProperty('--wind-speed',windRate);
+    particles.style.setProperty('--wind-speed',compactSky.matches ? Math.min(2.4,windRate) : windRate);
     particles.style.setProperty('--rain-slant',-(state?.windSlant || 0) + 'deg');
     particles.style.setProperty('--snow-slant',-(state?.windSlant || 0) * .3 + 'deg');
     particles.style.setProperty('--snow-strength',state?.intensity || .65);
@@ -223,7 +240,7 @@ const JourneyScenery = (() => {
       if (!holder.firstElementChild) {
         holder.innerHTML = cloudImage('cloud_overcast');
         holder.firstElementChild.addEventListener('error',event => { event.target.hidden = true; });
-        moveCloud(holder.firstElementChild,14);
+        moveCloud(holder.firstElementChild,14,compactSky.matches ? 0 : 3);
       }
       const decoded = await holder.firstElementChild.decode().then(() => true,() => false);
       if (request === previewRequest) opening.dataset.cloudReady = String(decoded);

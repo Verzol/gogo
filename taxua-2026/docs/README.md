@@ -17,6 +17,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |
 | Preview, focused browser checks and evidence limits | [Verification](verification.md) |
 | Cloud opening, ambient motion and live trip-day weather | [Sky and weather](weather.md) · [Design plan](sky-weather-plan.md) |
+| Mobile cloud density, navigation, readability and responsive improvements | [Audit and plan](mobile-ui-plan.md) · [Implementation review](mobile-ui-review.md) |
 
 ## Documentation layout
 

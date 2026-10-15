@@ -34,6 +34,15 @@ async function choose(page,index,enabled) {
   const input=page.locator(`[data-wheel-person="${index}"]`);
   if (await input.isChecked() !== enabled) await input.locator('..').click();
 }
+async function readableWinner(page) {
+  return page.evaluate(()=>{
+    const name=document.querySelector('.wheel-result-name');
+    const box=name.getBoundingClientRect();
+    const banner=document.querySelector('.wheel-winner-banner');
+    const visible=box.top>=document.querySelector('.nav').getBoundingClientRect().bottom&&box.bottom<=innerHeight;
+    return (visible||(!banner.hidden&&banner.querySelector('strong').textContent.slice(0,-1)===name.textContent))&&banner.getAttribute('aria-hidden')==='true'&&name.closest('.wheel-result').getAttribute('aria-live')==='polite';
+  });
+}
 async function land(page) {
   await page.locator('.wheel-spin').click();
   // Finish the real CSS transition; the existing normal-spin checks also wait
@@ -148,9 +157,9 @@ async function land(page) {
     await celebration.waitForTimeout(350);
     check(name+' landing produces bounded confetti and cloud artwork',await celebration.locator('.wheel-confetti').count()===(width<768?18:32)&&await celebration.locator('.wheel-celebration-cloud').count()===(width<768?2:3));
     check(name+' decoration stays behind content and outside navigation snapshots',await celebration.locator('.wheel-celebration').evaluate(el=>el.parentElement.id==='scenery'&&!el.closest('#sceneLayers')&&el.getAttribute('aria-hidden')==='true'&&getComputedStyle(el).pointerEvents==='none'));
-    check(name+' keeps the winner readable without duplicate announcements',width<768 ? await celebration.locator('.wheel-winner-banner').isVisible()&&(await celebration.locator('.wheel-winner-banner strong').textContent()).slice(0,-1)===await celebration.locator('#cloudWheel').getAttribute('data-winner')&&await celebration.locator('.wheel-winner-banner').getAttribute('aria-hidden')==='true' : await celebration.locator('.wheel-winner-banner').isHidden());
+    check(name+' keeps the winner readable without duplicate announcements',await readableWinner(celebration));
     check(name+' celebration does not overflow',await celebration.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
-    if(width<768)check(name+' banner fits below phone navigation',await celebration.locator('.wheel-winner-banner').evaluate(el=>{const box=el.getBoundingClientRect();return box.left>=0&&box.right<=innerWidth&&box.top>document.querySelector('.chapter-nav').getBoundingClientRect().bottom;}));
+    if(width<768)check(name+' banner fits below phone navigation',await celebration.locator('.wheel-winner-banner').evaluate(el=>{const box=el.getBoundingClientRect();return el.hidden||(box.left>=0&&box.right<=innerWidth&&box.top>document.querySelector('.nav').getBoundingClientRect().bottom);}));
     const particle=celebration.locator('.wheel-confetti').first();
     const first=await particle.evaluate(el=>el.getBoundingClientRect().top);await celebration.waitForTimeout(200);
     check(name+' particles actually move',Math.abs(await particle.evaluate(el=>el.getBoundingClientRect().top)-first)>2);
@@ -163,17 +172,19 @@ async function land(page) {
       check('new spin clears the previous celebration immediately',await celebration.locator('.wheel-celebration > *').count()===0&&await celebration.locator('.wheel-winner-banner').isHidden());
       await celebration.locator('.wheel-dial').evaluate(el=>el.getAnimations({subtree:true}).forEach(animation=>animation.finish()));
       await celebration.waitForFunction(()=>!document.getElementById('cloudWheel').classList.contains('is-spinning'));
+      await celebration.locator('.wheel-settings summary').click();
       await celebration.locator('.wheel-reset').click();
+      await celebration.locator('.wheel-settings summary').click();
       check('reset removes the active celebration',await celebration.locator('.wheel-celebration > *').count()===0&&await celebration.locator('.wheel-winner-banner').isHidden());
       await land(celebration);
       await celebration.evaluate(()=>document.documentElement.dataset.motionPaused='true');
       check('pause clears confetti and banner',await celebration.locator('.wheel-celebration > *').count()===0&&await celebration.locator('.wheel-winner-banner').isHidden());
       await celebration.locator('.wheel-spin').click();
-      check('paused selection retains a static phone announcement',await celebration.locator('.wheel-celebration > *').count()===0&&await celebration.locator('.wheel-winner-banner').isVisible());
+      check('paused selection retains a static phone announcement',await celebration.locator('.wheel-celebration > *').count()===0&&await readableWinner(celebration));
       await celebration.evaluate(()=>document.documentElement.dataset.motionPaused='false');
       await celebration.emulateMedia({reducedMotion:'reduce'});
       await celebration.locator('.wheel-spin').click();
-      check('reduced motion uses a static phone result without particles',await celebration.locator('.wheel-celebration > *').count()===0&&await celebration.locator('.wheel-winner-banner').isVisible()&&await celebration.locator('.wheel-winner-banner').evaluate(el=>el.getAnimations().length===0));
+      check('reduced motion uses a static phone result without particles',await celebration.locator('.wheel-celebration > *').count()===0&&await readableWinner(celebration)&&await celebration.locator('.wheel-winner-banner').evaluate(el=>el.getAnimations().length===0));
       await celebration.emulateMedia({reducedMotion:'no-preference'});await land(celebration);
       await celebration.evaluate(()=>scrollTo(0,0));
       await celebration.waitForFunction(()=>document.querySelector('.wheel-celebration').hidden);

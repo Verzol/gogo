@@ -15,7 +15,7 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 - Original user upload “Gogo Mountain Sunrise Emblem.png” is preserved as `figures/raw/gogo_mountain_sunrise.png`.
 - Current derivatives: transparent `figures/decor/logo.png` and lossless `logo.webp` (512px square), `favicon.png` (64px). The old dinosaur/cloudscape logos were replaced and their sources removed.
 - Trim empty margins/alpha specks below 32/255; center the complete emblem with 4% padding. Do not clip the cloud/mountain/sunrise or “gogo” lettering.
-- Display sizes: nav 80px desktop/tablet, 64px phone; footer 160px/128px. Keep brand text proportional and phone chapter/menu offsets aligned with the actual nav height.
+- Display sizes: nav 80px desktop/tablet, 44px phone/short landscape; footer 160px/128px. Keep brand text proportional and phone chapter/menu offsets aligned with the actual nav height.
 - Both HTML pages/exporter use cache suffix `?v=sunrise-2026`; update all references together on replacement. There is no dedicated logo-generation helper.
 
 ## Paired stickers

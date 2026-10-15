@@ -45,7 +45,8 @@ async function shot(p,name) {
     check(name+' scheduled lighting respects morning stops',await p.evaluate(()=>JourneyUI.sceneFor(document.getElementById('room-clouds')).background==='bluehour'&&['home-breakfast','last-breakfast'].every(id=>JourneyUI.sceneFor(document.getElementById(id)).background==='jade')));
     if(['desktop','phone'].includes(name)) {
       for(const [id,expected] of [['departure','night'],['thao-coffee','jade'],['ameii','afternoon'],['stars','night'],['dinosaur-ridge','daylight'],['khe-cai','bluehour'],['fund','jade']]) {
-        await jump(p,id,id==='departure'?200:100);
+        // Sample the first ticket before the intentional pre-arrival blend.
+        await jump(p,id,100);
         check(name+' settled scene at '+id,visible(await state(p))===expected);
         check(name+' no overflow at '+id,await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
         await shot(p,name+'-'+id);
@@ -60,7 +61,7 @@ async function shot(p,name) {
       const midpoint=partial[Math.floor(partial.length/2)];await p.evaluate(y=>scrollTo(0,y),midpoint.y);await wait(750);
       check(name+' reverse scroll reproduces the same scenery blend',(await state(p)).every((e,i)=>Math.abs(e.opacity-midpoint.layers[i].opacity)<.015));
       report.samples.push({name,samples});
-      await jump(p,'top');
+      await jump(p,name==='phone'?'departure':'top');
       await p.locator('[data-chapter="day-3"]').click();await wait(120);
       check(name+' distant navigation retains a frozen outgoing composition',await p.locator('.navigation-scene').count()===1);
       check(name+' navigation goes directly to destination scenery',(await state(p)).filter(i=>i.opacity>0).every(i=>i.id==='bluehour'));
@@ -93,7 +94,8 @@ async function shot(p,name) {
   const broken=await browser.newPage();
   broken.on('pageerror',e=>report.errors.push(e.stack));
   await broken.route('**/ridge_far_bluehour.webp',r=>r.fulfill({status:200,contentType:'image/webp',body:'invalid image fixture'}));
-  await broken.goto(base);await wait(1000);await jump(broken,'khe-cai',100);
+  await broken.goto(base);await broken.evaluate(()=>document.fonts.ready);await wait(1000);await jump(broken,'khe-cai',100);
+  await broken.waitForFunction(()=>document.querySelector('.scene-bluehour').dataset.ready==='true' && Number(document.querySelector('.scene-bluehour').style.opacity)===1 && document.querySelectorAll('.scene-catchup,.navigation-scene').length===0);
   check('failed optional cutout keeps an opaque blue-hour sky',visible(await state(broken))==='bluehour'&&await broken.locator('.scene-catchup,.navigation-scene').count()===0);
   await jump(broken,'fund');check('scrolling continues after failed artwork',visible(await state(broken))==='jade');await broken.close();
   const delayed=await browser.newPage();

@@ -54,23 +54,26 @@ async function checkCloudSupply(p,name) {
     clouds.forEach(({animation}) => animation.pause());
     await Promise.all(clouds.map(({animation}) => animation.ready));
     clouds.forEach(item => item.time = item.animation.currentTime);
-    let minimum = Infinity, covered = true;
+    let minimum = Infinity, maximum = 0, covered = true;
+    const compact = matchMedia('(max-width:767px), (max-height:520px) and (orientation:landscape)').matches;
     // Seek fifteen minutes of actual animation phases, including multiple
     // offscreen wraps. No wall-clock wait or production debug controls.
     for (let second = 0; second <= 900; second++) {
       clouds.forEach(({animation,time}) => { animation.currentTime = time + second * 1000; });
       const visible = clouds.map(({el}) => ({el,rect:el.getBoundingClientRect()})).filter(({rect:r}) => r.width && r.left < innerWidth && r.right > 0 && r.top < innerHeight && r.bottom > 0);
       minimum = Math.min(minimum,visible.length);
-      for (const lane of ['far','passing']) {
+      maximum = Math.max(maximum,visible.length);
+      for (const lane of compact ? [] : ['far','passing']) {
         const boxes = visible.filter(({el}) => el.parentElement.classList.contains('opening-cloud--' + lane)).map(({rect}) => rect);
         covered &&= [.1,.5,.9].every(point => boxes.some(box => box.left <= innerWidth * point && box.right >= innerWidth * point));
       }
     }
     clouds.forEach(({animation,time,running}) => { animation.currentTime = time; if (running) animation.play(); });
-    return {minimum,covered,count:clouds.length};
+    return {minimum,maximum,covered,count:clouds.length,compact};
   });
-  check(name+' replenishes clouds throughout fifteen minutes of animation',supply.minimum >= 6 && supply.covered);
-  check(name+' uses a bounded pool of staggered clouds',supply.count >= 15 && supply.count <= 18);
+  check(name+' replenishes clouds throughout fifteen minutes of animation',supply.minimum >= (supply.compact ? 2 : 6) && supply.covered);
+  if (supply.compact) check(name+' keeps a bounded mobile composition through every phase',supply.maximum <= 5);
+  check(name+' uses a bounded pool of staggered clouds',supply.compact ? supply.count === 5 : supply.count >= 15 && supply.count <= 18);
 }
 (async () => {
   browser = await chromium.launch();
