@@ -281,6 +281,26 @@ main,.footer { position: relative; z-index: 1; }
 .wheel-availability { margin-top: 12px; color: var(--accent); font-family: 'Patrick Hand',cursive; font-size: 1.15rem; }
 .wheel-fairness { max-width: 36ch; margin-top: 3px; font-size: .72rem; opacity: .85; }
 .wheel-dial.is-instant .wheel-rotor,.wheel-dial.is-instant .wheel-member-inner { transition: none; }
+/* Celebration stays inside the scenery's stack (0), beneath foreground (1).
+   The phone announcement uses 9, below the existing navigation controls (10). */
+.wheel-celebration { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.wheel-celebration-glow { position: absolute; left: var(--celebration-x); top: var(--celebration-y); width: clamp(360px,65vw,900px); aspect-ratio: 1.2; border-radius: 43% 57% 51% 49%; background: radial-gradient(ellipse at 40% 48%,rgb(238 161 90 / .25),transparent 62%),radial-gradient(ellipse at 63% 55%,rgb(232 178 153 / .19),transparent 60%); opacity: 0; }
+.wheel-confetti { position: absolute; left: var(--celebration-x); top: var(--celebration-y); width: 11px; height: 7px; border-radius: 1px 3px 2px 1px; background-image: url('./figures/scenery/painted/paper_grain.png'); background-blend-mode: soft-light; opacity: 0; }
+.wheel-confetti--ribbon { width: 6px; height: 19px; border-radius: 2px 1px 4px 2px; }
+.wheel-confetti--star { width: 19px; height: 23px; clip-path: polygon(50% 0,63% 36%,100% 50%,63% 64%,50% 100%,37% 64%,0 50%,37% 36%); }
+.wheel-celebration-cloud { position: absolute; left: var(--celebration-x); top: var(--celebration-y); width: 150px; height: auto; opacity: 0; }
+.wheel-winner-banner { position: fixed; z-index: 9; top: max(148px,calc(env(safe-area-inset-top) + 148px)); left: 50%; translate: -50% 0; width: max-content; max-width: calc(100% - 40px); min-width: 210px; padding: 12px 27px 16px; border: 1px solid rgb(238 161 90 / .55); border-radius: 45% 52% 42% 48% / 40% 48% 45% 50%; background: #f3e5c7; color: #173e48; box-shadow: 0 5px 12px rgb(7 27 33 / .18); text-align: center; font-family: 'Patrick Hand',cursive; line-height: 1.1; pointer-events: none; }
+.wheel-winner-banner::before,.wheel-winner-banner::after { content: ''; position: absolute; z-index: -1; background: #f3e5c7; border-radius: 50%; }
+.wheel-winner-banner::before { width: 52px; height: 32px; top: -12px; left: 18%; }
+.wheel-winner-banner::after { width: 65px; height: 37px; top: -16px; right: 18%; }
+.wheel-winner-banner > span { display: block; font-size: 1.1rem; }
+.wheel-winner-banner > strong { display: block; margin-top: 4px; font-weight: 400; font-size: 2rem; overflow-wrap: anywhere; }
+.is-celebrating .wheel-result-name::after { animation: wheel-winner-circle .65s ease-out both; }
+@keyframes wheel-winner-circle {
+  from { opacity: 0; transform: rotate(-12deg) scale(.78); }
+  to { opacity: 1; transform: rotate(-4deg) scale(1); }
+}
+@media (min-width: 768px) { .wheel-winner-banner { display: none; } }
 @media (max-width: 1023px) {
   .wheel-composition { gap: 30px; }
 }
@@ -295,6 +315,7 @@ main,.footer { position: relative; z-index: 1; }
   .wheel-result-name { font-size: 3.7rem; }
   .wheel-notes { padding-inline: 7px; }
   .wheel-scribble { top: -15px; font-size: 1rem; }
+  .wheel-celebration-cloud { width: 115px; }
 }
 .loom-band { height: 4px; background: repeating-linear-gradient(90deg,var(--accent) 0 3px,transparent 3px 7px,var(--accent) 7px 9px,transparent 9px 16px); opacity: .55; }
 .packing { display: grid; grid-template-columns: .9fr 1.1fr; gap: 35px 100px; }
@@ -499,6 +520,7 @@ main,.footer { position: relative; z-index: 1; }
   *,*::before,*::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
 @media print {
+  .wheel-celebration,.wheel-winner-banner { display: none !important; }
   .cloud-wheel { display: none; }
   .scroll-reveal.scroll-reveal { opacity: 1 !important; translate: none !important; rotate: none !important; }
   .fund-link,.fund-amount { background: transparent; box-shadow: none; border-color: currentColor; }

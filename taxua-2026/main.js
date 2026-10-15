@@ -172,6 +172,97 @@ function renderCrew() {
   document.getElementById('crewGrid').innerHTML = members.map(member => `<article class="member"><div class="avatar"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="${esc(member.name)}" loading="lazy" width="52" height="52">` : ''}</div><div><h3>${esc(member.name)}</h3><p>${esc(member.role)}</p></div></article>`).join('');
   document.querySelectorAll('.avatar img').forEach(img => img.addEventListener('error',() => img.remove()));
 }
+function createWheelCelebration(root,dial,result,name,copy,reduced) {
+  // Outside sceneLayers: navigation snapshots never clone a celebration.
+  const layer = document.createElement('div');
+  layer.className = 'wheel-celebration';
+  layer.setAttribute('aria-hidden','true');
+  layer.hidden = true;
+  document.getElementById('scenery')?.append(layer);
+  const banner = document.createElement('div');
+  banner.className = 'wheel-winner-banner';
+  banner.setAttribute('aria-hidden','true');
+  banner.hidden = true;
+  document.body.append(banner);
+  let animations = [];
+  let cleanup;
+  const smallScreen = matchMedia('(max-width: 767px)');
+  const motionAllowed = () => !reduced.matches && document.documentElement.dataset.motionPaused !== 'true';
+  const inView = element => {
+    const box = element.getBoundingClientRect();
+    return box.bottom > 145 && box.top < innerHeight && box.right > 0 && box.left < innerWidth;
+  };
+  function clear() {
+    clearTimeout(cleanup);
+    animations.forEach(animation => animation.cancel());
+    animations = [];
+    layer.replaceChildren();
+    layer.hidden = true;
+    banner.hidden = true;
+    result.classList.remove('is-celebrating');
+  }
+  function animate(element,frames,options) {
+    if (element.animate) animations.push(element.animate(frames,{fill:'both',...options}));
+  }
+  function play(winner) {
+    clear();
+    if (document.hidden || !inView(root)) return;
+    const mobile = smallScreen.matches;
+    if (mobile) {
+      banner.innerHTML = `<span>${esc(copy.celebration)}</span><strong>${esc(winner)}!</strong>`;
+      banner.hidden = false;
+    }
+    // The nearby phone announcement also works without decorative motion.
+    cleanup = setTimeout(clear,3600);
+    if (!motionAllowed() || !layer.animate) return;
+    const box = (inView(dial) ? dial : result).getBoundingClientRect();
+    const x = Math.max(30,Math.min(innerWidth - 30,box.left + box.width / 2));
+    const y = Math.max(190,Math.min(innerHeight - 90,box.top + box.height * .4));
+    layer.style.setProperty('--celebration-x',x + 'px');
+    layer.style.setProperty('--celebration-y',y + 'px');
+    layer.hidden = false;
+    result.classList.add('is-celebrating');
+    const glow = document.createElement('div');
+    glow.className = 'wheel-celebration-glow';
+    layer.append(glow);
+    animate(glow,[{opacity:0,transform:'translate(-50%,-50%) scale(.55)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)',offset:.25},{opacity:0,transform:'translate(-50%,-50%) scale(1.2)'}],{duration:3100,easing:'ease-out'});
+    const palette = ['#f3e5c7','#eea15a','#e8b299','#a9c4b1','#ffda9d'];
+    const count = mobile ? 18 : 32;
+    const spread = Math.min(760,innerWidth * .65);
+    for (let index = 0; index < count; index++) {
+      const piece = document.createElement('i');
+      piece.className = 'wheel-confetti' + (index % 5 === 0 ? ' wheel-confetti--star' : index % 3 === 0 ? ' wheel-confetti--ribbon' : '');
+      piece.style.backgroundColor = palette[index % palette.length];
+      layer.append(piece);
+      const direction = index / (count - 1) * 2 - 1;
+      const travel = direction * spread * (.65 + Math.random() * .35);
+      const lift = 100 + Math.random() * 180;
+      const fall = 80 + Math.random() * 210;
+      const turn = (index % 2 ? 1 : -1) * (120 + Math.random() * 250);
+      animate(piece,[{opacity:0,transform:'translate(-50%,-50%) scale(.3) rotate(0deg)'},{opacity:.95,transform:`translate(${travel * .48}px,${-lift}px) scale(1) rotate(${turn * .4}deg)`,offset:.28},{opacity:.8,transform:`translate(${travel * .85}px,${-lift * .15}px) scale(1) rotate(${turn * .8}deg)`,offset:.63},{opacity:0,transform:`translate(${travel}px,${fall}px) scale(.75) rotate(${turn}deg)`}],{duration:2450 + Math.random() * 550,delay:Math.random() * 150,easing:'linear'});
+    }
+    for (let index = 0; index < (mobile ? 2 : 3); index++) {
+      const cloud = document.createElement('img');
+      cloud.className = 'wheel-celebration-cloud';
+      cloud.src = './figures/scenery/painted/cloud_sky_puff.webp';
+      cloud.alt = '';
+      cloud.addEventListener('error',() => {cloud.hidden = true;},{once:true});
+      layer.append(cloud);
+      const direction = index % 2 ? 1 : -1;
+      const distance = (mobile ? 105 : 180) + index * 55;
+      animate(cloud,[{opacity:0,transform:`translate(${direction * 45 - 65}px,-20px) scale(.65)`},{opacity:.75,transform:`translate(${direction * distance - 65}px,-100px) scale(1)`,offset:.35},{opacity:0,transform:`translate(${direction * (distance + 65) - 65}px,-160px) scale(1.12)`}],{duration:2800,delay:index * 80,easing:'ease-out'});
+    }
+    animate(name,[{opacity:.4,transform:'translateY(8px) rotate(-4deg)'},{opacity:1,transform:'translateY(0) rotate(-2deg)'}],{duration:450,easing:'ease-out'});
+    if (mobile) animate(banner,[{opacity:0,transform:'translateY(10px) scale(.94)'},{opacity:1,transform:'translateY(0) scale(1)',offset:.12},{opacity:1,transform:'translateY(0) scale(1)',offset:.85},{opacity:0,transform:'translateY(-5px) scale(1)'}],{duration:3400,easing:'ease-out'});
+  }
+  if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) clear();
+  }).observe(root);
+  document.addEventListener('visibilitychange',() => { if (document.hidden) clear(); });
+  addEventListener('pagehide',clear);
+  addEventListener('resize',clear);
+  return {play,clear};
+}
 function initCloudWheel() {
   const root = document.getElementById('cloudWheel');
   const copy = TRIP_DATA.wheel;
@@ -229,6 +320,7 @@ function initCloudWheel() {
   const note = root.querySelector('.wheel-result-note');
   const availability = root.querySelector('.wheel-availability');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const celebration = createWheelCelebration(root,dial,result,name,copy,reduced);
   const used = new Set();
   let rotation = 0;
   let spinning = false;
@@ -289,13 +381,12 @@ function initCloudWheel() {
     // Keep the final result announcement even when this pick exhausts the round.
     kicker.textContent = copy.winner;
     note.textContent = eligible().length ? copy.winnerNote : copy.completeNote;
-    if (!reduced.matches && document.documentElement.dataset.motionPaused !== 'true') {
-      name.animate?.([{opacity:.4,transform:'translateY(8px) rotate(-4deg)'},{opacity:1,transform:'translateY(0) rotate(-2deg)'}],{duration:450,easing:'ease-out'});
-    }
+    celebration.play(members[lastWinner].name);
   }
   spin.addEventListener('click',() => {
     const pool = eligible();
     if (spinning || !pool.length) return;
+    celebration.clear();
     pending = pool[randomIndex(pool.length)];
     const offset = (randomIndex(1001) / 1000 - .5) * segment * .5;
     const target = ((-pending * segment - offset) % 360 + 360) % 360;
@@ -319,6 +410,7 @@ function initCloudWheel() {
     if (event.target === rotor && event.propertyName === 'transform') finishSpin();
   });
   const stopMotion = () => {
+    if (reduced.matches || document.documentElement.dataset.motionPaused === 'true') celebration.clear();
     if (spinning && (reduced.matches || document.documentElement.dataset.motionPaused === 'true')) {
       dial.classList.add('is-instant');
       finishSpin();
@@ -328,6 +420,7 @@ function initCloudWheel() {
   new MutationObserver(stopMotion).observe(document.documentElement,{attributes:true,attributeFilter:['data-motion-paused']});
   reset.addEventListener('click',() => {
     if (spinning) return;
+    celebration.clear();
     used.clear(); lastWinner = null;
     delete root.dataset.winner; delete root.dataset.winnerIndex;
     result.classList.remove('has-winner'); name.textContent = '?';

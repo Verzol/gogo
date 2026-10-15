@@ -102,6 +102,7 @@ const TRIP_DATA = {
     "waiting": "Mây đang chờ…",
     "waitingNote": "Mỗi đồng bọn một cơ hội. Chạm nút giữa vòng quay nhé.",
     "winner": "Mây gọi tên",
+    "celebration": "Mây gọi tên:",
     "winnerNote": "Nhân vật chính của lượt này đây rồi.",
     "complete": "Đủ một vòng đồng bọn!",
     "completeNote": "Ai cũng đã được mây gọi. Bắt đầu lại để mở lượt mới nhé.",
