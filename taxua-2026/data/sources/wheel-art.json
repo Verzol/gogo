@@ -1,0 +1,67 @@
+{
+  "source": "figures/raw/illustrated_scenery/wheel_component_sheet.png",
+  "originalFilename": "Watercolor Landscape Asset Sheet.png",
+  "sha256": "a5d835f466c26e31bb0cd6d47a1c75dea9b6c87fea987364e8e41de0d4d2eaf2",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "credit": "User-supplied generated artwork for this project.",
+  "processing": "Measured crops; largest connected alpha component; centered transparent padding; no upscaling.",
+  "components": [
+    {
+      "name": "wheel_rim",
+      "crop": [
+        0,
+        0,
+        720,
+        680
+      ],
+      "trim": [
+        35,
+        32,
+        671,
+        658
+      ],
+      "width": 652,
+      "height": 652,
+      "src": "figures/decor/painted/wheel_rim.webp"
+    },
+    {
+      "name": "wheel_pointer",
+      "crop": [
+        760,
+        100,
+        1200,
+        650
+      ],
+      "trim": [
+        48,
+        74,
+        381,
+        525
+      ],
+      "width": 349,
+      "height": 467,
+      "src": "figures/decor/painted/wheel_pointer.webp"
+    },
+    {
+      "name": "wheel_hub",
+      "crop": [
+        40,
+        680,
+        650,
+        1254
+      ],
+      "trim": [
+        48,
+        13,
+        571,
+        531
+      ],
+      "width": 539,
+      "height": 539,
+      "src": "figures/decor/painted/wheel_hub.webp"
+    }
+  ]
+}

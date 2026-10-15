@@ -172,6 +172,174 @@ function renderCrew() {
   document.getElementById('crewGrid').innerHTML = members.map(member => `<article class="member"><div class="avatar"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="${esc(member.name)}" loading="lazy" width="52" height="52">` : ''}</div><div><h3>${esc(member.name)}</h3><p>${esc(member.role)}</p></div></article>`).join('');
   document.querySelectorAll('.avatar img').forEach(img => img.addEventListener('error',() => img.remove()));
 }
+function initCloudWheel() {
+  const root = document.getElementById('cloudWheel');
+  const copy = TRIP_DATA.wheel;
+  const members = TRIP_DATA.members;
+  if (!root || !copy || !members.length) return;
+  const colors = ['#e8bf8f','#a9c4b1','#eacbb0','#a8c5cd','#c8d0a5','#b6c8bc','#e3d3ae'];
+  const segment = 360 / members.length;
+  const point = (angle,radius) => {
+    const radians = (angle - 90) * Math.PI / 180;
+    return [200 + Math.cos(radians) * radius,200 + Math.sin(radians) * radius];
+  };
+  const sectors = members.map((member,index) => {
+    const start = point(index * segment - segment / 2,145);
+    const end = point(index * segment + segment / 2,145);
+    const path = members.length === 1 ? '<circle cx="200" cy="200" r="145"/>' : `<path d="M200 200L${start.join(' ')}A145 145 0 ${segment > 180 ? 1 : 0} 1 ${end.join(' ')}Z"/>`;
+    return `<g class="wheel-sector" data-wheel-index="${index}" fill="${colors[index % colors.length]}">${path}</g>`;
+  }).join('');
+  root.innerHTML = `
+    <div class="wheel-heading"><p class="wheel-eyebrow">${esc(copy.eyebrow)}</p><h3 id="wheelTitle">${esc(copy.title)}</h3><p>${esc(copy.intro)}</p></div>
+    <div class="wheel-composition">
+      <div class="wheel-stage">
+        <span class="wheel-scribble" aria-hidden="true">để mây chọn giùm</span>
+        <div class="wheel-dial" id="wheelDial">
+          <div class="wheel-rotor-clip" aria-hidden="true"><div class="wheel-rotor">
+            <svg class="wheel-sectors" viewBox="0 0 400 400">${sectors}</svg>
+            <img class="wheel-rim" src="./figures/decor/painted/wheel_rim.webp" width="652" height="652" alt="" loading="lazy" decoding="async">
+            ${members.map((member,index) => {
+              const [x,y] = point(index * segment,99);
+              return `<span class="wheel-member" data-wheel-index="${index}" style="left:${x / 4}%;top:${y / 4}%"><span class="wheel-member-inner"><span class="wheel-initial">${esc(member.name.charAt(0).toUpperCase())}${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy">` : ''}</span><span class="wheel-name">${esc(member.name)}</span></span></span>`;
+            }).join('')}
+          </div></div>
+          <span class="wheel-pointer" aria-hidden="true"><img src="./figures/decor/painted/wheel_pointer.webp" width="349" height="467" alt="" loading="lazy"></span>
+          <button class="wheel-spin" type="button" aria-describedby="wheelAvailability"><img src="./figures/decor/painted/wheel_hub.webp" width="539" height="539" alt="" aria-hidden="true" loading="lazy"><span>${esc(copy.spin)}</span></button>
+        </div>
+      </div>
+      <div class="wheel-notes">
+        <div class="wheel-result" aria-live="polite" aria-atomic="true"><img class="wheel-result-cloud" src="./figures/scenery/painted/cloud_sky_puff.webp" width="498" height="298" alt="" aria-hidden="true" loading="lazy"><p class="wheel-result-kicker">${esc(copy.waiting)}</p><p class="wheel-result-name">?</p><p class="wheel-result-note">${esc(copy.waitingNote)}</p></div>
+        <fieldset class="wheel-participants"><legend>${esc(copy.participants)}</legend><div class="wheel-choices">${members.map((member,index) => `<label><input type="checkbox" data-wheel-person="${index}" checked><span>${esc(member.name)}</span></label>`).join('')}</div></fieldset>
+        <div class="wheel-options"><label class="wheel-repeat"><input type="checkbox" id="wheelNoRepeat"><span>${esc(copy.noRepeat)}</span></label><button class="wheel-reset" type="button">${esc(copy.reset)} <span aria-hidden="true">↺</span></button></div>
+        <p class="wheel-availability" id="wheelAvailability" aria-live="polite"></p>
+        <p class="wheel-fairness">${esc(copy.fairness)}</p>
+      </div>
+    </div>`;
+  const rotor = root.querySelector('.wheel-rotor');
+  const dial = root.querySelector('.wheel-dial');
+  const spin = root.querySelector('.wheel-spin');
+  const spinText = spin.querySelector('span');
+  const reset = root.querySelector('.wheel-reset');
+  const noRepeat = root.querySelector('#wheelNoRepeat');
+  const participants = root.querySelector('.wheel-participants');
+  const choices = Array.from(root.querySelectorAll('[data-wheel-person]'));
+  const result = root.querySelector('.wheel-result');
+  const kicker = root.querySelector('.wheel-result-kicker');
+  const name = root.querySelector('.wheel-result-name');
+  const note = root.querySelector('.wheel-result-note');
+  const availability = root.querySelector('.wheel-availability');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const used = new Set();
+  let rotation = 0;
+  let spinning = false;
+  let pending = null;
+  let timeout;
+  let lastWinner = null;
+  const randomIndex = count => {
+    if (window.crypto?.getRandomValues) {
+      const values = new Uint32Array(1);
+      const limit = Math.floor(2 ** 32 / count) * count;
+      do { crypto.getRandomValues(values); } while (values[0] >= limit);
+      return values[0] % count;
+    }
+    return Math.floor(Math.random() * count);
+  };
+  const eligible = () => choices.map((choice,index) => choice.checked && (!noRepeat.checked || !used.has(index)) ? index : -1).filter(index => index >= 0);
+  function update() {
+    const remaining = eligible();
+    const selected = choices.filter(choice => choice.checked).length;
+    // Keep keyboard focus on the action during a spin; click handling enforces
+    // aria-disabled without a native disabled toggle dropping focus to <body>.
+    spin.setAttribute('aria-disabled',String(spinning || !remaining.length));
+    reset.disabled = spinning;
+    participants.disabled = spinning;
+    noRepeat.disabled = spinning;
+    spinText.textContent = spinning ? copy.spinning : lastWinner === null ? copy.spin : copy.again;
+    availability.textContent = noRepeat.checked ? `${remaining.length} / ${selected} đồng bọn còn trong lượt` : `${remaining.length} đồng bọn trong vòng quay`;
+    root.querySelectorAll('[data-wheel-index]').forEach(el => {
+      const index = Number(el.dataset.wheelIndex);
+      el.classList.toggle('is-excluded',!remaining.includes(index));
+      el.classList.toggle('is-winner',!spinning && index === lastWinner);
+    });
+    choices.forEach((choice,index) => choice.closest('label').classList.toggle('was-picked',noRepeat.checked && used.has(index)));
+    root.classList.toggle('is-spinning',spinning);
+    root.classList.toggle('is-complete',!remaining.length && !!selected);
+    if (!spinning && !remaining.length) {
+      kicker.textContent = selected ? copy.complete : copy.empty;
+      note.textContent = selected ? copy.completeNote : copy.emptyNote;
+    } else if (!spinning && lastWinner === null) {
+      kicker.textContent = copy.waiting;
+      note.textContent = copy.waitingNote;
+    } else if (!spinning) {
+      kicker.textContent = copy.winner;
+      note.textContent = copy.winnerNote;
+    }
+  }
+  function finishSpin() {
+    if (!spinning) return;
+    clearTimeout(timeout);
+    spinning = false;
+    lastWinner = pending;
+    used.add(lastWinner);
+    root.dataset.winnerIndex = lastWinner;
+    root.dataset.winner = members[lastWinner].name;
+    result.classList.add('has-winner');
+    name.textContent = members[lastWinner].name;
+    update();
+    // Keep the final result announcement even when this pick exhausts the round.
+    kicker.textContent = copy.winner;
+    note.textContent = eligible().length ? copy.winnerNote : copy.completeNote;
+    if (!reduced.matches && document.documentElement.dataset.motionPaused !== 'true') {
+      name.animate?.([{opacity:.4,transform:'translateY(8px) rotate(-4deg)'},{opacity:1,transform:'translateY(0) rotate(-2deg)'}],{duration:450,easing:'ease-out'});
+    }
+  }
+  spin.addEventListener('click',() => {
+    const pool = eligible();
+    if (spinning || !pool.length) return;
+    pending = pool[randomIndex(pool.length)];
+    const offset = (randomIndex(1001) / 1000 - .5) * segment * .5;
+    const target = ((-pending * segment - offset) % 360 + 360) % 360;
+    rotation += (5 + randomIndex(3)) * 360 + (target - rotation % 360 + 360) % 360;
+    spinning = true;
+    delete root.dataset.winner;
+    delete root.dataset.winnerIndex;
+    result.classList.remove('has-winner');
+    kicker.textContent = copy.spinning;
+    name.textContent = '…';
+    note.textContent = 'Mây đang tìm một đồng bọn.';
+    const instant = reduced.matches || document.documentElement.dataset.motionPaused === 'true';
+    dial.classList.toggle('is-instant',instant);
+    update();
+    dial.style.setProperty('--wheel-turn',rotation + 'deg');
+    root.dataset.rotation = rotation;
+    if (instant) finishSpin();
+    else timeout = setTimeout(finishSpin,4900);
+  });
+  rotor.addEventListener('transitionend',event => {
+    if (event.target === rotor && event.propertyName === 'transform') finishSpin();
+  });
+  const stopMotion = () => {
+    if (spinning && (reduced.matches || document.documentElement.dataset.motionPaused === 'true')) {
+      dial.classList.add('is-instant');
+      finishSpin();
+    }
+  };
+  reduced.addEventListener('change',stopMotion);
+  new MutationObserver(stopMotion).observe(document.documentElement,{attributes:true,attributeFilter:['data-motion-paused']});
+  reset.addEventListener('click',() => {
+    if (spinning) return;
+    used.clear(); lastWinner = null;
+    delete root.dataset.winner; delete root.dataset.winnerIndex;
+    result.classList.remove('has-winner'); name.textContent = '?';
+    update();
+  });
+  noRepeat.addEventListener('change',() => { used.clear(); update(); });
+  participants.addEventListener('change',update);
+  root.querySelectorAll('.wheel-initial img').forEach(img => img.addEventListener('error',() => img.remove()));
+  root.querySelectorAll('.wheel-rim,.wheel-pointer img,.wheel-spin > img').forEach(img => img.addEventListener('error',() => {img.hidden = true;}));
+  update();
+  root.hidden = false;
+}
 function renderPacking() {
   const p = TRIP_DATA.packingList;
   const key = 'taxua-2026-packing';
@@ -350,7 +518,7 @@ const JourneyUI = (() => {
 })();
 function boot() {
   renderDays(); renderFund(); renderCrew(); renderPacking(); renderSupportingContent();
-  initArrivalCountdown();
+  initArrivalCountdown(); initCloudWheel();
   initScrapbook(); initNav();
   JourneyUI.initBackgrounds(); JourneyUI.startFallback();
 }

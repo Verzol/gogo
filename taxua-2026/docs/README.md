@@ -11,7 +11,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Schedule, place descriptions, notes/photos, packing, destinations, food and costs | [Travel story](story.md) |
 | Illustrated worlds, chapter mapping, cutouts and scenery preparation | [Scenery](scenery.md) |
 | Scroll reveals, background dissolves, navigation, gestures and spacing | [Motion](motion.md) |
-| Hero 7+1, crew, arrival countdown and MoMo invitation | [Group features](group.md) |
+| Hero 7+1, crew, member wheel, arrival countdown and MoMo invitation | [Group features](group.md) |
 | Logo, fonts, stickers, icon sprite and licenses | [Identity](identity.md) |
 | Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
 | Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |

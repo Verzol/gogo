@@ -28,6 +28,10 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 - Regeneration/style prompt: [Sticker prompts](prompts/stickers.md). The extraction helper needs Pillow, NumPy and SciPy; it keeps day PNG pixels and normalizes both WebP canvases to equal apparent size.
 - New painted bus/coffee/backpack/headlamp stickers use `figures/decor/painted/` and the [illustrated pipeline](scenery.md), not the paired-sheet extractor.
 
+## Member wheel artwork
+
+The member wheel uses separate painted rim, pointer and blank hub assets, combined with code-rendered sectors and live labels. Its original, preparation helper and provenance are documented in [Group features](group.md#vòng-quay-trên-mây); the [wheel prompt](prompts/wheel.md) preserves the generation brief. Keep the artwork's transparent interior and measured alignment; do not flatten labels into a raster image.
+
 ## Lucide icons and libraries
 
 - 32 official Lucide 1.23.0 icons are inline symbols `#trip-<name>` in `index.html`. `icon()` and static navigation reference the same-document sprite, including under `file://`.

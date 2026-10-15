@@ -8,6 +8,7 @@
 | --- | --- | --- |
 | Hero mystery | `TRIP_DATA.hero`, `subtitle`, `members` | `index.html`, `main.js:renderCrew`, `style.css` |
 | Crew | `TRIP_DATA.members` | `renderCrew`, `#crewGrid`, `.crew-grid` |
+| Member wheel | `TRIP_DATA.members`, `TRIP_DATA.wheel` | `initCloudWheel`, `#cloudWheel`, `.wheel-*`; `motion.js` outer reveals |
 | Trip-day forecast | `TRIP_DATA.weather`, arrival day onward | `weather.js`, `weather.css`; [behavior](weather.md) |
 | Arrival clock | `TRIP_DATA.countdown` and block `id:"arrival"` | `initArrivalCountdown`, `countdown.css` |
 | Fund | `TRIP_DATA.fund` | `renderFund`, `#fund`, `.fund-*`, `motion.js` reveals |
@@ -19,6 +20,20 @@
 - Keep “Cuộn xuống để biết” discoverable before the countdown on phones. The circled +1/question mark teases the later reveal.
 - Crew shows “Đồng bọn (7 mống)” before the fund introduction. Order is `#itinerary` → `#crew` → `#fund` → `#packing`.
 - Optional `members[i].image` enables a portrait; otherwise show initials without missing-image requests. Update hero fallback/footer counts in `index.html` if the roster changes.
+
+## Vòng quay trên mây
+
+- Lives below the roster **inside `#crew`**, keeping crew → fund → packing and the morning/jade world. Seven real travelers participate; the fund pig is not a candidate.
+- `TRIP_DATA.members` supplies names, optional portraits and segment count; `TRIP_DATA.wheel` supplies Vietnamese copy. Initials work without portrait files. HTML participant checkboxes also provide the accessible names; decorative wheel labels are hidden from screen readers.
+- Each checked, eligible person has the same chance. `crypto.getRandomValues` with rejection sampling chooses a member, then a landing point safely inside that member's equal SVG sector; `Math.random` is the fallback. No ten-person cap or fixed ten-sector gradient.
+- Everyone is included initially; repeat picks are allowed by default. **Không lặp trong lượt** removes each winner from the eligible pool until **Bắt đầu lại**. Changing repeat mode clears the used pool. Participant selections survive a round reset; all state is page-local and resets on reload. Unavailable people remain visible with muted/crossed-out labels.
+- A full round keeps its final winner visible and offers restart; selecting nobody explains how to recover. Changes/reset are locked while spinning. `aria-disabled` keeps keyboard focus on the spin button; the event handler prevents additional spins. Results use a polite, atomic live region.
+- A native 4.6-second transform transition spins only the rotor; matching inverse rotations keep labels upright. `transitionend` completes the result, with a 4.9-second recovery timer. Reduced motion and the decorative-motion pause settle immediately, including when enabled during a spin.
+- `.wheel-stage` / `.wheel-notes` own scroll reveals, independently of rotor transforms. A circular clipping wrapper contains rotated bounds on phones. Print omits this interactive feature; the standalone itinerary stays unchanged. No backend, storage, GSAP or HTTP dependency.
+- Artwork: supplied sheet renamed without changing bytes to `figures/raw/illustrated_scenery/wheel_component_sheet.png`. Runtime rim/pointer/hub WebPs and retained PNGs live in `figures/decor/painted/`. Measured crops, source filename, dimensions and hash are in `data/sources/wheel-art.json`.
+- Re-extract using `python3 scripts/prepare_wheel_art.py` (Pillow, NumPy, SciPy). It retains the largest connected alpha component, centers transparent padding, and never upscales. New uploads cannot overwrite an existing original. [Generation brief](prompts/wheel.md).
+
+Run `node scripts/verify_wheel.cjs` for selection/round rules, pointer agreement, keyboard focus, animation/resize, phone layouts, print and failure modes. Evidence defaults to `/tmp/taxua-wheel-review`; override with `TRIP_REVIEW_DIR`.
 
 ## Arrival countdown
 

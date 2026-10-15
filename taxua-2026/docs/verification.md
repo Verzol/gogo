@@ -36,6 +36,7 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 | `verify_artwork.cjs` | Fixed-period stickers/icons and rapid swaps | `reveals/artwork-checks.json` |
 | `verify_countdown.cjs` | Arrival target, clock, timezones and reduced motion | `countdown/` |
 | `verify_fund.cjs` | Section order, exact amount/link, focus and reveals | `fund/` |
+| `verify_wheel.cjs` | Member wheel, eligibility, no-repeat rounds, pointer/result agreement, motion and fallbacks | `/tmp/taxua-wheel-review/` by default; `TRIP_REVIEW_DIR` overrides |
 
 Helpers write screenshots/reports/videos into the worktree. Run sequentially when they share output folders; inspect generated diffs and retain only intended evidence. Fixed 24-event/18-guide counts, source rows, arrival target and section order are intentional fixtures; update only alongside an approved content change.
 

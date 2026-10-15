@@ -89,6 +89,26 @@ const TRIP_DATA = {
       "role": "Đồng bọn săn mây"
     }
   ],
+  "wheel": {
+    "eyebrow": "Một vòng cho cả hội",
+    "title": "Vòng quay trên mây",
+    "intro": "Hôm nay mây gọi ai? Quay một vòng, chọn một đồng bọn.",
+    "spin": "Quay nào",
+    "spinning": "Đang quay…",
+    "again": "Quay nữa",
+    "participants": "Ai có mặt?",
+    "noRepeat": "Không lặp trong lượt",
+    "reset": "Bắt đầu lại",
+    "waiting": "Mây đang chờ…",
+    "waitingNote": "Mỗi đồng bọn một cơ hội. Chạm nút giữa vòng quay nhé.",
+    "winner": "Mây gọi tên",
+    "winnerNote": "Nhân vật chính của lượt này đây rồi.",
+    "complete": "Đủ một vòng đồng bọn!",
+    "completeNote": "Ai cũng đã được mây gọi. Bắt đầu lại để mở lượt mới nhé.",
+    "empty": "Mây chưa thấy ai cả.",
+    "emptyNote": "Chọn ít nhất một đồng bọn để quay nhé.",
+    "fairness": "Cơ hội như nhau cho những người còn trong lượt."
+  },
   "packingList": {
     "title": "Đóng gói trước khi lên núi",
     "note": "Trên đỉnh sáng sớm có thể xuống dưới 10°C, gió mạnh. Mặc nhiều lớp.",
