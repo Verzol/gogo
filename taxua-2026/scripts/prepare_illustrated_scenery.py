@@ -31,6 +31,11 @@ SOURCES = {
   'celestial_sheet': 'Watercolor Celestial Sticker Set.png',
   'environment_sheet': 'Watercolor Landscape Cutout Collection.png',
   'travel_sticker_sheet': 'Watercolor Travel Sticker Collection.png',
+  'cloud_hero_left': 'Watercolor Cumulus Cloud Cluster.png',
+  'cloud_hero_right': 'Watercolor Cloud Cluster PNG.png',
+  'cloud_sea_far': 'Dreamy Watercolor Cloud Bank.png',
+  'cloud_transition_near': 'Panoramic Watercolor Cloud Bank.png',
+  'cloud_overcast': 'Watercolor Storm Cloud Cutout.png',
 }
 # Measured against the supplied sheets, not the prompt's ideal grid. Bus crosses
 # the nominal half-column boundary; hut/rock edges also need distinct crops.
@@ -108,9 +113,11 @@ def main():
   for name, upload in SOURCES.items():
     destination = ORIGINALS / (name + '.png')
     original = RAW / upload
-    if original.exists():
-      if destination.exists():
+    if original.exists() or original.is_symlink():
+      if destination.exists() or destination.is_symlink():
         raise FileExistsError(destination)
+      if original.is_symlink():
+        raise ValueError(f'Expected a regular upload: {original}')
       shutil.move(original, destination)
     with Image.open(destination) as source:
       image = source.convert('RGBA')
@@ -121,6 +128,14 @@ def main():
       'width': image.width, 'height': image.height,
       'rights': 'User-generated artwork supplied for this project',
     }
+    if name.startswith('cloud_') and name != 'cloud_sheet':
+      # Preserve the supplied canvas and alpha; scale pixels down only.
+      for suffix, width in [('', 1440 if 'sea_' in name or 'transition_' in name else 1152),
+                            ('_phone', 780 if 'sea_' in name or 'transition_' in name else 640)]:
+        piece = clean(image)
+        piece.thumbnail((width, width), Image.Resampling.LANCZOS)
+        write(piece, name + suffix, SCENERY, manifest['assets'], name)
+      continue
     if name.startswith('concept_'):
       # Reference compositions are retained at their native size and are not
       # loaded as live full-screen backgrounds.
@@ -158,6 +173,14 @@ def main():
     'path': str(grain_path.relative_to(ROOT)), 'width': 256, 'height': 256,
     'seed': 2026, 'sha256': hashlib.sha256(grain_path.read_bytes()).hexdigest(),
   }}
+  manifest['authored'] = {}
+  for name, width, height in [('weather_rain', 200, 80), ('weather_snow', 280, 180)]:
+    tile = SCENERY / (name + '.svg')
+    manifest['authored'][name] = {
+      'path': str(tile.relative_to(ROOT)), 'width': width, 'height': height,
+      'sha256': hashlib.sha256(tile.read_bytes()).hexdigest(),
+      'source': 'Locally authored vector precipitation tile; no external image source',
+    }
   (ROOT / 'data/sources/illustrated-scenery.json').write_text(
     json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
   print(f"Organized {len(manifest['sources'])} originals; prepared {len(manifest['assets'])} web assets.")

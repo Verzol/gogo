@@ -43,7 +43,7 @@ Live worlds: **sunrise, night, bluehour, daylight, jade, afternoon**. Four full 
 
 ## Artwork pipeline
 
-- Originals: `figures/raw/illustrated_scenery/` (14 files). Hashes, upload names, native dimensions, measured crops and outputs: `data/sources/illustrated-scenery.json`.
+- Originals: `figures/raw/illustrated_scenery/` (19 files, including the five opening/weather clouds). Hashes, upload names, native dimensions, measured crops and outputs: `data/sources/illustrated-scenery.json`.
 - Derivatives: `figures/scenery/painted/` and `figures/decor/painted/`; PNG preserves alpha, WebP serves the page. Terrain includes night/bluehour variants; paper grain is locally seeded.
 - Prompts and sheet map: [Illustrated prompts and sheet map](prompts/illustrated_scenery/README.md). Large scenes/terrain have separate prompts; small related objects share sheets.
 - Run `python3 scripts/prepare_illustrated_scenery.py` from `taxua-2026/` (Pillow + NumPy). It can organize new named uploads from `figures/raw/`; existing canonical originals are not overwritten.
@@ -51,3 +51,7 @@ Live worlds: **sunrise, night, bluehour, daylight, jade, afternoon**. Four full 
 - Archived `figures/backgrounds/` B01–B05 and `figures/scenery/c*` assets are not live scenery; retain provenance without restoring them.
 
 Validate with `verify_illustrated_scenery.cjs`, then motion/reveal checks for framing or chapter changes. See [verification](verification.md).
+
+## Cloud opening and weather
+
+The opening has a separate painted cloud composition and measured terrain depth wrappers. Weather accents never write base-panel opacity. Ambient movement uses independent transforms and runs only on visible story panels; navigation snapshots freeze their computed pose and weather blend. The opening clears during descent. See [Sky and weather](weather.md) for assets, dates, input and cache behavior.

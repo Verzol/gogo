@@ -23,10 +23,11 @@ The website also opens via `file://`. There is no build, npm test suite, backend
 
 Run from `taxua-2026/`: `node scripts/<script below>`. Helpers default to the existing Playwright package in `../hue-2026/node_modules/playwright` and require Chromium installed for it. Override with an **absolute** `PLAYWRIGHT_PATH=/path/to/node_modules/playwright` if needed.
 
-Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-2026/`. Only the illustrated helper supports `TRIP_PREVIEW_URL`; do not assume a global URL override.
+Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-2026/`. The illustrated and weather helpers support `TRIP_PREVIEW_URL`; do not assume a global URL override. Journey/scenery/motion/reveals/countdown helpers accept `TRIP_REVIEW_DIR` as a complete output-directory override; weather uses `WEATHER_REVIEW_DIR`.
 
 | Script | Use after changing | Evidence written under `review/` |
 | --- | --- | --- |
+| `verify_weather.cjs` | Cloud opening, weather data/cache, previews, date eligibility and fallbacks | `sky-weather/` |
 | `verify_journey.cjs` | Schedule fidelity, photos, controls, responsive/fallback behavior | `browser-checks.json`, root screenshots/gallery |
 | `verify_story.cjs` | 18 place guides, reading copy, chapter holds and pacing | `story/` |
 | `verify_illustrated_scenery.cjs` | Layer decoding, worlds, phase correctness, framing and blends | `illustrated/` |

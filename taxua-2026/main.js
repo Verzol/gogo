@@ -37,7 +37,7 @@ function initArrivalCountdown() {
       const value = String(values[index]).padStart(2,'0');
       if (number.textContent === value) return;
       number.textContent = value;
-      if (initialized && !reduceMotion.matches && number.animate) {
+      if (initialized && !reduceMotion.matches && document.documentElement.dataset.motionPaused !== 'true' && number.animate) {
         number.getAnimations().forEach(animation => animation.cancel());
         number.animate([{opacity:.55,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}], {
           duration:320,easing:'cubic-bezier(.2,.7,.2,1)'
@@ -308,6 +308,7 @@ const JourneyUI = (() => {
     const cursor = scrollY + innerHeight * .46;
     let index = 0;
     all.forEach((el,i) => { if (el.getBoundingClientRect().top + scrollY <= cursor) index = i; });
+    if (scrollY < JourneyScenery.openingBounds().clear) index = 0;
     const element = all[index];
     const next = all[index + 1];
     const start = element.getBoundingClientRect().top + scrollY;
@@ -316,6 +317,7 @@ const JourneyUI = (() => {
     const key = element.id + ':' + phase;
     if (key !== lastKey) { lastKey = key; applyScene(element,phase); }
     document.querySelector('.chapter-progress').style.setProperty('--progress',scrollY / Math.max(1,document.documentElement.scrollHeight - innerHeight));
+    JourneyScenery.drift(scrollY);
   }
   function queueFallback() { if (!frame) frame = requestAnimationFrame(syncFallback); }
   function startFallback() {

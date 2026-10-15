@@ -6,7 +6,7 @@ const path = require('path');
 const assert = require('assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_PATH || '../../hue-2026/node_modules/playwright');
 const root = path.resolve(__dirname,'..');
-const output = path.join(root,'review');
+const output = process.env.TRIP_REVIEW_DIR || path.join(root,'review');
 fs.mkdirSync(output,{recursive:true});
 const manifest = JSON.parse(fs.readFileSync(path.join(root,'data/sources/selected-place-photos.json'),'utf8').replace(/^\uFEFF/,''));
 const schedule = JSON.parse(fs.readFileSync(path.join(root,'data/sources/schedule.json'),'utf8')).values;

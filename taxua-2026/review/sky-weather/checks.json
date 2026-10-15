@@ -1,0 +1,267 @@
+{
+  "checkedAt": "2026-10-15T15:04:34.079Z",
+  "checks": [
+    "three trip dates, not departure or a rolling forecast",
+    "requests only the eligible dates in Vietnam time",
+    "response temperatures and precipitation probability appear",
+    "cold clear day cools the light without snow",
+    "rain has moving streaks",
+    "snow code produces flakes",
+    "weather details do not move the countdown",
+    "hover does not change chapter, hash or request count",
+    "click holds a preview",
+    "Escape restores the opening",
+    "keyboard focus previews weather",
+    "Space holds focused day",
+    "visible reset clears the held date",
+    "pause freezes cloud and sticker loops",
+    "pause also freezes the rain fields",
+    "anchor travel clears weather and particles",
+    "all six story worlds still decode",
+    "terrain descent reverses at the same physical position",
+    "cloud opening clears at the story handoff",
+    "phone no horizontal overflow",
+    "phone forecast and clock do not overlap",
+    "phone all date buttons have usable touch targets",
+    "phone tap holds rain without navigating",
+    "scrolling out of the hero clears touch weather",
+    "narrow no horizontal overflow",
+    "narrow forecast and clock do not overlap",
+    "narrow all date buttons have usable touch targets",
+    "tablet no horizontal overflow",
+    "tablet forecast and clock do not overlap",
+    "tablet all date buttons have usable touch targets",
+    "wide no horizontal overflow",
+    "wide forecast and clock do not overlap",
+    "wide all date buttons have usable touch targets",
+    "landscape no horizontal overflow",
+    "landscape forecast and clock do not overlap",
+    "landscape all date buttons have usable touch targets",
+    "all-null weather stays unavailable",
+    "rime fog does not snow",
+    "freezing rain uses rain, not flakes",
+    "unknown weather uses a neutral label and cloud",
+    "offline keeps the journal readable",
+    "offline offers retry without fabricated temperatures",
+    "timeout keeps the journal readable",
+    "timeout offers retry without fabricated temperatures",
+    "400 keeps the journal readable",
+    "400 offers retry without fabricated temperatures",
+    "429 keeps the journal readable",
+    "429 offers retry without fabricated temperatures",
+    "500 keeps the journal readable",
+    "500 offers retry without fabricated temperatures",
+    "malformed keeps the journal readable",
+    "malformed offers retry without fabricated temperatures",
+    "denied storage keeps the journal readable",
+    "missing API dates stay independently unavailable",
+    "missing optional weather art retains the sky and forecast",
+    "late cloud decoding cannot restore an older preview",
+    "before horizon keeps three dates visible",
+    "before horizon bounds the request dates",
+    "partial horizon keeps three dates visible",
+    "partial horizon bounds the request dates",
+    "partial past keeps three dates visible",
+    "partial past bounds the request dates",
+    "after trip keeps three dates visible",
+    "after trip bounds the request dates",
+    "eligibility follows Vietnam date across timezones",
+    "an open page retires yesterday at Vietnam midnight",
+    "fresh cache avoids another request",
+    "failed refresh labels saved forecast explicitly",
+    "cache older than 24 hours is discarded",
+    "corrupt cache is tolerated",
+    "reduced motion retains forecast and all events",
+    "reduced motion stops cloud and rain loops",
+    "reduced motion print omits forecast and scenery",
+    "missing GSAP retains forecast and all events",
+    "missing GSAP print omits forecast and scenery",
+    "direct file retains forecast and all events",
+    "direct file print omits forecast and scenery",
+    "late forecast never activates a scene below the hero",
+    "arrival of forecast values does not move the clock",
+    "no uncaught page errors"
+  ],
+  "errors": [],
+  "screenshots": [
+    "desktop-opening.png",
+    "desktop-cold-clear.png",
+    "desktop-rain.png",
+    "desktop-snow.png",
+    "desktop-descent.png",
+    "desktop-story.png",
+    "phone-opening.png",
+    "phone-rain.png",
+    "narrow-opening.png",
+    "tablet-opening.png",
+    "wide-opening.png",
+    "landscape-opening.png"
+  ],
+  "requests": [
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-23",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-24",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-24",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    },
+    {
+      "start": "2026-10-23",
+      "end": "2026-10-25",
+      "timezone": "Asia/Ho_Chi_Minh"
+    }
+  ]
+}

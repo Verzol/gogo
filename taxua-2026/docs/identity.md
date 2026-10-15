@@ -30,7 +30,7 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 
 ## Lucide icons and libraries
 
-- 22 official Lucide 1.23.0 icons are inline symbols `#trip-<name>` in `index.html`. `icon()` and static navigation reference the same-document sprite, including under `file://`.
+- 32 official Lucide 1.23.0 icons are inline symbols `#trip-<name>` in `index.html`. `icon()` and static navigation reference the same-document sprite, including under `file://`.
 - Add icon names in `scripts/prepare_icons.cjs`, then run `node scripts/prepare_icons.cjs` from `taxua-2026/`. Preserve official geometry rather than hand-editing paths.
 - `vendor/lucide-1.23.0.min.js` is preparation-only; visitors do not download the full bundle. Archived Tabler symbols in `figures/icons/` / `figures/scenery/` are unused.
 - Local GSAP/ScrollTrigger 3.15.0 enhance motion. Versions, checksums and licenses: [Library versions and licenses](vendor.md). GSAP Standard License, Lucide ISC, legacy Tabler MIT and font OFLs must stay with the assets.

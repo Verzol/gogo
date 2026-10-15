@@ -52,3 +52,21 @@ Per-photo original/stored-copy URLs, credits and rights are in `selected-place-p
 2. Read the named schedule range/catalog tabs and selected JSON. Compare changes before replacing local snapshots; preserve website-specific approved copy and current logo/scenery decisions.
 3. Download original bytes from recorded originals/stored-copy URLs; previews can be resized. Match preview images by guide heading, not `imageN` order. Keep credentials and expiring download URLs out of the repo.
 4. Update `data.js`/selection records, regenerate affected derivatives and `itinerary.html`, then run the relevant [checks](verification.md). Record the refresh date here.
+
+## Sky and weather UI research: 15 October 2026
+
+Research for the [sky opening and trip-day weather plan](sky-weather-plan.md), with an [artwork brief](prompts/sky_weather.md). The feature is now implemented; current behavior is described in [Sky and weather](weather.md). The smoke results below remain dated research evidence.
+
+| Primary source | Finding used in the plan |
+| --- | --- |
+| [Open-Meteo Forecast API](https://open-meteo.com/en/docs) | Daily fields, WMO codes, up-to-16-day horizon, date/timezone handling, grid-cell coordinates and elevation downscaling. Daily weather code represents the most severe condition that day. |
+| [Open-Meteo terms](https://open-meteo.com/en/terms) and [pricing](https://open-meteo.com/en/pricing) | The free endpoint is for non-commercial use, with attribution and request limits. Cache requests and treat weather as optional. |
+| [Open-Meteo project and attribution guidance](https://github.com/open-meteo/open-meteo#terms--privacy) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Place a visible provider credit/link alongside the weather display, with accessible data-license attribution. |
+| [Tà Xùa on Apple Maps](https://maps.apple.com/place?auid=5952950460681155788) | Regional location reference: 21.27516 N, 104.43396 E, Bắc Yên, Sơn La. This is not an exact homestay or summit pin. |
+| [web.dev animation performance guide](https://web.dev/articles/animations-guide) | Prefer transform/opacity; inspect rendering/paint work and use layer promotion sparingly. |
+| [GSAP matchMedia documentation](https://gsap.com/docs/v3/GSAP/gsap.matchMedia()/) | Revert/clean up animations and listeners on breakpoint/preference changes; compatible with the current optional motion architecture. |
+| [MDN reduced motion](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) and [W3C pause/stop/hide guidance](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | Provide static/minimal alternatives and a usable way to pause decorative motion that continues while reading. |
+
+Live browser smoke checks on this date requested `2026-10-23` through `2026-10-25` with `timezone=Asia/Ho_Chi_Minh`, Celsius, km/h and the plan's daily variables. The HTTP-origin request returned status 200, all three dates and no null values in the requested daily arrays. Returned model cell: 21.335676 N, 104.40367 E; elevation 1,538m; UTC offset 25,200 seconds. A direct-file-origin request for the daily code and temperature range also returned 200 for all three dates. These checks establish current access and response shape, not forecast accuracy or a guarantee of future availability. Forecast values were not copied into trip content.
+
+The composition storyboard in `docs/research/sky_weather_storyboard.webp` reuses local painted scenery for planning. It is not newly generated artwork, a screenshot of a completed redesign or a live forecast.

@@ -5,7 +5,7 @@ const path = require('path');
 const assert = require('assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_PATH || '../../hue-2026/node_modules/playwright');
 const root = path.resolve(__dirname,'..');
-const output = path.join(root,'review','reveals');
+const output = process.env.TRIP_REVIEW_DIR || path.join(root,'review','reveals');
 fs.mkdirSync(output,{recursive:true});
 const report = {checkedAt:new Date().toISOString(),checks:[],samples:{},videos:[],errors:[]};
 const check = (name,value) => {assert(value,name);report.checks.push(name);};

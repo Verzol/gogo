@@ -111,6 +111,46 @@
       "width": 1254,
       "height": 1254,
       "rights": "User-generated artwork supplied for this project"
+    },
+    "cloud_hero_left": {
+      "uploadFilename": "Watercolor Cumulus Cloud Cluster.png",
+      "path": "figures/raw/illustrated_scenery/cloud_hero_left.png",
+      "sha256": "a68dcce1929cb05da124d7754c26f486fc70c6719a29ea715315420915e3e935",
+      "width": 1774,
+      "height": 887,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "cloud_hero_right": {
+      "uploadFilename": "Watercolor Cloud Cluster PNG.png",
+      "path": "figures/raw/illustrated_scenery/cloud_hero_right.png",
+      "sha256": "d6d010c7abe28b027c81b061f2fa9fa09b069b108b8550b91a41116d5d0b1ab3",
+      "width": 1774,
+      "height": 887,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "cloud_sea_far": {
+      "uploadFilename": "Dreamy Watercolor Cloud Bank.png",
+      "path": "figures/raw/illustrated_scenery/cloud_sea_far.png",
+      "sha256": "c6cb338ee64991c61cc4926999a5162594444bea86a1185902d2e43160262bd2",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "cloud_transition_near": {
+      "uploadFilename": "Panoramic Watercolor Cloud Bank.png",
+      "path": "figures/raw/illustrated_scenery/cloud_transition_near.png",
+      "sha256": "5b1fb149937b281538b22e63def45e7ecc41b963bfd642e4371eae7597fd1579",
+      "width": 2172,
+      "height": 724,
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "cloud_overcast": {
+      "uploadFilename": "Watercolor Storm Cloud Cutout.png",
+      "path": "figures/raw/illustrated_scenery/cloud_overcast.png",
+      "sha256": "fab3f2ba4e3a4667c469314d6cd2af015df7289f6a5404b5c05c6b24266e0d35",
+      "width": 1774,
+      "height": 887,
+      "rights": "User-generated artwork supplied for this project"
     }
   },
   "assets": {
@@ -499,6 +539,96 @@
       "png": "figures/decor/painted/backpack_sticker.png",
       "src": "figures/decor/painted/backpack_sticker.webp",
       "bytes": 101610
+    },
+    "cloud_hero_left": {
+      "source": "cloud_hero_left",
+      "crop": null,
+      "width": 1152,
+      "height": 576,
+      "png": "figures/scenery/painted/cloud_hero_left.png",
+      "src": "figures/scenery/painted/cloud_hero_left.webp",
+      "bytes": 110064
+    },
+    "cloud_hero_left_phone": {
+      "source": "cloud_hero_left",
+      "crop": null,
+      "width": 640,
+      "height": 320,
+      "png": "figures/scenery/painted/cloud_hero_left_phone.png",
+      "src": "figures/scenery/painted/cloud_hero_left_phone.webp",
+      "bytes": 36934
+    },
+    "cloud_hero_right": {
+      "source": "cloud_hero_right",
+      "crop": null,
+      "width": 1152,
+      "height": 576,
+      "png": "figures/scenery/painted/cloud_hero_right.png",
+      "src": "figures/scenery/painted/cloud_hero_right.webp",
+      "bytes": 102410
+    },
+    "cloud_hero_right_phone": {
+      "source": "cloud_hero_right",
+      "crop": null,
+      "width": 640,
+      "height": 320,
+      "png": "figures/scenery/painted/cloud_hero_right_phone.png",
+      "src": "figures/scenery/painted/cloud_hero_right_phone.webp",
+      "bytes": 33896
+    },
+    "cloud_sea_far": {
+      "source": "cloud_sea_far",
+      "crop": null,
+      "width": 1440,
+      "height": 480,
+      "png": "figures/scenery/painted/cloud_sea_far.png",
+      "src": "figures/scenery/painted/cloud_sea_far.webp",
+      "bytes": 73198
+    },
+    "cloud_sea_far_phone": {
+      "source": "cloud_sea_far",
+      "crop": null,
+      "width": 780,
+      "height": 260,
+      "png": "figures/scenery/painted/cloud_sea_far_phone.png",
+      "src": "figures/scenery/painted/cloud_sea_far_phone.webp",
+      "bytes": 25772
+    },
+    "cloud_transition_near": {
+      "source": "cloud_transition_near",
+      "crop": null,
+      "width": 1440,
+      "height": 480,
+      "png": "figures/scenery/painted/cloud_transition_near.png",
+      "src": "figures/scenery/painted/cloud_transition_near.webp",
+      "bytes": 79164
+    },
+    "cloud_transition_near_phone": {
+      "source": "cloud_transition_near",
+      "crop": null,
+      "width": 780,
+      "height": 260,
+      "png": "figures/scenery/painted/cloud_transition_near_phone.png",
+      "src": "figures/scenery/painted/cloud_transition_near_phone.webp",
+      "bytes": 26870
+    },
+    "cloud_overcast": {
+      "source": "cloud_overcast",
+      "crop": null,
+      "width": 1152,
+      "height": 576,
+      "png": "figures/scenery/painted/cloud_overcast.png",
+      "src": "figures/scenery/painted/cloud_overcast.webp",
+      "bytes": 95326
+    },
+    "cloud_overcast_phone": {
+      "source": "cloud_overcast",
+      "crop": null,
+      "width": 640,
+      "height": 320,
+      "png": "figures/scenery/painted/cloud_overcast_phone.png",
+      "src": "figures/scenery/painted/cloud_overcast_phone.webp",
+      "bytes": 32172
     }
   },
   "generated": {
@@ -508,6 +638,22 @@
       "height": 256,
       "seed": 2026,
       "sha256": "5cb7e224d8fd4f1ecf1ecfe98b594bbc1ee3bfea00d7a2714ba32ebad6ba58de"
+    }
+  },
+  "authored": {
+    "weather_rain": {
+      "path": "figures/scenery/painted/weather_rain.svg",
+      "width": 200,
+      "height": 80,
+      "sha256": "d4f0ce12bfa1af11f563a1fb8b2ecf6eebaee458a10cf9c8c30b7688057dcf23",
+      "source": "Locally authored vector precipitation tile; no external image source"
+    },
+    "weather_snow": {
+      "path": "figures/scenery/painted/weather_snow.svg",
+      "width": 280,
+      "height": 180,
+      "sha256": "290035bd91b32c4379df02a09983fe52359b658ddda9eed1d955be180ec7eb8a",
+      "source": "Locally authored vector precipitation tile; no external image source"
     }
   }
 }

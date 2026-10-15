@@ -8,6 +8,7 @@
 | --- | --- | --- |
 | Hero mystery | `TRIP_DATA.hero`, `subtitle`, `members` | `index.html`, `main.js:renderCrew`, `style.css` |
 | Crew | `TRIP_DATA.members` | `renderCrew`, `#crewGrid`, `.crew-grid` |
+| Trip-day forecast | `TRIP_DATA.weather`, arrival day onward | `weather.js`, `weather.css`; [behavior](weather.md) |
 | Arrival clock | `TRIP_DATA.countdown` and block `id:"arrival"` | `initArrivalCountdown`, `countdown.css` |
 | Fund | `TRIP_DATA.fund` | `renderFund`, `#fund`, `.fund-*`, `motion.js` reveals |
 
@@ -24,7 +25,7 @@
 - Derive the target from the `arrival` block's `time` and containing day's `dateISO`, with explicit `+07:00`; currently **2026-10-23T03:00:00+07:00**.
 - Departure and editorial `phase` must never drive the clock. Invalid/missing arrival data leaves the clock hidden.
 - Recompute from `Date.now()` every second; pause in hidden tabs and refresh on return/pageshow. Clamp at zero and show the scheduled-arrival message, without claiming actual attendance.
-- Reserve hero space to prevent layout shift. Number changes respect reduced motion; the timer uses `aria-live="off"` instead of announcing every second.
+- The forecast and smaller clock share the hero summary grid column; phones stack copy, forecast and clock in natural flow. Reserve hero space to prevent layout shift. Number changes respect reduced motion; the timer uses `aria-live="off"` instead of announcing every second.
 - Changing arrival also requires updating fixed target fixtures in `scripts/verify_countdown.cjs` and regenerating the reading copy.
 
 ## Eighth member: the pig fund

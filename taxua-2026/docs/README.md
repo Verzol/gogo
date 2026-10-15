@@ -16,6 +16,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
 | Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |
 | Preview, focused browser checks and evidence limits | [Verification](verification.md) |
+| Cloud opening, ambient motion and live trip-day weather | [Sky and weather](weather.md) · [Design plan](sky-weather-plan.md) |
 
 ## Documentation layout
 
@@ -33,12 +34,13 @@ Open `index.html` directly, or use **http://127.0.0.1:8000/taxua-2026/** when po
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN, backend or Google login. All runtime assets are local. Render Static Site: root `taxua-2026`, empty build command, publish directory `.`; no environment variables.
+Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN, backend or Google login. Artwork, fonts and libraries are local; the optional trip-day forecast fetches Open-Meteo data. Render Static Site: root `taxua-2026`, empty build command, publish directory `.`; no environment variables.
 
 ## Code map
 
 - `data.js` = trip content; `assets.js` = generated photo metadata; `index.html` = shell/order/navigation.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
+- `weather.js` / `weather.css` = optional Open-Meteo forecast and hero sky effects.
 - `scenery.js` / `scenery.css` = painted stage; `motion.js` = optional GSAP enhancement.
 - `style.css`, `countdown.css`, `fonts.css` = page, clock and typography.
 - `scripts/` = optional preparation/verification helpers; `data/sources/` = provenance snapshots, not runtime fetches.

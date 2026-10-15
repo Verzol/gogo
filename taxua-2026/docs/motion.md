@@ -7,14 +7,15 @@
 - `motion.js`: optional `JourneyMotion` enhancement using local GSAP/ScrollTrigger 3.15.0.
 - `main.js`: ordinary menu, notes, photo decks, packing and `JourneyUI` native scenery fallback. Content renders before GSAP.
 - `style.css`: reveal variables, independent gesture styling, reduced-motion and print rules.
-- `scenery.js`: decoded panel readiness and reversible terrain drift.
+- `scenery.js`: decoded panel readiness, reversible terrain drift, independently measured physical opening descent and continuous offscreen-recycling cloud tracks. Cloud playback rates change without resetting their phase; pause/reduced-motion/visibility controls preserve their pose.
+- `weather.js` / `weather.css`: optional hero previews, ambient loops and the decorative-motion pause control; see [Sky and weather](weather.md).
 
 ## Scenic transitions
 
 - Native manual scrolling stays native; no pinning or scroll hijacking. Consecutive identical worlds hold steady.
 - Dissolves span up to 1.23 viewports, bounded by chapter spacing, with a separate 0.55 s numeric scrub. Outgoing panels stay opaque underneath incoming ones.
 - Fast flings catch up directly to the landing scene with one 850 ms dissolve; late decode uses 600 ms catch-up. Never replay every skipped chapter.
-- Hold the opening until the dark hero text clears the reading zone. Cold/deep-link landings decode both panels required for a partial blend.
+- Hold the opening lighting until the lowest essential hero content clears the top reading lane. Both controllers use the measured copy/summary boundary. Cold/deep-link landings decode both panels required for a partial blend.
 - Reduced motion/missing GSAP use discrete native-scroll scenes, including Khe Cải's within-event dawn. Breakpoint/preference changes revert old timelines and restore controls.
 
 ## Foreground reveals
@@ -29,7 +30,7 @@
 ## Navigation and small gestures
 
 - Real anchors preserve hashes, history, destination focus, reload and direct links. Desktop date rail is outside the story; phone dates stick below the topbar.
-- Enhanced travel takes 0.65–1.1 s and dissolves directly to the destination. Keep an outgoing snapshot until destination cutouts decode.
+- Enhanced travel takes 0.65–1.1 s and dissolves directly to the destination. Keep an outgoing snapshot until destination cutouts decode. Freeze ambient transforms and weather blend weights in that snapshot; precipitation stays outside it. Clear live forecast previews before travel.
 - Wheel, touch, pointer/navigation keys interrupt travel immediately. Apply the topbar offset once; avoid combining duplicate padding and scroll-margin offsets.
 - Notes, decks, menu, labels, artwork and packing feedback use brief cancellable animations. Rapid clicks retarget; stale fades cannot leave artwork dim or gestures queued.
 - Refresh measurements after fonts, unfolded notes and photo changes settle. Keep menu Escape/focus behavior and reduced-motion controls intact.

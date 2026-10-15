@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-15T14:57:51.957165+00:00",
+  "status": 200,
+  "dates": [
+    "2026-10-23",
+    "2026-10-24",
+    "2026-10-25"
+  ],
+  "units": {
+    "time": "iso8601",
+    "weather_code": "wmo code",
+    "temperature_2m_min": "\u00b0C",
+    "temperature_2m_max": "\u00b0C",
+    "apparent_temperature_min": "\u00b0C",
+    "precipitation_probability_max": "%",
+    "precipitation_sum": "mm",
+    "snowfall_sum": "cm",
+    "wind_speed_10m_max": "km/h",
+    "wind_gusts_10m_max": "km/h"
+  },
+  "latitude": 21.335676,
+  "longitude": 104.40367,
+  "elevation": 1538.0,
+  "utc_offset_seconds": 25200,
+  "allRequestedArraysPresent": true
+}

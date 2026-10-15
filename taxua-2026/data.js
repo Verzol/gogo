@@ -11,6 +11,22 @@ const TRIP_DATA = {
     "scrollNote": "+1 là ai? Bật mí ở cuối chuyến đi."
   },
   "dateRange": "22-25/10/2026 · 3 ngày 2 đêm",
+  "weather": {
+    "latitude": 21.27516,
+    "longitude": 104.43396,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "title": "Trời trên Tà Xùa",
+    "region": "Dự báo khu vực Tà Xùa",
+    "reset": "Trời ban đầu",
+    "loading": "Đang lấy dự báo…",
+    "unavailable": "Chưa lấy được dự báo. Thử lại sau nhé.",
+    "future": "Chưa có dự báo ngày này",
+    "past": "Ngày đã qua",
+    "missing": "Chưa có dữ liệu ngày này",
+    "retry": "Thử lại",
+    "pause": "Dừng chuyển động",
+    "resume": "Bật chuyển động"
+  },
   "intro": "Một cuốn nhật ký săn mây cho hội bạn thân, đủ lạnh, đủ no, đủ mây.",
   "countdown": {
     "title": "Chạm Tà Xùa trong…",

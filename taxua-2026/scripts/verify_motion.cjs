@@ -5,7 +5,7 @@ const path = require('path');
 const assert = require('assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_PATH || '../../hue-2026/node_modules/playwright');
 const root = path.resolve(__dirname,'..');
-const output = path.join(root,'review','motion');
+const output = process.env.TRIP_REVIEW_DIR || path.join(root,'review','motion');
 fs.mkdirSync(output,{recursive:true});
 const report = {checkedAt:new Date().toISOString(),checks:[],samples:{},videos:[]};
 const check = (name,value) => { assert(value,name); report.checks.push(name); };
@@ -35,7 +35,8 @@ async function state(page) {
     // Sweep the opening/night transition in physical scroll steps; scenery
     // must spend several steps blending instead of finishing in one wheel tick.
     const openingSamples = [];
-    for (let y = 0; y < viewport.height * 1.5; y += 60) {
+    const openingEnd = await p.evaluate(() => JourneyScenery.openingBounds().clear + innerHeight * .75);
+    for (let y = 0; y < openingEnd; y += 60) {
       await p.evaluate(y => scrollTo(0,y),y);
       await wait(650);
       openingSamples.push(await state(p));

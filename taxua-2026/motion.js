@@ -97,6 +97,21 @@
           photo.classList.replace('scene-panel','navigation-panel');
           photo.removeAttribute('data-background');
         });
+        // Freeze the actual ambient pose, not a restarted CSS animation.
+        const originals = (cover && Number(cover.style.opacity || 1) > .995 ? cover : sceneLayers).querySelectorAll('.ambient,.sky-cloud,.high-wisp');
+        snapshot.querySelectorAll('.ambient,.sky-cloud,.high-wisp').forEach((piece,index) => {
+          const style = getComputedStyle(originals[index]);
+          piece.style.animation = 'none';
+          piece.style.transform = style.transform;
+          piece.style.translate = style.translate;
+        });
+        const fading = '.weather-sky,.weather-cold,.opening-overcast';
+        const liveFades = (cover && Number(cover.style.opacity || 1) > .995 ? cover : sceneLayers).querySelectorAll(fading);
+        snapshot.querySelectorAll(fading).forEach((piece,index) => {
+          piece.style.opacity = getComputedStyle(liveFades[index]).opacity;
+          piece.style.transition = 'none';
+        });
+        snapshot.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
         return snapshot;
       }
       function finishCatchup() {
@@ -141,9 +156,8 @@
           if (previous?.scene.background === 'sunrise') {
             // Let the dark opening copy leave the sky before night arrives.
             // Later scenes retain the established broad chapter boundaries.
-            const hero = document.getElementById('top');
-            next.start = Math.max(previous.end,hero.offsetHeight - innerHeight * .4);
-            next.end = next.start + innerHeight * .8;
+            next.start = Math.max(previous.end,JourneyScenery.openingBounds().clear);
+            next.end = next.start + innerHeight * .65;
           }
           changes.push(next);
         });
@@ -492,6 +506,7 @@
       }
       function navigate(target,hash,historyMode = 'push') {
         const snapshot = sceneSnapshot('navigation-scene');
+        document.dispatchEvent(new Event('journey:opening-exit'));
         const fallbackBackground = navigation?.fallbackBackground || panels.filter(photo => Number(photo.style.opacity) === 1).sort((a,b) => Number(b.style.zIndex) - Number(a.style.zIndex))[0]?.dataset.background || 'sunrise';
         finishCatchup();
         finishNavigation(false);

@@ -5,15 +5,15 @@ const path = require('path');
 const assert = require('assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_PATH || '../../hue-2026/node_modules/playwright');
 const root = path.resolve(__dirname,'..');
-const output = path.join(root,'review','illustrated');
+const output = process.env.TRIP_REVIEW_DIR || path.join(root,'review','illustrated');
 const base = process.env.TRIP_PREVIEW_URL || 'http://127.0.0.1:8000/taxua-2026/';
 const ids = ['sunrise','night','bluehour','daylight','jade','afternoon'];
-const report = {checkedAt:new Date().toISOString(),checks:[],errors:[],failedResources:[],screenshots:[],samples:[]};
+const report = {checkedAt:new Date().toISOString(),checks:[],errors:[],failedResources:[],optionalWeatherFailures:[],screenshots:[],samples:[]};
 fs.mkdirSync(output,{recursive:true});
 const check = (name,value) => {assert(value,name);report.checks.push(name);};
 const wait = ms => new Promise(r=>setTimeout(r,ms));
 async function jump(p,id,within = 0) {
-  await p.evaluate(({id,within})=>{const e=document.getElementById(id);scrollTo(0,id==='top'?0:e.getBoundingClientRect().top+scrollY+within);},{id,within});
+  await p.evaluate(({id,within})=>{const e=document.getElementById(id);const readingOffset=id==='home-breakfast'?e.offsetHeight*.5-innerHeight*.46:within;scrollTo(0,id==='top'?0:e.getBoundingClientRect().top+scrollY+readingOffset);},{id,within});
   await wait(1200);
 }
 async function state(p) {
@@ -28,8 +28,10 @@ async function shot(p,name) {
   for(const [name,width,height] of [['desktop',1440,900],['phone',390,844],['narrow',320,780],['tablet',768,1024],['wide',2560,1080],['landscape',844,390]]) {
     const p = await browser.newPage({viewport:{width,height}});
     p.on('pageerror',e=>report.errors.push(e.stack));
-    p.on('requestfailed',r=>report.failedResources.push(r.url()));
-    p.on('response',r=>{if(r.status()>=400) report.failedResources.push(r.url());});
+    // Optional forecasts can still be in flight when a scenery-only page closes.
+    const failedResource = url => (url.startsWith('https://api.open-meteo.com/') ? report.optionalWeatherFailures : report.failedResources).push(url);
+    p.on('requestfailed',r=>failedResource(r.url()));
+    p.on('response',r=>{if(r.status()>=400) failedResource(r.url());});
     await p.goto(base);await p.evaluate(()=>document.fonts.ready);await wait(1000);
     await p.evaluate(ids=>Promise.all(ids.map(id=>JourneyUI.loadBackground(id))),ids);
     check(name+' all six composed scenes decode',await p.locator('.scene-panel').evaluateAll(items=>items.length===6&&items.every(p=>p.dataset.ready==='true'&&[...p.querySelectorAll('img')].every(i=>i.naturalWidth>0))));
