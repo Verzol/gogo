@@ -31,7 +31,7 @@ Mobile navigation compacts the brand after 24px of scrolling (or with enlarged r
 
 ## Navigation and small gestures
 
-- Desktop topbar exposes seven floating shortcuts, including the fund and member wheel. The fund pig has a gold stroke/fill, warm dark backing and a gold outline that stays readable in both navigation tones. The wheel uses the official Lucide dice icon, distinct from the crew icon. Mobile menus retain all eight named destinations and the same gold fund treatment.
+- Topbar shortcuts follow document order: itinerary → crew → member wheel (inside crew) → fund → packing → destinations → food → practical notes. Desktop shows the first seven; practical notes remain in the mobile menu. The fund pig has a gold stroke/fill, warm dark backing and a gold outline that stays readable in both navigation tones. The wheel uses the official Lucide dice icon, distinct from the crew icon. Mobile menus retain all eight named destinations and the same gold fund treatment.
 - Real anchors preserve hashes, history, destination focus, reload and direct links. Desktop dates occupy the outer margin; phone dates stick below the topbar. Their stop list highlights reading location and persists nothing. See [Illustrated controls](ui-artwork.md).
 - Enhanced travel takes 0.65–1.1 s and dissolves directly to the destination. Keep an outgoing snapshot until destination cutouts decode. Freeze ambient transforms and weather blend weights in that snapshot; precipitation stays outside it. Clear live forecast previews before travel.
 - Wheel, touch, pointer/navigation keys interrupt travel immediately. Apply the topbar offset once; avoid combining duplicate padding and scroll-margin offsets.
