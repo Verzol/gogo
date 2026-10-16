@@ -89,6 +89,20 @@ Reviewed 16 October 2026 for the [map design](map-plan.md) and its [implemented 
 
 OpenStreetMap data, a tile provider and Leaflet are separate layers. Tile coverage, terms and styling must be checked when choosing a provider. No source above verifies the trip's exact venue positions, travel times or mountain-road access.
 
+### Tile provider comparison
+
+Reviewed 16 October 2026; [measurements and findings](research/osm-provider-review.md). Timing evidence comes from local browser measurements, not the provider claims below.
+
+| Source | Use in review |
+| --- | --- |
+| [OSM raster provider registry](https://wiki.openstreetmap.org/wiki/Raster_tile_providers) | Discover Standard, Germany, HOT and OpenTopoMap endpoints. Styles and hosting are distinct; verify current endpoints with the operator. |
+| [German style and usage conditions](https://www.openstreetmap.de/germanstyle/) | Official endpoint, style differences, limited bandwidth and restrictions on third-party/commercial use. The linked detailed FOSSGIS policy showed an anti-bot page in this environment. |
+| [OSM France basemaps](https://www.openstreetmap.fr/fonds-de-carte/) | Confirms FR, HOT and cycling layers, attribution obligations and best-effort service without an availability guarantee. |
+| [CyclOSM project](https://www.cyclosm.org/) | Current `tile-cyclosm.openstreetmap.fr` endpoint and cycling/terrain focus. |
+| [OpenTopoMap project](https://opentopomap.org/) | Topographic layer; actual contour and hill-shading rendering checked separately. |
+| [Geoapify map tiles documentation](https://apidocs.geoapify.com/docs/maps/) | `osm-carto` raster endpoint, Leaflet integration, own project API key and required attribution; a candidate for a later authenticated speed comparison. |
+| [MapTiler Leaflet documentation](https://docs.maptiler.com/leaflet/) | Account/API-key alternative compatible with raster Leaflet maps; not included in the measured results. |
+
 The organizer supplied [Tập đoàn Viettel](https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9) as the gathering/departure point on 16 October 2026, with exact coordinates **21.0253150367579, 105.7854235877089**. This confirms the 22/10 pickup pin; the original schedule snapshot is preserved.
 
 The organizer supplied [Khe Cải](https://maps.app.goo.gl/TtAiAhR4eie9UuGS7) on 16 October 2026, with exact coordinates **21.27347304583251, 104.42839746119542**. This resolves its former missing pin in the overall map, 25/10 view and inline preview.

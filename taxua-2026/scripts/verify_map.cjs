@@ -106,6 +106,8 @@ async function withinRegion(page) {
       const rect = await page.locator('#tripAtlas').boundingBox();
       check(name+' atlas fits viewport',rect.x >= -1 && rect.y >= -1 && rect.x+rect.width <= width+1 && rect.y+rect.height <= height+1);
       await page.waitForSelector('.trip-map-retry:not([hidden])');
+      const openingTiles = await page.locator('.leaflet-tile').evaluateAll(images => images.map(image => image.src));
+      check(name+' opening requests only the final viewport tiles',remote.length > 0 && remote.every(url => openingTiles.includes(url)));
       check(name+' tile failure keeps a readable fallback',(await page.locator('.trip-map-status').textContent()).includes('Chưa tải được'));
       check(name+' attribution remains visible',await page.locator('.leaflet-control-attribution').isVisible());
       check(name+' attribution includes OSM and provider',/OpenStreetMap.*OSM France/.test(await page.locator('.leaflet-control-attribution').textContent()));
@@ -193,8 +195,13 @@ async function withinRegion(page) {
       check(name+' Escape closes',!(await page.locator('#tripAtlas').evaluate(element => element.open)));
       check(name+' map is released when closed',await page.locator('.leaflet-container').count() === 0);
       check(name+' overview focus restored',await page.locator('[data-map-overview]').evaluate(element => element === document.activeElement));
+      const previewRequestStart = remote.length;
       await page.locator('#thao-coffee .place-map-action').click();
       await page.waitForSelector('.place-map-preview .leaflet-container');
+      await page.waitForSelector('.place-map-preview .leaflet-tile',{state:'attached'});
+      const previewTiles = await page.locator('.leaflet-tile').evaluateAll(images => images.map(image => image.src));
+      const previewRequests = remote.slice(previewRequestStart);
+      check(name+' preview requests only the selected viewport tiles',previewRequests.length > 0 && previewRequests.every(url => previewTiles.includes(url)));
       check(name+' inline preview is singular',await page.locator('.place-map-preview').count() === 1);
       check(name+' preview expanded state',await page.locator('#thao-coffee .place-map-action').getAttribute('aria-expanded') === 'true');
       await wheelZoom(page,name+' preview');

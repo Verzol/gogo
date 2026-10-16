@@ -169,7 +169,6 @@
       tiles.on('tileload',event => { failedTiles.delete(event.tile.src);tileStatus(); });
       tiles.on('tileerror',event => { failedTiles.add(event.tile.src);tileStatus(); });
       tiles.on('tileunload',event => { failedTiles.delete(event.tile.src);tileStatus(); });
-      tiles.addTo(map);
       markerLayer = L.layerGroup().addTo(map);
       routeLayer = L.layerGroup().addTo(map);
       map.on('zoomend',() => {
@@ -184,6 +183,8 @@
       const visit = selected();
       fitMap(false);
       if (hasPoint(places[visit?.placeId])) focusPlace(visit.placeId,false);
+      // Request tiles only after the opening day/selection has its final camera.
+      tiles.addTo(map);
       requestAnimationFrame(() => { if (map && request === generation) map.invalidateSize({pan:false}); });
     } catch (_) {
       if (request === generation) setStatus('Chưa mở được bản đồ. Ảnh và lịch trình vẫn ở đây nhé.',true);
