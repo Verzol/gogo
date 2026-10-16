@@ -28,9 +28,9 @@ Add a compact entry at the beginning of the itinerary, alongside its existing ov
 
 The atlas opens as a large contained dialog over a lightly dimmed, unblurred journal background. On a wide screen, about two-thirds of the working area is map, one-third is the day list or selected-place detail. A small handwritten title and date filters sit above them. Paper edging belongs outside the map; it must not crop labels, controls or attribution.
 
-Current interaction update: wheel/Ctrl+wheel zoom is enabled on both map surfaces, and all map views use a Vietnam navigation rectangle; the initial camera still fits the Tà Xùa itinerary. The separate departure view keeps its Hà Nội pickup in the list while retaining a Tà Xùa map. This updates the original transfer-view and wheel-interaction direction.
+Current interaction update: wheel/Ctrl+wheel zoom is enabled on both map surfaces, and all map views use a Vietnam navigation rectangle; the initial camera still fits the Tà Xùa itinerary. The separate 22/10 departure view centers the user-confirmed Tập đoàn Viettel pickup in Hà Nội. This updates the original transfer-view and wheel-interaction direction.
 
-Default extent: the Tà Xùa stops. Provide `Cả chuyến`, `23/10`, `24/10`, `25/10` and a separate `Đêm đi · 22/10` transfer view. The long Hà Nội transfer should not compress all mountain stops into a tiny cluster. The transfer tab keeps the Hà Nội pickup in its list while the map remains in Tà Xùa; any connection without road geometry is explicitly schematic.
+Default extent: the Tà Xùa stops. Provide `Cả chuyến`, `23/10`, `24/10`, `25/10` and a separate `Đêm đi · 22/10` transfer view. The long Hà Nội transfer should not compress all mountain stops into a tiny cluster. The transfer tab shows Tập đoàn Viettel on the map and in its list, using the user-supplied coordinates; it does not draw an inferred intercity route.
 
 The nearby overview shows unique locations, small category symbols and labels only where space allows. Selecting a day reveals that day's visit numbers and sequence. Other days become quiet context. Selecting a marker or list entry updates the same detail area, with:
 
@@ -97,7 +97,7 @@ Build a reviewed place registry keyed by the existing `stopId`. Proposed locatio
 
 Keep event-to-place membership separate from place identity. A single place may have several visits on different dates. Non-place events such as breakfast without a venue, room-cloud watching and homeward travel do not automatically receive new pins. The optional stargazing block offers `quanh homestay hoặc Khe Cải`; show that uncertainty instead of choosing one location silently.
 
-Priority checks: exact Hà Nội pickup, Mùa Trứ entrance, the Háng Đồng sightseeing ridge rather than the Trạm Tấu summit, Thào Coffee versus similarly named cafés, Cây Cô Đơn versus Lán Cô Đơn, Hồ Mắt Ngọc and business entrances. Existing photo captions and narrative source references do not by themselves prove coordinates.
+The exact Hà Nội pickup was subsequently supplied by the user (Tập đoàn Viettel). Remaining priority checks: Mùa Trứ entrance, the Háng Đồng sightseeing ridge rather than the Trạm Tấu summit, Thào Coffee versus similarly named cafés, Cây Cô Đơn versus Lán Cô Đơn, Hồ Mắt Ngọc and business entrances. Existing photo captions and narrative source references do not by themselves prove coordinates.
 
 Use dashed, explicitly labelled `Thứ tự ghé · không phải đường đi` connections for known sequence without verified road geometry. Do not connect across an unresolved intermediate stop as if nothing were missing. Optional alternatives and the unordered afternoon group do not get an invented route.
 

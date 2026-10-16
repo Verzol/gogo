@@ -10,20 +10,21 @@ The atlas combines an embedded Leaflet map with date filters, an optional-stop t
 
 Desktop uses a map beside a scrollable detail/list area. Phones use a map above details, with an explicit button to enlarge the detail area. The supplied paper frame stays at the map's outer edge; attribution remains inside the unobstructed map. Closing the native dialog releases the map and returns focus to its trigger. A day-menu trigger reopens its original menu before receiving focus. The reading link instead focuses the requested story article.
 
-Inline previews start closed and allow only one active map. Opening another preview replaces it; opening the atlas releases the preview. Wheel and Ctrl+wheel zoom are enabled while the pointer is over either map surface; scrolling outside it keeps normal page behavior. Dragging stops at the Vietnam navigation bounds, and the minimum zoom adapts to the map size so zooming out cannot escape that region. The same restriction applies to keyboard panning and expanded/resized detail layouts. The departure list retains its Hà Nội pickup entry while its map stays in Tà Xùa. Reduced motion and the existing pause preference disable animated camera changes. Missing Leaflet or failed tiles retain the local stop list, photos and reading links. Direct-file use shows a local explanatory fallback instead of requesting web tiles. Print hides map controls and closes open map surfaces.
+Inline previews start closed and allow only one active map. Opening another preview replaces it; opening the atlas releases the preview. Wheel and Ctrl+wheel zoom are enabled while the pointer is over either map surface; scrolling outside it keeps normal page behavior. Dragging stops at the Vietnam navigation bounds, and the minimum zoom adapts to the map size so zooming out cannot escape that region. The same restriction applies to keyboard panning and expanded/resized detail layouts. The 22/10 departure tab selects Tập đoàn Viettel in Hà Nội and centers its confirmed pickup pin. The overall trip view keeps the Tà Xùa stops separate so the long transfer does not shrink them. Reduced motion and the existing pause preference disable animated camera changes. Missing Leaflet or failed tiles retain the local stop list, photos and reading links. Direct-file use shows a local explanatory fallback instead of requesting web tiles. Print hides map controls and closes open map surfaces.
 
 ## Geographic coverage and limits
 
-The registry contains all **18 existing place guides plus the Hà Nội pickup**: **sixteen source-matched named points**, **one approximate regional reference**, and **two unresolved entries**.
+The registry contains all **18 existing place guides plus the Hà Nội pickup**: **sixteen source-matched named points**, **one user-confirmed pickup point**, **one approximate regional reference**, and **one unresolved entry**.
 
 - Thào Coffee and Cây Cô Đơn use named OpenStreetMap points.
 - Mùa Trứ, Sống Lưng Khủng Long, Thác Chua Tỳ, Vị Nhà, Bếp Củi, Ameii Hill, A Phủ, Hồ Mắt Ngọc, Thảo nguyên Tà Xùa, Lán Cô Đơn, Mỏm Cá Heo, Đồi Mây, Cà phê Tháng 10 and Làng Văn Hóa use single named public place records matched to the itinerary. The research snapshot retains published names, addresses, coordinates and source links. Mùa Trứ also matches the official Facebook link in the existing homestay directory.
 - Trung tâm Tà Xùa uses the existing sourced regional coordinate, explicitly an area reference rather than a particular restaurant or entrance. Its approximate marker appears only when selected.
-- **Khe Cải and the exact Hà Nội pickup** remain unresolved with null coordinates and `Vị trí đang xác nhận` in the list.
+- **Tập đoàn Viettel**, the 22/10 gathering/departure point, uses the exact user-supplied coordinates **21.0253150367579, 105.7854235877089** and Maps source link. Gathering/boarding remains 21:30, departure 22:00. Its bus sticker is illustrative; the source link is available without a venue photograph.
+- **Khe Cải** remains unresolved with null coordinates and `Vị trí đang xác nhận` in the list.
 
 No precise location was inferred from a photo, a search camera center, an unnamed multi-result response or a nearby recommendation. Google public place records were consulted during research only; the embedded map uses Leaflet and OSM France, with no runtime Google dependency. Source links are available in the selected place's details.
 
-`verified` in the registry means a named published point was matched, not an on-site verification of its entrance or access. No driving routes, journey durations, cloud guarantees or completed visits are claimed. Dashed sequence lines are supported only between consecutive, nonoptional, ordered entries that both have coordinates. They never bridge an unresolved stop or connect the unordered afternoon group. Approximate areas and unresolved stops do not participate in these connections; these lines are not a complete route.
+`verified` in the registry means a named published point was matched or the trip organizer supplied the exact pickup; it is not an on-site verification of its entrance or access. No driving routes, journey durations, cloud guarantees or completed visits are claimed. Dashed sequence lines are supported only between consecutive, nonoptional, ordered entries that both have coordinates. They never bridge an unresolved stop or connect the unordered afternoon group. Approximate areas and unresolved stops do not participate in these connections; these lines are not a complete route.
 
 The navigation rectangle is **8.0–23.5° N, 102.0–110.0° E**, covering Vietnam’s mainland, Phú Quốc and Côn Đảo. The initial view still fits the Tà Xùa itinerary, but visitors can explore across Vietnam. This is an approximate rectangular camera limit, so neighboring terrain and sea remain visible; it is not an administrative border mask. It replaces the former Tà Xùa and Sơn La limits in both map surfaces.
 
@@ -82,7 +83,7 @@ The map helper checks nearby grouping and keyboard expansion, source-master hash
 - Live OSM France tiles were inspected separately on desktop and phone, both overview and selected homestay. No uncaught JavaScript errors were reported. The offline/failure helper does not claim online tile success.
 - The artwork importer reproduced the same manifest and derivative hashes; every vendored Leaflet file matched its recorded checksum. JavaScript syntax, whitespace and 271 local Markdown paths were checked.
 
-Evidence remains outside the checkout under `/tmp/taxua-map-review/`: `checks/`, `story/`, `photos/`, `ui/`, `mobile/`, plus online screenshots and `online.json`. These are Chromium emulation results, not physical-device, Safari or Firefox coverage. Complete geographic coverage still requires the exact Khe Cải viewpoint and Hà Nội pickup.
+Evidence remains outside the checkout under `/tmp/taxua-map-review/`: `checks/`, `story/`, `photos/`, `ui/`, `mobile/`, plus online screenshots and `online.json`. These are Chromium emulation results, not physical-device, Safari or Firefox coverage. At that review, complete geographic coverage still required the exact Khe Cải viewpoint and Hà Nội pickup; the latter was subsequently supplied by the user.
 
 ### Wheel zoom, regional bounds and remaining sticker prompts · 16 October 2026
 
@@ -107,3 +108,11 @@ The navigation limit now uses the local Tà Xùa trip rectangle documented above
 ### Vietnam navigation limit · 16 October 2026
 
 The Vietnam rectangle now replaces the local Tà Xùa limit. The opening view still fits the trip stops. All **294 map assertions passed**, including wheel/Ctrl+wheel zoom, constrained panning and responsive behavior. Separate desktop/phone checks confirmed Hà Nội and Ho Chi Minh City can be reached, inspected live-tile overview/selected-homestay rendering, and reported no uncaught JavaScript errors. Runtime/source geographic records, JavaScript syntax and whitespace checks passed. Evidence: `/tmp/taxua-vietnam-bounds-review/`.
+
+### Confirmed 22/10 Viettel pickup · 16 October 2026
+
+The departure tab now selects and centers the organizer-supplied Tập đoàn Viettel pin. The inline preview uses the same coordinates, and location sources remain accessible even without a documentary photo. Pickup reminders and the generated reading copy reflect the confirmed venue; times remain 21:30 gathering/boarding and 22:00 departure. The country bounds and mountain overview are retained.
+
+**314 map assertions passed**, including the departure pin, selected marker, source link, retained times and geographic limits across four viewports. Separate live-tile desktop/phone checks verified direct opening of the departure tab and its inline preview, with no uncaught JavaScript errors. Runtime/source records match; trip data differs only in the three departure text fields. Evidence: `/tmp/taxua-viettel-review/`.
+
+The broader `verify_journey.cjs` run stopped at its existing optional-portrait assertion: it expects zero crew portrait images after replacing only the first member's image. A separate focused check confirmed that member falls back to `S` and the six other portraits remain. That suite is not recorded as passed. The no-JavaScript reading copy was checked separately and retains all 24 events.

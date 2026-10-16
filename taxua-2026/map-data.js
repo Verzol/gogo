@@ -1,5 +1,5 @@
 // Geographic registry, independent of the authoritative schedule.
-// verified = named source match, not an on-site entrance or route audit.
+// verified = named source match or organizer-supplied pickup, not an on-site audit.
 const TRIP_MAP_DATA = {
   "center": [
     21.28,
@@ -263,16 +263,18 @@ const TRIP_MAP_DATA = {
       "note": "Khu vực Tà Xùa để định hướng; chưa chốt quán ăn hay điểm dừng cụ thể."
     },
     "hanoi_pickup": {
-      "name": "Điểm hẹn Hà Nội · Viettel",
+      "name": "Tập đoàn Viettel",
       "category": "transfer",
       "art": "decor/painted/bus_sticker.webp",
-      "lat": null,
-      "lng": null,
-      "status": "unresolved",
-      "precision": null,
-      "sourceUrls": [],
-      "verifiedAt": null,
-      "note": "Chưa xác nhận được tọa độ của đúng địa điểm."
+      "lat": 21.0253150367579,
+      "lng": 105.7854235877089,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:30, xe xuất phát lúc 22:00."
     }
   }
 };

@@ -300,7 +300,7 @@
     dialog.querySelector('#atlasListCount').textContent = unique(all).length + ' điểm';
     const points = unique(all).filter(id => hasPoint(places[id]) && places[id].precision !== 'area').length;
     const areas = unique(all).filter(id => hasPoint(places[id]) && places[id].precision === 'area').length;
-    dialog.querySelector('#atlasMapCaption').textContent = activeDay === 0 ? 'Bản đồ Tà Xùa · điểm hẹn Hà Nội ở danh sách' : points + ' ghim' + (areas ? ' · ' + areas + ' khu vực tham khảo' : '') + ' · ' + unique(all).length + ' điểm trong lịch';
+    dialog.querySelector('#atlasMapCaption').textContent = activeDay === 0 ? 'Điểm hẹn · Tập đoàn Viettel, Hà Nội' : points + ' ghim' + (areas ? ' · ' + areas + ' khu vực tham khảo' : '') + ' · ' + unique(all).length + ' điểm trong lịch';
     list.innerHTML = all.map((visit,index) => {
       const place = places[visit.placeId];
       return `<li><button type="button" data-map-visit="${esc(visit.key)}" aria-pressed="${visit.key === selectedKey}"><span class="atlas-stop-symbol" aria-hidden="true">${visit.unordered ? icon('camera') : activeDay === 'all' ? icon(categoryIcons[place.category] || 'map-pin') : String(index + 1).padStart(2,'0')}</span><span><strong>${esc(place.name)}</strong><small>${activeDay === 'all' ? esc(visit.date) + ' · ' : ''}${esc(timeLabel(visit))}${visit.optional ? ' · tùy chọn' : ''}${visit.unordered ? ' · chưa chốt thứ tự' : ''}</small>${!hasPoint(place) ? '<small class="atlas-unresolved">Vị trí đang xác nhận</small>' : ''}</span>${icon('chevron-right')}</button></li>`;
@@ -334,7 +334,7 @@
       ${warning ? `<p class="atlas-warning">${icon('flag')}${esc(warning)}</p>` : ''}
       <p class="atlas-location-note">${icon('map-pin')}${esc(hasPoint(place) ? place.note : 'Vị trí đang xác nhận. Chưa đặt ghim để tránh nhầm điểm.')}</p>
       <a class="atlas-read" href="#${esc(visit.anchor)}">Đọc đoạn này ${icon('arrow-right')}</a>
-      ${asset ? `<details class="atlas-credit"><summary>Nguồn ảnh & vị trí</summary><p>${esc(asset.credit)}</p>${place.sourceUrls?.map((url,i) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Nguồn vị trí ${i + 1} ↗</a>`).join('') || ''}</details>` : ''}
+      ${asset || place.sourceUrls?.length ? `<details class="atlas-credit"><summary>${asset ? 'Nguồn ảnh & vị trí' : 'Nguồn vị trí'}</summary>${asset ? `<p>${esc(asset.credit)}</p>` : ''}${place.sourceUrls?.map((url,i) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Nguồn vị trí ${i + 1} ↗</a>`).join('') || ''}</details>` : ''}
       <div class="atlas-stepping"><button type="button" data-map-step="-1"${index <= 0 ? ' disabled' : ''}>${icon('arrow-left')} Trước</button><span>${index + 1} / ${shown.length}</span><button type="button" data-map-step="1"${index === shown.length - 1 ? ' disabled' : ''}>Tiếp ${icon('arrow-right')}</button></div></div></article>`;
     detail.querySelector('#atlasVisit')?.addEventListener('change',event => selectVisit(visits.find(item => item.key === event.target.value)));
     detail.querySelectorAll('[data-map-step]').forEach(button => button.addEventListener('click',() => {
@@ -371,7 +371,7 @@
   }
   function changeDay(day) {
     activeDay = day;
-    selectedKey = '';
+    selectedKey = day === 0 ? 'departure:hanoi_pickup' : '';
     renderList();renderDetail();paintMap();fitMap();
   }
   function closePreview(restoreFocus = false) {
@@ -386,7 +386,7 @@
     opener = document.activeElement;
     menuOpener = opener?.closest('[data-trail-day]') ? Number(opener.closest('[data-trail-day]').dataset.trailDay.replace('day-','')) : null;
     closePreview();
-    activeDay = day;selectedKey = visit?.key || '';
+    activeDay = day;selectedKey = visit?.key || (day === 0 ? 'departure:hanoi_pickup' : '');
     if (visit?.optional) { includeOptional = true;dialog.querySelector('#atlasOptional').checked = true; }
     document.querySelector('.chapter-nav').dataset.open = 'false';
     document.getElementById('trailPanel').hidden = true;

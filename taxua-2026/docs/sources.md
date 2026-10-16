@@ -89,6 +89,8 @@ Reviewed 16 October 2026 for the [map design](map-plan.md) and its [implemented 
 
 OpenStreetMap data, a tile provider and Leaflet are separate layers. Tile coverage, terms and styling must be checked when choosing a provider. No source above verifies the trip's exact venue positions, travel times or mountain-road access.
 
+The organizer supplied [Tập đoàn Viettel](https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9) as the gathering/departure point on 16 October 2026, with exact coordinates **21.0253150367579, 105.7854235877089**. This confirms the 22/10 pickup pin; the original schedule snapshot is preserved.
+
 Implemented map records and coverage limits are in [Maps](maps.md). The [geographic review](../data/sources/map-locations.json) records the selected points and unresolved identities; [artwork provenance](../data/sources/map-artwork.json) records the eleven supplied PNG masters and optimized derivatives.
 
 | Integration source | Use |

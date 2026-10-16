@@ -1,7 +1,7 @@
 {
   "reviewedAt": "2026-10-16",
-  "scope": "18 story places plus an unresolved Hanoi pickup. No inferred venue coordinates.",
-  "verificationMeaning": "Verified means name-matched published geographic point, not an entrance, travel route or on-site safety verification.",
+  "scope": "18 story places plus the user-confirmed Tập đoàn Viettel pickup in Hanoi. No inferred venue coordinates.",
+  "verificationMeaning": "Verified means a name-matched published geographic point or the exact pickup supplied by the trip organizer, not an entrance, travel route or on-site safety verification.",
   "osmSource": "https://photon.komoot.io/ (OpenStreetMap-based build-time discovery only; no runtime search)",
   "records": {
     "song_lung_khung_long": {
@@ -255,23 +255,25 @@
       "note": "Khu vực Tà Xùa để định hướng; chưa chốt quán ăn hay điểm dừng cụ thể."
     },
     "hanoi_pickup": {
-      "name": "Điểm hẹn Hà Nội · Viettel",
+      "name": "Tập đoàn Viettel",
       "category": "transfer",
       "art": "decor/painted/bus_sticker.webp",
-      "lat": null,
-      "lng": null,
-      "status": "unresolved",
-      "precision": null,
-      "sourceUrls": [],
-      "verifiedAt": null,
-      "note": "Chưa xác nhận được tọa độ của đúng địa điểm."
+      "lat": 21.0253150367579,
+      "lng": 105.7854235877089,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:30, xe xuất phát lúc 22:00."
     }
   },
   "observations": [
-    "Only single named public-place records matching the scheduled venue were accepted; search camera centers and unnamed multi-result lists were rejected.",
+    "Named public-place records matching scheduled venues were accepted; the Hanoi pickup uses exact coordinates and a Maps link supplied by the user. Search camera centers and unnamed multi-result lists were rejected.",
     "Photon results outside the trip area were rejected.",
     "The homestay named record also links facebook.com/muatrutaxua, matching the existing directory.",
-    "Khe Cải and the exact Hanoi pickup have no accepted precise coordinate.",
+    "Khe Cải remains unresolved. The user confirmed the Tập đoàn Viettel pickup coordinates and Maps link on 16 October 2026.",
     "The afternoon group has no agreed internal order.",
     "The town coordinate is only an approximate area reference for the unassigned town lunch.",
     "Google public embed records were used at research time only; there is no runtime Google Maps dependency."
@@ -374,6 +376,14 @@
       "publishedAddress": "Nhà Hàng A Phủ, km13, Tà Xùa, Sơn La",
       "cid": "9549024332074645625",
       "sourceUrl": "https://www.google.com/maps?q=Nh%C3%A0+H%C3%A0ng+A+Ph%E1%BB%A7+B%E1%BA%AFc+Y%C3%AAn+S%C6%A1n+La&output=embed&hl=vi"
+    },
+    "hanoi_pickup": {
+      "providedBy": "User confirmation on 2026-10-16",
+      "publishedName": "Tập đoàn Viettel",
+      "lat": 21.0253150367579,
+      "lng": 105.7854235877089,
+      "sourceUrl": "https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9",
+      "meaning": "Gathering and departure point supplied by the trip organizer; no inferred geocoding."
     }
   },
   "navigationBounds": {

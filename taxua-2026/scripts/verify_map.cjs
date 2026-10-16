@@ -126,7 +126,16 @@ async function withinRegion(page) {
       check(name+' keyboard panning respects the boundary',await withinRegion(page));
       await page.locator('[data-map-day="0"]').click();
       check(name+' departure view keeps the map in Vietnam',await withinRegion(page));
-      check(name+' departure still lists the actual Hanoi pickup',(await page.locator('#atlasStops').textContent()).includes('Hà Nội'));
+      check(name+' departure lists Tập đoàn Viettel',(await page.locator('#atlasStops').textContent()).includes('Tập đoàn Viettel'));
+      check(name+' departure pin uses the organizer coordinates',await page.evaluate(() => {
+        const pickup = TRIP_MAP_DATA.places.hanoi_pickup;
+        return pickup.lat === 21.0253150367579 && pickup.lng === 105.7854235877089 &&
+          reviewMap.getCenter().distanceTo(L.latLng(pickup.lat,pickup.lng)) < 100;
+      }));
+      check(name+' departure marker is selected',await page.locator('.atlas-marker.is-selected').count() === 1);
+      check(name+' departure retains gathering and departure times',/21:30/.test(await page.locator('#atlasDetail').textContent()) && /22:00/.test(await page.locator('#atlasDetail').textContent()));
+      check(name+' departure exposes the supplied source link',await page.locator('#atlasDetail a[href="https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9"]').count() === 1);
+      check(name+' departure no longer claims the pickup is unresolved',await page.locator('#atlasStops .atlas-unresolved').count() === 0);
       await page.locator('[data-map-day="all"]').click();
       check(name+' nearby pins group at overview zoom',await page.locator('.atlas-cluster').count() > 0);
       const beforeExpansion = await page.locator('.atlas-marker-host').count();
