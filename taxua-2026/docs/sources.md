@@ -102,6 +102,8 @@ Reviewed 16 October 2026; [measurements and findings](research/osm-provider-revi
 | [OpenTopoMap project](https://opentopomap.org/) | Topographic layer; actual contour and hill-shading rendering checked separately. |
 | [Geoapify map tiles documentation](https://apidocs.geoapify.com/docs/maps/) | `osm-carto` raster endpoint, Leaflet integration, own project API key and required attribution; a candidate for a later authenticated speed comparison. |
 | [MapTiler Leaflet documentation](https://docs.maptiler.com/leaflet/) | Account/API-key alternative compatible with raster Leaflet maps; not included in the measured results. |
+| [MDN script preloading](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload) | Prepare the local Leaflet download without executing it; use the same URL and script request mode so opening can reuse the download. |
+| [MDN preconnect](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preconnect) | Connection preparation is separate from resource prefetch. A small local comparison did not demonstrate a convincing benefit, so no provider preconnect was added. |
 
 The organizer supplied [Tập đoàn Viettel](https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9) as the gathering/departure point on 16 October 2026, with exact coordinates **21.0253150367579, 105.7854235877089**. This confirms the 22/10 pickup pin; the original schedule snapshot is preserved.
 

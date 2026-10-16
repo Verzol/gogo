@@ -108,6 +108,7 @@
     if (library) return library;
     library = new Promise((resolve,reject) => {
       const script = document.createElement('script');
+      script.fetchPriority = 'high';
       const timeout = setTimeout(fail,12000);
       function fail() {
         clearTimeout(timeout);script.remove();library = null;
@@ -510,6 +511,29 @@
       window.JourneyMotion?.refresh();
     });
   });
+  // Warm only our local script near a map entry; web tiles still wait for opening.
+  const mapTriggers = document.querySelectorAll('[data-map-overview],.trail-map-action,.place-map-action');
+  let libraryWarmup;
+  let warmupObserver;
+  function warmMapLibrary() {
+    if (libraryWarmup || window.L) { warmupObserver?.disconnect();return; }
+    if (location.protocol === 'file:' || navigator.connection?.saveData) return;
+    libraryWarmup = document.createElement('link');
+    libraryWarmup.rel = 'preload';libraryWarmup.as = 'script';
+    libraryWarmup.href = './vendor/leaflet/leaflet.js';
+    libraryWarmup.fetchPriority = 'low';
+    document.head.append(libraryWarmup);
+    warmupObserver?.disconnect();
+  }
+  mapTriggers.forEach(button => {
+    ['pointerenter','focus','pointerdown'].forEach(type => button.addEventListener(type,warmMapLibrary,{once:true,passive:true}));
+  });
+  if (typeof IntersectionObserver !== 'undefined' && location.protocol !== 'file:' && !navigator.connection?.saveData) {
+    warmupObserver = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) warmMapLibrary();
+    },{rootMargin:'320px'});
+    mapTriggers.forEach(button => warmupObserver.observe(button));
+  }
   document.addEventListener('keydown',event => { if (event.key === 'Escape' && preview && !dialog.open) closePreview(true); });
   addEventListener('beforeprint',() => { closeAtlas();closePreview(); });
   matchMedia('print').addEventListener('change',event => { if (event.matches) { closeAtlas();closePreview(); } });

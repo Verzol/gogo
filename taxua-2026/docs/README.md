@@ -50,7 +50,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN library depende
 - `data.js` = trip content; `assets.js` = generated photo metadata; `index.html` = shell/order/navigation.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
 - `weather.js` / `weather.css` = optional Open-Meteo forecast and hero sky effects.
-- `map-data.js` / `trip-map.js` / `trip-map.css` = geographic registry and optional embedded atlas/previews; Leaflet loads locally on demand.
+- `map-data.js` / `trip-map.js` / `trip-map.css` = geographic registry and optional embedded atlas/previews; local Leaflet is prepared near map entries and executes on demand.
 - `scenery.js` / `scenery.css` = painted stage; `motion.js` = optional GSAP enhancement.
 - `style.css`, `countdown.css`, `fonts.css` = page, clock and typography.
 - `scripts/` = optional preparation/verification helpers; `data/sources/` = provenance snapshots, not runtime fetches.

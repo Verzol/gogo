@@ -14,6 +14,12 @@ Inline previews start closed and allow only one active map. Opening another prev
 
 The first tile request waits until the opening day/selection has its final camera, avoiding intermediate viewport requests. The [provider and first-load review](research/osm-provider-review.md) compares six detailed layers and records the request reduction, timings and limits of the measurements. OSM France remains the current provider.
 
+The local Leaflet script is prepared at low fetch priority when a map entry comes within 320px of the viewport, or on hover, keyboard focus or pointer down. This downloads the script once without executing it; opening the map reuses that download at high priority. Browsers without IntersectionObserver still receive the interaction warmup. Data Saver and direct-file use skip speculative loading. No map tiles are prefetched. Pins, dates and notes remain usable independently of tile completion; browser HTTP caching handles repeat tile views.
+
+The warmup passed **378 map assertions**, including approach/focus loading, one script download reused on opening, no early tiles, deferred execution and Data Saver/file-mode exclusions. In a controlled phone test with a 700ms delay on the script download, prepared opening showed pins/controls in **81ms**, versus **903ms** with preparation disabled. These timings exclude the earlier preparation and do not measure online basemap completion. Evidence: `/tmp/taxua-map-opening-review/`.
+
+Separate live checks loaded all final tiles without uncaught browser errors, with desktop and phone rendering inspected. The phone overview finished in 0.94s and Khe Cải preview in 0.97s, but the desktop overview took 13.12s, including 10.62s before its first tile. This confirms that local preparation cannot eliminate provider-side or network delays. Live evidence: `/tmp/taxua-osm-expanded-review/site-opening-warmup.json` and matching screenshots.
+
 ## Treasure-atlas artwork and interface
 
 The [treasure-atlas design](map-treasure-plan.md) is implemented. A rolled-map illustration opens a light parchment atlas, with a cartouche title, five illustrated date choices and an ochre painted selected state. The labelled compass restores the current day's view. Existing place stickers appear in the stop index, with a brick-red circled number for the selected visit and dotted index connections only between consecutive nonoptional, ordered entries on the same day. The afternoon trio has no invented connector or visit order. These are selection and itinerary cues, never completed-visit markers.
@@ -62,7 +68,7 @@ The stargazing block has alternative locations, and some breakfast/transport blo
 ## Code and data owners
 
 - `map-data.js`: reviewed geographic registry, initial camera region, Vietnam navigation bounds, provider configuration and source notes. It is independent of the authoritative schedule in `data.js`.
-- `trip-map.js`: derives visits from the current schedule; renders/integrates the atlas and previews; loads local Leaflet on first use and disposes hidden maps.
+- `trip-map.js`: derives visits from the current schedule; renders/integrates the atlas and previews; prepares local Leaflet near map entries, executes it on first use and disposes hidden maps.
 - `trip-map.css`: map invitation, journal controls, contained atlas, responsive details and print styling.
 - `index.html`: local CSS links and optional map scripts after the existing script chain. Existing script order is retained.
 - `scripts/prepare_icons.cjs`: the existing official Lucide sprite, now including nine map-related symbols (41 total).

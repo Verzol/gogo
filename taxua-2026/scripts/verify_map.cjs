@@ -253,7 +253,43 @@ async function withinRegion(page) {
     check('file mode still has place list',await file.locator('#atlasStops li').count() > 0);
     await file.locator('[data-map-visit="thao-coffee:thao_coffee"]').click();
     check('file mode local photo works',await file.locator('.atlas-photo img').evaluate(image => image.complete && image.naturalWidth > 0));
+    check('file mode skips speculative library loading',await file.locator('link[rel="preload"][as="script"]').count() === 0);
     await file.close();
+    for (const trigger of ['approach','focus']) {
+      const warm = await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
+      warm.on('pageerror',error => report.errors.push('warmup '+trigger+': '+error.message));
+      // CDP blocking preserves HTTP caching, unlike Playwright request routing.
+      const network = await warm.context().newCDPSession(warm);
+      await network.send('Network.enable');
+      await network.send('Network.setBlockedURLs',{urls:['https://a.tile.openstreetmap.fr/*','https://api.open-meteo.com/*']});
+      let libraryRequests = 0;
+      let tileRequests = 0;
+      warm.on('request',request => {
+        if (request.url().endsWith('/vendor/leaflet/leaflet.js')) libraryRequests++;
+        if (request.url().startsWith('https://a.tile.openstreetmap.fr/')) tileRequests++;
+      });
+      await warm.goto(url);
+      const entry = warm.locator('[data-map-overview]');
+      if (trigger === 'focus') await entry.focus();
+      else await entry.scrollIntoViewIfNeeded();
+      await warm.waitForFunction(() => performance.getEntriesByType('resource').some(resource => resource.name.endsWith('/vendor/leaflet/leaflet.js')));
+      check(trigger+' warms the local library once',libraryRequests === 1);
+      check(trigger+' keeps library execution on demand',await warm.evaluate(() => !window.L));
+      check(trigger+' never prefetches map tiles',tileRequests === 0);
+      await open(warm);
+      await warm.waitForSelector('.atlas-marker-host,.atlas-cluster-host');
+      check(trigger+' opening reuses the downloaded script',libraryRequests === 1);
+      check(trigger+' pins work while tiles are unavailable',await warm.locator('.atlas-marker-host,.atlas-cluster-host').count() > 0);
+      await warm.close();
+    }
+    const saving = await browser.newPage({reducedMotion:'reduce'});
+    await saving.addInitScript(() => Object.defineProperty(navigator,'connection',{value:{saveData:true},configurable:true}));
+    await saving.goto(url);
+    await saving.locator('[data-map-overview]').focus();
+    await pause(100);
+    check('data saver skips speculative library loading',await saving.locator('link[rel="preload"][as="script"]').count() === 0);
+    check('data saver keeps library execution on demand',await saving.evaluate(() => !window.L));
+    await saving.close();
     const missing = await browser.newPage({reducedMotion:'reduce'});
     await missing.route('**/vendor/leaflet/leaflet.js',route => route.abort());
     await missing.goto(url);
