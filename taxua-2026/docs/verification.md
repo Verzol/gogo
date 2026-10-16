@@ -60,4 +60,6 @@ The [16 October UI artwork review](ui-artwork.md#verified-import-and-implementat
 
 The [16 October map integration review](maps.md#verified-import-and-integration--16-october-2026) records the map and regression suites, artwork hashes and separate live-tile inspection.
 
+The [treasure-atlas redesign review](maps.md#treasure-atlas-import-and-redesign--16-october-2026) records the six-image import, 354 map assertions, 135 journal UI checks and separate live-tile/responsive inspections. The map helper covers both map artwork manifests and graceful missing-decoration behavior.
+
 For docs-only edits, validate local links/file references and scope; browser suites are unnecessary. Report exactly what ran. Existing galleries, accessibility/Lighthouse results and check counts are historical snapshots; their JSON timestamps define freshness. Recorded browser coverage uses Chromium emulation, not physical phones, Safari or Firefox.

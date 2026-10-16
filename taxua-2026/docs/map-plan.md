@@ -4,6 +4,8 @@
 
 Proposed 16 October 2026. This document retains the original design direction. The atlas, local previews and manual day explorer are now implemented; [Maps](maps.md) records the actual behavior, supplied-art import and incomplete geographic coverage. The remaining pin audit and later optional refinements are not implied complete by this plan.
 
+The implemented [treasure-atlas redesign](map-treasure-plan.md) updates the menu's visual direction after user feedback. Its six [artwork prompts](prompts/map_treasure/README.md) document the supplied assets; [Maps](maps.md#treasure-atlas-artwork-and-interface) records their import and integration.
+
 ## Direction
 
 Make the map another way to read the trip: understand where the stops are, see what belongs to each day, and return directly to the corresponding story. Keep the existing watercolor worlds visible around a contained map surface.

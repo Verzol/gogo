@@ -93,6 +93,8 @@ The organizer supplied [Tập đoàn Viettel](https://maps.app.goo.gl/BbCVS9ZQuA
 
 Implemented map records and coverage limits are in [Maps](maps.md). The [geographic review](../data/sources/map-locations.json) records the selected points and unresolved identities; [artwork provenance](../data/sources/map-artwork.json) records the eleven supplied PNG masters and optimized derivatives.
 
+The later [treasure-atlas artwork manifest](../data/sources/map-treasure-artwork.json) separately records six user-generated UI assets, their original filenames, source hashes and optimized derivatives. These decorate the interface and do not establish geography or venue identity. The real map provider and geographic registry are unchanged.
+
 | Integration source | Use |
 | --- | --- |
 | [Leaflet 1.9.4 official npm archive](https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz) | Locally hosted distribution; package hash, individual file hashes and BSD license are retained under `vendor/leaflet/`. |

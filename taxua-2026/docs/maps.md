@@ -12,6 +12,29 @@ Desktop uses a map beside a scrollable detail/list area. Phones use a map above 
 
 Inline previews start closed and allow only one active map. Opening another preview replaces it; opening the atlas releases the preview. Wheel and Ctrl+wheel zoom are enabled while the pointer is over either map surface; scrolling outside it keeps normal page behavior. Dragging stops at the Vietnam navigation bounds, and the minimum zoom adapts to the map size so zooming out cannot escape that region. The same restriction applies to keyboard panning and expanded/resized detail layouts. The 22/10 departure tab selects Tập đoàn Viettel in Hà Nội and centers its confirmed pickup pin. The overall trip view keeps the Tà Xùa stops separate so the long transfer does not shrink them. Reduced motion and the existing pause preference disable animated camera changes. Missing Leaflet or failed tiles retain the local stop list, photos and reading links. Direct-file use shows a local explanatory fallback instead of requesting web tiles. Print hides map controls and closes open map surfaces.
 
+## Treasure-atlas artwork and interface
+
+The [treasure-atlas design](map-treasure-plan.md) is implemented. A rolled-map illustration opens a light parchment atlas, with a cartouche title, five illustrated date choices and an ochre painted selected state. The labelled compass restores the current day's view. Existing place stickers appear in the stop index, with a brick-red circled number for the selected visit and dotted index connections only between consecutive nonoptional, ordered entries on the same day. The afternoon trio has no invented connector or visit order. These are selection and itinerary cues, never completed-visit markers.
+
+Selected photographs now rest inside a small paper frame, retaining image credits and illustrative captions. The supplied field kit appears only in the roomy welcome state. The phone layout omits this decoration, keeps the map above the notes and retains the explicit expand control. If large text leaves too little body space, the map and notes share one scrolling area with a reserved map height. This avoids overlapping dates and squeezed map content. The page's transparent date rail and secret photo backs are unchanged.
+
+Decorative images have empty alt text; dates, title and action labels remain HTML. The compass has a Lucide fallback if its image fails; failed cutouts are hidden while their controls stay usable. The existing frame is reused at the map and atlas perimeter. No decorative image covers map tiles or attribution, and the paper tint affects the shell only. Reduced motion and the global pause preference suppress the brief entrance transition.
+
+Six supplied PNG masters are preserved byte-for-byte in `figures/raw/map_treasure/`:
+
+| Original upload | Canonical master |
+| --- | --- |
+| Warm Aged Parchment Texture.png | `map_treasure_parchment.png` |
+| Watercolor Treasure Map Scroll.png | `map_treasure_scroll.png` |
+| Vintage Watercolor Compass Pendant.png | `map_treasure_compass.png` |
+| Watercolor Cloud Swirl Frame.png | `map_treasure_cartouche.png` |
+| Golden Ochre Watercolor Brushstroke.png | `map_treasure_day_swipe.png` |
+| Watercolor Hiking Journal Sticker Set.png | `map_treasure_field_kit.png` |
+
+The separate [manifest](../data/sources/map-treasure-artwork.json) records source and derivative hashes, dimensions, measured trims and the processing steps. Transparent cutouts retain 8px padding after alpha cleanup; the opaque parchment derivative omits the darker outer 5% of the original. There is no upscaling or recoloring. Six WebPs total **287,806 bytes**. The [generation briefs](prompts/map_treasure/README.md) remain available.
+
+Reproduce with Python and Pillow: `python3 scripts/prepare_map_treasure.py`. This importer preflights the complete batch, refuses to overwrite an existing original and produces the same manifest/derivatives on repeat. The existing location-art importer remains separate.
+
 ## Geographic coverage and limits
 
 The registry contains all **18 existing place guides plus the Hà Nội pickup**: **sixteen source-matched named points**, **one user-confirmed pickup point**, **one approximate regional reference**, and **one unresolved entry**.
@@ -116,3 +139,11 @@ The departure tab now selects and centers the organizer-supplied Tập đoàn Vi
 **314 map assertions passed**, including the departure pin, selected marker, source link, retained times and geographic limits across four viewports. Separate live-tile desktop/phone checks verified direct opening of the departure tab and its inline preview, with no uncaught JavaScript errors. Runtime/source records match; trip data differs only in the three departure text fields. Evidence: `/tmp/taxua-viettel-review/`.
 
 The broader `verify_journey.cjs` run stopped at its existing optional-portrait assertion: it expects zero crew portrait images after replacing only the first member's image. A separate focused check confirmed that member falls back to `S` and the six other portraits remain. That suite is not recorded as passed. The no-JavaScript reading copy was checked separately and retains all 24 events.
+
+### Treasure-atlas import and redesign · 16 October 2026
+
+All six supplied atlas images were organized, inspected against dark/cream surfaces and imported. Source hashes agree after moving; repeating `prepare_map_treasure.py` produces identical manifest and derivative hashes. Source trip content and the geographic registry were not changed.
+
+**354 map assertions passed**, including all seventeen map/atlas artwork hashes, illustrated date navigation, real compass reset, no fabricated afternoon list connections, wheel/Ctrl+wheel input, Vietnam bounds, confirmed Viettel pickup, focus restoration, missing decorations/library/tiles, print, direct-file use and 200% text. **135 journal UI checks passed**, preserving the transparent stop menu, packing, photo previews and removed-sign behavior. The UI helper's obsolete unconfirmed-pickup assertion was updated to the already confirmed Viettel venue and unchanged 21:30/22:00 times.
+
+Live-tile overview, selected café and departure rendering were inspected separately at 1440×1000, 390×844, 320×740 and 844×390. Additional checks covered 820×1180, 200% text on desktop/phone, ordinary entrance motion and the global pause preference. There were no uncaught JavaScript errors. Evidence: `/tmp/taxua-treasure-review/` (`map/`, `ui/`, `visual/` and `extra.json`). These checks use Chromium emulation; they do not establish physical-device, Safari or Firefox coverage.

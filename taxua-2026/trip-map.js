@@ -42,25 +42,53 @@
   const unique = list => [...new Set(list.map(visit => visit.placeId))];
   const timeLabel = visit => visit.time == null ? visit.period + ' · chưa chốt giờ' : visit.time;
   const selected = () => visits.find(visit => visit.key === selectedKey);
+  const treasureArt = (name, width, height, className = '') => `<img class="${className}" src="./figures/decor/painted/map_treasure_${name}.webp" width="${width}" height="${height}" alt="" decoding="async" draggable="false">`;
+  function prepareDecoration(root) {
+    root.querySelectorAll('img[alt=""]').forEach(image => {
+      const hide = () => { image.hidden = true; };
+      image.addEventListener('error',hide,{once:true});
+      if (image.complete && !image.naturalWidth) hide();
+    });
+  }
 
   const invitation = document.createElement('div');
   invitation.className = 'map-invitation wrap';
   invitation.innerHTML = `<button type="button" class="map-invitation-button" data-map-overview aria-haspopup="dialog" aria-controls="tripAtlas">
-    <span class="map-invitation-art" aria-hidden="true"><img src="./figures/decor/painted/map_home_base.webp" width="96" height="66" alt=""><span></span><img src="./figures/decor/painted/map_waterfall.webp" width="40" height="60" alt=""></span>
+    <span class="map-invitation-art" aria-hidden="true">${treasureArt('scroll',640,294)}</span>
     <span class="map-invitation-copy"><strong>Bản đồ trên mây</strong><span>Nhìn cả chuyến đi, rồi chọn một điểm ghé.</span></span>${icon('arrow-right')}
   </button>`;
   document.getElementById('dayOverview').before(invitation);
+  prepareDecoration(invitation);
 
   const dialog = document.createElement('dialog');
   dialog.id = 'tripAtlas';
   dialog.className = 'trip-atlas';
   dialog.setAttribute('aria-labelledby','atlasTitle');
-  dialog.innerHTML = `<header class="atlas-header"><div><p class="atlas-eyebrow">gogo · 22–25 tháng 10</p><h2 id="atlasTitle">Bản đồ trên mây</h2></div><button type="button" class="atlas-close" aria-label="Đóng bản đồ">${icon('x')}</button></header>
-    <div class="atlas-toolbar"><div class="atlas-dates" role="group" aria-label="Chọn ngày trên bản đồ"><button type="button" data-map-day="all" aria-pressed="true">Cả chuyến</button>${[1,2,3,0].map(index => `<button type="button" data-map-day="${index}" aria-pressed="false">${index ? esc(TRIP_DATA.days[index].date) : 'Đêm đi'}</button>`).join('')}</div>
-    <div class="atlas-options"><label><input type="checkbox" id="atlasOptional" checked> Cả điểm tùy chọn</label><button type="button" class="atlas-reset">${icon('scan')}<span>Xem trọn ngày</span></button></div></div>
+  const dateArt = ['decor/dino_ridge_day.webp',places.thao_coffee.art,places.thao_nguyen_ta_xua.art,places.trung_tam_ta_xua.art,places.hanoi_pickup.art];
+  dialog.innerHTML = `<header class="atlas-header"><div class="atlas-heading"><div class="atlas-title-plate"><h2 id="atlasTitle">Bản đồ trên mây</h2></div><p class="atlas-eyebrow">gogo · 22–25 tháng 10</p></div><button type="button" class="atlas-close" aria-label="Đóng bản đồ">${icon('x')}</button></header>
+    <div class="atlas-toolbar"><div class="atlas-dates" role="group" aria-label="Chọn ngày trên bản đồ">${['all',1,2,3,0].map((index,i) => `<button type="button" data-map-day="${index}" aria-pressed="${index === 'all'}"><img src="./figures/${esc(dateArt[i])}" width="54" height="40" alt="" decoding="async" draggable="false"><span>${index === 'all' ? 'Cả chuyến' : index ? esc(TRIP_DATA.days[index].date) : 'Đêm đi'}${index === 0 ? '<small>22/10</small>' : ''}</span></button>`).join('')}</div>
+    <div class="atlas-options"><label><input type="checkbox" id="atlasOptional" checked> Cả điểm tùy chọn</label><button type="button" class="atlas-reset"><span class="atlas-compass" aria-hidden="true">${treasureArt('compass',192,239)}${icon('scan')}</span><span>Xem trọn ngày</span></button></div></div>
     <div class="atlas-body"><div class="atlas-geography"><div class="atlas-map-wrap" id="atlasMapMount"></div><div class="atlas-map-caption"><span class="atlas-legend-pin" aria-hidden="true"></span><span id="atlasMapCaption">Điểm ghé trong nhật ký</span><span class="atlas-route-key" hidden>··· thứ tự ghé, không phải đường đi</span></div></div>
     <aside class="atlas-sidebar" aria-label="Điểm ghé và lịch trình"><button type="button" class="atlas-sheet-toggle" aria-expanded="false">${icon('chevron-up')}<span>Xem thêm chi tiết</span></button><div id="atlasDetail"></div><section class="atlas-stop-index" aria-labelledby="atlasListTitle"><div class="atlas-list-heading"><h3 id="atlasListTitle">Những nơi mình ghé</h3><span id="atlasListCount"></span></div><ol id="atlasStops"></ol></section></aside></div>`;
   document.body.append(dialog);
+  prepareDecoration(dialog);
+  // Large text can leave too little room for two independently sized panes.
+  // Give the map and notes one scrolling surface in that case.
+  const updateAtlasLayout = () => {
+    if (!dialog.open) return;
+    const available = dialog.clientHeight - dialog.querySelector('.atlas-header').offsetHeight - dialog.querySelector('.atlas-toolbar').offsetHeight;
+    const flow = innerWidth < 768 && available < 390;
+    if (dialog.classList.contains('atlas-flow') !== flow) {
+      dialog.classList.toggle('atlas-flow',flow);
+      requestAnimationFrame(() => map?.invalidateSize({pan:false}));
+    }
+  };
+  if (typeof ResizeObserver !== 'undefined') {
+    const atlasLayoutObserver = new ResizeObserver(updateAtlasLayout);
+    atlasLayoutObserver.observe(dialog.querySelector('.atlas-header'));
+    atlasLayoutObserver.observe(dialog.querySelector('.atlas-toolbar'));
+  }
+  addEventListener('resize',updateAtlasLayout);
   const detail = dialog.querySelector('#atlasDetail');
   const list = dialog.querySelector('#atlasStops');
   const surface = document.createElement('div');
@@ -303,14 +331,18 @@
     dialog.querySelector('#atlasMapCaption').textContent = activeDay === 0 ? 'Điểm hẹn · Tập đoàn Viettel, Hà Nội' : points + ' ghim' + (areas ? ' · ' + areas + ' khu vực tham khảo' : '') + ' · ' + unique(all).length + ' điểm trong lịch';
     list.innerHTML = all.map((visit,index) => {
       const place = places[visit.placeId];
-      return `<li><button type="button" data-map-visit="${esc(visit.key)}" aria-pressed="${visit.key === selectedKey}"><span class="atlas-stop-symbol" aria-hidden="true">${visit.unordered ? icon('camera') : activeDay === 'all' ? icon(categoryIcons[place.category] || 'map-pin') : String(index + 1).padStart(2,'0')}</span><span><strong>${esc(place.name)}</strong><small>${activeDay === 'all' ? esc(visit.date) + ' · ' : ''}${esc(timeLabel(visit))}${visit.optional ? ' · tùy chọn' : ''}${visit.unordered ? ' · chưa chốt thứ tự' : ''}</small>${!hasPoint(place) ? '<small class="atlas-unresolved">Vị trí đang xác nhận</small>' : ''}</span>${icon('chevron-right')}</button></li>`;
+      const previous = all[index - 1];
+      const connected = previous && previous.day === visit.day && !previous.optional && !visit.optional && !previous.unordered && !visit.unordered;
+      return `<li class="${connected ? 'atlas-stop-connected' : ''}${visit.optional ? ' atlas-stop-optional' : ''}"><button type="button" data-map-visit="${esc(visit.key)}" aria-pressed="${visit.key === selectedKey}"><span class="atlas-stop-symbol" aria-hidden="true"><img src="${esc(art(place))}" width="44" height="42" alt="" loading="lazy" decoding="async"><span class="atlas-stop-count">${visit.unordered ? icon('camera') : String(index + 1).padStart(2,'0')}</span></span><span><strong>${esc(place.name)}</strong><small>${activeDay === 'all' ? esc(visit.date) + ' · ' : ''}${esc(timeLabel(visit))}${visit.optional ? ' · tùy chọn' : ''}${visit.unordered ? ' · chưa chốt thứ tự' : ''}</small>${!hasPoint(place) ? '<small class="atlas-unresolved">Vị trí đang xác nhận</small>' : ''}</span>${icon('chevron-right')}</button></li>`;
     }).join('');
+    prepareDecoration(list);
     list.querySelectorAll('[data-map-visit]').forEach(button => button.addEventListener('click',() => selectVisit(visits.find(visit => visit.key === button.dataset.mapVisit))));
   }
   function renderDetail() {
     const visit = selected();
     if (!visit) {
-      detail.innerHTML = `<div class="atlas-welcome"><div class="atlas-welcome-art" aria-hidden="true"><img src="./figures/decor/painted/map_home_base.webp" width="140" height="96" alt=""><img src="./figures/decor/painted/map_waterfall.webp" width="55" height="81" alt=""></div><h3>Một chuyến đi, nhiều điểm hẹn.</h3><p>Chọn một điểm trên bản đồ hoặc trong danh sách để xem ảnh và lịch ghé.</p><button type="button" class="atlas-explore">Đi từng chặng ${icon('arrow-right')}</button></div>`;
+      detail.innerHTML = `<div class="atlas-welcome"><div class="atlas-welcome-art" aria-hidden="true">${treasureArt('field_kit',480,355)}</div><h3>Một chuyến đi,<br> nhiều điểm hẹn.</h3><p>Chọn một điểm trên bản đồ hoặc trong danh sách để xem ảnh và lịch ghé.</p><button type="button" class="atlas-explore">Đi từng chặng ${icon('arrow-right')}</button></div>`;
+      prepareDecoration(detail);
       detail.querySelector('.atlas-explore').addEventListener('click',() => {
         if (activeDay === 'all') changeDay(1);
         selectVisit(filtered()[0]);
@@ -325,7 +357,7 @@
     const shown = filtered();
     const index = shown.findIndex(item => item.key === visit.key);
     const warning = visit.block.warning || (visit.placeId === 'mom_ca_heo' ? 'Giữ khoảng cách với mép đá; chọn chỗ đứng vững.' : '');
-    detail.innerHTML = `<article class="atlas-place"><figure class="atlas-photo">${asset ? `<img src="./${esc(asset.variants.find(variant => variant.width >= 480)?.src || asset.src)}" width="${asset.width}" height="${asset.height}" alt="${esc(stop.altVi)}" decoding="async">${asset.captionVi || stop.isIllustrative ? `<figcaption>${esc(asset.captionVi || stop.captionVi)}</figcaption>` : ''}` : `<img class="atlas-transfer-art" src="./figures/decor/painted/bus_sticker.webp" width="120" height="90" alt="">`}</figure>
+    detail.innerHTML = `<article class="atlas-place${asset ? '' : ' atlas-place-transfer'}"><figure class="atlas-photo">${asset ? `<img src="./${esc(asset.variants.find(variant => variant.width >= 480)?.src || asset.src)}" width="${asset.width}" height="${asset.height}" alt="${esc(stop.altVi)}" decoding="async">${asset.captionVi || stop.isIllustrative ? `<figcaption>${esc(asset.captionVi || stop.captionVi)}</figcaption>` : ''}` : `<img class="atlas-transfer-art" src="./figures/decor/painted/bus_sticker.webp" width="120" height="90" alt="">`}</figure>
       <div class="atlas-place-copy"><p class="atlas-place-time">${esc(visit.date)} · ${esc(timeLabel(visit))}${visit.optional ? ' · tùy chọn' : ''}</p><h3>${esc(place.name)}</h3>
       ${place.category === 'stay' ? '<p class="atlas-home-note">' + icon('house') + ' Nhà chung của cả hội</p>' : ''}
       ${samePlace.length > 1 ? `<label class="atlas-visit-label">Lần ghé<select id="atlasVisit">${samePlace.map(item => `<option value="${esc(item.key)}"${item.key === visit.key ? ' selected' : ''}>${esc(item.date + ' · ' + timeLabel(item) + ' · ' + (item.block.storyTitle || item.block.activity))}</option>`).join('')}</select></label>` : ''}
@@ -336,6 +368,7 @@
       <a class="atlas-read" href="#${esc(visit.anchor)}">Đọc đoạn này ${icon('arrow-right')}</a>
       ${asset || place.sourceUrls?.length ? `<details class="atlas-credit"><summary>${asset ? 'Nguồn ảnh & vị trí' : 'Nguồn vị trí'}</summary>${asset ? `<p>${esc(asset.credit)}</p>` : ''}${place.sourceUrls?.map((url,i) => `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Nguồn vị trí ${i + 1} ↗</a>`).join('') || ''}</details>` : ''}
       <div class="atlas-stepping"><button type="button" data-map-step="-1"${index <= 0 ? ' disabled' : ''}>${icon('arrow-left')} Trước</button><span>${index + 1} / ${shown.length}</span><button type="button" data-map-step="1"${index === shown.length - 1 ? ' disabled' : ''}>Tiếp ${icon('arrow-right')}</button></div></div></article>`;
+    prepareDecoration(detail);
     detail.querySelector('#atlasVisit')?.addEventListener('change',event => selectVisit(visits.find(item => item.key === event.target.value)));
     detail.querySelectorAll('[data-map-step]').forEach(button => button.addEventListener('click',() => {
       const next = shown[index + Number(button.dataset.mapStep)];
@@ -397,6 +430,7 @@
     renderList();renderDetail();
     mode = 'atlas';
     dialog.showModal();
+    updateAtlasLayout();
     document.documentElement.classList.add('atlas-open');
     dialog.querySelector('.atlas-close').focus({preventScroll:true});
     mountMap(dialog.querySelector('#atlasMapMount'));

@@ -1,0 +1,169 @@
+{
+  "processing": "Originals preserved byte-for-byte. Transparent art trimmed at alpha >= 24 with 8px padding; alpha below 8 cleared. Parchment trimmed 5% per edge to omit its darker perimeter. Downscale only; no recoloring.",
+  "sources": {
+    "map_treasure_parchment": {
+      "uploadFilename": "Warm Aged Parchment Texture.png",
+      "path": "figures/raw/map_treasure/map_treasure_parchment.png",
+      "sha256": "96dcfbc6723931669044f44a727344616e6476aff229a6a119720b687d958db4",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Decorative atlas UI artwork, not geographic data"
+    },
+    "map_treasure_scroll": {
+      "uploadFilename": "Watercolor Treasure Map Scroll.png",
+      "path": "figures/raw/map_treasure/map_treasure_scroll.png",
+      "sha256": "c80061abc5e31cc5bc65ba418dd9d3a23f66e095a2598afca4fdee2ced9d055d",
+      "size": [
+        1536,
+        1024
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Decorative atlas UI artwork, not geographic data"
+    },
+    "map_treasure_compass": {
+      "uploadFilename": "Vintage Watercolor Compass Pendant.png",
+      "path": "figures/raw/map_treasure/map_treasure_compass.png",
+      "sha256": "6c613f24430a1a52c8b504de68c11f7189f7f4ec58541e74a0beade703b69f62",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Decorative atlas UI artwork, not geographic data"
+    },
+    "map_treasure_cartouche": {
+      "uploadFilename": "Watercolor Cloud Swirl Frame.png",
+      "path": "figures/raw/map_treasure/map_treasure_cartouche.png",
+      "sha256": "9b9a252b31600c0a2e7621a686e58c4d872627117ebb0d37169a818212bead7c",
+      "size": [
+        1881,
+        836
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Decorative atlas UI artwork, not geographic data"
+    },
+    "map_treasure_day_swipe": {
+      "uploadFilename": "Golden Ochre Watercolor Brushstroke.png",
+      "path": "figures/raw/map_treasure/map_treasure_day_swipe.png",
+      "sha256": "9f76188de392b375dbd73d0213c8377eed2380b114928f81e81fd06e34ec36a4",
+      "size": [
+        1536,
+        1024
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Decorative atlas UI artwork, not geographic data"
+    },
+    "map_treasure_field_kit": {
+      "uploadFilename": "Watercolor Hiking Journal Sticker Set.png",
+      "path": "figures/raw/map_treasure/map_treasure_field_kit.png",
+      "sha256": "c7fb8293f5b07a9746f996beb7c46e7511539ed545495b952be49a761a2a76e3",
+      "size": [
+        1536,
+        1024
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Decorative atlas UI artwork, not geographic data"
+    }
+  },
+  "assets": {
+    "map_treasure_parchment": {
+      "source": "map_treasure_parchment",
+      "trim": [
+        63,
+        63,
+        1191,
+        1191
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "src": "figures/decor/painted/map_treasure_parchment.webp",
+      "bytes": 90666,
+      "sha256": "b18fc4a0e03fdc663b190c6dc14b6ba93a6975f5722f32836f46c6dc5cd0ea88"
+    },
+    "map_treasure_scroll": {
+      "source": "map_treasure_scroll",
+      "trim": [
+        46,
+        157,
+        1508,
+        828
+      ],
+      "size": [
+        640,
+        294
+      ],
+      "src": "figures/decor/painted/map_treasure_scroll.webp",
+      "bytes": 63854,
+      "sha256": "7878ad4eedab6c62515c1fc08077e44e5489e3214dfa437071774bb0e51e2e41"
+    },
+    "map_treasure_compass": {
+      "source": "map_treasure_compass",
+      "trim": [
+        173,
+        25,
+        1080,
+        1152
+      ],
+      "size": [
+        192,
+        239
+      ],
+      "src": "figures/decor/painted/map_treasure_compass.webp",
+      "bytes": 15620,
+      "sha256": "e6e43e8d76a9f5e71bf775f25ac990b73ff345ccec3595ffdc9f95b4c84b3292"
+    },
+    "map_treasure_cartouche": {
+      "source": "map_treasure_cartouche",
+      "trim": [
+        25,
+        203,
+        1855,
+        585
+      ],
+      "size": [
+        960,
+        200
+      ],
+      "src": "figures/decor/painted/map_treasure_cartouche.webp",
+      "bytes": 45882,
+      "sha256": "42f411e8a216dd8224019959d53a92bf14860d2463dc8b8f5ce098e4edbed857"
+    },
+    "map_treasure_day_swipe": {
+      "source": "map_treasure_day_swipe",
+      "trim": [
+        26,
+        350,
+        1509,
+        679
+      ],
+      "size": [
+        480,
+        106
+      ],
+      "src": "figures/decor/painted/map_treasure_day_swipe.webp",
+      "bytes": 15546,
+      "sha256": "f795685d47b5757d6794fbcd7eb50cf2d2ef7c0dfbdbd5c18e1fc29783fa2540"
+    },
+    "map_treasure_field_kit": {
+      "source": "map_treasure_field_kit",
+      "trim": [
+        109,
+        69,
+        1365,
+        997
+      ],
+      "size": [
+        480,
+        355
+      ],
+      "src": "figures/decor/painted/map_treasure_field_kit.webp",
+      "bytes": 56238,
+      "sha256": "c8aee054891f131ff449c75a35a1573f3350321885c7d32b229f446eaf80a395"
+    }
+  }
+}

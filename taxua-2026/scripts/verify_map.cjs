@@ -66,13 +66,15 @@ async function withinRegion(page) {
 }
 
 (async() => {
-  const manifest = JSON.parse(fs.readFileSync(path.join(root,'data/sources/map-artwork.json')));
-  for (const [name,source] of Object.entries(manifest.sources)) {
-    const bytes = fs.readFileSync(path.join(root,source.path));
-    check(name+' master hash retained',crypto.createHash('sha256').update(bytes).digest('hex') === source.sha256);
-    const derivative = manifest.assets[name];
-    check(name+' output has no upscaling',derivative.size[0] <= source.size[0] && derivative.size[1] <= source.size[1]);
-    check(name+' derivative hash',crypto.createHash('sha256').update(fs.readFileSync(path.join(root,derivative.src))).digest('hex') === derivative.sha256);
+  for (const manifestPath of ['map-artwork.json','map-treasure-artwork.json']) {
+    const manifest = JSON.parse(fs.readFileSync(path.join(root,'data/sources',manifestPath)));
+    for (const [name,source] of Object.entries(manifest.sources)) {
+      const bytes = fs.readFileSync(path.join(root,source.path));
+      check(name+' master hash retained',crypto.createHash('sha256').update(bytes).digest('hex') === source.sha256);
+      const derivative = manifest.assets[name];
+      check(name+' output has no upscaling',derivative.size[0] <= source.size[0] && derivative.size[1] <= source.size[1]);
+      check(name+' derivative hash',crypto.createHash('sha256').update(fs.readFileSync(path.join(root,derivative.src))).digest('hex') === derivative.sha256);
+    }
   }
   const browser = await chromium.launch({headless:true});
   try {
@@ -93,6 +95,11 @@ async function withinRegion(page) {
       check(name+' page does not overflow',await page.evaluate(() => document.documentElement.scrollWidth === innerWidth));
       await open(page);
       check(name+' one active map',await page.locator('.leaflet-container').count() === 1);
+      check(name+' date choices retain readable labels and touch targets',await page.locator('[data-map-day]').evaluateAll(buttons => buttons.length === 5 && buttons.every(button => {
+        const box = button.getBoundingClientRect();
+        return box.height >= 44 && box.width >= 44 && button.textContent.trim();
+      })));
+      check(name+' illustrated dates load',await page.locator('[data-map-day] img').evaluateAll(images => Promise.all(images.map(image => image.decode().then(() => true).catch(() => false))).then(values => values.every(Boolean))));
       check(name+' dialog name',await page.locator('#tripAtlas').getAttribute('aria-labelledby') === 'atlasTitle');
       check(name+' close receives focus',await page.locator('.atlas-close').evaluate(element => element === document.activeElement));
       check(name+' atlas does not overflow horizontally',await noOverflow(page,'#tripAtlas'));
@@ -106,6 +113,9 @@ async function withinRegion(page) {
       const geo = await page.evaluate(() => Object.values(TRIP_MAP_DATA.places).map(place => ({lat:place.lat,lng:place.lng,status:place.status,precision:place.precision,sourceUrls:place.sourceUrls})));
       check(name+' unresolved places have no invented coordinates',geo.every(place => place.status !== 'unresolved' || (place.lat === null && place.lng === null)));
       check(name+' every geographic point has provenance',geo.every(place => place.lat === null || place.sourceUrls.length > 0));
+      await page.evaluate(() => reviewMap.setView([10.7769,106.7009],10,{animate:false}));
+      await page.locator('.atlas-reset').click();
+      check(name+' compass reset returns to the trip',await page.evaluate(() => reviewMap.getCenter().lat > 21.2 && reviewMap.getCenter().lat < 21.5 && reviewMap.getCenter().lng < 104.7));
       await wheelZoom(page,name+' atlas');
       await page.evaluate(() => { reviewMap.setZoom(-10);reviewMap.panBy([100000,100000],{animate:false}); });
       await page.waitForFunction(regionContainsMap);
@@ -147,6 +157,7 @@ async function withinRegion(page) {
       check(name+' correct day pressed',await page.locator('[data-map-day="2"]').getAttribute('aria-pressed') === 'true');
       check(name+' afternoon has three separate places',await page.locator('#atlasStops [data-map-visit^="afternoon-cluster:"]').count() === 3);
       check(name+' no invented afternoon order',(await page.locator('#atlasStops [data-map-visit^="afternoon-cluster:"]').allTextContents()).every(text => text.includes('chưa chốt thứ tự')));
+      check(name+' unordered afternoon places have no connecting index line',await page.locator('.atlas-stop-connected [data-map-visit^="afternoon-cluster:"]').count() === 0);
       check(name+' unknown times explicit',(await page.locator('[data-map-visit="dinosaur-ridge:song_lung_khung_long"]').textContent()).includes('chưa chốt giờ'));
       await page.locator('[data-map-visit="lake:ho_mat_ngoc"]').click();
       check(name+' optional selection shows detail',(await page.locator('#atlasDetail').textContent()).includes('tùy chọn'));
@@ -211,6 +222,14 @@ async function withinRegion(page) {
     await open(large);
     check('200% text atlas width',await noOverflow(large,'#tripAtlas'));
     check('200% text close is reachable',await large.locator('.atlas-close').isVisible());
+    check('200% text dates do not overlap',await large.locator('[data-map-day]').evaluateAll(buttons => buttons.every((button,index) => {
+      const a = button.getBoundingClientRect();
+      return buttons.slice(index+1).every(other => {
+        const b = other.getBoundingClientRect();
+        return a.right <= b.left+1 || b.right <= a.left+1 || a.bottom <= b.top+1 || b.bottom <= a.top+1;
+      });
+    })));
+    check('200% text gives the map a usable viewport',await large.locator('.trip-map-canvas').evaluate(element => element.getBoundingClientRect().height >= 180));
     await large.emulateMedia({media:'print'});
     await large.waitForFunction(() => !document.getElementById('tripAtlas').open);
     check('print hides map invitation',!(await large.locator('.map-invitation').isVisible()));
@@ -233,6 +252,19 @@ async function withinRegion(page) {
     check('missing library has graceful fallback',(await missing.locator('.trip-map-status').textContent()).includes('Chưa mở được'));
     check('missing library leaves list usable',await missing.locator('#atlasStops li').count() > 0);
     await missing.close();
+    const missingArt = await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
+    missingArt.on('pageerror',error => report.errors.push('missing art: '+error.message));
+    await missingArt.route('**/map_treasure_*.webp',route => route.abort());
+    await missingArt.route('https://a.tile.openstreetmap.fr/**',route => route.abort());
+    await missingArt.goto(url);
+    await open(missingArt);
+    await missingArt.waitForSelector('.atlas-compass img[hidden]',{state:'attached'});
+    check('missing decoration retains compass control icon',await missingArt.locator('.atlas-compass svg').isVisible());
+    check('missing decoration retains the live title',await missingArt.locator('#atlasTitle').isVisible());
+    await missingArt.locator('[data-map-day="0"]').click();
+    check('missing decoration retains usable date navigation',(await missingArt.locator('#atlasDetail h3').textContent()) === 'Tập đoàn Viettel');
+    check('missing decoration does not overflow the atlas',await noOverflow(missingArt,'#tripAtlas'));
+    await missingArt.close();
     const overlap = await browser.newPage({reducedMotion:'reduce'});
     await overlap.route('https://a.tile.openstreetmap.fr/**',route => route.abort());
     await overlap.goto(url);

@@ -4,6 +4,8 @@
 
 All eleven assets are now imported. Prompts 04–11 document the eight newly supplied location stickers. Copy one complete prompt block per generation. Each prompt is self-contained, begins with “Generate” and needs no image attachments.
 
+For the proposed adventure-game menu, use the separate [treasure-atlas prompts](../map_treasure/README.md). This location-art set remains reusable; its existing paper frame also carries into that plan.
+
 | Prompt | Output filename | Canvas |
 | --- | --- | --- |
 | [01 Homestay landmark](01_home_base.md) | `map_home_base.png` | 1:1 · 1024 × 1024 |
