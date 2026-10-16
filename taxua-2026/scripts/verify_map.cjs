@@ -92,6 +92,12 @@ async function withinRegion(page) {
       check(name+' 18 guides preserved',await page.locator('#daysList .place-source').count() === 18);
       check(name+' no rejected sign controls',await page.locator('.trail-sign').count() === 0);
       check(name+' one atlas invitation',await page.locator('[data-map-overview]').count() === 1);
+      check(name+' atlas entry lives beside the hero invitation',await page.locator('.hero-copy .hero-actions [data-map-overview]').count() === 1);
+      check(name+' itinerary has no duplicate atlas entry',await page.locator('#itinerary [data-map-overview]').count() === 0);
+      if (height > 550) check(name+' atlas entry is visible on arrival',await page.locator('[data-map-overview]').evaluate(button => {
+        const box = button.getBoundingClientRect();
+        return box.top >= 0 && box.bottom <= innerHeight && box.left >= 0 && box.right <= innerWidth;
+      }));
       check(name+' page does not overflow',await page.evaluate(() => document.documentElement.scrollWidth === innerWidth));
       await open(page);
       check(name+' one active map',await page.locator('.leaflet-container').count() === 1);

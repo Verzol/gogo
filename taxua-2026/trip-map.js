@@ -52,12 +52,14 @@
   }
 
   const invitation = document.createElement('div');
-  invitation.className = 'map-invitation wrap';
+  invitation.className = 'map-invitation';
   invitation.innerHTML = `<button type="button" class="map-invitation-button" data-map-overview aria-haspopup="dialog" aria-controls="tripAtlas">
     <span class="map-invitation-art" aria-hidden="true">${treasureArt('scroll',640,294)}</span>
-    <span class="map-invitation-copy"><strong>Bản đồ trên mây</strong><span>Nhìn cả chuyến đi, rồi chọn một điểm ghé.</span></span>${icon('arrow-right')}
+    <span class="map-invitation-copy"><strong>Bản đồ</strong><span>Những nơi mình ghé</span></span>${icon('arrow-right')}
   </button>`;
-  document.getElementById('dayOverview').before(invitation);
+  const heroActions = document.querySelector('.hero-actions');
+  heroActions.classList.add('has-map-entry');
+  heroActions.append(invitation);
   prepareDecoration(invitation);
 
   const dialog = document.createElement('dialog');

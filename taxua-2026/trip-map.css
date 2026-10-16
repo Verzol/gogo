@@ -1,12 +1,16 @@
 /* Treasure atlas: watercolor objects around an unobstructed geographic map. */
-.map-invitation { padding-block:28px 12px; }
-.map-invitation-button { display:flex; align-items:center; gap:24px; width:min(100%,680px); min-height:116px; padding:12px 0 18px; border:0; border-bottom:1px dashed var(--line); background:transparent; color:var(--ink); text-align:left; }
-.map-invitation-art { flex:0 0 154px; transform:rotate(-6deg); transition:transform .2s ease; }
-.map-invitation-art img { display:block; width:154px; height:auto; object-fit:contain; }
-.map-invitation-copy { flex:1; }
-.map-invitation-copy strong { display:block; font:400 2.2rem/1.2 'Patrick Hand',cursive; color:var(--accent); }
-.map-invitation-copy > span { display:block; margin-top:6px; font-size:.82rem; line-height:1.6; }
-.map-invitation-button > svg { flex-shrink:0; transition:transform .2s; }
+.hero-actions.has-map-entry { align-items:flex-start; gap:18px 28px; }
+.hero-actions.has-map-entry .hero-story-action { display:flex; flex-direction:column; align-items:flex-start; gap:8px; min-width:0; }
+.hero-story-action .scroll-note { max-width:210px; font-size:1rem; transform:none; }
+.map-invitation { min-width:0; max-width:100%; }
+.map-invitation-button { display:flex; align-items:center; gap:12px; width:max-content; max-width:100%; min-height:64px; padding:4px 0; border:0; background:transparent; color:inherit; text-align:left; text-shadow:inherit; }
+.map-invitation-art { flex:0 0 104px; transform:rotate(-6deg); transition:transform .2s ease; }
+.map-invitation-art img { display:block; width:100%; height:auto; object-fit:contain; }
+.map-invitation-copy { min-width:0; }
+.map-invitation-copy strong { display:block; font:400 1.8rem/1.2 'Patrick Hand',cursive; text-decoration:underline dotted 1px; text-underline-offset:6px; }
+.map-invitation-copy > span { display:block; margin-top:8px; font-size:.65rem; line-height:1.5; }
+.map-invitation-button > svg { flex:0 0 18px; width:18px; height:18px; transition:transform .2s; }
+.map-invitation-button:focus-visible { outline:2px solid currentColor; outline-offset:6px; border-radius:4px; }
 .map-invitation-button:is(:hover,:focus-visible) .map-invitation-art { transform:translateY(-3px) rotate(-3deg); }
 .map-invitation-button:is(:hover,:focus-visible) > svg { transform:translateX(4px); }
 .place-map-action,.trail-map-action { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:4px 0; border:0; border-bottom:1px dotted currentColor; background:transparent; color:var(--accent); font-size:.8rem; line-height:1.5; }
@@ -167,13 +171,15 @@
   .atlas-compass img { height:38px; max-width:30px; }
 }
 @media (max-width:767px) {
-  .map-invitation { padding-block:16px 0; }
-  .map-invitation-button { min-height:100px; gap:14px; }
-  .map-invitation-art { flex-basis:94px; }
-  .map-invitation-art img { width:94px; }
-  .map-invitation-copy strong { font-size:1.7rem; }
-  .map-invitation-copy > span { font-size:.74rem; }
-  .map-invitation-button > svg { width:18px; }
+  .hero-actions.has-map-entry { flex-direction:row; flex-wrap:wrap; gap:16px; }
+  .hero-actions.has-map-entry .hero-story-action { flex:1 1 10rem; }
+  .hero-actions.has-map-entry #heroScrollAction { min-height:44px; padding:9px 14px; gap:8px; font-size:1.1rem; }
+  .hero-story-action .scroll-note { max-width:100%; font-size:.94rem; }
+  .map-invitation { flex:0 0 auto; }
+  .map-invitation-button { min-height:48px; gap:8px; }
+  .map-invitation-art { flex-basis:52px; }
+  .map-invitation-copy strong { font-size:1.6rem; }
+  .map-invitation-copy > span,.map-invitation-button > svg { display:none; }
   .trip-atlas { width:100%; height:100dvh; border-width:12px; border-image-width:18px; }
   .atlas-header { padding:max(12px,env(safe-area-inset-top)) 14px 2px; }
   .atlas-title-plate { width:auto; min-height:0; padding:0; background:none; }
@@ -217,8 +223,10 @@
   .place-map-preview-mount { height:235px; }
 }
 @media (max-width:360px) {
-  .map-invitation-art { flex-basis:74px; }
-  .map-invitation-art img { width:74px; }
+  .hero-actions.has-map-entry { gap:12px; }
+  .hero-actions.has-map-entry #heroScrollAction { padding-inline:12px; font-size:1rem; }
+  .map-invitation-art { flex-basis:40px; }
+  .map-invitation-copy strong { font-size:1.4rem; }
   .atlas-header { padding-inline:12px; }
   .atlas-header h2 { font-size:1.8rem; }
   .atlas-dates { grid-template-columns:repeat(auto-fit,minmax(min(100%,max(88px,3.6rem)),1fr)); row-gap:1px; }
