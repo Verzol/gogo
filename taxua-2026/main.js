@@ -70,17 +70,30 @@ function stickerImage(name, className = 'sticker', phase) {
 function phaseIcon(phase) {
   return {night:'moon-star',predawn:'sunrise',dawn:'sunrise',morning:'sun',noon:'sun',afternoon:'sun',evening:'sunset'}[phase] || 'clock-3';
 }
-function photo(id, stopId, extraLabel, sizes) {
+function photo(id, stopId, extraLabel, sizes, moment) {
   const a = TRIP_ASSETS.assets[id];
   const stop = TRIP_ASSETS.stops[stopId];
   const caption = a.captionVi || (stop && stop.isIllustrative ? stop.captionVi : '');
   const alt = caption || (stop ? stop.altVi : a.label.replace(/[—–]/g, '-'));
-  return `<figure class="photo-frame" data-asset-id="${esc(id)}">
-    <img class="photo${a.fullFrame ? ' photo--full' : ''}" src="./${esc(a.src)}"
+  const canTurn = moment && !['rest','stay'].includes(moment.kind);
+  const day = moment && TRIP_DATA.days.find(day => day.blocks.some(block => block.id === moment.id));
+  const name = (extraLabel || stop?.name || moment?.activity || alt).replace(/[—–]/g, '-');
+  const backId = canTurn ? 'photo-back-' + moment.id + '-' + id : '';
+  const image = `<img class="photo${a.fullFrame ? ' photo--full' : ''}" src="./${esc(a.src)}"
       srcset="${a.variants.map(v => './' + esc(v.src) + ' ' + v.width + 'w').join(', ')}"
       sizes="${esc(sizes || '(max-width: 767px) calc(100vw - 56px), (max-width: 1200px) 80vw, 1088px')}"
       width="${a.width}" height="${a.height}" style="object-position:${esc(a.crop)};--photo-ratio:${a.width} / ${a.height}"
-      alt="${esc(alt)}" loading="lazy" decoding="async">
+      alt="${esc(alt)}" loading="lazy" decoding="async">`;
+  return `<figure class="photo-frame" data-asset-id="${esc(id)}">
+    ${canTurn ? `<button class="photo-object" type="button" data-photo-object data-photo-turn aria-pressed="false" aria-controls="${esc(backId)}" aria-label="Xem mặt sau ảnh: ${esc(name)}. ${esc(alt)}">
+      <span class="photo-front">${image}</span>
+      <span class="photo-back" id="${esc(backId)}" aria-hidden="true" inert>
+        <span class="photo-back-heading">${icon('camera')}<span>${esc(name)}</span></span>
+        <span class="photo-date">Trong lịch trình <time datetime="${esc(day.dateISO)}">${esc(day.date)}/2026</time>${moment.time == null ? '' : ' lúc ' + esc(moment.time)}</span>
+        ${moment.storyCue ? `<span class="photo-inscription">${esc(moment.storyCue)}</span>` : ''}
+        <span class="photo-credit"><span>Nguồn ảnh</span>${esc(a.credit)}</span>
+      </span>
+    </button>` : image}
     ${caption ? `<figcaption class="image-note">${esc(caption)}</figcaption>` : (extraLabel ? `<figcaption class="extra-label">${esc(extraLabel)}</figcaption>` : '')}
   </figure>`;
 }
@@ -129,15 +142,18 @@ function renderEventBody(block) {
 }
 function renderPlaceGuide(guide) {
   return guide.paragraphs.map(text => `<p class="event-description place-description">${esc(text)}</p>`).join('') +
-    `<p class="place-source"><a href="${esc(guide.source.url)}" target="_blank" rel="noopener noreferrer" aria-label="Đọc thêm về ${esc(guide.name)} tại ${esc(guide.source.label)} (tab mới)">Đọc thêm · ${esc(guide.source.label)} ${icon('move-up-right')}</a></p>`;
+    `<p class="place-source"><a href="${esc(guide.source.url)}" target="_blank" rel="noopener noreferrer" aria-label="Đọc thêm · ${esc(guide.source.label)}: ${esc(guide.name)} (tab mới)">Đọc thêm · ${esc(guide.source.label)} ${icon('move-up-right')}</a></p>`;
 }
 function renderPhotoDeck(block) {
   const ids = block.photoIds || [];
   if (!ids.length) return '';
   const sizes = block.kind === 'rest' ? '(max-width:767px) 70vw, 190px' : '(max-width:767px) 85vw, (max-width:1200px) 45vw, 540px';
   return `<div class="postcard${ids.length > 1 ? ' photo-deck' : ''}"${ids.length > 1 ? ' data-photo-deck' : ''}>
-    ${ids.map((id,index) => `<div class="deck-slide"${index ? ' hidden' : ''}>${photo(id,block.stopId,null,sizes)}</div>`).join('')}
-    ${ids.length > 1 ? `<div class="deck-controls"><span class="deck-count" aria-live="polite" aria-atomic="true">Góc 1 / ${ids.length}</span><button type="button" data-photo-step="-1" aria-label="Ảnh trước: ${esc(block.activity)}">${icon('arrow-left')}</button><button type="button" data-photo-step="1" aria-label="Ảnh tiếp: ${esc(block.activity)}">${icon('arrow-right')}</button></div>` : ''}
+    ${ids.map((id,index) => `<div class="deck-slide"${index ? ' hidden' : ''}>${photo(id,block.stopId,null,sizes,block)}</div>`).join('')}
+    ${ids.length > 1 ? `<div class="deck-previews" role="group" aria-label="Chọn góc ảnh: ${esc(block.activity)}">${ids.map((id,index) => {
+      const a = TRIP_ASSETS.assets[id];
+      return `<button type="button" class="deck-preview" data-photo-select="${index}" aria-label="Góc ${index + 1}: ${esc(a.captionVi || a.label)}" aria-pressed="${index === 0}"${index === 0 ? ' hidden' : ''}><span class="deck-preview-print"><img src="./${esc(a.variants[0].src)}" width="${a.width}" height="${a.height}" alt="" loading="lazy" decoding="async"></span></button>`;
+    }).join('')}</div><div class="deck-controls"><span class="deck-count" aria-live="polite" aria-atomic="true">Góc 1 / ${ids.length}</span><button type="button" data-photo-step="-1" aria-label="Ảnh trước: ${esc(block.activity)}">${icon('arrow-left')}</button><button type="button" data-photo-step="1" aria-label="Ảnh tiếp: ${esc(block.activity)}">${icon('arrow-right')}</button></div>` : ''}
   </div>`;
 }
 function renderEvent(block, dayIndex) {
@@ -145,12 +161,12 @@ function renderEvent(block, dayIndex) {
   let inner = renderPhotoDeck(block) + renderEventBody(block);
   if (block.kind === 'stay') {
     const roomNames = { P16: 'Mùa Trứ Homestay', P17: 'Căn Best view 2', P18: 'Căn Best view 4' };
-    inner = renderEventBody(block) + `<div class="stay-photos">${ids.map(id => photo(id, block.stopId, roomNames[id], '(max-width:767px) 80vw, 420px')).join('')}</div>`;
+    inner = renderEventBody(block) + `<div class="stay-photos">${ids.map(id => photo(id, block.stopId, roomNames[id], '(max-width:767px) 80vw, 420px',block)).join('')}</div>`;
   }
   if (block.kind === 'note') inner = renderEventBody(block) + (block.sticker ? `<span class="sticker schedule-icon" aria-hidden="true">${icon(phaseIcon(block.phase))}</span>` : '');
   if (block.kind === 'transit') inner = `<div class="transit-heading"><img class="travel-art" src="./figures/decor/painted/bus_sticker.webp" width="110" height="82" alt="" loading="lazy"><span>gogo / Tà Xùa</span>${icon('ticket')}</div>` + renderEventBody(block);
   if (block.kind === 'cluster') {
-    inner = `<div class="cluster-intro">${renderEventBody(block)}</div><div class="cluster-grid">${block.places.map((place,index) => `<article class="cluster-card" id="place-${esc(place.stopId)}" data-stop-id="${esc(place.stopId)}"><div class="postcard">${photo(place.photoIds[0],place.stopId,null,'(max-width:767px) 80vw, (max-width:1200px) 45vw, 500px')}</div><div class="event-body event-body--place"><p class="place-number">${String(index + 1).padStart(2,'0')} / dừng chân</p><h4>${esc(place.name)}</h4>${renderPlaceGuide(TRIP_DATA.placeGuides[place.stopId])}${place.stopId === 'mom_ca_heo' ? `<p class="warning">${icon('flag')}Giữ khoảng cách với mép đá; chọn chỗ đứng vững.</p>` : ''}</div></article>`).join('')}</div>`;
+    inner = `<div class="cluster-intro">${renderEventBody(block)}</div><div class="cluster-grid">${block.places.map((place,index) => `<article class="cluster-card" id="place-${esc(place.stopId)}" data-stop-id="${esc(place.stopId)}"><div class="postcard">${photo(place.photoIds[0],place.stopId,null,'(max-width:767px) 80vw, (max-width:1200px) 45vw, 500px',block)}</div><div class="event-body event-body--place"><p class="place-number">${String(index + 1).padStart(2,'0')} / dừng chân</p><h4>${esc(place.name)}</h4>${renderPlaceGuide(TRIP_DATA.placeGuides[place.stopId])}${place.stopId === 'mom_ca_heo' ? `<p class="warning">${icon('flag')}Giữ khoảng cách với mép đá; chọn chỗ đứng vững.</p>` : ''}</div></article>`).join('')}</div>`;
   }
   return `<article class="event event--${esc(block.kind)}" id="${esc(block.id)}" data-source-row="${block.sourceRow}" data-visual="${ids.length || block.places ? 'photo' : block.sticker ? 'sticker' : 'text'}" data-phase="${esc(block.phase)}" data-scenery-chapter="${esc(block.sceneryChapter)}"${block.phaseEnd ? ` data-phase-end="${esc(block.phaseEnd)}" data-scenery-chapter-end="${esc(block.sceneryChapterEnd)}"` : ''} data-day="day-${dayIndex}"${block.stopId ? ` data-stop-id="${block.stopId}"` : ''}${block.backdrop ? ` data-backdrop="${block.backdrop}"` : ''}><div class="event-inner">${inner}</div></article>`;
 }
@@ -158,6 +174,7 @@ function renderDays() {
   const days = TRIP_DATA.days;
   document.getElementById('dayOverview').innerHTML = `<h2 id="overviewTitle">Chuyến đi, từng ngày</h2>${days.map(day => `<details class="day-overview"><summary><time datetime="${esc(day.dateISO)}">${esc(day.date)}</time><span>${esc(day.label)}</span></summary><p>${esc(day.summary)}</p><ol>${day.blocks.map(block => `<li><a href="#${esc(block.id)}"><span>${esc(block.time == null ? block.period : block.time)}</span>${esc(block.storyTitle || block.activity)}</a></li>`).join('')}</ol></details>`).join('')}`;
   document.querySelectorAll('.day-overview').forEach(detail => detail.addEventListener('toggle',() => window.JourneyMotion?.refresh()));
+  document.getElementById('trailStops').innerHTML = days.map((day,index) => `<section data-trail-day="day-${index}"${index ? ' hidden' : ''} aria-labelledby="trail-day-${index}"><div class="trail-heading"><img src="./figures/${index < 2 ? 'decor' : 'scenery'}/painted/${['bus_sticker','cloud_coffee_sticker','solitary_tree','lake'][index]}.webp" width="68" height="68" alt=""><div><h2 id="trail-day-${index}">${esc(day.date)} · ${esc(day.label)}</h2><p>${day.blocks.length} chặng trong lịch trình</p></div></div><ol>${day.blocks.map(block => `<li><a href="#${esc(block.id)}" data-trail-stop="${esc(block.id)}"><span class="trail-time">${esc(block.time == null ? block.period : block.time)}${block.time == null ? '<small>Chưa chốt giờ</small>' : ''}</span><span>${esc(block.storyTitle || block.activity)}${block.optional ? '<small>Tùy chọn</small>' : ''}</span></a></li>`).join('')}</ol></section>`).join('');
   document.getElementById('daysList').innerHTML = days.map((day,index) => `${index > 0 ? `<header class="day-heading" id="day-${index}" data-phase="predawn" data-scenery-chapter="${esc(day.sceneryChapter)}" data-day="day-${index}"><div class="day-date"><strong>${esc(day.label)}</strong><time datetime="${esc(day.dateISO)}">${esc(day.weekday)}, ${esc(day.date)}/2026</time></div><h2>${esc(day.title)}</h2><p>${esc(day.summary)}</p><a class="reading-copy" href="./itinerary.html#schedule-${index}">Xem giờ giấc & ghi chú ↗</a>${stickerImage(index === 1 ? 'shan_tea' : index === 2 ? 'dino_ridge' : 'mountain_sky','sticker','morning')}</header>` : ''}${day.blocks.map(block => renderEvent(block,index)).join('')}`).join('');
 }
 function renderCrew() {
@@ -171,8 +188,24 @@ function renderCrew() {
   document.getElementById('heroScrollNote').textContent = TRIP_DATA.hero.scrollNote;
   document.getElementById('heroDate').textContent = '22-25/10/2026 · Tà Xùa, Sơn La';
   document.getElementById('heroSub').textContent = TRIP_DATA.subtitle;
-  document.getElementById('crewGrid').innerHTML = members.map(member => `<article class="member"><div class="avatar"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="${esc(member.name)}" loading="lazy" width="52" height="52">` : ''}</div><div><h3>${esc(member.name)}</h3><p>${esc(member.role)}</p></div></article>`).join('');
-  document.querySelectorAll('.avatar img').forEach(img => img.addEventListener('error',() => img.remove()));
+  document.getElementById('crewGrid').innerHTML = members.map(member => `<article class="member"><div class="avatar${member.image ? ' has-portrait' : ''}"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="${esc(member.name)}" loading="lazy" decoding="async" width="112" height="112">` : ''}</div><div><h3>${esc(member.name)}</h3><p>${esc(member.role)}</p></div></article>`).join('');
+  document.querySelectorAll('.avatar img').forEach(img => img.addEventListener('error',() => { img.parentElement.classList.remove('has-portrait');img.remove(); }));
+}
+function createWheelWinnerSticker(member) {
+  if (!member.image) return null;
+  const image = document.createElement('img');
+  image.className = 'wheel-winner-sticker';
+  image.alt = '';
+  image.setAttribute('aria-hidden','true');
+  image.width = 128;
+  image.height = 128;
+  image.decoding = 'async';
+  image.addEventListener('error',() => {
+    image.parentElement?.classList.remove('has-portrait');
+    image.remove();
+  },{once:true});
+  image.src = './' + member.image;
+  return image;
 }
 function createWheelCelebration(root,dial,result,name,copy,reduced) {
   // Outside sceneLayers: navigation snapshots never clone a celebration.
@@ -201,6 +234,8 @@ function createWheelCelebration(root,dial,result,name,copy,reduced) {
     layer.replaceChildren();
     layer.hidden = true;
     banner.hidden = true;
+    banner.replaceChildren();
+    banner.classList.remove('has-portrait');
     result.classList.remove('is-celebrating');
   }
   function animate(element,frames,options) {
@@ -215,7 +250,12 @@ function createWheelCelebration(root,dial,result,name,copy,reduced) {
     let opacity = 1;
     for (let element = name; element && element !== root.parentElement; element = element.parentElement) opacity *= Number(getComputedStyle(element).opacity);
     if (mobile && (nameBox.top < navBottom + 8 || nameBox.bottom > innerHeight || opacity < .8)) {
-      banner.innerHTML = `<span>${esc(copy.celebration)}</span><strong>${esc(winner)}!</strong>`;
+      banner.innerHTML = `<span>${esc(copy.celebration)}</span><strong>${esc(winner.name)}!</strong>`;
+      const sticker = createWheelWinnerSticker(winner);
+      if (sticker) {
+        banner.prepend(sticker);
+        banner.classList.add('has-portrait');
+      }
       banner.hidden = false;
     }
     // The nearby phone announcement also works without decorative motion.
@@ -259,6 +299,8 @@ function createWheelCelebration(root,dial,result,name,copy,reduced) {
       animate(cloud,[{opacity:0,transform:`translate(${direction * 45 - 65}px,-20px) scale(.65)`},{opacity:.75,transform:`translate(${direction * distance - 65}px,-100px) scale(1)`,offset:.35},{opacity:0,transform:`translate(${direction * (distance + 65) - 65}px,-160px) scale(1.12)`}],{duration:2800,delay:index * 80,easing:'ease-out'});
     }
     animate(name,[{opacity:.4,transform:'translateY(8px) rotate(-4deg)'},{opacity:1,transform:'translateY(0) rotate(-2deg)'}],{duration:450,easing:'ease-out'});
+    const sticker = result.querySelector('.wheel-winner-sticker');
+    if (sticker) animate(sticker,[{opacity:0,transform:'translateY(8px) rotate(-5deg) scale(.9)'},{opacity:1,transform:'translateY(0) rotate(0) scale(1)'}],{duration:450,easing:'ease-out'});
     if (mobile) animate(banner,[{opacity:0,transform:'translateY(10px) scale(.94)'},{opacity:1,transform:'translateY(0) scale(1)',offset:.12},{opacity:1,transform:'translateY(0) scale(1)',offset:.85},{opacity:0,transform:'translateY(-5px) scale(1)'}],{duration:3400,easing:'ease-out'});
   }
   if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
@@ -302,7 +344,7 @@ function initCloudWheel() {
             <img class="wheel-rim" src="./figures/decor/painted/wheel_rim.webp" width="652" height="652" alt="" loading="lazy" decoding="async">
             ${members.map((member,index) => {
               const [x,y] = point(index * segment,99);
-              return `<span class="wheel-member" data-wheel-index="${index}" style="left:${x / 4}%;top:${y / 4}%"><span class="wheel-member-inner"><span class="wheel-initial">${esc(member.name.charAt(0).toUpperCase())}${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy">` : ''}</span><span class="wheel-name">${esc(member.name)}</span></span></span>`;
+              return `<span class="wheel-member" data-wheel-index="${index}" style="left:${x / 4}%;top:${y / 4}%"><span class="wheel-member-inner"><span class="wheel-initial${member.image ? ' has-portrait' : ''}">${esc(member.name.charAt(0).toUpperCase())}${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy" decoding="async" width="44" height="44">` : ''}</span><span class="wheel-name">${esc(member.name)}</span></span></span>`;
             }).join('')}
           </div></div>
           <span class="wheel-pointer" aria-hidden="true"><img src="./figures/decor/painted/wheel_pointer.webp" width="349" height="467" alt="" loading="lazy"></span>
@@ -310,7 +352,7 @@ function initCloudWheel() {
         </div>
       </div>
       <div class="wheel-notes">
-        <div class="wheel-result" aria-live="polite" aria-atomic="true"><img class="wheel-result-cloud" src="./figures/scenery/painted/cloud_sky_puff.webp" width="498" height="298" alt="" aria-hidden="true" loading="lazy"><p class="wheel-result-kicker">${esc(copy.waiting)}</p><p class="wheel-result-name">?</p><p class="wheel-result-note">${esc(copy.waitingNote)}</p></div>
+        <div class="wheel-result" aria-live="polite" aria-atomic="true"><img class="wheel-result-cloud" src="./figures/scenery/painted/cloud_sky_puff.webp" width="498" height="298" alt="" aria-hidden="true" loading="lazy"><p class="wheel-result-kicker">${esc(copy.waiting)}</p><div class="wheel-result-person"><p class="wheel-result-name">?</p></div><p class="wheel-result-note">${esc(copy.waitingNote)}</p></div>
         <p class="wheel-availability" id="wheelAvailability" aria-live="polite"></p>
       </div>
     </div>`;
@@ -331,6 +373,7 @@ function initCloudWheel() {
   const result = root.querySelector('.wheel-result');
   const kicker = root.querySelector('.wheel-result-kicker');
   const name = root.querySelector('.wheel-result-name');
+  const person = root.querySelector('.wheel-result-person');
   const note = root.querySelector('.wheel-result-note');
   const availability = root.querySelector('.wheel-availability');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -392,11 +435,13 @@ function initCloudWheel() {
     root.dataset.winner = members[lastWinner].name;
     result.classList.add('has-winner');
     name.textContent = members[lastWinner].name;
+    const sticker = createWheelWinnerSticker(members[lastWinner]);
+    if (sticker) person.prepend(sticker);
     update();
     // Keep the final result announcement even when this pick exhausts the round.
     kicker.textContent = copy.winner;
     note.textContent = eligible().length ? copy.winnerNote : copy.completeNote;
-    celebration.play(members[lastWinner].name);
+    celebration.play(members[lastWinner]);
   }
   spin.addEventListener('click',() => {
     const pool = eligible();
@@ -410,6 +455,7 @@ function initCloudWheel() {
     delete root.dataset.winner;
     delete root.dataset.winnerIndex;
     result.classList.remove('has-winner');
+    person.querySelector('.wheel-winner-sticker')?.remove();
     kicker.textContent = copy.spinning;
     name.textContent = '…';
     note.textContent = 'Mây đang tìm một đồng bọn.';
@@ -439,11 +485,12 @@ function initCloudWheel() {
     used.clear(); lastWinner = null;
     delete root.dataset.winner; delete root.dataset.winnerIndex;
     result.classList.remove('has-winner'); name.textContent = '?';
+    person.querySelector('.wheel-winner-sticker')?.remove();
     update();
   });
   noRepeat.addEventListener('change',() => { used.clear(); update(); });
   participants.addEventListener('change',update);
-  root.querySelectorAll('.wheel-initial img').forEach(img => img.addEventListener('error',() => img.remove()));
+  root.querySelectorAll('.wheel-initial img').forEach(img => img.addEventListener('error',() => { img.parentElement.classList.remove('has-portrait');img.remove(); }));
   root.querySelectorAll('.wheel-rim,.wheel-pointer img,.wheel-spin > img').forEach(img => img.addEventListener('error',() => {img.hidden = true;}));
   update();
   root.hidden = false;
@@ -459,7 +506,8 @@ function renderPacking() {
   document.getElementById('packingTitle').textContent = p.title;
   document.getElementById('packingNote').textContent = p.note;
   const list = document.getElementById('packingList');
-  list.innerHTML = p.items.map((item,index) => `<li><label><input type="checkbox" value="${index}"${checked.includes(index) ? ' checked' : ''}><span>${esc(item.text)}${item.why ? `<small>${esc(item.why)}</small>` : ''}</span></label></li>`).join('');
+  const objects = ['ui_coat','ui_boots','headlamp_sticker','ui_poncho','ui_power_bank','ui_medicine','ui_cash'];
+  list.innerHTML = p.items.map((item,index) => `<li><label><input type="checkbox" value="${index}"${checked.includes(index) ? ' checked' : ''}><span class="packing-item"><img class="packing-object" src="./figures/decor/painted/${objects[index]}.webp" width="140" height="140" alt="" loading="lazy" decoding="async"><span>${esc(item.text)}${item.why ? `<small>${esc(item.why)}</small>` : ''}</span></span></label></li>`).join('');
   const update = () => {
     const chosen = Array.from(list.querySelectorAll('input:checked')).map(input => Number(input.value));
     document.getElementById('packingStatus').textContent = 'Đã chuẩn bị ' + chosen.length + '/' + p.items.length + ' món';
@@ -478,7 +526,37 @@ function renderSupportingContent() {
   const t = TRIP_DATA.itinerary;
   document.getElementById('tripFacts').innerHTML = `<dl class="trip-facts"><div><dt>Hai đêm ở</dt><dd>${esc(t.stay)}</dd></div><div><dt>Đêm 22/10, Hà Nội</dt><dd>Đón 21:30 tại Tập đoàn Viettel, đi 22:00. Xác nhận điểm đón cụ thể với nhà xe.</dd></div><div><dt>Trưa 25/10, Tà Xùa</dt><dd>Xe về xuất phát 12:30, chưa chốt giờ đến Hà Nội.</dd></div><div><dt>Chuyển phòng</dt><dd>12:00 ngày 24/10, nhớ chuyển hành lý sang phòng mới.</dd></div></dl><div class="practical-costs">${t.costs.map(item => `<p>${esc(item.label)}<strong>${money(item.value)}</strong>${esc(item.scope)}, dự kiến</p>`).join('')}</div><p class="cost-note">${esc(t.costNote)}</p><p class="cost-note"><a href="${esc(t.sourceUrl)}" target="_blank" rel="noopener noreferrer">Xem lịch nhóm gốc ↗</a></p>`;
 }
+function setPhotoSide(figure,back) {
+  const object = figure.querySelector('[data-photo-object]');
+  if (!object) return;
+  const name = object.querySelector('.photo-back-heading span').textContent;
+  object.classList.toggle('is-turned',back);
+  object.querySelector('.photo-front').setAttribute('aria-hidden',String(back));
+  const reverse = object.querySelector('.photo-back');
+  reverse.inert = !back;
+  reverse.setAttribute('aria-hidden',String(!back));
+  object.setAttribute('aria-pressed',String(back));
+  object.setAttribute('aria-label',back
+    ? reverse.textContent.trim().replace(/\s+/g,' ') + '. Xem ảnh.'
+    : 'Xem mặt sau ảnh: ' + name + '. ' + object.querySelector('img').alt);
+}
 function initScrapbook() {
+  document.querySelectorAll('[data-photo-turn]').forEach(button => {
+    button.addEventListener('click',() => {
+      setPhotoSide(button.closest('figure'),button.getAttribute('aria-pressed') !== 'true');
+    });
+    // The whole photograph is the button. Arrow keys also let keyboard readers
+    // scroll a long reverse without exposing another visible control.
+    button.addEventListener('keydown',event => {
+      if (button.getAttribute('aria-pressed') !== 'true') return;
+      const reverse = button.querySelector('.photo-back');
+      const offsets = {ArrowDown:40,ArrowUp:-40,PageDown:reverse.clientHeight * .8,PageUp:-reverse.clientHeight * .8};
+      if (event.key in offsets) {
+        event.preventDefault();
+        reverse.scrollBy(0,offsets[event.key]);
+      }
+    });
+  });
   document.querySelectorAll('[data-note-toggle]').forEach(button => button.addEventListener('click',() => {
     const open = button.getAttribute('aria-expanded') !== 'true';
     button.setAttribute('aria-expanded',String(open));
@@ -489,14 +567,27 @@ function initScrapbook() {
   document.querySelectorAll('[data-photo-deck]').forEach(deck => {
     const slides = Array.from(deck.querySelectorAll('.deck-slide'));
     let index = 0;
-    deck.querySelectorAll('[data-photo-step]').forEach(button => button.addEventListener('click',() => {
+    const select = (next,direction = next > index ? 1 : -1) => {
       const previous = index;
-      const direction = Number(button.dataset.photoStep);
-      index = (index + direction + slides.length) % slides.length;
+      index = (next + slides.length) % slides.length;
+      if (index === previous) return;
+      setPhotoSide(slides[index].querySelector('figure'),false);
+      deck.querySelectorAll('[data-photo-select]').forEach(button => {
+        const selected = Number(button.dataset.photoSelect) === index;
+        // The exposed print always previews another real photograph.
+        button.hidden = selected;
+        button.setAttribute('aria-pressed',String(selected));
+      });
       if (window.JourneyMotion?.deck) window.JourneyMotion.deck(deck,slides,previous,index,direction);
       else slides.forEach((slide,i) => { slide.hidden = i !== index; });
       deck.querySelector('.deck-count').textContent = 'Góc ' + (index + 1) + ' / ' + slides.length;
       window.JourneyMotion?.refresh();
+    };
+    deck.querySelectorAll('[data-photo-step]').forEach(button => button.addEventListener('click',() => select(index + Number(button.dataset.photoStep))));
+    deck.querySelectorAll('[data-photo-select]').forEach(button => button.addEventListener('click',() => {
+      select(Number(button.dataset.photoSelect));
+      // The selected print now occupies the foreground; keep keyboard focus useful.
+      slides[index].querySelector('[data-photo-object]')?.focus({preventScroll:true});
     }));
   });
 }
@@ -506,34 +597,42 @@ function initNav() {
   const mobile = matchMedia('(max-width:1023px)');
   const chapter = document.querySelector('.chapter-nav');
   const chapterToggle = document.getElementById('chapterToggle');
+  const trailPanel = document.getElementById('trailPanel');
   const itinerary = document.getElementById('itinerary');
   let navOffset = 110;
   const landscape = matchMedia('(max-height:520px) and (orientation:landscape)');
   const closeDates = () => {
     chapter.dataset.open = 'false';
     chapterToggle.setAttribute('aria-expanded','false');
+    trailPanel.hidden = true;
   };
   chapterToggle.addEventListener('click',() => {
     const open = chapter.dataset.open !== 'true';
     chapter.dataset.open = String(open);
     chapterToggle.setAttribute('aria-expanded',String(open));
-    window.JourneyMotion?.refresh();
+    trailPanel.hidden = !open;
   });
-  chapter.querySelectorAll('a').forEach(link => link.addEventListener('click',closeDates));
+  chapter.querySelectorAll('[data-chapter]').forEach(link => link.addEventListener('click',() => {
+    setTrailDay(link.dataset.chapter);
+    chapter.dataset.open = 'true';
+    chapterToggle.setAttribute('aria-expanded','true');
+    trailPanel.hidden = false;
+  }));
+  chapter.querySelectorAll('[data-trail-stop]').forEach(link => link.addEventListener('click',closeDates));
+  document.getElementById('trailClose').addEventListener('click',() => { closeDates(); chapterToggle.focus(); });
   landscape.addEventListener('change',closeDates);
   const syncCompact = () => {
     document.documentElement.dataset.navCompact = String(scrollY > 24 || parseFloat(getComputedStyle(document.documentElement).fontSize) > 20);
     const box = itinerary.getBoundingClientRect();
-    const phone = innerWidth < 768 || landscape.matches;
     const active = box.top <= navOffset + 1 && box.bottom > navOffset + 1;
     document.documentElement.dataset.itineraryActive = String(active);
-    chapter.inert = phone && !active;
+    chapter.inert = !active;
     if (!active) closeDates();
   };
   const measureNavigation = () => {
     syncCompact();
     const phone = innerWidth < 768 || landscape.matches;
-    const dateHeight = innerWidth < 768 && !landscape.matches ? chapter.offsetHeight : 0;
+    const dateHeight = phone ? chapter.offsetHeight : 0;
     navOffset = phone ? document.querySelector('.nav').offsetHeight + dateHeight + 24 : 110;
     document.documentElement.style.setProperty('--nav-offset',navOffset + 'px');
   };
@@ -566,8 +665,17 @@ function initNav() {
   });
   document.addEventListener('click',event => {
     if (links.classList.contains('open') && !event.target.closest('.nav')) setOpen(false);
+    if (chapter.dataset.open === 'true' && !chapter.contains(event.target)) closeDates();
   });
   setOpen(false);
+}
+function setTrailDay(dayId) {
+  if (!dayId || dayId === 'support') return;
+  document.querySelectorAll('[data-trail-day]').forEach(section => {
+    section.hidden = section.dataset.trailDay !== dayId;
+  });
+  const day = TRIP_DATA.days[Number(dayId.replace('day-',''))];
+  if (day) document.getElementById('trailToggleLabel').textContent = day.date + ' · Điểm dừng';
 }
 const JourneyUI = (() => {
   let fallbackRunning = false;
@@ -587,6 +695,11 @@ const JourneyUI = (() => {
     return {...JOURNEY_SCENES[phase],phase,background};
   }
   function setChapter(element, phaseOverride) {
+    setTrailDay(element.dataset.day);
+    document.querySelectorAll('[data-trail-stop]').forEach(link => {
+      if (link.dataset.trailStop === element.id) link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    });
     document.querySelectorAll('[data-chapter]').forEach(link => {
       if (link.dataset.chapter === element.dataset.day) link.setAttribute('aria-current','true');
       else link.removeAttribute('aria-current');

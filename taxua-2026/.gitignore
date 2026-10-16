@@ -6,3 +6,5 @@ dist/
 
 # Keep this site's contributor instructions despite the repository-wide ignore.
 !/AGENTS.md
+
+demos/

@@ -5,7 +5,7 @@ const path = require('path');
 const assert = require('assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_PATH || '../../hue-2026/node_modules/playwright');
 const root = path.resolve(__dirname,'..');
-const output = path.join(root,'review/story');
+const output = process.env.TRIP_REVIEW_DIR || path.join(root,'review/story');
 fs.mkdirSync(output,{recursive:true});
 const report = {timestamp:new Date().toISOString(),checks:[],measurements:[],screenshots:[],errors:[]};
 const check = (name,ok) => {assert.ok(ok,name);report.checks.push(name);};
@@ -83,5 +83,5 @@ async function scenery(p) {
   check('Story review has no unexpected JavaScript errors',report.errors.length===0);
   report.checkCount=report.checks.length;
   fs.writeFileSync(path.join(output,'checks.json'),JSON.stringify(report,null,2)+'\n');
-  await browser.close();console.log('Passed '+report.checkCount+' story checks. Evidence in review/story/.');
+  await browser.close();console.log('Passed '+report.checkCount+' story checks. Evidence: '+output);
 })().catch(e=>{console.error(e);process.exit(1);});

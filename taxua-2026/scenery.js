@@ -50,11 +50,12 @@ const JourneyScenery = (() => {
         ${p.sun ? `<div class="painted-sun">${p.rays !== false ? cutout('sun_rays','sun-rays') : ''}${cutout('sun_disc','sun-disc')}</div>` : ''}
         ${p.moon ? cutout('moon','painted-moon') : ''}
         ${p.cloud ? cutout('cloud_sky_puff','sky-cloud') + cutout('cloud_distant_wisp','high-wisp') : ''}
-        <div class="opening-depth"><div class="painted-terrain">
+        <div class="opening-depth"><div class="painted-terrain${id === 'sunrise' ? '' : ' painted-terrain--quiet'}">
           <div class="ridge-band ridge-far">${cutout('ridge_far' + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>
           ${p.cloud ? cutout('cloud_valley_ribbon','valley-cloud') : ''}
           <div class="ridge-band ridge-mid">${cutout('ridge_mid' + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>
           <div class="ridge-band ridge-near">${cutout(p.near + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>
+          ${id === 'sunrise' ? '' : `<picture class="quiet-terrain"><source media="(max-width:767px)" data-srcset="${folder}ui_quiet_terrain_portrait${p.terrain}.webp">${cutout('ui_quiet_terrain_wide' + p.terrain,'quiet-terrain-image')}</picture>`}
           ${p.lake ? cutout('lake','valley-lake') : ''}
           ${p.detail ? cutout(p.detail,'landscape-detail detail-' + p.detail) : ''}
         </div></div>`;
@@ -251,6 +252,7 @@ const JourneyScenery = (() => {
     if (!panel) return Promise.resolve(false);
     if (panel.dataset.ready) return Promise.resolve(true);
     if (panelLoads.has(id)) return panelLoads.get(id);
+    panel.querySelectorAll('source[data-srcset]').forEach(source => { source.srcset = source.dataset.srcset; });
     const decoded = Promise.all([...panel.querySelectorAll('img')].map(img => {
       const src = img.dataset.src;
       // Each instance still needs its own decoded pixels before it can paint.

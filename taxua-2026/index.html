@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="./countdown.css">
   <link rel="stylesheet" href="./scenery.css">
   <link rel="stylesheet" href="./weather.css">
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="./trip-map.css">
 
 </head>
 <body>
@@ -51,6 +53,15 @@
 <symbol id="trip-wind" viewBox="0 0 24 24"><path d="M12.8 19.6A2 2 0 1 0 14 16H2" /><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2" /><path d="M9.8 4.4A2 2 0 1 1 11 8H2" /></symbol>
 <symbol id="trip-pause" viewBox="0 0 24 24"><rect x="14" y="3" width="5" height="18" rx="1" /><rect x="5" y="3" width="5" height="18" rx="1" /></symbol>
 <symbol id="trip-play" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></symbol>
+<symbol id="trip-map" viewBox="0 0 24 24"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /><path d="M15 5.764v15" /><path d="M9 3.236v15" /></symbol>
+<symbol id="trip-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></symbol>
+<symbol id="trip-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol>
+<symbol id="trip-coffee" viewBox="0 0 24 24"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></symbol>
+<symbol id="trip-waves" viewBox="0 0 24 24"><path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /></symbol>
+<symbol id="trip-mountain" viewBox="0 0 24 24"><path d="m8 3 4 8 5-5 5 15H2L8 3z" /></symbol>
+<symbol id="trip-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /></symbol>
+<symbol id="trip-chevron-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6" /></symbol>
+<symbol id="trip-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol>
   </defs></svg>
   <!-- End Lucide sprite -->
   <div id="scenery" class="scenery" aria-hidden="true">
@@ -92,7 +103,7 @@
       <h2 class="sr-only">Lịch trình 22-25/10/2026</h2>
       <div class="itinerary-overview wrap" id="dayOverview" aria-labelledby="overviewTitle"></div>
       <nav class="chapter-nav" aria-label="Chọn ngày trong nhật ký">
-        <button class="chapter-toggle" id="chapterToggle" type="button" aria-expanded="false" aria-controls="chapterDates">Chọn ngày <span aria-hidden="true">⌄</span></button>
+        <button class="chapter-toggle" id="chapterToggle" type="button" aria-expanded="false" aria-controls="trailStops"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><use href="#trip-route"></use></svg><span id="trailToggleLabel">Điểm dừng</span></button>
         <div class="chapter-dates" id="chapterDates">
           <span class="chapter-weather" id="chapterWeather">Trên biển mây</span>
           <a href="#departure" data-chapter="day-0">Đêm đi</a>
@@ -100,6 +111,10 @@
           <a href="#day-2" data-chapter="day-2">24/10<span>Ngày 2</span></a>
           <a href="#day-3" data-chapter="day-3">25/10<span>Ngày 3</span></a>
           <span class="chapter-progress" aria-hidden="true"></span>
+        </div>
+        <div class="trail-panel" id="trailPanel" hidden>
+          <button class="trail-close" id="trailClose" type="button" aria-label="Đóng các điểm dừng">×</button>
+          <div id="trailStops"></div>
         </div>
       </nav>
       <div id="daysList"></div>
@@ -149,5 +164,7 @@
   <script defer src="./vendor/ScrollTrigger.min.js"></script>
   <script defer src="./motion.js"></script>
   <script defer src="./weather.js"></script>
+  <script defer src="./map-data.js"></script>
+  <script defer src="./trip-map.js"></script>
 </body>
 </html>

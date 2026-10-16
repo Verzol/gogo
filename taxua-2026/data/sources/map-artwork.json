@@ -1,0 +1,304 @@
+{
+  "processing": "Alpha below 8 cleared; trim using alpha >= 24 with 8px margin; downscale only; no recoloring. Frame retains its transparent opening.",
+  "sources": {
+    "map_home_base": {
+      "uploadFilename": "Watercolor Cabin Sticker Illustration.png",
+      "path": "figures/raw/map_artwork/map_home_base.png",
+      "sha256": "d115a0e1e82f6a6933c62f94cf3f5a264bee4e84eff345c426aa5693bdbecd87",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_waterfall": {
+      "uploadFilename": "Watercolor Waterfall Sticker Cutout.png",
+      "path": "figures/raw/map_artwork/map_waterfall.png",
+      "sha256": "2df35efa4bffaf2ee26f886ff72f4398483ddaf5e29de7953ee3e0462849fe23",
+      "size": [
+        1024,
+        1536
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_paper_frame": {
+      "uploadFilename": "Watercolor Paper Frame on Transparency.png",
+      "path": "figures/raw/map_artwork/map_paper_frame.png",
+      "sha256": "0d636981ab094f9a35716fe12636404d67b709a4a31315853bc466c3ef8ed5f2",
+      "size": [
+        1536,
+        1024
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_vi_nha": {
+      "uploadFilename": "Vietnamese Meal on a Woven Tray.png",
+      "path": "figures/raw/map_artwork/map_vi_nha.png",
+      "sha256": "f055ec0bd238b3c3a5912f2384e31065521dc23e18493e862bca671d0065fc97",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_bep_cui": {
+      "uploadFilename": "Rustic Steaming Pot over Wood Fire.png",
+      "path": "figures/raw/map_artwork/map_bep_cui.png",
+      "sha256": "99e442dec7e56fbaae0508609606fb7eba28fdcc3334ff63bd63cd7932c5f039",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_ameii_hill": {
+      "uploadFilename": "Watercolor Cottage Hill Sticker.png",
+      "path": "figures/raw/map_artwork/map_ameii_hill.png",
+      "sha256": "5cbcf7fe841c06badee1de0c8518b4753d6087ec3d02971a5d58eb39dac906a0",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_a_phu": {
+      "uploadFilename": "Watercolor Stilted Mountain Lodge Sticker.png",
+      "path": "figures/raw/map_artwork/map_a_phu.png",
+      "sha256": "65242d9e766f7b558dc93338efe42347783a2004286e808549c875bd8d48f415",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_thao_nguyen": {
+      "uploadFilename": "Watercolor Hillside Path Sticker.png",
+      "path": "figures/raw/map_artwork/map_thao_nguyen.png",
+      "sha256": "a496f891dd71c027f3df47a520392cdad1a1786a0b411c324729cdb4080ad4c1",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_lan_co_don": {
+      "uploadFilename": "Rustic Watercolor Shelter Sticker.png",
+      "path": "figures/raw/map_artwork/map_lan_co_don.png",
+      "sha256": "7047d68e6d0ed1d74a31b32c8453809e27a144f2158077adbf0e21a51a17a293",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_doi_may": {
+      "uploadFilename": "Watercolor Vietnamese Grilled Feast.png",
+      "path": "figures/raw/map_artwork/map_doi_may.png",
+      "sha256": "a1c3f420bac36ec20006e67589c63d3dcaacd9e46e9f3a7751e35667ae72868a",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    },
+    "map_trung_tam": {
+      "uploadFilename": "Rustic Mountain Village Market Sticker.png",
+      "path": "figures/raw/map_artwork/map_trung_tam.png",
+      "sha256": "b5b594e9f947a1231a6a4da3e111386b375389d386c0a26d0e88a95a85481ffe",
+      "size": [
+        1254,
+        1254
+      ],
+      "rights": "User-generated artwork supplied for this project",
+      "description": "Stylized illustration, not a documentary venue reconstruction"
+    }
+  },
+  "assets": {
+    "map_home_base": {
+      "source": "map_home_base",
+      "trim": [
+        64,
+        240,
+        1197,
+        1015
+      ],
+      "size": [
+        480,
+        328
+      ],
+      "src": "figures/decor/painted/map_home_base.webp",
+      "bytes": 61614,
+      "sha256": "744bb9b096646407219cbb3211c7e7811139b2ab86acc40a8edd4e6d35d67796"
+    },
+    "map_waterfall": {
+      "source": "map_waterfall",
+      "trim": [
+        25,
+        40,
+        1019,
+        1507
+      ],
+      "size": [
+        325,
+        480
+      ],
+      "src": "figures/decor/painted/map_waterfall.webp",
+      "bytes": 71090,
+      "sha256": "c1da11a48ad793db8c93022170aac06dc7af628d6f59b737597f41c3bc6f6ce9"
+    },
+    "map_paper_frame": {
+      "source": "map_paper_frame",
+      "trim": [
+        32,
+        90,
+        1506,
+        917
+      ],
+      "size": [
+        960,
+        539
+      ],
+      "src": "figures/decor/painted/map_paper_frame.webp",
+      "bytes": 53794,
+      "sha256": "dc107dc9fabf29bb0f26159b58983a788085ad7f0c4f2000992cc75396e78500"
+    },
+    "map_vi_nha": {
+      "source": "map_vi_nha",
+      "trim": [
+        33,
+        209,
+        1233,
+        1055
+      ],
+      "size": [
+        480,
+        338
+      ],
+      "src": "figures/decor/painted/map_vi_nha.webp",
+      "bytes": 70130,
+      "sha256": "ed6416a12487f7c1a9936034f08e92dbbdf63a7a3e59bf4fa144517274b80366"
+    },
+    "map_bep_cui": {
+      "source": "map_bep_cui",
+      "trim": [
+        189,
+        30,
+        1068,
+        1228
+      ],
+      "size": [
+        352,
+        480
+      ],
+      "src": "figures/decor/painted/map_bep_cui.webp",
+      "bytes": 75374,
+      "sha256": "4f8fdf1ac9fa5d5796f21ec2a42a61991f64736730b01f53cfc4183a3a60c83e"
+    },
+    "map_ameii_hill": {
+      "source": "map_ameii_hill",
+      "trim": [
+        44,
+        292,
+        1210,
+        988
+      ],
+      "size": [
+        480,
+        287
+      ],
+      "src": "figures/decor/painted/map_ameii_hill.webp",
+      "bytes": 55156,
+      "sha256": "390d27a2263585182c52ca30f47a60328b290678c49e4fe06066c167061d94a7"
+    },
+    "map_a_phu": {
+      "source": "map_a_phu",
+      "trim": [
+        14,
+        283,
+        1240,
+        972
+      ],
+      "size": [
+        480,
+        270
+      ],
+      "src": "figures/decor/painted/map_a_phu.webp",
+      "bytes": 56872,
+      "sha256": "55391cb939b07658356d5088684027dd4a9670ca1b75705db3f19ccc8dced667"
+    },
+    "map_thao_nguyen": {
+      "source": "map_thao_nguyen",
+      "trim": [
+        29,
+        296,
+        1235,
+        1041
+      ],
+      "size": [
+        480,
+        297
+      ],
+      "src": "figures/decor/painted/map_thao_nguyen.webp",
+      "bytes": 63348,
+      "sha256": "6c36cca10b1b9f1e9511255bd2c7edcd571b12a47ceb0e034a13ba43177946ea"
+    },
+    "map_lan_co_don": {
+      "source": "map_lan_co_don",
+      "trim": [
+        104,
+        193,
+        1185,
+        1084
+      ],
+      "size": [
+        480,
+        396
+      ],
+      "src": "figures/decor/painted/map_lan_co_don.webp",
+      "bytes": 78060,
+      "sha256": "347dd02a3d403c75b6a1dc90be885101499ce9dabd2270c7cfee0747a566c869"
+    },
+    "map_doi_may": {
+      "source": "map_doi_may",
+      "trim": [
+        15,
+        168,
+        1239,
+        1089
+      ],
+      "size": [
+        480,
+        361
+      ],
+      "src": "figures/decor/painted/map_doi_may.webp",
+      "bytes": 85394,
+      "sha256": "52dbee3cc74c06e0e149d7273491a7ed3b52d79485d4c9cd06000809bce77294"
+    },
+    "map_trung_tam": {
+      "source": "map_trung_tam",
+      "trim": [
+        4,
+        287,
+        1250,
+        975
+      ],
+      "size": [
+        480,
+        265
+      ],
+      "src": "figures/decor/painted/map_trung_tam.webp",
+      "bytes": 53274,
+      "sha256": "351d9347269be27d4aee0daee03037f4c87f6428e8071ec4200cadaff78f87e9"
+    }
+  }
+}

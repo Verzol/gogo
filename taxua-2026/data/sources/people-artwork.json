@@ -1,0 +1,229 @@
+{
+  "processing": "Alpha below 8 cleared; trim at alpha >= 24 with 8px margin; downscale into a 512px transparent canvas with 20px padding; no upscaling, recoloring or face retouching.",
+  "portraits": {
+    "san": {
+      "member": "san",
+      "uploadFilename": "san.png",
+      "source": "figures/raw/people/san.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "f1078faa9c52e5c86a6482024107e7cb951e90d910a38478ba99ea3a6e78495b",
+      "rights": "User-generated portrait supplied for this project",
+      "trim": [
+        239,
+        72,
+        1102,
+        1209
+      ],
+      "paintedSize": [
+        358,
+        472
+      ],
+      "offset": [
+        77,
+        20
+      ],
+      "src": "figures/people/san_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 53104,
+      "sha256": "c02f3629a9ec114577d6fb206583d3b0b5d91ad1d55256c23474d49131b87b97"
+    },
+    "thao": {
+      "member": "thảo",
+      "uploadFilename": "thao.png",
+      "source": "figures/raw/people/thao.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "6e34a188ebde11cd78efd02df45e1170689a6b9ecf2904fd4e436f115f370d5e",
+      "rights": "User-generated portrait supplied for this project",
+      "trim": [
+        191,
+        115,
+        1063,
+        1153
+      ],
+      "paintedSize": [
+        397,
+        472
+      ],
+      "offset": [
+        57,
+        20
+      ],
+      "src": "figures/people/thao_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 59032,
+      "sha256": "5206583b66ed6aeedd0b49540aacadc37a7dbae83bbdb6fe540808b734f81214"
+    },
+    "mi": {
+      "member": "mi",
+      "uploadFilename": "mi.png",
+      "source": "figures/raw/people/mi.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "0beb0816c669d5233db3c84760f86b405e24f7c39a75070d4ba5a03ee2b0da13",
+      "rights": "User-generated portrait supplied for this project",
+      "trim": [
+        90,
+        16,
+        1174,
+        1244
+      ],
+      "paintedSize": [
+        417,
+        472
+      ],
+      "offset": [
+        47,
+        20
+      ],
+      "src": "figures/people/mi_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 70032,
+      "sha256": "b7d86062b1242c1f76e76d48e7f942360a00f5bfa5794096bc9636b96e35b89c"
+    },
+    "linh": {
+      "member": "linh",
+      "uploadFilename": "linh.png",
+      "source": "figures/raw/people/linh.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "5e0507e87cf618134764b6c75a10ba8b47cdec395f2181525d5af067e9aa092a",
+      "rights": "User-generated portrait supplied for this project",
+      "trim": [
+        192,
+        70,
+        1143,
+        1229
+      ],
+      "paintedSize": [
+        387,
+        472
+      ],
+      "offset": [
+        62,
+        20
+      ],
+      "src": "figures/people/linh_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 63702,
+      "sha256": "2868095ea29197732b57f4e49c308c3fda9f322ec8e9a1e5960882240620af56"
+    },
+    "quanlele": {
+      "member": "quanlele",
+      "uploadFilename": "quanlele.png",
+      "source": "figures/raw/people/quanlele.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "966bdcf5edb9e985f02492f19535c9d915aac88315770111ad2cfc629f022b35",
+      "rights": "User-generated portrait supplied for this project",
+      "trim": [
+        194,
+        41,
+        1136,
+        1215
+      ],
+      "paintedSize": [
+        379,
+        472
+      ],
+      "offset": [
+        66,
+        20
+      ],
+      "src": "figures/people/quanlele_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 56322,
+      "sha256": "3e714740b0247dad3affa1f3d36a7047cd013c5123eb5435d74780abe4294b4c"
+    },
+    "gtm": {
+      "member": "gtm",
+      "uploadFilename": "gtm.png",
+      "source": "figures/raw/people/gtm.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "41e2e6ab82068072c801273facfe47d83ce6d8fefbae34554ef7be9d4f29b117",
+      "rights": "User-generated portrait supplied for this project",
+      "trim": [
+        151,
+        64,
+        1099,
+        1197
+      ],
+      "paintedSize": [
+        395,
+        472
+      ],
+      "offset": [
+        58,
+        20
+      ],
+      "src": "figures/people/gtm_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 61394,
+      "sha256": "498775daea699cb588efc5162ed3044d638c3c0a80504724257059fabbdc20a4"
+    },
+    "truong": {
+      "member": "trường",
+      "uploadFilename": "truong.png",
+      "source": "figures/raw/people/truong.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "00e6099a243df8e5b92b36558ac0e845f70ae7edc1b0378500c918ed21e5cd72",
+      "rights": "User-generated portrait supplied for this project",
+      "trim": [
+        218,
+        40,
+        1082,
+        1215
+      ],
+      "paintedSize": [
+        347,
+        472
+      ],
+      "offset": [
+        82,
+        20
+      ],
+      "src": "figures/people/truong_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 54716,
+      "sha256": "c0e6493b3a79a5c118515e01dc46a1a7eaab9d41b070d3e0e4775ea70131157e"
+    }
+  }
+}

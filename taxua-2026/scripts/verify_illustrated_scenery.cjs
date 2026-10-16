@@ -61,7 +61,8 @@ async function shot(p,name) {
       const midpoint=partial[Math.floor(partial.length/2)];await p.evaluate(y=>scrollTo(0,y),midpoint.y);await wait(750);
       check(name+' reverse scroll reproduces the same scenery blend',(await state(p)).every((e,i)=>Math.abs(e.opacity-midpoint.layers[i].opacity)<.015));
       report.samples.push({name,samples});
-      await jump(p,name==='phone'?'departure':'top');
+      // The date rail now belongs to the itinerary on desktop as well.
+      await jump(p,'departure');
       await p.locator('[data-chapter="day-3"]').click();await wait(120);
       check(name+' distant navigation retains a frozen outgoing composition',await p.locator('.navigation-scene').count()===1);
       check(name+' navigation goes directly to destination scenery',(await state(p)).filter(i=>i.opacity>0).every(i=>i.id==='bluehour'));
@@ -102,6 +103,7 @@ async function shot(p,name) {
   let release;const gate=new Promise(r=>release=r);
   await delayed.route('**/ridge_far_bluehour.webp',async r=>{await gate;await r.continue();});
   await delayed.goto(base,{waitUntil:'domcontentloaded'});await wait(1000);
+  await jump(delayed,'departure');
   await delayed.locator('[data-chapter="day-3"]').click();await wait(1400);
   check('navigation waits with outgoing composition while a layer decodes',await delayed.locator('.navigation-scene').count()===1);
   release();await wait(1600);

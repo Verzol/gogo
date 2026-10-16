@@ -14,6 +14,8 @@
 
 Live worlds: **sunrise, night, bluehour, daylight, jade, afternoon**. Four full landscape paintings are palette/composition references, not wallpapers. Live panels combine scalable skies, transparent ridges, small clouds, celestial pieces and environment cutouts.
 
+The later [UI artwork import](ui-artwork.md) adds supplied wide/portrait low-valley cutouts to the five story/support worlds. These replace visible mid/near bands with quieter terrain; a faint far band remains on larger screens. The old layers/assets are retained, and sunrise keeps its original composition. Portrait canvases keep their aspect ratio and align to the bottom. Existing skies, sun/moon, chapter mapping and edge landmarks remain.
+
 ## Story mapping
 
 | Chapter | World |

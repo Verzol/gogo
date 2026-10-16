@@ -132,3 +132,35 @@
      Keep the painted peaks at the right edge beside the sun. */
   .scene-sunrise .painted-terrain { mask-image: linear-gradient(90deg,transparent 60%,#000 90%); }
 }
+
+/* Supplied low-valley terrain leaves the reading lane mostly open sky.
+   The sunrise opening retains its original layered reveal. */
+.painted-terrain--quiet { width: 100%; }
+.painted-terrain--quiet > .ridge-mid,.painted-terrain--quiet > .ridge-near { display: none; }
+.painted-terrain--quiet > .ridge-far { bottom: -3%; opacity: .2; }
+.painted-terrain--quiet > .valley-cloud { bottom: 2%; opacity: .3; }
+.quiet-terrain { position: absolute; inset: 0; transform: translateY(calc(var(--scenery-drift) * -.35)); }
+.quiet-terrain-image { width: 100%; left: 0; bottom: -8px; }
+.painted-terrain--quiet .landscape-detail { width: clamp(75px,8vw,125px); }
+.painted-terrain--quiet .detail-solitary_tree { right: 4%; }
+.painted-terrain--quiet .detail-hillside_hut { right: 5%; }
+.painted-terrain--quiet .detail-rock_outcrop { left: 3%; }
+.painted-terrain--quiet .valley-lake { width: 11%; left: 75%; bottom: 0; }
+@media (max-width:767px) {
+  .painted-terrain--quiet { width: 100%; }
+  .scene-panel:not(.scene-sunrise) .painted-sun { right: -65px; top: 14%; width: 150px; }
+  .painted-terrain--quiet > .ridge-far,.painted-terrain--quiet > .valley-cloud { display: none; }
+  .quiet-terrain-image { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
+  .painted-terrain--quiet .detail-solitary_tree { width: 85px; right: 0; bottom: -8px; }
+  .painted-terrain--quiet .detail-hillside_hut { width: 70px; right: 1%; }
+  .painted-terrain--quiet .detail-rock_outcrop { width: 65px; left: 1%; }
+  .painted-terrain--quiet .valley-lake { width: 90px; left: auto; right: 16%; }
+}
+@media (max-height:520px) and (orientation:landscape) {
+  .painted-terrain--quiet { width: 100%; min-width: 0; }
+  .quiet-terrain-image { bottom: -12%; }
+}
+/* Keep moving cloud pigment peripheral to the settled reading copy. */
+.scene-panel:not(.scene-sunrise) .sky-cloud { opacity: .28; }
+.scene-panel:not(.scene-sunrise) .high-wisp { opacity: .25; }
+.scene-bluehour .sky-cloud,.scene-bluehour .high-wisp { opacity: .18; }

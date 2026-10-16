@@ -1,0 +1,364 @@
+{
+  "processing": "Measured crops, alpha trim with 8px margin for objects; terrain retains full canvas. Downscale only. Night/bluehour are derived palette variants, not additional supplied paintings.",
+  "sources": {
+    "packing_sheet": {
+      "uploadFilename": "Watercolor Outdoor Adventure Sticker Sheet.png",
+      "path": "figures/raw/ui_artwork/packing_sheet.png",
+      "sha256": "e3397f2bbc81006f0325bce61ffbe6259efb917458723308b83a50be49813ebd",
+      "size": [
+        1024,
+        1536
+      ],
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "trail_sign": {
+      "uploadFilename": "Rustic Blank Watercolor Arrow Sign.png",
+      "path": "figures/raw/ui_artwork/trail_sign.png",
+      "sha256": "192e37a7bb0bac6c150b8bee6e52fe44956b24e533798229529d1bae85f94547",
+      "size": [
+        1536,
+        1024
+      ],
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "quiet_terrain_wide": {
+      "uploadFilename": "Layered Teal Watercolor Mountain Ridge.png",
+      "path": "figures/raw/ui_artwork/quiet_terrain_wide.png",
+      "sha256": "fd167540b739ae29e2b5a074d8cce95e507b3c09081639eb587d0a9ec30b8bef",
+      "size": [
+        2172,
+        724
+      ],
+      "rights": "User-generated artwork supplied for this project"
+    },
+    "quiet_terrain_portrait": {
+      "uploadFilename": "Watercolor Mountain Valley Cutout.png",
+      "path": "figures/raw/ui_artwork/quiet_terrain_portrait.png",
+      "sha256": "2390fc3d6fb1d716aab65bd213fc1136201c5cce7fa94a8e5df3a5ad9fb3efc2",
+      "size": [
+        1024,
+        1536
+      ],
+      "rights": "User-generated artwork supplied for this project"
+    }
+  },
+  "assets": {
+    "ui_coat": {
+      "source": "packing_sheet",
+      "crop": [
+        0,
+        0,
+        530,
+        537
+      ],
+      "trim": [
+        20,
+        74,
+        530,
+        536
+      ],
+      "inputSize": [
+        530,
+        537
+      ],
+      "size": [
+        480,
+        435
+      ],
+      "palette": null,
+      "src": "figures/decor/painted/ui_coat.webp",
+      "bytes": 71268
+    },
+    "ui_boots": {
+      "source": "packing_sheet",
+      "crop": [
+        530,
+        0,
+        1024,
+        537
+      ],
+      "trim": [
+        0,
+        131,
+        481,
+        537
+      ],
+      "inputSize": [
+        494,
+        537
+      ],
+      "size": [
+        480,
+        405
+      ],
+      "palette": null,
+      "src": "figures/decor/painted/ui_boots.webp",
+      "bytes": 66434
+    },
+    "ui_poncho": {
+      "source": "packing_sheet",
+      "crop": [
+        0,
+        537,
+        530,
+        1040
+      ],
+      "trim": [
+        24,
+        0,
+        530,
+        503
+      ],
+      "inputSize": [
+        530,
+        503
+      ],
+      "size": [
+        480,
+        477
+      ],
+      "palette": null,
+      "src": "figures/decor/painted/ui_poncho.webp",
+      "bytes": 66610
+    },
+    "ui_power_bank": {
+      "source": "packing_sheet",
+      "crop": [
+        530,
+        537,
+        1024,
+        1040
+      ],
+      "trim": [
+        19,
+        0,
+        456,
+        441
+      ],
+      "inputSize": [
+        494,
+        503
+      ],
+      "size": [
+        437,
+        441
+      ],
+      "palette": null,
+      "src": "figures/decor/painted/ui_power_bank.webp",
+      "bytes": 39138
+    },
+    "ui_medicine": {
+      "source": "packing_sheet",
+      "crop": [
+        0,
+        1040,
+        530,
+        1536
+      ],
+      "trim": [
+        40,
+        74,
+        517,
+        390
+      ],
+      "inputSize": [
+        530,
+        496
+      ],
+      "size": [
+        477,
+        316
+      ],
+      "palette": null,
+      "src": "figures/decor/painted/ui_medicine.webp",
+      "bytes": 46872
+    },
+    "ui_cash": {
+      "source": "packing_sheet",
+      "crop": [
+        530,
+        1040,
+        1024,
+        1536
+      ],
+      "trim": [
+        33,
+        0,
+        464,
+        423
+      ],
+      "inputSize": [
+        494,
+        496
+      ],
+      "size": [
+        431,
+        423
+      ],
+      "palette": null,
+      "src": "figures/decor/painted/ui_cash.webp",
+      "bytes": 51176
+    },
+    "ui_trail_sign": {
+      "source": "trail_sign",
+      "crop": null,
+      "trim": [
+        74,
+        71,
+        1497,
+        996
+      ],
+      "inputSize": [
+        1536,
+        1024
+      ],
+      "size": [
+        480,
+        312
+      ],
+      "palette": null,
+      "src": "figures/decor/painted/ui_trail_sign.webp",
+      "bytes": 39166
+    },
+    "ui_quiet_terrain_wide": {
+      "source": "quiet_terrain_wide",
+      "crop": null,
+      "trim": null,
+      "inputSize": [
+        2172,
+        724
+      ],
+      "size": [
+        1920,
+        640
+      ],
+      "palette": null,
+      "src": "figures/scenery/painted/ui_quiet_terrain_wide.webp",
+      "bytes": 212834
+    },
+    "ui_quiet_terrain_wide_night": {
+      "source": "quiet_terrain_wide",
+      "crop": null,
+      "trim": null,
+      "inputSize": [
+        1920,
+        640
+      ],
+      "size": [
+        1920,
+        640
+      ],
+      "palette": {
+        "low": [
+          12,
+          29,
+          43
+        ],
+        "high": [
+          77,
+          102,
+          116
+        ]
+      },
+      "src": "figures/scenery/painted/ui_quiet_terrain_wide_night.webp",
+      "bytes": 96792
+    },
+    "ui_quiet_terrain_wide_bluehour": {
+      "source": "quiet_terrain_wide",
+      "crop": null,
+      "trim": null,
+      "inputSize": [
+        1920,
+        640
+      ],
+      "size": [
+        1920,
+        640
+      ],
+      "palette": {
+        "low": [
+          27,
+          49,
+          68
+        ],
+        "high": [
+          128,
+          151,
+          167
+        ]
+      },
+      "src": "figures/scenery/painted/ui_quiet_terrain_wide_bluehour.webp",
+      "bytes": 118702
+    },
+    "ui_quiet_terrain_portrait": {
+      "source": "quiet_terrain_portrait",
+      "crop": null,
+      "trim": null,
+      "inputSize": [
+        1024,
+        1536
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "palette": null,
+      "src": "figures/scenery/painted/ui_quiet_terrain_portrait.webp",
+      "bytes": 118478
+    },
+    "ui_quiet_terrain_portrait_night": {
+      "source": "quiet_terrain_portrait",
+      "crop": null,
+      "trim": null,
+      "inputSize": [
+        1024,
+        1536
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "palette": {
+        "low": [
+          12,
+          29,
+          43
+        ],
+        "high": [
+          77,
+          102,
+          116
+        ]
+      },
+      "src": "figures/scenery/painted/ui_quiet_terrain_portrait_night.webp",
+      "bytes": 52364
+    },
+    "ui_quiet_terrain_portrait_bluehour": {
+      "source": "quiet_terrain_portrait",
+      "crop": null,
+      "trim": null,
+      "inputSize": [
+        1024,
+        1536
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "palette": {
+        "low": [
+          27,
+          49,
+          68
+        ],
+        "high": [
+          128,
+          151,
+          167
+        ]
+      },
+      "src": "figures/scenery/painted/ui_quiet_terrain_portrait_bluehour.webp",
+      "bytes": 63086
+    }
+  }
+}

@@ -311,7 +311,9 @@
           applyReveal(state);
           const top = () => topFor ? topFor(el) : layoutTop(el);
           const delay = () => stagger ? innerHeight * Math.min(.055,index * .018) : 0;
-          const end = () => Math.min(distance(),top() - innerHeight * .54 + delay());
+          // Reading copy settles before it enters the main reading lane;
+          // photographs retain the longer, reversible entrance.
+          const end = () => Math.min(distance(),top() - innerHeight * (kind === 'text' ? .76 : .54) + delay());
           const start = () => Math.min(top() - innerHeight * .96 + delay(),end() - 1);
           state.tween = gsap.fromTo(state,{progress:0},{progress:1,duration:1,ease:'none',paused:true,onUpdate:() => applyReveal(state)});
           state.trigger = ScrollTrigger.create({trigger:el,start,end,animation:state.tween,scrub:.18,
@@ -398,6 +400,7 @@
         resetDeck(deck);
         const height = deck.getBoundingClientRect().height;
         const ghost = slides[previous].cloneNode(true);
+        ghost.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
         ghost.removeAttribute('hidden');
         ghost.className = 'deck-ghost';
         ghost.setAttribute('aria-hidden','true');

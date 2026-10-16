@@ -29,7 +29,9 @@
 - Mùa Trứ's introduction appears at check-in, not at early luggage drop (`showPlaceGuide:false`).
 - Cây Cô Đơn, Lán Cô Đơn and Mỏm Cá Heo have separate layouts/anchors inside `afternoon-cluster`; do not invent separate visit times.
 - Làng Văn Hóa Café is one stop including Núi Đôi and Đồi Công viên Mây.
-- Secondary photos use previous/next decks; homestay room photos stay a visible collage. Accessible note buttons unfold logistics; essential road warnings remain outside folded notes.
+- The existing date rail opens a day-specific stop index with real times and native event links. Its highlighted stop follows the reading location without saving progress. The Maps sign controls have been removed; existing `mapQuery` fields are retained for a future replacement. See [Illustrated journal controls](ui-artwork.md).
+- Secondary photos use previous/next decks and a clickable preview of the other real photograph; main story photographs turn when clicked or tapped, revealing their scheduled date, editorial cue and real image credit. There is no visible turn label or hint; the photograph is a native keyboard-accessible button. The small arrival photo and homestay room collage stay unchanged. Accessible note buttons unfold logistics; essential road warnings, times, optional flags and costs remain outside folded notes.
+- See [Photo backs](journal-objects.md) for click/keyboard behavior and print.
 - Keep F01/F02/F03 captions “Ảnh minh họa.” immediately below the matching image, including on phones. [Photo pipeline](assets.md).
 
 ## Details easy to lose
@@ -42,7 +44,7 @@
 ## Supporting sections
 
 - Order: crew → fund → packing → destinations → food → practical. [Crew/fund/countdown](group.md).
-- Packing persists checked item indices under `taxua-2026-packing`, validates saved data and tolerates denied storage. Reordering items changes the meaning of existing indices.
+- Packing pairs seven native checkboxes with illustrated objects; phones use two columns. Checked objects stay in place for review/undo. It persists checked item indices under `taxua-2026-packing`, validates saved data and tolerates denied storage. Reordering items changes the meaning of existing indices.
 - Destination links have an explicit target list in `renderSupportingContent`; update it with the corresponding data/order.
 - Practical facts include hardcoded transport/room reminders in `main.js`; synchronize those when the schedule changes. Costs come from `itinerary.costs` and remain estimates for seven people.
 

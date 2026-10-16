@@ -1,0 +1,394 @@
+{
+  "reviewedAt": "2026-10-16",
+  "scope": "18 story places plus an unresolved Hanoi pickup. No inferred venue coordinates.",
+  "verificationMeaning": "Verified means name-matched published geographic point, not an entrance, travel route or on-site safety verification.",
+  "osmSource": "https://photon.komoot.io/ (OpenStreetMap-based build-time discovery only; no runtime search)",
+  "records": {
+    "song_lung_khung_long": {
+      "name": "Sống Lưng Khủng Long",
+      "category": "landmark",
+      "art": "decor/dino_ridge_day.webp",
+      "lat": 21.3045713,
+      "lng": 104.464087,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=16915634236047948939"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "thao_coffee": {
+      "name": "Thào Coffee",
+      "category": "cafe",
+      "art": "decor/painted/cloud_coffee_sticker.webp",
+      "lat": 21.2778895,
+      "lng": 104.4331195,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.openstreetmap.org/node/13724983101"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim cộng đồng OpenStreetMap; lối vào cần kiểm tra tại chỗ."
+    },
+    "thac_chua_ty": {
+      "name": "Thác Chua Tỳ",
+      "category": "waterfall",
+      "art": "decor/painted/map_waterfall.webp",
+      "lat": 21.3805341,
+      "lng": 104.3829268,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=2885022385867650888"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "vi_nha_tiem_com": {
+      "name": "Vị Nhà Tiệm Cơm",
+      "category": "meal",
+      "art": "decor/painted/map_vi_nha.webp",
+      "lat": 21.2759998,
+      "lng": 104.4341393,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=15021195531137429615"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "bep_cui": {
+      "name": "Bếp Củi",
+      "category": "meal",
+      "art": "decor/painted/map_bep_cui.webp",
+      "lat": 21.2796322,
+      "lng": 104.4320664,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=13051535917208680876"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "mua_tru_homestay": {
+      "name": "Mùa Trứ Homestay",
+      "category": "stay",
+      "art": "decor/painted/map_home_base.webp",
+      "lat": 21.2777435,
+      "lng": 104.4333062,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=13623207350557074921"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "ameii_hill": {
+      "name": "Ameii Hill",
+      "category": "landmark",
+      "art": "decor/painted/map_ameii_hill.webp",
+      "lat": 21.2711785,
+      "lng": 104.4230839,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=8990298849778649003"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "a_phu": {
+      "name": "Nhà hàng A Phủ",
+      "category": "meal",
+      "art": "decor/painted/map_a_phu.webp",
+      "lat": 21.2799562,
+      "lng": 104.4264168,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=9549024332074645625"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "ho_mat_ngoc": {
+      "name": "Hồ Mắt Ngọc",
+      "category": "landmark",
+      "art": "scenery/painted/lake.webp",
+      "lat": 21.2836986,
+      "lng": 104.4502696,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=15482996879672750094"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "thao_nguyen_ta_xua": {
+      "name": "Thảo nguyên Tà Xùa",
+      "category": "landmark",
+      "art": "decor/painted/map_thao_nguyen.webp",
+      "lat": 21.2645162,
+      "lng": 104.5231778,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=10571900951094084594"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "cay_co_don": {
+      "name": "Cây Cô Đơn",
+      "category": "landmark",
+      "art": "decor/lone_tree_day.webp",
+      "lat": 21.2653138,
+      "lng": 104.5384429,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.openstreetmap.org/node/13724978102"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim cộng đồng OpenStreetMap; lối vào cần kiểm tra tại chỗ."
+    },
+    "lan_co_don": {
+      "name": "Lán Cô Đơn",
+      "category": "landmark",
+      "art": "decor/painted/map_lan_co_don.webp",
+      "lat": 21.2638784,
+      "lng": 104.5370201,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=227635560843641153"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "mom_ca_heo": {
+      "name": "Mỏm Cá Heo",
+      "category": "landmark",
+      "art": "decor/dolphin_rock_day.webp",
+      "lat": 21.2623818,
+      "lng": 104.5303513,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=18442060060740083199"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "doi_may": {
+      "name": "Đồi Mây Tà Xùa",
+      "category": "meal",
+      "art": "decor/painted/map_doi_may.webp",
+      "lat": 21.2773854,
+      "lng": 104.4335432,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=4492946359045402379"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "ca_phe_thang_10": {
+      "name": "Cà phê Tháng 10",
+      "category": "cafe",
+      "art": "decor/painted/cloud_coffee_sticker.webp",
+      "lat": 21.2795397,
+      "lng": 104.4278366,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=17931017884983763766"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "khe_cai": {
+      "name": "Khe Cải",
+      "category": "landmark",
+      "art": "decor/mountain_sky_day.webp",
+      "lat": null,
+      "lng": null,
+      "status": "unresolved",
+      "precision": null,
+      "sourceUrls": [],
+      "verifiedAt": null,
+      "note": "Chưa xác nhận được tọa độ của đúng địa điểm."
+    },
+    "lang_van_hoa_cafe": {
+      "name": "Làng Văn Hóa Café",
+      "category": "cafe",
+      "art": "decor/painted/cloud_coffee_sticker.webp",
+      "lat": 21.2863822,
+      "lng": 104.416911,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://www.google.com/maps?cid=2507578269952744816"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim theo địa danh đã công bố; lối vào cần kiểm tra tại chỗ."
+    },
+    "trung_tam_ta_xua": {
+      "name": "Trung tâm Tà Xùa",
+      "category": "area",
+      "art": "decor/painted/map_trung_tam.webp",
+      "lat": 21.27516,
+      "lng": 104.43396,
+      "status": "approximate",
+      "precision": "area",
+      "sourceUrls": [
+        "https://maps.apple.com/place?auid=5952950460681155788"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Khu vực Tà Xùa để định hướng; chưa chốt quán ăn hay điểm dừng cụ thể."
+    },
+    "hanoi_pickup": {
+      "name": "Điểm hẹn Hà Nội · Viettel",
+      "category": "transfer",
+      "art": "decor/painted/bus_sticker.webp",
+      "lat": null,
+      "lng": null,
+      "status": "unresolved",
+      "precision": null,
+      "sourceUrls": [],
+      "verifiedAt": null,
+      "note": "Chưa xác nhận được tọa độ của đúng địa điểm."
+    }
+  },
+  "observations": [
+    "Only single named public-place records matching the scheduled venue were accepted; search camera centers and unnamed multi-result lists were rejected.",
+    "Photon results outside the trip area were rejected.",
+    "The homestay named record also links facebook.com/muatrutaxua, matching the existing directory.",
+    "Khe Cải and the exact Hanoi pickup have no accepted precise coordinate.",
+    "The afternoon group has no agreed internal order.",
+    "The town coordinate is only an approximate area reference for the unassigned town lunch.",
+    "Google public embed records were used at research time only; there is no runtime Google Maps dependency."
+  ],
+  "namedPointEvidence": {
+    "song_lung_khung_long": {
+      "query": "Sống Lưng Khủng Long điểm Săn Mây Tà Xùa",
+      "publishedName": "Sống Lưng Khủng Long - điểm Săn Mây",
+      "publishedAddress": "Sống Lưng Khủng Long - điểm Săn Mây, Tà Xùa, Sơn La",
+      "cid": "16915634236047948939",
+      "sourceUrl": "https://www.google.com/maps?q=S%E1%BB%91ng+L%C6%B0ng+Kh%E1%BB%A7ng+Long+%C4%91i%E1%BB%83m+S%C4%83n+M%C3%A2y+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "mua_tru_homestay": {
+      "query": "HomeStay Mùa Trứ Tà Xùa",
+      "publishedName": "HomeStay Mùa Trứ Tà Xùa",
+      "publishedAddress": "HomeStay Mùa Trứ Tà Xùa, ĐT112, Tà Xùa, Sơn La 360000",
+      "cid": "13623207350557074921",
+      "sourceUrl": "https://www.google.com/maps?q=HomeStay+M%C3%B9a+Tr%E1%BB%A9+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "thac_chua_ty": {
+      "query": "Thác Chua Tỳ",
+      "publishedName": "Thác Chua Tỳ",
+      "publishedAddress": "Thác Chua Tỳ, Xím Vàng, Sơn La",
+      "cid": "2885022385867650888",
+      "sourceUrl": "https://www.google.com/maps?q=Th%C3%A1c+Chua+T%E1%BB%B3&output=embed&hl=vi"
+    },
+    "ho_mat_ngoc": {
+      "query": "Hồ Mắt Ngọc Tà Xùa",
+      "publishedName": "Hồ Mắt Ngọc",
+      "publishedAddress": "7FM2+F4C Hồ Mắt Ngọc, Tà Xùa, Sơn La",
+      "cid": "15482996879672750094",
+      "sourceUrl": "https://www.google.com/maps?q=H%E1%BB%93+M%E1%BA%AFt+Ng%E1%BB%8Dc+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "thao_nguyen_ta_xua": {
+      "query": "Thảo nguyên Tà Xùa",
+      "publishedName": "Thảo nguyên Tà Xùa",
+      "publishedAddress": "7G7F+R73 Thảo nguyên Tà Xùa, Tà Xùa, Sơn La",
+      "cid": "10571900951094084594",
+      "sourceUrl": "https://www.google.com/maps?q=Th%E1%BA%A3o+nguy%C3%AAn+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "lan_co_don": {
+      "query": "Lán Cô Đơn Tà Xùa",
+      "publishedName": "Lán Cô Đơn Tà Xùa",
+      "publishedAddress": "Lán Cô Đơn Tà Xùa, Tà Xùa, Sơn La",
+      "cid": "227635560843641153",
+      "sourceUrl": "https://www.google.com/maps?q=L%C3%A1n+C%C3%B4+%C4%90%C6%A1n+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "mom_ca_heo": {
+      "query": "Mỏm Cá Heo Tà Xùa",
+      "publishedName": "Mỏm Cá Heo",
+      "publishedAddress": "7G6J+X45 Mỏm Cá Heo, Tà Xùa, Sơn La",
+      "cid": "18442060060740083199",
+      "sourceUrl": "https://www.google.com/maps?q=M%E1%BB%8Fm+C%C3%A1+Heo+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "doi_may": {
+      "query": "Đồi Mây Tà Xùa",
+      "publishedName": "Đồi Mây Tà Xùa",
+      "publishedAddress": "Đồi Mây Tà Xùa, Bản, Tà Xùa, Sơn La",
+      "cid": "4492946359045402379",
+      "sourceUrl": "https://www.google.com/maps?q=%C4%90%E1%BB%93i+M%C3%A2y+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "ca_phe_thang_10": {
+      "query": "Cà phê Tháng 10 Tà Xùa",
+      "publishedName": "Cà phê Tháng 10 - Tà Xùa",
+      "publishedAddress": "Cà phê Tháng 10 - Tà Xùa, Trung tâm xã Tà Xùa (đối diện Tà Xùa cloud, Tà Xùa, Sơn La",
+      "cid": "17931017884983763766",
+      "sourceUrl": "https://www.google.com/maps?q=C%C3%A0+ph%C3%AA+Th%C3%A1ng+10+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "lang_van_hoa_cafe": {
+      "query": "Làng Văn Hóa Cafe Tà Xùa",
+      "publishedName": "Làng Văn Hóa Cafe Tà Xùa",
+      "publishedAddress": "Làng Văn Hóa Cafe Tà Xùa, Đỉnh gió, Tà Xùa, Sơn La",
+      "cid": "2507578269952744816",
+      "sourceUrl": "https://www.google.com/maps?q=L%C3%A0ng+V%C4%83n+H%C3%B3a+Cafe+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "ameii_hill": {
+      "query": "Ameii Hill Sơn La",
+      "publishedName": "Ameii Hill",
+      "publishedAddress": "Ameii Hill, Khe Cải, Bắc Yên, Sơn La",
+      "cid": "8990298849778649003",
+      "sourceUrl": "https://www.google.com/maps?q=Ameii+Hill+S%C6%A1n+La&output=embed&hl=vi"
+    },
+    "vi_nha_tiem_com": {
+      "query": "Vị Nhà Tà Xùa",
+      "publishedName": "Vị Nhà Tiệm Cơm Tà Xùa",
+      "publishedAddress": "Vị Nhà Tiệm Cơm Tà Xùa, Tà Xùa, Sơn La",
+      "cid": "15021195531137429615",
+      "sourceUrl": "https://www.google.com/maps?q=V%E1%BB%8B+Nh%C3%A0+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "bep_cui": {
+      "query": "Nhà hàng Bếp Củi Tà Xùa",
+      "publishedName": "Bếp Củi - cơm nhà, lẩu và nướng",
+      "publishedAddress": "Bếp Củi - cơm nhà, lẩu và nướng, Thiên đường mây, Tà Xùa, Sơn La",
+      "cid": "13051535917208680876",
+      "sourceUrl": "https://www.google.com/maps?q=Nh%C3%A0+h%C3%A0ng+B%E1%BA%BFp+C%E1%BB%A7i+T%C3%A0+X%C3%B9a&output=embed&hl=vi"
+    },
+    "a_phu": {
+      "query": "Nhà Hàng A Phủ Bắc Yên Sơn La",
+      "publishedName": "Nhà Hàng A Phủ",
+      "publishedAddress": "Nhà Hàng A Phủ, km13, Tà Xùa, Sơn La",
+      "cid": "9549024332074645625",
+      "sourceUrl": "https://www.google.com/maps?q=Nh%C3%A0+H%C3%A0ng+A+Ph%E1%BB%A7+B%E1%BA%AFc+Y%C3%AAn+S%C6%A1n+La&output=embed&hl=vi"
+    }
+  },
+  "navigationBounds": {
+    "bounds": [
+      [
+        8.0,
+        102.0
+      ],
+      [
+        23.5,
+        110.0
+      ]
+    ],
+    "meaning": "Vietnam navigation rectangle covering the mainland, Phú Quốc and Côn Đảo. A rectangular camera limit, not an administrative boundary mask; neighboring terrain and sea remain visible.",
+    "derivedFrom": "Approximate country-scale geographic envelope; explicit Vietnam camera limit requested by the user.",
+    "reviewedAt": "2026-10-16"
+  }
+}

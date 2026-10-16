@@ -61,9 +61,10 @@ async function jump(p,id) {
       if(width<768||name==='landscape') {
         check(name+' shows dates only in the itinerary',await p.locator('.chapter-nav').evaluate(e=>!e.inert&&getComputedStyle(e).visibility==='visible'));
         if(name==='landscape') {
-          check('landscape uses a collapsed date chooser',await p.locator('#chapterDates').isHidden());
-          await p.locator('#chapterToggle').click();await p.locator('#chapterDates a[href="#day-2"]').click();await p.waitForTimeout(1300);
-          check('landscape date navigation closes its chooser',await p.locator('#chapterToggle').getAttribute('aria-expanded')==='false');
+          check('landscape keeps dates visible with the trail collapsed',await p.locator('#chapterDates').isVisible() && await p.locator('#trailPanel').isHidden());
+          await p.locator('#chapterDates a[href="#day-2"]').click();await p.waitForTimeout(1300);
+          check('landscape date navigation reveals the chosen day stops',await p.locator('[data-trail-day="day-2"]').isVisible());
+          await p.keyboard.press('Escape');
         }
         await p.locator('#navToggle').click();
         check(name+' exposes useful support destinations',await p.locator('#navLinks a[href="#fund"]').isVisible()&&await p.locator('#navLinks a[href="#practical"]').isVisible());

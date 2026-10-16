@@ -34,6 +34,16 @@ async function choose(page,index,enabled) {
   const input=page.locator(`[data-wheel-person="${index}"]`);
   if (await input.isChecked() !== enabled) await input.locator('..').click();
 }
+async function winnerSticker(page,selector='.wheel-result-person') {
+  return page.locator(selector).evaluate(async element=>{
+    const image=element.querySelector('.wheel-winner-sticker');
+    if(!image)return false;
+    try { await image.decode(); } catch { return false; }
+    const root=document.getElementById('cloudWheel');
+    const member=TRIP_DATA.members[Number(root.dataset.winnerIndex)];
+    return image.getAttribute('src')==='./'+member.image && image.naturalWidth>0 && image.alt==='' && image.getAttribute('aria-hidden')==='true' && getComputedStyle(image).objectFit==='contain';
+  });
+}
 async function readableWinner(page) {
   return page.evaluate(()=>{
     const name=document.querySelector('.wheel-result-name');
@@ -60,8 +70,10 @@ async function land(page) {
     check(name+' uses transparent journal layout',await page.locator('#cloudWheel,.wheel-composition,.wheel-notes').evaluateAll(items=>items.every(el=>getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(el).backdropFilter==='none')));
     await page.locator('#cloudWheel img').evaluateAll(items=>Promise.all(items.map(img=>img.decode())));
     check(name+' artwork loads',await page.locator('#cloudWheel img').evaluateAll(items=>items.every(img=>img.complete&&img.naturalWidth>0)));
+    check(name+' waiting state has no winner sticker',await page.locator('.wheel-result-person img').count()===0);
     await page.locator('.wheel-spin').click();
     check(name+' reduced-motion result matches pointer and painted rotation',await alignment(page));
+    check(name+' displays the matching complete winner sticker',await winnerSticker(page));
     check(name+' rotation introduces no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
     check(name+' result is announced accessibly',await page.locator('.wheel-result').getAttribute('aria-live')==='polite' && !!await page.locator('#cloudWheel').getAttribute('data-winner'));
     await reveal(page); await page.screenshot({path:path.join(output,name+'.png')});report.screenshots.push(name+'.png');
@@ -80,6 +92,7 @@ async function land(page) {
     for(let member=0;member<7;member++)await choose(page,member,member===index);
     await page.locator('.wheel-spin').click();
     check('single participant '+index+' wins at the correct sector',Number(await page.locator('#cloudWheel').getAttribute('data-winner-index'))===index && await alignment(page));
+    check('single participant '+index+' displays only their own sticker',await winnerSticker(page)&&await page.locator('.wheel-result-person img').count()===1);
   }
   for(let index=0;index<7;index++)await choose(page,index,false);
   check('empty selection disables spin and explains recovery',await page.locator('.wheel-spin').isDisabled() && (await page.locator('.wheel-result-note').textContent()).includes('Chọn ít nhất'));
@@ -93,8 +106,10 @@ async function land(page) {
   }
   check('no-repeat round picks everyone exactly once',winners.size===7 && await page.locator('.wheel-spin').isDisabled());
   check('round completion retains the final winner and offers restart',(await page.locator('.wheel-result-note').textContent()).includes('Bắt đầu lại') && !!await page.locator('#cloudWheel').getAttribute('data-winner'));
+  check('completed round retains the final winner sticker',await winnerSticker(page));
   await page.locator('.wheel-reset').click();
   check('restart clears round and restores all selected people',await page.locator('.wheel-spin').isEnabled() && await page.locator('.was-picked').count()===0 && await page.locator('.wheel-result-name').textContent()==='?');
+  check('restart removes the winner sticker',await page.locator('.wheel-result-person img').count()===0);
   await page.locator('#wheelNoRepeat').uncheck();
   for(let index=1;index<7;index++)await choose(page,index,false);
   await page.locator('.wheel-spin').click();await page.locator('.wheel-spin').click();
@@ -158,6 +173,14 @@ async function land(page) {
     check(name+' landing produces bounded confetti and cloud artwork',await celebration.locator('.wheel-confetti').count()===(width<768?18:32)&&await celebration.locator('.wheel-celebration-cloud').count()===(width<768?2:3));
     check(name+' decoration stays behind content and outside navigation snapshots',await celebration.locator('.wheel-celebration').evaluate(el=>el.parentElement.id==='scenery'&&!el.closest('#sceneLayers')&&el.getAttribute('aria-hidden')==='true'&&getComputedStyle(el).pointerEvents==='none'));
     check(name+' keeps the winner readable without duplicate announcements',await readableWinner(celebration));
+    check(name+' celebration retains the selected sticker',await winnerSticker(celebration));
+    if(width<768) {
+      // Explicitly place the result below the viewport to exercise the banner.
+      await celebration.locator('.wheel-result').evaluate(el=>el.style.marginTop='100vh');
+      await land(celebration);
+      check(name+' phone banner pairs the matching sticker and winner name',await celebration.locator('.wheel-winner-banner').isVisible()&&await winnerSticker(celebration,'.wheel-winner-banner')&&await readableWinner(celebration));
+      await celebration.locator('.wheel-result').evaluate(el=>el.style.marginTop='');
+    }
     check(name+' celebration does not overflow',await celebration.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
     if(width<768)check(name+' banner fits below phone navigation',await celebration.locator('.wheel-winner-banner').evaluate(el=>{const box=el.getBoundingClientRect();return el.hidden||(box.left>=0&&box.right<=innerWidth&&box.top>document.querySelector('.nav').getBoundingClientRect().bottom);}));
     const particle=celebration.locator('.wheel-confetti').first();
@@ -170,6 +193,7 @@ async function land(page) {
       await land(celebration);
       await celebration.locator('.wheel-spin').click();
       check('new spin clears the previous celebration immediately',await celebration.locator('.wheel-celebration > *').count()===0&&await celebration.locator('.wheel-winner-banner').isHidden());
+      check('new spin removes the previous winner sticker',await celebration.locator('.wheel-result-person img').count()===0);
       await celebration.locator('.wheel-dial').evaluate(el=>el.getAnimations({subtree:true}).forEach(animation=>animation.finish()));
       await celebration.waitForFunction(()=>!document.getElementById('cloudWheel').classList.contains('is-spinning'));
       await celebration.locator('.wheel-settings summary').click();
@@ -207,16 +231,32 @@ async function land(page) {
     await celebration.close();
   }
 
-  for(const mode of ['file','no-gsap','no-storage','no-crypto','missing-art']) {
+  for(const mode of ['file','no-gsap','no-storage','no-crypto','missing-art','missing-portraits','no-portraits']) {
     const fallback=await browser.newPage({viewport:{width:390,height:844},reducedMotion:'reduce'});
     fallback.on('pageerror',error=>report.errors.push(mode+': '+error.message));
     if(mode==='no-gsap')await fallback.route('**/vendor/*.js',route=>route.fulfill({contentType:'application/javascript',body:'// unavailable optional library'}));
     if(mode==='no-storage')await fallback.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new Error('Storage denied');}});});
     if(mode==='no-crypto')await fallback.addInitScript(()=>Object.defineProperty(crypto,'getRandomValues',{value:undefined}));
     if(mode==='missing-art')await fallback.route('**/figures/decor/painted/wheel_*.webp',route=>route.abort());
+    if(mode==='missing-portraits')await fallback.route('**/figures/people/*.webp',route=>route.abort());
+    if(mode==='no-portraits')await fallback.route('**/data.js',async route=>{
+      const response=await route.fetch();
+      const body=(await response.text()).replace(/,\s*"image":\s*"figures\/people\/[^"]+"/g,'');
+      await route.fulfill({response,body});
+    });
     await fallback.goto(mode==='file'?'file://'+path.join(root,'index.html'):url);await reveal(fallback);
     await fallback.locator('.wheel-spin').click();
     check(mode+' retains functional selection and pointer alignment',await alignment(fallback));
+    if(mode==='missing-portraits'||mode==='no-portraits') {
+      await fallback.waitForFunction(()=>!document.querySelector('.wheel-result-person img'));
+      check(mode+' keeps the winner name without a broken result image',!!await fallback.locator('.wheel-result-name').textContent()&&await fallback.locator('.wheel-result-person img').count()===0);
+      check(mode+' mobile banner also falls back to the winner name',await fallback.locator('.wheel-winner-banner').evaluate(async el=>{
+        if(el.hidden)return true;
+        const image=el.querySelector('img');
+        if(image)await new Promise(resolve=>{if(image.complete)resolve();else image.addEventListener('error',resolve,{once:true});});
+        return !el.querySelector('img')&&!el.classList.contains('has-portrait')&&el.querySelector('strong').textContent===document.getElementById('cloudWheel').dataset.winner+'!';
+      }));
+    } else check(mode+' retains the matching winner sticker',await winnerSticker(fallback));
     await fallback.close();
   }
   check('all wheel scenarios have no uncaught browser errors',report.errors.length===0);

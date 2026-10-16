@@ -11,6 +11,9 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Schedule, place descriptions, notes/photos, packing, destinations, food and costs | [Travel story](story.md) |
 | Illustrated worlds, chapter mapping, cutouts and scenery preparation | [Scenery](scenery.md) |
 | Scroll reveals, background dissolves, navigation, gestures and spacing | [Motion](motion.md) |
+| Click-to-flip story photographs | [Journal objects](journal-objects.md) |
+| Trail index, photo previews, packing cutouts and quiet terrain | [Illustrated journal controls](ui-artwork.md) |
+| Embedded atlas, place previews, day exploration and geographic coverage | [Maps](maps.md) · [Design plan](map-plan.md) |
 | Hero 7+1, crew, member wheel, arrival countdown and MoMo invitation | [Group features](group.md) |
 | Logo, fonts, stickers, icon sprite and licenses | [Identity](identity.md) |
 | Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
@@ -18,6 +21,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Preview, focused browser checks and evidence limits | [Verification](verification.md) |
 | Cloud opening, ambient motion and live trip-day weather | [Sky and weather](weather.md) · [Design plan](sky-weather-plan.md) |
 | Mobile cloud density, navigation, readability and responsive improvements | [Audit and plan](mobile-ui-plan.md) · [Implementation review](mobile-ui-review.md) |
+| Separate interactive concepts: passport, film, cloud notebook, zine and nine more | [13-demo gallery and guide](demos.md) |
 
 ## Documentation layout
 
@@ -25,6 +29,9 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 - `docs/*.md`: feature guides, sources, verification, architecture and recorded review.
 - `docs/research/`: place research and identity caveats.
 - `docs/prompts/stickers.md`: paired sticker brief; `docs/prompts/illustrated_scenery/`: large-art prompts and sheet map.
+- [UI artwork prompts](prompts/ui_artwork/README.md): missing packing objects, blank trail sign and optional quiet terrain layers.
+- [Map artwork prompts](prompts/map_artwork/README.md): generation briefs and import mapping for all eleven supplied map assets.
+- [Member scarf sticker prompt](prompts/people.md): photo identity, Tây Bắc fabric references and the seven imported scarf portraits.
 - `AGENTS.md` stays at the site root. Raw source JSON, artwork, licenses and browser evidence remain beside their owning assets/tools.
 
 ## Run and publish
@@ -35,13 +42,14 @@ Open `index.html` directly, or use **http://127.0.0.1:8000/taxua-2026/** when po
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN, backend or Google login. Artwork, fonts and libraries are local; the optional trip-day forecast fetches Open-Meteo data. Render Static Site: root `taxua-2026`, empty build command, publish directory `.`; no environment variables.
+Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN library dependency, backend or Google login. Artwork, fonts and libraries are local; the optional forecast fetches Open-Meteo data and the embedded map requests OSM France tiles when opened. Render Static Site: root `taxua-2026`, empty build command, publish directory `.`; no environment variables.
 
 ## Code map
 
 - `data.js` = trip content; `assets.js` = generated photo metadata; `index.html` = shell/order/navigation.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
 - `weather.js` / `weather.css` = optional Open-Meteo forecast and hero sky effects.
+- `map-data.js` / `trip-map.js` / `trip-map.css` = geographic registry and optional embedded atlas/previews; Leaflet loads locally on demand.
 - `scenery.js` / `scenery.css` = painted stage; `motion.js` = optional GSAP enhancement.
 - `style.css`, `countdown.css`, `fonts.css` = page, clock and typography.
 - `scripts/` = optional preparation/verification helpers; `data/sources/` = provenance snapshots, not runtime fetches.
