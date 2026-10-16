@@ -109,7 +109,10 @@ async function withinRegion(page) {
       check(name+' tile failure keeps a readable fallback',(await page.locator('.trip-map-status').textContent()).includes('Chưa tải được'));
       check(name+' attribution remains visible',await page.locator('.leaflet-control-attribution').isVisible());
       check(name+' attribution includes OSM and provider',/OpenStreetMap.*OSM France/.test(await page.locator('.leaflet-control-attribution').textContent()));
-      check(name+' missing pins are disclosed',await page.locator('#atlasStops .atlas-unresolved').count() > 0);
+      check(name+' missing-pin labels match available coordinates',await page.locator('#atlasStops [data-map-visit]').evaluateAll(buttons => buttons.every(button => {
+        const place = TRIP_MAP_DATA.places[button.dataset.mapVisit.split(':').pop()];
+        return !!button.querySelector('.atlas-unresolved') === !(Number.isFinite(place.lat) && Number.isFinite(place.lng));
+      })));
       const geo = await page.evaluate(() => Object.values(TRIP_MAP_DATA.places).map(place => ({lat:place.lat,lng:place.lng,status:place.status,precision:place.precision,sourceUrls:place.sourceUrls})));
       check(name+' unresolved places have no invented coordinates',geo.every(place => place.status !== 'unresolved' || (place.lat === null && place.lng === null)));
       check(name+' every geographic point has provenance',geo.every(place => place.lat === null || place.sourceUrls.length > 0));

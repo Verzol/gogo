@@ -37,17 +37,17 @@ Reproduce with Python and Pillow: `python3 scripts/prepare_map_treasure.py`. Thi
 
 ## Geographic coverage and limits
 
-The registry contains all **18 existing place guides plus the Hà Nội pickup**: **sixteen source-matched named points**, **one user-confirmed pickup point**, **one approximate regional reference**, and **one unresolved entry**.
+The registry contains all **18 existing place guides plus the Hà Nội pickup**: **sixteen source-matched named points**, **two user-confirmed points** (Khe Cải and the pickup), and **one approximate regional reference**. No entries currently lack coordinates.
 
 - Thào Coffee and Cây Cô Đơn use named OpenStreetMap points.
 - Mùa Trứ, Sống Lưng Khủng Long, Thác Chua Tỳ, Vị Nhà, Bếp Củi, Ameii Hill, A Phủ, Hồ Mắt Ngọc, Thảo nguyên Tà Xùa, Lán Cô Đơn, Mỏm Cá Heo, Đồi Mây, Cà phê Tháng 10 and Làng Văn Hóa use single named public place records matched to the itinerary. The research snapshot retains published names, addresses, coordinates and source links. Mùa Trứ also matches the official Facebook link in the existing homestay directory.
 - Trung tâm Tà Xùa uses the existing sourced regional coordinate, explicitly an area reference rather than a particular restaurant or entrance. Its approximate marker appears only when selected.
 - **Tập đoàn Viettel**, the 22/10 gathering/departure point, uses the exact user-supplied coordinates **21.0253150367579, 105.7854235877089** and Maps source link. Gathering/boarding remains 21:30, departure 22:00. Its bus sticker is illustrative; the source link is available without a venue photograph.
-- **Khe Cải** remains unresolved with null coordinates and `Vị trí đang xác nhận` in the list.
+- **Khe Cải** uses the exact organizer-supplied coordinates **21.27347304583251, 104.42839746119542** and Maps source link. Its pin appears in the overall trip, 25/10 view and inline preview.
 
 No precise location was inferred from a photo, a search camera center, an unnamed multi-result response or a nearby recommendation. Google public place records were consulted during research only; the embedded map uses Leaflet and OSM France, with no runtime Google dependency. Source links are available in the selected place's details.
 
-`verified` in the registry means a named published point was matched or the trip organizer supplied the exact pickup; it is not an on-site verification of its entrance or access. No driving routes, journey durations, cloud guarantees or completed visits are claimed. Dashed sequence lines are supported only between consecutive, nonoptional, ordered entries that both have coordinates. They never bridge an unresolved stop or connect the unordered afternoon group. Approximate areas and unresolved stops do not participate in these connections; these lines are not a complete route.
+`verified` in the registry means a named published point was matched or the trip organizer supplied exact coordinates; it is not an on-site verification of its entrance or access. No driving routes, journey durations, cloud guarantees or completed visits are claimed. Dashed sequence lines are supported only between consecutive, nonoptional, ordered entries that both have coordinates. They never bridge an unresolved stop or connect the unordered afternoon group. Approximate areas and unresolved stops do not participate in these connections; these lines are not a complete route.
 
 The navigation rectangle is **8.0–23.5° N, 102.0–110.0° E**, covering Vietnam’s mainland, Phú Quốc and Côn Đảo. The initial view still fits the Tà Xùa itinerary, but visitors can explore across Vietnam. This is an approximate rectangular camera limit, so neighboring terrain and sea remain visible; it is not an administrative border mask. It replaces the former Tà Xùa and Sơn La limits in both map surfaces.
 

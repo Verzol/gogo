@@ -1,7 +1,7 @@
 {
   "reviewedAt": "2026-10-16",
-  "scope": "18 story places plus the user-confirmed Tập đoàn Viettel pickup in Hanoi. No inferred venue coordinates.",
-  "verificationMeaning": "Verified means a name-matched published geographic point or the exact pickup supplied by the trip organizer, not an entrance, travel route or on-site safety verification.",
+  "scope": "18 story places plus the user-confirmed Tập đoàn Viettel pickup in Hanoi. Khe Cải also uses organizer-supplied coordinates. No inferred venue coordinates.",
+  "verificationMeaning": "Verified means a name-matched published geographic point or exact coordinates supplied by the trip organizer, not an entrance, travel route or on-site safety verification.",
   "osmSource": "https://photon.komoot.io/ (OpenStreetMap-based build-time discovery only; no runtime search)",
   "records": {
     "song_lung_khung_long": {
@@ -218,13 +218,15 @@
       "name": "Khe Cải",
       "category": "landmark",
       "art": "decor/mountain_sky_day.webp",
-      "lat": null,
-      "lng": null,
-      "status": "unresolved",
-      "precision": null,
-      "sourceUrls": [],
-      "verifiedAt": null,
-      "note": "Chưa xác nhận được tọa độ của đúng địa điểm."
+      "lat": 21.27347304583251,
+      "lng": 104.42839746119542,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://maps.app.goo.gl/TtAiAhR4eie9UuGS7"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim Khe Cải theo tọa độ và liên kết do nhóm xác nhận; lối vào cần kiểm tra tại chỗ."
     },
     "lang_van_hoa_cafe": {
       "name": "Làng Văn Hóa Café",
@@ -270,10 +272,10 @@
     }
   },
   "observations": [
-    "Named public-place records matching scheduled venues were accepted; the Hanoi pickup uses exact coordinates and a Maps link supplied by the user. Search camera centers and unnamed multi-result lists were rejected.",
+    "Named public-place records matching scheduled venues were accepted; the Hanoi pickup and Khe Cải use exact coordinates and Maps links supplied by the user. Search camera centers and unnamed multi-result lists were rejected.",
     "Photon results outside the trip area were rejected.",
     "The homestay named record also links facebook.com/muatrutaxua, matching the existing directory.",
-    "Khe Cải remains unresolved. The user confirmed the Tập đoàn Viettel pickup coordinates and Maps link on 16 October 2026.",
+    "The user confirmed the Khe Cải and Tập đoàn Viettel coordinates and Maps links on 16 October 2026.",
     "The afternoon group has no agreed internal order.",
     "The town coordinate is only an approximate area reference for the unassigned town lunch.",
     "Google public embed records were used at research time only; there is no runtime Google Maps dependency."

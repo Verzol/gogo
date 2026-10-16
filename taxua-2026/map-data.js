@@ -1,5 +1,5 @@
 // Geographic registry, independent of the authoritative schedule.
-// verified = named source match or organizer-supplied pickup, not an on-site audit.
+// verified = named source match or organizer-supplied coordinates, not an on-site audit.
 const TRIP_MAP_DATA = {
   "center": [
     21.28,
@@ -226,13 +226,15 @@ const TRIP_MAP_DATA = {
       "name": "Khe Cải",
       "category": "landmark",
       "art": "decor/mountain_sky_day.webp",
-      "lat": null,
-      "lng": null,
-      "status": "unresolved",
-      "precision": null,
-      "sourceUrls": [],
-      "verifiedAt": null,
-      "note": "Chưa xác nhận được tọa độ của đúng địa điểm."
+      "lat": 21.27347304583251,
+      "lng": 104.42839746119542,
+      "status": "verified",
+      "precision": "point",
+      "sourceUrls": [
+        "https://maps.app.goo.gl/TtAiAhR4eie9UuGS7"
+      ],
+      "verifiedAt": "2026-10-16",
+      "note": "Ghim Khe Cải theo tọa độ và liên kết do nhóm xác nhận; lối vào cần kiểm tra tại chỗ."
     },
     "lang_van_hoa_cafe": {
       "name": "Làng Văn Hóa Café",
