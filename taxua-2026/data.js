@@ -62,40 +62,34 @@ const TRIP_DATA = {
   "members": [
     {
       "name": "san",
-      "role": "Thợ săn mây chính",
       "image": "figures/people/san_scarf.webp"
     },
     {
       "name": "thảo",
-      "role": "Stylist áo phao",
       "image": "figures/people/thao_scarf.webp"
     },
     {
       "name": "mi",
-      "role": "Báo thức 4 giờ sáng",
       "image": "figures/people/mi_scarf.webp"
     },
     {
       "name": "linh",
-      "role": "Phó nháy biển mây",
       "image": "figures/people/linh_scarf.webp"
     },
     {
       "name": "quanlele",
-      "role": "Cây hài trên đèo",
       "image": "figures/people/quanlele_scarf.webp"
     },
     {
       "name": "gtm",
-      "role": "Người bí ẩn",
       "image": "figures/people/gtm_scarf.webp"
     },
     {
       "name": "trường",
-      "role": "Đồng bọn săn mây",
       "image": "figures/people/truong_scarf.webp"
     }
   ],
+  "crewOrder": ["mi", "san", "thảo", "quanlele", "gtm", "trường", "linh"],
   "wheel": {
     "eyebrow": "Một vòng cho cả hội",
     "title": "Vòng quay trên mây",

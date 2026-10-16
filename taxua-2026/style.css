@@ -238,15 +238,14 @@ main,.footer { position: relative; z-index: 1; }
 .fund-scribble { margin-top: 23px; font-family: 'Patrick Hand',cursive; font-size: 1.2rem; color: var(--accent); transform: rotate(3deg); padding-left: 35px; }
 .section-heading { max-width: 680px; margin-bottom: 60px; }
 .section-heading p { max-width: 550px; font-size: .94rem; margin-top: 17px; }
-.crew-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 42px 25px; }
-.member { display: flex; align-items: center; gap: 13px; min-width: 0; text-shadow: 0 1px 4px #071b21; }
+.crew-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 36px 25px; }
+.member { display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 0; text-align: center; text-shadow: 0 1px 4px #071b21; }
 .member:nth-child(even) { transform: translateY(18px) rotate(2deg); }
-.avatar { position: relative; width: 112px; height: 112px; flex-shrink: 0; border-radius: 50%; border: 1px dashed var(--line); display: grid; place-items: center; background: rgb(7 27 33 / .23); color: var(--accent); font-family: 'Patrick Hand',cursive; font-size: 2rem; }
+.avatar { position: relative; width: 128px; height: 128px; flex-shrink: 0; border-radius: 50%; border: 1px dashed var(--line); display: grid; place-items: center; background: rgb(7 27 33 / .23); color: var(--accent); font-family: 'Patrick Hand',cursive; font-size: 2rem; }
 .avatar.has-portrait { border:0; border-radius:0; background:transparent; }
 .avatar.has-portrait > span { visibility:hidden; }
 .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter:drop-shadow(0 3px 3px rgb(7 27 33 / .2)); }
-.member h3 { font-family: 'Patrick Hand',cursive; font-size: 1.7rem; }
-.member p { font-size: .78rem; margin-top: 7px; }
+.member h3 { max-width: 100%; font-family: 'Patrick Hand',cursive; font-size: 1.8rem; line-height: 1.2; overflow-wrap: anywhere; }
 /* Painted wheel: the reveal wrapper and spinning rotor own separate transforms. */
 .cloud-wheel { margin-top: 110px; padding-top: 48px; border-top: 1px dashed var(--line); }
 .wheel-heading { max-width: 600px; }
@@ -361,7 +360,7 @@ main,.footer { position: relative; z-index: 1; }
   .wheel-stage { grid-column: 1; grid-row: 2; width: min(100%,320px); margin-inline: auto; padding-top: 22px; padding-bottom: 0; }
   .wheel-initial { width: 25px; font-size: 1.1rem; }
   .wheel-initial.has-portrait { width:34px; }
-  .avatar { width:88px; height:88px; }
+  .avatar { width:104px; height:104px; }
   .wheel-name { font-size: clamp(.85rem,4vw,1.15rem); }
   .wheel-spin { font-size: clamp(.92rem,4vw,1.15rem); }
   .wheel-result { min-height: 100px; padding-bottom: 4px; }
@@ -546,8 +545,6 @@ main,.footer { position: relative; z-index: 1; }
   .section-heading h2 { font-size: 3.4rem; }
   .section-heading p { font-size: .89rem; }
   .crew-grid { gap: 32px 20px; }
-  .member { display: block; }
-  .member h3 { margin-top: 12px; }
   .member:nth-child(even) { transform: translateY(18px); }
   .packing { display: block; }
   .packing .loom-band { margin-bottom: 32px; }
@@ -582,7 +579,7 @@ main,.footer { position: relative; z-index: 1; }
   .day-overview a { display: grid; grid-template-columns: 6.5em minmax(0,1fr); align-items: baseline; gap: 10px; padding-block: 10px; min-height: 44px; font-size: .86rem; }
   .day-overview a span { font-size: .8rem; }
   .footer a,.cost-note a { display: inline-flex; align-items: center; min-height: 44px; }
-  .member p,.checklist small { font-size: .8rem; }
+  .checklist small { font-size: .8rem; }
 }
 @media (max-width: 359px) {
   .wrap,.event,.event--meal,.event--rest,.event--note,.event--transit,.day-heading,.footer { width: calc(100% - 40px); }

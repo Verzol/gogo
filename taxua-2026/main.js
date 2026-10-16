@@ -179,6 +179,9 @@ function renderDays() {
 }
 function renderCrew() {
   const members = TRIP_DATA.members;
+  const crewOrder = TRIP_DATA.crewOrder || [];
+  const crewMembers = crewOrder.map(name => members.find(member => member.name === name)).filter(Boolean)
+    .concat(members.filter(member => !crewOrder.includes(member.name)));
   document.getElementById('crewCount').textContent = '(' + members.length + ' mống)';
   document.getElementById('footerCount').textContent = 'Tà Xùa 2026 · Ấn bản nội bộ cho ' + members.length + ' đồng bọn';
   document.getElementById('heroMemberCount').textContent = members.length;
@@ -188,7 +191,7 @@ function renderCrew() {
   document.getElementById('heroScrollNote').textContent = TRIP_DATA.hero.scrollNote;
   document.getElementById('heroDate').textContent = '22-25/10/2026 · Tà Xùa, Sơn La';
   document.getElementById('heroSub').textContent = TRIP_DATA.subtitle;
-  document.getElementById('crewGrid').innerHTML = members.map(member => `<article class="member"><div class="avatar${member.image ? ' has-portrait' : ''}"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="${esc(member.name)}" loading="lazy" decoding="async" width="112" height="112">` : ''}</div><div><h3>${esc(member.name)}</h3><p>${esc(member.role)}</p></div></article>`).join('');
+  document.getElementById('crewGrid').innerHTML = crewMembers.map(member => `<article class="member"><div class="avatar${member.image ? ' has-portrait' : ''}" aria-hidden="true"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy" decoding="async" width="128" height="128">` : ''}</div><h3>${esc(member.name)}</h3></article>`).join('');
   document.querySelectorAll('.avatar img').forEach(img => img.addEventListener('error',() => { img.parentElement.classList.remove('has-portrait');img.remove(); }));
 }
 function createWheelWinnerSticker(member) {

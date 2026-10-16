@@ -7,7 +7,7 @@
 | Feature | Content | Rendering / layout |
 | --- | --- | --- |
 | Hero mystery | `TRIP_DATA.hero`, `subtitle`, `members` | `index.html`, `main.js:renderCrew`, `style.css` |
-| Crew | `TRIP_DATA.members` | `renderCrew`, `#crewGrid`, `.crew-grid` |
+| Crew | `TRIP_DATA.members`, `TRIP_DATA.crewOrder` | `renderCrew`, `#crewGrid`, `.crew-grid` |
 | Member wheel | `TRIP_DATA.members`, `TRIP_DATA.wheel` | `initCloudWheel`, `#cloudWheel`, `.wheel-*`; `motion.js` outer reveals |
 | Trip-day forecast | `TRIP_DATA.weather`, arrival day onward | `weather.js`, `weather.css`; [behavior](weather.md) |
 | Arrival clock | `TRIP_DATA.countdown` and block `id:"arrival"` | `initArrivalCountdown`, `countdown.css` |
@@ -15,7 +15,8 @@
 
 ## Seven people, one mystery guest
 
-- Current roster: san, thảo, mi, linh, quanlele, gtm, trường. `members` is authoritative; informal roles are playful copy.
+- Current roster: san, thảo, mi, linh, quanlele, gtm, trường. `members` is authoritative and contains names and portrait paths; member roles are removed.
+- `crewOrder` controls only the displayed crew: mi, san, thảo, quanlele, gtm, trường, linh. Mi and linh sit at opposite ends to separate their pink scarves. The wheel retains `members` order; any members omitted from `crewOrder` appear afterward in roster order.
 - Hero: “7 +1 đồng bọn, một biển mây.” The real count follows `members.length`; +1 is the shared fund pig, not another traveler.
 - Keep “Cuộn xuống để biết” discoverable before the countdown on phones. The circled +1/question mark teases the later reveal.
 - Crew shows “Đồng bọn (7 mống)” before the fund introduction. Order is `#itinerary` → `#crew` → `#fund` → `#packing`.
@@ -23,11 +24,11 @@
 
 ## Supplied scarf portraits
 
-Seven supplied PNGs are retained byte-for-byte under `figures/raw/people/`: `san`, `thao`, `mi`, `linh`, `quanlele`, `gtm` and `truong`. Explicit member mapping preserves the existing Vietnamese names, roles, roster order and symbolic pig.
+Seven supplied PNGs are retained byte-for-byte under `figures/raw/people/`: `san`, `thao`, `mi`, `linh`, `quanlele`, `gtm` and `truong`. Explicit member mapping preserves the existing Vietnamese names, roster order and symbolic pig.
 
 `python3 scripts/prepare_people_artwork.py` (Pillow) trims transparent margins, clears very low-alpha dust and downsizes each complete cutout into a transparent 512×512 canvas with at least 20px padding. It does not upscale, recolor or retouch faces. WebPs under `figures/people/` total **418,302 bytes**. [Provenance](../data/sources/people-artwork.json) records uploaded names, original hashes, trims, painted dimensions, member mapping and derivative hashes; the importer refuses original replacement.
 
-Crew portraits use `object-fit:contain` at 112px on desktop and 88px on phones. Full scarf/hair edges remain visible, with HTML names/roles beside or beneath the portrait. Wheel sectors reuse the same files at 44px desktop and 34px phone with upright names. Missing images remove the portrait styling and reveal initials. Portraits add no animation, duplicate roster entries or new announcements. [Generation brief](prompts/people.md).
+Crew portraits use `object-fit:contain` at 128px on desktop and 104px on phones. Each transparent composition centers the complete scarf sticker above its handwritten HTML name, with no role text or empty subtitle space. The grid uses four columns on desktop, three below 1200px and two below 1024px, retaining the alternating journal offsets. Wheel sectors reuse the same files at 44px desktop and 34px phone with upright names. Missing images remove the portrait styling and reveal initials. Crew artwork is decorative because the adjacent heading supplies the name. Portraits add no animation, duplicate roster entries or new announcements. [Generation brief](prompts/people.md).
 
 The import passed **99 existing wheel checks**, including all seven sector/result matches, repeat rules, animated/reduced-motion behavior, responsive layouts and celebration cleanup. Additional browser inspection covered crew/wheel portraits at 1440px, 820px, 390px and 320px, every map-art request, and forced portrait-load failure restoring all seven crew/wheel initials. All 15 new master hashes matched the supplied files; both artwork importers reproduce identical manifests and derivatives. Existing trip data differs only in the seven member image fields; the generated reading copy is unchanged. Evidence: `/tmp/taxua-new-stickers-review/`.
 
