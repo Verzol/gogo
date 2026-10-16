@@ -1,0 +1,15 @@
+# Mountain playing cards
+
+[Artwork guide](../../game-artwork.md) · [Prompt index](README.md)
+
+Exact prompt sent through 9Router with the existing wheel, coffee sticker and accepted coin sheet as image references.
+
+```text
+Create production-ready isolated watercolor game components for the Vietnamese Tà Xùa travel journal. The attached wheel rim and coffee sticker are STYLE REFERENCES ONLY: borrow their matte watercolor/gouache texture, fine deep-teal pencil contours, cream cloud curls, layered jade mountains, restrained sunrise peach and orange. Do not reproduce the references themselves. Match their handcrafted storybook charm and legibility. Palette deep teal #173E48, indigo #101D35, jade #527E64, moss #789566, cream #F3E5C7, orange #EEA15A and peach #E8B299. Real pigment granulation INSIDE the objects, organic painted edges but precise functional geometry. Soft cream cut-paper edging where useful, never a broad white border. No plastic, photorealism, 3D rendering, glossy casino styling, neon, text, words, letters, logos or watermarks. Genuine alpha transparency outside the objects, NO white background, checkerboard or rectangular paper backdrop. Every component separate, complete and uncropped, with generous transparent gutters. No drop shadows floating outside the silhouette. No sample interface, hands or surrounding props.
+
+OUTPUT: landscape 1536x1024 transparent PNG sheet with EXACTLY THREE isolated objects aligned horizontally. Left and middle objects: perfectly vertical front-on playing cards with matching 2:3 proportions, each about 360px wide and 540px high, centered at (270,470) and (770,470). Third object centered at (1250,500): a neatly squared short stack of cards, same design, about 350px wide and 550px high, with a slight natural perspective showing thin cream card edges. Leave ample gutters and full silhouettes.
+LEFT: BACK of a standard playing card, rounded rectangular corners, delicate midnight-teal double border, cream outer edge, jade and teal mountain ridges with cream curling clouds, tiny restrained peach sun motif. A beautifully composed symmetric double-ended design suitable for rotating 180 degrees. No letters, ranks, suit symbols, or writing. Pattern should feel related to the supplied wheel rim, with crisp mountain details and quiet areas.
+MIDDLE: FRONT FRAME of a standard playing card. EXACT same outside geometry as the back. Opaque pale warm-cream blank face with subtle watercolor paper texture, delicate teal double border, extremely restrained tiny mountain silhouettes confined to bottom edge. At least the middle 80% and both top-left/bottom-right corner zones are completely blank and light so real playing-card ranks and suit symbols can be overlaid later in HTML. No symbols, numbers, letters, artwork in the center, or cut-out hole.
+RIGHT: DECK STACK with the same mountain/cloud BACK on its top, several fine cream edges below. No loose cards or shadows outside the stack.
+The third reference is the approved sun/cloud coin sheet from this same game collection. Keep its palette, contour weight, pigment texture and mountain/cloud vocabulary consistent.
+```

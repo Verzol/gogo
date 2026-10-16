@@ -10,6 +10,10 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 - Patrick Hand: headings, times and short annotations. Be Vietnam Pro: body/UI. Fraunces: standalone reading copy. WOFF2 files and OFL licenses stay in `figures/fonts/`.
 - No reading-theme selector, system-color override or `taxua-2026-theme` persistence. Scene phase governs contrast/artwork; packing storage is separate.
 
+## Shared controls
+
+`controls.css` applies translucent jade surfaces, cream text, sunrise-peach borders and irregular corners to inputs, checks and menus. Paper contexts such as the atlas use dark jade ink and cream menus. The games use painted objects as primary controls, quick choice chips and optional configuration drawers. Keep these surfaces transparent enough to preserve the illustrated world without weakening text or focus visibility. Behavior, keyboard support and native fallbacks are documented in [Shared controls](controls.md).
+
 ## Logo
 
 - Original user upload “Gogo Mountain Sunrise Emblem.png” is preserved as `figures/raw/gogo_mountain_sunrise.png`.
@@ -32,9 +36,11 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 
 The member wheel uses separate painted rim, pointer and blank hub assets, combined with code-rendered sectors and live labels. Its original, preparation helper and provenance are documented in [Group features](group.md#vòng-quay-trên-mây); the [wheel prompt](prompts/wheel.md) preserves the generation brief. Keep the artwork's transparent interior and measured alignment; do not flatten labels into a raster image.
 
+The [random-game artwork collection](game-artwork.md) extends these materials to coins, dice, playing cards, drawing sticks and a lottery bag. Its 9Router-generated masters, exact prompts, transparent cutouts and provenance support the integrated [random-game collection](games.md). Runtime labels remain live HTML over the painted objects.
+
 ## Lucide icons and libraries
 
-- 42 official Lucide 1.23.0 icons are inline symbols `#trip-<name>` in `index.html`, including nine map-related additions and the dice shortcut for the member wheel. `icon()` and static navigation reference the same-document sprite, including under `file://`.
+- 49 official Lucide 1.23.0 icons are inline symbols `#trip-<name>` in `index.html`, including map controls, the member-wheel shortcut and seven game action/state icons. `icon()` and static navigation reference the same-document sprite, including under `file://`.
 - Add icon names in `scripts/prepare_icons.cjs`, then run `node scripts/prepare_icons.cjs` from `taxua-2026/`. Preserve official geometry rather than hand-editing paths.
 - `vendor/lucide-1.23.0.min.js` is preparation-only; visitors do not download the full bundle. Archived Tabler symbols in `figures/icons/` / `figures/scenery/` are unused.
 - Local GSAP/ScrollTrigger 3.15.0 enhance motion. Versions, checksums and licenses: [Library versions and licenses](vendor.md). GSAP Standard License, Lucide ISC, legacy Tabler MIT and font OFLs must stay with the assets.

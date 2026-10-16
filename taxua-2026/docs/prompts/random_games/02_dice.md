@@ -1,0 +1,14 @@
+# Dice faces and travel tray
+
+[Artwork guide](../../game-artwork.md) · [Prompt index](README.md)
+
+Exact prompt sent through 9Router with the existing wheel, coffee sticker and accepted coin sheet as image references.
+
+```text
+Create production-ready isolated watercolor game components for the Vietnamese Tà Xùa travel journal. The attached wheel rim and coffee sticker are STYLE REFERENCES ONLY: borrow their matte watercolor/gouache texture, fine deep-teal pencil contours, cream cloud curls, layered jade mountains, restrained sunrise peach and orange. Do not reproduce the references themselves. Match their handcrafted storybook charm and legibility. Palette deep teal #173E48, indigo #101D35, jade #527E64, moss #789566, cream #F3E5C7, orange #EEA15A and peach #E8B299. Real pigment granulation INSIDE the objects, organic painted edges but precise functional geometry. Soft cream cut-paper edging where useful, never a broad white border. No plastic, photorealism, 3D rendering, glossy casino styling, neon, text, words, letters, logos or watermarks. Genuine alpha transparency outside the objects, NO white background, checkerboard or rectangular paper backdrop. Every component separate, complete and uncropped, with generous transparent gutters. No drop shadows floating outside the silhouette. No sample interface, hands or surrounding props.
+
+OUTPUT: portrait 1024x1536 transparent PNG sheet. EXACTLY SEVEN separate components. The upper two-thirds contain SIX dice faces in a 3 columns by 2 rows grid, centered at x=180,512,844 and y=240,660, with faces about 240px square. The bottom third contains ONE shallow soft cloth dice tray centered at (512,1240), about 820px wide and 350px tall. Leave generous empty gutters.
+DICE: perfectly front-on flat square faces, equal size, softly rounded corners, warm cream hand-painted wooden surfaces, thin deep teal contour, very restrained jade/peach pigment at edges. Pips are crisp dark teal filled circles in standard dice layouts, no text or other marks. EXACT pip counts in reading order: top-left ONE center pip; top-middle TWO opposite-corner pips; top-right THREE diagonal pips; middle-left FOUR corner pips; middle-center FIVE four-corner plus center pips; middle-right SIX two vertical columns of three pips. Keep all six faces uniform in geometry and palette, no perspective, no visible side faces.
+TRAY: one empty shallow portable hexagonal-ish fabric dice tray viewed gently from above, broad quiet dark jade felt interior, short cream woven rim with simple small indigo geometric stitches, two small peach cloth corner ties. Whole tray visible and isolated. No dice or other objects inside the tray. No flowers or extra decorations.
+The third reference is the approved sun/cloud coin sheet from this same game collection. Keep its palette, contour weight, pigment texture and mountain/cloud vocabulary consistent.
+```

@@ -1,0 +1,926 @@
+{
+  "title": "Ta Xua random-game watercolor components",
+  "status": "Generated artwork for the random-game collection.",
+  "generator": "9Router /v1/images/generations",
+  "generationRecord": "figures/raw/random_games/generation.json",
+  "credit": "AI-generated with 9Router for this project using its existing artwork as references.",
+  "processing": "Preserve all masters byte-for-byte. Measured crops; retain largest connected alpha component at alpha >= 8; transparent padding; WebP quality 92. No recoloring or upscaling. Normalize paired coin faces, dice faces, cards and lottery tokens to matching painted dimensions by downsampling. Both sticks share a 128x800 canvas, 72px painted width and 16px top anchor.",
+  "sources": {
+    "coin_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:42:22.578643+00:00",
+      "receivedAt": "2026-10-16T14:43:55.214587+00:00",
+      "contentType": "image/png",
+      "bytes": 2394919,
+      "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/01_coin.md",
+      "path": "figures/raw/random_games/coin_sheet.png",
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    "dice_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1024x1536",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:44:32.986286+00:00",
+      "receivedAt": "2026-10-16T14:45:44.392950+00:00",
+      "contentType": "image/png",
+      "bytes": 2658494,
+      "sha256": "7f4f6ea0d91b922c0f030a37caced9c4a8771ac61e4ef0dee103152f053dc189",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/02_dice.md",
+      "path": "figures/raw/random_games/dice_sheet.png",
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    "cards_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:44:32.985994+00:00",
+      "receivedAt": "2026-10-16T14:45:29.282065+00:00",
+      "contentType": "image/png",
+      "bytes": 2531583,
+      "sha256": "4c91f8a69afc24d98606a69422b1365a3516b681e333bb28fb13603fc3bdf376",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/03_cards.md",
+      "path": "figures/raw/random_games/cards_sheet.png",
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    "sticks_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1024x1536",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:45:29.346375+00:00",
+      "receivedAt": "2026-10-16T14:46:33.984552+00:00",
+      "contentType": "image/png",
+      "bytes": 1967994,
+      "sha256": "ffdc6bf4e77b636705cdba07b17c7b7054c7c70a1f11644e484a5017463eb56e",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/04_sticks.md",
+      "path": "figures/raw/random_games/sticks_sheet.png",
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    "bag_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:45:44.465863+00:00",
+      "receivedAt": "2026-10-16T14:47:10.473033+00:00",
+      "contentType": "image/png",
+      "bytes": 2673203,
+      "sha256": "04f544c56d206d6c30e411fa430e13264551971f86df4fcb25cf8759b3dc510e",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/05_bag.md",
+      "path": "figures/raw/random_games/bag_sheet.png",
+      "size": [
+        1536,
+        1024
+      ]
+    },
+    "card_front_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1024x1536",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:47:44.041662+00:00",
+      "receivedAt": "2026-10-16T14:50:08.838711+00:00",
+      "contentType": "image/png",
+      "bytes": 2311487,
+      "sha256": "ede9b199e094f78a41e50a7256d4e4a84f935ac0ee65323ced2249ce1f95cb25",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/cards_sheet.png",
+          "sha256": "4c91f8a69afc24d98606a69422b1365a3516b681e333bb28fb13603fc3bdf376"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/06_blank_card.md",
+      "path": "figures/raw/random_games/card_front_sheet.png",
+      "size": [
+        1024,
+        1536
+      ]
+    }
+  },
+  "assets": {
+    "coin_sun": {
+      "source": "coin_sheet",
+      "crop": [
+        0,
+        0,
+        768,
+        800
+      ],
+      "trim": [
+        85,
+        113,
+        750,
+        771
+      ],
+      "nativePaintedSize": [
+        665,
+        658
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        496,
+        496
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/coin_sun.webp",
+      "bytes": 100242,
+      "sha256": "2ba7c9b350c4d14ffb8756dc9a0f6e1835a325aa704abdc31c6d7f5c71a31793"
+    },
+    "coin_cloud": {
+      "source": "coin_sheet",
+      "crop": [
+        768,
+        0,
+        1536,
+        800
+      ],
+      "trim": [
+        16,
+        113,
+        682,
+        771
+      ],
+      "nativePaintedSize": [
+        666,
+        658
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        496,
+        496
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/coin_cloud.webp",
+      "bytes": 99768,
+      "sha256": "d57511a44e0b192ef6b2698a64e7cff21fbc0e067c6994c771e49b622e6041fc"
+    },
+    "coin_edge": {
+      "source": "coin_sheet",
+      "crop": [
+        350,
+        800,
+        1180,
+        1000
+      ],
+      "trim": [
+        79,
+        33,
+        754,
+        136
+      ],
+      "nativePaintedSize": [
+        675,
+        103
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        688,
+        119
+      ],
+      "size": [
+        704,
+        136
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/coin_edge.webp",
+      "bytes": 32128,
+      "sha256": "5aa59122318385bf1a92077ee9c48ff3a38fe54c18981a1184121b7824432cac"
+    },
+    "dice_one": {
+      "source": "dice_sheet",
+      "crop": [
+        0,
+        100,
+        350,
+        470
+      ],
+      "trim": [
+        34,
+        60,
+        321,
+        340
+      ],
+      "nativePaintedSize": [
+        287,
+        280
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/dice_one.webp",
+      "bytes": 22692,
+      "sha256": "bf79780c84d34cdd15d9f8dbf9d8da0de2c442793fd295f2b1371ce863262437"
+    },
+    "dice_two": {
+      "source": "dice_sheet",
+      "crop": [
+        350,
+        100,
+        690,
+        470
+      ],
+      "trim": [
+        31,
+        60,
+        317,
+        339
+      ],
+      "nativePaintedSize": [
+        286,
+        279
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/dice_two.webp",
+      "bytes": 22106,
+      "sha256": "8f6d88d5671c5b429816fe3520c7ace0cd91402ef21d5e4a57693fef8fc7fad0"
+    },
+    "dice_three": {
+      "source": "dice_sheet",
+      "crop": [
+        690,
+        100,
+        1024,
+        470
+      ],
+      "trim": [
+        23,
+        60,
+        304,
+        339
+      ],
+      "nativePaintedSize": [
+        281,
+        279
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/dice_three.webp",
+      "bytes": 22990,
+      "sha256": "79e63c7ae05b957bb633d9624a9973f5ffcf94467cacd88b05666a9b2556342b"
+    },
+    "dice_four": {
+      "source": "dice_sheet",
+      "crop": [
+        0,
+        470,
+        350,
+        825
+      ],
+      "trim": [
+        34,
+        43,
+        321,
+        323
+      ],
+      "nativePaintedSize": [
+        287,
+        280
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/dice_four.webp",
+      "bytes": 22838,
+      "sha256": "c0a449370eac94393f62019731443f57f2f9b06e014236beef7dcad96b1b05b1"
+    },
+    "dice_five": {
+      "source": "dice_sheet",
+      "crop": [
+        350,
+        470,
+        690,
+        825
+      ],
+      "trim": [
+        27,
+        43,
+        316,
+        323
+      ],
+      "nativePaintedSize": [
+        289,
+        280
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/dice_five.webp",
+      "bytes": 23152,
+      "sha256": "51fe026b6fd5706902469010020349ec3ea2a2073441e693af9e1d0f579a60a4"
+    },
+    "dice_six": {
+      "source": "dice_sheet",
+      "crop": [
+        690,
+        470,
+        1024,
+        825
+      ],
+      "trim": [
+        20,
+        42,
+        304,
+        321
+      ],
+      "nativePaintedSize": [
+        284,
+        279
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/dice_six.webp",
+      "bytes": 23102,
+      "sha256": "8c094023f5a43da4353e02fa7818a14baeb5e77f41bc4c8f9a7461ccdce26b5b"
+    },
+    "dice_tray": {
+      "source": "dice_sheet",
+      "crop": [
+        0,
+        825,
+        1024,
+        1536
+      ],
+      "trim": [
+        10,
+        22,
+        1014,
+        604
+      ],
+      "nativePaintedSize": [
+        1004,
+        582
+      ],
+      "paintedBounds": [
+        16,
+        26,
+        752,
+        453
+      ],
+      "size": [
+        768,
+        480
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/dice_tray.webp",
+      "bytes": 123512,
+      "sha256": "14ad8f739c79ecea08a8133ad6c307d0e1abf6cc3565c96c1aa37781985b068d"
+    },
+    "card_back": {
+      "source": "cards_sheet",
+      "crop": [
+        0,
+        70,
+        490,
+        950
+      ],
+      "trim": [
+        45,
+        81,
+        469,
+        749
+      ],
+      "nativePaintedSize": [
+        424,
+        668
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        400,
+        624
+      ],
+      "size": [
+        416,
+        640
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/card_back.webp",
+      "bytes": 107736,
+      "sha256": "8f5b93636b7f8fec8c69d728c3e907622701a595873d76be92f1c314877b5d16"
+    },
+    "card_front_scenic": {
+      "source": "cards_sheet",
+      "crop": [
+        490,
+        70,
+        945,
+        950
+      ],
+      "trim": [
+        19,
+        79,
+        443,
+        749
+      ],
+      "nativePaintedSize": [
+        424,
+        670
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        400,
+        624
+      ],
+      "size": [
+        416,
+        640
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/card_front_scenic.webp",
+      "bytes": 67276,
+      "sha256": "9f0b6e83a723ea0ddd25ec99002ee4dbd20cb4637b312cb2977e7c9abb803928"
+    },
+    "card_deck": {
+      "source": "cards_sheet",
+      "crop": [
+        945,
+        70,
+        1536,
+        970
+      ],
+      "trim": [
+        8,
+        79,
+        571,
+        836
+      ],
+      "nativePaintedSize": [
+        563,
+        757
+      ],
+      "paintedBounds": [
+        16,
+        29,
+        496,
+        674
+      ],
+      "size": [
+        512,
+        704
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/card_deck.webp",
+      "bytes": 132788,
+      "sha256": "324e610ed8d9496e50b6b57402aa7b8e82a0dbf85690789660b8258224e61a25"
+    },
+    "card_front": {
+      "source": "card_front_sheet",
+      "crop": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "trim": [
+        92,
+        101,
+        932,
+        1435
+      ],
+      "nativePaintedSize": [
+        840,
+        1334
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        400,
+        624
+      ],
+      "size": [
+        416,
+        640
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/card_front.webp",
+      "bytes": 20854,
+      "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+    },
+    "stick_long": {
+      "source": "sticks_sheet",
+      "crop": [
+        200,
+        60,
+        400,
+        1040
+      ],
+      "trim": [
+        64,
+        56,
+        151,
+        958
+      ],
+      "nativePaintedSize": [
+        87,
+        902
+      ],
+      "paintedBounds": [
+        28,
+        16,
+        100,
+        768
+      ],
+      "size": [
+        128,
+        800
+      ],
+      "alignment": "top",
+      "src": "figures/decor/painted/games/stick_long.webp",
+      "bytes": 27952,
+      "sha256": "76d4585f5f4a5f32b3d5967cf0993c48f519b67703842cb364b95dac8358337c"
+    },
+    "stick_short": {
+      "source": "sticks_sheet",
+      "crop": [
+        600,
+        60,
+        800,
+        1040
+      ],
+      "trim": [
+        63,
+        55,
+        150,
+        818
+      ],
+      "nativePaintedSize": [
+        87,
+        763
+      ],
+      "paintedBounds": [
+        28,
+        16,
+        100,
+        651
+      ],
+      "size": [
+        128,
+        800
+      ],
+      "alignment": "top",
+      "src": "figures/decor/painted/games/stick_short.webp",
+      "bytes": 23230,
+      "sha256": "529543624a812b1ef0fddaccb0722413b63c5afd89e4ace233d86da2c6ce5ec4"
+    },
+    "stick_sleeve": {
+      "source": "sticks_sheet",
+      "crop": [
+        0,
+        1040,
+        1024,
+        1536
+      ],
+      "trim": [
+        63,
+        18,
+        962,
+        415
+      ],
+      "nativePaintedSize": [
+        899,
+        397
+      ],
+      "paintedBounds": [
+        16,
+        27,
+        688,
+        324
+      ],
+      "size": [
+        704,
+        352
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/stick_sleeve.webp",
+      "bytes": 96374,
+      "sha256": "b10d3c90b33a5b9b897009e1a20b49ee08bfc605ad1f0deb3ef3e1d4e9214973"
+    },
+    "bag_closed": {
+      "source": "bag_sheet",
+      "crop": [
+        0,
+        0,
+        768,
+        568
+      ],
+      "trim": [
+        101,
+        10,
+        754,
+        557
+      ],
+      "nativePaintedSize": [
+        653,
+        547
+      ],
+      "paintedBounds": [
+        16,
+        28,
+        560,
+        484
+      ],
+      "size": [
+        576,
+        512
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/bag_closed.webp",
+      "bytes": 100016,
+      "sha256": "6a4d3949ea2ca89b712bd423be1052e28ceacbf5f3be6f164fe6d89a070e4043"
+    },
+    "bag_open": {
+      "source": "bag_sheet",
+      "crop": [
+        768,
+        0,
+        1536,
+        568
+      ],
+      "trim": [
+        7,
+        9,
+        693,
+        562
+      ],
+      "nativePaintedSize": [
+        686,
+        553
+      ],
+      "paintedBounds": [
+        16,
+        36,
+        560,
+        475
+      ],
+      "size": [
+        576,
+        512
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/bag_open.webp",
+      "bytes": 103066,
+      "sha256": "2feb61e8bc7d86ff6846991a88b4237568d46f913ffb0c15e113454c4698c34c"
+    },
+    "ball_cream": {
+      "source": "bag_sheet",
+      "crop": [
+        0,
+        550,
+        540,
+        1024
+      ],
+      "trim": [
+        114,
+        10,
+        511,
+        397
+      ],
+      "nativePaintedSize": [
+        397,
+        387
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/ball_cream.webp",
+      "bytes": 19396,
+      "sha256": "af8ea31cc1e1e93dfb854e7b2a5dcdb095e0abba04d70e7915c86df244cc7f90"
+    },
+    "ball_jade": {
+      "source": "bag_sheet",
+      "crop": [
+        540,
+        550,
+        1000,
+        1024
+      ],
+      "trim": [
+        29,
+        10,
+        424,
+        401
+      ],
+      "nativePaintedSize": [
+        395,
+        391
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/ball_jade.webp",
+      "bytes": 20636,
+      "sha256": "fb5e592ac44bf97ad6872c7f0a14448c0522a42fb4e82fc67f47987d26dff4be"
+    },
+    "ball_peach": {
+      "source": "bag_sheet",
+      "crop": [
+        1000,
+        550,
+        1536,
+        1024
+      ],
+      "trim": [
+        25,
+        9,
+        421,
+        399
+      ],
+      "nativePaintedSize": [
+        396,
+        390
+      ],
+      "paintedBounds": [
+        16,
+        16,
+        240,
+        240
+      ],
+      "size": [
+        256,
+        256
+      ],
+      "alignment": "center",
+      "src": "figures/decor/painted/games/ball_peach.webp",
+      "bytes": 20120,
+      "sha256": "8357e0e1f8d05327074229b019e3727792bcedf4a425e8800c30b4b27cf56043"
+    }
+  },
+  "runtimeBytes": 1231974,
+  "preview": "docs/research/games_artwork_preview.webp"
+}

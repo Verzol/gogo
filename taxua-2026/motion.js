@@ -558,6 +558,10 @@
         try { target = document.getElementById(decodeURIComponent(link.hash.slice(1))); } catch (_) { return; }
         if (!target) return;
         event.preventDefault();
+        // Game activation can queue a layout refresh during click capture.
+        // Finish that work before travel: a late refresh cancels navigation.
+        clearTimeout(refreshTimer);
+        ScrollTrigger.refresh();
         navigate(target,link.hash);
       }
       function interrupt(event) {

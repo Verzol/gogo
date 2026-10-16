@@ -324,6 +324,18 @@ function createWheelCelebration(root,dial,result,name,copy,reduced) {
   addEventListener('resize',clear);
   return {play,clear};
 }
+function tripRandomIndex(count) {
+  // One equal slot per eligible outcome, independent of identity or click timing.
+  // Discard the partial upper interval before modulo to avoid favoring any slot.
+  if (!Number.isSafeInteger(count) || count < 1 || count > 2 ** 32) throw new RangeError('Invalid random pool');
+  if (window.crypto?.getRandomValues) {
+    const values = new Uint32Array(1);
+    const limit = Math.floor(2 ** 32 / count) * count;
+    do { crypto.getRandomValues(values); } while (values[0] >= limit);
+    return values[0] % count;
+  }
+  return Math.floor(Math.random() * count);
+}
 function initCloudWheel() {
   const root = document.getElementById('cloudWheel');
   const copy = TRIP_DATA.wheel;
@@ -346,7 +358,7 @@ function initCloudWheel() {
     <div class="wheel-composition">
       <details class="wheel-settings" open><summary>Cho ai vào vòng? <span id="wheelSelection"></span></summary>
         <fieldset class="wheel-participants"><legend>${esc(copy.participants)}</legend><div class="wheel-choices">${members.map((member,index) => `<label><input type="checkbox" data-wheel-person="${index}" checked><span>${esc(member.name)}</span></label>`).join('')}</div></fieldset>
-        <div class="wheel-options"><label class="wheel-repeat"><input type="checkbox" id="wheelNoRepeat"><span>${esc(copy.noRepeat)}</span></label><button class="wheel-reset" type="button">${esc(copy.reset)} <span aria-hidden="true">↺</span></button></div>
+        <div class="wheel-options"><label class="wheel-repeat"><input type="checkbox" id="wheelNoRepeat"><span>${esc(copy.noRepeat)}</span></label><button class="wheel-reset game-icon-button" type="button" aria-label="${esc(copy.reset)}">${icon('rotate-ccw')}</button></div>
         <p class="wheel-fairness">${esc(copy.fairness)}</p>
       </details>
       <div class="wheel-stage">
@@ -397,15 +409,7 @@ function initCloudWheel() {
   let pending = null;
   let timeout;
   let lastWinner = null;
-  const randomIndex = count => {
-    if (window.crypto?.getRandomValues) {
-      const values = new Uint32Array(1);
-      const limit = Math.floor(2 ** 32 / count) * count;
-      do { crypto.getRandomValues(values); } while (values[0] >= limit);
-      return values[0] % count;
-    }
-    return Math.floor(Math.random() * count);
-  };
+  const randomIndex = tripRandomIndex;
   const eligible = () => choices.map((choice,index) => choice.checked && (!noRepeat.checked || !used.has(index)) ? index : -1).filter(index => index >= 0);
   function update() {
     const remaining = eligible();
@@ -491,6 +495,10 @@ function initCloudWheel() {
     }
   };
   reduced.addEventListener('change',stopMotion);
+  root.addEventListener('trip:deactivate',() => {
+    if (spinning) { dial.classList.add('is-instant'); finishSpin(); }
+    celebration.clear();
+  });
   new MutationObserver(stopMotion).observe(document.documentElement,{attributes:true,attributeFilter:['data-motion-paused']});
   reset.addEventListener('click',() => {
     if (spinning) return;

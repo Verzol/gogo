@@ -40,6 +40,9 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 | `verify_artwork.cjs` | Fixed-period stickers/icons and rapid swaps | `reveals/artwork-checks.json` |
 | `verify_countdown.cjs` | Arrival target, clock, timezones and reduced motion | `countdown/` |
 | `verify_fund.cjs` | Section order, exact amount/link, focus and reveals | `fund/` |
+| `verify_controls.cjs` | Direct object play, quick choices, optional editors, shared input/checkbox/slider styling, dropdown keyboard/pointer/modal behavior, responsive text and native fallbacks; includes existing ignored local demos | `/tmp/taxua-controls-review/` by default; `TRIP_REVIEW_DIR` overrides |
+| `verify_games.cjs` | Six-game rules, state, deck exhaustion, bag validation, short sticks, keyboard, motion interruption, responsive/text layouts, file and missing-asset/library fallbacks | `/tmp/taxua-games-review/` by default; `TRIP_REVIEW_DIR` overrides |
+| `verify_game_randomness.cjs` | Unbiased sampler boundaries/retries, all member mappings, coin/dice/card rules, every short-stick position, continuous extraction frames, resize and interruption | `/tmp/taxua-game-randomness-review/` by default; `TRIP_REVIEW_DIR` overrides |
 | `verify_wheel.cjs` | Member wheel, eligibility, no-repeat rounds, pointer/name/sticker agreement, result/banner portraits, celebration lifecycle, motion and missing-portrait fallbacks | `/tmp/taxua-wheel-review/` by default; `TRIP_REVIEW_DIR` overrides |
 
 Helpers write screenshots/reports/videos into the worktree. Run sequentially when they share output folders; inspect generated diffs and retain only intended evidence. Fixed 24-event/18-guide counts, source rows, arrival target and section order are intentional fixtures; update only alongside an approved content change.
@@ -63,3 +66,5 @@ The [16 October map integration review](maps.md#verified-import-and-integration-
 The [treasure-atlas redesign review](maps.md#treasure-atlas-import-and-redesign--16-october-2026) records the six-image import, 354 map assertions, 135 journal UI checks and separate live-tile/responsive inspections. The map helper covers both map artwork manifests and graceful missing-decoration behavior.
 
 For docs-only edits, validate local links/file references and scope; browser suites are unnecessary. Report exactly what ran. Existing galleries, accessibility/Lighthouse results and check counts are historical snapshots; their JSON timestamps define freshness. Recorded browser coverage uses Chromium emulation, not physical phones, Safari or Firefox.
+
+The [shared-control and object-interaction review](controls.md#verified-integration--16-october-2026) records the themed inputs, progressive dropdowns and direct game-object refinements, with seven passing focused browser suites and screenshots outside the checkout.

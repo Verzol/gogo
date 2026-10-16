@@ -179,7 +179,7 @@ async function withinRegion(page) {
       await page.locator('#atlasOptional').check();
       await page.locator('[data-map-visit="room-change:mua_tru_homestay"]').click();
       check(name+' home base is grouped',await page.locator('#atlasVisit option').count() === 2);
-      await page.locator('#atlasVisit').selectOption('home-breakfast:mua_tru_homestay');
+      await page.locator('#atlasVisit').selectOption('home-breakfast:mua_tru_homestay',{force:true});
       check(name+' repeated visit changes actual time',(await page.locator('.atlas-place-time').textContent()).includes('05:15'));
       await page.locator('[data-map-step="1"]').click();
       check(name+' next step selects ridge',(await page.locator('#atlasDetail h3').textContent()).includes('Khủng Long'));

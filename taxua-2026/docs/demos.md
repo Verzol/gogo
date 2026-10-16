@@ -2,6 +2,8 @@
 
 [Documentation index](README.md) · [Open the gallery](../demos/index.html)
 
+The existing `demos/` folder is ignored local preview material, not tracked production content. Its links work in a checkout that already contains those files.
+
 These are interactive concept demonstrations for the Tà Xùa journal. They reuse its local fonts, official Lucide geometry, painted cutouts and documentary destination photographs. They do not change the production page, itinerary, member roster, weather, fund or personal packing checklist.
 
 ## Open and compare
@@ -41,6 +43,7 @@ The offline demo does **not** install a service worker or cache the website shel
 - `demos/index.html`, `gallery.js`: gallery shell, miniatures and filters.
 - `demos/<id>.html`: separate entry points, all using classic scripts.
 - `demos/common.js`: catalog, local state, shared helpers and navigation.
+- `../controls.css` / `../controls.js`: the same themed fields, dropdown menus, sliders and checkboxes as production; select values/events remain native.
 - `demos/demo.css`: isolated responsive layouts, reduced-motion and zine print rules.
 - `demos/features/<id>.js`: each concept's rendering, sample content and behavior.
 - `demos/icons.js`: serialized official Lucide 1.23.0 symbols from the existing pinned local bundle; do not hand-edit icon paths. Licensing remains in [vendor documentation](vendor.md).
@@ -58,4 +61,4 @@ node scripts/verify_demos.cjs
 
 The script uses the existing sibling Hue Playwright installation, or `PLAYWRIGHT_PATH` if supplied. Evidence defaults to `/tmp/taxua-demo-review`; override with `TRIP_REVIEW_DIR`. It checks all 14 pages at desktop, phone and narrow phone widths, key interactions, independent state/reset, photo upload and download, standalone offline reading, keyboard use, reduced motion, zine print layout, direct-file opening and browser errors. These are concept checks; no live multi-user backend is exercised.
 
-Verified on 16 October 2026: **254 checks passed**, including all 14 entries at 1440, 390 and 320 pixels, with no browser errors or missing resources. Reviewed desktop/phone screenshots and the rendered zine print output. The PDF contains three A4 landscape sheets. Current evidence is in `/tmp/taxua-demo-review/` (28 screenshots, report JSON, PDF and example downloads), rather than the historical production review folders.
+Reverified after shared-control integration on 16 October 2026: **254 checks passed**, including all 14 entries at 1440, 390 and 320 pixels, with no browser errors or missing resources. Reviewed desktop/phone screenshots and the rendered zine print output. The PDF contains three A4 landscape sheets. Current evidence is in `/tmp/taxua-demo-review/` (28 screenshots, report JSON, PDF and example downloads), rather than the historical production review folders.

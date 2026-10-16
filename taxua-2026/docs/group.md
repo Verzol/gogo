@@ -8,6 +8,7 @@
 | --- | --- | --- |
 | Hero mystery | `TRIP_DATA.hero`, `subtitle`, `members` | `index.html`, `main.js:renderCrew`, `style.css` |
 | Crew | `TRIP_DATA.members`, `TRIP_DATA.crewOrder` | `renderCrew`, `#crewGrid`, `.crew-grid` |
+| Random-game collection | `TRIP_DATA.games` | `games.js`, `games.css`, `#tripGames`; [rules and lifecycle](games.md) |
 | Member wheel | `TRIP_DATA.members`, `TRIP_DATA.wheel` | `initCloudWheel`, `#cloudWheel`, `.wheel-*`; `motion.js` outer reveals |
 | Trip-day forecast | `TRIP_DATA.weather`, arrival day onward | `weather.js`, `weather.css`; [behavior](weather.md) |
 | Arrival clock | `TRIP_DATA.countdown` and block `id:"arrival"` | `initArrivalCountdown`, `countdown.css` |
@@ -34,7 +35,8 @@ The import passed **99 existing wheel checks**, including all seven sector/resul
 
 ## Vòng quay trên mây
 
-- Lives below the roster **inside `#crew`**, keeping crew → fund → packing and the morning/jade world. Seven real travelers participate; the fund pig is not a candidate.
+- The default game in **Túi may mắn**, below the roster **inside `#crew`**, keeping crew → fund → packing and the morning/jade world. Seven real travelers participate; the fund pig is not a candidate.
+- Existing `#cloudWheel` navigation opens the wheel even after switching to another game. Pending spins settle before hiding, and transient celebrations clear; settings and round state persist. [Collection behavior](games.md).
 - `TRIP_DATA.members` supplies names, optional portraits and segment count; `TRIP_DATA.wheel` supplies Vietnamese copy. Initials work without portrait files. HTML participant checkboxes also provide the accessible names; decorative wheel labels are hidden from screen readers.
 - Each checked, eligible person has the same chance. `crypto.getRandomValues` with rejection sampling chooses a member, then a landing point safely inside that member's equal SVG sector; `Math.random` is the fallback. No ten-person cap or fixed ten-sector gradient.
 - Everyone is included initially; repeat picks are allowed by default. **Không lặp trong lượt** removes each winner from the eligible pool until **Bắt đầu lại**. Changing repeat mode clears the used pool. Participant selections survive a round reset; all state is page-local and resets on reload. Unavailable people remain visible with muted/crossed-out labels.

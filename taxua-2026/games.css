@@ -1,0 +1,212 @@
+/* Painted chance objects, readable results and a small set of familiar controls. */
+.trip-games { margin-top: 104px; padding-top: 44px; border-top: 1px dashed var(--line); }
+.games-intro { max-width: 630px; }
+.games-intro h3 { font-size: clamp(3rem,5vw,4.5rem); }
+.games-intro p { margin-top: 12px; font-size: .96rem; }
+.game-picker { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 12px; margin: 30px 0 36px; }
+.game-choice { display: flex; align-items: center; flex-direction: column; gap: 10px; min-width: 0; padding: 12px 4px; color: var(--ink); background: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; text-align: center; }
+.game-choice .game-art { width: 68px; height: 68px; object-fit: contain; filter: drop-shadow(0 5px 4px rgb(7 27 33 / .16)); transition: transform .2s ease; }
+.game-choice:nth-child(2) > .game-art { transform: rotate(-12deg); }
+.game-choice:nth-child(4) > .game-art { transform: rotate(9deg); }
+.game-choice[aria-pressed="true"] { border-bottom-color: var(--accent); }
+.game-choice[aria-pressed="true"] .game-choice-label { color: var(--accent); }
+.game-choice-label { font: 400 1.45rem/1.2 'Patrick Hand',cursive; }
+.games-ready > .cloud-wheel { margin-top: 0; padding-top: 0; border-top: 0; }
+.trip-games:not(.games-ready) { margin: 0; padding: 0; border: 0; }
+.game-panel { scroll-margin-top: 12px; text-shadow: 0 1px 3px rgb(7 27 33 / .55); }
+.game-heading { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 12px 20px; margin-bottom: 18px; }
+.game-heading h4 { font-size: clamp(2.3rem,4vw,3.2rem); line-height: 1.12; }
+.game-heading .game-touch-hint { grid-column: 1 / -1; font-size: .875rem; line-height: 1.6; margin: 0; }
+.game-toolbar { display: flex; align-items: center; gap: 10px; }
+.game-play-actions { display: flex; justify-content: center; gap: 12px; }
+.game-layout { display: grid; grid-template-columns: minmax(0,1fr); gap: 18px; }
+.game-stage { position: relative; display: flex; justify-content: center; align-items: center; min-width: 0; width: 100%; max-width: 960px; margin: 0 auto; isolation: isolate; }
+.game-panel.is-playful .game-controls { display: flex; flex-direction: column; align-items: center; width: min(100%,680px); margin-inline: auto; }
+.game-result { width: 100%; text-align: center; }
+.game-status:not(.sr-only) { max-width: 28ch; margin: 0 auto 12px; color: var(--accent); font: 400 1.85rem/1.25 'Patrick Hand',cursive; overflow-wrap: anywhere; }
+.game-hint { font-size: .875rem; line-height: 1.6; margin: 0 0 12px; }
+.game-hint:empty,.game-actions:empty,.coin-history:empty,.bag-results:empty { display: none; }
+.game-button { min-height: 46px; padding: 10px 20px; border: 1px solid var(--accent); border-radius: 7px 10px 8px 9px; background: #ffda9d; color: #183b46; font: inherit; font-size: .9rem; line-height: 1.5; text-shadow: none; }
+.game-button--quiet { background: rgb(12 49 54 / .4); border-color: var(--line); color: var(--ink); }
+.game-icon-button { position: relative; display: grid; place-items: center; flex: 0 0 auto; width: 46px; min-width: 46px; height: 46px; padding: 10px; border-radius: 48% 52% 46% 54%; background: rgb(12 49 54 / .46); color: #fff4dc; border-color: rgb(255 244 220 / .6); }
+.game-icon-button .lucide { width: 22px; height: 22px; }
+.game-icon-button::after { content: attr(aria-label); position: absolute; top: calc(100% + 8px); right: 0; z-index: 6; width: max-content; max-width: min(220px,70vw); padding: 6px 10px; color: #fff4dc; background: #193e43; border: 1px solid var(--line); border-radius: 5px; font: 400 .8rem/1.5 'Be Vietnam Pro',sans-serif; opacity: 0; visibility: hidden; pointer-events: none; }
+.game-icon-button:focus-visible::after { opacity: 1; visibility: visible; }
+.game-button[aria-disabled="true"],.game-panel[aria-busy] .game-icon-button { opacity: .4; cursor: default; }
+#game-sticks[aria-busy] [data-action="reveal"][aria-disabled="false"] { opacity: 1; cursor: pointer; }
+.game-object { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; border: 0; padding: 12px; color: inherit; background: transparent; font: inherit; border-radius: 22px; touch-action: manipulation; }
+.game-object-caption { display: block; color: var(--accent); font: 400 1.4rem/1.25 'Patrick Hand',cursive; }
+.game-object[aria-disabled="true"] { cursor: default; }
+.game-object[aria-disabled="true"] .game-object-caption { opacity: .45; }
+.game-quick-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px 28px; }
+.game-chips { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; }
+.game-chips-label { font-size: .875rem; margin-right: 6px; }
+.game-chips[data-choice="coinMode"] .game-chips-label,.game-chips[data-choice="stickMode"] .game-chips-label,.game-chips[data-choice="bagSource"] .game-chips-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.game-chip { display: grid; place-items: center; min-width: 44px; min-height: 44px; padding: 8px 12px; border: 1px solid rgb(255 244 220 / .55); background: rgb(12 49 54 / .45); color: #fff4dc; border-radius: 7px 9px 6px 8px; font: inherit; font-size: .9rem; text-shadow: none; }
+.game-chip[aria-pressed="true"] { color: #183b46; border-color: #ffda9d; background: #ffda9d; }
+.game-chip:disabled { opacity: .5; cursor: default; }
+.game-settings { width: min(100%,460px); margin-top: 16px; border-top: 1px dashed var(--line); text-align: left; }
+.game-settings > summary { display: flex; align-items: center; gap: 9px; min-height: 46px; cursor: pointer; font-size: .875rem; }
+.game-settings > summary .lucide { width: 18px; height: 18px; }
+.game-settings > summary::after { content: '+'; margin-left: auto; font: 1.5rem 'Patrick Hand',cursive; }
+.game-settings[open] > summary::after { content: '−'; }
+.game-fields { display: grid; gap: 16px; border: 0; padding: 12px 0; margin: 0; min-width: 0; }
+.game-fields:disabled { opacity: .65; }
+.game-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; font-size: .875rem; }
+.game-field input,.game-field select,.game-field textarea { width: 100%; min-width: 0; min-height: 46px; padding: 10px 12px; font: inherit; font-size: 1rem; line-height: 1.5; }
+.game-field textarea { resize: vertical; }
+.game-field-pair { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.game-field-note,.game-error { font-size: .875rem; line-height: 1.6; }
+.game-check { display: flex; gap: 9px; align-items: center; font-size: .875rem; min-height: 46px; align-self: end; }
+.bag-prepare { margin: 12px 0; }
+.game-error { color: var(--accent); margin-top: 12px; }
+.game-error:empty { display: none; }
+/* Coin outcome is the only text result; other outcomes are already on the objects. */
+.coin-object { min-height: 310px; gap: 30px; }
+.coin-flight { display: block; flex: none; width: 230px; max-width: 75%; aspect-ratio: 1; perspective: 900px; }
+.coin-turn { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.coin-face { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; }
+.coin-face--back { transform: rotateY(180deg); }
+.coin-rest { display: none; }
+.coin-score { font: 400 1.4rem/1.4 'Patrick Hand',cursive; margin-top: 12px; overflow-wrap: anywhere; text-align: center; }
+.coin-history { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 16px 0 0; }
+.coin-history img { width: 32px; height: 32px; object-fit: contain; }
+/* Held dice show a lock rather than another line of copy. */
+.dice-stage { max-width: 480px; min-height: 310px; }
+.dice-tray-hit { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; justify-content: flex-end; padding-bottom: 0; }
+.dice-tray { position: absolute; inset: 0; margin: auto; width: 100%; max-height: 260px; object-fit: contain; pointer-events: none; }
+.dice-tray-hit .game-object-caption { position: relative; }
+.dice-row { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; max-width: 390px; gap: 10px; padding: 0 12px 24px; z-index: 1; pointer-events: none; }
+.die { position: relative; width: min(30%,108px); min-width: 44px; padding: 0; border: 0; border-radius: 14px; background: none; pointer-events: auto; }
+.die .game-art { width: 100%; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 5px 3px rgb(7 27 33 / .2)); }
+.die.is-held { outline: 3px solid #ffda9d; outline-offset: 4px; }
+.die-held { position: absolute; right: -5px; top: -12px; display: grid; place-items: center; width: 28px; height: 28px; background: #ffda9d; color: #183b46; border: 1px solid #183b46; border-radius: 50%; }
+.die-held:empty,.die-number { display: none; }
+.die-held .lucide { width: 17px; height: 17px; }
+/* Full-size card indices; hands scroll on phones instead of shrinking the cards. */
+.cards-stage { flex-direction: column; gap: 14px; }
+.card-deck { flex-direction: row; gap: 16px; }
+.card-deck > img { width: 64px; height: 96px; object-fit: contain; transition: transform .2s ease; }
+.deck-count { font-size: .875rem; }
+.card-hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; min-width: 0; width: 100%; padding: 8px; }
+.card-hand:empty { display: none; }
+.playing-card { flex: 0 0 auto; width: max(118px,7.4rem); aspect-ratio: 416/640; position: relative; padding: 0; border: 0; border-radius: 9px; background: transparent; perspective: 700px; text-shadow: none; scroll-snap-align: start; }
+.card-turn { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.playing-card.is-revealed .card-turn { transform: rotateY(180deg); }
+.card-back,.card-front { position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; }
+.card-front { color: #183b46; transform: rotateY(180deg); border-radius: 9px; }
+.card-front > img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.card-front.is-red { color: #a32c2c; }
+.card-corner { position: absolute; top: 7%; left: 9%; font-family: Georgia,serif; font-size: 1.6rem; font-weight: 700; line-height: 1; text-align: center; }
+.card-corner small { display: block; font-size: 1.15rem; line-height: 1.1; }
+.card-corner--bottom { top: auto; left: auto; bottom: 7%; right: 9%; transform: rotate(180deg); }
+.card-court { position: absolute; inset: 29% 24%; font-family: Georgia,serif; font-size: 2.2rem; line-height: 1; display: grid; align-content: center; text-align: center; }
+.card-court small { font-size: 2rem; }
+.card-pips { position: absolute; inset: 25% 30%; display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(7,1fr); align-items: center; justify-items: center; font-family: Georgia,serif; font-size: 1.15rem; line-height: 1; }
+/* The sleeve masks the lower ends as each anonymous stick is pulled upward. */
+.stick-racks { display: flex; gap: 18px; width: 100%; justify-content: center; flex-wrap: wrap; }
+.stick-rack { --stick-length: 200px; --stick-inset: 156px; --stick-lip: 216px; position: relative; display: grid; grid-template-columns: repeat(var(--stick-count),minmax(0,62px)); justify-content: center; flex: 0 1 280px; max-width: 280px; }
+.drawing-stick { position: relative; height: 374px; min-width: 44px; border: 0; padding: 0; background: none; border-radius: 8px; }
+.stick-window { display: block; position: absolute; top: 0; inset-inline: 0; height: var(--stick-lip); overflow: hidden; pointer-events: none; }
+.stick-shaft { display: block; position: absolute; top: var(--stick-inset); inset-inline: 0; height: var(--stick-inset); }
+.stick-shaft img { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 32px; height: var(--stick-length); object-fit: contain; object-position: top; max-width: none; }
+.stick-shaft .stick-short-art { visibility: hidden; }
+.is-short .stick-short-art { visibility: visible; }
+.is-short .stick-long-art { visibility: hidden; }
+.stick-sleeve { position: absolute; width: 100%; height: 140px; object-fit: fill; top: 206px; z-index: 1; pointer-events: none; }
+.drawing-stick.is-selected:not(.is-revealed):not(.is-drawing) .stick-shaft { transform: translateY(-8%); }
+.drawing-stick.is-revealed .stick-shaft { transform: translateY(-100%); }
+.stick-marker { position: absolute; bottom: 0; inset-inline: 0; display: grid; place-items: center; height: 24px; color: var(--accent); }
+.stick-marker .lucide { width: 22px; height: 22px; }
+.is-revealed.is-short .stick-shaft { filter: drop-shadow(0 0 3px #ffda9d); }
+/* Numbers stay large; named tokens get more room rather than smaller text. */
+.bag-stage { flex-direction: column; gap: 12px; }
+.bag-draw { width: min(270px,100%); }
+.bag-object { display: block; position: relative; width: 100%; aspect-ratio: 576/512; }
+.bag-object > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.bag-open { visibility: hidden; }
+.bag-object.is-open .bag-closed { visibility: hidden; }
+.bag-object.is-open .bag-open { visibility: visible; }
+.bag-results { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
+.lottery-ball { position: relative; width: max(120px,7.5rem); max-width: 100%; aspect-ratio: 1; flex: 0 0 auto; color: #183b46; text-shadow: none; }
+.lottery-ball.is-word { width: max(132px,8.25rem); }
+.lottery-ball.is-number { width: max(132px,8.25rem); }
+.lottery-ball.has-wide-number { width: max(160px,10rem); }
+.lottery-ball.has-long-label { width: max(176px,11rem); aspect-ratio: auto; }
+.lottery-ball > img { width: 100%; height: 100%; object-fit: contain; }
+.lottery-ball > span { position: absolute; inset: 16%; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: 2rem; line-height: 1.2; overflow-wrap: anywhere; }
+.lottery-ball.is-word > span { font-size: 1.125rem; }
+.lottery-ball.is-number > span { white-space: nowrap; }
+.lottery-ball.has-long-label > img { height: auto; aspect-ratio: 1; }
+.lottery-ball.has-long-label > .lottery-token-mark { inset: 0 0 auto; aspect-ratio: 1; display: grid; place-items: center; }
+.lottery-token-mark .lucide { width: 32px; height: 32px; }
+.lottery-ball.has-long-label > .lottery-label { position: static; display: block; margin-top: 6px; font-size: 1rem; font-weight: 500; color: var(--ink); text-shadow: 0 1px 3px rgb(7 27 33 / .55); }
+.bag-pool { font-size: .875rem; margin-top: 14px; }
+/* Missing illustrations keep usable controls and live results. */
+.game-art-notice { font-size: .875rem; margin-top: 20px; }
+.art-missing.card-front,.card-turn.art-missing { background: #fff1d5; }
+.art-missing.lottery-ball { background: #f3ead4; border-radius: 50%; }
+.coin-turn.art-missing { border: 2px solid #ffda9d; border-radius: 50%; }
+.die.art-missing > .die-number { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 12px; background: #f3ead4; color: #183b46; font: 2.5rem 'Patrick Hand',cursive; text-shadow: none; }
+.stick-shaft.art-missing::after { content: ''; display: block; margin: 0 auto; width: 12px; height: calc(var(--stick-length) * .94); border: 1px solid #183b46; border-radius: 8px; background: #f0c384; }
+.is-short .stick-shaft.art-missing::after { height: calc(var(--stick-length) * .79); }
+.game-choice-object { display: block; position: relative; width: 68px; height: 68px; transition: transform .2s ease; }
+.game-choice .game-choice-object .game-art { position: absolute; object-fit: fill; transform: none; filter: none; }
+.game-choice .game-choice-object .mini-stick { width: 9px; height: 64px; top: 0; }
+.game-choice .mini-stick-0 { left: 15px; }
+.game-choice .mini-stick-1 { left: 29px; }
+.game-choice .mini-stick-2 { left: 43px; }
+.game-choice .game-choice-object .mini-sleeve { width: 68px; height: 36px; bottom: 0; left: 0; }
+@media (hover:hover) {
+  .game-icon-button:hover::after { opacity: 1; visibility: visible; }
+  .game-icon-button:hover:not([aria-disabled="true"]) { border-color: var(--accent); background: #28565a; }
+}
+@media (hover:hover) and (prefers-reduced-motion:no-preference) {
+  .game-choice:hover > .game-art,.game-choice:hover .game-choice-object { transform: translateY(-4px) rotate(3deg); }
+  .card-deck:hover > img { transform: translateY(-4px) rotate(-3deg); }
+  .coin-object:hover .coin-flight,.bag-draw:hover .bag-object { filter: drop-shadow(0 5px 10px rgb(255 218 157 / .18)); }
+}
+@media (max-width:640px) {
+  .trip-games { margin-top: 76px; padding-top: 34px; }
+  .games-intro h3 { font-size: 3rem; }
+  .games-intro p { font-size: .9rem; }
+  .game-picker { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin: 24px 0 28px; }
+  .game-choice { gap: 6px; padding: 8px 0; }
+  .game-choice .game-art,.game-choice-object { width: 48px; height: 56px; }
+  .game-choice-label { font-size: 1.2rem; }
+  .game-choice .game-choice-object .mini-stick { width: 7px; height: 52px; }
+  .game-choice .mini-stick-0 { left: 10px; }
+  .game-choice .mini-stick-1 { left: 21px; }
+  .game-choice .mini-stick-2 { left: 32px; }
+  .game-choice .game-choice-object .mini-sleeve { width: 48px; height: 28px; }
+  .game-heading { gap: 12px; }
+  .game-heading h4 { font-size: 2.25rem; }
+  .game-toolbar { gap: 6px; }
+  .game-heading .game-touch-hint { font-size: .875rem; }
+  .game-layout { gap: 14px; }
+  .coin-object { min-height: 258px; gap: 22px; }
+  .coin-flight { width: 185px; }
+  .dice-stage { min-height: 260px; }
+  .dice-tray { max-height: 220px; }
+  .dice-row { max-width: 310px; }
+  .game-chips-label { flex-basis: 100%; text-align: center; margin: 0 0 2px; }
+  .game-chip { padding-inline: 11px; }
+  .game-quick-controls { gap: 12px; }
+  .card-deck { flex-wrap: wrap; gap: 10px; }
+  .card-hand { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; padding: 8px 8px 14px; }
+  .bag-draw { width: 220px; }
+  .bag-results { gap: 8px; }
+  .stick-racks { gap: 12px; }
+  .stick-rack { --stick-length: 168px; --stick-inset: 132px; --stick-lip: 184px; }
+  .drawing-stick { height: 322px; }
+  .stick-shaft img { width: 27px; }
+  .stick-sleeve { top: 176px; height: 118px; }
+}
+@media (max-width:370px) {
+  .game-heading h4 { grid-column: 1 / -1; }
+  .game-toolbar { grid-row: 2; grid-column: 2; justify-self: end; }
+  .game-heading .game-touch-hint { grid-row: 2; grid-column: 1; }
+}
+@media (prefers-reduced-motion:reduce) { .game-art,.game-choice-object { transition: none !important; } }
+html[data-motion-paused="true"] .game-art,html[data-motion-paused="true"] .game-choice-object { transition: none; }
+@media print { .trip-games { display: none !important; } }

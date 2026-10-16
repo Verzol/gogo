@@ -164,7 +164,7 @@ async function download(page, selector, filename) {
 
     await ready(page, 'passport');
     await page.locator('#stampCaption').fill('Một biển mây <để nhớ>.');
-    await page.locator('#stampForm button').click();
+    await page.locator('#stampForm button[type=submit]').click();
     check(
       'passport explicitly stamps the chosen stop',
       (await saved(page, 'passport')).stamps.san.ridge.caption === 'Một biển mây <để nhớ>.' &&
@@ -235,9 +235,9 @@ async function download(page, selector, filename) {
       (await page.locator('.observation').count()) === 0 &&
         (await page.locator('.empty-state').innerText()).includes('dòng đầu'),
     );
-    await page.locator('[name=member]').selectOption('linh');
+    await page.locator('[name=member]').selectOption('linh',{force:true});
     await page.locator('[name=text]').fill('Mây mỏng, nắng vừa lên.');
-    await page.locator('#observationForm button').click();
+    await page.locator('#observationForm button[type=submit]').click();
     const reports = (await saved(page, 'cloud-notebook')).reports;
     check(
       'new observation includes member, place, current time and content',
@@ -277,8 +277,8 @@ async function download(page, selector, filename) {
     );
     await page.locator('[data-day="0"]').click();
     check(
-      'pickup uncertainty is retained',
-      (await page.locator('.guide-detail').innerText()).includes('xác nhận vị trí đón cụ thể'),
+      'pickup detail retains the canonical departure note',
+      await page.locator('.guide-detail').evaluate(el => el.textContent.includes(TRIP_DATA.days[0].blocks[0].note)),
     );
 
     await ready(page, 'postcard');
@@ -385,7 +385,7 @@ async function download(page, selector, filename) {
         (await page.locator('.perspective-photo img').getAttribute('src')).includes('p04'),
     );
     await page.locator('#perspectiveText').fill('Mình muốn giữ màu xanh này.');
-    await page.locator('#perspectiveForm button').click();
+    await page.locator('#perspectiveForm button[type=submit]').click();
     await page.reload();
     check(
       'new perspective persists in its own scene and member',
@@ -429,15 +429,15 @@ async function download(page, selector, filename) {
       'margin notes can attach to every source event',
       (await page.locator('#marginStop option').count()) === 24,
     );
-    await page.locator('#marginForm [name=member]').selectOption('gtm');
+    await page.locator('#marginForm [name=member]').selectOption('gtm',{force:true});
     await page.locator('#marginForm [name=text]').fill('Một câu có <dấu ngoặc>, vẫn là chữ.');
-    await page.locator('#marginForm button').click();
+    await page.locator('#marginForm button[type=submit]').click();
     check(
       'margin note safely renders literal user text',
       (await page.locator('.margin-note').last().innerText()).includes('<dấu ngoặc>') &&
         (await page.locator('.margin-note ngoặc').count()) === 0,
     );
-    await page.locator('#marginFilter').selectOption('gtm');
+    await page.locator('#marginFilter').selectOption('gtm',{force:true});
     check('margin notes filter by author', (await page.locator('.margin-note').count()) === 1);
     await page.locator('[data-delete]').click();
     check(
@@ -451,19 +451,19 @@ async function download(page, selector, filename) {
       'unowned gear cannot be marked packed',
       await page.locator('[data-packed="cable"]').isDisabled(),
     );
-    await page.locator('#owner-cable').selectOption('gtm');
+    await page.locator('#owner-cable').selectOption('gtm',{force:true});
     await page.locator('[data-packed="cable"]').check();
     check(
       'gear records an owner and actual packing state',
       (await saved(page, 'gear')).assignments.cable.owner === 'gtm' &&
         (await saved(page, 'gear')).assignments.cable.packed,
     );
-    await page.locator('#owner-cable').selectOption('trường');
+    await page.locator('#owner-cable').selectOption('trường',{force:true});
     check(
       'reassigning resets readiness',
       !(await page.locator('[data-packed="cable"]').isChecked()),
     );
-    await page.locator('#owner-cable').selectOption('');
+    await page.locator('#owner-cable').selectOption('',{force:true});
     check(
       'unassigning returns to unclaimed and unpacked',
       (await page.locator('[data-packed="cable"]').isDisabled()) &&
@@ -477,7 +477,7 @@ async function download(page, selector, filename) {
       'zine turns to the second designed spread',
       (await page.locator('.zine-turner>span').innerText()) === 'Trang 3–4 / 6',
     );
-    await page.locator('#zineSpread').selectOption('2');
+    await page.locator('#zineSpread').selectOption('2',{force:true});
     check('zine stops at its last spread', await page.locator('#nextSpread').isDisabled());
     await page.evaluate(() => {
       window.print = () => {
@@ -506,7 +506,7 @@ async function download(page, selector, filename) {
     await page.locator('#savePack').click();
     await page.locator('#toggleNetwork').click();
     await page.locator('#offlineText').fill('Nhớ sạc pin máy ảnh ở home.');
-    await page.locator('#offlineForm button').click();
+    await page.locator('#offlineForm button[type=submit]').click();
     check(
       'offline demo keeps the schedule and queues a note without simulated signal',
       (await saved(page, 'offline')).pack.days.reduce((sum, day) => sum + day.blocks.length, 0) ===
@@ -593,7 +593,7 @@ async function download(page, selector, filename) {
       'storage denial explains the temporary mode',
       (await restrictedPage.locator('#demoStatus').innerText()).includes('chặn lưu'),
     );
-    await restrictedPage.locator('#stampForm button').click();
+    await restrictedPage.locator('#stampForm button[type=submit]').click();
     check(
       'storage denial still permits in-page interaction',
       (await restrictedPage.locator('.is-stamped').count()) === 3,

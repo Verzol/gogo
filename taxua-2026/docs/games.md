@@ -1,0 +1,93 @@
+# Túi may mắn
+
+[Documentation index](README.md) · [Group and wheel](group.md) · [Artwork](game-artwork.md)
+
+Six chance-based games live below the crew roster inside `#crew`. The collection uses the existing watercolor world, handwritten headings and transparent compositions. It introduces no challenges, tasks, wagers or backend state.
+
+## Owners and structure
+
+- `TRIP_DATA.games` in `data.js` owns Vietnamese labels, concise instructions and game catalog.
+- `games.js` builds the object picker and five additional panels; `games.css` owns their layouts.
+- `main.js:initCloudWheel` still owns the member wheel. `tripRandomIndex` is the shared integer sampler: cryptographic rejection sampling, with a `Math.random` fallback.
+- `index.html` retains `#cloudWheel` and its existing navigation link. The optional classic `games.js` loads after `main.js` and before GSAP; existing scripts retain their relative order. If it fails to load, the original wheel still works.
+- Panel creation is lazy. The six small picker illustrations load lazily; game-specific objects load when their panel is first opened. Masters and the review contact sheet are never runtime requests.
+
+## Game rules
+
+| Object | Controls and behavior |
+| --- | --- |
+| Wheel | Seven real members, participant selection, optional no-repeat rounds; original rules and celebration remain in [Group features](group.md#vòng-quay-trên-mây) |
+| Coin | Equally likely Nắng/Mây faces, editable labels; one toss or first to two wins. A completed match offers a fresh round. Recent eight tosses remain visible |
+| Dice | One to three independent fair dice. After rolling, tap/activate a die to hold it; only unheld dice reroll. Releasing a die recovers from all-held. Count changes start over |
+| Cards | Standard 52-card deck, shuffled using Fisher–Yates. Draw one to seven without replacement; reveal individually or all together. A final draw is capped to the remaining cards. Exhaustion retains the last hand; shuffle restores all 52 |
+| Sticks | Two to seven sticks, exactly one short stick chosen uniformly per round. Tap several to pull independently, or select/deselect several and reveal together. Further sticks/groups can start while earlier pulls are moving. All concealed sticks use identical long artwork. Count/mode changes start a new round |
+| Bag | Numbers, seven member names, or custom lines; draw one to seven. Optional no-repeat removes each drawn token; replacement can repeat within a batch. Exhaustion keeps the last result. A refill icon restores the configured pool |
+
+Tap the painted coin to toss; tap an unrolled die or the tray to roll, then tap individual dice to hold them. Tap the deck to deal and each card to flip. Tap sticks to select/reveal, or the bag to draw. Count, mode and source choices are quick chips. Dice, cards and sticks have no visible form fields. Each game has one short instruction. Reset/shuffle/refill use named Lucide icon buttons beside the title; reveal sits below the cards/sticks, within reach after selecting. The stick reset sits beside reveal so another round is reachable after using both racks. All icon buttons have at least 44px targets, focus states and themed tooltips. Coin labels and bag configuration live in optional **Tùy chỉnh** drawers.
+
+The bag accepts inclusive integer ranges within 1–9999, at most 500 items. Custom lists allow 1–100 distinct nonempty trimmed labels, each at most 24 characters; duplicate detection ignores case. Labels render as literal text. Choosing the numbers or member source chip prepares the bag immediately. Choosing a custom list opens its editor. List/range/repeat edits block drawing until **Áp dụng** applies them, avoiding a mismatch between visible settings and the active pool. Successful preparation closes the editor and returns focus to the bag; validation errors leave it open. Changing batch size alone keeps the pool. The refill icon also restores an exhausted bag without reopening its editor. Tapping the selected custom-source chip reopens its editor.
+
+Card ranks, suit symbols, names and ball labels are live HTML over the blank artwork. Card indices start at 25.6px, suits at 18.4px, numeric ball labels at 32px and names at 18px. Labels longer than 12 characters use a readable 16px caption below a larger ticket-marked token. Mobile hands scroll horizontally rather than shrinking seven cards; keyboard reveals preserve the existing card DOM, hand scroll and focus, avoiding a blank image flash after flipping. New draws and shuffles return to the start. Dice arithmetic/history and bag history are omitted from the visible interface. Concealed card faces are hidden from the accessibility tree; button names describe the face only after it is revealed. Sticks have no assigned people or visible names, like drawing real sticks; selection uses a check marker and the short stick receives a small sparkle marker. Screen-reader labels identify sticks by number.
+
+Sticks slide upward through a fixed mask aligned with the painted sleeve's lip over 1.8 seconds, easing in and out. Each stick has an independent pending animation, so tapping another starts its pull immediately. Group reveals stagger by 100ms; another group can be selected and opened while earlier sticks move. Completing one pull preserves every other stick's animation and keyboard focus. Only the pulling/revealed sticks ignore duplicate activation. Count, mode and reset remain locked until all pending sticks finish. The reveal icon remains available whenever another selected stick is ready.
+
+Space above the sleeve accommodates the extracted stick without moving the surrounding layout. Both lengths load for every stick; concealed sticks show the identical long artwork. Only selected sticks switch to their real artwork while the differing lower ends remain hidden. The lower ends emerge continuously as the sticks move. The same DOM, image elements and final transform remain after completion, avoiding an image replacement or position jump. Length and extraction distance respond to phone sizing, including resize during a reveal. Reduced motion and interruption settle all pending sticks directly to their already-selected results.
+
+## Fairness
+
+All six games use `tripRandomIndex(count)` from `main.js`. It reads browser cryptographic random values and rejects the incomplete upper interval before taking a remainder. Each eligible slot therefore has the same number of accepted values. No name, member identity, device, clock, previous winner weight or click timing feeds the sampler. Animation follows the selected outcome and cannot reroll it. Browsers without `crypto.getRandomValues` retain a best-effort `Math.random` fallback; that fallback is not a cryptographic guarantee.
+
+| Game | Equal chances and explicit exceptions |
+| --- | --- |
+| Wheel | Each checked, eligible member has probability `1 / eligible count`. The default seven-person pool gives everyone `1/7`. No-repeat mode removes previous picks only when enabled |
+| Coin | Each face has probability `1/2` on every toss, including within first-to-two matches |
+| Dice | Each unheld die independently draws one of six faces with probability `1/6`. Held dice deliberately retain their values |
+| Cards | Fisher–Yates uses a uniform draw from the shrinking prefix at every step. Each remaining card is equally likely to be drawn next; draws do not replace cards |
+| Sticks | The single short position is sampled once from all sticks when a round starts (`1 / stick count` per position). Selection, deselection, opening order and animation never change it. There are no assigned people |
+| Bag | Each current token has probability `1 / pool size`. Member names are ordinary equal tokens. No-repeat removes drawn tokens; replacement permits repeats within a batch |
+
+Repeated faces, members or numbers are possible in repeat modes. There is no hidden balancing that forces a different result after a streak. Without replacement, chances change only as the remaining pool changes. Randomness is local to each browser session; there is no shared multiplayer round.
+
+## Interaction and lifecycle
+
+Picker buttons expose their selected state and control a single visible panel. Switching keeps each game's local settings/results; reloading resets them. `#game-coin`, `#game-dice`, `#game-cards`, `#game-sticks` and `#game-bag` open the corresponding game. Existing `#cloudWheel` links reactivate the wheel before native anchor handling. Enhanced navigation flushes the resulting layout refresh before starting travel, so that refresh cannot cancel the topbar shortcut. Picker changes do not rewrite browser history. On phones pointer selection scrolls a distant game heading into view; keyboard selection retains focus without forced scrolling.
+
+Outcomes are selected before animation. While a result is pending, settings are locked and duplicate actions are ignored. Sticks opt into concurrent animation jobs: other sticks and additional group reveals remain available, while duplicate pulls on the same stick are ignored. Other games retain one pending action at a time. Switching panels, reduced motion, decorative-motion pause, hidden tabs and pagehide settle every chosen result exactly once. Each animation job has its own completion/timer recovery; the panel unlocks only after the last job finishes. Native Web Animations provide toss, shake, deal and reveal feedback, with immediate fallbacks. No GSAP dependency, canvas renderer or continuous animation loop is added. Layout changes refresh the existing journey measurements.
+
+Optional fields have visible labels and use the [shared themed controls](controls.md). Hidden native selects retain the model values for quick chips. Buttons work with keyboard input; card/stick/die focus is restored after rerendering an activated object. Results use atomic polite status announcements; detailed card/stick transcripts and dice values stay available to screen readers without duplicating the objects visually. Missing illustrations preserve text results and controls, with numerical dice faces and paper/token fallbacks. Print hides the interactive collection; the standalone reading copy stays unchanged. Both HTTP and direct-file opening work.
+
+## Verification
+
+Run `node scripts/verify_games.cjs` from the site directory. Evidence defaults to `/tmp/taxua-games-review`; override with `TRIP_REVIEW_DIR`. The helper checks game rules, deck exhaustion/uniqueness, stick concealment, bag validation and literal text, state persistence, animation interruption, keyboard reveal, responsive layouts, enlarged text, print, direct-file use and missing-art/library/animation/script fallbacks. It uses deterministic outcomes for boundary cases rather than flaky distribution thresholds. See [Verification](verification.md) for the existing wheel, mobile and journey checks.
+
+Run `node scripts/verify_game_randomness.cjs` for deterministic sampler boundaries, rejection retries, every member's wheel/bag mapping, both coin faces, independent dice calls, Fisher–Yates boundary permutations and every possible short-stick position for counts 2–7. It also samples paused real animation frames for long/short extraction on desktop/phone, checks final DOM/position continuity, group staggering, resize, simultaneous pointer/keyboard pulls, independent completion, overlapping groups, duplicate activation, interruption and reduced motion. Evidence defaults to `/tmp/taxua-game-randomness-review`; `TRIP_REVIEW_DIR` overrides it. Injected random values exist only in the helper's temporary browser pages. These checks verify the mapping and algorithm, not the browser entropy source through a statistical threshold.
+
+## Initial integration verification · 16 October 2026
+
+Before the object-interaction refinement, Chromium verification passed **156 game checks**, **135 existing wheel checks**, **108 mobile UI checks**, **83 motion checks** and **305 journey checks** (787 total). Game coverage includes natural animation completion, interrupted card/stick reveals retaining picker focus, 320/390/820/1440px layouts, short landscape and 200% text. Desktop/phone screenshots were visually reviewed. No uncaught browser errors were reported by these helpers.
+
+Evidence lives outside the checkout: `/tmp/taxua-games-review`, `/tmp/taxua-games-wheel-review`, `/tmp/taxua-games-mobile-review`, `/tmp/taxua-games-motion-review` and `/tmp/taxua-games-journey-review`. Syntax and whitespace checks passed; all artwork source/derivative hashes match their manifest. The itinerary exporter ran and left the reading copy unchanged. Verification used Chromium emulation; physical phones, Safari and Firefox were not tested.
+
+## Object interaction refinement · 16 October 2026
+
+The coin, tray, deck and bag now act directly as the primary buttons; stick/card selection and die holds remain individual object interactions. Quick chips replace common dropdown choices, and optional editors stay closed during ordinary play. The revised game suite passed 156 checks; 74 shared-control checks exercised real taps, keyboard actions, quick choices, editor behavior and responsive menus. Current regression evidence and limits are recorded in [Shared controls](controls.md#verified-integration--16-october-2026).
+
+## Readability and action placement · 16 October 2026
+
+Removed duplicate introductions, tiny picker taglines, visible card/stick transcripts, per-stick text, dice equations and bag history. One instruction and the painted outcomes remain. Counts and active chips have stronger contrast; icon controls use local Lucide geometry, accessible names and 46px targets. Four-digit numbers use wider tokens without line breaks. Long labels appear below ticket-marked tokens. The bag refill action and reopening an already-selected custom list avoid unnecessary setup steps.
+
+The final UI pass passed 91 control/interaction checks, 155 game checks, 135 wheel checks, 108 mobile checks and 83 motion checks. The game assertion count dropped by one because the removed bag-history display no longer has a history-length assertion. Added coverage includes icon names/targets, card and ball type sizes, anonymous sticks, reachable actions, card keyboard scrolling, four-digit numbers, maximum-length labels and 200% text. No uncaught browser errors were reported. Desktop/phone/narrow screenshots were reviewed; evidence is in `/tmp/taxua-controls-review`, `/tmp/taxua-games-review` and `/tmp/taxua-polish-{wheel,mobile,motion}-review`. Syntax, artwork hashes and documentation links passed; the exporter left the reading copy unchanged. This is Chromium emulation coverage.
+
+## Fairness audit and gradual stick extraction · 16 October 2026
+
+The existing shared crypto sampler and all six outcome mappings were audited; no identity-based weighting or selection bias was found. The stick reveal now extracts the real artwork through the sleeve mask, retaining its DOM and responsive final position. The focused randomness/extraction helper passed 79 checks. Regression suites passed 155 game, 91 control, 135 wheel and 108 mobile checks: **568 checks total**, with no uncaught browser errors. Midpoint and final long/short frames on desktop/phone were visually inspected. Evidence is in `/tmp/taxua-game-randomness-review`, `/tmp/taxua-games-review`, `/tmp/taxua-controls-review`, `/tmp/taxua-randomness-wheel-review` and `/tmp/taxua-randomness-mobile-review`. This is Chromium emulation coverage; physical phones, Safari and Firefox were not tested.
+
+## Concurrent stick pulls · 16 October 2026
+
+Sticks now opt into independent animation jobs. Multiple immediate pulls and successive group reveals can overlap without restarting earlier animations. Each completion updates only that stick's state; round settings unlock after the final job. Round randomness, extraction timing and artwork stay unchanged.
+
+Chromium passed 97 randomness/extraction checks, 155 game checks and 91 shared-control checks (**343 total**), with no uncaught browser errors. New coverage includes overlapping pointer/keyboard pulls on desktop/phone, intermediate completion preserving focus and pending locks, overlapping groups, duplicate actions, and settling all pending pulls on pause, hidden tabs, pagehide, reduced motion or panel changes. Overlapping desktop/phone frames were visually inspected. Evidence: `/tmp/taxua-concurrent-sticks-review`, `/tmp/taxua-concurrent-games-review` and `/tmp/taxua-concurrent-controls-review`. Syntax, whitespace and local documentation links passed. Physical phones, Safari and Firefox were not tested.
+
+## Topbar wheel shortcut · 16 October 2026
+
+Fixed a queued layout refresh cancelling enhanced anchor travel shortly after clicking the wheel shortcut. Anchor handling now flushes the pending refresh synchronously before starting navigation. Added actual SVG icon clicks and keyboard activation from the default wheel, another game, and the same existing hash on desktop/phone; assertions check arrival offset, selected panel, destination focus and mobile menu closure. Chromium passed 170 game, 83 motion and 108 mobile checks (**361 total**) with no uncaught browser errors. Desktop/phone arrival screenshots were inspected. Evidence: `/tmp/taxua-topbar-games-review`, `/tmp/taxua-topbar-motion-review` and `/tmp/taxua-topbar-mobile-review`. Syntax, whitespace and motion-documentation links passed; physical phones, Safari and Firefox were not tested.

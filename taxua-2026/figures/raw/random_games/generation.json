@@ -1,0 +1,162 @@
+{
+  "service": "9Router",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "sheets": {
+    "coin_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:42:22.578643+00:00",
+      "receivedAt": "2026-10-16T14:43:55.214587+00:00",
+      "contentType": "image/png",
+      "bytes": 2394919,
+      "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/01_coin.md"
+    },
+    "dice_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1024x1536",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:44:32.986286+00:00",
+      "receivedAt": "2026-10-16T14:45:44.392950+00:00",
+      "contentType": "image/png",
+      "bytes": 2658494,
+      "sha256": "7f4f6ea0d91b922c0f030a37caced9c4a8771ac61e4ef0dee103152f053dc189",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/02_dice.md"
+    },
+    "cards_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:44:32.985994+00:00",
+      "receivedAt": "2026-10-16T14:45:29.282065+00:00",
+      "contentType": "image/png",
+      "bytes": 2531583,
+      "sha256": "4c91f8a69afc24d98606a69422b1365a3516b681e333bb28fb13603fc3bdf376",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/03_cards.md"
+    },
+    "sticks_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1024x1536",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:45:29.346375+00:00",
+      "receivedAt": "2026-10-16T14:46:33.984552+00:00",
+      "contentType": "image/png",
+      "bytes": 1967994,
+      "sha256": "ffdc6bf4e77b636705cdba07b17c7b7054c7c70a1f11644e484a5017463eb56e",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/04_sticks.md"
+    },
+    "bag_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:45:44.465863+00:00",
+      "receivedAt": "2026-10-16T14:47:10.473033+00:00",
+      "contentType": "image/png",
+      "bytes": 2673203,
+      "sha256": "04f544c56d206d6c30e411fa430e13264551971f86df4fcb25cf8759b3dc510e",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/05_bag.md"
+    },
+    "card_front_sheet": {
+      "model": "cx/gpt-image-2.5",
+      "sizeRequested": "1024x1536",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "generatedAt": "2026-10-16T14:47:44.041662+00:00",
+      "receivedAt": "2026-10-16T14:50:08.838711+00:00",
+      "contentType": "image/png",
+      "bytes": 2311487,
+      "sha256": "ede9b199e094f78a41e50a7256d4e4a84f935ac0ee65323ced2249ce1f95cb25",
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/wheel_rim.webp",
+          "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+        },
+        {
+          "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+          "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        },
+        {
+          "path": "figures/raw/random_games/cards_sheet.png",
+          "sha256": "4c91f8a69afc24d98606a69422b1365a3516b681e333bb28fb13603fc3bdf376"
+        },
+        {
+          "path": "figures/raw/random_games/coin_sheet.png",
+          "sha256": "e4f39afe9ab952c41f3c21d3fb4c0c2e93803745ce51ab69066bf33ffa4c7344"
+        }
+      ],
+      "prompt": "docs/prompts/random_games/06_blank_card.md"
+    }
+  }
+}
