@@ -97,6 +97,8 @@ Implemented map records and coverage limits are in [Maps](maps.md). The [geograp
 
 The later [treasure-atlas artwork manifest](../data/sources/map-treasure-artwork.json) separately records six user-generated UI assets, their original filenames, source hashes and optimized derivatives. These decorate the interface and do not establish geography or venue identity. The real map provider and geographic registry are unchanged.
 
+The [torn-paper artwork manifest](../data/sources/map-torn-paper-artwork.json) records the additional blank sheet generated through 9Router for the atlas perimeter, including its prompt, model, original and derivative hashes. It is decorative paper, not geographic evidence.
+
 | Integration source | Use |
 | --- | --- |
 | [Leaflet 1.9.4 official npm archive](https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz) | Locally hosted distribution; package hash, individual file hashes and BSD license are retained under `vendor/leaflet/`. |

@@ -2,7 +2,7 @@
 
 [Documentation index](../../README.md) · [Redesign plan](../../map-treasure-plan.md) · [Existing map artwork](../map_artwork/README.md)
 
-All **six images are now supplied and imported**, including the optional welcome illustration. These briefs remain for reference and regeneration. Copy one complete fenced prompt per generation; every prompt is standalone, begins with “Generate” and needs no attached images.
+All **six original images are supplied and imported**, including the optional welcome illustration. A seventh torn-paper sheet was later generated through 9Router for the atlas perimeter. These briefs remain for reference and regeneration. Copy one complete fenced prompt per generation; every prompt is standalone, begins with “Generate” and needs no attached images.
 
 The direction is a lightly weathered adventure-game atlas painted for the existing Tà Xùa watercolor journal. The generated images are separate UI ingredients, not a rendered website, a complete interface or a replacement geographic map. All Vietnamese text will be added in code.
 
@@ -14,12 +14,14 @@ The direction is a lightly weathered adventure-game atlas painted for the existi
 | [04 Blank title cartouche](04_cartouche.md) | `map_treasure_cartouche.png` | 1536 × 1024, transparent | Desktop title surround, about 300–380px wide |
 | [05 Ochre brush swipe](05_day_swipe.md) | `map_treasure_day_swipe.png` | 1536 × 1024, transparent | Selected-date background, about 90–120px wide |
 | [06 Explorer field kit](06_field_kit.md) | `map_treasure_field_kit.png` | 1536 × 1024, transparent | Optional welcome illustration, about 180–220px wide |
+| [07 Torn parchment](07_torn_parchment.md) | `map_treasure_torn_paper.png` | 1536 × 1024, transparent exterior | Responsive torn menu perimeter and quiet paper center |
 
-Use the closest native size at the requested aspect ratio if the generator has fixed sizes. Do not upscale. The supplied PNG originals are preserved under `figures/raw/map_treasure/`; optimized WebPs are under `figures/decor/painted/`. The [import manifest](../../../data/sources/map-treasure-artwork.json) records original download names, dimensions, trims and hashes. Run `python3 scripts/prepare_map_treasure.py` from the site root with Pillow installed to reproduce them. It refuses to replace an existing master. Keep new downloads in `figures/raw/` under their original names until import.
+Use the closest native size at the requested aspect ratio if the generator has fixed sizes. Do not upscale. The supplied PNG originals are preserved under `figures/raw/map_treasure/`; optimized WebPs are under `figures/decor/painted/`. The [import manifest](../../../data/sources/map-treasure-artwork.json) records original download names, dimensions, trims and hashes. Run `python3 scripts/prepare_map_treasure.py` from the site root with Pillow installed to reproduce the original six assets. It refuses to replace an existing master. The torn sheet has its own [manifest](../../../data/sources/map-torn-paper-artwork.json) and `scripts/prepare_map_torn_paper.py` importer. Keep new downloads in `figures/raw/` under their original names until import.
 
 ## Check before keeping an output
 
-- Paper: very light cream with restrained grain; body text must remain readable. Check repeated edges for obvious seams. It has no fake frame, torn outer boundary or baked-in decoration.
+- Quiet paper texture (01): very light cream with restrained grain; body text must remain readable. Check repeated edges for obvious seams. It has no frame, torn outer boundary or baked-in decoration.
+- Torn sheet (07): transparent exterior and missing pieces, gentle edge wear, no deep tears entering the content area, and an empty pale center. This replaces the menu's straight perimeter; it does not cover the geographic map.
 - Transparent pieces: actual alpha, with clear space around the full silhouette. Inspect against both dark teal and cream. A white rectangle or painted checkerboard is not transparency.
 - Compass: one clear north-up needle and a simple silhouette; inspect at 48px. Cartouche: the interior remains transparent and empty. Swipe: the center is pale enough for dark text.
 - All: no generated lettering, watermarks, fake screenshots, map coordinates or invented venue geometry. Avoid dark burnt parchment, glossy game-interface metal and heavy shadows; those clash with the existing illustration style.

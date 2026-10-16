@@ -15,8 +15,9 @@
 .place-map-action svg,.trail-map-action svg { width:16px; height:16px; }
 .atlas-open { overflow:hidden; }
 .trip-atlas,.place-map-preview { --atlas-ink:#183b46; --atlas-muted:#496067; --atlas-paper:#f3ead4; --atlas-line:rgb(102 78 42 / .22); --atlas-accent:#e7b676; --atlas-pencil:#a34c38; background-color:var(--atlas-paper); background-image:linear-gradient(rgb(243 234 212 / .56),rgb(243 234 212 / .56)),url('./figures/decor/painted/map_treasure_parchment.webp'); background-size:100% 100%; color:var(--atlas-ink); }
-.trip-atlas { position:fixed; width:min(1360px,calc(100% - 64px)); height:min(900px,calc(100dvh - 64px)); max-width:none; max-height:none; margin:auto; padding:0; border:0; border-radius:9px 4px 13px 5px; box-shadow:0 18px 70px rgb(7 27 33 / .32); font-family:'Be Vietnam Pro',sans-serif; line-height:1.6; overflow:hidden; }
-.trip-atlas::after { content:''; position:absolute; z-index:810; inset:0; border:10px solid transparent; border-image:url('./figures/decor/painted/map_paper_frame.webp') 65 stretch; pointer-events:none; }
+/* Slice the paper rather than stretching its tears across the whole dialog.
+   The plain inner parchment remains readable if the border image is missing. */
+.trip-atlas { position:fixed; width:min(1360px,calc(100% - 64px)); height:min(900px,calc(100dvh - 64px)); max-width:none; max-height:none; margin:auto; padding:0; border:22px solid transparent; border-image:url('./figures/decor/painted/map_treasure_torn_paper.webp') 12% fill / 28px stretch; border-radius:0; background-clip:padding-box; filter:drop-shadow(0 12px 24px rgb(7 27 33 / .3)); font-family:'Be Vietnam Pro',sans-serif; line-height:1.6; overflow:hidden; }
 .trip-atlas[open] { display:grid; grid-template-rows:auto auto minmax(0,1fr); animation:atlas-arrive .22s ease-out; }
 .trip-atlas::backdrop { background:rgb(7 27 33 / .42); }
 .trip-atlas :focus-visible,.place-map-preview :focus-visible { outline:3px solid #966130; outline-offset:3px; }
@@ -173,8 +174,7 @@
   .map-invitation-copy strong { font-size:1.7rem; }
   .map-invitation-copy > span { font-size:.74rem; }
   .map-invitation-button > svg { width:18px; }
-  .trip-atlas { width:100%; height:100dvh; border-radius:0; }
-  .trip-atlas::after { border-width:5px; }
+  .trip-atlas { width:100%; height:100dvh; border-width:12px; border-image-width:18px; }
   .atlas-header { padding:max(12px,env(safe-area-inset-top)) 14px 2px; }
   .atlas-title-plate { width:auto; min-height:0; padding:0; background:none; }
   .atlas-header h2 { font-size:2rem; text-align:left; }
@@ -227,7 +227,7 @@
   .atlas-dates button::before { inset:15% 0; }
 }
 @media (max-height:550px) and (orientation:landscape) {
-  .trip-atlas { width:100%; height:100dvh; border-radius:0; }
+  .trip-atlas { width:100%; height:100dvh; border-width:10px; border-image-width:16px; }
   .atlas-header { padding:6px 16px 2px; }
   .atlas-title-plate { width:auto; min-height:0; padding:0; background:none; }
   .atlas-header h2 { font-size:1.7rem; text-align:left; }

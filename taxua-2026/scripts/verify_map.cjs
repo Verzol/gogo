@@ -66,7 +66,7 @@ async function withinRegion(page) {
 }
 
 (async() => {
-  for (const manifestPath of ['map-artwork.json','map-treasure-artwork.json']) {
+  for (const manifestPath of ['map-artwork.json','map-treasure-artwork.json','map-torn-paper-artwork.json']) {
     const manifest = JSON.parse(fs.readFileSync(path.join(root,'data/sources',manifestPath)));
     for (const [name,source] of Object.entries(manifest.sources)) {
       const bytes = fs.readFileSync(path.join(root,source.path));

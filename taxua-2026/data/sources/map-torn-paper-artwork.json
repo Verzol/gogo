@@ -1,0 +1,37 @@
+{
+  "processing": "Generated PNG preserved byte-for-byte. Clear alpha below 8; trim at alpha >= 24 with 2px padding; downscale only to fit 1200x900. No recoloring. CSS uses a 12% filled nine-slice border to preserve tears at responsive sizes; transparent areas reveal the dialog backdrop.",
+  "generator": "9Router /v1/images/generations",
+  "model": "cx/gpt-image-2",
+  "prompt": "docs/prompts/map_treasure/07_torn_parchment.md",
+  "referenceImages": [],
+  "sources": {
+    "map_treasure_torn_paper": {
+      "path": "figures/raw/map_treasure/map_treasure_torn_paper.png",
+      "sha256": "cf98389c070623462d0eea5347973dda8630a9b106cd78410d27129558058911",
+      "size": [
+        1536,
+        1024
+      ],
+      "rights": "AI-generated at the user request for this project",
+      "description": "Blank torn parchment UI sheet, not geographic data"
+    }
+  },
+  "assets": {
+    "map_treasure_torn_paper": {
+      "source": "map_treasure_torn_paper",
+      "trim": [
+        36,
+        39,
+        1504,
+        980
+      ],
+      "size": [
+        1200,
+        769
+      ],
+      "src": "figures/decor/painted/map_treasure_torn_paper.webp",
+      "bytes": 160620,
+      "sha256": "c002651a28b102d115b2cbc128548a3bde1352c0497f50298324b3b79bbdb8a0"
+    }
+  }
+}
