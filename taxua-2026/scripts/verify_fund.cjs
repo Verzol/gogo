@@ -5,7 +5,7 @@ const path = require('path');
 const assert = require('assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_PATH || '../../hue-2026/node_modules/playwright');
 const root = path.resolve(__dirname,'..');
-const output = path.join(root,'review','fund');
+const output = process.env.TRIP_REVIEW_DIR || path.join(root,'review','fund');
 fs.mkdirSync(output,{recursive:true});
 const url = 'https://quy.momo.vn/v2/YTavDjFUV4?cover=6749';
 const report = {checkedAt:new Date().toISOString(),checks:[],errors:[],screenshots:[],videos:[]};
@@ -31,8 +31,9 @@ async function travel(p,from,to) {
     check(name+' fund follows crew and precedes packing',await p.locator('#fund').evaluate(el=>el.previousElementSibling.id==='crew'&&el.nextElementSibling.id==='packing'));
     check(name+' contribution and destination are exact',await p.locator('.fund-amount strong').textContent()==='2.400.000'&&await p.locator('.fund-amount > span').textContent()==='₫ / mỗi người'&&await p.locator('.fund-link').getAttribute('href')===url);
     check(name+' interface preserves transparent scenery',await p.locator('#fund,.fund-composition,.fund-copy,.fund-pocket').evaluateAll(items=>items.every(el=>getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(el).backdropFilter==='none')));
-    check(name+' pig uses an official resolved Lucide symbol',await p.locator('.fund-pig use').evaluate(el=>!!document.querySelector(el.getAttribute('href'))));
     await scene(p);
+    await p.locator('.fund-pig img').evaluate(img=>img.decode());
+    check(name+' painted pig loads as decorative artwork',await p.locator('.fund-pig img').evaluate(img=>img.naturalWidth===512&&img.alt===''&&!!img.closest('[aria-hidden="true"]')));
     check(name+' fund has the morning scene and no overflow',await p.evaluate(()=>document.documentElement.dataset.scene==='morning'&&document.documentElement.scrollWidth===innerWidth));
     for(const selector of ['.fund-eyebrow','.fund-copy > h2','.fund-intro','.fund-reminder','.fund-illustration','.fund-tally','.fund-action','.fund-arrow']) {
       const item=p.locator(selector);
@@ -80,5 +81,5 @@ async function travel(p,from,to) {
   check('reading copy includes the contribution and exact MoMo link',await nojs.locator('#fundTitle').textContent()==='Thành viên thứ 8: Heo đất!'&&await nojs.locator('a[href="'+url+'"]').count()===1&&await nojs.locator('article').count()===24);await nojs.close();
   check('all fund scenarios have no uncaught browser errors',report.errors.length===0);
   report.checkCount=report.checks.length;fs.writeFileSync(path.join(output,'checks.json'),JSON.stringify(report,null,2)+'\n');await browser.close();
-  console.log('Passed '+report.checkCount+' fund checks; screenshots and recordings in review/fund/.');
+  console.log('Passed '+report.checkCount+' fund checks; screenshots and recordings in '+output+'.');
 })().catch(e=>{console.error(e);process.exit(1);});

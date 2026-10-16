@@ -1,0 +1,33 @@
+{
+  "title": "Heo đất — honorary eighth traveler",
+  "generatedAt": "2026-10-16T12:06:20.231750+00:00",
+  "generator": "9Router /v1/images/generations",
+  "model": "cx/gpt-image-2.5",
+  "prompt": "docs/prompts/pig_fund.md",
+  "referenceImages": [],
+  "source": "figures/raw/fund/pig_fund.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceSha256": "f333eb3f6caa03d32d4fff422aebac892085d022cecd2a17d306fb8cfe96235e",
+  "processing": "Preserve generated PNG byte-for-byte. Clear alpha below 8. Remove disconnected alpha components smaller than 64 pixels at alpha >= 8. Trim at alpha >= 24 with 8px margin; downscale without upscaling into a 512px transparent canvas with at least 20px padding; no recoloring.",
+  "trim": [
+    33,
+    59,
+    1243,
+    1193
+  ],
+  "paintedSize": [
+    472,
+    442
+  ],
+  "src": "figures/decor/painted/pig_fund.webp",
+  "size": [
+    512,
+    512
+  ],
+  "bytes": 76642,
+  "sha256": "3e076befac0644ce615c9dbce80e0b8c699fde1c897511f6f523190028990c01",
+  "status": "Integrated into the fund section via main.js; decorative artwork with a Lucide piggy-bank fallback."
+}

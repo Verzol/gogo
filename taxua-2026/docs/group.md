@@ -65,10 +65,11 @@ Run `node scripts/verify_wheel.cjs` for selection/round rules, pointer agreement
 - Title: **“Thành viên thứ 8: Heo đất!”** Intro: **“Heo đất cũng đi Tà Xùa.”** Pig annotation repeats the eighth-member idea.
 - Per-person contribution: **2.400.000 ₫** (`amountPerPerson:2400000`), paid by the seven real travelers.
 - Exact destination: [MoMo group fund](https://quy.momo.vn/v2/YTavDjFUV4?cover=6749). Keep the query string; the button opens a new tab with `noopener noreferrer`.
-- Transparent composition: official Lucide piggy-bank, coin doodles, hand-circled amount and pink invitation. Phones stack it; hover/focus tilts only the inner pig, independently of scroll reveal.
+- Transparent composition: a watercolor piggy-bank sticker with a teal scarf and one painted coin, handwritten annotation, hand-circled amount and pink invitation. The sticker is 220px on desktop and 180px on phones; phones stack the composition. Hover/focus tilts only the inner pig, independently of scroll reveal, with reduced motion respected.
+- The decorative 512px transparent WebP lives at `figures/decor/painted/pig_fund.webp` (76,642 bytes). Failed loading restores the official Lucide piggy-bank in the same reserved space. The original PNG is preserved under `figures/raw/fund/`; see the [generation brief](prompts/pig_fund.md) and [provenance](../data/sources/pig-fund-artwork.json).
 - Crew/fund share the morning scene. Do not add a real eighth roster entry, inferred paid status, balance or deadline.
 - `itinerary.html` includes the fund text/amount/link, without a crew section. Regenerate after copy changes.
 
 ## Verify
 
-Run `verify_countdown.cjs` for timezone/arrival/zero/visibility states; `verify_fund.cjs` for crew → fund → packing order, exact amount/link, layouts, focus and reversible reveals. Fund tests intercept the link locally; they do not submit a contribution. See [verification](verification.md).
+Run `verify_countdown.cjs` for timezone/arrival/zero/visibility states; `verify_fund.cjs` for crew → fund → packing order, loaded pig artwork, exact amount/link, layouts, focus and reversible reveals. Fund tests intercept the link locally; they do not submit a contribution. Set `TRIP_REVIEW_DIR` to write fund evidence outside the checkout. See [verification](verification.md).

@@ -208,7 +208,7 @@ main,.footer { position: relative; z-index: 1; }
 #khe-cai { min-height: 125svh; }
 .cluster-card .photo--full { aspect-ratio: var(--photo-ratio); }
 .support-section { padding: 85px 0; }
-/* A handwritten fund epilogue: scenery between the words, coins and pig. */
+/* A handwritten fund epilogue with a painted eighth traveler. */
 .fund { padding-block: 100px 95px; }
 .fund-composition { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(280px,.85fr); gap: 30px 90px; align-items: start; }
 .fund-copy { grid-column: 1; grid-row: 1; max-width: 540px; }
@@ -219,11 +219,11 @@ main,.footer { position: relative; z-index: 1; }
 .fund-reminder { margin-top: 18px; max-width: 47ch; font-size: .92rem; }
 .fund-reminder strong { white-space: nowrap; color: var(--accent); }
 .fund-pocket { grid-column: 2; grid-row: 1 / 3; position: relative; padding-top: 20px; text-align: center; }
-.fund-illustration { position: relative; width: 240px; max-width: 100%; height: 210px; margin: 0 auto 24px; color: var(--accent); }
-.fund-pig { width: 160px; height: 160px; stroke-width: 1.25; margin: 26px auto 0; transform: rotate(-6deg); filter: drop-shadow(0 2px 3px #071b21); }
-.fund-coin { position: absolute; width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; font-family: 'Patrick Hand',cursive; font-size: 1.4rem; line-height: 1; text-shadow: 0 1px 3px #071b21; box-shadow: inset 0 0 0 3px rgb(255 218 157 / .15); }
-.fund-coin--one { top: 4px; left: 83px; transform: rotate(-17deg); }
-.fund-coin--two { top: -20px; left: 128px; width: 27px; height: 27px; transform: rotate(16deg); font-size: 1.15rem; }
+.fund-illustration { position: relative; width: 260px; max-width: 100%; height: 250px; margin: 0 auto 24px; color: var(--accent); }
+.fund-pig { display: block; width: 220px; max-width: 100%; height: 220px; margin: 0 auto; transform: rotate(-6deg); filter: drop-shadow(0 2px 3px rgb(7 27 33 / .35)); }
+.fund-pig img { width: 100%; height: 100%; object-fit: contain; }
+.fund-pig-fallback { display: none; width: 100%; height: 100%; stroke-width: 1.25; }
+.fund-pig.is-fallback .fund-pig-fallback { display: block; }
 .fund-pig-note { position: absolute; bottom: -5px; left: 0; right: 0; font-family: 'Patrick Hand',cursive; font-size: 1.13rem; transform: rotate(3deg); text-shadow: 0 1px 3px #071b21; }
 .fund-tally { padding: 8px 0; text-shadow: 0 1px 2px #071b21,0 2px 6px rgb(0 0 0 / .55); }
 .fund-amount { display: inline-flex; flex-direction: column; padding: 14px 25px 18px; border: 1px solid var(--accent); border-radius: 48% 52% 46% 54% / 47% 42% 58% 53%; transform: rotate(-4deg); background: rgb(7 27 33 / .14); }
@@ -474,8 +474,8 @@ main,.footer { position: relative; z-index: 1; }
   .fund-intro { font-size: 1.5rem; }
   .fund-reminder { font-size: .88rem; }
   .fund-pocket { grid-column: 1; grid-row: 2; padding-top: 12px; }
-  .fund-illustration { height: 175px; margin-bottom: 10px; }
-  .fund-pig { width: 135px; height: 135px; }
+  .fund-illustration { height: 210px; margin-bottom: 10px; }
+  .fund-pig { width: 180px; height: 180px; }
   .fund-amount { max-width: calc(100% - 8px); }
   .fund-amount strong { font-size: clamp(1.6rem,13vw,3.6rem); }
   .fund-action { grid-column: 1; grid-row: 3; margin: 15px auto 0; text-align: center; }

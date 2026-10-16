@@ -112,8 +112,10 @@ function renderFund() {
     </div>
     <div class="fund-pocket">
       <div class="fund-illustration" aria-hidden="true">
-        <span class="fund-coin fund-coin--one">₫</span><span class="fund-coin fund-coin--two">₫</span>
-        ${icon('piggy-bank','fund-pig')}
+        <span class="fund-pig">
+          <img src="./figures/decor/painted/pig_fund.webp" alt="" width="512" height="512" loading="lazy" decoding="async">
+          ${icon('piggy-bank','fund-pig-fallback')}
+        </span>
         <span class="fund-pig-note">${esc(f.pigNote)}</span>
       </div>
       <div class="fund-tally"><p class="fund-amount"><strong>${new Intl.NumberFormat('vi-VN').format(f.amountPerPerson)}</strong><span>₫ / ${esc(f.amountLabel)}</span></p></div>
@@ -124,6 +126,14 @@ function renderFund() {
       <p class="fund-link-hint">${esc(f.actionHint)} <span aria-hidden="true">↗</span></p>
       <p class="fund-scribble">${esc(f.scribble)}</p>
     </div>`;
+  const pigImage = document.querySelector('.fund-pig img');
+  const showPigFallback = () => {
+    if (!pigImage.isConnected) return;
+    pigImage.parentElement.classList.add('is-fallback');
+    pigImage.remove();
+  };
+  pigImage.addEventListener('error',showPigFallback,{once:true});
+  if (pigImage.complete && !pigImage.naturalWidth) showPigFallback();
 }
 function renderEventBody(block) {
   const guide = block.showPlaceGuide !== false && TRIP_DATA.placeGuides[block.stopId];
