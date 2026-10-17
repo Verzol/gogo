@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const root = path.resolve(__dirname,'..');
 const {icons} = require(path.join(root,'vendor/lucide-1.23.0.min.js'));
-const names = ['route','users-round','backpack','camera','soup','menu','x','moon-star','sunrise','sun','sunset','clock-3','move-up-right','flag','coins','notebook-pen','plus','arrow-left','arrow-right','bus','ticket','piggy-bank','cloud','cloud-sun','cloud-fog','cloud-drizzle','cloud-rain','cloud-snow','cloud-lightning','wind','pause','play','map','map-pin','house','coffee','waves','mountain','scan','chevron-up','chevron-right','dices','rotate-ccw','shuffle','eye','sliders-horizontal','lock-keyhole','check','sparkles','maximize','minimize','list','chevron-down'];
+const names = ['route','users-round','backpack','camera','soup','menu','x','moon-star','sunrise','sun','sunset','clock-3','move-up-right','flag','coins','notebook-pen','plus','arrow-left','arrow-right','bus','ticket','piggy-bank','cloud','cloud-sun','cloud-fog','cloud-drizzle','cloud-rain','cloud-snow','cloud-lightning','wind','pause','play','map','map-pin','house','coffee','waves','mountain','scan','chevron-up','chevron-right','dices','rotate-ccw','shuffle','eye','sliders-horizontal','lock-keyhole','check','sparkles','maximize','minimize','list','chevron-down','refresh-cw','book-x','log-out'];
 const escape = value => String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 const symbols = names.map(name => {
   const key = name.split('-').map(word=>word[0].toUpperCase()+word.slice(1)).join('');

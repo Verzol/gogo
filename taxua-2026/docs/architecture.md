@@ -7,3 +7,12 @@ Current feature ownership and maintenance instructions are indexed in [README.md
 Current decisions supersede earlier gallery descriptions: illustrated backgrounds replace photo wallpapers; afternoon sun has no aura; scrolling uses the shorter 15 October spacing; the fund follows crew. Details are in [scenery](scenery.md), [motion](motion.md) and [group features](group.md).
 
 The optional `weather.js` runs after `motion.js` and fetches daily Open-Meteo data. Artwork/libraries stay local; network/storage failure keeps the journal usable. See [Sky and weather](weather.md).
+
+The optional private diary loads last through `diary-config.js` → `diary-api.js`
+→ optional `diary-motion.js` → `diary.js`. It alone needs Supabase; the public trip keeps its static/direct-file
+fallback. Private data stays behind the isolated Edge function/schema/bucket,
+with no browser database grants or public export. See [Diary](diary.md) and
+[backend operations](diary-backend.md). The dedicated 3D turn decorates a semantic
+reader; editor forms remain in separate native dialogs. `diary-materials.css` is
+generated frame geometry; `diary-motion.css` owns material skins and handwriting.
+The [redesign guide](diary-redesign.md) records the animation and artwork boundary.

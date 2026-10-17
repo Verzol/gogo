@@ -10,8 +10,9 @@ Applies only to `taxua-2026/`. This site has its own architecture; sibling Hue c
 
 ## Implementation rules
 
-- Plain HTML/CSS/classic JavaScript; keep HTTP and `file://` working. No ES modules, framework, build step, CDN or backend requirement.
+- Plain HTML/CSS/classic JavaScript; keep the public trip working over HTTP and `file://`. No frontend ES modules, framework, build step or CDN requirement. The optional private diary alone uses Supabase; read [its backend guide](docs/diary-backend.md) before changing it.
 - Keep script order: `data.js` → `assets.js` → `scene-config.js` → `scenery.js` → `main.js` → optional `games.js` → optional `controls.js` → GSAP → ScrollTrigger → `motion.js` → optional `weather.js`.
+- Diary scripts load independently at the end: `diary-config.js` → `diary-api.js` → optional `diary-motion.js` → `diary.js`. Keep its private schema, bucket and function isolated from Hue; never export private diary data into static HTML.
 - Edit trip content in `data.js`; rendering/controls in `main.js`; optional story animation in `motion.js`; optional forecast state in `weather.js`; additional random-game controls/layout in `games.js` / `games.css`; shared input styling and progressive dropdowns in `controls.css` / `controls.js`. Use descriptive camelCase and two-space indentation where practical.
 - Regenerate `itinerary.html` after content changes: `node scripts/export_itinerary.cjs` from `taxua-2026/`.
 - `assets.js` is generated. Change its source records and use the photo pipeline in [Photo assets](docs/assets.md); preserve credits, source mappings and captions.

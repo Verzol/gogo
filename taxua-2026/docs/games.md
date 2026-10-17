@@ -16,7 +16,7 @@ Six chance-based games live below the crew roster inside `#crew`. The collection
 
 | Object | Controls and behavior |
 | --- | --- |
-| Wheel | Seven real members, participant selection, optional no-repeat rounds; original rules and celebration remain in [Group features](group.md#vòng-quay-trên-mây) |
+| Wheel | Seven real members; click their portrait/name on the wheel to exclude or restore them. Optional no-repeat rounds; rules and celebration in [Group features](group.md#vòng-quay-trên-mây) |
 | Coin | Equally likely Nắng/Mây faces, editable labels; one toss or first to two wins. A completed match offers a fresh round. Recent eight tosses remain visible |
 | Dice | One to three independent fair dice. After rolling, tap/activate a die to hold it; only unheld dice reroll. Releasing a die recovers from all-held. Count changes start over |
 | Cards | Standard 52-card deck, shuffled using Fisher–Yates. Draw one to eight without replacement; reveal individually or all together. A final draw is capped to the remaining cards. Exhaustion retains the last hand; shuffle restores all 52 |
@@ -39,7 +39,7 @@ All six games use `tripRandomIndex(count)` from `main.js`. It reads browser cryp
 
 | Game | Equal chances and explicit exceptions |
 | --- | --- |
-| Wheel | Each checked, eligible member has probability `1 / eligible count`. The default seven-person pool gives everyone `1/7`. No-repeat mode removes previous picks only when enabled |
+| Wheel | Each selected, eligible member has probability `1 / eligible count`. The default seven-person pool gives everyone `1/7`. No-repeat mode removes previous picks only when enabled |
 | Coin | Each face has probability `1/2` on every toss, including within first-to-two matches |
 | Dice | Each unheld die independently draws one of six faces with probability `1/6`. Held dice deliberately retain their values |
 | Cards | Fisher–Yates uses a uniform draw from the shrinking prefix at every step. Each remaining card is equally likely to be drawn next; draws do not replace cards |

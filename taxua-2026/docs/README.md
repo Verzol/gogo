@@ -16,6 +16,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Embedded atlas, place previews, day exploration and geographic coverage | [Maps](maps.md) · [Design plan](map-plan.md) · [Fullscreen plan](map-fullscreen-plan.md) |
 | Adventure-game map menu, parchment UI and generation briefs | [Treasure-atlas plan](map-treasure-plan.md) · [Artwork prompts](prompts/map_treasure/README.md) |
 | Hero 7+1, crew, member wheel, arrival countdown and MoMo invitation | [Group features](group.md) |
+| Private crew diary: old-book spreads, first-claim passwords, private drafts and trip photos | [Diary](diary.md) · [Backend and operations](diary-backend.md) · [Design plan](diary-plan.md) · [Book redesign](diary-redesign.md) |
 | Six random games: wheel, coin, dice, cards, sticks and lottery bag | [Games](games.md) · [Game artwork](game-artwork.md) · [Exact prompts](prompts/random_games/README.md) |
 | Themed checkboxes, fields, sliders and accessible dropdown menus | [Shared controls](controls.md) |
 | Painted cloud scrollbar, native panel bars and fallbacks | [Shared controls](controls.md#sợi-mây--page-and-panel-scrollbars) · [Design and artwork plan](scrollbar-plan.md) |
@@ -46,7 +47,7 @@ Open `index.html` directly, or use **http://127.0.0.1:8000/taxua-2026/** when po
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN library dependency, backend or Google login. Artwork, fonts and libraries are local; the optional forecast fetches Open-Meteo data and the embedded map requests OSM France tiles when opened. Render Static Site: root `taxua-2026`, empty build command, publish directory `.`; no environment variables.
+Plain HTML/CSS/classic JS; no build, framework, runtime npm, frontend CDN library dependency or Google login. The public trip needs no backend. The optional private diary uses the configured Supabase function; see [operations](diary-backend.md). Artwork, fonts and browser libraries are local; the optional forecast fetches Open-Meteo data and the embedded map requests OSM France tiles when opened. Render Static Site: root `taxua-2026`, empty build command, publish directory `.`; no frontend environment variables.
 
 ## Code map
 
@@ -54,6 +55,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN library depende
 - `controls.css` / `controls.js` = shared themed inputs and progressive select menus.
 - `scrollbar.css` / `scrollbar.js` = native scrollbar palette and optional painted desktop page control.
 - `games.js` / `games.css` = random-game picker and five chance objects; the wheel stays in `main.js`.
+- `diary.js` / `diary.css` = optional private book/reader/editor; `diary-motion.js` / `diary-motion.css` own decorative geometry/materials and `diary-materials.css` contains generated frame coordinates; `diary-api.js` handles authenticated requests and `diary-config.js` contains its public endpoint.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
 - `weather.js` / `weather.css` = optional Open-Meteo forecast and hero sky effects.
 - `map-data.js` / `trip-map.js` / `trip-map.css` = geographic registry and optional embedded atlas/previews; local Leaflet is prepared near map entries and executes on demand.
@@ -61,7 +63,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN library depende
 - `style.css`, `countdown.css`, `fonts.css` = page, clock and typography.
 - `scripts/` = optional preparation/verification helpers; `data/sources/` = provenance snapshots, not runtime fetches.
 - `figures/raw/` = supplied masters; other `figures/` folders = local runtime assets/retained references.
-- `itinerary.html` = generated full reading copy; `review/` = historical browser evidence. `backend/` is reserved and unused.
+- `itinerary.html` = generated public reading copy; `review/` = historical browser evidence. `backend/supabase/` holds the optional diary migrations/function, independently of Hue.
 
 Section order: **hero → itinerary → crew → fund → packing → destinations → food → practical → footer**.
 

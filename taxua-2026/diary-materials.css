@@ -1,0 +1,4 @@
+/* Generated material mapping; run scripts/prepare_diary_artwork.py. */
+.diary-frame-landscape { --frame-art:url('./figures/decor/painted/diary/frame_landscape.webp'); --photo-left:7.829%; --photo-top:8.583%; --photo-width:84.49%; --photo-height:69.062%; --caption-top:78.645%; }
+.diary-frame-portrait { --frame-art:url('./figures/decor/painted/diary/frame_portrait.webp'); --photo-left:10.714%; --photo-top:7.132%; --photo-width:78.992%; --photo-height:70.84%; --caption-top:78.971%; }
+.diary-frame-square { --frame-art:url('./figures/decor/painted/diary/frame_square.webp'); --photo-left:10.467%; --photo-top:9.108%; --photo-width:79.626%; --photo-height:69.331%; --caption-top:79.439%; }

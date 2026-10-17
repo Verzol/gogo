@@ -1,0 +1,5 @@
+# endpapers
+
+Model: `cx/gpt-image-2.5-sunburst`. Reference: the existing generated diary cover; no personal media.
+
+Production artwork for one old Vietnamese mountain-travel diary. Match the reference's hand-painted watercolor and colored-pencil material, muted indigo cloth, warm ivory rag paper, faded ochre stitches, quiet dusty rose and olive accents. A lovingly used real notebook, subtle wear, refined and tactile. Flat orthographic asset, even soft light, no perspective, no cast shadow, no lettering, no writing, no numbers, no icons, no logo. All future text and photographs are added in HTML. Every object is fully inside its assigned cell, separated by generous empty gutters. Outside every object is perfectly flat vivid chroma-key green #00ff00, without green reflections. No other backdrop. TWO separate portrait 3:4 inside covers, arranged side by side in one row. Left: faded indigo woven edge around warm tea-colored endpaper with subtle old marbling. Right: matching warm endpaper and cloth edge, slightly different wear. Central 85 percent empty pale ivory. Delicate and restrained.

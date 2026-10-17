@@ -1,0 +1,15 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "created": "2026-10-17T05:46:17.284014+00:00",
+  "prompt": "docs/prompts/diary/02_cover.md",
+  "reference": "figures/raw/diary/diary_material_study.png",
+  "reference_sha256": "c8b0f1f0228e58fdf5160daee3722da72c30057d8f7d4c1e987ec666c59a4de3",
+  "master": "figures/raw/diary/diary_cover.png",
+  "master_sha256": "e1f669510ab884a5bfd198d726b97bbe86276c8cd2ae750743c6bd075a94c3ab",
+  "derivative": "figures/decor/painted/diary_cover.webp",
+  "derivative_sha256": "83008ba04525d6b48bada1116a55dae80f4f4fbfd398b484a2769c1b542cd777",
+  "size": [
+    768,
+    1024
+  ]
+}

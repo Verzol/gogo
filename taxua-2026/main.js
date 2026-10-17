@@ -356,20 +356,20 @@ function initCloudWheel() {
   root.innerHTML = `
     <div class="wheel-heading"><p class="wheel-eyebrow">${esc(copy.eyebrow)}</p><h3 id="wheelTitle">${esc(copy.title)}</h3><p>${esc(copy.intro)}</p></div>
     <div class="wheel-composition">
-      <details class="wheel-settings" open><summary>Cho ai vào vòng? <span id="wheelSelection"></span></summary>
-        <fieldset class="wheel-participants"><legend>${esc(copy.participants)}</legend><div class="wheel-choices">${members.map((member,index) => `<label><input type="checkbox" data-wheel-person="${index}" checked><span>${esc(member.name)}</span></label>`).join('')}</div></fieldset>
+      <details class="wheel-settings" open><summary>Tùy chỉnh <span id="wheelSelection"></span></summary>
         <div class="wheel-options"><label class="wheel-repeat"><input type="checkbox" id="wheelNoRepeat"><span>${esc(copy.noRepeat)}</span></label><button class="wheel-reset game-icon-button" type="button" aria-label="${esc(copy.reset)}">${icon('rotate-ccw')}</button></div>
         <p class="wheel-fairness">${esc(copy.fairness)}</p>
       </details>
       <div class="wheel-stage">
         <span class="wheel-scribble" aria-hidden="true">để mây chọn giùm</span>
         <div class="wheel-dial" id="wheelDial">
-          <div class="wheel-rotor-clip" aria-hidden="true"><div class="wheel-rotor">
-            <svg class="wheel-sectors" viewBox="0 0 400 400">${sectors}</svg>
+          <div class="wheel-rotor-clip"><div class="wheel-rotor">
+            <svg class="wheel-sectors" viewBox="0 0 400 400" aria-hidden="true">${sectors}</svg>
             <img class="wheel-rim" src="./figures/decor/painted/wheel_rim.webp" width="652" height="652" alt="" loading="lazy" decoding="async">
             ${members.map((member,index) => {
-              const [x,y] = point(index * segment,99);
-              return `<span class="wheel-member" data-wheel-index="${index}" style="left:${x / 4}%;top:${y / 4}%"><span class="wheel-member-inner"><span class="wheel-initial${member.image ? ' has-portrait' : ''}">${esc(member.name.charAt(0).toUpperCase())}${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy" decoding="async" width="44" height="44">` : ''}</span><span class="wheel-name">${esc(member.name)}</span></span></span>`;
+              const [x,y] = point(index * segment,96);
+              const [mobileX,mobileY] = point(index * segment,98);
+              return `<span class="wheel-member" data-wheel-index="${index}" style="--member-x:${x / 4}%;--member-y:${y / 4}%;--member-mobile-x:${mobileX / 4}%;--member-mobile-y:${mobileY / 4}%"><button class="wheel-member-inner" type="button" data-wheel-person="${index}" aria-label="${esc(member.name)}" aria-pressed="true"><span class="wheel-initial${member.image ? ' has-portrait' : ''}" aria-hidden="true">${esc(member.name.charAt(0).toUpperCase())}${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy" decoding="async" width="44" height="44">` : ''}</span><span class="wheel-name">${esc(member.name)}</span></button></span>`;
             }).join('')}
           </div></div>
           <span class="wheel-pointer" aria-hidden="true"><img src="./figures/decor/painted/wheel_pointer.webp" width="349" height="467" alt="" loading="lazy"></span>
@@ -387,7 +387,6 @@ function initCloudWheel() {
   const spinText = spin.querySelector('span');
   const reset = root.querySelector('.wheel-reset');
   const noRepeat = root.querySelector('#wheelNoRepeat');
-  const participants = root.querySelector('.wheel-participants');
   const settings = root.querySelector('.wheel-settings');
   const compact = matchMedia('(max-width:767px), (max-height:520px) and (orientation:landscape)');
   const syncSettings = () => { settings.open = !compact.matches; };
@@ -410,25 +409,29 @@ function initCloudWheel() {
   let timeout;
   let lastWinner = null;
   const randomIndex = tripRandomIndex;
-  const eligible = () => choices.map((choice,index) => choice.checked && (!noRepeat.checked || !used.has(index)) ? index : -1).filter(index => index >= 0);
+  const isSelected = choice => choice.getAttribute('aria-pressed') === 'true';
+  const eligible = () => choices.map((choice,index) => isSelected(choice) && (!noRepeat.checked || !used.has(index)) ? index : -1).filter(index => index >= 0);
   function update() {
     const remaining = eligible();
-    const selected = choices.filter(choice => choice.checked).length;
+    const selected = choices.filter(isSelected).length;
     root.querySelector('#wheelSelection').textContent = selected + ' đồng bọn';
     // Keep keyboard focus on the action during a spin; click handling enforces
     // aria-disabled without a native disabled toggle dropping focus to <body>.
     spin.setAttribute('aria-disabled',String(spinning || !remaining.length));
     reset.disabled = spinning;
-    participants.disabled = spinning;
     noRepeat.disabled = spinning;
     spinText.textContent = spinning ? copy.spinning : lastWinner === null ? copy.spin : copy.again;
     availability.textContent = noRepeat.checked ? `${remaining.length} / ${selected} đồng bọn còn trong lượt` : `${remaining.length} đồng bọn trong vòng quay`;
     root.querySelectorAll('[data-wheel-index]').forEach(el => {
       const index = Number(el.dataset.wheelIndex);
       el.classList.toggle('is-excluded',!remaining.includes(index));
-      el.classList.toggle('is-winner',!spinning && index === lastWinner);
+      el.classList.toggle('is-winner',!spinning && index === lastWinner && isSelected(choices[index]));
     });
-    choices.forEach((choice,index) => choice.closest('label').classList.toggle('was-picked',noRepeat.checked && used.has(index)));
+    choices.forEach((choice,index) => {
+      choice.disabled = spinning;
+      choice.closest('.wheel-member').classList.toggle('was-picked',noRepeat.checked && used.has(index));
+      choice.title = members[index].name + (isSelected(choice) ? ' · Chạm để loại khỏi vòng' : ' · Chạm để thêm lại') + (noRepeat.checked && used.has(index) ? ' · Đã được gọi trong lượt này' : '');
+    });
     root.classList.toggle('is-spinning',spinning);
     root.classList.toggle('is-complete',!remaining.length && !!selected);
     if (!spinning && !remaining.length) {
@@ -510,7 +513,11 @@ function initCloudWheel() {
     update();
   });
   noRepeat.addEventListener('change',() => { used.clear(); update(); });
-  participants.addEventListener('change',update);
+  choices.forEach(choice => choice.addEventListener('click',() => {
+    if (spinning) return;
+    choice.setAttribute('aria-pressed',String(!isSelected(choice)));
+    update();
+  }));
   root.querySelectorAll('.wheel-initial img').forEach(img => img.addEventListener('error',() => { img.parentElement.classList.remove('has-portrait');img.remove(); }));
   root.querySelectorAll('.wheel-rim,.wheel-pointer img,.wheel-spin > img').forEach(img => img.addEventListener('error',() => {img.hidden = true;}));
   update();

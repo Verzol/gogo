@@ -1,4 +1,5 @@
 .agents/
+.codex/
 .history/
 /supabase/
 !hue-2026/supabase/
@@ -14,6 +15,8 @@ hue-2026/test-results/
 /schema.sql
 AGENTS.md
 skills-lock.json
+node_modules/
+package*.json
 
 # Temporary Chromium profiles created by Lighthouse under WSL.
 /\\\\wsl.localhost\\Ubuntu-24.04\\tmp\\taxua-story-lighthouse-*/

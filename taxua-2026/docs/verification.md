@@ -17,7 +17,7 @@ Reuse port 8000 if it is already serving this repo. Repository-root servers use 
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-The website also opens via `file://`. There is no build, npm test suite, backend or runtime package installation.
+The public trip also opens via `file://`, without a build, npm test suite or runtime package installation. Only the optional [private diary](diary.md) requires its configured Supabase backend and HTTP/HTTPS.
 
 ## Targeted browser checks
 
@@ -27,6 +27,11 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 
 | Script | Use after changing | Evidence written under `review/` |
 | --- | --- | --- |
+| `verify_diary.cjs` | Paired spreads, password/claim UX, drafts, actual file-input normalization, publication, conflicts, recovery, expiry, 3D motion, responsive/text layout and fallbacks; mocked transport | `/tmp/taxua-diary-browser-review/`; optional `DIARY_WEBKIT=1` tests both engines |
+| `verify_diary_motion.cjs` | Outgoing front/incoming reverse, screenshot-pixel orientation, incoming underlay, cover origin, dense opening/closing frames, escaped-paper and cover-face pixel regressions, atomic landing, backward scroll, phone motion, pause/logout | `/tmp/taxua-diary-motion-review/`; optional `DIARY_WEBKIT=1` |
+| `verify_diary_navigation.cjs` | Visible sticker/cloth centering, bounds/fallbacks and proportional ribbon resolution at 2x density, empty paper, edge click/keyboard, scrubbable mouse drags, cancel/escape/logout, phone writing/photos, reduced/missing-motion fallbacks and Chromium touch swipe/vertical scroll | `/tmp/taxua-diary-navigation-review/`; optional `DIARY_WEBKIT=1` |
+| `verify_diary_layout.cjs` | Maximum prose/title, twelve long captions, narrow/landscape/enlarged text, Vietnamese NFC/NFD, missing art/fonts/engine/CSS and mid-motion expiry | `/tmp/taxua-diary-layout-review/`; optional `DIARY_WEBKIT=1` |
+| `verify_diary_backend.cjs` | Real server authentication, private reads, ownership, conflicts, private image processing/storage and quota enforcement; requires disposable accounts | `/tmp/taxua-diary-backend-review/`; read [fixture instructions](diary-backend.md#verification) first |
 | `verify_weather.cjs` | Cloud opening, weather data/cache, previews, date eligibility and fallbacks | `sky-weather/` |
 | `verify_mobile_ui.cjs` | Phone cloud phases, forecast readability/selection, itinerary-only dates, menu/anchors, day overview, wheel disclosure and 200% text scaling | `/tmp/taxua-mobile-ui-review/` by default; `TRIP_REVIEW_DIR` overrides |
 | `verify_journey.cjs` | Schedule fidelity, photos, controls, responsive/fallback behavior | `browser-checks.json`, root screenshots/gallery |
@@ -73,3 +78,13 @@ For docs-only edits, validate local links/file references and scope; browser sui
 The [shared-control and object-interaction review](controls.md#verified-integration--16-october-2026) records the themed inputs, progressive dropdowns and direct game-object refinements, with seven passing focused browser suites and screenshots outside the checkout.
 
 The [17 October fullscreen review](maps.md#fullscreen-exploration--17-october-2026) records 264 exploration, 389 existing map and 96 shared-control checks, native API/fallback coverage, responsive/enlarged-text layouts and separate live-tile inspection.
+
+The [17 October diary review](diary-review.md) records 109 Chromium/WebKit UI checks,
+43 direct backend checks, live browser integration in both engines, automated
+accessibility checks, eight existing regression suites and fixture cleanup.
+
+
+The [diary redesign review](diary-review.md#book-redesign-verification) records
+current frame/long-content and isolated live-flow evidence separately from the
+first implementation's results. Both new browser helpers use local fixtures;
+they never create real users or write to Supabase.

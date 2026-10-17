@@ -1,0 +1,54 @@
+{
+  "preparation": "Google Fonts TrueType sources subsetted and compressed with fontTools; Latin/extended Latin, Vietnamese, combining marks and punctuation retained. No glyph outlines redrawn.",
+  "verified_support": "All Vietnamese upper/lower-case letters and their NFD decomposed forms; tested with GSUB/GPOS preserved.",
+  "fonts": [
+    {
+      "family": "Mali",
+      "weight": "400",
+      "file": "figures/fonts/mali_normal_400.woff2",
+      "source": "https://github.com/google/fonts/blob/main/ofl/mali/Mali-Regular.ttf",
+      "license": "figures/fonts/OFL_mali.txt",
+      "version": "Version 1.000; ttfautohint (v1.6)",
+      "sha256": "ed13d11da09c573394cb7ca60093bab37472377bcffcfe5199b85e85eb5fa3b6",
+      "bytes": 27156,
+      "glyph_count": 550,
+      "shaping_tables": [
+        "GSUB",
+        "GPOS",
+        "GDEF"
+      ]
+    },
+    {
+      "family": "Mali",
+      "weight": "500",
+      "file": "figures/fonts/mali_normal_500.woff2",
+      "source": "https://github.com/google/fonts/blob/main/ofl/mali/Mali-Medium.ttf",
+      "license": "figures/fonts/OFL_mali.txt",
+      "version": "Version 1.000; ttfautohint (v1.6)",
+      "sha256": "3e3edd9ea67214b6c571fc6d9dd045cfa05f364e4c72448484e25641088375f6",
+      "bytes": 27784,
+      "glyph_count": 550,
+      "shaping_tables": [
+        "GSUB",
+        "GPOS",
+        "GDEF"
+      ]
+    },
+    {
+      "family": "Dancing Script",
+      "weight": "400-700",
+      "file": "figures/fonts/dancing_script_variable.woff2",
+      "source": "https://github.com/google/fonts/blob/main/ofl/dancingscript/DancingScript%5Bwght%5D.ttf",
+      "license": "figures/fonts/OFL_dancingscript.txt",
+      "version": "Version 2.001",
+      "sha256": "65678ca037981c83812e6b77721f95a0d70f40fab540d8886032238d475ba3bc",
+      "bytes": 55900,
+      "glyph_count": 533,
+      "shaping_tables": [
+        "GSUB",
+        "GPOS",
+        "GDEF"
+      ]
+    }
+  ]
+}

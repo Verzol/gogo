@@ -1,0 +1,722 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "reference": "figures/raw/diary/diary_cover.png",
+  "pipeline": "scripts/prepare_diary_artwork.py",
+  "processing": "Chroma-key green removal, one-pixel edge cleanup, grid crop and alpha trim (central connected cloth for bookmarks), bounded WebP derivative; original masters unchanged.",
+  "assets": [
+    {
+      "name": "tape_ochre",
+      "master": "figures/raw/diary/revision_2/attachments.png",
+      "master_sha256": "f683174f91f10fd73020ab234b48a9b59c3c79222fd587d65e79506c222b6949",
+      "prompt": "docs/prompts/diary/revision_2/attachments.md",
+      "crop": [
+        0,
+        0,
+        724,
+        543
+      ],
+      "trim": [
+        53,
+        194,
+        673,
+        411
+      ],
+      "derivative": "figures/decor/painted/diary/tape_ochre.webp",
+      "size": [
+        260,
+        91
+      ],
+      "sha256": "500f801bd53b13a675142d9bcd3d106efe080a3d8d7ba3ee80158ebc2fa36220"
+    },
+    {
+      "name": "tape_linen",
+      "master": "figures/raw/diary/revision_2/attachments.png",
+      "master_sha256": "f683174f91f10fd73020ab234b48a9b59c3c79222fd587d65e79506c222b6949",
+      "prompt": "docs/prompts/diary/revision_2/attachments.md",
+      "crop": [
+        724,
+        0,
+        1448,
+        543
+      ],
+      "trim": [
+        48,
+        193,
+        670,
+        412
+      ],
+      "derivative": "figures/decor/painted/diary/tape_linen.webp",
+      "size": [
+        260,
+        92
+      ],
+      "sha256": "28a200361510225b37e64ee6084b1fa691226c1f39e85224eb05da3770c8b694"
+    },
+    {
+      "name": "corners_tan",
+      "master": "figures/raw/diary/revision_2/attachments.png",
+      "master_sha256": "f683174f91f10fd73020ab234b48a9b59c3c79222fd587d65e79506c222b6949",
+      "prompt": "docs/prompts/diary/revision_2/attachments.md",
+      "crop": [
+        0,
+        543,
+        724,
+        1086
+      ],
+      "trim": [
+        94,
+        85,
+        643,
+        342
+      ],
+      "derivative": "figures/decor/painted/diary/corners_tan.webp",
+      "size": [
+        260,
+        122
+      ],
+      "sha256": "1449e1944ada2d62757126c4a5f0191b9b9d464ebee7ac1f9eeed489029801dd"
+    },
+    {
+      "name": "corners_cream",
+      "master": "figures/raw/diary/revision_2/attachments.png",
+      "master_sha256": "f683174f91f10fd73020ab234b48a9b59c3c79222fd587d65e79506c222b6949",
+      "prompt": "docs/prompts/diary/revision_2/attachments.md",
+      "crop": [
+        724,
+        543,
+        1448,
+        1086
+      ],
+      "trim": [
+        82,
+        82,
+        637,
+        343
+      ],
+      "derivative": "figures/decor/painted/diary/corners_cream.webp",
+      "size": [
+        260,
+        122
+      ],
+      "sha256": "daa649e7e46ec6c2c09f36483a95c872ff1a7a0dce7166ea1bbd21c64697f083"
+    },
+    {
+      "name": "back_cover",
+      "master": "figures/raw/diary/revision_2/back_cover.png",
+      "master_sha256": "b7b75d2495220b2770bb6a6367cb0e213a6596a808031022a9af494cd04ea95c",
+      "prompt": "docs/prompts/diary/revision_2/back_cover.md",
+      "crop": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "trim": [
+        39,
+        46,
+        1048,
+        1397
+      ],
+      "derivative": "figures/decor/painted/diary/back_cover.webp",
+      "size": [
+        765,
+        1024
+      ],
+      "sha256": "d02c01257ba22dd85dae955bd840dd3ac1cc75c40740285023c150c2f4da70fa"
+    },
+    {
+      "name": "binding",
+      "master": "figures/raw/diary/revision_2/binding.png",
+      "master_sha256": "fcc7fa19d5bf38a5251742895e3a89b201fe7c01f1a62cd1b9fa243b322c6bcf",
+      "prompt": "docs/prompts/diary/revision_2/binding.md",
+      "crop": [
+        0,
+        0,
+        543,
+        1448
+      ],
+      "trim": [
+        249,
+        17,
+        417,
+        1431
+      ],
+      "derivative": "figures/decor/painted/diary/binding.webp",
+      "size": [
+        96,
+        808
+      ],
+      "sha256": "ad396e3e801260c0f0d313773ad8a5bd902690532efd695cc330cbbfcd5e1db0"
+    },
+    {
+      "name": "page_edges",
+      "master": "figures/raw/diary/revision_2/binding.png",
+      "master_sha256": "fcc7fa19d5bf38a5251742895e3a89b201fe7c01f1a62cd1b9fa243b322c6bcf",
+      "prompt": "docs/prompts/diary/revision_2/binding.md",
+      "crop": [
+        543,
+        0,
+        1086,
+        1448
+      ],
+      "trim": [
+        125,
+        17,
+        294,
+        1430
+      ],
+      "derivative": "figures/decor/painted/diary/page_edges.webp",
+      "size": [
+        96,
+        803
+      ],
+      "sha256": "b5bc5ab3dbe36de22a16aa793df0fe9112f22f2686477726b01d67af27f3a4e9"
+    },
+    {
+      "name": "bookmark_mi",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "prompt": "docs/prompts/diary/revision_2/bookmarks.md",
+      "crop": [
+        0,
+        0,
+        237,
+        948
+      ],
+      "trim": [
+        33,
+        45,
+        236,
+        901
+      ],
+      "derivative": "figures/decor/painted/diary/bookmark_mi.webp",
+      "size": [
+        203,
+        856
+      ],
+      "sha256": "9ead73fcdf7bd8865ba4a487874eb43f7a48e2e79e351c7c363621c2445c8add"
+    },
+    {
+      "name": "bookmark_san",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "prompt": "docs/prompts/diary/revision_2/bookmarks.md",
+      "crop": [
+        237,
+        0,
+        474,
+        948
+      ],
+      "trim": [
+        29,
+        45,
+        231,
+        900
+      ],
+      "derivative": "figures/decor/painted/diary/bookmark_san.webp",
+      "size": [
+        202,
+        855
+      ],
+      "sha256": "d467c15a768484e405fda31691cf972c04ec9cfc88f9c3a737a8dd652b320e29"
+    },
+    {
+      "name": "bookmark_thao",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "prompt": "docs/prompts/diary/revision_2/bookmarks.md",
+      "crop": [
+        474,
+        0,
+        711,
+        948
+      ],
+      "trim": [
+        23,
+        45,
+        224,
+        901
+      ],
+      "derivative": "figures/decor/painted/diary/bookmark_thao.webp",
+      "size": [
+        201,
+        856
+      ],
+      "sha256": "2d667c1daca169fdab711e78a2d15e3e9e9cdbeb3d2b9b77ff3efb2a5608d342"
+    },
+    {
+      "name": "bookmark_quanlele",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "prompt": "docs/prompts/diary/revision_2/bookmarks.md",
+      "crop": [
+        711,
+        0,
+        948,
+        948
+      ],
+      "trim": [
+        17,
+        45,
+        221,
+        901
+      ],
+      "derivative": "figures/decor/painted/diary/bookmark_quanlele.webp",
+      "size": [
+        204,
+        856
+      ],
+      "sha256": "2b3acddb41acff5ea98bd3c10c1abd6643855d3327f9458bf3cf57dc5f8472a4"
+    },
+    {
+      "name": "bookmark_gtm",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "prompt": "docs/prompts/diary/revision_2/bookmarks.md",
+      "crop": [
+        948,
+        0,
+        1185,
+        948
+      ],
+      "trim": [
+        11,
+        45,
+        214,
+        902
+      ],
+      "derivative": "figures/decor/painted/diary/bookmark_gtm.webp",
+      "size": [
+        203,
+        857
+      ],
+      "sha256": "8174c36e5f36b44b2465856184958e140b66f22409da455dd0cc563999bf5c06"
+    },
+    {
+      "name": "bookmark_truong",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "prompt": "docs/prompts/diary/revision_2/bookmarks.md",
+      "crop": [
+        1185,
+        0,
+        1422,
+        948
+      ],
+      "trim": [
+        6,
+        44,
+        209,
+        904
+      ],
+      "derivative": "figures/decor/painted/diary/bookmark_truong.webp",
+      "size": [
+        203,
+        860
+      ],
+      "sha256": "7a1d0f92418efb14ada5a2a05d6a27691c375b9da4dc0626a29363403a421e71"
+    },
+    {
+      "name": "bookmark_linh",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "prompt": "docs/prompts/diary/revision_2/bookmarks.md",
+      "crop": [
+        1422,
+        0,
+        1659,
+        948
+      ],
+      "trim": [
+        0,
+        45,
+        204,
+        900
+      ],
+      "derivative": "figures/decor/painted/diary/bookmark_linh.webp",
+      "size": [
+        204,
+        855
+      ],
+      "sha256": "44ac5b0a573da36a05da3ae17730ea1bceb918a17b9f60f61844cb5c688ee8f7"
+    },
+    {
+      "name": "inside_left",
+      "master": "figures/raw/diary/revision_2/endpapers.png",
+      "master_sha256": "f36f13ec8c44cdd36cbe70fe724f59d60dd7510e914cf1084f04f8952a1e95db",
+      "prompt": "docs/prompts/diary/revision_2/endpapers.md",
+      "crop": [
+        0,
+        0,
+        724,
+        1086
+      ],
+      "trim": [
+        26,
+        97,
+        693,
+        989
+      ],
+      "derivative": "figures/decor/painted/diary/inside_left.webp",
+      "size": [
+        667,
+        892
+      ],
+      "sha256": "237ec86fe658cdffa11b7e2152864b9875dfcada5573d2af43932819129b27b0"
+    },
+    {
+      "name": "inside_right",
+      "master": "figures/raw/diary/revision_2/endpapers.png",
+      "master_sha256": "f36f13ec8c44cdd36cbe70fe724f59d60dd7510e914cf1084f04f8952a1e95db",
+      "prompt": "docs/prompts/diary/revision_2/endpapers.md",
+      "crop": [
+        724,
+        0,
+        1448,
+        1086
+      ],
+      "trim": [
+        30,
+        97,
+        697,
+        989
+      ],
+      "derivative": "figures/decor/painted/diary/inside_right.webp",
+      "size": [
+        667,
+        892
+      ],
+      "sha256": "c154312d1eb717c1904eaa054081955f1582f89a204e239cb6964e78b0ddab70"
+    },
+    {
+      "name": "front_cover",
+      "master": "figures/raw/diary/revision_2/front_cover.png",
+      "master_sha256": "4ca11f35e1b2a4548339aedaa8b517b6e3671dd7e0cf342050cec723f930cb01",
+      "prompt": "docs/prompts/diary/revision_2/front_cover.md",
+      "crop": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "trim": [
+        46,
+        52,
+        1037,
+        1395
+      ],
+      "derivative": "figures/decor/painted/diary/front_cover.webp",
+      "size": [
+        756,
+        1024
+      ],
+      "sha256": "4ae0fc67f1433c94b1dab02bd99bfdc91d633757e0826ce252e5d34bae9cf4e2"
+    },
+    {
+      "name": "fern",
+      "master": "figures/raw/diary/revision_2/keepsakes.png",
+      "master_sha256": "888327d7f3d300f739b12732a9106f5194ae6c113c42a54f8f0411ac7047516d",
+      "prompt": "docs/prompts/diary/revision_2/keepsakes.md",
+      "crop": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "trim": [
+        128,
+        72,
+        603,
+        673
+      ],
+      "derivative": "figures/decor/painted/diary/fern.webp",
+      "size": [
+        142,
+        180
+      ],
+      "sha256": "68d64a88b5bf7fb10d46e561377146108ba537cdcfab980213c4af5084b0f003"
+    },
+    {
+      "name": "clouds",
+      "master": "figures/raw/diary/revision_2/keepsakes.png",
+      "master_sha256": "888327d7f3d300f739b12732a9106f5194ae6c113c42a54f8f0411ac7047516d",
+      "prompt": "docs/prompts/diary/revision_2/keepsakes.md",
+      "crop": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "trim": [
+        18,
+        74,
+        724,
+        594
+      ],
+      "derivative": "figures/decor/painted/diary/clouds.webp",
+      "size": [
+        210,
+        155
+      ],
+      "sha256": "ba33cd6d1981c62e51e97ead784589f83bc21be5f2ed56c2e6b9874a26ff98f6"
+    },
+    {
+      "name": "flowers",
+      "master": "figures/raw/diary/revision_2/keepsakes.png",
+      "master_sha256": "888327d7f3d300f739b12732a9106f5194ae6c113c42a54f8f0411ac7047516d",
+      "prompt": "docs/prompts/diary/revision_2/keepsakes.md",
+      "crop": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "trim": [
+        0,
+        58,
+        693,
+        669
+      ],
+      "derivative": "figures/decor/painted/diary/flowers.webp",
+      "size": [
+        204,
+        180
+      ],
+      "sha256": "d04fb22c98fcee9986bd44a8714a0768a402131eebbb125da6e287d221840fa2"
+    },
+    {
+      "name": "paper_left_1",
+      "master": "figures/raw/diary/revision_2/paper_folios.png",
+      "master_sha256": "24c3946745798161a895659ffa30bef17d35885886451b2e15c6181e3d457b3c",
+      "prompt": "docs/prompts/diary/revision_2/paper_folios.md",
+      "crop": [
+        0,
+        0,
+        543,
+        483
+      ],
+      "trim": [
+        69,
+        14,
+        513,
+        468
+      ],
+      "derivative": "figures/decor/painted/diary/paper_left_1.webp",
+      "size": [
+        444,
+        454
+      ],
+      "sha256": "b2663369fc6011f86af39156fa8bb619706ec3ff8364d0f13cf390611cc32e18"
+    },
+    {
+      "name": "paper_right_1",
+      "master": "figures/raw/diary/revision_2/paper_folios.png",
+      "master_sha256": "24c3946745798161a895659ffa30bef17d35885886451b2e15c6181e3d457b3c",
+      "prompt": "docs/prompts/diary/revision_2/paper_folios.md",
+      "crop": [
+        543,
+        0,
+        1086,
+        483
+      ],
+      "trim": [
+        30,
+        13,
+        474,
+        468
+      ],
+      "derivative": "figures/decor/painted/diary/paper_right_1.webp",
+      "size": [
+        444,
+        455
+      ],
+      "sha256": "1a2c8b3aa00ec1a875b6a133c6d8a8ac49c7db8c963bfb75b5721caad7b82ee4"
+    },
+    {
+      "name": "paper_left_2",
+      "master": "figures/raw/diary/revision_2/paper_folios.png",
+      "master_sha256": "24c3946745798161a895659ffa30bef17d35885886451b2e15c6181e3d457b3c",
+      "prompt": "docs/prompts/diary/revision_2/paper_folios.md",
+      "crop": [
+        0,
+        483,
+        543,
+        965
+      ],
+      "trim": [
+        69,
+        10,
+        513,
+        466
+      ],
+      "derivative": "figures/decor/painted/diary/paper_left_2.webp",
+      "size": [
+        444,
+        456
+      ],
+      "sha256": "54e1550c211f2c7320ca9743fc2d39307ce53a6c1b275eb03a6c7c2b48d3d10d"
+    },
+    {
+      "name": "paper_right_2",
+      "master": "figures/raw/diary/revision_2/paper_folios.png",
+      "master_sha256": "24c3946745798161a895659ffa30bef17d35885886451b2e15c6181e3d457b3c",
+      "prompt": "docs/prompts/diary/revision_2/paper_folios.md",
+      "crop": [
+        543,
+        483,
+        1086,
+        965
+      ],
+      "trim": [
+        30,
+        10,
+        474,
+        466
+      ],
+      "derivative": "figures/decor/painted/diary/paper_right_2.webp",
+      "size": [
+        444,
+        456
+      ],
+      "sha256": "2e95b6b432eed13bd97273b483492c4f1ffc19b8e1397e6f53f6bafceaa760ef"
+    },
+    {
+      "name": "paper_left_3",
+      "master": "figures/raw/diary/revision_2/paper_folios.png",
+      "master_sha256": "24c3946745798161a895659ffa30bef17d35885886451b2e15c6181e3d457b3c",
+      "prompt": "docs/prompts/diary/revision_2/paper_folios.md",
+      "crop": [
+        0,
+        965,
+        543,
+        1448
+      ],
+      "trim": [
+        69,
+        9,
+        513,
+        468
+      ],
+      "derivative": "figures/decor/painted/diary/paper_left_3.webp",
+      "size": [
+        444,
+        459
+      ],
+      "sha256": "ee5ea775d606179294d5c3decbca4e387467c493381d492253da0a4004a4febc"
+    },
+    {
+      "name": "paper_right_3",
+      "master": "figures/raw/diary/revision_2/paper_folios.png",
+      "master_sha256": "24c3946745798161a895659ffa30bef17d35885886451b2e15c6181e3d457b3c",
+      "prompt": "docs/prompts/diary/revision_2/paper_folios.md",
+      "crop": [
+        543,
+        965,
+        1086,
+        1448
+      ],
+      "trim": [
+        30,
+        9,
+        474,
+        468
+      ],
+      "derivative": "figures/decor/painted/diary/paper_right_3.webp",
+      "size": [
+        444,
+        459
+      ],
+      "sha256": "d1d0fbbef3a2333e66aa777b589350123c00bbd8ab94a7c5816aa0b21367f9bd"
+    },
+    {
+      "name": "frame_landscape",
+      "master": "figures/raw/diary/revision_2/photo_frames.png",
+      "master_sha256": "e9ccb83bc18da7b80ed68118730e4150a743124d93941cfe3ddc3e05d1ae9046",
+      "prompt": "docs/prompts/diary/revision_2/photo_frames.md",
+      "crop": [
+        61,
+        0,
+        743,
+        768
+      ],
+      "trim": [
+        3,
+        144,
+        680,
+        645
+      ],
+      "derivative": "figures/decor/painted/diary/frame_landscape.webp",
+      "size": [
+        677,
+        501
+      ],
+      "sha256": "c1a3e7fb9c1dd1a59bd19350405ce394ea1f2233fdef20a3013c4c81d4d6c693",
+      "photo_opening": [
+        53,
+        43,
+        625,
+        389
+      ]
+    },
+    {
+      "name": "frame_portrait",
+      "master": "figures/raw/diary/revision_2/photo_frames.png",
+      "master_sha256": "e9ccb83bc18da7b80ed68118730e4150a743124d93941cfe3ddc3e05d1ae9046",
+      "prompt": "docs/prompts/diary/revision_2/photo_frames.md",
+      "crop": [
+        840,
+        0,
+        1321,
+        768
+      ],
+      "trim": [
+        2,
+        68,
+        478,
+        699
+      ],
+      "derivative": "figures/decor/painted/diary/frame_portrait.webp",
+      "size": [
+        476,
+        631
+      ],
+      "sha256": "237d2760962d3087b7660d3d59cd3a57d80735e4d9ac2b8dc9589f288c903b90",
+      "photo_opening": [
+        51,
+        45,
+        427,
+        492
+      ]
+    },
+    {
+      "name": "frame_square",
+      "master": "figures/raw/diary/revision_2/photo_frames.png",
+      "master_sha256": "e9ccb83bc18da7b80ed68118730e4150a743124d93941cfe3ddc3e05d1ae9046",
+      "prompt": "docs/prompts/diary/revision_2/photo_frames.md",
+      "crop": [
+        1448,
+        0,
+        1988,
+        768
+      ],
+      "trim": [
+        2,
+        132,
+        537,
+        670
+      ],
+      "derivative": "figures/decor/painted/diary/frame_square.webp",
+      "size": [
+        535,
+        538
+      ],
+      "sha256": "9840086d473324fdccb1f337a59287368e3dbdef6e3745402953cca30c176044",
+      "photo_opening": [
+        56,
+        49,
+        482,
+        422
+      ]
+    }
+  ]
+}

@@ -32,7 +32,35 @@ async function alignment(page) {
 }
 async function choose(page,index,enabled) {
   const input=page.locator(`[data-wheel-person="${index}"]`);
-  if (await input.isChecked() !== enabled) await input.locator('..').click();
+  if ((await input.getAttribute('aria-pressed') === 'true') !== enabled) await input.click();
+}
+async function labelsFitThroughoutRotation(page) {
+  return page.locator('.wheel-dial').evaluate(dial=>{
+    const previousTurn=dial.style.getPropertyValue('--wheel-turn');
+    const wasInstant=dial.classList.contains('is-instant');
+    dial.classList.add('is-instant');
+    const bounds=dial.getBoundingClientRect();
+    const centerX=bounds.left+bounds.width/2;
+    const centerY=bounds.top+bounds.height/2;
+    // The live painted sectors end at radius 145 in the 400-unit SVG.
+    const safeRadius=bounds.width*145/400-1;
+    try {
+      for(let angle=0;angle<360;angle+=5) {
+        dial.style.setProperty('--wheel-turn',angle+'deg');
+        for(const label of dial.querySelectorAll('.wheel-name,.wheel-initial')) {
+          const box=label.getBoundingClientRect();
+          for(const x of [box.left,box.right])for(const y of [box.top,box.bottom]) {
+            if(Math.hypot(x-centerX,y-centerY)>safeRadius)return false;
+          }
+        }
+      }
+      return true;
+    } finally {
+      if(previousTurn)dial.style.setProperty('--wheel-turn',previousTurn);
+      else dial.style.removeProperty('--wheel-turn');
+      dial.classList.toggle('is-instant',wasInstant);
+    }
+  });
 }
 async function winnerSticker(page,selector='.wheel-result-person') {
   return page.locator(selector).evaluate(async element=>{
@@ -70,9 +98,24 @@ async function land(page) {
     check(name+' uses transparent journal layout',await page.locator('#cloudWheel,.wheel-composition,.wheel-notes').evaluateAll(items=>items.every(el=>getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(el).backdropFilter==='none')));
     await page.locator('#cloudWheel img').evaluateAll(items=>Promise.all(items.map(img=>img.decode())));
     check(name+' artwork loads',await page.locator('#cloudWheel img').evaluateAll(items=>items.every(img=>img.complete&&img.naturalWidth>0)));
+    check(name+' names and portraits stay inside the inner rim through a full rotation',await labelsFitThroughoutRotation(page));
     check(name+' waiting state has no winner sticker',await page.locator('.wheel-result-person img').count()===0);
+    check(name+' removes the separate participant list',await page.locator('.wheel-participants,.wheel-choices').count()===0);
+    check(name+' exposes seven named wheel toggle buttons',await page.locator('[data-wheel-person]').evaluateAll(items=>items.length===7&&items.every(el=>el.tagName==='BUTTON'&&el.getAttribute('aria-label')&&el.getAttribute('aria-pressed')==='true'&&!el.closest('[aria-hidden="true"]'))));
+    check(name+' wheel controls have usable non-overlapping targets',await page.locator('[data-wheel-person]').evaluateAll(items=>{
+      const boxes=items.map(el=>el.getBoundingClientRect());
+      return boxes.every((box,i)=>box.width>=44&&box.height>=44&&boxes.every((other,j)=>i===j||box.right<=other.left||other.right<=box.left||box.bottom<=other.top||other.bottom<=box.top));
+    }));
+    // Click the actual portrait, then its name: both parts of the upright button work.
+    await page.locator('[data-wheel-person="2"] img').click();
+    check(name+' clicking the portrait excludes and mutes its member',await page.locator('[data-wheel-person="2"]').getAttribute('aria-pressed')==='false'&&await page.locator('.wheel-member[data-wheel-index="2"]').evaluate(el=>el.classList.contains('is-excluded'))&&(await page.locator('#wheelAvailability').textContent()).startsWith('6'));
+    await page.locator('[data-wheel-person="2"] .wheel-name').click();
+    check(name+' clicking the name includes them again',await page.locator('[data-wheel-person="2"]').getAttribute('aria-pressed')==='true');
     await page.locator('.wheel-spin').click();
     check(name+' reduced-motion result matches pointer and painted rotation',await alignment(page));
+    await choose(page,0,false);
+    check(name+' member toggles still work after the wheel rotates',await page.locator('[data-wheel-person="0"]').getAttribute('aria-pressed')==='false');
+    await choose(page,0,true);
     check(name+' displays the matching complete winner sticker',await winnerSticker(page));
     check(name+' rotation introduces no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
     check(name+' result is announced accessibly',await page.locator('.wheel-result').getAttribute('aria-live')==='polite' && !!await page.locator('#cloudWheel').getAttribute('data-winner'));
@@ -87,6 +130,11 @@ async function land(page) {
   const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
   page.on('pageerror',error=>report.errors.push(error.message));
   await page.goto(url);await reveal(page);
+  const firstPerson=page.locator('[data-wheel-person="0"]');
+  await firstPerson.focus();await page.keyboard.press('Space');
+  check('Space excludes a member and retains visible keyboard focus',await firstPerson.getAttribute('aria-pressed')==='false'&&await firstPerson.evaluate(el=>el.matches(':focus-visible')));
+  await page.keyboard.press('Enter');
+  check('Enter restores the same member',await firstPerson.getAttribute('aria-pressed')==='true');
   // Select each member individually: every painted segment must map correctly.
   for(let index=0;index<7;index++) {
     for(let member=0;member<7;member++)await choose(page,member,member===index);
@@ -137,7 +185,9 @@ async function land(page) {
     if(event.target===el&&event.propertyName==='transform')window.wheelFinishedAtTransition=!document.getElementById('cloudWheel').classList.contains('is-spinning');
   }));
   await animated.locator('.wheel-spin').evaluate(el=>{el.click();el.click();el.click();});
-  check('spinning locks participant and repeat edits',await animated.locator('.wheel-spin').isDisabled()&&await animated.locator('.wheel-participants').evaluate(el=>el.disabled)&&await animated.locator('#wheelNoRepeat').isDisabled());
+  check('spinning locks participant and repeat edits',await animated.locator('.wheel-spin').isDisabled()&&await animated.locator('[data-wheel-person]').evaluateAll(items=>items.every(el=>el.disabled))&&await animated.locator('#wheelNoRepeat').isDisabled());
+  await animated.locator('[data-wheel-person="0"]').evaluate(el=>el.click());
+  check('a member click cannot change a pending spin',await animated.locator('[data-wheel-person="0"]').getAttribute('aria-pressed')==='true');
   const planned=await animated.locator('#cloudWheel').getAttribute('data-rotation');
   await animated.setViewportSize({width:390,height:844});
   await animated.waitForFunction(()=>!document.getElementById('cloudWheel').classList.contains('is-spinning'));

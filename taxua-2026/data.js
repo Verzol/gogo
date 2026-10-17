@@ -61,30 +61,37 @@ const TRIP_DATA = {
   ],
   "members": [
     {
+      "id": "san",
       "name": "san",
       "image": "figures/people/san_scarf.webp"
     },
     {
+      "id": "thao",
       "name": "thảo",
       "image": "figures/people/thao_scarf.webp"
     },
     {
+      "id": "mi",
       "name": "mi",
       "image": "figures/people/mi_scarf.webp"
     },
     {
+      "id": "linh",
       "name": "linh",
       "image": "figures/people/linh_scarf.webp"
     },
     {
+      "id": "quanlele",
       "name": "quanlele",
       "image": "figures/people/quanlele_scarf.webp"
     },
     {
+      "id": "gtm",
       "name": "gtm",
       "image": "figures/people/gtm_scarf.webp"
     },
     {
+      "id": "truong",
       "name": "trường",
       "image": "figures/people/truong_scarf.webp"
     }
@@ -97,7 +104,6 @@ const TRIP_DATA = {
     "spin": "Quay nào",
     "spinning": "Đang quay…",
     "again": "Quay nữa",
-    "participants": "Ai có mặt?",
     "noRepeat": "Không lặp trong lượt",
     "reset": "Bắt đầu lại",
     "waiting": "Mây đang chờ…",

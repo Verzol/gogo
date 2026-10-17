@@ -75,11 +75,11 @@ async function jump(p,id) {
       }
       await jump(p,'cloudWheel');
       if(width<768||name==='landscape') {
-        check(name+' keeps participant settings above the dial',await p.locator('.wheel-settings').evaluate(e=>!e.open&&e.getBoundingClientRect().top<document.querySelector('.wheel-stage').getBoundingClientRect().top+5));
+        check(name+' keeps optional settings above the dial',await p.locator('.wheel-settings').evaluate(e=>!e.open&&e.getBoundingClientRect().top<document.querySelector('.wheel-stage').getBoundingClientRect().top+5));
         await p.locator('.wheel-settings summary').click();
-        const person=p.locator('[data-wheel-person]').first();const checked=await person.isChecked();await person.locator('..').click();
-        check(name+' expandable participant controls work',await person.isChecked()!==checked);
         await p.locator('.wheel-settings summary').click();
+        const person=p.locator('[data-wheel-person]').first();const selected=await person.getAttribute('aria-pressed');await person.click();
+        check(name+' wheel participant toggles work with settings closed',await person.getAttribute('aria-pressed')!==selected);
       }
       await p.emulateMedia({reducedMotion:'reduce'});await p.locator('.wheel-spin').click();
       check(name+' announces a wheel winner',!!await p.locator('#cloudWheel').getAttribute('data-winner')&&await p.locator('.wheel-result').getAttribute('aria-live')==='polite');

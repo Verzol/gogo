@@ -146,3 +146,49 @@ Named public place records were also matched during the pin review: the [locatio
 The earlier Sơn La navigation rectangle used the province extent from [OpenStreetMap relation 1903291](https://www.openstreetmap.org/relation/1903291), discovered through the [named Photon result](https://photon.komoot.io/api/?q=Son%20La&limit=5&lang=en). After an intermediate local Tà Xùa limit, the current map uses an approximate Vietnam navigation rectangle (8.0–23.5° N, 102.0–110.0° E), covering the mainland, Phú Quốc and Côn Đảo. Its limits and rationale are retained in `data/sources/map-locations.json`; this is a camera limit rather than a sourced administrative polygon mask.
 
 The eight additional map cutouts and seven member portraits were supplied as generated PNGs. Original names, byte hashes, preparation and runtime mappings are retained in [map artwork provenance](../data/sources/map-artwork.json) and [portrait provenance](../data/sources/people-artwork.json); the imports add no new geographic claims.
+
+## Private crew diary research
+
+Reviewed 17 October 2026 for the [diary plan](diary-plan.md), implementation
+and [book redesign](diary-redesign.md). The user chose private reading through seven accounts and first-claim
+password setup without email, invitations, claim codes or identity checks.
+Backend access control cannot establish the real-world identity of that first
+claimant; the plan records this boundary explicitly.
+
+| Primary source | Use in the plan |
+| --- | --- |
+| [StPageFlip documentation](https://nodlik.github.io/StPageFlip/) and [official repository](https://github.com/Nodlik/StPageFlip) | HTML pages, hard/soft page types, browser bundle and programmatic turning support a static-site prototype. They do not establish the accessibility or browser compatibility of the proposed reader. |
+| [Published page-flip package metadata](https://registry.npmjs.org/page-flip/latest) and [upstream settings source](https://github.com/Nodlik/StPageFlip/blob/master/src/Settings.ts) | Verified version 2.0.7, MIT license, browser entry and no dependencies; settings include mouse/click forwarding, corner and portrait controls. Treat page pairing and touch behavior as prototype requirements. |
+| [Supabase password-based Auth](https://supabase.com/docs/guides/auth/passwords) and [password security](https://supabase.com/docs/guides/auth/password-security) | Use managed password storage and verification. The proposed internal alias adapts the email-shaped credential interface to the chosen name/password UI; it is a project design, not a native username feature. |
+| [Auth general configuration](https://supabase.com/docs/guides/auth/general-configuration), [Before User Created hook](https://supabase.com/docs/guides/auth/auth-hooks/before-user-created-hook), and [user-data triggers](https://supabase.com/docs/guides/auth/managing-user-data) | Server-side signup restrictions and Auth-insertion triggers support seven predetermined slots. Atomic claiming, exact aliases and immutable ownership still require implementation and tests. |
+| [Auth users](https://supabase.com/docs/guides/auth/users) | User-editable metadata must not decide access permissions. The earlier invitation option is documented here but was declined by the user. |
+| [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security) | Verify grants, membership/ownership predicates, UPDATE visibility/checks and safe privileged helpers. A role named authenticated alone does not identify one of this crew's accounts. |
+| [Storage bucket access models](https://supabase.com/docs/guides/storage/buckets/fundamentals), [Storage policies](https://supabase.com/docs/guides/storage/security/access-control), and [authenticated downloads](https://supabase.com/docs/guides/storage/serving/downloads) | Private buckets and database-backed object visibility protect photos. Public objects and transferable signed URLs do not enforce the intended private-reading boundary in the same way. |
+| [Auth rate limits](https://supabase.com/docs/guides/auth/rate-limits) and [CAPTCHA protection](https://supabase.com/docs/guides/auth/auth-captcha) | Apply abuse controls at the real authentication endpoints; UI delays are insufficient. Neither mechanism verifies who first claims a name. |
+| [Image manipulation example](https://supabase.com/docs/guides/functions/examples/image-manipulation) and [Edge Function limits](https://supabase.com/docs/guides/functions/limits) | WASM image processing is supported; native sharp is not. Current CPU/memory limits require bounded input and an early benchmark before committing to this processing location. |
+| [OWASP authorization guidance](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html) and [file-upload guidance](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) | Check permissions on every request and validate actual uploaded content/size rather than trusting UI fields, filenames or declared MIME alone. |
+| [W3C guidance on interaction animation](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions) and [carousel accessibility tutorial](https://www.w3.org/WAI/tutorials/carousels/) | Provide reduced-motion behavior, named controls and keyboard navigation without automatic page advancement. A flip library does not provide these guarantees by itself. |
+| [Supabase changelog](https://supabase.com/changelog.md) and [upcoming TLS cipher change](https://supabase.com/changelog/cbc-tls-ciphers-deprecated) | Scanned current changes during research; use modern HTTPS clients. Recheck relevant Auth/Storage/database changes when implementing rather than freezing platform assumptions from this plan. |
+| [Admin user creation](https://supabase.com/docs/reference/javascript/auth-admin-createuser) and [Auth migration/custom UUID guidance](https://supabase.com/docs/guides/platform/migrating-to-supabase/auth0) | Implementation uses server-created, confirmed users with random UUID aliases and a separate atomic seven-slot registry; no global Auth hook or real email is needed. |
+| [Admin user lookup](https://supabase.com/docs/reference/javascript/auth-admin-getuserbyid) and [admin user update](https://supabase.com/docs/reference/javascript/auth-admin-updateuserbyid) | Server-controlled credential-format metadata preserves existing passwords while new diary accounts accept any non-empty input through a fixed-length credential. This conversion is specific to the diary; the shared Auth policy is unchanged. |
+| [ImageMagick WASM](https://github.com/dlemstra/magick-wasm) and [pinned package](https://registry.npmjs.org/@imagemagick/magick-wasm/0.0.44) | Apache-2.0 server dependency; verified initialization, JPEG settings, resource limits, strip/orient/resize/write against current types/docs, and benchmarked actual hosted processing. The WASM bytes are pinned by SHA-256. |
+
+The implemented [cover prompt](prompts/diary/02_cover.md) and
+[asset manifest](../data/sources/diary-artwork.json) record the second Sunburst
+generation, its study reference, untouched master and runtime WebP. The cover
+contains no private data; all title/date/action text remains HTML.
+
+The [Sunburst material-study request and hashes](../figures/raw/diary/generation.json)
+and [exact prompt](prompts/diary/01_material_study.md) record the single generated
+planning image. The existing painted wheel and coffee sticker were its style
+references. The [preview](research/diary_material_study.webp) shows blank paper
+and photo prints; it is neither a functioning interface nor a trip photograph.
+
+
+### Diary book redesign sources
+
+- [MDN: transform-style](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style) and [backface-visibility](https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility): keep grouping opacity/filter effects off 3D ancestors and render front/reverse strips with separate per-face shading.
+- [MDN: Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) and [scroll anchoring](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll_anchoring): one seekable geometry clock, explicit lifecycle settlement, and stable stage measurements.
+- [Google Fonts Mali source](https://github.com/google/fonts/tree/main/ofl/mali) and [Dancing Script source](https://github.com/google/fonts/tree/main/ofl/dancingscript): local WOFF2 subsets with Latin, extended Latin, Vietnamese, combining marks and punctuation; GSUB/GPOS shaping tables retained. Original OFL licenses are kept with the fonts. Runtime font hashes and preparation metadata are in [the font manifest](../data/sources/diary-fonts.json).
+- [Supabase testing overview](https://supabase.com/docs/guides/local-development/testing/overview): independent QA identifiers/resources and cleanup of only the test data; browser fixtures alone do not establish server authorization.
+- [Revision 2 artwork prompts](prompts/diary/revision_2/README.md) and [29-layer manifest](../data/sources/diary-materials.json): nine `cx/gpt-image-2.5-sunburst` generations, referenced to the earlier decorative cover; preserved originals, crops, alpha processing and derivative hashes. No private media was sent to generation.

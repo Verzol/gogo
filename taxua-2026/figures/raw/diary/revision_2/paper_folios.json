@@ -1,0 +1,25 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "created": "2026-10-17T09:21:18.510560+00:00",
+  "prompt": "docs/prompts/diary/revision_2/paper_folios.md",
+  "reference": "figures/raw/diary/diary_cover.png",
+  "reference_sha256": "e1f669510ab884a5bfd198d726b97bbe86276c8cd2ae750743c6bd075a94c3ab",
+  "master": "figures/raw/diary/revision_2/paper_folios.png",
+  "master_sha256": "24c3946745798161a895659ffa30bef17d35885886451b2e15c6181e3d457b3c",
+  "grid": [
+    2,
+    3
+  ],
+  "pieces": [
+    "paper_left_1",
+    "paper_right_1",
+    "paper_left_2",
+    "paper_right_2",
+    "paper_left_3",
+    "paper_right_3"
+  ],
+  "size": [
+    1086,
+    1448
+  ]
+}

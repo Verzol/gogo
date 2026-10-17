@@ -1,0 +1,23 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "created": "2026-10-17T09:21:00.575427+00:00",
+  "prompt": "docs/prompts/diary/revision_2/attachments.md",
+  "reference": "figures/raw/diary/diary_cover.png",
+  "reference_sha256": "e1f669510ab884a5bfd198d726b97bbe86276c8cd2ae750743c6bd075a94c3ab",
+  "master": "figures/raw/diary/revision_2/attachments.png",
+  "master_sha256": "f683174f91f10fd73020ab234b48a9b59c3c79222fd587d65e79506c222b6949",
+  "grid": [
+    2,
+    2
+  ],
+  "pieces": [
+    "tape_ochre",
+    "tape_linen",
+    "corners_tan",
+    "corners_cream"
+  ],
+  "size": [
+    1448,
+    1086
+  ]
+}

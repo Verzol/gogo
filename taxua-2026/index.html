@@ -11,6 +11,9 @@
   <link rel="stylesheet" href="./fonts.css">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./games.css">
+  <link rel="stylesheet" href="./diary.css">
+  <link rel="stylesheet" href="./diary-materials.css">
+  <link rel="stylesheet" href="./diary-motion.css">
   <link rel="stylesheet" href="./countdown.css">
   <link rel="stylesheet" href="./scenery.css">
   <link rel="stylesheet" href="./weather.css">
@@ -77,6 +80,9 @@
 <symbol id="trip-minimize" viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3" /><path d="M21 8h-3a2 2 0 0 1-2-2V3" /><path d="M3 16h3a2 2 0 0 1 2 2v3" /><path d="M16 21v-3a2 2 0 0 1 2-2h3" /></symbol>
 <symbol id="trip-list" viewBox="0 0 24 24"><path d="M3 5h.01" /><path d="M3 12h.01" /><path d="M3 19h.01" /><path d="M8 5h13" /><path d="M8 12h13" /><path d="M8 19h13" /></symbol>
 <symbol id="trip-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+<symbol id="trip-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></symbol>
+<symbol id="trip-book-x" viewBox="0 0 24 24"><path d="m14.5 7-5 5" /><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" /><path d="m9.5 7 5 5" /></symbol>
+<symbol id="trip-log-out" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></symbol>
   </defs></svg>
   <!-- End Lucide sprite -->
   <div id="scenery" class="scenery" aria-hidden="true">
@@ -140,6 +146,53 @@
     <section class="support-section wrap" id="crew" data-phase="morning" data-day="support">
       <div class="section-heading"><h2>Đồng bọn <em id="crewCount"></em></h2><p>Cùng lên núi, cùng có mặt trong những tấm ảnh mang về.</p></div>
       <div class="crew-grid" id="crewGrid"></div>
+      <article class="crew-diary" id="crewDiary" aria-labelledby="diaryTitle">
+        <header class="diary-intro">
+          <p class="diary-eyebrow">Một cuốn sổ · bảy nét chữ</p>
+          <h2 id="diaryTitle">Những ngày <em>ở trên mây.</em></h2>
+          <p>Mang về vài tấm ảnh. Để lại một chút lòng mình.</p>
+        </header>
+        <div class="diary-stage" id="diaryStage">
+          <div class="diary-closed" id="diaryClosed">
+            <div class="diary-cover-rest">
+              <button class="diary-cover" id="diaryOpen" type="button" aria-haspopup="dialog">
+                <span class="diary-cover-edition">gogo · ấn bản của hội mình</span>
+                <span class="diary-cover-title">Những ngày<br>ở trên mây</span>
+                <span class="diary-cover-date">Tà Xùa<br>22 — 25.10.2026</span>
+                <span class="diary-cover-action">Mở sổ <span aria-hidden="true">↗</span></span>
+              </button>
+            </div>
+            <div class="diary-margin-note">
+              <span class="diary-private-label">Chỉ hội mình đọc</span>
+              <p>Có những điều<br>để dành <em>trong sổ.</em></p>
+              <span>Một trang cho mỗi đứa.<br>Một góc để nhớ chuyến đi này.</span>
+              <span class="diary-note-arrow" aria-hidden="true">⤺</span>
+              <img src="./figures/decor/painted/diary/clouds.webp" alt="" width="150" height="150" loading="lazy">
+            </div>
+          </div>
+          <div class="diary-reader" id="diaryReader" hidden>
+            <div class="diary-reader-tools" role="group" aria-label="Thao tác với sổ">
+              <button type="button" class="diary-tool" id="diaryRefresh" aria-label="Làm mới" title="Làm mới"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-refresh-cw"></use></svg></button>
+              <button type="button" class="diary-tool" id="diaryClose" aria-label="Đóng sổ" title="Đóng sổ"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-book-x"></use></svg></button>
+              <button type="button" class="diary-tool" id="diaryLogout" aria-label="Đăng xuất" title="Đăng xuất"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-log-out"></use></svg></button>
+            </div>
+            <nav class="diary-bookmarks" id="diaryBookmarks" aria-label="Trang của từng đồng bọn"></nav>
+            <span class="sr-only" id="diaryPageLabel" aria-live="polite" aria-atomic="true"></span>
+            <div class="diary-mobile-sides" role="group" aria-label="Mặt trang">
+              <button type="button" data-diary-side="writing" aria-pressed="true">Lời viết</button>
+              <button type="button" data-diary-side="photos" aria-pressed="false">Ảnh mang về</button>
+            </div>
+            <div class="diary-book" id="diaryBook" data-side="writing" tabindex="-1" aria-describedby="diaryTurnHint">
+              <div class="diary-pages" id="diaryPages"></div>
+              <button type="button" class="diary-page-edge diary-page-edge-previous" data-diary-edge="-1" aria-label="Lật sang người trước" title="Lật sang người trước"><span aria-hidden="true">‹</span></button>
+              <button type="button" class="diary-page-edge diary-page-edge-next" data-diary-edge="1" aria-label="Lật sang người tiếp" title="Lật sang người tiếp"><span aria-hidden="true">›</span></button>
+            </div>
+            <p class="diary-turn-hint" id="diaryTurnHint">Chạm mép trang hoặc kéo sang hai bên để lật.</p>
+          </div>
+        </div>
+        <p class="diary-status" id="diaryStatus" role="status" aria-live="polite" hidden></p>
+        <noscript><p>Bật JavaScript để mở sổ riêng của hội mình.</p></noscript>
+      </article>
       <div class="trip-games" id="tripGames">
         <div class="games-intro" id="gamesIntro" hidden></div>
         <div class="game-picker" id="gamePicker" role="group" aria-label="Chọn trò chơi" hidden></div>
@@ -190,5 +243,9 @@
   <script defer src="./map-data.js"></script>
   <script defer src="./trip-map.js"></script>
   <script defer src="./scrollbar.js"></script>
+  <script defer src="./diary-config.js"></script>
+  <script defer src="./diary-api.js"></script>
+  <script defer src="./diary-motion.js"></script>
+  <script defer src="./diary.js"></script>
 </body>
 </html>

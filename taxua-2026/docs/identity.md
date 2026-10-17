@@ -8,6 +8,7 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 
 - `style.css` owns page tokens/layout; `scenery.css` owns the illustrated stage; `fonts.css` owns local font faces.
 - Patrick Hand: headings, times and short annotations. Be Vietnam Pro: body/UI. Fraunces: standalone reading copy. WOFF2 files and OFL licenses stay in `figures/fonts/`.
+- The private diary uses Mali 400/500 for writing/captions and Dancing Script 400–700 for names/cover titles, with Be Vietnam Pro controls. These self-hosted WOFF2 subsets preserve Vietnamese and combining marks plus shaping tables; their OFL licenses stay with the fonts. See [book materials](diary.md#book-materials-and-motion).
 - No reading-theme selector, system-color override or `taxua-2026-theme` persistence. Scene phase governs contrast/artwork; packing storage is separate.
 
 ## Shared controls
@@ -44,7 +45,7 @@ The [random-game artwork collection](game-artwork.md) extends these materials to
 
 ## Lucide icons and libraries
 
-- 53 official Lucide 1.23.0 icons are inline symbols `#trip-<name>` in `index.html`, including fullscreen map controls, the member-wheel shortcut and seven game action/state icons. `icon()` and static navigation reference the same-document sprite, including under `file://`.
+- 56 official Lucide 1.23.0 icons are inline symbols `#trip-<name>` in `index.html`, including fullscreen map controls, the member-wheel shortcut, seven game action/state icons and the diary's refresh/close/logout controls. `icon()` and static navigation reference the same-document sprite, including under `file://`.
 - Add icon names in `scripts/prepare_icons.cjs`, then run `node scripts/prepare_icons.cjs` from `taxua-2026/`. Preserve official geometry rather than hand-editing paths.
 - `vendor/lucide-1.23.0.min.js` is preparation-only; visitors do not download the full bundle. Archived Tabler symbols in `figures/icons/` / `figures/scenery/` are unused.
 - Local GSAP/ScrollTrigger 3.15.0 enhance motion. Versions, checksums and licenses: [Library versions and licenses](vendor.md). GSAP Standard License, Lucide ISC, legacy Tabler MIT and font OFLs must stay with the assets.

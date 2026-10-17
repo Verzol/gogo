@@ -1,0 +1,36 @@
+{
+  "status": "planning_concept_only",
+  "service": "9Router",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "sizeRequested": "1536x1024",
+  "quality": "high",
+  "backgroundRequested": "opaque",
+  "outputFormatRequested": "png",
+  "generatedAt": "2026-10-17T05:15:58.035983+00:00",
+  "receivedAt": "2026-10-17T05:16:44.870887+00:00",
+  "contentType": "image/png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "bytes": 3149244,
+  "sha256": "c8b0f1f0228e58fdf5160daee3722da72c30057d8f7d4c1e987ec666c59a4de3",
+  "referenceImages": [
+    {
+      "path": "figures/decor/painted/wheel_rim.webp",
+      "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+    },
+    {
+      "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+      "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+    }
+  ],
+  "prompt": "docs/prompts/diary/01_material_study.md",
+  "preview": {
+    "path": "docs/research/diary_material_study.webp",
+    "sha256": "4b7cebeb9fe4e7e88701e32bfb11b5e8a43db90097a8a5ccc468570287ee9928",
+    "bytes": 365660
+  },
+  "notes": "Book-material study. No generated people, diary prose or actual trip photos. Not imported by the runtime site."
+}

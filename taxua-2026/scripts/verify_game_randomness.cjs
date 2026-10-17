@@ -60,7 +60,7 @@ const dataset = (p,id) => p.locator('#game-'+id).evaluate(el=>({...el.dataset}))
         finally {crypto.getRandomValues=original;}
       },index));
     }
-    await p.evaluate(()=>document.querySelectorAll('[data-wheel-person]').forEach((el,i)=>{el.checked=[1,3,6].includes(i);el.dispatchEvent(new Event('change',{bubbles:true}));}));
+    await p.evaluate(()=>document.querySelectorAll('[data-wheel-person]').forEach((el,i)=>{if((el.getAttribute('aria-pressed')==='true')!==[1,3,6].includes(i))el.click();}));
     for (let slot=0;slot<3;slot++) {
       check('Wheel filters eligibility without favoring a remaining person: '+slot,await p.evaluate(slot=>{
         const original=crypto.getRandomValues;
