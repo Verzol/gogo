@@ -42,7 +42,7 @@ async function menuFits(p) {return p.locator('.journal-select-menu:popover-open'
     await p.locator('[data-die="0"]').click();await p.evaluate(()=>window.tripRandomIndex=n=>Math.min(5,n-1));
     await p.locator('.dice-tray-hit .game-object-caption').click();
     check('Tray reroll preserves the directly held die',await p.locator('#game-dice').getAttribute('data-values')==='[1,6]');
-    check('Dice communicate outcomes on the objects, without visible arithmetic or result lists',await p.locator('#game-dice').evaluate(el=>el.querySelector('.game-status').classList.contains('sr-only') && !el.querySelector('.dice-history') && !!el.querySelector('.die.is-held .die-held use')));
+    check('Dice retain object outcomes and show two grouped previous rolls',await p.locator('#game-dice').evaluate(el=>el.querySelector('.game-status').classList.contains('sr-only') && el.querySelectorAll('.dice-history li').length===2 && !!el.querySelector('.die.is-held .die-held use')));
     await p.locator('#game-dice .game-chip[data-value="3"]').click();
     check('Dice count chips replace a settings form',await p.locator('[data-die]').count()===3 && await p.locator('#game-dice .game-settings:visible').count()===0);
     await game(p,'cards');await p.locator('.card-deck > img').click();
@@ -123,19 +123,23 @@ async function menuFits(p) {return p.locator('.journal-select-menu:popover-open'
     check('Stick reveal and reset stay within reach below the racks',await p.locator('#game-sticks').evaluate(el=>{
       const row=el.querySelector('.game-play-actions');return row.querySelectorAll('button').length===2 && row.getBoundingClientRect().top>=el.querySelector('.stick-racks').getBoundingClientRect().bottom;
     }));
-    await game(p,'cards');await p.locator('#game-cards .game-chip[data-value="7"]').click();await p.locator('.card-deck').click();
+    await game(p,'cards');await p.locator('#game-cards .game-chip[data-value="8"]').click();await p.locator('.card-deck').click();
     for(const [name,width,height] of [['desktop',1440,1000],['phone',390,844],['narrow',320,780],['landscape',844,390]]) {
       await p.setViewportSize({width,height});
       for(const id of ['coin','dice','cards','sticks','bag']) {
         await game(p,id);await p.locator('#game-'+id).evaluate(el=>el.scrollIntoView({block:'start'}));
         check(name+' '+id+' fits viewport',await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
+        if(id==='cards') {
+          check(name+' eight cards stay on a single row',await p.locator('[data-card]').evaluateAll(cards=>cards.length===8 && cards.every(card=>Math.abs(card.getBoundingClientRect().top-cards[0].getBoundingClientRect().top)<1)));
+          if(name==='desktop')check('Desktop displays all eight full-size cards without scrolling',await p.locator('.card-hand').evaluate(el=>el.scrollWidth===el.clientWidth && [...el.children].every(card=>card.getBoundingClientRect().width>=118)));
+        }
         if(name==='phone'||name==='desktop')await photo(p,name+'-'+id);
       }
       await p.locator('#game-bag .game-settings').evaluate(el=>el.open=true);await openMenu(p,'bagCount');
       check(name+' custom menu stays inside viewport',await menuFits(p));await p.keyboard.press('Escape');
       if(name==='phone'||name==='narrow') {
-        await game(p,'cards');await p.locator('[data-card="6"]').focus();await p.keyboard.press('Enter');
-        check(name+' last card can be reached without shrinking or losing scroll position',await p.locator('[data-card="6"]').evaluate(el=>{
+        await game(p,'cards');await p.locator('[data-card="7"]').focus();await p.keyboard.press('Enter');
+        check(name+' eighth card can be reached without shrinking or losing scroll position',await p.locator('[data-card="7"]').evaluate(el=>{
           const box=el.getBoundingClientRect();return el.classList.contains('is-revealed') && box.width>=118 && box.left>=0 && box.right<=innerWidth && el===document.activeElement;
         }));
         await photo(p,name+'-cards-last');

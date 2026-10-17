@@ -87,7 +87,7 @@ const dataset = (p,id) => p.locator('#game-'+id).evaluate(el=>({...el.dataset}))
       check('Fisher-Yates boundary choices produce the expected full permutation: '+identity,hand.every((card,i)=>card===(identity?i:(i+1)%52)) && new Set(hand).size===52);
     }
     await choose(p,'sticks');
-    for(let count=2;count<=7;count++) {
+    for(let count=2;count<=8;count++) {
       await select(p,'#stickCount',count);
       for(let short=0;short<count;short++) {
         await fixed(p,short);await action(p,'sticks','reset');

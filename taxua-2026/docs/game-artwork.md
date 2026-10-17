@@ -59,3 +59,26 @@ Re-running regenerates the cutouts, manifest and contact sheet. Encoded bytes ca
 ## Original preparation verification
 
 All six masters match the returned generated PNGs byte-for-byte, and every existing reference-image hash is unchanged. All 22 WebPs passed dimension, transparent-margin, hash and no-upscaling checks; regenerating them reproduced identical bytes in the preparation environment. Combined WebP size is 1,231,974 bytes. The preparation script parses, 63 local documentation links resolve, and the whitespace check passed. The complete contact sheet and small-size samples on light/dark backgrounds were visually reviewed. That initial asset-only phase left production HTML, CSS, JavaScript and trip content unchanged. The subsequent game integration is documented separately in [Games](games.md).
+
+## Complete Sunburst playing-card deck · 17 October 2026
+
+![All 52 generated card fronts](research/playing_cards_preview.webp)
+
+Every card face now has a generated image, including all aces and number cards. Eight sheets plus one corrected individual card from **9Router `cx/gpt-image-2.5-sunburst`** produce 52 distinct fronts with printed ranks, suits, conventional counted pips and reversible illustrated J/Q/K figures. Warm ivory paper, fine jade/gold borders and watercolor court textiles keep the deck within the journal palette. The shared court reference was also generated with Sunburst. The earlier 22 game assets and supplied originals remain unchanged.
+
+| Path | Purpose |
+| --- | --- |
+| `figures/raw/card_courts/court_sheet.png` and `generation.json` | Shared generated court reference and request/hash record |
+| `figures/raw/playing_cards/*.png` and `*.json` | Eight deck masters, the corrected eight of diamonds and exact request/hash records |
+| `figures/decor/painted/games/deck/<suit>_<rank>.webp` | All 52 runtime fronts; suits are spades/hearts/clubs/diamonds, ranks ace through king |
+| `data/sources/playing-cards.json` | All source/output hashes, actual crop rectangles and normalized dimensions |
+| `scripts/prepare_playing_cards.py` | Reproducible extraction and WebP optimization |
+| [Exact deck prompts](prompts/random_games/README.md#complete-illustrated-playing-card-deck) | Court reference and eight full-face requests |
+
+Run `python3 -B scripts/prepare_playing_cards.py` from the site folder. The script verifies the Sunburst model and every source/reference hash, measures the actual disconnected card rectangles (generated gutters can drift), maps them in row-major order, substitutes the separately generated corrected eight of diamonds, verifies the central pip counts on all 40 ace/number cards and normalizes all cards to matching 5:7 printed dimensions on transparent 320×448 canvases without upscaling or recoloring. It writes only the 52 derived WebPs and their manifest.
+
+`games.js` maps each existing card ID to its correct local suit/rank front. Full images load only when dealt. Accessible identities still come from game state and remain concealed until reveal. While an image loads, or when it fails, a code-rendered paper/rank/suit/pip fallback keeps the card playable. No runtime image-generation service, new library, altered deck composition or altered shuffle is involved. Both HTTP and direct-file use remain supported.
+
+Run `node scripts/verify_cards.cjs` for all 52 mappings/decodes, correct fallback pips and colors, image failure, file opening and single-row responsive/enlarged-text layouts. Its rendered full-deck contact sheet and desktop/phone previews are written under `/tmp/taxua-cards-review` (`TRIP_REVIEW_DIR` overrides). Generated ranks, suit marks and pip counts also require visual review; an image decode alone cannot verify them.
+
+Verification: all 52 distinct output hashes and transparent canvases match the manifest, all 40 ace/number images have their expected central pip counts, and the previous 22 game assets retain their original hashes. The full deck and desktop/phone layouts were visually reviewed. The focused card suite passed 76 checks; game and shared-control suites passed 206 and 96 checks respectively (378 total), with no uncaught browser errors. Browser evidence is in `/tmp/taxua-cards-review`, `/tmp/taxua-games-review` and `/tmp/taxua-controls-review`; this is Chromium emulation coverage.

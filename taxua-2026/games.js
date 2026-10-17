@@ -21,6 +21,11 @@
   };
   const field = (label,html) => `<label class="game-field"><span>${escape(label)}</span>${html}</label>`;
   const status = (message) => `<div class="game-result"><p class="game-status sr-only" role="status" aria-atomic="true">${escape(message)}</p><p class="game-hint"></p></div>`;
+  const history = (id,label) => `<section class="game-history" aria-labelledby="${id}-history-title" hidden><h5 id="${id}-history-title">${escape(label)}</h5><ol class="game-history-list ${id}-history"></ol></section>`;
+  function renderHistory(panel,records,entry) {
+    $(panel,'.game-history').hidden = !records.length;
+    $(panel,'.game-history-list').innerHTML = records.map(record => `<li>${entry(record)}</li>`).join('');
+  }
   const shuffle = values => {
     const result = values.slice();
     for (let index = result.length - 1; index > 0; index--) {
@@ -135,9 +140,9 @@
   function createDice(panel) {
     const c = copy.dice;
     const faces = ['one','two','three','four','five','six'];
-    const state = {values:[1,6],held:new Set(),rolled:false};
+    const state = {values:[1,6],held:new Set(),rolled:false,history:[]};
     const life = lifecycle(panel);
-    $(panel,'.game-layout').innerHTML = `<div class="game-stage dice-stage"><button type="button" class="game-object dice-tray-hit" data-action="roll">${art('dice_tray','dice-tray')}<span class="game-object-caption">${escape(c.action)}</span></button><div class="dice-row"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock>${field(c.count,`<select id="diceCount">${options(3,1,2)}</select>`)}</fieldset>${status(c.waiting)}<div class="game-actions">${button('reset',copy.common.reset,true)}</div></div>`;
+    $(panel,'.game-layout').innerHTML = `<div class="game-stage dice-stage"><button type="button" class="game-object dice-tray-hit" data-action="roll">${art('dice_tray','dice-tray')}<span class="game-object-caption">${escape(c.action)}</span></button><div class="dice-row"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock>${field(c.count,`<select id="diceCount">${options(3,1,2)}</select>`)}</fieldset>${status(c.waiting)}${history('dice',c.recent)}<div class="game-actions">${button('reset',copy.common.reset,true)}</div></div>`;
     function render() {
       $(panel,'.dice-row').innerHTML = state.values.map((value,index) => `<button class="die${state.held.has(index) ? ' is-held' : ''}" type="button" data-die="${index}" aria-pressed="${state.held.has(index)}" aria-disabled="false" aria-label="${escape(`${c.one} ${index + 1}: ${value}. ${!state.rolled ? c.action : state.held.has(index) ? c.release : c.hold}`)}">${art('dice_' + faces[value - 1])}<span class="die-number" aria-hidden="true">${value}</span><span class="die-held" aria-hidden="true">${state.held.has(index) ? glyph('lock-keyhole') : ''}</span></button>`).join('');
       const all = state.held.size === state.values.length;
@@ -146,11 +151,12 @@
       action.setAttribute('aria-disabled',String(all));
       text(panel,'.game-hint',all ? c.allHeld : '');
       panel.dataset.values = state.rolled ? JSON.stringify(state.values) : '[]';
+      renderHistory(panel,state.history,values => `<span class="sr-only">${values.join(', ')}</span><span class="history-dice" aria-hidden="true">${values.map(value => `<span class="history-die">${art('dice_' + faces[value - 1])}<span class="history-value">${value}</span></span>`).join('')}</span>`);
       refresh();
     }
     function reset() {
       state.values = Array(Number($(panel,'#diceCount').value)).fill(1);
-      state.held.clear(); state.rolled = false;
+      state.held.clear(); state.rolled = false; state.history = [];
       announce(panel,c.waiting); render();
     }
     panel.addEventListener('click',event => {
@@ -170,6 +176,7 @@
       life.run(650,motions,() => {
         const focus = document.activeElement?.dataset.die;
         state.values = next; state.rolled = true;
+        state.history = [...state.history,next.slice()].slice(-8);
         announce(panel,`${c.rolled}: ${next.join(', ')}`);
         render();
         if (focus !== undefined && !panel.hidden) $(panel,`[data-die="${focus}"]`)?.focus({preventScroll:true});
@@ -180,28 +187,37 @@
   }
   function createCards(panel) {
     const c = copy.cards;
-    const suits = ['♠','♥','♣','♦'];
+    // Vector suit marks have consistent proportions across system fonts/devices.
+    const suitPaths = [
+      'M16 2C12 8 3 12 3 19a7 7 0 0 0 12 5c0 3-1 5-4 6h10c-3-1-4-3-4-6a7 7 0 0 0 12-5C29 12 20 8 16 2Z',
+      'M16 29 4 17C-5 7 8-3 16 7 24-3 37 7 28 17Z',
+      'M16 2a7 7 0 0 0-5 12 7 7 0 1 0 4 10c0 3-1 5-4 6h10c-3-1-4-3-4-6a7 7 0 1 0 4-10A7 7 0 0 0 16 2Z',
+      'm16 1 13 15-13 15L3 16Z'
+    ];
+    const suitMark = suit => `<svg class="card-suit" viewBox="0 0 32 32" aria-hidden="true"><path d="${suitPaths[suit]}" fill="currentColor"/></svg>`;
     const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+    const rankArt = ['ace','two','three','four','five','six','seven','eight','nine','ten','jack','queen','king'];
+    const suitArt = ['spades','hearts','clubs','diamonds'];
     const pipPositions = {
-      2:[[0,1],[6,1]], 3:[[0,1],[3,1],[6,1]],
-      4:[[0,0],[0,2],[6,0],[6,2]], 5:[[0,0],[0,2],[3,1],[6,0],[6,2]],
-      6:[[0,0],[0,2],[3,0],[3,2],[6,0],[6,2]],
-      7:[[0,0],[0,2],[1,1],[3,0],[3,2],[6,0],[6,2]],
-      8:[[0,0],[0,2],[1,1],[3,0],[3,2],[5,1],[6,0],[6,2]],
-      9:[[0,0],[0,2],[2,0],[2,2],[3,1],[4,0],[4,2],[6,0],[6,2]],
-      10:[[0,0],[0,2],[1,1],[2,0],[2,2],[4,0],[4,2],[5,1],[6,0],[6,2]]
+      2:[[50,0],[50,100]], 3:[[50,0],[50,50],[50,100]],
+      4:[[0,0],[100,0],[0,100],[100,100]], 5:[[0,0],[100,0],[50,50],[0,100],[100,100]],
+      6:[[0,0],[100,0],[0,50],[100,50],[0,100],[100,100]],
+      7:[[0,0],[100,0],[50,25],[0,50],[100,50],[0,100],[100,100]],
+      8:[[0,0],[100,0],[50,25],[0,50],[100,50],[50,75],[0,100],[100,100]],
+      9:[[0,0],[100,0],[0,33.33],[100,33.33],[50,50],[0,66.67],[100,66.67],[0,100],[100,100]],
+      10:[[0,0],[100,0],[50,16.67],[0,33.33],[100,33.33],[0,66.67],[100,66.67],[50,83.33],[0,100],[100,100]]
     };
     const state = {deck:[],hand:[],revealed:new Set()};
     const life = lifecycle(panel);
-    $(panel,'.game-layout').innerHTML = `<div class="game-stage cards-stage"><button type="button" class="game-object card-deck" data-action="draw">${art('card_deck')}<span class="game-object-caption">${escape(c.action)}</span><span class="deck-count"></span></button><div class="card-hand"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock>${field(c.count,`<select id="cardCount">${options(7,1,3)}</select>`)}</fieldset>${status(c.waiting,c.hint)}<div class="game-actions">${button('reveal',c.reveal,true)}${button('shuffle',c.shuffle,true)}</div></div>`;
+    $(panel,'.game-layout').innerHTML = `<div class="game-stage cards-stage"><button type="button" class="game-object card-deck" data-action="draw">${art('card_deck')}<span class="game-object-caption">${escape(c.action)}</span><span class="deck-count"></span></button><div class="card-hand"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock>${field(c.count,`<select id="cardCount">${options(8,1,3)}</select>`)}</fieldset>${status(c.waiting,c.hint)}<div class="game-actions">${button('reveal',c.reveal,true)}${button('shuffle',c.shuffle,true)}</div></div>`;
     const name = id => `${c.ranks[Math.floor(id / 4)]} ${c.suits[id % 4]}`;
     function front(id) {
-      const rank = Math.floor(id / 4), suit = suits[id % 4];
-      // Real suit pips stay live text over the blank painted card.
-      const pips = rank > 0 && rank < 10
-        ? `<span class="card-pips">${pipPositions[rank + 1].map(([row,column]) => `<span style="grid-row:${row + 1};grid-column:${column + 1}${row > 3 ? ';transform:rotate(180deg)' : ''}">${suit}</span>`).join('')}</span>`
-        : `<span class="card-court">${ranks[rank]}<small>${suit}</small></span>`;
-      return `<span class="card-front${id % 4 === 1 || id % 4 === 3 ? ' is-red' : ''}">${art('card_front')}<span class="card-corner">${ranks[rank]}<small>${suit}</small></span>${pips}<span class="card-corner card-corner--bottom">${ranks[rank]}<small>${suit}</small></span></span>`;
+      const rank = Math.floor(id / 4), suit = suitMark(id % 4);
+      let face;
+      if (rank === 0) face = `<span class="card-ace">${suit}</span>`;
+      else if (rank < 10) face = `<span class="card-pips">${pipPositions[rank + 1].map(([x,y]) => `<span class="card-pip${y > 50 ? ' is-inverted' : ''}" style="left:${x}%;top:${y}%">${suit}</span>`).join('')}</span>`;
+      else face = `<span class="card-court"><span class="card-court-fallback">${ranks[rank]}${suit}</span></span>`;
+      return `<span class="card-front${id % 4 === 1 || id % 4 === 3 ? ' is-red' : ''}"><span class="card-fallback">${art('card_front')}<span class="card-corner${rank === 9 ? ' is-ten' : ''}">${ranks[rank]}<small>${suit}</small></span>${face}<span class="card-corner card-corner--bottom${rank === 9 ? ' is-ten' : ''}">${ranks[rank]}<small>${suit}</small></span></span>${art('deck/' + suitArt[id % 4] + '_' + rankArt[rank],'card-face-art')}</span>`;
     }
     function render() {
       text(panel,'.deck-count',`${state.deck.length} ${c.remaining}`);
@@ -266,7 +282,7 @@
     const c = copy.sticks;
     const state = {short:0,selected:new Set(),revealed:new Set(),pulling:new Set()};
     const life = lifecycle(panel,{concurrent:true});
-    $(panel,'.game-layout').innerHTML = `<div class="game-stage sticks-stage"><div class="stick-racks"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock><div class="game-field-pair">${field(c.count,`<select id="stickCount">${options(6,2,7)}</select>`)}${field(c.mode,`<select id="stickMode"><option value="instant">${escape(c.instant)}</option><option value="together">${escape(c.together)}</option></select>`)}</div></fieldset>${status(c.waiting,c.hint)}<div class="game-actions">${button('reveal',c.action)}${button('reset',c.newRound,true)}</div></div>`;
+    $(panel,'.game-layout').innerHTML = `<div class="game-stage sticks-stage"><div class="stick-racks"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock><div class="game-field-pair">${field(c.count,`<select id="stickCount">${options(7,2,7)}</select>`)}${field(c.mode,`<select id="stickMode"><option value="instant">${escape(c.instant)}</option><option value="together">${escape(c.together)}</option></select>`)}</div></fieldset>${status(c.waiting,c.hint)}<div class="game-actions">${button('reveal',c.action)}${button('reset',c.newRound,true)}</div></div>`;
     const count = () => Number($(panel,'#stickCount').value);
     const stickName = index => `${c.stick} ${index + 1}`;
     function render() {
@@ -351,16 +367,21 @@
   }
   function createBag(panel) {
     const c = copy.bag;
-    const state = {pool:[],results:[],dirty:false,noRepeat:true};
+    const state = {pool:[],results:[],history:[],source:'numbers',dirty:false,noRepeat:true};
     const life = lifecycle(panel);
     $(panel,'.game-layout').innerHTML = `<div class="game-stage bag-stage"><button type="button" class="game-object bag-draw" data-action="draw"><span class="bag-object">${art('bag_closed','bag-closed')}${art('bag_open','bag-open')}</span><span class="game-object-caption">${escape(c.action)}</span></button><div class="bag-results"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock>
       ${field(c.source,`<select id="bagSource"><option value="numbers">${escape(c.numbers)}</option><option value="members">${escape(c.members)}</option><option value="custom">${escape(c.custom)}</option></select>`)}
       <div class="game-field-pair bag-range">${field(c.from,'<input id="bagFrom" type="number" inputmode="numeric" min="1" max="9999" value="1">')}${field(c.to,'<input id="bagTo" type="number" inputmode="numeric" min="1" max="9999" value="10">')}</div>
       <div class="bag-custom" hidden>${field(c.list,`<textarea id="bagList" rows="4" maxlength="2600" aria-describedby="bagListHint"></textarea>`)}<p class="game-field-note" id="bagListHint">${escape(c.listHint)}</p></div>
-      <div class="game-field-pair">${field(c.count,`<select id="bagCount">${options(7)}</select>`)}<label class="game-check"><input id="bagNoRepeat" type="checkbox" checked><span>${escape(c.noRepeat)}</span></label></div>
-      </fieldset><p class="game-error" role="alert"></p><div class="bag-prepare">${button('prepare',c.prepare,true)}</div>${status(c.waiting)}<p class="bag-pool"></p><div class="game-actions">${button('refill',c.refill,true)}</div></div>`;
+      <div class="game-field-pair">${field(c.count,`<select id="bagCount">${options(8)}</select>`)}<label class="game-check"><input id="bagNoRepeat" type="checkbox" checked><span>${escape(c.noRepeat)}</span></label></div>
+      </fieldset><p class="game-error" role="alert"></p><div class="bag-prepare">${button('prepare',c.prepare,true)}</div>${status(c.waiting)}<p class="bag-pool"></p>${history('bag',c.recent)}<div class="game-actions">${button('refill',c.refill,true)}</div></div>`;
+    function memberSticker(label,compact = false) {
+      const member = TRIP_DATA.members.find(member => member.name === label);
+      return `<div class="bag-person${compact ? ' bag-person--recent' : ''}" role="img" aria-label="${escape(label)}"><span class="bag-person-fallback" aria-hidden="true">${escape(label)}</span>${member?.image ? `<img class="game-art bag-person-art" src="./${escape(member.image)}" alt="" aria-hidden="true" decoding="async" width="128" height="128">` : ''}</div>`;
+    }
     function render() {
       $(panel,'.bag-results').innerHTML = state.results.map((label,index) => {
+        if (state.source === 'members') return memberSticker(label);
         const long = Array.from(label).length > 12;
         return `<div class="lottery-ball${/^\d+$/.test(label) ? ' is-number' + (label.length >= 4 ? ' has-wide-number' : '') : ' is-word'}${long ? ' has-long-label' : ''}">${art(['ball_cream','ball_jade','ball_peach'][index % 3])}${long ? `<span class="lottery-token-mark" aria-hidden="true">${glyph('ticket')}</span>` : ''}<span class="lottery-label">${escape(label)}</span></div>`;
       }).join('');
@@ -370,6 +391,7 @@
       $(panel,'.bag-object').classList.toggle('is-open',!!state.results.length);
       panel.dataset.remaining = state.pool.length;
       panel.dataset.results = JSON.stringify(state.results);
+      renderHistory(panel,state.history,labels => labels.map(label => state.source === 'members' ? memberSticker(label,true) : `<span class="history-token">${escape(label)}</span>`).join(''));
       refresh();
     }
     function markDirty() {
@@ -395,7 +417,7 @@
           state.dirty = true; text(panel,'.game-error',c.listError); render(); return;
         }
       }
-      state.pool = pool; state.results = []; state.dirty = false;
+      state.pool = pool; state.results = []; state.history = []; state.source = source; state.dirty = false;
       state.noRepeat = $(panel,'#bagNoRepeat').checked;
       text(panel,'.game-error',''); announce(panel,c.ready); render();
     }
@@ -405,7 +427,7 @@
       if (action === 'prepare' || action === 'refill') { prepare(); return; }
       if (action !== 'draw' || state.dirty || !state.pool.length) return;
       const pool = state.pool.slice(), results = [];
-      const amount = Math.min(Number($(panel,'#bagCount').value),state.noRepeat ? pool.length : 7);
+      const amount = Math.min(Number($(panel,'#bagCount').value),state.noRepeat ? pool.length : 8);
       for (let i = 0; i < amount; i++) {
         const index = tripRandomIndex(pool.length);
         results.push(pool[index]); if (state.noRepeat) pool.splice(index,1);
@@ -413,6 +435,7 @@
       $(panel,'[data-action="draw"]').setAttribute('aria-disabled','true');
       life.run(700,[[ $(panel,'.bag-object'),[{transform:'rotate(0deg)'},{transform:'rotate(-9deg)',offset:.2},{transform:'rotate(8deg)',offset:.4},{transform:'rotate(-5deg)',offset:.6},{transform:'rotate(0deg)'}]]],() => {
         state.pool = pool; state.results = results;
+        state.history = [...state.history,results.slice()].slice(-8);
         announce(panel,`${c.drawn}: ${results.join(', ')}.${!state.pool.length ? ' ' + c.empty : ''}`); render();
       });
     });
@@ -565,10 +588,19 @@
   new MutationObserver(() => { if (document.documentElement.dataset.motionPaused === 'true') settleAll(); }).observe(document.documentElement,{attributes:true,attributeFilter:['data-motion-paused']});
   document.addEventListener('visibilitychange',() => { if (document.hidden) settleAll(); });
   window.addEventListener('pagehide',settleAll);
+  root.addEventListener('load',event => {
+    if (event.target instanceof HTMLImageElement && event.target.classList.contains('bag-person-art')) {
+      event.target.parentElement.classList.add('has-portrait');
+    }
+    if (event.target instanceof HTMLImageElement && event.target.classList.contains('card-face-art')) {
+      event.target.parentElement.classList.add('has-card-art');
+    }
+  },true);
   root.addEventListener('error',event => {
     if (event.target instanceof HTMLImageElement && event.target.classList.contains('game-art')) {
       event.target.hidden = true;
       event.target.parentElement.classList.add('art-missing');
+      if (event.target.classList.contains('bag-person-art')) event.target.parentElement.classList.remove('has-portrait');
       root.classList.add('has-missing-art');
       let note = root.querySelector('.game-art-notice');
       if (!note) { note = document.createElement('p'); note.className = 'game-art-notice'; note.textContent = copy.common.artFallback; root.append(note); }

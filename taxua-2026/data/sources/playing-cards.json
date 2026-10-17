@@ -1,0 +1,2016 @@
+{
+  "title": "Complete 52-card Sunburst watercolor deck",
+  "generator": "9Router /v1/images/generations",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "processing": "Preserve original PNGs and reference hashes. Measured paper rectangles in row-major order, largest connected alpha component at alpha >= 8. Normalize printed card geometry to a shared 5:7 size without upscaling, center on 320x448 transparent canvases. WebP quality 92. No recoloring. Source paper, ranks, pips and courts are generated images.",
+  "credit": "AI-generated with 9Router GPT Image 2.5 Sunburst for this project.",
+  "sources": {
+    "spades_1": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/spades_1.md",
+      "generatedAt": "2026-10-17T01:31:09.189510+00:00",
+      "receivedAt": "2026-10-17T01:32:22.369910+00:00",
+      "path": "figures/raw/playing_cards/spades_1.png",
+      "sha256": "9a0e9c4b101db66b8e975d4da8aa574781d3d5061a89f70a5cf13418cb93c761",
+      "bytes": 2045929,
+      "contentType": "image/png",
+      "suit": "spades",
+      "ranks": [
+        "ace",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "spades_2": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/spades_2.md",
+      "generatedAt": "2026-10-17T01:31:09.196163+00:00",
+      "receivedAt": "2026-10-17T01:33:07.916597+00:00",
+      "path": "figures/raw/playing_cards/spades_2.png",
+      "sha256": "4c85c5c589edc0338909ebc19e37ac6ada75c0917f69eb67927576905b841242",
+      "bytes": 1901116,
+      "contentType": "image/png",
+      "suit": "spades",
+      "ranks": [
+        "nine",
+        "ten",
+        "jack",
+        "queen",
+        "king"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "hearts_1": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/hearts_1.md",
+      "generatedAt": "2026-10-17T01:31:09.204992+00:00",
+      "receivedAt": "2026-10-17T01:32:43.717254+00:00",
+      "path": "figures/raw/playing_cards/hearts_1.png",
+      "sha256": "7fe335c027b9a51f9e912461666fde60a9b25c24709863bce3eea8809ef81d9d",
+      "bytes": 2068534,
+      "contentType": "image/png",
+      "suit": "hearts",
+      "ranks": [
+        "ace",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "hearts_2": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/hearts_2.md",
+      "generatedAt": "2026-10-17T01:32:22.373891+00:00",
+      "receivedAt": "2026-10-17T01:34:56.300062+00:00",
+      "path": "figures/raw/playing_cards/hearts_2.png",
+      "sha256": "473e7450c0962ab92ce7331b71bc0f7753d85a417dd52e4fed421f0ae80bcd43",
+      "bytes": 2009056,
+      "contentType": "image/png",
+      "suit": "hearts",
+      "ranks": [
+        "nine",
+        "ten",
+        "jack",
+        "queen",
+        "king"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "clubs_1": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/clubs_1.md",
+      "generatedAt": "2026-10-17T01:32:43.720809+00:00",
+      "receivedAt": "2026-10-17T01:34:46.923044+00:00",
+      "path": "figures/raw/playing_cards/clubs_1.png",
+      "sha256": "c0091d2bb64eab20587c1b46ca400ebdaa3f0f657ab44be698dc7fd9b22870ba",
+      "bytes": 2042217,
+      "contentType": "image/png",
+      "suit": "clubs",
+      "ranks": [
+        "ace",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "clubs_2": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/clubs_2.md",
+      "generatedAt": "2026-10-17T01:33:07.920379+00:00",
+      "receivedAt": "2026-10-17T01:35:04.640439+00:00",
+      "path": "figures/raw/playing_cards/clubs_2.png",
+      "sha256": "c467576b2b124d36ed24279aa43149dd55ea99cd18938be6cfa200179d42fadb",
+      "bytes": 2073394,
+      "contentType": "image/png",
+      "suit": "clubs",
+      "ranks": [
+        "nine",
+        "ten",
+        "jack",
+        "queen",
+        "king"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "diamonds_1": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/diamonds_1.md",
+      "generatedAt": "2026-10-17T01:34:46.926554+00:00",
+      "receivedAt": "2026-10-17T01:35:50.163095+00:00",
+      "path": "figures/raw/playing_cards/diamonds_1.png",
+      "sha256": "e507fae09a18efff26f1393fe31c815fdc0dcd3779a1dd1de3efdb94eb42a2ae",
+      "bytes": 1778227,
+      "contentType": "image/png",
+      "suit": "diamonds",
+      "ranks": [
+        "ace",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "diamonds_2": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/diamonds_2.md",
+      "generatedAt": "2026-10-17T01:34:56.303667+00:00",
+      "receivedAt": "2026-10-17T01:35:56.883735+00:00",
+      "path": "figures/raw/playing_cards/diamonds_2.png",
+      "sha256": "9889f5df48fa08c3d82e49fca0e8a17c58e9287e3cc58c98687fce29e2e9449d",
+      "bytes": 1947208,
+      "contentType": "image/png",
+      "suit": "diamonds",
+      "ranks": [
+        "nine",
+        "ten",
+        "jack",
+        "queen",
+        "king"
+      ],
+      "referenceImages": [
+        {
+          "path": "figures/decor/painted/games/card_front.webp",
+          "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+        },
+        {
+          "path": "figures/raw/card_courts/court_sheet.png",
+          "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+        }
+      ]
+    },
+    "diamonds_eight_correction": {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1024x1536",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/random_games/deck/diamonds_eight.md",
+      "generatedAt": "2026-10-17T01:37:29.975100+00:00",
+      "receivedAt": "2026-10-17T01:38:21.943247+00:00",
+      "path": "figures/raw/playing_cards/diamonds_eight.png",
+      "sha256": "786d962c6411f7007978740932fcd11b8e60a4be7a13534c8782d153818f5833",
+      "bytes": 1706202,
+      "suit": "diamonds",
+      "rank": "eight",
+      "reason": "The eight of diamonds on diamonds_1 had nine central pips; replace this one card with a corrected individual generation.",
+      "referenceImages": [
+        {
+          "path": "figures/raw/playing_cards/diamonds_1.png",
+          "sha256": "e507fae09a18efff26f1393fe31c815fdc0dcd3779a1dd1de3efdb94eb42a2ae"
+        }
+      ]
+    }
+  },
+  "assets": {
+    "spades_ace": {
+      "source": "spades_1",
+      "crop": [
+        48,
+        38,
+        380,
+        491
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        324,
+        445
+      ],
+      "sourcePieceSize": [
+        316,
+        437
+      ],
+      "verifiedCentralPips": 1,
+      "path": "figures/decor/painted/games/deck/spades_ace.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 19218,
+      "sha256": "92dba610907d37a34921117e93d3e9b46c6298096ba680de258405678eb2b022"
+    },
+    "spades_two": {
+      "source": "spades_1",
+      "crop": [
+        418,
+        38,
+        749,
+        491
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        323,
+        445
+      ],
+      "sourcePieceSize": [
+        315,
+        437
+      ],
+      "verifiedCentralPips": 2,
+      "path": "figures/decor/painted/games/deck/spades_two.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 18920,
+      "sha256": "c3e91ddf43a8b54bf9324aadd4fd29d7b715a19b7af4d717d9a33435446b6f9b"
+    },
+    "spades_three": {
+      "source": "spades_1",
+      "crop": [
+        787,
+        38,
+        1119,
+        491
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        324,
+        445
+      ],
+      "sourcePieceSize": [
+        316,
+        437
+      ],
+      "verifiedCentralPips": 3,
+      "path": "figures/decor/painted/games/deck/spades_three.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 20632,
+      "sha256": "f7b06981b3dd3394e5c8cee158344dd7bc3dea7efb39d2b529acd75ff6614522"
+    },
+    "spades_four": {
+      "source": "spades_1",
+      "crop": [
+        1157,
+        38,
+        1490,
+        491
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        325,
+        445
+      ],
+      "sourcePieceSize": [
+        317,
+        437
+      ],
+      "verifiedCentralPips": 4,
+      "path": "figures/decor/painted/games/deck/spades_four.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 21644,
+      "sha256": "0a119e172cf8d72e4d6f5625fb75a56122cc7450aaa13ee2944d03adbdd20166"
+    },
+    "spades_five": {
+      "source": "spades_1",
+      "crop": [
+        48,
+        520,
+        380,
+        976
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        324,
+        448
+      ],
+      "sourcePieceSize": [
+        316,
+        440
+      ],
+      "verifiedCentralPips": 5,
+      "path": "figures/decor/painted/games/deck/spades_five.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 22042,
+      "sha256": "e29936522f6328f584a388d52d3b07d794d35baba7b31946a830e4712d9e7fda"
+    },
+    "spades_six": {
+      "source": "spades_1",
+      "crop": [
+        418,
+        520,
+        750,
+        976
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        324,
+        448
+      ],
+      "sourcePieceSize": [
+        316,
+        440
+      ],
+      "verifiedCentralPips": 6,
+      "path": "figures/decor/painted/games/deck/spades_six.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 24062,
+      "sha256": "1910a92e8ba266e5fbc9e7babb1b6186ef628d1f234f7498de1d2d95881fa871"
+    },
+    "spades_seven": {
+      "source": "spades_1",
+      "crop": [
+        787,
+        520,
+        1119,
+        976
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        324,
+        448
+      ],
+      "sourcePieceSize": [
+        316,
+        440
+      ],
+      "verifiedCentralPips": 7,
+      "path": "figures/decor/painted/games/deck/spades_seven.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 24938,
+      "sha256": "920395e4993d9b500acb968172478d963f546f59b2b2b31c88f47b20f5b947b7"
+    },
+    "spades_eight": {
+      "source": "spades_1",
+      "crop": [
+        1157,
+        520,
+        1490,
+        976
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        325,
+        448
+      ],
+      "sourcePieceSize": [
+        317,
+        440
+      ],
+      "verifiedCentralPips": 8,
+      "path": "figures/decor/painted/games/deck/spades_eight.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 26234,
+      "sha256": "47da1e745757006109b9e3eb15f2d6b2bcd0bbb0631bd9ef9c30792b383e448c"
+    },
+    "spades_nine": {
+      "source": "spades_2",
+      "crop": [
+        40,
+        18,
+        390,
+        501
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        342,
+        475
+      ],
+      "sourcePieceSize": [
+        334,
+        467
+      ],
+      "verifiedCentralPips": 9,
+      "path": "figures/decor/painted/games/deck/spades_nine.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 26090,
+      "sha256": "af5ff501b4afd7881c899cd9235789a44874ddaa14e357ff031b8e17bab4ebc2"
+    },
+    "spades_ten": {
+      "source": "spades_2",
+      "crop": [
+        409,
+        18,
+        759,
+        501
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        342,
+        475
+      ],
+      "sourcePieceSize": [
+        334,
+        467
+      ],
+      "verifiedCentralPips": 10,
+      "path": "figures/decor/painted/games/deck/spades_ten.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 26744,
+      "sha256": "959a173117743acf1a68ead94efe584e762112cc337845125b6fdf4e1d9ad971"
+    },
+    "spades_jack": {
+      "source": "spades_2",
+      "crop": [
+        777,
+        18,
+        1127,
+        501
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        342,
+        475
+      ],
+      "sourcePieceSize": [
+        334,
+        467
+      ],
+      "path": "figures/decor/painted/games/deck/spades_jack.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 51464,
+      "sha256": "ef2bda910449de5370868ec50b2db042977a373bc05a39cc79da7e38f8e1ed93"
+    },
+    "spades_queen": {
+      "source": "spades_2",
+      "crop": [
+        1146,
+        18,
+        1495,
+        501
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        341,
+        475
+      ],
+      "sourcePieceSize": [
+        333,
+        467
+      ],
+      "path": "figures/decor/painted/games/deck/spades_queen.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 53204,
+      "sha256": "d4a29d5e378cba13f7ae1ab049078c66e71304225502bcafa3e86d3cdabd7941"
+    },
+    "spades_king": {
+      "source": "spades_2",
+      "crop": [
+        40,
+        511,
+        390,
+        995
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        342,
+        476
+      ],
+      "sourcePieceSize": [
+        334,
+        468
+      ],
+      "path": "figures/decor/painted/games/deck/spades_king.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 54614,
+      "sha256": "7e9afa6fba2f2000b5dc881824deb2d16f7c1a83fbdc2874a3239cf53717a3b4"
+    },
+    "hearts_ace": {
+      "source": "hearts_1",
+      "crop": [
+        36,
+        9,
+        391,
+        489
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        347,
+        472
+      ],
+      "sourcePieceSize": [
+        339,
+        464
+      ],
+      "verifiedCentralPips": 1,
+      "path": "figures/decor/painted/games/deck/hearts_ace.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 18922,
+      "sha256": "8e95295eff6b0d5e6b4dd316c53342ace69eb0fad03f3e2043f646057e6b7d0d"
+    },
+    "hearts_two": {
+      "source": "hearts_1",
+      "crop": [
+        406,
+        9,
+        761,
+        489
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        347,
+        472
+      ],
+      "sourcePieceSize": [
+        339,
+        464
+      ],
+      "verifiedCentralPips": 2,
+      "path": "figures/decor/painted/games/deck/hearts_two.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 19490,
+      "sha256": "2d0551b54a98fcc2e874a42f01bf9dc7d9eb061696af6c3c69f3f15c63f1511b"
+    },
+    "hearts_three": {
+      "source": "hearts_1",
+      "crop": [
+        775,
+        9,
+        1131,
+        489
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        348,
+        472
+      ],
+      "sourcePieceSize": [
+        340,
+        464
+      ],
+      "verifiedCentralPips": 3,
+      "path": "figures/decor/painted/games/deck/hearts_three.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 20872,
+      "sha256": "590a50fb114689647fa794ff97988a30e3e019de76f5227254a2d717d7df70fa"
+    },
+    "hearts_four": {
+      "source": "hearts_1",
+      "crop": [
+        1144,
+        9,
+        1501,
+        489
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        349,
+        472
+      ],
+      "sourcePieceSize": [
+        341,
+        464
+      ],
+      "verifiedCentralPips": 4,
+      "path": "figures/decor/painted/games/deck/hearts_four.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 21390,
+      "sha256": "3bd233297f8d00579eb54c1a0e83458ae9718208962e470ed940dd8596dd1165"
+    },
+    "hearts_five": {
+      "source": "hearts_1",
+      "crop": [
+        36,
+        496,
+        391,
+        988
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        347,
+        484
+      ],
+      "sourcePieceSize": [
+        339,
+        476
+      ],
+      "verifiedCentralPips": 5,
+      "path": "figures/decor/painted/games/deck/hearts_five.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 22536,
+      "sha256": "a5b26ad5fa5b28f564a8971858a0021b406e9b98150d2666650d48e9fc623d95"
+    },
+    "hearts_six": {
+      "source": "hearts_1",
+      "crop": [
+        407,
+        496,
+        761,
+        989
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        346,
+        485
+      ],
+      "sourcePieceSize": [
+        338,
+        477
+      ],
+      "verifiedCentralPips": 6,
+      "path": "figures/decor/painted/games/deck/hearts_six.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 23504,
+      "sha256": "eada3ee5db06531e60f12088bf83efc817672e07cf934cd04963b405db3ef8ba"
+    },
+    "hearts_seven": {
+      "source": "hearts_1",
+      "crop": [
+        775,
+        496,
+        1130,
+        988
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        347,
+        484
+      ],
+      "sourcePieceSize": [
+        339,
+        476
+      ],
+      "verifiedCentralPips": 7,
+      "path": "figures/decor/painted/games/deck/hearts_seven.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 24834,
+      "sha256": "5e99a93c88829b62b2e144808bed59ee09db00e632f154580846358297f201c3"
+    },
+    "hearts_eight": {
+      "source": "hearts_1",
+      "crop": [
+        1144,
+        496,
+        1502,
+        989
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        350,
+        485
+      ],
+      "sourcePieceSize": [
+        342,
+        477
+      ],
+      "verifiedCentralPips": 8,
+      "path": "figures/decor/painted/games/deck/hearts_eight.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 26358,
+      "sha256": "8ce38d05c40cf6ee184ad2478de9a58f7e4c0acf5aa2ef4858a565ad5a9649af"
+    },
+    "hearts_nine": {
+      "source": "hearts_2",
+      "crop": [
+        28,
+        9,
+        379,
+        486
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        343,
+        469
+      ],
+      "sourcePieceSize": [
+        335,
+        461
+      ],
+      "verifiedCentralPips": 9,
+      "path": "figures/decor/painted/games/deck/hearts_nine.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 25710,
+      "sha256": "57ba157e66aaecebf21938a4b955eefeaa96ab43ea700b459fc6920f6f94d01d"
+    },
+    "hearts_ten": {
+      "source": "hearts_2",
+      "crop": [
+        405,
+        9,
+        757,
+        487
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        344,
+        470
+      ],
+      "sourcePieceSize": [
+        336,
+        462
+      ],
+      "verifiedCentralPips": 10,
+      "path": "figures/decor/painted/games/deck/hearts_ten.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 26380,
+      "sha256": "c512b324e64de10f45811398ba0720ccd90f6a4777ced1ab6b0529bce8a962f0"
+    },
+    "hearts_jack": {
+      "source": "hearts_2",
+      "crop": [
+        780,
+        9,
+        1132,
+        487
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        344,
+        470
+      ],
+      "sourcePieceSize": [
+        336,
+        462
+      ],
+      "path": "figures/decor/painted/games/deck/hearts_jack.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 55556,
+      "sha256": "400695c300c0b681e4e79b523eca45f115df9a04923ea4b35ba60ab27327a3f1"
+    },
+    "hearts_queen": {
+      "source": "hearts_2",
+      "crop": [
+        1158,
+        9,
+        1508,
+        487
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        342,
+        470
+      ],
+      "sourcePieceSize": [
+        334,
+        462
+      ],
+      "path": "figures/decor/painted/games/deck/hearts_queen.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 56720,
+      "sha256": "a18a21211a64839bb875d4b9d4e0bc4b56b21b010f1bf3b6e0956b8e745db603"
+    },
+    "hearts_king": {
+      "source": "hearts_2",
+      "crop": [
+        30,
+        487,
+        383,
+        992
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        345,
+        497
+      ],
+      "sourcePieceSize": [
+        337,
+        489
+      ],
+      "path": "figures/decor/painted/games/deck/hearts_king.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 56504,
+      "sha256": "2ff3944fa33711947b49b550d1aeb41045efe696bc2b5ed9dfd15581e84f4dd8"
+    },
+    "clubs_ace": {
+      "source": "clubs_1",
+      "crop": [
+        70,
+        27,
+        401,
+        488
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        323,
+        453
+      ],
+      "sourcePieceSize": [
+        315,
+        445
+      ],
+      "verifiedCentralPips": 1,
+      "path": "figures/decor/painted/games/deck/clubs_ace.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 18980,
+      "sha256": "37521d64a6f1705ae00b8740dc7b4f36f57ccdb41ec289a7d083af0c33cc70a8"
+    },
+    "clubs_two": {
+      "source": "clubs_1",
+      "crop": [
+        427,
+        27,
+        758,
+        488
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        323,
+        453
+      ],
+      "sourcePieceSize": [
+        315,
+        445
+      ],
+      "verifiedCentralPips": 2,
+      "path": "figures/decor/painted/games/deck/clubs_two.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 21172,
+      "sha256": "0c3670a44efd81e6fe455f6468e160ee801e355edbd62dec1a07912a47121e4e"
+    },
+    "clubs_three": {
+      "source": "clubs_1",
+      "crop": [
+        783,
+        28,
+        1112,
+        488
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        321,
+        452
+      ],
+      "sourcePieceSize": [
+        313,
+        444
+      ],
+      "verifiedCentralPips": 3,
+      "path": "figures/decor/painted/games/deck/clubs_three.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 21200,
+      "sha256": "b01db17ef8ce0c52c381c24a0ea4513138be4595f4425b27909a89668aa7dfee"
+    },
+    "clubs_four": {
+      "source": "clubs_1",
+      "crop": [
+        1138,
+        27,
+        1468,
+        488
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        322,
+        453
+      ],
+      "sourcePieceSize": [
+        314,
+        445
+      ],
+      "verifiedCentralPips": 4,
+      "path": "figures/decor/painted/games/deck/clubs_four.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 22322,
+      "sha256": "5853b5ba1abb78cd957570145cd73e79006d8cbb09aa32d1aa05b970a616eadc"
+    },
+    "clubs_five": {
+      "source": "clubs_1",
+      "crop": [
+        71,
+        525,
+        401,
+        984
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        322,
+        451
+      ],
+      "sourcePieceSize": [
+        314,
+        443
+      ],
+      "verifiedCentralPips": 5,
+      "path": "figures/decor/painted/games/deck/clubs_five.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 23398,
+      "sha256": "a7d754ff38f59f9f4b38479ca79bb507ec8f81afdd02c8cee499835e83c78efe"
+    },
+    "clubs_six": {
+      "source": "clubs_1",
+      "crop": [
+        427,
+        523,
+        758,
+        984
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        323,
+        453
+      ],
+      "sourcePieceSize": [
+        315,
+        445
+      ],
+      "verifiedCentralPips": 6,
+      "path": "figures/decor/painted/games/deck/clubs_six.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 25320,
+      "sha256": "5b9814b175c070a45a94ee338680d13cbecdf40625d9de1093f27df28f14e767"
+    },
+    "clubs_seven": {
+      "source": "clubs_1",
+      "crop": [
+        783,
+        524,
+        1113,
+        984
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        322,
+        452
+      ],
+      "sourcePieceSize": [
+        314,
+        444
+      ],
+      "verifiedCentralPips": 7,
+      "path": "figures/decor/painted/games/deck/clubs_seven.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 24666,
+      "sha256": "c93447a0ab6473abb530e21b63a42b736b19611082d42403cae2f3e2636f4857"
+    },
+    "clubs_eight": {
+      "source": "clubs_1",
+      "crop": [
+        1138,
+        523,
+        1469,
+        984
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        323,
+        453
+      ],
+      "sourcePieceSize": [
+        315,
+        445
+      ],
+      "verifiedCentralPips": 8,
+      "path": "figures/decor/painted/games/deck/clubs_eight.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 26494,
+      "sha256": "01acb29125e05ec04d39e543991dae7a38428b93aacbdb20532ad522cee8c29a"
+    },
+    "clubs_nine": {
+      "source": "clubs_2",
+      "crop": [
+        18,
+        11,
+        390,
+        510
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        364,
+        491
+      ],
+      "sourcePieceSize": [
+        356,
+        483
+      ],
+      "verifiedCentralPips": 9,
+      "path": "figures/decor/painted/games/deck/clubs_nine.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 26666,
+      "sha256": "46fe25b0f3ac4416fc1cb082767d1351c3815a3f37e67fd7f4b008aba9704685"
+    },
+    "clubs_ten": {
+      "source": "clubs_2",
+      "crop": [
+        393,
+        10,
+        764,
+        510
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        363,
+        492
+      ],
+      "sourcePieceSize": [
+        355,
+        484
+      ],
+      "verifiedCentralPips": 10,
+      "path": "figures/decor/painted/games/deck/clubs_ten.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 27282,
+      "sha256": "09073523e96034d6f774bc897129fdf9bc651dd74d25d2c4be51ec26b991d322"
+    },
+    "clubs_jack": {
+      "source": "clubs_2",
+      "crop": [
+        771,
+        11,
+        1143,
+        511
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        364,
+        492
+      ],
+      "sourcePieceSize": [
+        356,
+        484
+      ],
+      "path": "figures/decor/painted/games/deck/clubs_jack.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 56764,
+      "sha256": "6f39a90565a90a19a25c98e306e4958e9c849d42acd48e131745e7d8df56feff"
+    },
+    "clubs_queen": {
+      "source": "clubs_2",
+      "crop": [
+        1146,
+        11,
+        1518,
+        511
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        364,
+        492
+      ],
+      "sourcePieceSize": [
+        356,
+        484
+      ],
+      "path": "figures/decor/painted/games/deck/clubs_queen.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 56132,
+      "sha256": "04319464c6fd7c67ac0a6296751d27a71c66d693322229512da797ce427e3a12"
+    },
+    "clubs_king": {
+      "source": "clubs_2",
+      "crop": [
+        18,
+        503,
+        390,
+        1006
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        364,
+        495
+      ],
+      "sourcePieceSize": [
+        356,
+        487
+      ],
+      "path": "figures/decor/painted/games/deck/clubs_king.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 58214,
+      "sha256": "492f3d3f6e9f52066d7155ddec51a600ab6fbf262ad595406f283ad87c5d025d"
+    },
+    "diamonds_ace": {
+      "source": "diamonds_1",
+      "crop": [
+        51,
+        34,
+        377,
+        475
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        318,
+        433
+      ],
+      "sourcePieceSize": [
+        310,
+        425
+      ],
+      "verifiedCentralPips": 1,
+      "path": "figures/decor/painted/games/deck/diamonds_ace.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 17814,
+      "sha256": "e7b729900c3cddd370186d57367b24cfdc114e82ea11f6e07d0731840dcd6948"
+    },
+    "diamonds_two": {
+      "source": "diamonds_1",
+      "crop": [
+        424,
+        34,
+        747,
+        475
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        315,
+        433
+      ],
+      "sourcePieceSize": [
+        307,
+        425
+      ],
+      "verifiedCentralPips": 2,
+      "path": "figures/decor/painted/games/deck/diamonds_two.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 18398,
+      "sha256": "77f3b7d0385807d2773ce888a5de8675bec08e99f6abf3e8d3a03b09b32cee3b"
+    },
+    "diamonds_three": {
+      "source": "diamonds_1",
+      "crop": [
+        791,
+        34,
+        1115,
+        475
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        316,
+        433
+      ],
+      "sourcePieceSize": [
+        308,
+        425
+      ],
+      "verifiedCentralPips": 3,
+      "path": "figures/decor/painted/games/deck/diamonds_three.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 18948,
+      "sha256": "536eabc6085d226eca433491bacc5ca0acfd560e7ec1ff92b8219051b7b25aa9"
+    },
+    "diamonds_four": {
+      "source": "diamonds_1",
+      "crop": [
+        1159,
+        33,
+        1486,
+        475
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        319,
+        434
+      ],
+      "sourcePieceSize": [
+        311,
+        426
+      ],
+      "verifiedCentralPips": 4,
+      "path": "figures/decor/painted/games/deck/diamonds_four.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 20132,
+      "sha256": "21ff3c1653388d485750c2111475e286327f94651c740d4e47df19df3be56647"
+    },
+    "diamonds_five": {
+      "source": "diamonds_1",
+      "crop": [
+        51,
+        521,
+        377,
+        966
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        318,
+        437
+      ],
+      "sourcePieceSize": [
+        310,
+        429
+      ],
+      "verifiedCentralPips": 5,
+      "path": "figures/decor/painted/games/deck/diamonds_five.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 20010,
+      "sha256": "f9d90f1b02c56874d9fca8f0f23f5384261bc5912fdce1f1a1117e320147b997"
+    },
+    "diamonds_six": {
+      "source": "diamonds_1",
+      "crop": [
+        424,
+        521,
+        747,
+        966
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        315,
+        437
+      ],
+      "sourcePieceSize": [
+        307,
+        429
+      ],
+      "verifiedCentralPips": 6,
+      "path": "figures/decor/painted/games/deck/diamonds_six.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 20630,
+      "sha256": "b003f24172a5113448ddd365c1bb5c224f1a275e520e860c4ea3e69678bfd308"
+    },
+    "diamonds_seven": {
+      "source": "diamonds_1",
+      "crop": [
+        791,
+        521,
+        1115,
+        966
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        316,
+        437
+      ],
+      "sourcePieceSize": [
+        308,
+        429
+      ],
+      "verifiedCentralPips": 7,
+      "path": "figures/decor/painted/games/deck/diamonds_seven.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 20224,
+      "sha256": "41fd61fdf76b022e174aae2f62695c3946de18152cb0a4c775e460f81fc3824e"
+    },
+    "diamonds_eight": {
+      "source": "diamonds_eight_correction",
+      "crop": [
+        0,
+        0,
+        1060,
+        1484
+      ],
+      "cropAlphaBounds": [
+        92,
+        125,
+        969,
+        1367
+      ],
+      "sourcePieceSize": [
+        877,
+        1242
+      ],
+      "verifiedCentralPips": 8,
+      "path": "figures/decor/painted/games/deck/diamonds_eight.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 19036,
+      "sha256": "756e9da3c96e6937b8177b351269ae9ce31cd6e8f622132a8cd895a9af1438a5"
+    },
+    "diamonds_nine": {
+      "source": "diamonds_2",
+      "crop": [
+        36,
+        24,
+        375,
+        502
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        331,
+        470
+      ],
+      "sourcePieceSize": [
+        323,
+        462
+      ],
+      "verifiedCentralPips": 9,
+      "path": "figures/decor/painted/games/deck/diamonds_nine.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 25266,
+      "sha256": "f3157f63b63c624e69a13f0ab4b1fcb73b0292ada9e640559aa3fa3b29c3c535"
+    },
+    "diamonds_ten": {
+      "source": "diamonds_2",
+      "crop": [
+        411,
+        24,
+        751,
+        502
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        332,
+        470
+      ],
+      "sourcePieceSize": [
+        324,
+        462
+      ],
+      "verifiedCentralPips": 10,
+      "path": "figures/decor/painted/games/deck/diamonds_ten.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 25010,
+      "sha256": "43110fb1a17d1b9759e962780dcd0868ca1262f3279a467b123bb8035eec27a6"
+    },
+    "diamonds_jack": {
+      "source": "diamonds_2",
+      "crop": [
+        786,
+        24,
+        1127,
+        502
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        333,
+        470
+      ],
+      "sourcePieceSize": [
+        325,
+        462
+      ],
+      "path": "figures/decor/painted/games/deck/diamonds_jack.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 53626,
+      "sha256": "edda6c3f0854a4c1291b4bca54d2d3385942d6d35d469b1ef4dd30e6661a2d31"
+    },
+    "diamonds_queen": {
+      "source": "diamonds_2",
+      "crop": [
+        1163,
+        24,
+        1501,
+        502
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        330,
+        470
+      ],
+      "sourcePieceSize": [
+        322,
+        462
+      ],
+      "path": "figures/decor/painted/games/deck/diamonds_queen.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 56212,
+      "sha256": "6b053fd1c3ba5ed992b505ab71a40bddbbbc8e59029b561c74bea021ca534d52"
+    },
+    "diamonds_king": {
+      "source": "diamonds_2",
+      "crop": [
+        37,
+        519,
+        375,
+        994
+      ],
+      "cropAlphaBounds": [
+        8,
+        8,
+        330,
+        467
+      ],
+      "sourcePieceSize": [
+        322,
+        459
+      ],
+      "path": "figures/decor/painted/games/deck/diamonds_king.webp",
+      "canvas": [
+        320,
+        448
+      ],
+      "paintedBounds": [
+        8,
+        12,
+        311,
+        436
+      ],
+      "bytes": 56392,
+      "sha256": "da87245589a152e95dc9b3bf9cd096045af7cfea2e2baca8b20d052eb0322326"
+    }
+  },
+  "runtimeBytes": 1568890,
+  "preview": "docs/research/playing_cards_preview.webp"
+}

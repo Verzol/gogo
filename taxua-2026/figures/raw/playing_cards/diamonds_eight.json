@@ -1,0 +1,23 @@
+{
+  "service": "9Router",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "sizeRequested": "1024x1536",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "prompt": "docs/prompts/random_games/deck/diamonds_eight.md",
+  "generatedAt": "2026-10-17T01:37:29.975100+00:00",
+  "receivedAt": "2026-10-17T01:38:21.943247+00:00",
+  "path": "figures/raw/playing_cards/diamonds_eight.png",
+  "sha256": "786d962c6411f7007978740932fcd11b8e60a4be7a13534c8782d153818f5833",
+  "bytes": 1706202,
+  "suit": "diamonds",
+  "rank": "eight",
+  "reason": "The eight of diamonds on diamonds_1 had nine central pips; replace this one card with a corrected individual generation.",
+  "referenceImages": [
+    {
+      "path": "figures/raw/playing_cards/diamonds_1.png",
+      "sha256": "e507fae09a18efff26f1393fe31c815fdc0dcd3779a1dd1de3efdb94eb42a2ae"
+    }
+  ]
+}

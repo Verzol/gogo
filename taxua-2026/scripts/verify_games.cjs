@@ -52,15 +52,25 @@ async function imageCheck(p) {
     await select(p,'#coinMode','single');for(let i=0;i<11;i++)await action(p,'coin','toss');
     check('Coin history is bounded',await p.locator('.coin-history li').count()===8);
     await choose(p,'dice');await select(p,'#diceCount','3');await fixed(p,5);await action(p,'dice','roll');
-    check('Three sixes remain accessible without arithmetic clutter',await data(p,'dice','values')==='[6,6,6]' && await p.locator('#game-dice .game-status').innerText()==='Đã lắc: 6, 6, 6' && await p.locator('.dice-history').count()===0);
+    check('Three sixes remain accessible without arithmetic clutter',await data(p,'dice','values')==='[6,6,6]' && await p.locator('#game-dice .game-status').innerText()==='Đã lắc: 6, 6, 6' && await p.locator('.dice-history li .sr-only').allTextContents().then(values=>values.join('|')==='6, 6, 6'));
     await p.locator('[data-die="0"]').click();await fixed(p,0);await action(p,'dice','roll');
-    check('Held die survives reroll',await data(p,'dice','values')==='[6,1,1]' && await p.locator('[data-die="0"]').getAttribute('aria-pressed')==='true');
+    check('Held die survives reroll and history retains both snapshots',await data(p,'dice','values')==='[6,1,1]' && await p.locator('[data-die="0"]').getAttribute('aria-pressed')==='true' && (await p.locator('.dice-history li .sr-only').allTextContents()).join('|')==='6, 6, 6|6, 1, 1');
     await p.locator('[data-die="1"]').click();await p.locator('[data-die="2"]').click();await action(p,'dice','roll');
     check('All-held blocks reroll and explains recovery',await data(p,'dice','values')==='[6,1,1]' && await p.locator('#game-dice [data-action="roll"]').getAttribute('aria-disabled')==='true' && (await p.locator('#game-dice .game-hint').innerText()).includes('Bỏ giữ'));
-    await select(p,'#diceCount','1');await action(p,'dice','roll');
+    check('All-held reroll adds no history',await p.locator('.dice-history li').count()===2);
+    await select(p,'#diceCount','1');
+    check('Changing dice count clears history',await p.locator('#game-dice .game-history').isHidden() && await p.locator('.dice-history li').count()===0);
+    await action(p,'dice','roll');
     check('Changing count clears holds and supports one die',await p.locator('[data-die]').count()===1 && await data(p,'dice','values')==='[1]' && await p.locator('[data-die]').getAttribute('aria-pressed')==='false');
+    for(let i=0;i<10;i++){await fixed(p,i%6);await action(p,'dice','roll');}
+    check('Dice history keeps only the last eight rolls in order',(await p.locator('.dice-history li .sr-only').allTextContents()).join('|')==='3|4|5|6|1|2|3|4');
+    await action(p,'dice','reset');
+    check('Dice reset hides and clears recent rolls',await p.locator('#game-dice .game-history').isHidden() && await p.locator('.dice-history li').count()===0);
+    check('Dice maximum remains three',await p.locator('#diceCount option').evaluateAll(options=>options.length===3 && options.at(-1).value==='3'));
     await choose(p,'cards');check('Fresh deck contains 52 cards',await data(p,'cards','remaining')==='52');
-    await select(p,'#cardCount','7');await action(p,'cards','draw');
+    await select(p,'#cardCount','8');await action(p,'cards','draw');
+    check('Eight-card hand removes eight unique cards',await p.locator('[data-card]').count()===8 && await data(p,'cards','remaining')==='44' && new Set(JSON.parse(await data(p,'cards','hand'))).size===8);
+    await action(p,'cards','shuffle');await select(p,'#cardCount','7');await action(p,'cards','draw');
     check('Draw removes seven and conceals accessible identities',await data(p,'cards','remaining')==='45' && await p.locator('[data-card]').count()===7 && await p.locator('[data-card]').evaluateAll(cards=>cards.every(card=>card.getAttribute('aria-label').startsWith('Lá úp') && card.querySelector('.card-turn').getAttribute('aria-hidden')==='true')));
     await p.locator('[data-card="0"]').focus();await p.keyboard.press('Enter');
     check('Keyboard reveals one card and retains focus',await data(p,'cards','revealed')==='1' && await p.locator('[data-card="0"]').evaluate(el=>document.activeElement===el && !el.getAttribute('aria-label').startsWith('Lá úp')));
@@ -73,7 +83,7 @@ async function imageCheck(p) {
     await action(p,'cards','reveal');await action(p,'cards','shuffle');
     check('Shuffle resets deck and hand',await data(p,'cards','remaining')==='52' && await p.locator('[data-card]').count()===0);
     await choose(p,'sticks');
-    for(let count=2;count<=7;count++){
+    for(let count=2;count<=8;count++){
       await select(p,'#stickCount',String(count));
       check(count+' sticks look identical before reveal',await p.locator('[data-stick]').count()===count && await p.locator('.stick-window img:visible').evaluateAll(images=>images.every(img=>img.src.endsWith('/stick_long.webp'))));
       for(let i=0;i<count;i++)await p.locator(`[data-stick="${i}"]`).click();
@@ -82,27 +92,80 @@ async function imageCheck(p) {
     await select(p,'#stickMode','together');await p.locator('[data-stick="0"]').click();await p.locator('[data-stick="1"]').click();await p.locator('[data-stick="1"]').click();
     check('Together mode selects and deselects without revealing',await data(p,'sticks','revealed')==='0' && await p.locator('[data-stick="0"]').getAttribute('aria-pressed')==='true' && await p.locator('[data-stick="1"]').getAttribute('aria-pressed')==='false');
     await action(p,'sticks','reveal');check('Group reveal only opens selected sticks',await data(p,'sticks','revealed')==='1');
-    for(let i=1;i<7;i++)await p.locator(`[data-stick="${i}"]`).click();await action(p,'sticks','reveal');
-    check('Second group reveal retains exactly one short',await data(p,'sticks','revealed')==='7' && await data(p,'sticks','short-count')==='1');
-    await choose(p,'bag');await select(p,'#bagCount','7');await action(p,'bag','draw');
+    for(let i=1;i<8;i++)await p.locator(`[data-stick="${i}"]`).click();await action(p,'sticks','reveal');
+    check('Second group reveal retains exactly one short',await data(p,'sticks','revealed')==='8' && await data(p,'sticks','short-count')==='1');
+    await choose(p,'bag');await select(p,'#bagCount','8');await action(p,'bag','draw');
     const first=JSON.parse(await data(p,'bag','results'));await action(p,'bag','draw');const second=JSON.parse(await data(p,'bag','results'));
-    check('No-repeat draws cap to available balls',first.length===7 && second.length===3 && new Set([...first,...second]).size===10 && await data(p,'bag','remaining')==='0');
-    await action(p,'bag','draw');check('Empty bag retains results and explains recovery',await data(p,'bag','results')===JSON.stringify(second) && (await p.locator('#game-bag .game-status').innerText()).includes('Đã bốc hết túi'));
+    check('No-repeat draws cap to available balls',first.length===8 && second.length===2 && new Set([...first,...second]).size===10 && await data(p,'bag','remaining')==='0');
+    check('Bag history groups both draws in chronological order',await p.locator('.bag-history li').evaluateAll((rows,batches)=>JSON.stringify(rows.map(row=>[...row.querySelectorAll('.history-token')].map(token=>token.textContent)))===JSON.stringify(batches),[first,second]));
+    await action(p,'bag','draw');check('Empty bag adds no history',await p.locator('.bag-history li').count()===2);check('Empty bag retains results and explains recovery',await data(p,'bag','results')===JSON.stringify(second) && (await p.locator('#game-bag .game-status').innerText()).includes('Đã bốc hết túi'));
     await select(p,'#bagSource','members');check('Changed source blocks draw until preparation',await p.locator('#game-bag [data-action="draw"]').getAttribute('aria-disabled')==='true');
-    await action(p,'bag','prepare');await action(p,'bag','draw');
+    await action(p,'bag','prepare');
+    check('New bag clears history',await p.locator('#game-bag .game-history').isHidden() && await p.locator('.bag-history li').count()===0);
+    await action(p,'bag','draw');
     check('Roster bag draws the seven real names',await p.evaluate(()=>JSON.parse(document.getElementById('game-bag').dataset.results).sort().join('|')===TRIP_DATA.members.map(member=>member.name).sort().join('|')));
+    await p.waitForFunction(()=>document.querySelectorAll('#game-bag .bag-person.has-portrait').length===14);
+    check('Each member result and history entry uses the matching scarf sticker',await p.evaluate(()=>[...document.querySelectorAll('#game-bag .bag-person')].every(token=>{
+      const member=TRIP_DATA.members.find(member=>member.name===token.getAttribute('aria-label'));
+      const image=token.querySelector('img');
+      return token.getAttribute('role')==='img' && image.getAttribute('src')==='./'+member.image && image.naturalWidth>0 && getComputedStyle(token.querySelector('.bag-person-fallback')).visibility==='hidden';
+    })) && await p.locator('.bag-results .bag-person').count()===7 && await p.locator('.bag-history .bag-person').count()===7 && await p.locator('.bag-results .lottery-label').count()===0);
+    for(const [name,width,height] of [['desktop',1440,1000],['phone',390,844],['narrow',320,780]]) {
+      await p.setViewportSize({width,height});
+      check(name+' member stickers and history fit viewport',await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth && [...document.querySelectorAll('.bag-person')].every(el=>{const rect=el.getBoundingClientRect();return rect.left>=0 && rect.right<=innerWidth;})));
+      const file=name+'-bag-members.png';await p.locator('#game-bag').screenshot({path:path.join(output,file)});report.screenshots.push(file);
+    }
+    await p.setViewportSize({width:1440,height:1000});
+    await p.route('**/*missing-sticker-check*',route=>route.abort());
+    await p.locator('.bag-person-art').evaluateAll(images=>images.forEach(image=>{image.src+='?missing-sticker-check';}));
+    await p.waitForFunction(()=>document.querySelectorAll('.bag-person.art-missing').length===14);
+    check('Failed member portraits show accessible names in results and history',await p.locator('.bag-person').evaluateAll(tokens=>tokens.every(token=>getComputedStyle(token.querySelector('.bag-person-fallback')).visibility==='visible' && token.querySelector('.bag-person-fallback').textContent===token.getAttribute('aria-label') && token.querySelector('img').hidden)));
+    await p.unroute('**/*missing-sticker-check*');
     await select(p,'#bagSource','custom');
+    check('Unapplied source change keeps existing member results as stickers',await p.locator('.bag-results .bag-person').count()===7 && await p.locator('.bag-history .bag-person').count()===7);
     for(const value of ['San\nsan','','x'.repeat(25)]){await fill(p,'#bagList',value);await action(p,'bag','prepare');check('Invalid custom list '+JSON.stringify(value)+' is rejected',!!await p.locator('.game-error').innerText() && await p.locator('#game-bag [data-action="draw"]').getAttribute('aria-disabled')==='true');}
+    await fill(p,'#bagList','mi\nlinh');await action(p,'bag','prepare');await action(p,'bag','draw');
+    check('Custom member-like labels remain literal text',await p.locator('#game-bag .bag-person').count()===0 && (await p.locator('.bag-results .lottery-label').allTextContents()).sort().join('|')==='linh|mi' && await p.locator('.bag-history .history-token').count()===2);
+    await select(p,'#bagSource','members');
+    check('Unapplied member source does not reinterpret custom labels as portraits',await p.locator('#game-bag .bag-person').count()===0 && await p.locator('.bag-results .lottery-label').count()===2);
+    await select(p,'#bagSource','custom');
     await fill(p,'#bagList','<b>mây</b>\nNắng');await action(p,'bag','prepare');await action(p,'bag','draw');
-    check('Custom names render as literal text',JSON.parse(await data(p,'bag','results')).includes('<b>mây</b>') && await p.locator('.bag-results b').count()===0);
+    check('Custom names render as literal text',JSON.parse(await data(p,'bag','results')).includes('<b>mây</b>') && await p.locator('.bag-results b,.bag-history b').count()===0 && (await p.locator('.bag-history').innerText()).includes('<b>mây</b>'));
     await p.locator('#bagNoRepeat').evaluate(el=>el.closest('details').open=true);await p.uncheck('#bagNoRepeat');await action(p,'bag','prepare');await fixed(p,0);await action(p,'bag','draw');
-    check('Replacement allows repeats and preserves pool',JSON.parse(await data(p,'bag','results')).length===7 && new Set(JSON.parse(await data(p,'bag','results'))).size===1 && await data(p,'bag','remaining')==='2');
+    check('Replacement allows repeats and preserves pool',JSON.parse(await data(p,'bag','results')).length===8 && new Set(JSON.parse(await data(p,'bag','results'))).size===1 && await data(p,'bag','remaining')==='2');
     await select(p,'#bagSource','numbers');
     for(const [from,to] of [['0','10'],['1','501'],['4','2'],['1.5','3'],['1','10000']]){await fill(p,'#bagFrom',from);await fill(p,'#bagTo',to);await action(p,'bag','prepare');check('Invalid range '+from+'..'+to+' rejected',!!await p.locator('.game-error').innerText() && await p.locator('#game-bag [data-action="draw"]').getAttribute('aria-disabled')==='true');}
     await fill(p,'#bagFrom','1');await fill(p,'#bagTo','500');await p.check('#bagNoRepeat');await action(p,'bag','prepare');
     check('500-number maximum prepares successfully',await data(p,'bag','remaining')==='500' && await p.locator('.game-error').innerText()==='');
     for(let i=0;i<3;i++)await action(p,'bag','draw');
-    const saved=await data(p,'bag','results');await choose(p,'coin');await choose(p,'bag');check('Switch preserves bag state',await data(p,'bag','results')===saved && await data(p,'bag','remaining')==='479');
+    const saved=await data(p,'bag','results');await choose(p,'coin');await choose(p,'bag');check('Switch preserves bag state',await data(p,'bag','results')===saved && await data(p,'bag','remaining')==='476' && await p.locator('.bag-history li').count()===3);
+    const expectedBagHistory=[];
+    for(let i=0;i<10;i++){await fixed(p,i);await action(p,'bag','draw');expectedBagHistory.push(JSON.parse(await data(p,'bag','results')));}
+    check('Bag history retains the latest eight complete batches',await p.locator('.bag-history li').evaluateAll((rows,batches)=>JSON.stringify(rows.map(row=>[...row.querySelectorAll('.history-token')].map(token=>token.textContent)))===JSON.stringify(batches),expectedBagHistory.slice(-8)));
+    await action(p,'bag','refill');
+    check('Refill clears bag history',await p.locator('.bag-history li').count()===0 && await p.locator('#game-bag .game-history').isHidden());
+    await fixed(p,0);
+    for(const id of ['dice','bag']) {
+      await choose(p,id);
+      for(const event of ['switch','pause','reduce','hidden','pagehide']) {
+        await p.emulateMedia({reducedMotion:'no-preference'});await p.evaluate(()=>document.documentElement.dataset.motionPaused='false');
+        await action(p,id,id==='dice'?'reset':'refill');
+        await p.locator(`#game-${id} [data-action="${id==='dice'?'roll':'draw'}"]`).evaluate(el=>{el.click();el.click();});
+        check(id+' history waits for animation completion: '+event,await p.locator(`.${id}-history li`).count()===0);
+        if(event==='switch')await choose(p,'coin');
+        if(event==='pause')await p.evaluate(()=>document.documentElement.dataset.motionPaused='true');
+        if(event==='reduce')await p.emulateMedia({reducedMotion:'reduce'});
+        if(event==='hidden')await p.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});
+        if(event==='pagehide')await p.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
+        await p.waitForFunction(id=>!document.getElementById('game-'+id).hasAttribute('aria-busy'),id);
+        check(id+' interruption records one completed turn: '+event,await p.locator(`.${id}-history li`).count()===1);
+        if(event==='hidden')await p.evaluate(()=>delete document.hidden);
+        if(event==='switch') {
+          await choose(p,id);await p.waitForTimeout(1100);
+          check(id+' switching back preserves history without late duplicates',await p.locator(`.${id}-history li`).count()===1);
+        }
+      }
+    }
     await p.emulateMedia({reducedMotion:'no-preference'});await choose(p,'coin');await action(p,'coin','reset');
     await p.evaluate(()=>document.querySelector('#game-coin [data-action="toss"]').click());
     check('Animated toss locks settings and marks busy',await p.locator('#game-coin').getAttribute('aria-busy')==='true' && await p.locator('#coinMode').isDisabled());
@@ -152,7 +215,9 @@ async function imageCheck(p) {
     for(const [name,width,height] of [['desktop',1440,1000],['tablet',820,900],['phone',390,844],['narrow',320,780],['landscape',844,390]]){
       await p.setViewportSize({width,height});
       for(const id of ['coin','dice','cards','sticks','bag']){
-        await choose(p,id);if(id==='cards'){await action(p,id,'shuffle');await select(p,'#cardCount','7');await action(p,id,'draw');await action(p,id,'reveal');}
+        await choose(p,id);if(id==='cards'){await action(p,id,'shuffle');await select(p,'#cardCount','8');await action(p,id,'draw');await action(p,id,'reveal');}
+        if(id==='dice'){await select(p,'#diceCount','3');for(let i=0;i<8;i++)await action(p,id,'roll');}
+        if(id==='bag'){await select(p,'#bagCount','8');for(let i=0;i<8;i++)await action(p,id,'draw');}
         check(name+' '+id+' has no horizontal overflow',await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth));check(name+' '+id+' artwork decodes',await imageCheck(p));
         await p.locator('#game-'+id).evaluate(el=>el.scrollIntoView({block:'start'}));
         if(['desktop','phone','narrow'].includes(name)){const file=name+'-'+id+'.png';await p.screenshot({path:path.join(output,file)});report.screenshots.push(file);}
@@ -199,7 +264,7 @@ async function imageCheck(p) {
           await choose(q,id);if(id==='coin')await action(q,id,'toss');if(id==='dice')await action(q,id,'roll');if(id==='cards'){await action(q,id,'draw');await action(q,id,'reveal');}if(id==='sticks')await q.locator('[data-stick="0"]').click();if(id==='bag')await action(q,id,'draw');
           check(mode+' '+id+' completes interaction',!!await q.locator('#game-'+id+' .game-status').innerText() && await q.locator('#game-'+id).getAttribute('aria-busy')===null);
         }
-        if(mode==='no-art'){await choose(q,'dice');check('Missing dice art shows numeric faces',await q.locator('.die-number').first().isVisible());check('Missing art explains fallback',await q.locator('.game-art-notice').isVisible());}
+        if(mode==='no-art'){await choose(q,'dice');check('Missing dice art shows numeric faces',await q.locator('.die-number').first().isVisible());check('Missing history art shows numeric results',await q.locator('.history-value').first().isVisible());check('Missing art explains fallback',await q.locator('.game-art-notice').isVisible());}
       }
       await q.close();
     }

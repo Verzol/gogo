@@ -1,0 +1,25 @@
+{
+  "service": "9Router",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "sizeRequested": "1536x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "prompt": "docs/prompts/random_games/07_card_courts.md",
+  "generatedAt": "2026-10-17T01:25:30.243094+00:00",
+  "receivedAt": "2026-10-17T01:27:56.259686+00:00",
+  "path": "figures/raw/card_courts/court_sheet.png",
+  "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e",
+  "bytes": 2918498,
+  "contentType": "image/png",
+  "referenceImages": [
+    {
+      "path": "figures/decor/painted/games/card_back.webp",
+      "sha256": "8f5b93636b7f8fec8c69d728c3e907622701a595873d76be92f1c314877b5d16"
+    },
+    {
+      "path": "figures/decor/painted/games/card_front.webp",
+      "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+    }
+  ]
+}

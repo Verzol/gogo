@@ -16,3 +16,18 @@ Exact prompts used with 9Router's `cx/gpt-image-2.5`, high quality, PNG output a
 All outputs were visually reviewed against the existing watercolor wheel. Crop coordinates follow the actual returned images, which differ from the requested component positions. Generated originals are preserved byte-for-byte; never replace them when regenerating derivatives.
 
 These prompts document the original artwork phase. The subsequent runtime integration and game rules are described in [Games](../../games.md).
+
+## Complete illustrated playing-card deck
+
+The later [court reference](07_card_courts.md) and all eight full-face deck sheets use **`cx/gpt-image-2.5-sunburst`**, high quality with transparent PNG output. The court sheet is a shared style reference; the runtime deck contains a distinct generated front for every one of the 52 rank/suit combinations, including aces and number cards. Exact requests:
+
+| Suit | A–8 | 9–K |
+| --- | --- | --- |
+| Spades | [Sheet 1](deck/spades_1.md) | [Sheet 2](deck/spades_2.md) |
+| Hearts | [Sheet 1](deck/hearts_1.md) | [Sheet 2](deck/hearts_2.md) |
+| Clubs | [Sheet 1](deck/clubs_1.md) | [Sheet 2](deck/clubs_2.md) |
+| Diamonds | [Sheet 1](deck/diamonds_1.md) | [Sheet 2](deck/diamonds_2.md) |
+
+Original sheets and per-request metadata are in `figures/raw/playing_cards/`; the shared reference is in `figures/raw/card_courts/`. See [the artwork guide](../../game-artwork.md) for preparation, file ownership and verification.
+
+The [individual eight of diamonds](deck/diamonds_eight.md) corrects a nine-pip miscount in the original diamonds sheet. Both originals are preserved; the preparation manifest selects the corrected image. The preparation script also checks the central pip counts of all 40 ace/number faces.

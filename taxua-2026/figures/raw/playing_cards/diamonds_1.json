@@ -1,0 +1,36 @@
+{
+  "service": "9Router",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "sizeRequested": "1536x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "prompt": "docs/prompts/random_games/deck/diamonds_1.md",
+  "generatedAt": "2026-10-17T01:34:46.926554+00:00",
+  "receivedAt": "2026-10-17T01:35:50.163095+00:00",
+  "path": "figures/raw/playing_cards/diamonds_1.png",
+  "sha256": "e507fae09a18efff26f1393fe31c815fdc0dcd3779a1dd1de3efdb94eb42a2ae",
+  "bytes": 1778227,
+  "contentType": "image/png",
+  "suit": "diamonds",
+  "ranks": [
+    "ace",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight"
+  ],
+  "referenceImages": [
+    {
+      "path": "figures/decor/painted/games/card_front.webp",
+      "sha256": "25d057483e05a8b26937898ceab5439a9134ef5636c7309acf81473048f074ae"
+    },
+    {
+      "path": "figures/raw/card_courts/court_sheet.png",
+      "sha256": "49b52594365ea60e67d0dab42e89e37fdfe39ac789473cb29d9564ac191c825e"
+    }
+  ]
+}

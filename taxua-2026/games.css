@@ -71,6 +71,19 @@
 .coin-score { font: 400 1.4rem/1.4 'Patrick Hand',cursive; margin-top: 12px; overflow-wrap: anywhere; text-align: center; }
 .coin-history { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 16px 0 0; }
 .coin-history img { width: 32px; height: 32px; object-fit: contain; }
+/* Each little group is one completed turn, oldest to newest. */
+.game-history { width: 100%; margin-top: 24px; padding-top: 14px; border-top: 1px dashed var(--line); text-align: center; }
+.game-history h5 { margin: 0 0 10px; color: var(--ink); font: 400 1.2rem/1.4 'Patrick Hand',cursive; }
+.game-history-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.game-history-list > li { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px; max-width: 100%; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px 11px 7px 10px; background: rgb(12 49 54 / .3); }
+.game-history-list > li:last-child { border-color: var(--accent); background: rgb(255 218 157 / .1); }
+.history-dice { display: flex; gap: 3px; }
+.history-die { display: grid; place-items: center; width: 32px; height: 32px; }
+.history-die img { width: 100%; height: 100%; object-fit: contain; }
+.history-value { display: none; }
+.history-die.art-missing .history-value { display: block; width: 100%; border-radius: 6px; background: #f3ead4; color: #183b46; font: 1.4rem/32px 'Patrick Hand',cursive; text-shadow: none; }
+.history-token { min-width: 24px; padding: 3px 6px; color: var(--ink); font-size: .875rem; line-height: 1.6; overflow-wrap: anywhere; }
+.history-token + .history-token { border-left: 1px solid var(--line); }
 /* Held dice show a lock rather than another line of copy. */
 .dice-stage { max-width: 480px; min-height: 310px; }
 .dice-tray-hit { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; justify-content: flex-end; padding-bottom: 0; }
@@ -83,26 +96,38 @@
 .die-held { position: absolute; right: -5px; top: -12px; display: grid; place-items: center; width: 28px; height: 28px; background: #ffda9d; color: #183b46; border: 1px solid #183b46; border-radius: 50%; }
 .die-held:empty,.die-number { display: none; }
 .die-held .lucide { width: 17px; height: 17px; }
-/* Full-size card indices; hands scroll on phones instead of shrinking the cards. */
-.cards-stage { flex-direction: column; gap: 14px; }
+/* Eight full-size cards fit on desktop; narrower hands scroll in one row. */
+.cards-stage { flex-direction: column; gap: 14px; max-width: 1080px; }
 .card-deck { flex-direction: row; gap: 16px; }
 .card-deck > img { width: 64px; height: 96px; object-fit: contain; transition: transform .2s ease; }
 .deck-count { font-size: .875rem; }
-.card-hand { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; min-width: 0; width: 100%; padding: 8px; }
+.card-hand { display: flex; flex-wrap: nowrap; gap: 14px; min-width: 0; width: 100%; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; padding: 8px 8px 14px; }
 .card-hand:empty { display: none; }
-.playing-card { flex: 0 0 auto; width: max(118px,7.4rem); aspect-ratio: 416/640; position: relative; padding: 0; border: 0; border-radius: 9px; background: transparent; perspective: 700px; text-shadow: none; scroll-snap-align: start; }
+.playing-card { flex: 0 0 auto; width: max(118px,7.4rem); aspect-ratio: 5/7; position: relative; padding: 0; border: 0; border-radius: 9px; background: transparent; perspective: 700px; text-shadow: none; scroll-snap-align: start; }
+.playing-card:first-child { margin-inline-start: auto; }
+.playing-card:last-child { margin-inline-end: auto; }
 .card-turn { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
 .playing-card.is-revealed .card-turn { transform: rotateY(180deg); }
 .card-back,.card-front { position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; }
-.card-front { color: #183b46; transform: rotateY(180deg); border-radius: 9px; }
+.card-front { color: #17313a; transform: rotateY(180deg); border-radius: 9px; }
 .card-front > img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.card-front.is-red { color: #a32c2c; }
-.card-corner { position: absolute; top: 7%; left: 9%; font-family: Georgia,serif; font-size: 1.6rem; font-weight: 700; line-height: 1; text-align: center; }
-.card-corner small { display: block; font-size: 1.15rem; line-height: 1.1; }
-.card-corner--bottom { top: auto; left: auto; bottom: 7%; right: 9%; transform: rotate(180deg); }
-.card-court { position: absolute; inset: 29% 24%; font-family: Georgia,serif; font-size: 2.2rem; line-height: 1; display: grid; align-content: center; text-align: center; }
-.card-court small { font-size: 2rem; }
-.card-pips { position: absolute; inset: 25% 30%; display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(7,1fr); align-items: center; justify-items: center; font-family: Georgia,serif; font-size: 1.15rem; line-height: 1; }
+.card-fallback { position: absolute; inset: 0; }
+.card-fallback > img { width: 100%; height: 100%; }
+.card-front.has-card-art .card-fallback { visibility: hidden; }
+.card-front.art-missing .card-fallback { visibility: visible; }
+.card-front.is-red { color: #ad292e; }
+.card-suit { display: block; width: 1em; height: 1em; overflow: visible; }
+.card-corner { position: absolute; top: 8%; left: 9%; z-index: 1; width: .8em; font-family: Georgia,serif; font-size: 1.5rem; font-weight: 700; line-height: .95; letter-spacing: -.06em; text-align: center; }
+.card-corner.is-ten { width: 1.1em; font-size: 1.1rem; letter-spacing: -.12em; }
+.card-corner small { display: grid; justify-items: center; margin-top: 3px; font-size: 1.15rem; line-height: 1; }
+.card-corner small .card-suit { width: .8em; height: .8em; }
+.card-corner--bottom { top: auto; left: auto; bottom: 8%; right: 9%; transform: rotate(180deg); }
+.card-ace { position: absolute; inset: 25%; display: grid; place-items: center; font-size: 3rem; }
+.card-court { position: absolute; inset: 12% 20%; }
+.card-court-fallback { display: grid; justify-items: center; align-content: center; gap: 8px; height: 100%; font: 2.2rem/1 Georgia,serif; }
+.card-pips { position: absolute; inset: 23% 33%; font-size: 1.1rem; }
+.card-pip { position: absolute; transform: translate(-50%,-50%); }
+.card-pip.is-inverted { transform: translate(-50%,-50%) rotate(180deg); }
 /* The sleeve masks the lower ends as each anonymous stick is pulled upward. */
 .stick-racks { display: flex; gap: 18px; width: 100%; justify-content: center; flex-wrap: wrap; }
 .stick-rack { --stick-length: 200px; --stick-inset: 156px; --stick-lip: 216px; position: relative; display: grid; grid-template-columns: repeat(var(--stick-count),minmax(0,62px)); justify-content: center; flex: 0 1 280px; max-width: 280px; }
@@ -128,6 +153,13 @@
 .bag-object.is-open .bag-closed { visibility: hidden; }
 .bag-object.is-open .bag-open { visibility: visible; }
 .bag-results { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; }
+.bag-person { position: relative; display: grid; place-items: center; flex: 0 0 auto; width: clamp(112px,18vw,144px); max-width: 100%; aspect-ratio: 1; }
+.bag-person-art { position: relative; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 5px 5px rgb(7 27 33 / .22)); }
+.bag-person-fallback { position: absolute; inset: 8%; display: grid; place-items: center; padding: 6px; border: 1px dashed var(--line); border-radius: 48% 52% 46% 54%; color: var(--ink); font: 1.25rem/1.3 'Patrick Hand',cursive; text-align: center; overflow-wrap: anywhere; }
+.bag-person.has-portrait .bag-person-fallback { visibility: hidden; }
+.bag-person--recent { width: 48px; }
+.bag-person--recent .bag-person-fallback { inset: 0; padding: 2px; font: .75rem/1.2 'Be Vietnam Pro',sans-serif; }
+.bag-person--recent .bag-person-art { filter: drop-shadow(0 2px 2px rgb(7 27 33 / .2)); }
 .lottery-ball { position: relative; width: max(120px,7.5rem); max-width: 100%; aspect-ratio: 1; flex: 0 0 auto; color: #183b46; text-shadow: none; }
 .lottery-ball.is-word { width: max(132px,8.25rem); }
 .lottery-ball.is-number { width: max(132px,8.25rem); }
@@ -193,7 +225,6 @@
   .game-chip { padding-inline: 11px; }
   .game-quick-controls { gap: 12px; }
   .card-deck { flex-wrap: wrap; gap: 10px; }
-  .card-hand { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: thin; scrollbar-color: var(--accent) transparent; padding: 8px 8px 14px; }
   .bag-draw { width: 220px; }
   .bag-results { gap: 8px; }
   .stick-racks { gap: 12px; }

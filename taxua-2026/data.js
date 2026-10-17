@@ -290,7 +290,7 @@ const TRIP_DATA = {
       "repeat": "bốc có hoàn lại",
       "rangeError": "Nhập hai số nguyên từ 1 đến 9999, tối đa 500 số trong một túi.",
       "listError": "Nhập 1-100 tên khác nhau, mỗi tên tối đa 24 ký tự.",
-      "recent": "12 kết quả gần nhất",
+      "recent": "Các lượt bốc gần nhất",
       "drawn": "Vừa bốc được",
       "ready": "Túi mới đã sẵn sàng."
     }
