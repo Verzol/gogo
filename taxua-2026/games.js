@@ -289,14 +289,15 @@
       const racks = $(panel,'.stick-racks');
       if (racks.dataset.count !== String(count())) {
         const groups = [];
-        for (let start = 0; start < count(); start += 4) {
-          const sticks = Array.from({length:Math.min(4,count() - start)},(_,offset) => {
+        const pouchSize = Math.ceil(count() / 2);
+        for (let start = 0; start < count(); start += pouchSize) {
+          const sticks = Array.from({length:Math.min(pouchSize,count() - start)},(_,offset) => {
             const index = start + offset;
             // Both lengths load for every stick, so concealed objects share the
             // same markup. Keep the artwork mounted throughout the extraction.
             return `<button type="button" class="drawing-stick" data-stick="${index}"><span class="stick-window"><span class="stick-shaft">${art('stick_long','stick-long-art')}${art('stick_short','stick-short-art')}</span></span><span class="stick-marker" aria-hidden="true"></span></button>`;
           }).join('');
-          groups.push(`<div class="stick-rack" style="--stick-count:${Math.min(4,count() - start)}">${sticks}${art('stick_sleeve','stick-sleeve')}</div>`);
+          groups.push(`<div class="stick-rack" style="--stick-count:${Math.min(pouchSize,count() - start)}">${sticks}${art('stick_sleeve','stick-sleeve')}</div>`);
         }
         racks.innerHTML = groups.join('');
         racks.dataset.count = count();
