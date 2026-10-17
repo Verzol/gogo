@@ -10,6 +10,20 @@ The atlas combines an embedded Leaflet map with date filters, an optional-stop t
 
 Desktop uses a map beside a scrollable detail/list area. Phones use a map above details, with an explicit button to enlarge the detail area. The supplied paper frame stays at the map's outer edge; attribution remains inside the unobstructed map. Closing the native dialog releases the map and returns focus to its trigger. A day-menu trigger reopens its original menu before receiving focus. The reading link instead focuses the requested story article.
 
+### Fullscreen exploration
+
+`Toàn màn hình` in the atlas header opens an edge-to-edge geographic canvas. The same Leaflet instance keeps its day, optional-stop setting, selected visit and camera through expand/restore. Floating torn-paper controls reuse the existing artwork: compact title, five chronological day choices, a location index, zoom and compass reset. Restore returns to the framed atlas; the separate close button returns to the journal.
+
+Fullscreen/restore and close use small torn-parchment controls in both layouts, with an ochre accent for fullscreen and a brick-red close mark. They have no inner rectangular or circular border. Existing textures, official Lucide icons, visible focus outlines and 44px targets are retained.
+
+The index starts closed. `Điểm ghé` opens a scrolling side drawer on desktop/short landscape or a bottom sheet on phones. Local search ignores Vietnamese accents and `đ`; it filters only this trip's list and never moves the camera. Optional stops remain selectable in that panel. Pointer selection shows a compact place card with previous/next controls and `Chi tiết`; keyboard selection opens and focuses the full note. Index and full note share one panel, with explicit back/collapse controls. Enlarged text can wrap the days into multiple rows; the map still fills the screen behind them.
+
+Explicit location selections always center the chosen point in the available map area, including nearby points and reselecting a visible location at the same zoom. Camera padding keeps its sticker and label clear of visible controls and panels. Opening a panel can pan the selected point into view without increasing zoom. Scroll/input inside the overlays stays separate from map wheel/drag input. Scale, attribution, zoom, compass, restore and close remain visible around the panels. Day changes fit the selected schedule; `22/10` retains the confirmed Hà Nội pickup while `Cả chuyến` keeps the mountain overview.
+
+The inner `.atlas-shell` is the progressive native Fullscreen API target; browsers cannot fullscreen a `<dialog>` itself. All controls and custom visit menus remain inside that shell. Unsupported or rejected requests retain the viewport-filling layout. Native fullscreen exit restores the framed view and leaves the atlas open. In viewport mode, Escape collapses the panel, restores the framed view, then closes the atlas on successive presses. Close/print/page exit release only fullscreen owned by this atlas. Pending requests are checked against the current mode so an old request cannot reopen fullscreen after close/restore.
+
+See the [approved design and implementation plan](map-fullscreen-plan.md). There is no additional artwork, geocoder, routing service, account or backend requirement. Larger viewports request more visible tiles; this mode does not remove provider/network latency or prefetch tiles.
+
 Inline previews start closed and allow only one active map. Opening another preview replaces it; opening the atlas releases the preview. Wheel and Ctrl+wheel zoom are enabled while the pointer is over either map surface; scrolling outside it keeps normal page behavior. Dragging stops at the Vietnam navigation bounds, and the minimum zoom adapts to the map size so zooming out cannot escape that region. The same restriction applies to keyboard panning and expanded/resized detail layouts. The 22/10 departure tab selects Tập đoàn Viettel in Hà Nội and centers its confirmed pickup pin. The overall trip view keeps the Tà Xùa stops separate so the long transfer does not shrink them. Reduced motion and the existing pause preference disable animated camera changes. Missing Leaflet or failed tiles retain the local stop list, photos and reading links. Direct-file use shows a local explanatory fallback instead of requesting web tiles. Print hides map controls and closes open map surfaces.
 
 The first tile request waits until the opening day/selection has its final camera, avoiding intermediate viewport requests. The [provider and first-load review](research/osm-provider-review.md) compares six detailed layers and records the request reduction, timings and limits of the measurements. OSM France remains the current provider.
@@ -68,10 +82,10 @@ The stargazing block has alternative locations, and some breakfast/transport blo
 ## Code and data owners
 
 - `map-data.js`: reviewed geographic registry, initial camera region, Vietnam navigation bounds, provider configuration and source notes. It is independent of the authoritative schedule in `data.js`.
-- `trip-map.js`: derives visits from the current schedule; renders/integrates the atlas and previews; prepares local Leaflet near map entries, executes it on first use and disposes hidden maps.
-- `trip-map.css`: map invitation, journal controls, contained atlas, responsive details and print styling.
+- `trip-map.js`: derives visits from the current schedule; owns framed/exploration modes, panels, search, camera padding, fullscreen lifecycle and previews; prepares local Leaflet near map entries and disposes closed maps.
+- `trip-map.css`: map invitation, journal controls, framed/floating atlas layouts, responsive details and print styling.
 - `index.html`: local CSS links and optional map scripts after the existing script chain. Existing script order is retained.
-- `scripts/prepare_icons.cjs`: the existing official Lucide sprite, now including nine map-related symbols (41 total).
+- `scripts/prepare_icons.cjs`: the official Lucide sprite (53 total), including expand/restore/list/collapse controls.
 - `data/sources/map-locations.json`: geographic review and rejected-match observations. Keep its records aligned when editing the runtime registry.
 - `vendor/leaflet/`: unmodified official Leaflet 1.9.4 distribution, BSD license and SHA-256 metadata.
 
@@ -109,7 +123,19 @@ python3 scripts/prepare_map_artwork.py
 
 Run `node scripts/verify_map.cjs` from `taxua-2026/`. Its default evidence directory is `/tmp/taxua-map-review`; `TRIP_REVIEW_DIR` overrides it. The helper deliberately fails external tile requests to test graceful fallback without repeatedly loading the public tile service. Live-tile rendering must be checked separately. See [Verification](verification.md) for related story, journal-object and mobile suites.
 
+Run `node scripts/verify_map_fullscreen.cjs` for exploration behavior and native/viewport fullscreen. It defaults to `/tmp/taxua-fullscreen-review/checks`; the same URL, Playwright and review-directory overrides apply. Its external tiles deliberately fail too; native fullscreen checks use Chromium, with responsive checks using emulated viewport sizes.
+
 The map helper checks nearby grouping and keyboard expansion, source-master hashes, downscaling, retained itinerary/guide counts, lazy loading, geographic uncertainty, day membership, unordered afternoon stops, optional filtering, repeated visits, manual stepping, focus, native return links, one-map lifecycle, failed tiles, missing library, file mode, print and responsive/enlarged text behavior. Browser screenshots are kept outside the checkout.
+
+### Fullscreen exploration · 17 October 2026
+
+**264 fullscreen assertions, 389 existing map assertions and 96 shared-control checks passed**, with no uncaught browser errors. Fullscreen coverage includes native API entry/exit and visit dropdowns, unsupported/rejected API fallback, a controlled late-request fixture, one retained map/camera/selection, local Vietnamese search, pointer/keyboard notes, stepped Escape, overlay scrolling, wheel/Ctrl+wheel, departure/optional filters, selected sticker clearance, unavailable Leaflet and print cleanup.
+
+The fullscreen helper checked 1440×900, 1024×768, 820×1024, 390×844, 320×740 and 844×390, plus desktop/phone at 200% text and rotated layouts. Real tiles were inspected separately in desktop/phone overview and selected-place modes, including enlarged text. They retain provider/network latency; behavioral helpers deliberately fail those external requests.
+
+Evidence is outside the checkout under `/tmp/taxua-fullscreen-review/`: `checks/`, `regression/`, `controls/` and live-tile screenshots/`visual.json`. These are Chromium and emulated viewport results; physical devices, Safari and Firefox were not tested. Native exit synchronization was exercised through the browser's Fullscreen API; browser-specific Escape/back behavior still depends on the browser.
+
+The location-centering/button refinement subsequently passed **292 fullscreen and 389 map assertions**. Added checks reselect an already-visible point after manual panning, select a nearby point, and verify animated recentering as well as native fullscreen. Desktop/phone and 200% text screenshots were inspected for both framed and fullscreen button treatments. No uncaught browser errors were reported. Follow-up evidence: `/tmp/taxua-map-refinement-review/` (`fullscreen/`, `map/`, `visual/`).
 
 ### Verified import and integration · 16 October 2026
 

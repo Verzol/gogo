@@ -13,7 +13,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Scroll reveals, background dissolves, navigation, gestures and spacing | [Motion](motion.md) |
 | Click-to-flip story photographs | [Journal objects](journal-objects.md) |
 | Trail index, photo previews, packing cutouts and quiet terrain | [Illustrated journal controls](ui-artwork.md) |
-| Embedded atlas, place previews, day exploration and geographic coverage | [Maps](maps.md) · [Design plan](map-plan.md) |
+| Embedded atlas, place previews, day exploration and geographic coverage | [Maps](maps.md) · [Design plan](map-plan.md) · [Fullscreen plan](map-fullscreen-plan.md) |
 | Adventure-game map menu, parchment UI and generation briefs | [Treasure-atlas plan](map-treasure-plan.md) · [Artwork prompts](prompts/map_treasure/README.md) |
 | Hero 7+1, crew, member wheel, arrival countdown and MoMo invitation | [Group features](group.md) |
 | Six random games: wheel, coin, dice, cards, sticks and lottery bag | [Games](games.md) · [Game artwork](game-artwork.md) · [Exact prompts](prompts/random_games/README.md) |

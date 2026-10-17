@@ -34,6 +34,7 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 | `verify_journal_objects.cjs` | Click/tap photo turns/decks, expanded-guide fidelity, removed bookmark UI, keyboard, print, enlarged text and direct-file use | `/tmp/taxua-photo-review/` by default; `TRIP_REVIEW_DIR` overrides |
 | `verify_ui_artwork.cjs` | Preserved artwork hashes, trail index/history/focus, removed Maps signs, transparent stop menu, real photo previews, packing, enlarged text, fallbacks and print | `/tmp/taxua-ui-artwork-review/` by default; `TRIP_REVIEW_DIR` overrides |
 | `verify_map.cjs` | Embedded atlas, geography uncertainty, day filtering, previews, focus/lifecycle, asset hashes, responsive text, missing library/tiles, file and print behavior | `/tmp/taxua-map-review/` by default; `TRIP_REVIEW_DIR` overrides; deliberately fails remote tiles, so inspect live tiles separately |
+| `verify_map_fullscreen.cjs` | Full-viewport canvas, native/unsupported/rejected fullscreen, preserved map/selection, local search, shared panels, pointer/keyboard selection, Escape, controls/attribution geometry, rotation, enlarged text and unavailable-library fallback | `/tmp/taxua-fullscreen-review/checks/` by default; `TRIP_REVIEW_DIR` overrides; deliberately fails remote tiles |
 | `verify_illustrated_scenery.cjs` | Layer decoding, worlds, phase correctness, framing and blends | `illustrated/` |
 | `verify_motion.cjs` | Scene dissolves, anchor interruptions, gestures and cleanup | `motion/` |
 | `verify_reveals.cjs` | Gradual forward/reverse states, collages, notes and focus | `reveals/` |
@@ -69,3 +70,5 @@ The [treasure-atlas redesign review](maps.md#treasure-atlas-import-and-redesign-
 For docs-only edits, validate local links/file references and scope; browser suites are unnecessary. Report exactly what ran. Existing galleries, accessibility/Lighthouse results and check counts are historical snapshots; their JSON timestamps define freshness. Recorded browser coverage uses Chromium emulation, not physical phones, Safari or Firefox.
 
 The [shared-control and object-interaction review](controls.md#verified-integration--16-october-2026) records the themed inputs, progressive dropdowns and direct game-object refinements, with seven passing focused browser suites and screenshots outside the checkout.
+
+The [17 October fullscreen review](maps.md#fullscreen-exploration--17-october-2026) records 264 exploration, 389 existing map and 96 shared-control checks, native API/fallback coverage, responsive/enlarged-text layouts and separate live-tile inspection.

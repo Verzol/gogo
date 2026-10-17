@@ -89,6 +89,14 @@ Reviewed 16 October 2026 for the [map design](map-plan.md) and its [implemented 
 
 OpenStreetMap data, a tile provider and Leaflet are separate layers. Tile coverage, terms and styling must be checked when choosing a provider. No source above verifies the trip's exact venue positions, travel times or mountain-road access.
 
+### Fullscreen map research
+
+Reviewed 17 October 2026 for the [fullscreen atlas](map-fullscreen-plan.md); implemented behavior is documented in the [map guide](maps.md#fullscreen-exploration).
+
+| Source | Design implication |
+| --- | --- |
+| [MDN: Element.requestFullscreen](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen) | Native fullscreen requires a direct user gesture, cannot target a dialog element, and reports success/failure asynchronously. Use a supported inner container, synchronize browser exit events, and retain a viewport-filling fallback. |
+
 ### Tile provider comparison
 
 Reviewed 16 October 2026; [measurements and findings](research/osm-provider-review.md). Timing evidence comes from local browser measurements, not the provider claims below.

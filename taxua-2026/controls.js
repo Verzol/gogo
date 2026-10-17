@@ -93,7 +93,7 @@
       const styles = getComputedStyle(select);
       palette.forEach(name=>menu.style.setProperty('--control-' + name,styles.getPropertyValue('--control-' + name)));
       menu.style.fontSize = getComputedStyle(trigger).fontSize;
-      (select.closest('dialog[open]') || document.body).append(menu);
+      (select.closest(':fullscreen') || select.closest('dialog[open]') || document.body).append(menu);
       menu.showPopover(); active = control;
       trigger.setAttribute('aria-expanded','true');
       place();

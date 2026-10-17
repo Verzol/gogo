@@ -22,7 +22,7 @@ When the Popover API is available, each ordinary select gains a labeled combobox
 - Escape cancels the pending highlight; Tab releases focus; outside pointer closes.
 - Disabled selects/fieldsets disable the trigger. Form reset refreshes its value. Dynamic selects and replacement controls are observed; focus returns to a replacement after selection rerenders its owner.
 
-Menus inherit their owner's palette, stay within the viewport and follow the anchor while scrolling. In modal dialogs they belong to that dialog and remain usable above its surface. The first Escape closes a menu without also closing the atlas. Resizing, page hiding and removal of the origin close it. Menus are hidden for print.
+Menus inherit their owner's palette, stay within the viewport and follow the anchor while scrolling. In modal dialogs they belong to that dialog; native fullscreen takes precedence so atlas visit menus stay inside the fullscreen shell. The first Escape closes a menu without also closing the atlas. Resizing, page hiding and removal of the origin close it. Menus are hidden for print.
 
 If JavaScript or Popover support is missing, the original select remains visible with a themed field and chevron; its option picker follows platform behavior. Multiple/listbox selects remain native. HTTP and direct-file use both work. There are no required selects in the current site; required-field validation would need explicit focus handling before introducing one.
 
