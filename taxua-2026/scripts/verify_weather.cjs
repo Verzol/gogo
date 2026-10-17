@@ -138,7 +138,9 @@ async function checkCloudSupply(p,name) {
     check('pause freezes every incoming cloud too',await p.locator('#openingWorld .cloud-repeat').evaluateAll(items => items.every(el => el.getAnimations().every(a => a.playState === 'paused'))));
     await p.locator('#weatherMotion').click();
     await p.locator('.weather-day').nth(1).click();
-    await p.locator('[data-chapter="day-2"]').click();await sleep(1600);
+    // The date rail is intentionally inert outside the itinerary. Exercise
+    // the opening's visible native anchor while the forecast preview is held.
+    await p.locator('#heroScrollAction').click();await sleep(1600);
     check('anchor travel clears weather and particles',await p.evaluate(() => openingWorld.dataset.weather === '' && weatherParticles.dataset.weather === '' && document.querySelectorAll('.navigation-scene,.scene-catchup').length === 0));
     check('all six story worlds still decode',await p.evaluate(async () => { await Promise.all(['sunrise','night','bluehour','daylight','jade','afternoon'].map(id => JourneyUI.loadBackground(id))); return [...document.querySelectorAll('.scene-panel')].every(p => p.dataset.ready && [...p.querySelectorAll('img')].every(i => i.naturalWidth)); }));
     await p.locator('.brand').click();await sleep(1600);

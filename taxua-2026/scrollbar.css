@@ -74,7 +74,7 @@
     display: grid;
     place-items: center;
     border-radius: 16px;
-    cursor: grab;
+    cursor: var(--cursor-grab,grab);
     outline-offset: 0;
   }
   .cloud-scrollbar-thumb::before {
@@ -119,9 +119,9 @@
   :root:has(.chapter-nav[data-open="true"]) .cloud-scrollbar-hint { display: none; }
   .cloud-scrollbar-thumb:focus-visible { outline: 2px solid var(--thread); background: rgb(228 203 155 / .12); }
   .cloud-scrollbar:is(:hover,:focus-within,[data-dragging])::before { opacity: .85; }
-  .cloud-scrollbar[data-dragging] .cloud-scrollbar-thumb { cursor: grabbing; }
+  .cloud-scrollbar[data-dragging] .cloud-scrollbar-thumb { cursor: var(--cursor-grabbing,grabbing); }
   .cloud-scrollbar[data-dragging] .cloud-scrollbar-hint { visibility: hidden; }
-  html.cloud-scrollbar-dragging,html.cloud-scrollbar-dragging * { user-select: none !important; cursor: grabbing !important; }
+  html.cloud-scrollbar-dragging,html.cloud-scrollbar-dragging * { user-select: none !important; cursor: var(--cursor-grabbing,grabbing) !important; }
   html.atlas-open .cloud-scrollbar { display: none; }
 }
 @media (prefers-reduced-motion:no-preference) {

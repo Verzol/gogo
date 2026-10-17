@@ -1,0 +1,27 @@
+{
+  "service": "9Router",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "prompt": "docs/prompts/playful/02_coin.md",
+  "promptSha256": "0ca5515f816803cfa4a8ff90e35787fc04b9c2a118e25b054e079459de728d97",
+  "sizeRequested": "1024x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "generatedAt": "2026-10-17T13:53:54.798359+00:00",
+  "receivedAt": "2026-10-17T13:54:57.559168+00:00",
+  "contentType": "image/png",
+  "source": "figures/raw/playful/coin_gold.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceMode": "RGBA",
+  "sourceSha256": "58e86fc1a6f99dac7cd816de778b43d1d87c7a47d2b88f37a0710e2e78c20ae8",
+  "bytes": 2643023,
+  "referenceImages": [
+    {
+      "path": "figures/raw/playful/pig_body.png",
+      "sha256": "c284ed48b70682e1c664844778e282dab03aed9fd99a6fbad93d745e61fe851b"
+    }
+  ]
+}

@@ -1,46 +1,56 @@
-/* Native painted cursors: precise hotspots, no follower or mouse tracking.
-   Palette mapping follows scrollbar.css and the dominant scenery world. */
+/* Palette URLs and measured hotspots are generated from the preserved artwork. */
+@import url('./cursor-palettes.css?v=complete-2026');
+
+/* Native cursors: no pointer-following layer, tracking or animation loop. */
 @media screen and (pointer:fine) and (hover:hover) and (forced-colors:none) {
-  :root {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_day.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_day.png') 10 2, pointer;
-    cursor: var(--cursor-arrow);
-  }
-  :root[data-scenery-world="night"] {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_night.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_night.png') 10 2, pointer;
-  }
-  :root[data-scenery-world="bluehour"] {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_predawn.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_predawn.png') 10 2, pointer;
-  }
-  :root[data-scenery-world="jade"] {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_morning.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_morning.png') 10 2, pointer;
-  }
-  :root[data-scenery-world="jade"][data-scene="dawn"] {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_dawn.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_dawn.png') 10 2, pointer;
-  }
-  :root[data-scenery-world="daylight"] {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_noon.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_noon.png') 10 2, pointer;
-  }
-  :root[data-scenery-world="afternoon"] {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_afternoon.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_afternoon.png') 10 2, pointer;
-  }
-  :root[data-scenery-world="afternoon"][data-scene="evening"] {
-    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_evening.png') 3 2, auto;
-    --cursor-pointer: url('./figures/decor/painted/cursor/hand_evening.png') 10 2, pointer;
-  }
-  /* Feature styles use this variable only where they already requested a
-     pointing hand. Their disabled, text, grab, grabbing and wait rules win. */
+  :root { cursor: var(--cursor-arrow,auto); }
   :where(a[href],area[href],summary,[role="button"],label[for]) {
-    cursor: var(--cursor-pointer);
+    cursor: var(--cursor-pointer,pointer);
   }
-  .leaflet-interactive { cursor: var(--cursor-pointer); }
-  /* Explicit text editing also covers contenteditable regions. Native controls
-     retain their own resize/select/drag cursors; never apply a wildcard rule. */
-  :where([contenteditable="true"],[contenteditable=""],textarea) { cursor: text; }
+  :where(input:enabled:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]):not([type="hidden"]),textarea:enabled,[contenteditable="true"],[contenteditable=""]) {
+    cursor: var(--cursor-text,text);
+  }
+  :where(p,blockquote,figcaption):not(:where(button,a,summary,[role="button"]) *) {
+    cursor: var(--cursor-text,text);
+  }
+  body :is(button,[role="button"])[aria-busy="true"] { cursor: var(--cursor-wait,wait); }
+  :where([role="progressbar"],[data-cursor="progress"]) { cursor: var(--cursor-progress,progress); }
+
+  /* Preserve Leaflet's state precedence without modifying the vendored CSS. */
+  .leaflet-interactive { cursor: var(--cursor-pointer,pointer); }
+  .leaflet-grab { cursor: var(--cursor-grab,grab); }
+  .leaflet-popup-pane,.leaflet-control { cursor: var(--cursor-arrow,auto); }
+  .leaflet-dragging .leaflet-grab,
+  .leaflet-dragging .leaflet-grab .leaflet-interactive,
+  .leaflet-dragging .leaflet-marker-draggable { cursor: var(--cursor-grabbing,grabbing); }
+  .leaflet-control-zoom .leaflet-control-zoom-in:not(.leaflet-disabled) { cursor: var(--cursor-zoom-in,zoom-in); }
+  .leaflet-control-zoom .leaflet-control-zoom-out:not(.leaflet-disabled) { cursor: var(--cursor-zoom-out,zoom-out); }
+  .leaflet-bar a.leaflet-disabled { cursor: var(--cursor-not-allowed,default); }
+
+  /* Standard geometry states are available for genuine resize/move surfaces. */
+  :where([data-cursor="move"]) { cursor: var(--cursor-move,move); }
+  :where([data-cursor="ew-resize"]) { cursor: var(--cursor-ew-resize,ew-resize); }
+  :where([data-cursor="ns-resize"]) { cursor: var(--cursor-ns-resize,ns-resize); }
+  :where([data-cursor="nwse-resize"]) { cursor: var(--cursor-nwse-resize,nwse-resize); }
+  :where([data-cursor="nesw-resize"]) { cursor: var(--cursor-nesw-resize,nesw-resize); }
+  input[type="range"]::-webkit-slider-thumb { cursor: var(--cursor-ew-resize,ew-resize); }
+  input[type="range"]::-moz-range-thumb { cursor: var(--cursor-ew-resize,ew-resize); }
+  textarea::-webkit-resizer { cursor: var(--cursor-nwse-resize,nwse-resize); }
+  .diary-dialog textarea::-webkit-resizer { cursor: var(--cursor-ns-resize,ns-resize); }
+
+  /* The diary pencil remains the idle/writing tool, including top-layer dialogs.
+     Active drag, waiting and unavailable states retain their distinct symbols. */
+  .crew-diary,.diary-dialog {
+    --cursor-pencil: url('./figures/decor/painted/cursor/diary_pencil.png') 2 29;
+    --cursor-pointer: var(--cursor-pencil), pointer;
+    --cursor-text: var(--cursor-pencil), text;
+    cursor: var(--cursor-pencil), auto;
+  }
+  .crew-diary :is(.diary-pages,.diary-page-edge) { cursor: var(--cursor-pencil), grab; }
+  .crew-diary :is(.diary-writing,.diary-entry-title,.diary-author),
+  .diary-dialog :is(input:enabled:not([type="checkbox"]):not([type="radio"]):not([type="file"]),textarea:enabled,[contenteditable="true"]) {
+    cursor: var(--cursor-pencil), text;
+  }
+  .crew-diary .diary-book[data-dragging],
+  .crew-diary .diary-book[data-dragging] * { cursor: var(--cursor-grabbing,grabbing); }
 }

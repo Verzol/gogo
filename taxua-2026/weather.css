@@ -58,7 +58,7 @@
 .weather-motion svg { width: 18px; height: 18px; }
 .weather-motion:hover:not(:disabled) { background: rgb(255 245 219 / .4); }
 .weather-motion:active:not(:disabled) { transform: scale(.94); }
-.weather-motion:disabled { opacity: .5; cursor: default; }
+.weather-motion:disabled { opacity: .5; cursor: var(--cursor-not-allowed,default); }
 .weather-eyebrow { font-size: .67rem; letter-spacing: .08em; }
 .trip-weather h2 { font-family: 'Patrick Hand',cursive; font-size: 2.35rem; line-height: 1.15; margin: 6px 0 14px; font-weight: 400; }
 .weather-days { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
@@ -71,7 +71,7 @@
 .weather-probability { font-size: .66rem; line-height: 1.5; min-height: 1.6em; }
 .weather-day:hover:not([aria-disabled="true"]),.weather-day[data-preview="true"] { background: rgb(255 245 219 / .3); transform: translateY(-3px); }
 .weather-day[aria-pressed="true"]::after { content: ''; position: absolute; inset: 0 3px -3px; border: 1px solid currentColor; border-radius: 48% 52% 45% 55% / 8% 10% 12% 9%; transform: rotate(-2deg); pointer-events: none; }
-.weather-day[aria-disabled="true"] { cursor: default; }
+.weather-day[aria-disabled="true"] { cursor: var(--cursor-not-allowed,default); }
 .trip-weather button:focus-visible { outline: 2px solid #386b80; outline-offset: 4px; }
 .weather-status { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; min-height: 76px; }
 .weather-context { padding-top: 8px; font-size: .75rem; line-height: 1.5; }
@@ -80,7 +80,7 @@
 .weather-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; }
 .weather-controls button { min-height: 44px; padding: 5px 0; border: 0; background: transparent; color: inherit; font-size: .69rem; cursor: var(--cursor-pointer,pointer); text-underline-offset: 4px; text-decoration: underline; }
 .weather-controls [hidden] { display: none; }
-.weather-retry:disabled { opacity: .55; cursor: wait; }
+.weather-retry:disabled { opacity: .55; cursor: var(--cursor-wait,wait); }
 /* A separate stacking context puts precipitation above every sky/snapshot,
    while the scenery stage itself stays behind the readable page content. */
 .scene-layers { isolation: isolate; z-index: 0; }

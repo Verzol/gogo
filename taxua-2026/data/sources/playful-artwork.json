@@ -1,0 +1,117 @@
+{
+  "service": "9Router",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "prompt": "docs/prompts/playful/01_pig.md",
+  "sizeRequested": "1024x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "generatedAt": "2026-10-17T13:03:02.075640+00:00",
+  "receivedAt": "2026-10-17T13:03:43.250177+00:00",
+  "contentType": "image/png",
+  "source": "figures/raw/playful/pig_body.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceMode": "RGBA",
+  "sourceSha256": "c284ed48b70682e1c664844778e282dab03aed9fd99a6fbad93d745e61fe851b",
+  "bytes": 2074152,
+  "referenceImages": [
+    {
+      "path": "figures/raw/fund/pig_fund.png",
+      "sha256": "f333eb3f6caa03d32d4fff422aebac892085d022cecd2a17d306fb8cfe96235e"
+    }
+  ],
+  "processing": "Clear alpha below 8, trim at alpha 24; fit within 472px on matching 512px canvases without upscaling or recoloring. Foreground is an alpha mask of the same normalized pig below the measured slot line.",
+  "trim": [
+    39,
+    125,
+    1239,
+    1187
+  ],
+  "paintedSize": [
+    472,
+    418
+  ],
+  "slotSource": [
+    730,
+    288
+  ],
+  "slot": [
+    291.793,
+    111.113
+  ],
+  "slotPercent": [
+    56.991,
+    21.702
+  ],
+  "slotSlope": 0.21,
+  "outputs": [
+    {
+      "src": "figures/decor/painted/playful/pig_body.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 79852,
+      "sha256": "3ef8e5ce1de4cf879d7bbc7fe15d4de12ca21af77b7d874e8907a35c4faf9d75"
+    },
+    {
+      "src": "figures/decor/painted/playful/pig_front.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 76816,
+      "sha256": "1f232be6633a7265f7b34ed91943719cbd0b82281c95f8e937884d517f032bba"
+    },
+    {
+      "src": "figures/decor/painted/playful/toy_coin.webp",
+      "size": [
+        128,
+        128
+      ],
+      "bytes": 9428,
+      "sha256": "693c0cfab37211af44ad66cf32ebf70ee4226ec2d5218d4f5169a53ca75d8532"
+    }
+  ],
+  "coinArtwork": {
+    "service": "9Router",
+    "endpoint": "/v1/images/generations?response_format=binary",
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "docs/prompts/playful/02_coin.md",
+    "promptSha256": "0ca5515f816803cfa4a8ff90e35787fc04b9c2a118e25b054e079459de728d97",
+    "sizeRequested": "1024x1024",
+    "quality": "high",
+    "backgroundRequested": "transparent",
+    "generatedAt": "2026-10-17T13:53:54.798359+00:00",
+    "receivedAt": "2026-10-17T13:54:57.559168+00:00",
+    "contentType": "image/png",
+    "source": "figures/raw/playful/coin_gold.png",
+    "sourceSize": [
+      1254,
+      1254
+    ],
+    "sourceMode": "RGBA",
+    "sourceSha256": "58e86fc1a6f99dac7cd816de778b43d1d87c7a47d2b88f37a0710e2e78c20ae8",
+    "bytes": 2643023,
+    "referenceImages": [
+      {
+        "path": "figures/raw/playful/pig_body.png",
+        "sha256": "c284ed48b70682e1c664844778e282dab03aed9fd99a6fbad93d745e61fe851b"
+      }
+    ],
+    "processing": "Clear alpha below 8, trim at alpha 24; fit within 116px on a centered 128px transparent canvas without upscaling or recoloring.",
+    "trim": [
+      75,
+      59,
+      1179,
+      1192
+    ],
+    "paintedSize": [
+      113,
+      116
+    ]
+  }
+}

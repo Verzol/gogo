@@ -94,7 +94,7 @@
 .atlas-credit p,.atlas-credit a { display:block; margin-top:4px; overflow-wrap:anywhere; }
 .atlas-stepping { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:16px; border-top:1px dashed var(--atlas-line); padding-top:8px; }
 .atlas-stepping button { display:flex; align-items:center; gap:8px; min-height:44px; border:0; background:transparent; padding:3px 0; font-size:.8rem; }
-.atlas-stepping button:disabled { opacity:.4; cursor:default; }
+.atlas-stepping button:disabled { opacity:.4; cursor: var(--cursor-not-allowed,default); }
 .atlas-stepping span { color:var(--atlas-muted); font-size:.7rem; }
 .atlas-stop-index { padding:18px 12px 20px; border-top:1px dashed var(--atlas-line); }
 .atlas-list-heading { display:flex; align-items:baseline; justify-content:space-between; gap:10px; padding:0 8px 12px; }
@@ -332,7 +332,7 @@ html[data-motion-paused="true"] .map-invitation-art,html[data-motion-paused="tru
 .atlas-peek-detail svg { width:14px; height:14px; }
 .atlas-peek-steps { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 8px 2px; font-size:.67rem; color:var(--atlas-muted); }
 .atlas-peek-steps button { display:grid; place-items:center; width:44px; height:44px; padding:0; border:0; background:transparent; }
-.atlas-peek-steps button:disabled { opacity:.35; cursor:default; }
+.atlas-peek-steps button:disabled { opacity:.35; cursor: var(--cursor-not-allowed,default); }
 .is-exploring .trip-map-status { top:calc(var(--explore-top,100px) + 6px); left:50%; right:auto; transform:translateX(-50%); width:max-content; max-width:min(400px,calc(100% - 180px)); }
 .is-exploring .trip-map-retry { top:calc(var(--explore-top,100px) + 100px); left:50%; transform:translateX(-50%); min-height:44px; }
 @media (max-width:1199px) {

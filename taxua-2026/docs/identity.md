@@ -39,7 +39,7 @@ The Sợi mây page scrollbar uses a single watercolor cloud with eight scenery/
 
 ## Cursor artwork
 
-The normal cursor is a watercolor arrow with a cloud base; enabled controls use a painted hand with a cloud cuff. Eight scenery/period pigment palettes match the cloud scrollbar. Native 32px PNG cursors retain precise hotspots and a fine ivory keyline for light/dark contrast. Text editing, disabled/busy controls and drag gestures retain their existing native semantics. Original Sunburst artwork, references and derivative provenance are preserved separately from the supplied stickers. See [Cursor prompts and preparation](prompts/cursor/README.md) and [behavior and fallbacks](controls.md#painted-cloud-cursors).
+The normal cursor is a slim ivory watercolor arrow with a jade edge; enabled controls use a matching plain pointing hand. Neither has clouds, cuffs or side decorations. The diary section and its dialogs use the separate ochre wooden pencil with an indigo band. Eight scenery/period pigment palettes match the cloud scrollbar. Native 32px PNG cursors retain precise hotspots and a fine ivory keyline for light/dark contrast. A matching I-beam, open/closed drag hands, hourglass, unavailable symbol, progress pointer, move/resize arrows and zoom magnifiers complete the 15-state set. Each retains its semantic native fallback; the diary keeps its pencil for idle/writing surfaces. Original Sunburst artwork, references and derivative provenance are preserved separately from the supplied stickers. See [Cursor prompts and preparation](prompts/cursor/README.md) and [behavior and fallbacks](controls.md#painted-cursors).
 
 ## Member wheel artwork
 

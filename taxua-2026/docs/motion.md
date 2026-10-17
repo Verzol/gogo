@@ -40,6 +40,7 @@ Mobile navigation compacts the brand after 24px of scrolling (or with enlarged r
 - Notes, decks, menu, labels, artwork and packing feedback use brief cancellable animations. Rapid clicks retarget; stale fades cannot leave artwork dim or gestures queued.
 - Refresh measurements after fonts, unfolded notes and photo changes settle. Keep menu Escape/focus behavior and reduced-motion controls intact.
 - Clicking/tapping a main story photograph rotates its faces inside the existing outer reveal owner. There are no visible turn controls or hints; illustrative captions stay outside the clickable rotation. Native button keyboard behavior, reduced motion and decorative-motion pause remain supported. Deck navigation resets incoming photographs to their front. See [Photo backs](journal-objects.md).
+- Optional [painted-object play](playful.md) owns separate inner transforms and temporary effects. `sceneSnapshot()` dispatches `journey:play-reset` before cloning; interactive buttons and particles stay outside `#sceneLayers`. Existing pause/reduced-motion, native scrolling and gesture cancellation apply to the toys too.
 
 ## Current pacing
 

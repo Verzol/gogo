@@ -1,0 +1,362 @@
+{
+  "title": "Watercolor cloud cursors",
+  "generation": {
+    "service": "9Router",
+    "model": "cx/gpt-image-2.5-sunburst",
+    "endpoint": "/v1/images/generations?response_format=binary",
+    "sizeRequested": "1536x1024",
+    "quality": "high",
+    "backgroundRequested": "transparent",
+    "prompt": "docs/prompts/cursor/01_cloud_cursors.md",
+    "generatedAt": "2026-10-17T12:41:28.553635+00:00",
+    "referenceImages": [
+      {
+        "path": "figures/decor/cloud_1_day.png",
+        "sha256": "828dda730654729eb165e5f84df295097547350f3b684f14cd93503d0a8693e8"
+      },
+      {
+        "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+        "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+      }
+    ],
+    "receivedAt": "2026-10-17T12:43:27.479072+00:00",
+    "path": "figures/raw/cursor/cloud_cursors.png",
+    "sha256": "bab4378b7ed5d243ee5dd219affa0dc1a4ee2e2675a87b3356bd9ea58de404c5",
+    "bytes": 1675393,
+    "contentType": "image/png",
+    "size": [
+      1536,
+      1024
+    ],
+    "mode": "RGBA"
+  },
+  "processing": "Split sheet, keep main alpha component with 3px feather margin, trim, downsample to fit 28px within 32px canvas at (2,2). Map luminance at 0/.42/.80/1 through shadow/shadow/midtone/highlight with 10% original color, retain alpha, add 1px ivory keyline. Solid painted tip hotspots measured at alpha >=160. Native PNG cursors; no runtime processing.",
+  "crops": {
+    "arrow": {
+      "sheetRegion": [
+        0,
+        0,
+        768,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        192,
+        211,
+        745,
+        842
+      ],
+      "hotspot": [
+        3,
+        2
+      ]
+    },
+    "hand": {
+      "sheetRegion": [
+        768,
+        0,
+        1536,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        122,
+        182,
+        621,
+        868
+      ],
+      "hotspot": [
+        10,
+        2
+      ]
+    }
+  },
+  "assets": {
+    "arrow_day": {
+      "path": "figures/decor/painted/cursor/arrow_day.png",
+      "sha256": "8bae6a6cf2a706dadb69a9b513c19b29eabd63a3cf6d442a6063b379d5cc88d4",
+      "bytes": 1906,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ]
+    },
+    "arrow_night": {
+      "path": "figures/decor/painted/cursor/arrow_night.png",
+      "sha256": "aeb264fcdfacf97eb321c6e1b6589d65ab9b3c0d802d6c354137bd1d2bca4523",
+      "bytes": 2035,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ]
+    },
+    "arrow_predawn": {
+      "path": "figures/decor/painted/cursor/arrow_predawn.png",
+      "sha256": "73ca60bcf83de6c97d5aa2a58e064ce1c225120278be4b51f2210c21ccd02a39",
+      "bytes": 2008,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ]
+    },
+    "arrow_dawn": {
+      "path": "figures/decor/painted/cursor/arrow_dawn.png",
+      "sha256": "2e5b5d00742cbafb755de9d1c2297e1540440d77ca19e54ee1d1aa13e7d9bc00",
+      "bytes": 1929,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ]
+    },
+    "arrow_morning": {
+      "path": "figures/decor/painted/cursor/arrow_morning.png",
+      "sha256": "824e255ccded1da72456aec524710eb2f05fbbef1952964f12e4cd69b9902f15",
+      "bytes": 1979,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ]
+    },
+    "arrow_noon": {
+      "path": "figures/decor/painted/cursor/arrow_noon.png",
+      "sha256": "84b90346f1116caafa29571746729cf7e48673861c1a8a0f15761e013cf0f23a",
+      "bytes": 1967,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ]
+    },
+    "arrow_afternoon": {
+      "path": "figures/decor/painted/cursor/arrow_afternoon.png",
+      "sha256": "7c1048ac39aee99eef91e0629f82cee05075542b700050485544a079f97a40f6",
+      "bytes": 1923,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ]
+    },
+    "arrow_evening": {
+      "path": "figures/decor/painted/cursor/arrow_evening.png",
+      "sha256": "6b75528636392975ef6091d49a02c2d36633f12363d8471440aa1de354135745",
+      "bytes": 1986,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        2
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ]
+    },
+    "hand_day": {
+      "path": "figures/decor/painted/cursor/hand_day.png",
+      "sha256": "f5a863b54c40498fd9fb7b65f7fe7da86727c90251f16825d0ab5cb4f044e45e",
+      "bytes": 1791,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ]
+    },
+    "hand_night": {
+      "path": "figures/decor/painted/cursor/hand_night.png",
+      "sha256": "1560188ce048d948d49def0bbfa95e51d0f79cb0f747581bba8d2d8940b7f990",
+      "bytes": 1862,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ]
+    },
+    "hand_predawn": {
+      "path": "figures/decor/painted/cursor/hand_predawn.png",
+      "sha256": "d241cd7d573723e3717fd64fae9b71e58c03d3f42c01e6a5aa1a7c081c8a9a8c",
+      "bytes": 1833,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ]
+    },
+    "hand_dawn": {
+      "path": "figures/decor/painted/cursor/hand_dawn.png",
+      "sha256": "ea9ba4379e6c95b6d83ff42d18409c2eb29fbff14fe448640295a9b61c31d712",
+      "bytes": 1784,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ]
+    },
+    "hand_morning": {
+      "path": "figures/decor/painted/cursor/hand_morning.png",
+      "sha256": "9de70cf0f22bbdbc8ec055c413a06c29fc6eb4d4b75fadb65e47c0c41835d397",
+      "bytes": 1821,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ]
+    },
+    "hand_noon": {
+      "path": "figures/decor/painted/cursor/hand_noon.png",
+      "sha256": "4b971bb505ebdb242cfd28f2b05dd6de178cd5ae27223d2b58c89107c3330d7d",
+      "bytes": 1812,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ]
+    },
+    "hand_afternoon": {
+      "path": "figures/decor/painted/cursor/hand_afternoon.png",
+      "sha256": "15b9914e6887475e523c131c6a3cbed4da730b40391fb5e58a0d81f2ab288a6e",
+      "bytes": 1781,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ]
+    },
+    "hand_evening": {
+      "path": "figures/decor/painted/cursor/hand_evening.png",
+      "sha256": "0db164691d572558193606a11e48f212329235502f31d5be2ef8c04d9b4124a1",
+      "bytes": 1805,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        10,
+        2
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ]
+    }
+  }
+}

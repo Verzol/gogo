@@ -1,0 +1,21 @@
+{
+  "service": "9Router",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "sizeRequested": "1024x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "prompt": "docs/prompts/cursor/02_diary_pencil.md",
+  "generatedAt": "2026-10-17T14:18:36.500501+00:00",
+  "referenceImages": [],
+  "receivedAt": "2026-10-17T14:19:35.008736+00:00",
+  "path": "figures/raw/cursor/pencil/diary_pencil.png",
+  "sha256": "5e22129e6610afe08985ac5d0c885362c9f7256fe34590f847d54fb313371895",
+  "bytes": 753941,
+  "contentType": "image/png",
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA"
+}

@@ -57,3 +57,5 @@ Validate with `verify_illustrated_scenery.cjs`, then motion/reveal checks for fr
 ## Cloud opening and weather
 
 The opening has a separate painted cloud composition and measured terrain depth wrappers. Weather accents never write base-panel opacity. Ambient movement uses independent transforms and runs only on visible story panels; navigation snapshots freeze their computed pose and weather blend. The opening clears during descent. See [Sky and weather](weather.md) for assets, dates, input and cache behavior.
+
+The optional [painted-object interactions](playful.md) add an opening sun using the existing celestial cutouts, plus accessible controls outside the hidden stage for the dominant world's sun/moon and one clear cloud region. `holdCloud()` pauses only the held cloud without resetting its track. Gesture offsets do not own drift, weather, scene opacity or the itinerary's period state.

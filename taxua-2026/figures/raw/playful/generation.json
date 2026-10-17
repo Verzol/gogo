@@ -1,0 +1,26 @@
+{
+  "service": "9Router",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "prompt": "docs/prompts/playful/01_pig.md",
+  "sizeRequested": "1024x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "generatedAt": "2026-10-17T13:03:02.075640+00:00",
+  "receivedAt": "2026-10-17T13:03:43.250177+00:00",
+  "contentType": "image/png",
+  "source": "figures/raw/playful/pig_body.png",
+  "sourceSize": [
+    1254,
+    1254
+  ],
+  "sourceMode": "RGBA",
+  "sourceSha256": "c284ed48b70682e1c664844778e282dab03aed9fd99a6fbad93d745e61fe851b",
+  "bytes": 2074152,
+  "referenceImages": [
+    {
+      "path": "figures/raw/fund/pig_fund.png",
+      "sha256": "f333eb3f6caa03d32d4fff422aebac892085d022cecd2a17d306fb8cfe96235e"
+    }
+  ]
+}

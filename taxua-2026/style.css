@@ -274,7 +274,7 @@ main,.footer { position: relative; z-index: 1; }
 .wheel-member-inner:hover:not(:disabled),.wheel-member-inner:focus-visible { background: rgb(255 253 247 / .35); }
 .wheel-member-inner:focus-visible { outline: 2px solid #173e48; outline-offset: 2px; box-shadow: 0 0 0 4px #fff6da; }
 .wheel-member-inner:active:not(:disabled) { background: rgb(255 253 247 / .6); }
-.wheel-member-inner:disabled { cursor: wait; }
+.wheel-member-inner:disabled { cursor: var(--cursor-wait,wait); }
 .wheel-initial { position: relative; display: grid; place-items: center; width: clamp(23px,2.6vw,33px); aspect-ratio: 1; background: rgb(255 253 247 / .55); border: 1px solid rgb(23 62 72 / .35); border-radius: 48% 52% 54% 46%; font-family: 'Patrick Hand',cursive; font-size: clamp(1rem,1.8vw,1.4rem); line-height: 1; }
 .wheel-initial img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .wheel-initial.has-portrait { width:44px; color:transparent; background:transparent; border-color:transparent; }
@@ -293,7 +293,7 @@ main,.footer { position: relative; z-index: 1; }
 .wheel-spin:hover:not([aria-disabled="true"]) { scale: 1.06; }
 .wheel-spin:active:not([aria-disabled="true"]) { scale: .97; }
 .wheel-spin:focus-visible { outline-color: #fff6da; outline-offset: 7px; }
-.wheel-spin[aria-disabled="true"] { cursor: default; }
+.wheel-spin[aria-disabled="true"] { cursor: var(--cursor-not-allowed,default); }
 .is-spinning .wheel-spin > span { font-size: .8em; }
 .wheel-scribble { position: absolute; top: -9px; right: 8px; font-family: 'Patrick Hand',cursive; font-size: 1.1rem; color: var(--accent); transform: rotate(7deg); }
 .wheel-scribble::after { content: '↙'; display: inline-block; margin-left: 8px; font-size: 1.8rem; }
@@ -318,7 +318,7 @@ main,.footer { position: relative; z-index: 1; }
 .wheel-repeat { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; cursor: var(--cursor-pointer,pointer); font-size: .8rem; }
 .wheel-repeat input { width: 18px; height: 18px; margin: 0; accent-color: #ffda9d; }
 .wheel-reset { min-height: 44px; padding: 5px 0; border: 0; background: transparent; color: var(--accent); font-family: 'Patrick Hand',cursive; font-size: 1.15rem; text-decoration: underline; text-decoration-style: dashed; text-underline-offset: 5px; }
-.wheel-reset:disabled { opacity: .45; cursor: wait; }
+.wheel-reset:disabled { opacity: .45; cursor: var(--cursor-wait,wait); }
 .wheel-reset > span { margin-left: 4px; }
 .wheel-availability { margin-top: 12px; color: var(--accent); font-family: 'Patrick Hand',cursive; font-size: 1.15rem; }
 .wheel-fairness { max-width: 36ch; margin-top: 3px; font-size: .72rem; opacity: .85; }

@@ -111,11 +111,16 @@ function renderFund() {
       <p class="fund-reminder">${esc(f.contributionIntro)} <strong>${money(f.amountPerPerson)}</strong> ${esc(f.contributionOutro)} ${esc(f.reminder)}</p>
     </div>
     <div class="fund-pocket">
-      <div class="fund-illustration" aria-hidden="true">
-        <span class="fund-pig">
-          <img src="./figures/decor/painted/pig_fund.webp" alt="" width="512" height="512" loading="lazy" decoding="async">
+      <div class="fund-illustration">
+        <button class="fund-pig" type="button" aria-label="Cho heo ăn một xu vui" disabled>
+          <span class="fund-pig-art" aria-hidden="true">
+          <img src="./figures/decor/painted/playful/pig_body.webp" alt="" width="512" height="512" loading="lazy" decoding="async" draggable="false">
           ${icon('piggy-bank','fund-pig-fallback')}
-        </span>
+          <span class="fund-slot-mask"></span><span class="fund-slot-guide"></span>
+          </span>
+        </button>
+        <button class="fund-toy-coin" type="button" aria-label="Thả xu vào heo; chạm để cho heo ăn xu" disabled><img src="./figures/decor/painted/playful/toy_coin.webp" width="128" height="128" alt="" loading="lazy" decoding="async" draggable="false"></button>
+        <span class="fund-play-hint" aria-hidden="true">chạm heo · kéo xu</span>
         <span class="fund-pig-note">${esc(f.pigNote)}</span>
       </div>
       <div class="fund-tally"><p class="fund-amount"><strong>${new Intl.NumberFormat('vi-VN').format(f.amountPerPerson)}</strong><span>₫ / ${esc(f.amountLabel)}</span></p></div>
@@ -129,11 +134,16 @@ function renderFund() {
   const pigImage = document.querySelector('.fund-pig img');
   const showPigFallback = () => {
     if (!pigImage.isConnected) return;
-    pigImage.parentElement.classList.add('is-fallback');
+    pigImage.closest('.fund-pig').classList.add('is-fallback');
     pigImage.remove();
   };
   pigImage.addEventListener('error',showPigFallback,{once:true});
-  if (pigImage.complete && !pigImage.naturalWidth) showPigFallback();
+  const showPigFront = () => pigImage.parentElement.classList.add('is-ready');
+  pigImage.addEventListener('load',showPigFront,{once:true});
+  if (pigImage.complete) {
+    if (pigImage.naturalWidth) showPigFront();
+    else showPigFallback();
+  }
 }
 function renderEventBody(block) {
   const guide = block.showPlaceGuide !== false && TRIP_DATA.placeGuides[block.stopId];

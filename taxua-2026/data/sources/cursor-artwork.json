@@ -1,5 +1,5 @@
 {
-  "title": "Watercolor cloud cursors",
+  "title": "Complete watercolor cursors without cloud decoration",
   "generation": {
     "service": "9Router",
     "model": "cx/gpt-image-2.5-sunburst",
@@ -7,22 +7,18 @@
     "sizeRequested": "1536x1024",
     "quality": "high",
     "backgroundRequested": "transparent",
-    "prompt": "docs/prompts/cursor/01_cloud_cursors.md",
-    "generatedAt": "2026-10-17T12:41:28.553635+00:00",
+    "prompt": "docs/prompts/cursor/03_simple_cursors.md",
+    "generatedAt": "2026-10-17T14:24:21.586268+00:00",
     "referenceImages": [
       {
-        "path": "figures/decor/cloud_1_day.png",
-        "sha256": "828dda730654729eb165e5f84df295097547350f3b684f14cd93503d0a8693e8"
-      },
-      {
-        "path": "figures/decor/painted/cloud_coffee_sticker.webp",
-        "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+        "path": "figures/raw/cursor/pencil/diary_pencil.png",
+        "sha256": "5e22129e6610afe08985ac5d0c885362c9f7256fe34590f847d54fb313371895"
       }
     ],
-    "receivedAt": "2026-10-17T12:43:27.479072+00:00",
-    "path": "figures/raw/cursor/cloud_cursors.png",
-    "sha256": "bab4378b7ed5d243ee5dd219affa0dc1a4ee2e2675a87b3356bd9ea58de404c5",
-    "bytes": 1675393,
+    "receivedAt": "2026-10-17T14:26:15.941203+00:00",
+    "path": "figures/raw/cursor/revision_2/simple_cursors.png",
+    "sha256": "13dbb1b524c1e88916a9714dc83604314b101698c2c5940e69ac1ea4cbd4c47b",
+    "bytes": 1588574,
     "contentType": "image/png",
     "size": [
       1536,
@@ -30,7 +26,92 @@
     ],
     "mode": "RGBA"
   },
-  "processing": "Split sheet, keep main alpha component with 3px feather margin, trim, downsample to fit 28px within 32px canvas at (2,2). Map luminance at 0/.42/.80/1 through shadow/shadow/midtone/highlight with 10% original color, retain alpha, add 1px ivory keyline. Solid painted tip hotspots measured at alpha >=160. Native PNG cursors; no runtime processing.",
+  "generations": [
+    {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/cursor/03_simple_cursors.md",
+      "generatedAt": "2026-10-17T14:24:21.586268+00:00",
+      "referenceImages": [
+        {
+          "path": "figures/raw/cursor/pencil/diary_pencil.png",
+          "sha256": "5e22129e6610afe08985ac5d0c885362c9f7256fe34590f847d54fb313371895"
+        }
+      ],
+      "receivedAt": "2026-10-17T14:26:15.941203+00:00",
+      "path": "figures/raw/cursor/revision_2/simple_cursors.png",
+      "sha256": "13dbb1b524c1e88916a9714dc83604314b101698c2c5940e69ac1ea4cbd4c47b",
+      "bytes": 1588574,
+      "contentType": "image/png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/cursor/04_interaction_states.md",
+      "generatedAt": "2026-10-17T14:28:57.710963+00:00",
+      "referenceImages": [
+        {
+          "path": "figures/raw/cursor/revision_2/simple_cursors.png",
+          "sha256": "13dbb1b524c1e88916a9714dc83604314b101698c2c5940e69ac1ea4cbd4c47b"
+        }
+      ],
+      "receivedAt": "2026-10-17T14:31:13.145146+00:00",
+      "path": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png",
+      "sha256": "20926648d7c5d2b2f544d341088b575b9f3869d8c1b3e864126e4fa3818f4fbf",
+      "bytes": 1748082,
+      "contentType": "image/png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "service": "9Router",
+      "model": "cx/gpt-image-2.5-sunburst",
+      "endpoint": "/v1/images/generations?response_format=binary",
+      "sizeRequested": "1536x1024",
+      "quality": "high",
+      "backgroundRequested": "transparent",
+      "prompt": "docs/prompts/cursor/05_resize_zoom_states.md",
+      "generatedAt": "2026-10-17T14:28:57.709467+00:00",
+      "referenceImages": [
+        {
+          "path": "figures/raw/cursor/revision_2/simple_cursors.png",
+          "sha256": "13dbb1b524c1e88916a9714dc83604314b101698c2c5940e69ac1ea4cbd4c47b"
+        }
+      ],
+      "receivedAt": "2026-10-17T14:31:22.324703+00:00",
+      "path": "figures/raw/cursor/revision_2/resize_zoom/resize_zoom_cursors.png",
+      "sha256": "cfcd9e0f7cf2eb392b0b106504279cc7e782d1a3baa6eb87b1a353dd9d27449d",
+      "bytes": 1602482,
+      "contentType": "image/png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA"
+    }
+  ],
+  "processing": "Extract largest alpha component at >=32 with 3px feather margin per cell, trim, downsample to fit 28px in centered transparent 32px canvas (arrow anchored 2,2). Map luminance at 0/.42/.80/1 to shadow/shadow/midtone/highlight with 10% original pigment. Add 1px ivory keyline. Arrow/finger hotspots use solid alpha; other states use center, zoom uses lens center. Progress composes arrow and hourglass. No runtime processing.",
+  "archivedOriginalManifest": "figures/raw/cursor/original_manifest.json",
+  "paletteStyles": {
+    "path": "cursor-palettes.css",
+    "sha256": "e587df400eba50efd8fda00995406ef6455697746982b3882e71e9cf55e0f820"
+  },
   "crops": {
     "arrow": {
       "sheetRegion": [
@@ -40,15 +121,16 @@
         1024
       ],
       "alphaBoundsInRegion": [
-        192,
-        211,
-        745,
-        842
+        271,
+        182,
+        667,
+        876
       ],
       "hotspot": [
-        3,
+        2,
         2
-      ]
+      ],
+      "source": "figures/raw/cursor/revision_2/simple_cursors.png"
     },
     "hand": {
       "sheetRegion": [
@@ -58,305 +140,2656 @@
         1024
       ],
       "alphaBoundsInRegion": [
-        122,
-        182,
-        621,
-        868
+        55,
+        192,
+        587,
+        858
       ],
       "hotspot": [
-        10,
+        14,
         2
+      ],
+      "source": "figures/raw/cursor/revision_2/simple_cursors.png"
+    },
+    "grab": {
+      "sheetRegion": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alphaBoundsInRegion": [
+        95,
+        89,
+        449,
+        467
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png"
+    },
+    "grabbing": {
+      "sheetRegion": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "alphaBoundsInRegion": [
+        114,
+        138,
+        424,
+        450
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png"
+    },
+    "text": {
+      "sheetRegion": [
+        1024,
+        0,
+        1536,
+        512
+      ],
+      "alphaBoundsInRegion": [
+        183,
+        142,
+        301,
+        423
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png"
+    },
+    "wait": {
+      "sheetRegion": [
+        0,
+        512,
+        512,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        170,
+        73,
+        398,
+        385
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png"
+    },
+    "unavailable": {
+      "sheetRegion": [
+        512,
+        512,
+        1024,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        94,
+        64,
+        429,
+        392
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png"
+    },
+    "move": {
+      "sheetRegion": [
+        1024,
+        512,
+        1536,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        76,
+        64,
+        414,
+        392
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png"
+    },
+    "resize_horizontal": {
+      "sheetRegion": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alphaBoundsInRegion": [
+        98,
+        182,
+        464,
+        366
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/resize_zoom/resize_zoom_cursors.png"
+    },
+    "resize_vertical": {
+      "sheetRegion": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "alphaBoundsInRegion": [
+        172,
+        96,
+        340,
+        435
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/resize_zoom/resize_zoom_cursors.png"
+    },
+    "resize_nwse": {
+      "sheetRegion": [
+        1024,
+        0,
+        1536,
+        512
+      ],
+      "alphaBoundsInRegion": [
+        97,
+        135,
+        383,
+        414
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/resize_zoom/resize_zoom_cursors.png"
+    },
+    "resize_nesw": {
+      "sheetRegion": [
+        0,
+        512,
+        512,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        130,
+        97,
+        414,
+        371
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "source": "figures/raw/cursor/revision_2/resize_zoom/resize_zoom_cursors.png"
+    },
+    "zoom_in": {
+      "sheetRegion": [
+        512,
+        512,
+        1024,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        95,
+        76,
+        418,
+        394
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "source": "figures/raw/cursor/revision_2/resize_zoom/resize_zoom_cursors.png"
+    },
+    "zoom_out": {
+      "sheetRegion": [
+        1024,
+        512,
+        1536,
+        1024
+      ],
+      "alphaBoundsInRegion": [
+        78,
+        75,
+        401,
+        394
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "source": "figures/raw/cursor/revision_2/resize_zoom/resize_zoom_cursors.png"
+    },
+    "progress": {
+      "composedFrom": [
+        "arrow",
+        "wait"
+      ],
+      "hotspot": [
+        3,
+        3
       ]
     }
   },
   "assets": {
     "arrow_day": {
       "path": "figures/decor/painted/cursor/arrow_day.png",
-      "sha256": "8bae6a6cf2a706dadb69a9b513c19b29eabd63a3cf6d442a6063b379d5cc88d4",
-      "bytes": 1906,
+      "sha256": "9d2adaa078c1c70b2e9b04b15b29bebaea3196571ea2d16e93654cd84db3f544",
+      "bytes": 1423,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#224f55",
         "#e3c8b1",
         "#fff3da"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "arrow_night": {
       "path": "figures/decor/painted/cursor/arrow_night.png",
-      "sha256": "aeb264fcdfacf97eb321c6e1b6589d65ab9b3c0d802d6c354137bd1d2bca4523",
-      "bytes": 2035,
+      "sha256": "0746330c46c37af5d504645ce330811ec8c6ed022fd5b50884a4e6c681a9f93c",
+      "bytes": 1433,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#354d7e",
         "#97add2",
         "#e7eafa"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "arrow_predawn": {
       "path": "figures/decor/painted/cursor/arrow_predawn.png",
-      "sha256": "73ca60bcf83de6c97d5aa2a58e064ce1c225120278be4b51f2210c21ccd02a39",
-      "bytes": 2008,
+      "sha256": "8a8bfd101b335b78f959930ef055c78ba3f67a60b28763cb13a38992fb72acb7",
+      "bytes": 1408,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#555280",
         "#b8aed9",
         "#f0eafa"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "arrow_dawn": {
       "path": "figures/decor/painted/cursor/arrow_dawn.png",
-      "sha256": "2e5b5d00742cbafb755de9d1c2297e1540440d77ca19e54ee1d1aa13e7d9bc00",
-      "bytes": 1929,
+      "sha256": "b9935d4ccd3a0069405a7e0f2620f142973882edda701d0f24496e06f4a67bc1",
+      "bytes": 1398,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#6a6560",
         "#e5c78d",
         "#fff0cc"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "arrow_morning": {
       "path": "figures/decor/painted/cursor/arrow_morning.png",
-      "sha256": "824e255ccded1da72456aec524710eb2f05fbbef1952964f12e4cd69b9902f15",
-      "bytes": 1979,
+      "sha256": "4a4ac5b05b2b1e1fe68b3808d6906864127411e5c2f9ae7387f58471e8faa3cb",
+      "bytes": 1425,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#356d61",
         "#a6cbb1",
         "#f2f5cf"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "arrow_noon": {
       "path": "figures/decor/painted/cursor/arrow_noon.png",
-      "sha256": "84b90346f1116caafa29571746729cf7e48673861c1a8a0f15761e013cf0f23a",
-      "bytes": 1967,
+      "sha256": "ae12561f599ec4def28e8da404a1a58c704b3ec948d0780ae01d9de1534ccf6f",
+      "bytes": 1394,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#43849a",
         "#b9e0e5",
         "#f8ffff"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "arrow_afternoon": {
       "path": "figures/decor/painted/cursor/arrow_afternoon.png",
-      "sha256": "7c1048ac39aee99eef91e0629f82cee05075542b700050485544a079f97a40f6",
-      "bytes": 1923,
+      "sha256": "f03694b5dfec0197045d8698f015bd4441fb312435455f405a3332e23127709c",
+      "bytes": 1404,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#935865",
         "#e9b18a",
         "#fff2cd"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "arrow_evening": {
       "path": "figures/decor/painted/cursor/arrow_evening.png",
-      "sha256": "6b75528636392975ef6091d49a02c2d36633f12363d8471440aa1de354135745",
-      "bytes": 1986,
+      "sha256": "76835fc3e0000e751c67e0dc07c5038de578938fa9882df6ec89a977370fbff8",
+      "bytes": 1408,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        3,
+        2,
         2
       ],
       "pigmentPalette": [
         "#6c557e",
         "#c4a0b7",
         "#fbe0d5"
-      ]
+      ],
+      "cssVariable": "--cursor-arrow",
+      "fallback": "auto"
     },
     "hand_day": {
       "path": "figures/decor/painted/cursor/hand_day.png",
-      "sha256": "f5a863b54c40498fd9fb7b65f7fe7da86727c90251f16825d0ab5cb4f044e45e",
-      "bytes": 1791,
+      "sha256": "6fc2d89b41abe70bc76d0bfff2c3ff5617c3366572354c098750b33a39043bd0",
+      "bytes": 1783,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#224f55",
         "#e3c8b1",
         "#fff3da"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
     },
     "hand_night": {
       "path": "figures/decor/painted/cursor/hand_night.png",
-      "sha256": "1560188ce048d948d49def0bbfa95e51d0f79cb0f747581bba8d2d8940b7f990",
-      "bytes": 1862,
+      "sha256": "cb2d8c5371453bc7fe9a35d5872251d49e158d26d75f73514ba86bcdd82f1964",
+      "bytes": 1808,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#354d7e",
         "#97add2",
         "#e7eafa"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
     },
     "hand_predawn": {
       "path": "figures/decor/painted/cursor/hand_predawn.png",
-      "sha256": "d241cd7d573723e3717fd64fae9b71e58c03d3f42c01e6a5aa1a7c081c8a9a8c",
-      "bytes": 1833,
+      "sha256": "ef5ca4cbc97fb716d794f1d17999a6c91c5fbe90e10f0145d741b766cad8bd4b",
+      "bytes": 1779,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#555280",
         "#b8aed9",
         "#f0eafa"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
     },
     "hand_dawn": {
       "path": "figures/decor/painted/cursor/hand_dawn.png",
-      "sha256": "ea9ba4379e6c95b6d83ff42d18409c2eb29fbff14fe448640295a9b61c31d712",
-      "bytes": 1784,
+      "sha256": "ede8c54e9db19121c6dbaccce72743edf6c87e9e67a79302c9274cc812176cc0",
+      "bytes": 1750,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#6a6560",
         "#e5c78d",
         "#fff0cc"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
     },
     "hand_morning": {
       "path": "figures/decor/painted/cursor/hand_morning.png",
-      "sha256": "9de70cf0f22bbdbc8ec055c413a06c29fc6eb4d4b75fadb65e47c0c41835d397",
-      "bytes": 1821,
+      "sha256": "0320b1e2fb519d6d94535eadc13b8b07a03ee620a93b8cf3434e92fd59ab3f3f",
+      "bytes": 1778,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#356d61",
         "#a6cbb1",
         "#f2f5cf"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
     },
     "hand_noon": {
       "path": "figures/decor/painted/cursor/hand_noon.png",
-      "sha256": "4b971bb505ebdb242cfd28f2b05dd6de178cd5ae27223d2b58c89107c3330d7d",
-      "bytes": 1812,
+      "sha256": "4a8cccdf7a75e6f8bff9f365acf475ca89a2e3b5b5fbae868beb9f55592501a8",
+      "bytes": 1738,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#43849a",
         "#b9e0e5",
         "#f8ffff"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
     },
     "hand_afternoon": {
       "path": "figures/decor/painted/cursor/hand_afternoon.png",
-      "sha256": "15b9914e6887475e523c131c6a3cbed4da730b40391fb5e58a0d81f2ab288a6e",
-      "bytes": 1781,
+      "sha256": "87b49584e1dedc77127b0a9e2f8a55f63eb79b8a72655065e37bd59444a4cbb0",
+      "bytes": 1752,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#935865",
         "#e9b18a",
         "#fff2cd"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
     },
     "hand_evening": {
       "path": "figures/decor/painted/cursor/hand_evening.png",
-      "sha256": "0db164691d572558193606a11e48f212329235502f31d5be2ef8c04d9b4124a1",
-      "bytes": 1805,
+      "sha256": "f5f81b1cced2bf001e86d725fcb28640a480f2f02a5d97908d371a21a0390d9d",
+      "bytes": 1760,
       "size": [
         32,
         32
       ],
       "hotspot": [
-        10,
+        14,
         2
       ],
       "pigmentPalette": [
         "#6c557e",
         "#c4a0b7",
         "#fbe0d5"
-      ]
+      ],
+      "cssVariable": "--cursor-pointer",
+      "fallback": "pointer"
+    },
+    "grab_day": {
+      "path": "figures/decor/painted/cursor/grab_day.png",
+      "sha256": "bd70400f34f7b38fca5ace0ee206b8bc41a8df9207b953399f7db43116143848",
+      "bytes": 2360,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grab_night": {
+      "path": "figures/decor/painted/cursor/grab_night.png",
+      "sha256": "9e211c5ede490f61478fc3e42dddaddb073eb3981b769b6c637ae395a2a3cf63",
+      "bytes": 2416,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grab_predawn": {
+      "path": "figures/decor/painted/cursor/grab_predawn.png",
+      "sha256": "1a9b24c8a65442a4de9ac1a3033d65510c9c2c1d7afb2e438fe706beb6bfedfa",
+      "bytes": 2387,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grab_dawn": {
+      "path": "figures/decor/painted/cursor/grab_dawn.png",
+      "sha256": "6c7ad81c2b7c4a18e9fc76e267ec05d52cb5f348c17b9231ca79d4dd41dd0baa",
+      "bytes": 2353,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grab_morning": {
+      "path": "figures/decor/painted/cursor/grab_morning.png",
+      "sha256": "8c07c5225c29eb4daf135b921967b88f4e20da55768ba45b3d0e8da5f66992ff",
+      "bytes": 2378,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grab_noon": {
+      "path": "figures/decor/painted/cursor/grab_noon.png",
+      "sha256": "bc032c21d537db93508baac664d7a1cb9cf0096f656641cb30de339753f9c7f1",
+      "bytes": 2343,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grab_afternoon": {
+      "path": "figures/decor/painted/cursor/grab_afternoon.png",
+      "sha256": "52808990b227ea44fae3db4406f421a4c7e6996a3513d3936669024dea707d0c",
+      "bytes": 2330,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grab_evening": {
+      "path": "figures/decor/painted/cursor/grab_evening.png",
+      "sha256": "0318fbe68ae86f6bd15e568a563d939a0a161a2e14f62fb7bbf32494fa7ac29a",
+      "bytes": 2355,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-grab",
+      "fallback": "grab"
+    },
+    "grabbing_day": {
+      "path": "figures/decor/painted/cursor/grabbing_day.png",
+      "sha256": "17dc6b6db322c3a50f212b6c5d897c7941eaa5cf9434c2953378528aa2d1cfa0",
+      "bytes": 2461,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "grabbing_night": {
+      "path": "figures/decor/painted/cursor/grabbing_night.png",
+      "sha256": "7bfd5f5e87e7eada8447e1ce7bc3a795ee1cfcb48aac56b725ce8a06b14c656f",
+      "bytes": 2537,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "grabbing_predawn": {
+      "path": "figures/decor/painted/cursor/grabbing_predawn.png",
+      "sha256": "646116ba0c95b29bbbf7b48b27d684054e540f121d64a49295b1b9548fe06d34",
+      "bytes": 2492,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "grabbing_dawn": {
+      "path": "figures/decor/painted/cursor/grabbing_dawn.png",
+      "sha256": "77a205580291b75e72e70033c352de53147f547606a8a1fa6ef6ca8636f1049b",
+      "bytes": 2462,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "grabbing_morning": {
+      "path": "figures/decor/painted/cursor/grabbing_morning.png",
+      "sha256": "aea2c66d6547c3dad60a867bb84b05a302543b864e3b49dc3e83c8656e16a115",
+      "bytes": 2484,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "grabbing_noon": {
+      "path": "figures/decor/painted/cursor/grabbing_noon.png",
+      "sha256": "67fd38c4ab5f1e53a3b2f6a45b259a1543c14db0a08531800aa4f5aea04441da",
+      "bytes": 2461,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "grabbing_afternoon": {
+      "path": "figures/decor/painted/cursor/grabbing_afternoon.png",
+      "sha256": "fb0eb29b990309bedae8e75bc6f3fa07b9a893339c338f4c837dd418e6b82ec1",
+      "bytes": 2445,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "grabbing_evening": {
+      "path": "figures/decor/painted/cursor/grabbing_evening.png",
+      "sha256": "620cc4b696bd3f172227cc196b053c6c0ec9888c03cecd7b8f1ae0149c9f8baf",
+      "bytes": 2458,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-grabbing",
+      "fallback": "grabbing"
+    },
+    "text_day": {
+      "path": "figures/decor/painted/cursor/text_day.png",
+      "sha256": "e7fd4490c13bd8b92d9c38073c82cb590bc3c18b95be775fba171e20f3df0659",
+      "bytes": 965,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "text_night": {
+      "path": "figures/decor/painted/cursor/text_night.png",
+      "sha256": "230cee171ee0837edca7f7e0e228edc8c24a2963e4e84865d7c3692e80b1a0e5",
+      "bytes": 1003,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "text_predawn": {
+      "path": "figures/decor/painted/cursor/text_predawn.png",
+      "sha256": "c2b64b4bb6bad0db7c718aa6e858e5d5f844bfcc9ff88401525fe9dbe2d19c40",
+      "bytes": 987,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "text_dawn": {
+      "path": "figures/decor/painted/cursor/text_dawn.png",
+      "sha256": "13cc884a33ec5ec5c6e9716427e61f43db798e45a52c0a3c9453ff6e9c4b365a",
+      "bytes": 968,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "text_morning": {
+      "path": "figures/decor/painted/cursor/text_morning.png",
+      "sha256": "6ee2f8b24ca03e3ac0e0c999e1bf7d5b2c7991eeac239404c87912b8f33aa807",
+      "bytes": 983,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "text_noon": {
+      "path": "figures/decor/painted/cursor/text_noon.png",
+      "sha256": "41c8c1a55bd6e80310bc01f5be02ed02cfadbeac0ed0dbf7d5556d6f5bed4734",
+      "bytes": 985,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "text_afternoon": {
+      "path": "figures/decor/painted/cursor/text_afternoon.png",
+      "sha256": "25430a046c1482ada8eebdb1b6b5c4ed1531005533b5e173b3c27fed1a2f609c",
+      "bytes": 968,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "text_evening": {
+      "path": "figures/decor/painted/cursor/text_evening.png",
+      "sha256": "9e5f65ef6b4001a8b84fe7a31bf3479f3e86873d5084e376d0c5d7e1123e2ca7",
+      "bytes": 974,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-text",
+      "fallback": "text"
+    },
+    "wait_day": {
+      "path": "figures/decor/painted/cursor/wait_day.png",
+      "sha256": "8a42fac59b8407d6ffd0402057988f8e3df1cfa3ecd40b2ebab934e502e3bdec",
+      "bytes": 1925,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "wait_night": {
+      "path": "figures/decor/painted/cursor/wait_night.png",
+      "sha256": "b6b5a7d057fbf15def786739da53bcd7cf1d9a7e42edd819dd11089e5ebf18e6",
+      "bytes": 1932,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "wait_predawn": {
+      "path": "figures/decor/painted/cursor/wait_predawn.png",
+      "sha256": "77d1e10f6165fdb4a5bb3d29cbb9034e56fadcb6020dedfe389e1f22382e648e",
+      "bytes": 1915,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "wait_dawn": {
+      "path": "figures/decor/painted/cursor/wait_dawn.png",
+      "sha256": "8754025d320399a6d6f52cba04854f788f3d3e933cb8ad02b495f5480655ee7b",
+      "bytes": 1905,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "wait_morning": {
+      "path": "figures/decor/painted/cursor/wait_morning.png",
+      "sha256": "1b1c07faef65ff7c657fee46f081b39e07ce70067e8d396cfff8d68516e26f80",
+      "bytes": 1919,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "wait_noon": {
+      "path": "figures/decor/painted/cursor/wait_noon.png",
+      "sha256": "cc12005a448aecad0622aa20ac9a27e24a8540a6f39b66c4a3c91dba98d80a2b",
+      "bytes": 1896,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "wait_afternoon": {
+      "path": "figures/decor/painted/cursor/wait_afternoon.png",
+      "sha256": "3f7ff507fb71a0db96d91794194bc9169e06c71dcc4e39fa8dfc09d1e9b9ab6e",
+      "bytes": 1882,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "wait_evening": {
+      "path": "figures/decor/painted/cursor/wait_evening.png",
+      "sha256": "ed02ee68d47e0606345f266dc2e7530a215eee7e38134ccac82202c05a4e8409",
+      "bytes": 1897,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-wait",
+      "fallback": "wait"
+    },
+    "unavailable_day": {
+      "path": "figures/decor/painted/cursor/unavailable_day.png",
+      "sha256": "d00197f23ed4698f8a0af242fa3eaabdc512f3572d73d77d6ff95ae5f1d2c6b1",
+      "bytes": 2656,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "unavailable_night": {
+      "path": "figures/decor/painted/cursor/unavailable_night.png",
+      "sha256": "5ce167aa686487f862d42d58e4cda77bf982a8101bef043a07e9180419a7e6ee",
+      "bytes": 2677,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "unavailable_predawn": {
+      "path": "figures/decor/painted/cursor/unavailable_predawn.png",
+      "sha256": "ab0247736afec81e3856d66ddd2e3371881aa40ebee1b0297711bbf4d38803b0",
+      "bytes": 2687,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "unavailable_dawn": {
+      "path": "figures/decor/painted/cursor/unavailable_dawn.png",
+      "sha256": "43e64e16c522a7524f9e126a08d6280c3113fb2bfbdf3f97c2a54dd74e46523b",
+      "bytes": 2642,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "unavailable_morning": {
+      "path": "figures/decor/painted/cursor/unavailable_morning.png",
+      "sha256": "d540dc7f4762d38f989d683f1ad985440e7162490b8fdc3600c3972fd5fde47d",
+      "bytes": 2677,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "unavailable_noon": {
+      "path": "figures/decor/painted/cursor/unavailable_noon.png",
+      "sha256": "07d1d2bf06f54cec3776560c924257378e62bdda3e8ce18d71b82e481509d99d",
+      "bytes": 2643,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "unavailable_afternoon": {
+      "path": "figures/decor/painted/cursor/unavailable_afternoon.png",
+      "sha256": "c6cda2a6fca814ae7eb3a091e73a54a38f1dbdd2a175469e06ed0dfaf3f0d3f8",
+      "bytes": 2607,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "unavailable_evening": {
+      "path": "figures/decor/painted/cursor/unavailable_evening.png",
+      "sha256": "49778c9a4f4211dc1dbce24dd8eecbb9d18b3a01e5ee133dcf9013be223d6b3b",
+      "bytes": 2620,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-not-allowed",
+      "fallback": "not-allowed"
+    },
+    "move_day": {
+      "path": "figures/decor/painted/cursor/move_day.png",
+      "sha256": "ef2288b21b4b2cbeb6b6ad0bbd4bc25ca5cd7c842c958fe15164dce59325798f",
+      "bytes": 2119,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "move_night": {
+      "path": "figures/decor/painted/cursor/move_night.png",
+      "sha256": "9fb776514f63ce81ba39810a42b73f1e138ecb3c87284d2fd196cbda8149f98d",
+      "bytes": 2183,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "move_predawn": {
+      "path": "figures/decor/painted/cursor/move_predawn.png",
+      "sha256": "4e458faff9ff86f6f33b3787630db61c42143ce807d0dbd8bb7e46b6050613e4",
+      "bytes": 2182,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "move_dawn": {
+      "path": "figures/decor/painted/cursor/move_dawn.png",
+      "sha256": "f97560fd6151f5b8b8ce22056f08a239ec470f0915e89b5e1be965cf49adc69e",
+      "bytes": 2137,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "move_morning": {
+      "path": "figures/decor/painted/cursor/move_morning.png",
+      "sha256": "e01c91179ef77a1aaf6741090d84486ee4117002f0aac63a95a3c8ce1bd8ae45",
+      "bytes": 2152,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "move_noon": {
+      "path": "figures/decor/painted/cursor/move_noon.png",
+      "sha256": "1293d98b4597ecb17a8007d0e5ee19ef86557d55c70cf5eabc81732a67169a9a",
+      "bytes": 2144,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "move_afternoon": {
+      "path": "figures/decor/painted/cursor/move_afternoon.png",
+      "sha256": "5a12a4e7d0594769625e5c3e021eeb870bbc1809110c75ed3ad3d825cd9ec668",
+      "bytes": 2123,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "move_evening": {
+      "path": "figures/decor/painted/cursor/move_evening.png",
+      "sha256": "17282118a6a7281bbd4748396d867bcf2f25d4d4e67235d209765b262bdaefa3",
+      "bytes": 2146,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-move",
+      "fallback": "move"
+    },
+    "resize_horizontal_day": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_day.png",
+      "sha256": "816fcfef648d0ccad067141445a9d5619c4fc10a4edc2ff66fe86f16dffa24ad",
+      "bytes": 1398,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_horizontal_night": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_night.png",
+      "sha256": "0539160034af285c94df6c0080ed37d03390f099cea4f08f9f059afb2d993b52",
+      "bytes": 1408,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_horizontal_predawn": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_predawn.png",
+      "sha256": "533cbc5dfe0f3841cde549d744da7936980eefcde236e6fe039af5d98639a2cf",
+      "bytes": 1388,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_horizontal_dawn": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_dawn.png",
+      "sha256": "cdf63b11276b61a78fd96d52b968423805e543fab4f973af942ccb4ee8ffcdc3",
+      "bytes": 1376,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_horizontal_morning": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_morning.png",
+      "sha256": "5411685157f8f7647b20fb08c61c33176b1a252661c8f1860443428c80988ee4",
+      "bytes": 1397,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_horizontal_noon": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_noon.png",
+      "sha256": "e2875dada82f969d008531db9202e317c02271bb71c5a08784b8721bee699205",
+      "bytes": 1376,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_horizontal_afternoon": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_afternoon.png",
+      "sha256": "a3f48b32b73cdf717f3aa92def93918c1b69c911e7d3d5199bd313fdaebeafe8",
+      "bytes": 1376,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_horizontal_evening": {
+      "path": "figures/decor/painted/cursor/resize_horizontal_evening.png",
+      "sha256": "b6ad6a16fc09d2ad279959a4e2e9393b0b47471e1e8dd309afdaf23961244dd1",
+      "bytes": 1378,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-ew-resize",
+      "fallback": "ew-resize"
+    },
+    "resize_vertical_day": {
+      "path": "figures/decor/painted/cursor/resize_vertical_day.png",
+      "sha256": "a782ff7ae552da78b692ce812a68b7be4b21a9d364f31b151578a29d3bcc2290",
+      "bytes": 1377,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_vertical_night": {
+      "path": "figures/decor/painted/cursor/resize_vertical_night.png",
+      "sha256": "5543c017e8939a06437d04bda27f9a0434f9186ac53880e428e7b34456de3805",
+      "bytes": 1413,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_vertical_predawn": {
+      "path": "figures/decor/painted/cursor/resize_vertical_predawn.png",
+      "sha256": "bea87c4cecdc4aa5cf713e058ddab7ef5eed560e31a37641beca78863e24ee9d",
+      "bytes": 1410,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_vertical_dawn": {
+      "path": "figures/decor/painted/cursor/resize_vertical_dawn.png",
+      "sha256": "d2ac7faa69c6b59b148a5a5dbd8107f44b4be216ea8d357a74fe0e8090dadbc2",
+      "bytes": 1377,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_vertical_morning": {
+      "path": "figures/decor/painted/cursor/resize_vertical_morning.png",
+      "sha256": "c62e46a0a2ef29f78241f659d366b4f6966e26ea133ba0e2de8e687f009ec105",
+      "bytes": 1381,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_vertical_noon": {
+      "path": "figures/decor/painted/cursor/resize_vertical_noon.png",
+      "sha256": "ad3e0dc2e2387a2c8609de046e19621cf3553b58fda5b0dd59654a985abdc3c9",
+      "bytes": 1382,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_vertical_afternoon": {
+      "path": "figures/decor/painted/cursor/resize_vertical_afternoon.png",
+      "sha256": "5911ac001aad0124721762d0084cc90ccc7f64d389867f1ff32015dc5cdae106",
+      "bytes": 1373,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_vertical_evening": {
+      "path": "figures/decor/painted/cursor/resize_vertical_evening.png",
+      "sha256": "74831548240649ce96bf76d25819aa88d65b1224c7ae2c2081c1e6efdeea3e27",
+      "bytes": 1373,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-ns-resize",
+      "fallback": "ns-resize"
+    },
+    "resize_nwse_day": {
+      "path": "figures/decor/painted/cursor/resize_nwse_day.png",
+      "sha256": "9e9cacc4dcad4f7c86928cfc6ad833aa7f173a512cc124c31ee81c71176188ca",
+      "bytes": 1944,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nwse_night": {
+      "path": "figures/decor/painted/cursor/resize_nwse_night.png",
+      "sha256": "008f0d6ba71dd3b8933d9fc2b553aabb4bafdf5abc80d7c875da8bba6ffc2eae",
+      "bytes": 2011,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nwse_predawn": {
+      "path": "figures/decor/painted/cursor/resize_nwse_predawn.png",
+      "sha256": "af423938758b8102204cd047d19502fed2726a8be6e442ef9ffa94e15359de68",
+      "bytes": 2007,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nwse_dawn": {
+      "path": "figures/decor/painted/cursor/resize_nwse_dawn.png",
+      "sha256": "95c0e7f57a1a7c4424ad29112eb752ec34433e9b32eff6af384478ec194f5ad1",
+      "bytes": 1978,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nwse_morning": {
+      "path": "figures/decor/painted/cursor/resize_nwse_morning.png",
+      "sha256": "7935d41f8696619a80b8974e1d1005800a3bff442f56322c31cef840bbdcc0b4",
+      "bytes": 1989,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nwse_noon": {
+      "path": "figures/decor/painted/cursor/resize_nwse_noon.png",
+      "sha256": "96ca27779c39ac772a2ad544587f58326c4e9c2ce3c8fd0e6d3287ed3f7ad0ca",
+      "bytes": 1968,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nwse_afternoon": {
+      "path": "figures/decor/painted/cursor/resize_nwse_afternoon.png",
+      "sha256": "8c736b81464b7f4c5d4f50c3b4ace860a6c2dbc97ff8d10a3c1e1456d4a3e872",
+      "bytes": 1964,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nwse_evening": {
+      "path": "figures/decor/painted/cursor/resize_nwse_evening.png",
+      "sha256": "5603f808668e1887bd9c9b26f2550b566438b69ae2f037aa9536337b69f0f0b6",
+      "bytes": 1994,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-nwse-resize",
+      "fallback": "nwse-resize"
+    },
+    "resize_nesw_day": {
+      "path": "figures/decor/painted/cursor/resize_nesw_day.png",
+      "sha256": "f5f2eeaa0fb521becbc1c2617abab08a5f3e7cbf608eeaa25da3600131350b27",
+      "bytes": 1957,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "resize_nesw_night": {
+      "path": "figures/decor/painted/cursor/resize_nesw_night.png",
+      "sha256": "ae6cd42310ac5c261e6749b5998e9266b9a1704ed6a9dec51dca23be82db66ec",
+      "bytes": 1998,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "resize_nesw_predawn": {
+      "path": "figures/decor/painted/cursor/resize_nesw_predawn.png",
+      "sha256": "81f2f476b7ec2d7f981601d848f27519a80e9b19cc9329d7182f8841c5478ce8",
+      "bytes": 1984,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "resize_nesw_dawn": {
+      "path": "figures/decor/painted/cursor/resize_nesw_dawn.png",
+      "sha256": "18b33ba248196dc683f9e9556c0faaf9e5a7ece7d537ede2adaea76f019c2961",
+      "bytes": 1943,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "resize_nesw_morning": {
+      "path": "figures/decor/painted/cursor/resize_nesw_morning.png",
+      "sha256": "f69f0a6985273385c26fff117d0453e2d928ea40b649737e4fe5b3fee4fad315",
+      "bytes": 1972,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "resize_nesw_noon": {
+      "path": "figures/decor/painted/cursor/resize_nesw_noon.png",
+      "sha256": "e8f24abd5ab844e19cc7c33f73ec7873cd1b3940db380b2cdb145458863b79be",
+      "bytes": 1951,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "resize_nesw_afternoon": {
+      "path": "figures/decor/painted/cursor/resize_nesw_afternoon.png",
+      "sha256": "603b43ec1665c82f686a634cdd6151ff077d4ae0e108f6f3d39c6e50d546ec36",
+      "bytes": 1933,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "resize_nesw_evening": {
+      "path": "figures/decor/painted/cursor/resize_nesw_evening.png",
+      "sha256": "c8e3d1227fa3788124514fdf8e1163ce874d98b67818128d1db32accc645aafa",
+      "bytes": 1952,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        16,
+        16
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-nesw-resize",
+      "fallback": "nesw-resize"
+    },
+    "zoom_in_day": {
+      "path": "figures/decor/painted/cursor/zoom_in_day.png",
+      "sha256": "5d37f9924f1f4b234e32499ce852c4ef44a081ed45f9318282aa4ed3b4893631",
+      "bytes": 2629,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_in_night": {
+      "path": "figures/decor/painted/cursor/zoom_in_night.png",
+      "sha256": "afe8d5292dc87418b57d64f0c67c22370e9a5371227b691d39c0390c904948d4",
+      "bytes": 2654,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_in_predawn": {
+      "path": "figures/decor/painted/cursor/zoom_in_predawn.png",
+      "sha256": "60a262833c7b07ef843c6c0c35b1e1cbe09243875bb89939f7e3282598ba6f2a",
+      "bytes": 2639,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_in_dawn": {
+      "path": "figures/decor/painted/cursor/zoom_in_dawn.png",
+      "sha256": "465032fb0ecb66bdc1ec182c0c9d88e51de1f8515a4b552f9135751388a62032",
+      "bytes": 2617,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_in_morning": {
+      "path": "figures/decor/painted/cursor/zoom_in_morning.png",
+      "sha256": "59a7a7517576ee71c3707a17e8d248e20c2af3ad0136943282febd8acf6398ab",
+      "bytes": 2642,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_in_noon": {
+      "path": "figures/decor/painted/cursor/zoom_in_noon.png",
+      "sha256": "a7c8a2cd68fce3736984a5eadad3f36b5f32bac4c3c1200be20e97ef5dd9dcc3",
+      "bytes": 2610,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_in_afternoon": {
+      "path": "figures/decor/painted/cursor/zoom_in_afternoon.png",
+      "sha256": "fc3cd7dfc3d81ce2c9af03033fd8ba666fa29fb707ae9179284db1870e7ccd3d",
+      "bytes": 2611,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_in_evening": {
+      "path": "figures/decor/painted/cursor/zoom_in_evening.png",
+      "sha256": "00b4ec38eb520e28d443e6d7d4823870495ccdba078e752235bd29d335638861",
+      "bytes": 2624,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-zoom-in",
+      "fallback": "zoom-in"
+    },
+    "zoom_out_day": {
+      "path": "figures/decor/painted/cursor/zoom_out_day.png",
+      "sha256": "667e57384434c0085c83d3ad67f4ce861e812277fd736cf28f76a1d31c820c68",
+      "bytes": 2556,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "zoom_out_night": {
+      "path": "figures/decor/painted/cursor/zoom_out_night.png",
+      "sha256": "57b119c9c6f1f288f13513b0c91ad183cd94a6ef480f5a2228a3ec17e493d4c1",
+      "bytes": 2606,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "zoom_out_predawn": {
+      "path": "figures/decor/painted/cursor/zoom_out_predawn.png",
+      "sha256": "d04f14aded0152fc9739443208dd5e8e4c5389e515143d02fed7e136f8b3bffe",
+      "bytes": 2598,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "zoom_out_dawn": {
+      "path": "figures/decor/painted/cursor/zoom_out_dawn.png",
+      "sha256": "14425b4c6ff78cf0f3d98344c0b972980ccb1c05feefb1c9dbc5932c1750f1e7",
+      "bytes": 2540,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "zoom_out_morning": {
+      "path": "figures/decor/painted/cursor/zoom_out_morning.png",
+      "sha256": "e4cae80d5abe7f207d3abb34302254681c8fe893b087bb8eb52a25204a7105c6",
+      "bytes": 2573,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "zoom_out_noon": {
+      "path": "figures/decor/painted/cursor/zoom_out_noon.png",
+      "sha256": "8025b3ff2272a1b5fa437586d4a5549265aa830ed9b8474c0018318aa668b9ed",
+      "bytes": 2528,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "zoom_out_afternoon": {
+      "path": "figures/decor/painted/cursor/zoom_out_afternoon.png",
+      "sha256": "503c77e8fb58ce1e54fcf06a4c2edc26bce2450792ed6d9a62082ef02b3c3873",
+      "bytes": 2510,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "zoom_out_evening": {
+      "path": "figures/decor/painted/cursor/zoom_out_evening.png",
+      "sha256": "98303ea3380c46c3fdcf85b3c8e1e8b37ea41944cde21b1763b66aa8c224f627",
+      "bytes": 2557,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        12,
+        12
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-zoom-out",
+      "fallback": "zoom-out"
+    },
+    "progress_day": {
+      "path": "figures/decor/painted/cursor/progress_day.png",
+      "sha256": "6799d2245937538fd4caba2291ea4580ae54bd1234d67b6437bd8639d494a9b3",
+      "bytes": 1818,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#224f55",
+        "#e3c8b1",
+        "#fff3da"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
+    },
+    "progress_night": {
+      "path": "figures/decor/painted/cursor/progress_night.png",
+      "sha256": "80fc95bbba11605c26c7c021f28351bae7605c573bec929a8d5d051e1642e9c2",
+      "bytes": 1809,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#354d7e",
+        "#97add2",
+        "#e7eafa"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
+    },
+    "progress_predawn": {
+      "path": "figures/decor/painted/cursor/progress_predawn.png",
+      "sha256": "606bac1b20a96b77e8768354154e6cc4c30e8c90474ea8f6e445a040beff671b",
+      "bytes": 1804,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#555280",
+        "#b8aed9",
+        "#f0eafa"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
+    },
+    "progress_dawn": {
+      "path": "figures/decor/painted/cursor/progress_dawn.png",
+      "sha256": "cd149a062c3709f2a02d3c53e2f61ac5c29cc45e81dff73975e9e7182a43d0ac",
+      "bytes": 1789,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#6a6560",
+        "#e5c78d",
+        "#fff0cc"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
+    },
+    "progress_morning": {
+      "path": "figures/decor/painted/cursor/progress_morning.png",
+      "sha256": "7e3f0f6560011d418ee09bf5b7046d0aeba78c1f4f04d4c17a077577ecd07bdf",
+      "bytes": 1810,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
+    },
+    "progress_noon": {
+      "path": "figures/decor/painted/cursor/progress_noon.png",
+      "sha256": "1008cafc188863d9baf726e8c5e6d459f74349523c26e86d20c3e813a8932fdb",
+      "bytes": 1766,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
+    },
+    "progress_afternoon": {
+      "path": "figures/decor/painted/cursor/progress_afternoon.png",
+      "sha256": "7cb492e459135c1a7b284297c285289ca1951c5f28e1032d2afa7e048b4257d6",
+      "bytes": 1789,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
+    },
+    "progress_evening": {
+      "path": "figures/decor/painted/cursor/progress_evening.png",
+      "sha256": "6732f8ce7b1996d3bdf6d8b5ee78f3f85394917cd7d728c6f2f73cb5f5d3514e",
+      "bytes": 1788,
+      "size": [
+        32,
+        32
+      ],
+      "hotspot": [
+        3,
+        3
+      ],
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "cssVariable": "--cursor-progress",
+      "fallback": "progress"
     }
   }
 }

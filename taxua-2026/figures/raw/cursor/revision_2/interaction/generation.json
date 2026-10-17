@@ -1,0 +1,26 @@
+{
+  "service": "9Router",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "sizeRequested": "1536x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "prompt": "docs/prompts/cursor/04_interaction_states.md",
+  "generatedAt": "2026-10-17T14:28:57.710963+00:00",
+  "referenceImages": [
+    {
+      "path": "figures/raw/cursor/revision_2/simple_cursors.png",
+      "sha256": "13dbb1b524c1e88916a9714dc83604314b101698c2c5940e69ac1ea4cbd4c47b"
+    }
+  ],
+  "receivedAt": "2026-10-17T14:31:13.145146+00:00",
+  "path": "figures/raw/cursor/revision_2/interaction/interaction_cursors.png",
+  "sha256": "20926648d7c5d2b2f544d341088b575b9f3869d8c1b3e864126e4fa3818f4fbf",
+  "bytes": 1748082,
+  "contentType": "image/png",
+  "size": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA"
+}

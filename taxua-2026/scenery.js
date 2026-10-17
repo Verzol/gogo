@@ -96,6 +96,11 @@ const JourneyScenery = (() => {
     while (stream.length < copies) {
       const copy = image.cloneNode(true);
       copy.classList.add('cloud-repeat');
+      copy.removeAttribute('data-play-held');
+      copy.removeAttribute('data-playful-target');
+      copy.classList.remove('is-play-dragging','is-play-return');
+      copy.style.removeProperty('--play-x');
+      copy.style.removeProperty('--play-y');
       copy.removeAttribute('fetchpriority');
       copy.addEventListener('error',() => { copy.hidden = true; });
       stream[stream.length - 1].after(copy);
@@ -121,8 +126,8 @@ const JourneyScenery = (() => {
   }
   function syncCloudFlow() {
     const paused = reduced.matches || document.hidden || document.documentElement.dataset.motionPaused === 'true';
-    cloudMotions.forEach(({animation,panel}) => {
-      const active = !paused && (panel ? panel.dataset.ambient === 'true' : !opening.hidden);
+    cloudMotions.forEach(({animation,panel},image) => {
+      const active = !paused && image.dataset.playHeld !== 'true' && (panel ? panel.dataset.ambient === 'true' : !opening.hidden);
       const rate = panel ? 1 : compactSky.matches ? Math.min(2.4,windRate) : windRate;
       if (animation.playbackRate !== rate) animation.updatePlaybackRate(rate);
       if (active && animation.playState !== 'running') animation.play();
@@ -167,6 +172,7 @@ const JourneyScenery = (() => {
     opening.innerHTML = `<div class="opening-backdrop"></div>
       ${['clear','cloudy','fog','rain','snow','storm'].map(id => `<div class="weather-sky weather-sky--${id}"></div>`).join('')}
       <div class="weather-cold"></div>
+      <div class="opening-sun"><img class="sun-rays" src="${folder}sun_rays.webp" width="512" height="512" alt="" decoding="async"><img class="sun-disc" src="${folder}sun_disc.webp" width="512" height="512" alt="" decoding="async"></div>
       <div class="opening-cloud opening-cloud--far">${cloudImage('cloud_sea_far')}</div>
       <div class="opening-cloud opening-cloud--left">${cloudImage('cloud_hero_left','fetchpriority="high"')}</div>
       <div class="opening-cloud opening-cloud--right">${cloudImage('cloud_hero_right')}</div>
@@ -282,5 +288,11 @@ const JourneyScenery = (() => {
       if (Number(panel.style.opacity) > 0) panel.style.setProperty('--scenery-drift',offset.toFixed(2) + 'px');
     });
   }
-  return {init,load,drift,previewWeather,openingBounds:() => bounds,heroActive:() => scrollY < bounds.clear,isReady:id => !!panels.get(id)?.dataset.ready};
+  function holdCloud(image,held) {
+    if (!image) return;
+    if (held) image.dataset.playHeld = 'true';
+    else delete image.dataset.playHeld;
+    syncCloudFlow();
+  }
+  return {init,load,drift,previewWeather,holdCloud,openingBounds:() => bounds,heroActive:() => scrollY < bounds.clear,isReady:id => !!panels.get(id)?.dataset.ready};
 })();

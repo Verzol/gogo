@@ -15,9 +15,14 @@ async function jump(page,id) {
   await wait(1050);
 }
 async function selectDay(page,day) {
-  // Phone dates are intentionally available only inside the itinerary.
+  // Dates are intentionally available only inside the itinerary. Preference
+  // changes can revert a scroll owner after the first visibility read.
   const link=page.locator('[data-chapter="'+day+'"]');
-  if (!await link.isVisible()) await jump(page,'departure');
+  if (!await link.isVisible()) {
+    await page.evaluate(() => scrollTo({top:document.getElementById('departure').getBoundingClientRect().top + scrollY + 100,behavior:'instant'}));
+    await page.waitForFunction(() => document.documentElement.dataset.itineraryActive === 'true');
+    await wait(350);
+  }
   await link.click();
 }
 async function state(page) {

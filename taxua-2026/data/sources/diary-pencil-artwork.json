@@ -1,0 +1,44 @@
+{
+  "title": "Wooden diary pencil cursor without cloud decoration",
+  "generation": {
+    "service": "9Router",
+    "model": "cx/gpt-image-2.5-sunburst",
+    "endpoint": "/v1/images/generations?response_format=binary",
+    "sizeRequested": "1024x1024",
+    "quality": "high",
+    "backgroundRequested": "transparent",
+    "prompt": "docs/prompts/cursor/02_diary_pencil.md",
+    "generatedAt": "2026-10-17T14:18:36.500501+00:00",
+    "referenceImages": [],
+    "receivedAt": "2026-10-17T14:19:35.008736+00:00",
+    "path": "figures/raw/cursor/pencil/diary_pencil.png",
+    "sha256": "5e22129e6610afe08985ac5d0c885362c9f7256fe34590f847d54fb313371895",
+    "bytes": 753941,
+    "contentType": "image/png",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA"
+  },
+  "processing": "Keep largest alpha component at >=32 with 2px feather margin, trim, downsample to fit 28px at (2,2) on 32px transparent canvas, preserve original ochre/indigo pigment, add 1px ivory keyline. Lower-left graphite hotspot measured at alpha >=160.",
+  "alphaBoundsInSource": [
+    167,
+    127,
+    1137,
+    1149
+  ],
+  "asset": {
+    "path": "figures/decor/painted/cursor/diary_pencil.png",
+    "sha256": "f2f71be8366602b98b07d06f26275e3b50cae38f053502983ddbcd112ea4e354",
+    "bytes": 1746,
+    "size": [
+      32,
+      32
+    ],
+    "hotspot": [
+      2,
+      29
+    ]
+  }
+}

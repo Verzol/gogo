@@ -82,6 +82,7 @@
         });
       }
       function sceneSnapshot(className) {
+        document.dispatchEvent(new Event('journey:play-reset'));
         const sceneLayers = document.getElementById('sceneLayers');
         const cover = sceneLayers.querySelector(':scope > .scene-catchup');
         // Repeated flings before a fade begins can reuse the opaque frozen
