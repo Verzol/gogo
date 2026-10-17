@@ -20,6 +20,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Six random games: wheel, coin, dice, cards, sticks and lottery bag | [Games](games.md) · [Game artwork](game-artwork.md) · [Exact prompts](prompts/random_games/README.md) |
 | Themed checkboxes, fields, sliders and accessible dropdown menus | [Shared controls](controls.md) |
 | Painted cloud scrollbar, native panel bars and fallbacks | [Shared controls](controls.md#sợi-mây--page-and-panel-scrollbars) · [Design and artwork plan](scrollbar-plan.md) |
+| Watercolor arrow/hand cursors and scenery palettes | [Shared controls](controls.md#painted-cloud-cursors) · [Artwork prompts](prompts/cursor/README.md) |
 | Logo, fonts, stickers, icon sprite and licenses | [Identity](identity.md) |
 | Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
 | Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |
@@ -54,6 +55,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, frontend CDN librar
 - `data.js` = trip content; `assets.js` = generated photo metadata; `index.html` = shell/order/navigation.
 - `controls.css` / `controls.js` = shared themed inputs and progressive select menus.
 - `scrollbar.css` / `scrollbar.js` = native scrollbar palette and optional painted desktop page control.
+- `cursor.css` = native painted arrow/hand cursors, using the existing scenery/period state; no cursor script.
 - `games.js` / `games.css` = random-game picker and five chance objects; the wheel stays in `main.js`.
 - `diary.js` / `diary.css` = optional private book/reader/editor; `diary-motion.js` / `diary-motion.css` own decorative geometry/materials and `diary-materials.css` contains generated frame coordinates; `diary-api.js` handles authenticated requests and `diary-config.js` contains its public endpoint.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.

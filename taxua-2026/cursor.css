@@ -1,0 +1,46 @@
+/* Native painted cursors: precise hotspots, no follower or mouse tracking.
+   Palette mapping follows scrollbar.css and the dominant scenery world. */
+@media screen and (pointer:fine) and (hover:hover) and (forced-colors:none) {
+  :root {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_day.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_day.png') 10 2, pointer;
+    cursor: var(--cursor-arrow);
+  }
+  :root[data-scenery-world="night"] {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_night.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_night.png') 10 2, pointer;
+  }
+  :root[data-scenery-world="bluehour"] {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_predawn.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_predawn.png') 10 2, pointer;
+  }
+  :root[data-scenery-world="jade"] {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_morning.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_morning.png') 10 2, pointer;
+  }
+  :root[data-scenery-world="jade"][data-scene="dawn"] {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_dawn.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_dawn.png') 10 2, pointer;
+  }
+  :root[data-scenery-world="daylight"] {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_noon.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_noon.png') 10 2, pointer;
+  }
+  :root[data-scenery-world="afternoon"] {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_afternoon.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_afternoon.png') 10 2, pointer;
+  }
+  :root[data-scenery-world="afternoon"][data-scene="evening"] {
+    --cursor-arrow: url('./figures/decor/painted/cursor/arrow_evening.png') 3 2, auto;
+    --cursor-pointer: url('./figures/decor/painted/cursor/hand_evening.png') 10 2, pointer;
+  }
+  /* Feature styles use this variable only where they already requested a
+     pointing hand. Their disabled, text, grab, grabbing and wait rules win. */
+  :where(a[href],area[href],summary,[role="button"],label[for]) {
+    cursor: var(--cursor-pointer);
+  }
+  .leaflet-interactive { cursor: var(--cursor-pointer); }
+  /* Explicit text editing also covers contenteditable regions. Native controls
+     retain their own resize/select/drag cursors; never apply a wildcard rule. */
+  :where([contenteditable="true"],[contenteditable=""],textarea) { cursor: text; }
+}

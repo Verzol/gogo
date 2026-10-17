@@ -37,6 +37,10 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 
 The Sợi mây page scrollbar uses a single watercolor cloud with eight scenery/period palettes, a solid progress line and dotted track. The ribbon remains removed. The colors follow the dominant scenery world and reading period and leave panel scrollbars quiet. The untouched Sunburst sheet, exact request and reference hashes live in `figures/raw/scrollbar/`; source/crop/derivative hashes are in `data/sources/scrollbar-artwork.json`. See [Scrollbar prompts](prompts/scrollbar/README.md) and [behavior/fallbacks](controls.md#sợi-mây--page-and-panel-scrollbars). The eight current derivatives reuse the existing paired cloud stickers; six have explicit scrollbar-only pigment palettes while the supplied masters and their normal uses stay unchanged; the earlier generated ribbon sheet remains archived. No runtime generation is required.
 
+## Cursor artwork
+
+The normal cursor is a watercolor arrow with a cloud base; enabled controls use a painted hand with a cloud cuff. Eight scenery/period pigment palettes match the cloud scrollbar. Native 32px PNG cursors retain precise hotspots and a fine ivory keyline for light/dark contrast. Text editing, disabled/busy controls and drag gestures retain their existing native semantics. Original Sunburst artwork, references and derivative provenance are preserved separately from the supplied stickers. See [Cursor prompts and preparation](prompts/cursor/README.md) and [behavior and fallbacks](controls.md#painted-cloud-cursors).
+
 ## Member wheel artwork
 
 The member wheel uses separate painted rim, pointer and blank hub assets, combined with code-rendered sectors and live labels. Its original, preparation helper and provenance are documented in [Group features](group.md#vòng-quay-trên-mây); the [wheel prompt](prompts/wheel.md) preserves the generation brief. Keep the artwork's transparent interior and measured alignment; do not flatten labels into a raster image.

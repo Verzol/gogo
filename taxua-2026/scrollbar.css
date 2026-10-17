@@ -42,7 +42,7 @@
     width: 44px;
     color: #fff4dc;
     touch-action: none;
-    cursor: pointer;
+    cursor: var(--cursor-pointer,pointer);
   }
   [data-nav-tone="dark"] .cloud-scrollbar { --thread: #34635f; --thread-edge: #f7e7c4; color: #183b46; }
   [data-scenery-world="night"] .cloud-scrollbar { --thread: #c8c9e5; --cloud-light: #c7d5ed; --cloud-shadow: #687da5; }

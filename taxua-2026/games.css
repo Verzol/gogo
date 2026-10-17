@@ -33,7 +33,7 @@
 .game-icon-button::after { content: attr(aria-label); position: absolute; top: calc(100% + 8px); right: 0; z-index: 6; width: max-content; max-width: min(220px,70vw); padding: 6px 10px; color: #fff4dc; background: #193e43; border: 1px solid var(--line); border-radius: 5px; font: 400 .8rem/1.5 'Be Vietnam Pro',sans-serif; opacity: 0; visibility: hidden; pointer-events: none; }
 .game-icon-button:focus-visible::after { opacity: 1; visibility: visible; }
 .game-button[aria-disabled="true"],.game-panel[aria-busy] .game-icon-button { opacity: .4; cursor: default; }
-#game-sticks[aria-busy] [data-action="reveal"][aria-disabled="false"] { opacity: 1; cursor: pointer; }
+#game-sticks[aria-busy] [data-action="reveal"][aria-disabled="false"] { opacity: 1; cursor: var(--cursor-pointer,pointer); }
 .game-object { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; border: 0; padding: 12px; color: inherit; background: transparent; font: inherit; border-radius: 22px; touch-action: manipulation; }
 .game-object-caption { display: block; color: var(--accent); font: 400 1.4rem/1.25 'Patrick Hand',cursive; }
 .game-object[aria-disabled="true"] { cursor: default; }
@@ -46,7 +46,7 @@
 .game-chip[aria-pressed="true"] { color: #183b46; border-color: #ffda9d; background: #ffda9d; }
 .game-chip:disabled { opacity: .5; cursor: default; }
 .game-settings { width: min(100%,460px); margin-top: 16px; border-top: 1px dashed var(--line); text-align: left; }
-.game-settings > summary { display: flex; align-items: center; gap: 9px; min-height: 46px; cursor: pointer; font-size: .875rem; }
+.game-settings > summary { display: flex; align-items: center; gap: 9px; min-height: 46px; cursor: var(--cursor-pointer,pointer); font-size: .875rem; }
 .game-settings > summary .lucide { width: 18px; height: 18px; }
 .game-settings > summary::after { content: '+'; margin-left: auto; font: 1.5rem 'Patrick Hand',cursive; }
 .game-settings[open] > summary::after { content: '−'; }

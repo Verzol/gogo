@@ -1,0 +1,11 @@
+# Cloud-tipped arrow and cloud-cuff hand
+
+Create a production asset sheet, 1536 by 1024 pixels, with exactly TWO separate watercolor mouse cursor cutouts on a truly transparent alpha background. The provided Tà Xùa watercolor artwork is a reference for paint texture and warm travel-journal feeling only.
+
+LEFT HALF: one precise mouse arrow pointing diagonally toward the upper left, with its sharp tip near the upper left of its own silhouette. A slender, recognizable conventional arrow, with a small soft three-lobed cloud gathered at its lower right base. The arrow must still read instantly as a mouse cursor. Jade-blue painted edge, pale warm ivory arrow interior, gentle peach and mint watercolor pigment in the cloud. The cloud is small and connected to the arrow, not an oversized separate object.
+
+RIGHT HALF: one recognizable pointing cursor hand, index finger pointing straight up and all other fingers folded, the thumb visible on the left. A simple ivory mitten-like hand with clear finger silhouette and only two restrained painted crease lines. A small three-lobed watercolor cloud forms a cuff at its wrist. Deep jade-blue painted edge, warm ivory hand, peach and mint cloud pigment. Exactly one raised index finger. Do not paint a realistic human hand or a glove with five spread fingers.
+
+Both shapes are designed to be legible at just 32 by 32 pixels. Prioritize clear silhouette, generous simple pigment areas, thin dark jade edge and a narrow light ivory outer keyline so they read on dark and pale backgrounds. Watercolor texture should remain inside each object. No wispy transparent tip, soft-focus contour or fine ornamental details. Same visual weight and scale, centered separately in the left and right halves. Each cutout occupies around 450 by 600 pixels, with plenty of transparent margin and no overlap. Keep complete tips and clouds within the image. Transparent gap between the two objects.
+
+No text, letters, labels, interface, arrow diagram, photographs, landscape, checkerboard pattern, paper rectangle, separate sparkles, detached clouds, trails, glow, cast shadows, 3D shine or additional objects. Only the two isolated cursor shapes. A handmade watercolor travel journal, clean enough for accurate desktop pointing.
