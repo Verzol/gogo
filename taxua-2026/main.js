@@ -741,7 +741,11 @@ const JourneyUI = (() => {
       else if (img.getAttribute('src') !== next) img.src = next;
     });
   }
-  function setSceneryTone(id) { document.documentElement.dataset.navTone = id === 'sunrise' ? 'dark' : 'light'; }
+  function setSceneryTone(id) {
+    document.documentElement.dataset.navTone = id === 'sunrise' ? 'dark' : 'light';
+    // Expose the actual dominant painted world, including enhanced dissolves.
+    if (document.documentElement.dataset.sceneryWorld !== id) document.documentElement.dataset.sceneryWorld = id;
+  }
   function loadBackground(id) { return JourneyScenery.load(id); }
   function applyScene(element,phaseOverride) {
     const scene = sceneFor(element,phaseOverride);

@@ -1,0 +1,298 @@
+{
+  "title": "Sợi mây watercolor scrollbar handles",
+  "credit": "Reuses the project supplied paired watercolor cloud stickers; see docs/identity.md and docs/prompts/stickers.md.",
+  "sources": {
+    "day": {
+      "path": "figures/decor/cloud_1_day.png",
+      "sha256": "828dda730654729eb165e5f84df295097547350f3b684f14cd93503d0a8693e8",
+      "size": [
+        372,
+        275
+      ]
+    },
+    "night": {
+      "path": "figures/decor/cloud_1_night.png",
+      "sha256": "13d6b3828ccbcff1447f1710e2ce8dfb7d6723141c6d52c46336fd74749256fa",
+      "size": [
+        386,
+        292
+      ]
+    },
+    "predawn": {
+      "path": "figures/decor/cloud_1_night.png",
+      "sha256": "13d6b3828ccbcff1447f1710e2ce8dfb7d6723141c6d52c46336fd74749256fa",
+      "size": [
+        386,
+        292
+      ]
+    },
+    "dawn": {
+      "path": "figures/decor/cloud_1_day.png",
+      "sha256": "828dda730654729eb165e5f84df295097547350f3b684f14cd93503d0a8693e8",
+      "size": [
+        372,
+        275
+      ]
+    },
+    "morning": {
+      "path": "figures/decor/cloud_1_day.png",
+      "sha256": "828dda730654729eb165e5f84df295097547350f3b684f14cd93503d0a8693e8",
+      "size": [
+        372,
+        275
+      ]
+    },
+    "noon": {
+      "path": "figures/decor/cloud_1_day.png",
+      "sha256": "828dda730654729eb165e5f84df295097547350f3b684f14cd93503d0a8693e8",
+      "size": [
+        372,
+        275
+      ]
+    },
+    "afternoon": {
+      "path": "figures/decor/cloud_1_day.png",
+      "sha256": "828dda730654729eb165e5f84df295097547350f3b684f14cd93503d0a8693e8",
+      "size": [
+        372,
+        275
+      ]
+    },
+    "evening": {
+      "path": "figures/decor/cloud_1_night.png",
+      "sha256": "13d6b3828ccbcff1447f1710e2ce8dfb7d6723141c6d52c46336fd74749256fa",
+      "size": [
+        386,
+        292
+      ]
+    }
+  },
+  "archivedGeneration": {
+    "service": "9Router",
+    "model": "cx/gpt-image-2.5-sunburst",
+    "endpoint": "/v1/images/generations?response_format=binary",
+    "sizeRequested": "1536x1024",
+    "quality": "high",
+    "backgroundRequested": "transparent",
+    "prompt": "docs/prompts/scrollbar/01_cloud_thumbs.md",
+    "generatedAt": "2026-10-17T03:16:06.664326+00:00",
+    "referenceImages": [
+      {
+        "path": "figures/scenery/painted/cloud_hero_left.webp",
+        "sha256": "2b4495738415317e5ac67c394ee95911d8207df60d1c2899d0d937a777cd45fe"
+      },
+      {
+        "path": "figures/decor/painted/wheel_rim.webp",
+        "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+      },
+      {
+        "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+        "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+      }
+    ],
+    "receivedAt": "2026-10-17T03:18:27.806216+00:00",
+    "path": "figures/raw/scrollbar/cloud_thumbs.png",
+    "sha256": "7c984c1048cc0dcedbf20f1ffd98750adbfa2afa639e3ed376ae7de13686351c",
+    "bytes": 2055768,
+    "contentType": "image/png",
+    "size": [
+      1536,
+      1024
+    ]
+  },
+  "processing": "Largest alpha component at alpha >= 8; downsample without upscaling; transparent 160x128 canvas; WebP quality 92. Day/night retain original pigment. Six additional scrollbar-only palettes map luminance to three pigment stops with 15% original color retained; alpha and texture preserved. Supplied paired sticker sources and archived ribbon sheet unchanged.",
+  "assets": {
+    "day": {
+      "path": "figures/decor/painted/scrollbar_cloud_day.webp",
+      "sha256": "98f1b3a1eec737f92aebcdf20dbd8fdc8d75037feda3037b3b3817220d49e853",
+      "bytes": 6926,
+      "alphaBoundsInSource": [
+        4,
+        4,
+        368,
+        271
+      ],
+      "sourcePhase": "day",
+      "pigmentPalette": null,
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        106
+      ]
+    },
+    "night": {
+      "path": "figures/decor/painted/scrollbar_cloud_night.webp",
+      "sha256": "7476321a4a2d89e7c502aa9152b7f786cd1d82bddfd048788bab51bfdfc6a647",
+      "bytes": 9422,
+      "alphaBoundsInSource": [
+        5,
+        5,
+        381,
+        287
+      ],
+      "sourcePhase": "night",
+      "pigmentPalette": null,
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        108
+      ]
+    },
+    "predawn": {
+      "path": "figures/decor/painted/scrollbar_cloud_predawn.webp",
+      "sha256": "80c659224e63285e22cd3f3c51962d8e722242f8bda8daece0e94fb33271c8dd",
+      "bytes": 8364,
+      "alphaBoundsInSource": [
+        5,
+        5,
+        381,
+        287
+      ],
+      "sourcePhase": "night",
+      "pigmentPalette": [
+        "#445f90",
+        "#a2acd5",
+        "#e3e4fa"
+      ],
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        108
+      ]
+    },
+    "dawn": {
+      "path": "figures/decor/painted/scrollbar_cloud_dawn.webp",
+      "sha256": "af117f4f965b8659f17d9876d9e4c1781cdb9e0446ffcf0d8e72da285fc2b524",
+      "bytes": 4882,
+      "alphaBoundsInSource": [
+        4,
+        4,
+        368,
+        271
+      ],
+      "sourcePhase": "day",
+      "pigmentPalette": [
+        "#4c8e8a",
+        "#dfc9ab",
+        "#fff0cc"
+      ],
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        106
+      ]
+    },
+    "morning": {
+      "path": "figures/decor/painted/scrollbar_cloud_morning.webp",
+      "sha256": "d7adc3e2bcb11d5c75be7b51a12c14425061dcc5723ebbe440002e852205eca0",
+      "bytes": 5576,
+      "alphaBoundsInSource": [
+        4,
+        4,
+        368,
+        271
+      ],
+      "sourcePhase": "day",
+      "pigmentPalette": [
+        "#356d61",
+        "#a6cbb1",
+        "#f2f5cf"
+      ],
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        106
+      ]
+    },
+    "noon": {
+      "path": "figures/decor/painted/scrollbar_cloud_noon.webp",
+      "sha256": "4ed321b65370c8c4eb1f3843112209b70e514c0b26784101d45296cf55f5d6ec",
+      "bytes": 5146,
+      "alphaBoundsInSource": [
+        4,
+        4,
+        368,
+        271
+      ],
+      "sourcePhase": "day",
+      "pigmentPalette": [
+        "#43849a",
+        "#b9e0e5",
+        "#f8ffff"
+      ],
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        106
+      ]
+    },
+    "afternoon": {
+      "path": "figures/decor/painted/scrollbar_cloud_afternoon.webp",
+      "sha256": "967e100f63001ffdb5bbc80cee987ba3d8567c512a57138c0789e376ac36bca0",
+      "bytes": 5826,
+      "alphaBoundsInSource": [
+        4,
+        4,
+        368,
+        271
+      ],
+      "sourcePhase": "day",
+      "pigmentPalette": [
+        "#935865",
+        "#e9b18a",
+        "#fff2cd"
+      ],
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        106
+      ]
+    },
+    "evening": {
+      "path": "figures/decor/painted/scrollbar_cloud_evening.webp",
+      "sha256": "8e8199661ab34cc4e4293cbdda3da902ea5085097cbf6afbfe95087a798294cf",
+      "bytes": 8298,
+      "alphaBoundsInSource": [
+        5,
+        5,
+        381,
+        287
+      ],
+      "sourcePhase": "night",
+      "pigmentPalette": [
+        "#6c557e",
+        "#c4a0b7",
+        "#fbe0d5"
+      ],
+      "size": [
+        160,
+        128
+      ],
+      "paintedSize": [
+        144,
+        108
+      ]
+    }
+  }
+}

@@ -18,6 +18,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Hero 7+1, crew, member wheel, arrival countdown and MoMo invitation | [Group features](group.md) |
 | Six random games: wheel, coin, dice, cards, sticks and lottery bag | [Games](games.md) · [Game artwork](game-artwork.md) · [Exact prompts](prompts/random_games/README.md) |
 | Themed checkboxes, fields, sliders and accessible dropdown menus | [Shared controls](controls.md) |
+| Painted cloud scrollbar, native panel bars and fallbacks | [Shared controls](controls.md#sợi-mây--page-and-panel-scrollbars) · [Design and artwork plan](scrollbar-plan.md) |
 | Logo, fonts, stickers, icon sprite and licenses | [Identity](identity.md) |
 | Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
 | Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |
@@ -51,6 +52,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, CDN library depende
 
 - `data.js` = trip content; `assets.js` = generated photo metadata; `index.html` = shell/order/navigation.
 - `controls.css` / `controls.js` = shared themed inputs and progressive select menus.
+- `scrollbar.css` / `scrollbar.js` = native scrollbar palette and optional painted desktop page control.
 - `games.js` / `games.css` = random-game picker and five chance objects; the wheel stays in `main.js`.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
 - `weather.js` / `weather.css` = optional Open-Meteo forecast and hero sky effects.

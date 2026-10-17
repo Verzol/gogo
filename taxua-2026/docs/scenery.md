@@ -33,7 +33,7 @@ The later [UI artwork import](ui-artwork.md) adds supplied wide/portrait low-val
 - `sceneFor()` brightens night/bluehour chapters to bluehour at predawn and jade at dawn/morning. Breakfast must not stay starry.
 - `phaseEnd` / `sceneryChapterEnd` develop Khe Cải from predawn to dawn within the existing event.
 - Hero begins in sunrise. Crew and fund hold morning/jade; later supporting sections retain that scene.
-- `JourneyUI.setChapter()` updates labels, active date and unfixed stickers; `setSceneryTone()` handles navigation contrast separately.
+- `JourneyUI.setChapter()` updates labels, active date and unfixed stickers; `setSceneryTone()` handles navigation contrast separately and exposes the dominant background as root `data-scenery-world`. The optional scrollbar combines that world with the reading period to choose its cloud/track colors, including native fallback and enhanced dissolve/navigation paths.
 
 ## Visual constraints
 

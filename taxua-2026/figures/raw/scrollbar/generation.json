@@ -1,0 +1,33 @@
+{
+  "service": "9Router",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "endpoint": "/v1/images/generations?response_format=binary",
+  "sizeRequested": "1536x1024",
+  "quality": "high",
+  "backgroundRequested": "transparent",
+  "prompt": "docs/prompts/scrollbar/01_cloud_thumbs.md",
+  "generatedAt": "2026-10-17T03:16:06.664326+00:00",
+  "referenceImages": [
+    {
+      "path": "figures/scenery/painted/cloud_hero_left.webp",
+      "sha256": "2b4495738415317e5ac67c394ee95911d8207df60d1c2899d0d937a777cd45fe"
+    },
+    {
+      "path": "figures/decor/painted/wheel_rim.webp",
+      "sha256": "f8a5dfc5cd2306e68d0c907218486be13932b36981f3a07d76c848c526b07bea"
+    },
+    {
+      "path": "figures/decor/painted/cloud_coffee_sticker.webp",
+      "sha256": "9f986407152e5ea6f2188feef18a5071656e0444f0d86fafa1a446b889d36e04"
+    }
+  ],
+  "receivedAt": "2026-10-17T03:18:27.806216+00:00",
+  "path": "figures/raw/scrollbar/cloud_thumbs.png",
+  "sha256": "7c984c1048cc0dcedbf20f1ffd98750adbfa2afa639e3ed376ae7de13686351c",
+  "bytes": 2055768,
+  "contentType": "image/png",
+  "size": [
+    1536,
+    1024
+  ]
+}

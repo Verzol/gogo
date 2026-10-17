@@ -32,6 +32,10 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 - Regeneration/style prompt: [Sticker prompts](prompts/stickers.md). The extraction helper needs Pillow, NumPy and SciPy; it keeps day PNG pixels and normalizes both WebP canvases to equal apparent size.
 - New painted bus/coffee/backpack/headlamp stickers use `figures/decor/painted/` and the [illustrated pipeline](scenery.md), not the paired-sheet extractor.
 
+## Scrollbar artwork
+
+The Sợi mây page scrollbar uses a single watercolor cloud with eight scenery/period palettes, a solid progress line and dotted track. The ribbon remains removed. The colors follow the dominant scenery world and reading period and leave panel scrollbars quiet. The untouched Sunburst sheet, exact request and reference hashes live in `figures/raw/scrollbar/`; source/crop/derivative hashes are in `data/sources/scrollbar-artwork.json`. See [Scrollbar prompts](prompts/scrollbar/README.md) and [behavior/fallbacks](controls.md#sợi-mây--page-and-panel-scrollbars). The eight current derivatives reuse the existing paired cloud stickers; six have explicit scrollbar-only pigment palettes while the supplied masters and their normal uses stay unchanged; the earlier generated ribbon sheet remains archived. No runtime generation is required.
+
 ## Member wheel artwork
 
 The member wheel uses separate painted rim, pointer and blank hub assets, combined with code-rendered sectors and live labels. Its original, preparation helper and provenance are documented in [Group features](group.md#vòng-quay-trên-mây); the [wheel prompt](prompts/wheel.md) preserves the generation brief. Keep the artwork's transparent interior and measured alignment; do not flatten labels into a raster image.

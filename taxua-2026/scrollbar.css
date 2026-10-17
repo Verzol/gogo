@@ -1,0 +1,141 @@
+/* Sợi mây: native nested bars and an optional painted desktop page control. */
+:root {
+  --cloud-scrollbar-ready: 1;
+  --scroll-thumb: #d6bd8e;
+  --scroll-track: #183b46;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+}
+:root[data-nav-tone="dark"] { --scroll-thumb: #34635f; --scroll-track: #d9e1ce; }
+:is(.photo-back,.trail-panel,.nav-links,.card-hand,.atlas-sidebar,.atlas-body,.atlas-peek,.journal-select-menu,textarea) {
+  --scroll-thumb: #d6bd8e;
+  --scroll-track: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+}
+.photo-back,.trip-atlas :is(.atlas-sidebar,.atlas-body,.atlas-peek),
+.journal-select-menu { --scroll-thumb: var(--control-accent,#416f60); }
+.photo-back,.trip-atlas :is(.atlas-sidebar,.atlas-body,.atlas-peek) { --scroll-thumb: #527665; }
+@supports not (scrollbar-color: auto) {
+  :root::-webkit-scrollbar { width: 12px; }
+  :is(.photo-back,.trail-panel,.nav-links,.card-hand,.atlas-sidebar,.atlas-body,.atlas-peek,.journal-select-menu,textarea)::-webkit-scrollbar { width: 8px; height: 8px; }
+  :root::-webkit-scrollbar-track { background: var(--scroll-track); }
+  :root::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border: 3px solid var(--scroll-track); border-radius: 12px; }
+  :is(.photo-back,.trail-panel,.nav-links,.card-hand,.atlas-sidebar,.atlas-body,.atlas-peek,.journal-select-menu,textarea)::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 8px; }
+}
+.cloud-scrollbar { display: none; }
+@media (min-width:1100px) and (min-height:521px) and (pointer:fine) and (hover:hover) {
+  html.cloud-scrollbar-active { scrollbar-width: none; }
+  html.cloud-scrollbar-active::-webkit-scrollbar { display: none; }
+  .cloud-scrollbar-active .nav { right: 64px; }
+  .cloud-scrollbar-active .chapter-nav { right: 60px; }
+  .cloud-scrollbar-active .cloud-scrollbar {
+    --thread: #e4cb9b;
+    --thread-edge: #173d46;
+    --cloud-light: #fff3da;
+    --cloud-shadow: #e3e9dd;
+    display: block;
+    position: fixed;
+    z-index: 11;
+    top: max(100px,var(--nav-offset));
+    bottom: 24px;
+    right: 4px;
+    width: 44px;
+    color: #fff4dc;
+    touch-action: none;
+    cursor: pointer;
+  }
+  [data-nav-tone="dark"] .cloud-scrollbar { --thread: #34635f; --thread-edge: #f7e7c4; color: #183b46; }
+  [data-scenery-world="night"] .cloud-scrollbar { --thread: #c8c9e5; --cloud-light: #c7d5ed; --cloud-shadow: #687da5; }
+  [data-scenery-world="bluehour"] .cloud-scrollbar { --thread: #c5bce4; --cloud-light: #e3e4fa; --cloud-shadow: #a2acd5; }
+  [data-scenery-world="jade"] .cloud-scrollbar { --thread: #c7dca4; --cloud-light: #f2f5cf; --cloud-shadow: #a6cbb1; }
+  [data-scenery-world="jade"][data-scene="dawn"] .cloud-scrollbar { --thread: #eed6a5; --cloud-light: #fff0cc; --cloud-shadow: #dfc9ab; }
+  [data-scenery-world="daylight"] .cloud-scrollbar { --thread: #b8e0e1; --cloud-light: #f8ffff; --cloud-shadow: #b9e0e5; }
+  [data-scenery-world="afternoon"] .cloud-scrollbar { --thread: #f2cd9e; --cloud-light: #fff2cd; --cloud-shadow: #e9b18a; }
+  [data-scenery-world="afternoon"][data-scene="evening"] .cloud-scrollbar { --thread: #e9bdcf; --cloud-light: #fbe0d5; --cloud-shadow: #c4a0b7; }
+  .cloud-scrollbar::before,.cloud-scrollbar-fill {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 21px;
+    width: 2px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(to bottom,var(--thread) 0 7px,transparent 7px 12px);
+    filter: drop-shadow(0 0 1px var(--thread-edge));
+    opacity: .45;
+  }
+  .cloud-scrollbar-fill { transform: scaleY(var(--thread-progress,0)); transform-origin: top; background: var(--thread); opacity: .8; }
+  .cloud-scrollbar::after { content: ''; position: absolute; left: 19px; bottom: -5px; width: 6px; height: 6px; border: 1px solid var(--thread); transform: rotate(45deg); }
+  .cloud-scrollbar-thumb {
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--thumb-height,60px);
+    transform: translateY(var(--thumb-y,0px));
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    cursor: grab;
+    outline-offset: 0;
+  }
+  .cloud-scrollbar-thumb::before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 14px;
+    border-radius: 48% 52% 44% 46%;
+    background: var(--cloud-light);
+    box-shadow: -5px 2px 0 -1px var(--cloud-shadow),5px 2px 0 -1px var(--cloud-shadow),0 -5px 0 -2px var(--cloud-light);
+  }
+  .cloud-scrollbar-thumb img { position: relative; grid-area: 1 / 1; width: 42px; height: 34px; object-fit: contain; pointer-events: none; filter: drop-shadow(0 1px 1px rgb(7 27 33 / .45)); visibility: hidden; }
+  .cloud-scrollbar-thumb .cloud-scrollbar-day { visibility: visible; }
+  :root[data-scenery-world]:not([data-scenery-world="sunrise"]) .cloud-scrollbar-day { visibility: hidden; }
+  [data-scenery-world="night"] .cloud-scrollbar-night,
+  [data-scenery-world="bluehour"] .cloud-scrollbar-predawn,
+  [data-scenery-world="jade"] .cloud-scrollbar-morning,
+  [data-scenery-world="daylight"] .cloud-scrollbar-noon,
+  [data-scenery-world="afternoon"] .cloud-scrollbar-afternoon { visibility: visible; }
+  [data-scenery-world="jade"][data-scene="dawn"] .cloud-scrollbar-morning,
+  [data-scenery-world="afternoon"][data-scene="evening"] .cloud-scrollbar-afternoon { visibility: hidden; }
+  [data-scenery-world="jade"][data-scene="dawn"] .cloud-scrollbar-dawn,
+  [data-scenery-world="afternoon"][data-scene="evening"] .cloud-scrollbar-evening { visibility: visible; }
+  .cloud-scrollbar-hint {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: max-content;
+    padding: 4px 10px;
+    border: 1px solid rgb(228 203 155 / .5);
+    border-radius: 7px 10px 6px 8px;
+    background: #21484b;
+    color: #fff4dc;
+    font: 1rem/1.4 'Patrick Hand',cursive;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .cloud-scrollbar-thumb:is(:hover,:focus-visible) .cloud-scrollbar-hint { visibility: visible; opacity: 1; }
+  [data-itinerary-active="true"] .cloud-scrollbar-hint { right: 132px; }
+  :root:has(.chapter-nav[data-open="true"]) .cloud-scrollbar-hint { display: none; }
+  .cloud-scrollbar-thumb:focus-visible { outline: 2px solid var(--thread); background: rgb(228 203 155 / .12); }
+  .cloud-scrollbar:is(:hover,:focus-within,[data-dragging])::before { opacity: .85; }
+  .cloud-scrollbar[data-dragging] .cloud-scrollbar-thumb { cursor: grabbing; }
+  .cloud-scrollbar[data-dragging] .cloud-scrollbar-hint { visibility: hidden; }
+  html.cloud-scrollbar-dragging,html.cloud-scrollbar-dragging * { user-select: none !important; cursor: grabbing !important; }
+  html.atlas-open .cloud-scrollbar { display: none; }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .cloud-scrollbar-hint { transition: opacity .15s; }
+  .cloud-scrollbar::before { transition: opacity .15s; }
+}
+[data-motion-paused="true"] .cloud-scrollbar-hint,[data-motion-paused="true"] .cloud-scrollbar::before { transition: none; }
+@media (forced-colors:active) {
+  :root,:is(.photo-back,.trail-panel,.nav-links,.card-hand,.atlas-sidebar,.atlas-body,.atlas-peek,.journal-select-menu,textarea) { scrollbar-color: auto; scrollbar-width: auto; }
+  html.cloud-scrollbar-active { scrollbar-width: auto; }
+  html.cloud-scrollbar-active::-webkit-scrollbar { display: block; }
+  .cloud-scrollbar { display: none !important; }
+}
+@media print {
+  .cloud-scrollbar { display: none !important; }
+  html.cloud-scrollbar-active { scrollbar-width: auto; }
+}
