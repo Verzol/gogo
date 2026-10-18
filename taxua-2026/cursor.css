@@ -38,18 +38,13 @@
   textarea::-webkit-resizer { cursor: var(--cursor-nwse-resize,nwse-resize); }
   .diary-dialog textarea::-webkit-resizer { cursor: var(--cursor-ns-resize,ns-resize); }
 
-  /* The diary pencil remains the idle/writing tool, including top-layer dialogs.
-     Active drag, waiting and unavailable states retain their distinct symbols. */
-  .crew-diary,.diary-dialog {
+  /* Only exposed paper in the open book uses the pencil. Cover, surrounding
+     section, bookmarks, toolbar and dialogs retain the regular themed cursors. */
+  .crew-diary :where(.diary-reader:not([hidden])) :is(.diary-pages,.diary-page-edge) {
     --cursor-pencil: url('./figures/decor/painted/cursor/diary_pencil.png') 2 29;
     --cursor-pointer: var(--cursor-pencil), pointer;
     --cursor-text: var(--cursor-pencil), text;
-    cursor: var(--cursor-pencil), auto;
-  }
-  .crew-diary :is(.diary-pages,.diary-page-edge) { cursor: var(--cursor-pencil), grab; }
-  .crew-diary :is(.diary-writing,.diary-entry-title,.diary-author),
-  .diary-dialog :is(input:enabled:not([type="checkbox"]):not([type="radio"]):not([type="file"]),textarea:enabled,[contenteditable="true"]) {
-    cursor: var(--cursor-pencil), text;
+    cursor: var(--cursor-pencil), grab;
   }
   .crew-diary .diary-book[data-dragging],
   .crew-diary .diary-book[data-dragging] * { cursor: var(--cursor-grabbing,grabbing); }

@@ -28,6 +28,8 @@ copy retain their existing behavior. No private entry is exported into HTML.
   larger, unfiltered portraits keep the stitching and faces clear.
   Ribbon crops exclude disconnected fragments from neighboring atlas cells.
   Symmetric padding centers portraits vertically in both selected and idle tabs.
+  Hover gently brightens the ribbon without moving its attachment to the book;
+  keyboard focus keeps its visible outline.
 - Tap either outer paper edge, or drag blank paper horizontally, to turn.
   The sheet follows the pointer and completes on release; a short drag returns
   to the original spread. Escape or pointer cancellation also returns it.
@@ -90,7 +92,7 @@ they have already seen.
 
 ## Book materials and motion
 
-On fine pointers with hover, the section, cover, paper and diary dialogs use a small watercolor wooden-pencil cursor: ochre wood, an indigo band and no cloud decoration. The graphite tip is the clicking point. Text selection, caret placement and typing keep their native behavior; page dragging switches to the themed closed hand and busy/disabled actions use distinct themed symbols. Touch, print and forced colors keep native cues. Artwork, generation provenance and fallbacks are documented in [Cursor preparation](prompts/cursor/README.md#diary-pencil) and [Shared controls](controls.md#painted-cloud-cursors).
+On fine pointers with hover, only the open book's paper and page-turn edges use a small watercolor wooden-pencil cursor: ochre wood, an indigo band and no cloud decoration. The graphite tip is the clicking point. The closed cover, section heading, surrounding space, bookmarks, toolbar and separate dialogs use the regular themed cursors. Text selection, caret placement and typing keep their native behavior; page dragging switches to the themed closed hand and busy/disabled actions use distinct themed symbols. Touch, print and forced colors keep native cues. Artwork, generation provenance and fallbacks are documented in [Cursor preparation](prompts/cursor/README.md#diary-pencil) and [Shared controls](controls.md#painted-cloud-cursors).
 
 Nine new Sunburst masters supply **29 transparent material layers**: front/back
 covers, two inside covers, six paper skins, binding/page edges, seven fabric

@@ -16,7 +16,7 @@
 .diary-margin-note p { font-size: clamp(1.65rem, 2.6vw, 2.15rem); line-height: 1.6; }
 .diary-margin-note img { object-fit: contain; }
 .diary-bookmarks { height: 100px; gap: 8px; padding-inline: 20px; }
-.crew-diary .diary-bookmark { display: flex; align-items: center; justify-content: center; flex: 0 0 70px; min-width: 0; height: 78px; padding: 6px 3px; background: var(--ribbon-art) center top / 100% auto no-repeat; border-radius: 0; box-shadow: none; text-shadow: none; transition: height .25s, transform .25s; }
+.crew-diary .diary-bookmark { display: flex; align-items: center; justify-content: center; flex: 0 0 70px; min-width: 0; height: 78px; padding: 6px 3px; background: var(--ribbon-art) center top / 100% auto no-repeat; border-radius: 0; box-shadow: none; text-shadow: none; transition: height .25s, filter .25s; }
 .diary-bookmark::after { display: none; }
 .diary-bookmark-portrait { width: 64px; height: 64px; }
 .crew-diary .diary-bookmark[aria-pressed='true'] { height: 96px; background: var(--ribbon-art) center top / 100% auto no-repeat; }

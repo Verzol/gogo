@@ -31,12 +31,12 @@
 .crew-diary button:focus-visible, .diary-dialog button:focus-visible, .diary-dialog a:focus-visible { outline: 2px solid #edb771; outline-offset: 5px; }
 .crew-diary button:disabled, .crew-diary button[aria-disabled='true'] { opacity: .38; cursor: var(--cursor-not-allowed,default); }
 .diary-bookmarks { display: flex; justify-content: flex-end; align-items: flex-end; gap: 7px; padding: 0 26px; height: 61px; }
-.crew-diary .diary-bookmark { position: relative; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 3px 3px 0 0; min-width: 56px; padding: 4px 5px 8px; height: 45px; font: 1rem 'Patrick Hand', cursive; color: #fff6dc; background: var(--ribbon, #6b7e79); box-shadow: inset 2px 0 rgb(255 245 217 / .16), inset -2px 0 rgb(23 47 52 / .1); transition: height .2s, transform .2s; text-shadow: 0 1px 2px rgb(19 41 45 / .5); }
+.crew-diary .diary-bookmark { position: relative; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 3px 3px 0 0; min-width: 56px; padding: 4px 5px 8px; height: 45px; font: 1rem 'Patrick Hand', cursive; color: #fff6dc; background: var(--ribbon, #6b7e79); box-shadow: inset 2px 0 rgb(255 245 217 / .16), inset -2px 0 rgb(23 47 52 / .1); transition: height .2s, filter .2s; text-shadow: 0 1px 2px rgb(19 41 45 / .5); }
 .diary-bookmark-portrait { display: block; width: 32px; height: 32px; max-width: 100%; object-fit: contain; pointer-events: none; }
 .diary-bookmark-fallback { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #493e33; font: 500 .7rem/1.5 'Mali', cursive; background: #f7ecd7; padding: 2px; }
 .diary-bookmark::after { content: ''; position: absolute; inset: 4px; border: 1px dashed rgb(255 248 218 / .3); border-bottom: 0; pointer-events: none; }
 .crew-diary .diary-bookmark[aria-pressed='true'] { height: 59px; background: #d3b174; color: #263f42; text-shadow: none; }
-.diary-bookmark:hover { transform: translateY(-4px); }
+.diary-bookmark:hover { filter: brightness(1.08); }
 .diary-book { position: relative; padding: 8px 8px 11px; background: #3b5b60; border-radius: 5px 9px 10px 5px; box-shadow: 0 10px 0 -5px #d0bea0, 0 13px 0 -6px #57716b, 0 26px 36px -12px rgb(12 35 38 / .42); perspective: 2200px; isolation: isolate; color: var(--diary-ink); text-shadow: none; }
 /* The inner writing scroller also needs to leave horizontal touch to the book. */
 .diary-book, .diary-writing { touch-action: pan-y pinch-zoom; }

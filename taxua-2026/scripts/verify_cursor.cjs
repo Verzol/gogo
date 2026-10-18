@@ -33,12 +33,13 @@ async function diaryPencilChecks(browser) {
   await mock(context,m);
   const p=await context.newPage();p.on('pageerror',e=>report.errors.push(e.message));
   await p.goto(url+'#crewDiary');await p.evaluate(()=>document.fonts.ready);
-  check('Diary heading, cover and margin note use the pencil',(await Promise.all(['#diaryTitle','#diaryOpen','.diary-margin-note'].map(selector=>cursor(p.locator(selector))))).every(pencil));
+  check('Closed cover, heading and surrounding section keep regular cursors',(await Promise.all(['#crewDiary','#diaryTitle','#diaryOpen','.diary-margin-note'].map(selector=>cursor(p.locator(selector))))).every(value=>!pencil(value))&&state(await cursor(p.locator('#diaryOpen')),'hand','pointer'));
   const art=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../data/sources/diary-pencil-artwork.json'))).asset;
-  check('Pencil decodes at 32px and uses its graphite hotspot',await p.evaluate(async art=>{const img=new Image();img.src=art.path;await img.decode();return img.width===32&&img.height===32&&getComputedStyle(document.getElementById('diaryOpen')).cursor.includes(art.hotspot.join(' '));},art));
   await p.locator('#diaryOpen').click();await p.locator('#diaryReader').waitFor();
   await p.waitForFunction(()=>!document.querySelector('.diary-cover-flight,.diary-turn-leaf')&&document.getElementById('diaryBook').getAttribute('aria-busy')==='false');
-  check('Reader paper, writing, toolbar and bookmarks use pencil',(await Promise.all(['#diaryPages','.diary-writing','#diaryRefresh','#diaryBookmarks button'].map(selector=>cursor(p.locator(selector).first())))).every(pencil));
+  check('Open book paper, writing and photo page use pencil',(await Promise.all(['#diaryPages','.diary-writing','.diary-page-photos'].map(selector=>cursor(p.locator(selector).first())))).every(pencil));
+  check('Open book toolbar, bookmarks and surroundings keep regular cursors',(await Promise.all(['#diaryRefresh','#diaryBookmarks button','#diaryTurnHint','#crewDiary'].map(selector=>cursor(p.locator(selector).first())))).every(value=>!pencil(value)));
+  check('Pencil decodes at 32px and uses its graphite hotspot',await p.evaluate(async art=>{const img=new Image();img.src=art.path;await img.decode();return img.width===32&&img.height===32&&getComputedStyle(document.getElementById('diaryPages')).cursor.includes(art.hotspot.join(' '));},art));
   const writing=p.locator('.diary-writing');await writing.scrollIntoViewIfNeeded();
   const selection=await writing.evaluate(el=>{const range=document.createRange();range.selectNodeContents(el.querySelector('p'));const r=range.getClientRects()[0];return {x:r.x,y:r.y,width:r.width,height:r.height};});
   await p.mouse.move(selection.x+1,selection.y+selection.height/2);await p.mouse.down();await p.mouse.move(selection.x+Math.min(selection.width-1,200),selection.y+selection.height/2,{steps:8});await p.mouse.up();
@@ -52,20 +53,21 @@ async function diaryPencilChecks(browser) {
   check('Cancelling diary drag restores pencil',pencil(await cursor(edge)));
   await p.locator('[data-bookmark="1"]').click();await authenticate(p,'san',true);
   const editor=p.locator('#diaryEditBody');
-  check('Editor fields and save actions use pencil',pencil(await cursor(editor))&&pencil(await cursor(p.locator('#diaryEditTitle')))&&pencil(await cursor(p.locator('#diaryPublish'))));
+  check('Editor dialog fields and save actions keep regular themed cursors',state(await cursor(editor),'text','text')&&state(await cursor(p.locator('#diaryEditTitle')),'text','text')&&state(await cursor(p.locator('#diaryPublish')),'hand','pointer'));
   await editor.fill('Nét chì trên giấy.');await editor.press('End');await editor.pressSequentially(' Tà Xùa.');
-  check('Pencil preserves Vietnamese typing and caret placement',await editor.inputValue()==='Nét chì trên giấy. Tà Xùa.');
+  check('Editor preserves Vietnamese typing and caret placement',await editor.inputValue()==='Nét chì trên giấy. Tà Xùa.');
   await editor.press('Control+a');
-  check('Pencil preserves keyboard text selection',await editor.evaluate(el=>el.selectionEnd-el.selectionStart===el.value.length));
+  check('Editor preserves keyboard text selection',await editor.evaluate(el=>el.selectionEnd-el.selectionStart===el.value.length));
   await p.locator('#diaryPublish').evaluate(el=>el.disabled=true);
   check('Disabled diary action shows unavailable cursor',state(await cursor(p.locator('#diaryPublish')),'unavailable','not-allowed'));await p.locator('#diaryPublish').evaluate(el=>el.disabled=false);
-  // Explicit artwork overlay: browser screenshots do not capture OS cursors.
-  await editor.evaluate((el,asset)=>{const r=el.getBoundingClientRect(),img=document.createElement('img');img.src=asset.path;img.id='pencilPreview';img.style.cssText=`position:fixed;left:${r.x+175-asset.hotspot[0]}px;top:${r.y+45-asset.hotspot[1]}px;width:32px;height:32px;pointer-events:none`;el.closest('dialog').append(img);},art);
-  await photo(p,'diary-editor-pencil-preview');await p.locator('#pencilPreview').evaluate(el=>el.remove());
   await p.emulateMedia({forcedColors:'active'});
   check('Forced colors restores diary text and action cursors',(await cursor(editor))==='text'&&(await cursor(p.locator('#diaryPublish')))==='pointer');
   await p.emulateMedia({forcedColors:'none',media:'print'});
-  check('Print removes diary pencil',!pencil(await cursor(editor)));await context.close();
+  check('Print removes book-page pencil',!pencil(await cursor(p.locator('#diaryPages'))));
+  await p.emulateMedia({forcedColors:'none',media:'screen'});
+  await editor.evaluate(el=>el.closest('dialog').close());
+  await p.locator('#diaryClose').click();
+  check('Closing book removes pencil from page surfaces',!pencil(await cursor(p.locator('#diaryPages'))));await context.close();
 }
 async function toyCursorChecks(browser) {
   const p=await setup(browser,{reducedMotion:'no-preference'});await p.goto(url);await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(650);
@@ -114,8 +116,8 @@ async function baseChecks(browser,name) {
   check(name+': real map drag uses painted closed hand',state(await cursor(map),'grabbing','grabbing'));await p.mouse.up();
   check(name+': releasing map restores open hand',state(await cursor(map),'grab','grab'));
   await photo(p,name+'-atlas');await p.locator('.atlas-close').click();
-  check(name+': diary page edges use pencil cursor',pencil(await cursor(p.locator('.diary-page-edge').first())));
-  check(name+': diary password and editor use pencil cursors',pencil(await cursor(p.locator('#diaryPassword')))&&pencil(await cursor(p.locator('#diaryEditBody'))));
+  check(name+': closed diary page edges do not use pencil',!pencil(await cursor(p.locator('.diary-page-edge').first())));
+  check(name+': diary dialogs keep regular text cursors',state(await cursor(p.locator('#diaryPassword')),'text','text')&&state(await cursor(p.locator('#diaryEditBody')),'text','text'));
   const spin=p.locator('.wheel-spin');
   await spin.evaluate(el=>el.setAttribute('aria-disabled','true'));
   check(name+': disabled game action shows unavailable cursor',state(await cursor(spin),'unavailable','not-allowed'));
@@ -177,10 +179,10 @@ async function baseChecks(browser,name) {
     }
     const file=await setup(browser);await file.goto('file://'+path.resolve(__dirname,'../index.html'));await settle(file);
     check('Direct-file cursor resolves local PNG',painted(await cursor(file.locator('html')),'arrow','day')&&await file.evaluate(async()=>{const img=new Image();img.src='./figures/decor/painted/cursor/arrow_day.png';await img.decode();return img.naturalWidth===32;}));
-    check('Direct-file diary pencil resolves locally',pencil(await cursor(file.locator('#diaryOpen')))&&await file.evaluate(async()=>{const img=new Image();img.src='./figures/decor/painted/cursor/diary_pencil.png';await img.decode();return img.naturalWidth===32;}));await file.close();
+    check('Direct-file cover keeps regular hand and pencil asset resolves locally',state(await cursor(file.locator('#diaryOpen')),'hand','pointer')&&await file.evaluate(async()=>{const img=new Image();img.src='./figures/decor/painted/cursor/diary_pencil.png';await img.decode();return img.naturalWidth===32;}));await file.close();
     const noScript=await setup(browser,{javaScriptEnabled:false});await noScript.goto(url);
     check('No-JavaScript page keeps painted arrow',painted(await cursor(noScript.locator('html')),'arrow','day'));
-    check('No-JavaScript diary keeps pencil',pencil(await cursor(noScript.locator('#diaryOpen'))));await noScript.close();
+    check('No-JavaScript closed diary keeps regular hand',state(await cursor(noScript.locator('#diaryOpen')),'hand','pointer'));await noScript.close();
     if(process.env.CURSOR_WEBKIT==='1') {
       const wk=await webkit.launch();try {await baseChecks(wk,'webkit');} finally {await wk.close();}
     }
