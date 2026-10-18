@@ -1,0 +1,53 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "provider": "9Router /v1/images/generations",
+  "pipeline": "scripts/prepare_diary_soft_paper.py",
+  "private_content_supplied": false,
+  "assets": [
+    {
+      "source": "figures/raw/diary/soft_aged/paper_left.png",
+      "source_sha256": "8503ba5e13e66e39a650262e72504afcb149c2b4de32687a14e80469433b929b",
+      "processing": "Opaque RGB; bound to 800x1200 without upscaling; harmonize center median to [229, 210, 178]; retain generated wear; paper receives 5% narrow spine shading.",
+      "derivative": "figures/decor/painted/diary/soft_paper_left.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "b7d7756235cce05480eaaf30211041745106c1b674e26b215059752a564a2001",
+      "bytes": 72994,
+      "request": "figures/raw/diary/soft_aged/paper_left_request.json",
+      "request_sha256": "31f6ebc94fa586aae7ff472befa617357719f961b5e5133a7937a55d4c0ef9ce",
+      "prompt": "docs/prompts/diary/soft_aged/paper_left.md"
+    },
+    {
+      "source": "figures/raw/diary/soft_aged/paper_right.png",
+      "source_sha256": "c9d31e9d746f35fd6fbe11bd0ad5e3193335539ff16f8b6b9e6bbb9a46efeee9",
+      "processing": "Opaque RGB; bound to 800x1200 without upscaling; harmonize center median to [229, 210, 178]; retain generated wear; paper receives 5% narrow spine shading.",
+      "derivative": "figures/decor/painted/diary/soft_paper_right.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "e9e20b3a8174b86b4367bc997b4b3b030d49ebc826ab433e36da906e92bb5acf",
+      "bytes": 98998,
+      "request": "figures/raw/diary/soft_aged/paper_right_request.json",
+      "request_sha256": "763db7001fd7edb633209ba38a7efff43d3a88baed16d6430be381f0f5aef50c",
+      "prompt": "docs/prompts/diary/soft_aged/paper_right.md"
+    },
+    {
+      "source": "figures/raw/diary/soft_aged/endpaper.png",
+      "source_sha256": "6362073d58d5dec6ca01b4984ce2b7c51fc95f18cad96d1e1b18b51d730dfa20",
+      "processing": "Opaque RGB; bound to 800x1200 without upscaling; harmonize center median to [214, 189, 149]; retain generated wear; paper receives 5% narrow spine shading.",
+      "derivative": "figures/decor/painted/diary/soft_endpaper.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "fadcee1420b2112e1cd764b49a3616b8c83ec98157f5613c33cee2a78391e7de",
+      "bytes": 120286,
+      "request": "figures/raw/diary/soft_aged/endpaper_request.json",
+      "request_sha256": "2fe22f98f6bb3d0861b02d2464f54649c01eb6ac1ac2895db69d5169d06f6945",
+      "prompt": "docs/prompts/diary/soft_aged/endpaper.md"
+    }
+  ]
+}

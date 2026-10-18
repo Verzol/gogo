@@ -2,6 +2,51 @@
 
 [Diary guide](diary.md) · [Backend and operations](diary-backend.md) · [Verification](verification.md)
 
+## Gentler paper regeneration, 18 October 2026
+
+Regenerated three Sunburst paper masters with lighter oatmeal stock, fine grain,
+soft rubbing and subtle corner creases. Heavy tears, foxing and stains are gone.
+Existing warmed photo borders and book geometry remain. All 101 fresh motion
+checks passed; desktop/tablet/phone reader, photo and editor screenshots were
+inspected. The pixel-comparison helper now freezes independent scenery animation
+for each screenshot pair. See [current materials and evidence](diary-design-refinement.md#gentler-paper-regeneration).
+
+## Aged paper, 18 October 2026
+
+Three new Sunburst masters replace the pale paper with warm tan leaves and a
+darker opening-cover lining. Frayed edges, fine tears, foxing and creases stay
+near the margins; three warmer print borders match the older stock. The same
+materials travel with the two frozen turn faces. Ink/helper/action/error colors
+were darkened to keep sampled content contrast above 4.5:1.
+
+The material update passed 101 motion checks, 45 layout/fallback checks and
+49 design/axe checks. Desktop/phone reader, editor and animation frames were
+inspected. Six material hashes and exact print-frame alpha/dimensions were also
+verified. See [the follow-up and evidence](diary-design-refinement.md#aged-paper-follow-up),
+including one initial timing-sensitive pixel-comparison failure before a passing
+isolated motion rerun. No live crew accounts or production writes were used.
+
+## Single-cover correction, 18 October 2026
+
+Removed the duplicated invitation beside the cover and centered the one book.
+Loading/error status is small text over the scenery with no opaque panel.
+Fresh browser-local verification passed 101 motion checks and 45 focused checks
+at desktop, tablet and phone widths, with no uncaught browser errors. Desktop
+and phone screenshots were inspected. See the
+[correction evidence](diary-design-refinement.md#single-cover-correction).
+
+## Visual refinement, 18 October 2026
+
+The [design audit and pre-flight](diary-design-refinement.md) records the single
+centered cover, quieter generated paper and print materials, compact reader toolbar,
+attached ribbons and clearer stationery controls. Existing private behavior and
+all nine-photo layouts remain. The five browser helpers passed 474 Chromium
+checks; a separate light/dark preference, desktop/phone design audit passed
+49 checks with no axe WCAG A/AA violations. Manual material contrast checks and
+whole-page Lighthouse limitations are recorded separately. The new paper
+[prompt](prompts/diary/refinement/paper.md) and
+[provenance manifest](../data/sources/diary-refinement.json) preserve reproducibility.
+
 ## All-photo pages and owner edit controls · 18 October 2026
 
 Every published photo now appears directly on its person's photo leaf. Count-aware

@@ -1,6 +1,6 @@
 # Những ngày ở trên mây
 
-[Documentation index](README.md) · [Backend and operations](diary-backend.md) · [Original design plan](diary-plan.md) · [Book redesign](diary-redesign.md) · [Implementation review](diary-review.md)
+[Documentation index](README.md) · [Backend and operations](diary-backend.md) · [Original design plan](diary-plan.md) · [Book redesign](diary-redesign.md) · [Implementation review](diary-review.md) · [Visual refinement](diary-design-refinement.md)
 
 The optional private diary sits inside `#crew`, between the seven portraits and
 the games. The public itinerary, scenery, games, fund and direct-file reading
@@ -106,21 +106,42 @@ they have already seen.
 
 On fine pointers with hover, only the open book's paper and page-turn edges use a small watercolor wooden-pencil cursor: ochre wood, an indigo band and no cloud decoration. The graphite tip is the clicking point. The closed cover, section heading, surrounding space, bookmarks, toolbar and separate dialogs use the regular themed cursors. Text selection, caret placement and typing keep their native behavior; page dragging switches to the themed closed hand and busy/disabled actions use distinct themed symbols. Touch, print and forced colors keep native cues. Artwork, generation provenance and fallbacks are documented in [Cursor preparation](prompts/cursor/README.md#diary-pencil) and [Shared controls](controls.md#painted-cloud-cursors).
 
-Nine new Sunburst masters supply **29 transparent material layers**: front/back
-covers, two inside covers, six paper skins, binding/page edges, seven fabric
-bookmarks, three photo frames, four tape/corner layers and three small keepsakes.
-The indigo linen, warm paper and worn print borders belong to the book object;
-the existing watercolor world remains visible around it. Titles, names, actions
-and captions remain live HTML.
+The closed view contains one centered indigo book, with its title and **Mở sổ**
+action on the cover. Loading and error messages use a small transparent status
+line over the scenery. Opening replaces the cover with a compact title, icon tools and portrait
+bookmarks directly attached to the paper. The writing/photo selector sits above
+the bookmarks on single-leaf layouts, so no control row separates cloth and book.
 
-The [material manifest](../data/sources/diary-materials.json) records every
-master/derivative hash, crop, size and transparent photo opening. Exact prompts
-and references live in [the artwork brief](prompts/diary/revision_2/README.md).
-Preserved masters are in `figures/raw/diary/revision_2/`; runtime WebPs are in
-`figures/decor/painted/diary/` (2,289,164 bytes combined). The reproducible
-`python3 scripts/prepare_diary_artwork.py` helper requires Pillow and NumPy and
-makes no network requests. Earlier study/cover generations remain archived.
-No private photographs, writings or new member portraits were generated.
+The original nine Sunburst masters and 29 transparent layers remain preserved:
+cloth covers, binding/page edges, seven portrait ribbons, photo frames,
+attachments and keepsakes. The current leaves use three freshly regenerated
+Sunburst masters: separate left/right paper and an inner-cover lining. This
+lighter oatmeal parchment has fine fibers, gently rubbed edges and very small
+corner creases. The earlier heavy tears, peeling edges, foxing and stains were
+removed after feedback. Existing warmed print borders retain their exact alpha
+and photo-opening coordinates. Dark forest ink and helpers preserve readability.
+Empty writing keeps quiet ruled paper without copy. Material colors remain
+consistent across scenery periods and browser color schemes.
+
+The [current paper manifest](../data/sources/diary-soft-paper.json) records source,
+request and output hashes, dimensions and processing. [Exact prompts and rebuild
+instructions](prompts/diary/soft_aged/README.md) accompany the three masters and
+requests in `figures/raw/diary/soft_aged/`. Three new paper WebPs total 292,278
+bytes. The preceding [aged materials](../data/sources/diary-aged.json),
+[original material manifest](../data/sources/diary-materials.json) and
+[quiet refinement](../data/sources/diary-refinement.json) remain reproducible.
+For a full rebuild, run `python3 scripts/prepare_diary_artwork.py`,
+`python3 scripts/prepare_diary_refinement.py`,
+`python3 scripts/prepare_diary_aged.py`, then
+`python3 scripts/prepare_diary_soft_paper.py`. These helpers are offline and
+require Pillow and NumPy. No private photographs, writing or member portraits
+were supplied to generation.
+
+Turning leaves copy these same generated materials onto both frozen faces.
+The opening cover uses the new inner lining until writing settles on its
+reverse. Preloading uses current textures, with matching parchment fallback
+colors if artwork is unavailable. Existing 3D geometry, backface handling and
+semantic landing remain unchanged.
 
 Writing and captions use self-hosted Mali 400/500. Names, titles and the cover
 use Dancing Script 400–700; controls retain Be Vietnam Pro. The WOFF2 subsets
@@ -129,9 +150,8 @@ preserved. Their original SIL OFL licenses are in `figures/fonts/`.
 
 `diary-motion.js` decorates the semantic reader without a third-party flip
 library. Opening measures the actual closed cover and final paper, translates
-and scales the same object, and rotates its hinged front/inside cover. The
-nearby margin note fades while it opens. Closing reverses that geometry. Stage
-height is reserved during measurement so browser scroll anchoring cannot shift
+and scales the same object, and rotates its hinged front/inside cover. Closing
+reverses that geometry. Stage height is reserved during measurement so browser scroll anchoring cannot shift
 the starting position. The left paper travels on the cover's reverse face;
 the stationary base stays to the right of the spine throughout. No flat left
 endpaper expands ahead of the cover. The writing fades in on the hinged face
@@ -182,6 +202,7 @@ the photographs or captions.
 | `diary.js` / `diary.css` | Semantic reader, native dialogs, editor, recovery and base presentation |
 | `diary-motion.js` / `diary-motion.css` | Decorative cover/curved leaf geometry, material skins, handwriting and responsive polish |
 | `diary-materials.css` | Generated frame/image opening coordinates |
+| `scripts/prepare_diary_refinement.py` | Quiet paper and lighter frame/tape derivatives; separate provenance manifest |
 | `scripts/prepare_diary_artwork.py` | Offline master-to-WebP preparation and material manifest |
 | `diary-api.js` | Request cancellation, refresh, tab session and private image URLs |
 | `diary-config.js` | Public function endpoint only; no keys/passwords |

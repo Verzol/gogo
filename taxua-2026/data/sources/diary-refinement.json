@@ -1,0 +1,91 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "prompt": "docs/prompts/diary/refinement/paper.md",
+  "pipeline": "scripts/prepare_diary_refinement.py",
+  "assets": [
+    {
+      "source": "figures/raw/diary/refinement/paper.png",
+      "source_sha256": "4ccca14e6b96ec46b335972b0aa143ee46012b560a4392cc91888e3879e5c198",
+      "processing": "Bound to 800x1200 without upscaling; right is mirrored; subtle inner-spine shading.",
+      "derivative": "figures/decor/painted/diary/paper_quiet_left.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "8dcff9f1201230eeb1f198da878a968b81d7e9f6f26abf7827e7269060ef46e3",
+      "bytes": 55058
+    },
+    {
+      "source": "figures/raw/diary/refinement/paper.png",
+      "source_sha256": "4ccca14e6b96ec46b335972b0aa143ee46012b560a4392cc91888e3879e5c198",
+      "processing": "Bound to 800x1200 without upscaling; right is mirrored; subtle inner-spine shading.",
+      "derivative": "figures/decor/painted/diary/paper_quiet_right.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "03c65b31ac606a098d20f082c1ea1cbb6d00cec5206f845b2afb4ffc3c34aa25",
+      "bytes": 55138
+    },
+    {
+      "source": "figures/decor/painted/diary/frame_landscape.webp",
+      "source_sha256": "c1a3e7fb9c1dd1a59bd19350405ce394ea1f2233fdef20a3013c4c81d4d6c693",
+      "processing": "Reduce saturation to 35%; blend ivory into RGB; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/quiet_frame_landscape.webp",
+      "size": [
+        677,
+        501
+      ],
+      "sha256": "90d646f2495117b353edb7fe8c2b885489e8a59d3756095de5541eeb26a9a7df",
+      "bytes": 13094
+    },
+    {
+      "source": "figures/decor/painted/diary/frame_portrait.webp",
+      "source_sha256": "237d2760962d3087b7660d3d59cd3a57d80735e4d9ac2b8dc9589f288c903b90",
+      "processing": "Reduce saturation to 35%; blend ivory into RGB; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/quiet_frame_portrait.webp",
+      "size": [
+        476,
+        631
+      ],
+      "sha256": "84658e3921d356a2cbaa87e0bec2a1a09358aea1dbcd79f9bff73ded062c491a",
+      "bytes": 12718
+    },
+    {
+      "source": "figures/decor/painted/diary/frame_square.webp",
+      "source_sha256": "9840086d473324fdccb1f337a59287368e3dbdef6e3745402953cca30c176044",
+      "processing": "Reduce saturation to 35%; blend ivory into RGB; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/quiet_frame_square.webp",
+      "size": [
+        535,
+        538
+      ],
+      "sha256": "2614785f4ccd20856928d5163bef693f0451c71b0b66471301efd97a06ec1f9a",
+      "bytes": 13414
+    },
+    {
+      "source": "figures/decor/painted/diary/tape_ochre.webp",
+      "source_sha256": "500f801bd53b13a675142d9bcd3d106efe080a3d8d7ba3ee80158ebc2fa36220",
+      "processing": "Reduce saturation to 35%; blend ivory into RGB; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/quiet_tape_ochre.webp",
+      "size": [
+        260,
+        91
+      ],
+      "sha256": "23cc9c0f00905efc390dda4fb59261297a9e13abc4bf9e7234635d4d1292f200",
+      "bytes": 6068
+    },
+    {
+      "source": "figures/decor/painted/diary/tape_linen.webp",
+      "source_sha256": "28a200361510225b37e64ee6084b1fa691226c1f39e85224eb05da3770c8b694",
+      "processing": "Reduce saturation to 35%; blend ivory into RGB; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/quiet_tape_linen.webp",
+      "size": [
+        260,
+        92
+      ],
+      "sha256": "6f70b74e54c0357caa186d1badb7537dc168e52568866ec3871bbd43a72fc591",
+      "bytes": 9182
+    }
+  ]
+}

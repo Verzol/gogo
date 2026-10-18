@@ -1,0 +1,6 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "prompt": "Create a production texture asset: a straight-on, flat scan of a single blank page from a well-kept vintage travel diary. Portrait 2:3 aspect ratio. The entire canvas is paper, edge to edge, with NO surrounding background, NO visible page silhouette and NO perspective. Warm ivory rag paper, pale oatmeal fibers, understated fine paper tooth, very gentle uneven age only at the outermost edges. The middle 90 percent must be exceptionally calm, pale and clean so dark handwritten Vietnamese text is effortless to read. The texture should feel tactile and lovingly kept, not ruined. Soft natural daylight with completely even illumination. Subtle watercolor material realism that belongs with an indigo cloth travel journal from the mountains of northern Vietnam. No yellow-orange mottling, no burnt edges, no stains, no creases, no cracks, no dark vignette, no border, no rules, no writing, no letters, no stamps, no illustrations, no objects, no shadows, no book, no hands. This is a quiet usable paper material, not a photograph of a book or a mockup.",
+  "size": "1024x1536",
+  "response_format": "b64_json"
+}

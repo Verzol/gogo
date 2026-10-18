@@ -69,6 +69,23 @@ Helpers write screenshots/reports/videos into the worktree. Run sequentially whe
 
 ## Lightweight checks and reporting
 
+The [gentler paper regeneration](diary-design-refinement.md#gentler-paper-regeneration)
+records 101 fresh Chromium motion checks and desktop/tablet/phone screenshots in
+`/tmp/taxua-diary-soft/`. Its before/after spine probe temporarily pauses only
+surrounding WAAPI animations so moving clouds cannot mimic escaped paper.
+
+
+The [18 October diary visual refinement](diary-design-refinement.md) records
+474 focused Chromium checks, 49 scoped design/accessibility checks, manual
+paper-contrast measurements and separate whole-page Lighthouse limitations.
+Its evidence is in `/tmp/taxua-diary-design/`; no crew accounts or media were used.
+
+The [aged-paper follow-up](diary-design-refinement.md#aged-paper-follow-up)
+records 195 fresh Chromium checks (101 motion, 45 layout/fallback, 49 design/axe),
+manual texture-contrast sampling and preserved frame alpha/dimensions. Evidence
+is in `/tmp/taxua-diary-aged/`; fixtures use public sample images and no live
+accounts. Earlier refinement and single-cover results remain historical.
+
 Use `node --check <changed-script.js>` for edited JavaScript and `git diff --check` for whitespace. Content changes also require `node scripts/export_itinerary.cjs` and inspection of its diff.
 
 The [16 October UI artwork review](ui-artwork.md#verified-import-and-implementation--16-october-2026) records the supplied-asset import and eight passing suites, with reports outside the checkout.

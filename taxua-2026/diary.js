@@ -47,7 +47,7 @@
   const refreshLayout = () => requestAnimationFrame(() => window.JourneyMotion?.refresh());
   const current = () => members[state.index];
   const entry = () => state.entries.find(e => e.member_id === current().id);
-  const photoIcon = '<svg viewBox="0 0 48 40" fill="none" stroke="currentColor" aria-hidden="true"><path d="M6 7h36v28H6zM6 28l10-11 10 10 7-7 9 9"/><circle cx="33" cy="14" r="3"/></svg>';
+  const photoIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-camera"></use></svg>';
   const errorText = error => ({
     CONNECTION_REQUIRED: 'Mở trang qua HTTP hoặc HTTPS để kết nối sổ riêng nhé.',
     NETWORK_ERROR: 'Chưa kết nối được với sổ. Kiểm tra mạng rồi thử lại nhé.',
@@ -78,7 +78,7 @@
   function photoMarkup(photo, index, owner, count) {
     const label = photo.alt || `Ảnh chuyến đi của ${owner}`;
     const wide = count <= 2 || ([3, 5, 7].includes(count) && index === 0);
-    const frame = `diary-print diary-frame-${wide || count <= 6 ? 'landscape' : 'square'}`;
+    const frame = `diary-print diary-frame-${count === 1 ? 'portrait' : wide || count <= 6 ? 'landscape' : 'square'}`;
     const image = `<button type="button" class="diary-photo-button" data-view-photo="${escape(photo.id)}" aria-label="Mở ảnh ${index + 1}: ${escape(label)}"><img data-private-photo="${escape(photo.id)}" alt="${escape(label)}" hidden><span class="diary-image-fallback">Đang mở ảnh…</span></button>`;
     const caption = `<figcaption>${escape(photo.caption || '\u00a0')}</figcaption>`;
     return `<figure class="${frame}">${image}${caption}</figure>`;
@@ -114,7 +114,7 @@
         <header class="diary-page-head"><span>Vài dòng để nhớ</span>${canEdit ? `<button type="button" class="diary-edit" data-edit="writing" aria-label="Sửa lời viết của ${escape(person.name)}">Viết vài dòng ↗</button>` : ''}</header>
         <div class="diary-author"><img src="./${escape(person.image)}" alt="" width="72" height="78"><div><h3>${escape(person.name)}</h3><small>Tà Xùa · tháng mười, 2026</small></div></div>
         ${saved.title ? `<h4 class="diary-entry-title">${escape(saved.title)}</h4>` : ''}
-        ${saved.body ? `<div class="diary-writing" tabindex="0" aria-label="Bài viết của ${escape(person.name)}"><p>${escape(saved.body)}</p></div>` : '<div class="diary-empty-writing" aria-hidden="true"><div class="diary-blank-lines"></div></div>'}
+        ${saved.body ? `<div class="diary-writing" role="region" tabindex="0" aria-label="Bài viết của ${escape(person.name)}"><p>${escape(saved.body)}</p></div>` : '<div class="diary-empty-writing" aria-hidden="true"><div class="diary-blank-lines"></div></div>'}
         <footer class="diary-page-tail"><span>${escape(stamp)}</span>${saved.body ? '<button type="button" class="diary-text-button" data-full-writing>Đọc trọn bài ↗</button>' : ''}<span aria-hidden="true">${String(index * 2 + 1).padStart(2, '0')}</span></footer>
       </section>
       <section class="diary-page diary-page-photos" aria-label="Ảnh của ${escape(person.name)}">
@@ -124,7 +124,7 @@
       </section>`;
     [...pages.children].forEach((page, i) => {
       page.dataset.owner = person.id;
-      page.style.setProperty('--diary-page-art', `url('./figures/decor/painted/diary/paper_${i ? 'right' : 'left'}_${index % 3 + 1}.webp')`);
+      page.style.setProperty('--diary-page-art', `url('./figures/decor/painted/diary/soft_paper_${i ? 'right' : 'left'}.webp')`);
     });
     return pages;
   }
@@ -419,7 +419,7 @@
   function renderPhotoFields() {
     const photos = state.draft?.photos || [], library = state.draft?.library || [];
     $('diaryPhotoFields').innerHTML = photos.map((p, index) => `<div class="diary-photo-edit" data-photo-row="${escape(p.id)}"><img data-private-photo="${escape(p.id)}" alt="Ảnh ${index + 1}" hidden><div>
-      <label class="diary-field"><span>Chú thích ảnh ${index + 1}${index < 3 ? ' · nằm trên trang' : ''}</span><input type="text" data-caption="${escape(p.id)}" value="${escape(p.caption)}" maxlength="160"></label>
+      <label class="diary-field"><span>Chú thích ảnh ${index + 1}</span><input type="text" data-caption="${escape(p.id)}" value="${escape(p.caption)}" maxlength="160"></label>
       <label class="diary-field"><span>Mô tả ảnh cho người đọc màn hình</span><input type="text" data-alt="${escape(p.id)}" value="${escape(p.alt)}" maxlength="160"></label>
       <div class="diary-photo-actions"><button type="button" data-move-photo="${escape(p.id)}" data-direction="-1" aria-label="Đưa ảnh ${index + 1} lên"${index === 0 ? ' disabled' : ''}>↑ Lên</button><button type="button" data-move-photo="${escape(p.id)}" data-direction="1" aria-label="Đưa ảnh ${index + 1} xuống"${index === photos.length - 1 ? ' disabled' : ''}>↓ Xuống</button><button type="button" data-detach-photo="${escape(p.id)}">Bỏ khỏi trang</button></div>
     </div></div>`).join('');

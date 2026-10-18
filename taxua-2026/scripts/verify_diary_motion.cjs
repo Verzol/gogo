@@ -64,30 +64,43 @@ async function outsideSpine(p, name) {
   // Before the cover crosses the spine, nothing can occupy the left half.
   // Compare actual painted pixels with the flight hidden; checking the
   // semantic reader alone missed an expanding decorative endpaper.
-  const points = await p.locator('.diary-cover-flight').evaluate(el => {
-    return [.25,.5,.75].map(y => {
-      const probe = document.createElement('i');
-      Object.assign(probe.style,{position:'absolute',left:'48%',top:y*100+'%',width:'0',height:'0'});
-      el.append(probe); const r=probe.getBoundingClientRect(); probe.remove();
-      return {x:Math.round(r.x),y:Math.round(r.y)};
-    });
+  // Scenery clouds use WAAPI independently of GSAP. Freeze only surrounding
+  // animation during this pixel comparison; the paused book clock is untouched.
+  const ambient = await p.evaluateHandle(() => {
+    const active = document.getAnimations().filter(animation =>
+      animation.playState === 'running' && !animation.effect?.target?.closest?.('#crewDiary'));
+    active.forEach(animation => animation.pause());
+    return active;
   });
-  const visible = await p.screenshot();
-  await p.locator('.diary-cover-flight').evaluate(el=>el.style.opacity='0');
-  const hidden = await p.screenshot();
-  await p.locator('.diary-cover-flight').evaluate(el=>el.style.opacity='');
-  const differences = await p.evaluate(async ({visible,hidden,points}) => {
-    const sample = async src => {
-      const image = new Image(); image.src='data:image/png;base64,'+src; await image.decode();
-      const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
-      const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);
-      return points.filter(({x,y})=>x>=0&&x<innerWidth&&y>=0&&y<innerHeight).map(({x,y})=>[...ctx.getImageData(Math.round(x*image.width/innerWidth),Math.round(y*image.height/innerHeight),1,1).data]);
-    };
-    const [a,b]=await Promise.all([sample(visible),sample(hidden)]);
-    return a.map((pixel,i)=>Math.max(...pixel.slice(0,3).map((v,c)=>Math.abs(v-b[i][c]))));
-  }, {visible:visible.toString('base64'),hidden:hidden.toString('base64'),points});
-  report.spineSamples ||= []; report.spineSamples.push({name,points,differences});
-  check(name+' paints no escaped paper left of the spine',differences.length>0&&differences.every(d=>d<12));
+  try {
+    const points = await p.locator('.diary-cover-flight').evaluate(el => {
+      return [.25,.5,.75].map(y => {
+        const probe = document.createElement('i');
+        Object.assign(probe.style,{position:'absolute',left:'48%',top:y*100+'%',width:'0',height:'0'});
+        el.append(probe); const r=probe.getBoundingClientRect(); probe.remove();
+        return {x:Math.round(r.x),y:Math.round(r.y)};
+      });
+    });
+    const visible = await p.screenshot();
+    await p.locator('.diary-cover-flight').evaluate(el=>el.style.opacity='0');
+    const hidden = await p.screenshot();
+    await p.locator('.diary-cover-flight').evaluate(el=>el.style.opacity='');
+    const differences = await p.evaluate(async ({visible,hidden,points}) => {
+      const sample = async src => {
+        const image = new Image(); image.src='data:image/png;base64,'+src; await image.decode();
+        const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
+        const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);
+        return points.filter(({x,y})=>x>=0&&x<innerWidth&&y>=0&&y<innerHeight).map(({x,y})=>[...ctx.getImageData(Math.round(x*image.width/innerWidth),Math.round(y*image.height/innerHeight),1,1).data]);
+      };
+      const [a,b]=await Promise.all([sample(visible),sample(hidden)]);
+      return a.map((pixel,i)=>Math.max(...pixel.slice(0,3).map((v,c)=>Math.abs(v-b[i][c]))));
+    }, {visible:visible.toString('base64'),hidden:hidden.toString('base64'),points});
+    report.spineSamples ||= []; report.spineSamples.push({name,points,differences});
+    check(name+' paints no escaped paper left of the spine',differences.length>0&&differences.every(d=>d<12));
+  } finally {
+    await ambient.evaluate(animations => animations.forEach(animation => animation.play()));
+    await ambient.dispose();
+  }
 }
 async function runEngine(type, engine) {
   const browser = await type.launch(engine === 'webkit' && process.env.DIARY_WEBKIT_EXECUTABLE ? {executablePath:process.env.DIARY_WEBKIT_EXECUTABLE} : {});

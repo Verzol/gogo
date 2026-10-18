@@ -35,6 +35,17 @@ Per-photo original/stored-copy URLs, credits and rights are in `selected-place-p
 
 ## Artwork and retained references
 
+The diary's current gently aged paper uses three regenerated
+`cx/gpt-image-2.5-sunburst` masters through 9Router: left/right leaves and an
+inner-cover lining. [Exact prompts and requests](prompts/diary/soft_aged/README.md),
+[source/derivative hashes](../data/sources/diary-soft-paper.json) and the offline
+helper preserve reproducibility. Warmed print borders still derive from the
+[preceding aged materials](../data/sources/diary-aged.json). The heavier
+[aged study](prompts/diary/aged/README.md),
+[earlier quiet-paper study](prompts/diary/refinement/paper.md) and
+[its manifest](../data/sources/diary-refinement.json) remain preserved.
+No crew media was supplied to generation.
+
 | Source | Current use |
 | --- | --- |
 | `figures/raw/illustrated_scenery/` | 14 user-generated originals; [manifest](../data/sources/illustrated-scenery.json), [prompts/sheet map](prompts/illustrated_scenery/README.md) |

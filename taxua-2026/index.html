@@ -149,30 +149,20 @@
       <div class="section-heading"><h2>Đồng bọn <em id="crewCount"></em></h2><p>Cùng lên núi, cùng có mặt trong những tấm ảnh mang về.</p></div>
       <div class="crew-grid" id="crewGrid"></div>
       <article class="crew-diary" id="crewDiary" aria-labelledby="diaryTitle">
-        <header class="diary-intro">
-          <p class="diary-eyebrow">Một cuốn sổ · bảy nét chữ</p>
-          <h2 id="diaryTitle">Những ngày <em>ở trên mây.</em></h2>
-          <p>Mang về vài tấm ảnh. Để lại một chút lòng mình.</p>
-        </header>
+        <h2 class="sr-only" id="diaryTitle">Những ngày ở trên mây</h2>
         <div class="diary-stage" id="diaryStage">
           <div class="diary-closed" id="diaryClosed">
             <div class="diary-cover-rest">
               <button class="diary-cover" id="diaryOpen" type="button" aria-haspopup="dialog">
                 <span class="diary-cover-edition">gogo · ấn bản của hội mình</span>
                 <span class="diary-cover-title">Những ngày<br>ở trên mây</span>
-                <span class="diary-cover-date">Tà Xùa<br>22 — 25.10.2026</span>
+                <span class="diary-cover-date">Tà Xùa<br>22 - 25.10.2026</span>
                 <span class="diary-cover-action">Mở sổ <span aria-hidden="true">↗</span></span>
               </button>
             </div>
-            <div class="diary-margin-note">
-              <span class="diary-private-label">Chỉ hội mình đọc</span>
-              <p>Có những điều<br>để dành <em>trong sổ.</em></p>
-              <span>Một trang cho mỗi đứa.<br>Một góc để nhớ chuyến đi này.</span>
-              <span class="diary-note-arrow" aria-hidden="true">⤺</span>
-              <img src="./figures/decor/painted/diary/clouds.webp" alt="" width="150" height="150" loading="lazy">
-            </div>
           </div>
           <div class="diary-reader" id="diaryReader" hidden>
+            <h3 class="diary-reader-title">Những ngày ở trên mây</h3>
             <div class="diary-reader-tools" role="group" aria-label="Thao tác với sổ">
               <button type="button" class="diary-tool" id="diaryRefresh" aria-label="Làm mới" title="Làm mới"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-refresh-cw"></use></svg></button>
               <button type="button" class="diary-tool" id="diaryClose" aria-label="Đóng sổ" title="Đóng sổ"><svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-book-x"></use></svg></button>

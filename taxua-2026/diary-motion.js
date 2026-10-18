@@ -202,9 +202,9 @@
     // Bound preparation. Failed artwork or images keep their normal fallback;
     // a turn never mutates its frozen snapshot when a late image arrives.
     if (!materialsReady) {
-      const names = ['front_cover', 'back_cover', 'inside_left', 'inside_right', 'binding', 'page_edges', 'tape_ochre', 'tape_linen', 'corners_tan', 'corners_cream', 'fern', 'clouds', 'flowers', 'frame_landscape', 'frame_portrait', 'frame_square',
-        ...['mi', 'san', 'thao', 'quanlele', 'gtm', 'truong', 'linh'].map(id => 'bookmark_' + id),
-        ...[1, 2, 3].flatMap(i => ['paper_left_' + i, 'paper_right_' + i])];
+      const names = ['front_cover', 'back_cover', 'soft_endpaper', 'binding', 'page_edges', 'corners_tan', 'corners_cream', 'fern', 'clouds',
+        'quiet_tape_ochre', 'quiet_tape_linen', 'aged_frame_landscape', 'aged_frame_portrait', 'aged_frame_square', 'soft_paper_left', 'soft_paper_right',
+        ...['mi', 'san', 'thao', 'quanlele', 'gtm', 'truong', 'linh'].map(id => 'bookmark_' + id)];
       materialsReady = Promise.allSettled(names.map(name => { const img = new Image(); img.src = material(name); return img.decode(); }));
     }
     await Promise.race([

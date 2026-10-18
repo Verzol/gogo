@@ -1,0 +1,89 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "provider": "9Router /v1/images/generations",
+  "pipeline": "scripts/prepare_diary_aged.py",
+  "private_content_supplied": false,
+  "assets": [
+    {
+      "source": "figures/raw/diary/aged/paper_left.png",
+      "source_sha256": "971b274ebbb881f8870fe1b71fab78b041ea025b2d12460e193670b696d55e9f",
+      "processing": "Opaque RGB; bound to 800x1200 without upscaling; harmonize center median to [217, 191, 151]; retain generated wear; paper receives 5% narrow spine shading.",
+      "derivative": "figures/decor/painted/diary/aged_paper_left.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "2637e09065027a2fd246ab154acc09c6df5fd99265435395d1e640007b054003",
+      "bytes": 148892,
+      "request": "figures/raw/diary/aged/paper_left_request.json",
+      "request_sha256": "a40d93d0e56b66cf1c0eeeebcd2ae9a5b650614f50e6ac308f84f73bea981b57",
+      "prompt": "docs/prompts/diary/aged/paper_left.md"
+    },
+    {
+      "source": "figures/raw/diary/aged/paper_right.png",
+      "source_sha256": "5d3080f55f53856bb7721cdc67643063d5718e11f748c08dd5d13d787af0cc8a",
+      "processing": "Opaque RGB; bound to 800x1200 without upscaling; harmonize center median to [217, 191, 151]; retain generated wear; paper receives 5% narrow spine shading.",
+      "derivative": "figures/decor/painted/diary/aged_paper_right.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "b1fb944a4f6bd1c6b529edb15e51594bbe55a42591365d09f7ec2973ba3633da",
+      "bytes": 184636,
+      "request": "figures/raw/diary/aged/paper_right_request.json",
+      "request_sha256": "5fdf1ee35e5c2de914b5e053a780233517549d1f132201c29a359abe541f4e47",
+      "prompt": "docs/prompts/diary/aged/paper_right.md"
+    },
+    {
+      "source": "figures/raw/diary/aged/endpaper.png",
+      "source_sha256": "de0e3a39f0345d75b765b91e9f22eda8f3f4bf8d23253ffc3485aeb92831df48",
+      "processing": "Opaque RGB; bound to 800x1200 without upscaling; harmonize center median to [199, 170, 126]; retain generated wear; paper receives 5% narrow spine shading.",
+      "derivative": "figures/decor/painted/diary/aged_endpaper.webp",
+      "size": [
+        800,
+        1200
+      ],
+      "sha256": "d139653903b8d94dd00ddd21d8cbde49b5556dd17ca9b0d60759144ccc0e76f8",
+      "bytes": 177436,
+      "request": "figures/raw/diary/aged/endpaper_request.json",
+      "request_sha256": "09a2bdaa38bffcc199c7d91ca88c9879ec16e0fa89ad0bb14b9f2d3f299df2a1",
+      "prompt": "docs/prompts/diary/aged/endpaper.md"
+    },
+    {
+      "source": "figures/decor/painted/diary/quiet_frame_landscape.webp",
+      "source_sha256": "90d646f2495117b353edb7fe8c2b885489e8a59d3756095de5541eeb26a9a7df",
+      "processing": "Multiply RGB by [0.96,0.92,0.84]; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/aged_frame_landscape.webp",
+      "size": [
+        677,
+        501
+      ],
+      "sha256": "7a78fcc1de76c3c885abf3202c3d9ec8e22d9e711acb967431926aa261cae2aa",
+      "bytes": 11454
+    },
+    {
+      "source": "figures/decor/painted/diary/quiet_frame_portrait.webp",
+      "source_sha256": "84658e3921d356a2cbaa87e0bec2a1a09358aea1dbcd79f9bff73ded062c491a",
+      "processing": "Multiply RGB by [0.96,0.92,0.84]; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/aged_frame_portrait.webp",
+      "size": [
+        476,
+        631
+      ],
+      "sha256": "b14511c2300965199c4c57f879bb8c67bc4a5676e1bad959e000d2557a18d58e",
+      "bytes": 11332
+    },
+    {
+      "source": "figures/decor/painted/diary/quiet_frame_square.webp",
+      "source_sha256": "2614785f4ccd20856928d5163bef693f0451c71b0b66471301efd97a06ec1f9a",
+      "processing": "Multiply RGB by [0.96,0.92,0.84]; preserve dimensions and alpha exactly.",
+      "derivative": "figures/decor/painted/diary/aged_frame_square.webp",
+      "size": [
+        535,
+        538
+      ],
+      "sha256": "565c3da93df39ad17481229eefa8cd00a73d3b9bfb7610342ab329dd5bc99a28",
+      "bytes": 11960
+    }
+  ]
+}
