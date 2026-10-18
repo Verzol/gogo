@@ -2,6 +2,52 @@
 
 [Diary guide](diary.md) · [Backend and operations](diary-backend.md) · [Verification](verification.md)
 
+## All-photo pages and owner edit controls · 18 October 2026
+
+Every published photo now appears directly on its person's photo leaf. Count-aware
+arrangements cover 0–9 photos: larger prints for small collections, two-column
+rows for four to six, and three-column arrangements for seven to nine. Empty
+pages keep three quiet frames. Paper dimensions, illustrated frames, opening
+geometry, page-turn content and bookmark attachment are retained.
+
+Click any print for a full-image popup with the complete caption, previous/next
+Lucide-style arrows and a photo counter. Left/right arrow keys navigate within
+the same owner; the first/last controls stop at the collection boundaries. Focus
+stays in the native dialog and private image nodes clear on close or session loss.
+The separate album and “Xem đủ … ảnh” button are removed. Writing/photo edit
+buttons exist only on the signed-in owner's pages; injected foreign edit controls
+are ignored and server draft ownership checks remain in place.
+
+The browser upload/reattach paths, serialized database reservation/draft paths,
+and entry/draft constraints now enforce nine photos. The gogo migration
+`20261018014337_taxua_diary_nine_photos.sql` was applied and its local filename
+matches hosted migration history. The live gateway body matched the repository
+before changing only its two photo-count comparisons. Its invoker mode, private
+session/member checks, row locks and denied browser grants were verified after.
+No uploaded photos or nonempty entries existed before the cap change, so no
+crew content needed removal. The Edge Function requires no redeployment.
+
+| Current verification | Result |
+| --- | --- |
+| Reader/editor/upload/publication/recovery | 80 Chromium checks passed |
+| Every photo count 0–9 at 1440/820/390/320px, bounds, 44px targets, popup arrows/keyboard/focus, owner-only controls and tenth-file rejection | 200 Chromium checks passed |
+| Long writing/full captions, enlarged text, Vietnamese shaping and resource/session failures | 45 Chromium checks passed |
+| Bookmark and navigation/gesture regressions | 48 Chromium checks passed |
+| Opening/closing/page-turn geometry and painted-image orientation | 101 Chromium checks passed |
+| Deployed gateway/constraints copied into temporary tables, then rolled back | Seven boundaries passed: nine reservations/draft/publication accepted; tenth reservation/draft/entry/draft-constraint writes rejected |
+
+All five browser helpers reported zero uncaught errors and used mocked transport,
+without crew credentials or live uploads. Desktop/phone photo pages and the
+phone popup were visually inspected. Browser coverage for this change is Chromium;
+WebKit is unavailable in this environment. The SQL fixture replaces identity only
+inside its temporary gateway copy, so these seven checks do not claim a new
+Auth/session security audit. The advisor returned no new diary-specific finding;
+its existing [shared Auth leaked-password setting](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection)
+and unrelated public-table notices remain unchanged.
+
+Evidence: `/tmp/taxua-diary-nine/`. Earlier sections below describe historical
+layouts and checks, including the former twelve-photo album.
+
 ## Own-page session reuse · 18 October 2026
 
 The edit buttons previously opened the password sheet unconditionally. Own-page

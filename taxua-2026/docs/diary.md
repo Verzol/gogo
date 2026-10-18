@@ -50,8 +50,9 @@ copy retain their existing behavior. No private entry is exported into HTML.
   name are removed.
 - Your own writing/photo edit buttons reuse your active session and open the
   private draft directly after the server verifies access. Closing and reopening
-  the editor or book does not ask for your password again. Opening another
-  person's editor still requires their password and switches to that account.
+  the editor or book does not ask for your password again. Writing and photo
+  edit buttons appear only on the signed-in owner's pages. Other crew pages
+  stay read-only; log out and sign in under another name to change accounts.
   Expired sessions refresh automatically when possible; if the server rejects
   the session, editing asks you to sign in again.
 - A draft saves privately after about a second of inactivity and when closing
@@ -68,7 +69,7 @@ copy retain their existing behavior. No private entry is exported into HTML.
 
 ## Photographs
 
-Each person has at most twelve stored photos/reservations and a 30 MiB budget.
+Each person has at most nine stored photos/reservations and a 30 MiB budget.
 JPEG, PNG and WebP inputs up to 20 MiB are supported. HEIC, SVG, GIF and other
 formats are rejected with an explanation. The browser orients and resizes
 inputs into JPEGs with a 1600px longest edge, at most 2 MiB each. The server
@@ -76,8 +77,19 @@ independently checks bytes/dimensions, decodes JPEG, strips metadata and writes
 a fresh reading image plus a 640px thumbnail. Browser compression alone never
 grants upload permission.
 
-The first three photos in the ordered draft appear on the book page. The
-album keeps all twelve; each photo has a caption and a screen-reader description.
+Every photo in the published version appears directly on the book page, up to nine.
+The grid adapts to its count: one large print; two stacked prints; a large print
+above two for three; two columns for four to six; and three-column arrangements
+with a larger opening row for seven/eight, or a full 3-by-3 grid for nine. Empty
+pages retain three quiet frames. All layouts keep the paper's stable dimensions.
+Each photo has a caption and a screen-reader description. Click a print to open
+its full image and complete caption in a private popup. Previous/next arrows
+and the left/right arrow keys move within that person's photos; controls stop
+at the first and last photo. Escape or the close button returns to the book.
+The popup announces the photo position, keeps keyboard focus in the dialog,
+and clears its private image on close or session loss. There is no separate
+“Xem đủ … ảnh” album button.
+
 Keyboard buttons reorder images. Removing a photo from the draft changes the
 published page only after **Lưu vào sổ**. An uploaded image omitted from the
 draft appears in the unused-image list and can be attached again or explicitly
@@ -156,9 +168,10 @@ active action once; logout/session rejection cancels it and clears private
 surfaces. There is no scroll interception, automatic advance or sound. The diary
 and its dialogs are excluded from printing.
 
-The book previews up to three photos with short captions. The full album keeps
-unabridged captions in normal flow, including at 320px and enlarged text, so a
-long caption cannot overlap the next frame.
+The book shows every photo with a short caption. The full-image popup keeps
+unabridged captions in normal flow, including at 320px and enlarged text.
+Enlarged-text reading uses a natural-height photo grid rather than squeezing
+the photographs or captions.
 
 ## Code ownership
 
@@ -176,7 +189,9 @@ long caption cannot overlap the next frame.
 | `scripts/verify_diary.cjs` | Deterministic browser interactions/visual checks with a mocked transport |
 | `scripts/verify_diary_motion.cjs` | Paused opening/turn/closing frames, front/reverse ownership and painted-pixel photo orientation |
 | `scripts/verify_diary_navigation.cjs` | Sticker bounds/fallbacks, edge clicks, controlled/cancelled drags, phone swipes and native vertical touch scrolling |
-| `scripts/verify_diary_layout.cjs` | Long writing/albums, enlarged text, Vietnamese shaping, missing assets and mid-motion expiry |
+| `scripts/verify_diary_photos.cjs` | Every count 0–9, responsive print bounds/targets, popup navigation, owner-only edit controls and the tenth-upload boundary |
+| `scripts/verify_diary_photo_limit.sql` | Deployed gateway/constraints cloned into temporary tables; nine accepted and ten rejected, then rollback |
+| `scripts/verify_diary_layout.cjs` | Long writing/captions, enlarged text, Vietnamese shaping, missing assets and mid-motion expiry |
 | `scripts/verify_diary_backend.cjs` | Direct requests against real disposable accounts/policies |
 
 The new scripts run after the existing static-trip scripts. They are classic
@@ -190,6 +205,7 @@ Run from `taxua-2026/`, reusing the existing preview server:
 
 ```sh
 node scripts/verify_diary.cjs
+node scripts/verify_diary_photos.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary_motion.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary_navigation.cjs
@@ -200,7 +216,8 @@ The WebKit commands require an installed Playwright WebKit browser and its
 Linux libraries. `PLAYWRIGHT_PATH`, `TRIP_PREVIEW_URL` and optional
 `DIARY_WEBKIT_EXECUTABLE` override the test dependencies/preview.
 `TRIP_REVIEW_DIR` sets the interaction evidence folder; `DIARY_MOTION_REVIEW_DIR`,
-`DIARY_NAVIGATION_REVIEW_DIR` and `DIARY_LAYOUT_REVIEW_DIR` set the other helpers'
+`DIARY_NAVIGATION_REVIEW_DIR`, `DIARY_PHOTOS_REVIEW_DIR` and
+`DIARY_LAYOUT_REVIEW_DIR` set the other helpers'
 evidence folders.
 See [backend verification](diary-backend.md#verification) before running tests
 that modify accounts. Browser fixtures alone do not prove server permissions.

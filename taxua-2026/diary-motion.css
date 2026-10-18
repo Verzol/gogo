@@ -61,10 +61,6 @@
 .diary-member-choice span { font-family: 'Mali', cursive; font-size: .9rem; }
 .diary-dialog .diary-field textarea { font: 400 1.1rem/1.9 'Mali', cursive; padding-block: 12px; }
 .diary-editor-footer { background: #f5edd8; }
-.diary-album { --album-frame-height: 330px; }
-.diary-album-item { min-width: 0; margin: 0; padding-bottom: 14px; }
-.diary-album .diary-print { height: var(--album-frame-height); margin: 0; }
-.diary-album-item > figcaption { position: relative; margin: calc(var(--album-frame-height) * -.21) 8% 0; min-height: calc(var(--album-frame-height) * .21); font: 400 1rem/1.6 'Mali', cursive; overflow-wrap: anywhere; white-space: pre-wrap; }
 .diary-image-fallback { color: #62513c; }
 
 .diary-cover-flight { position: absolute; transform-origin: 75% 50%; transform-style: preserve-3d; perspective: 2200px; pointer-events: none; z-index: 12; }
@@ -135,8 +131,6 @@
   .diary-print figcaption { font-size: .73rem; line-height: 1.45; }
   .crew-diary .diary-text-button { font-size: .8rem !important; }
   .diary-dialog .diary-field textarea { font-size: 17px; }
-  .diary-album { --album-frame-height: 300px; }
-  .diary-album-item > figcaption { font-size: .92rem; }
 }
 .diary-large-text .diary-page { height: auto; min-height: 600px; }
 .diary-large-text .diary-writing { font-size: 1.1rem; overflow: visible; }

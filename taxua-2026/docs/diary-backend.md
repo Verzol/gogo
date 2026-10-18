@@ -110,7 +110,13 @@ unchanged and allows retry. No uploaded content is sent to that CDN.
 
 Reservations lock the owner, count pending/processing/ready/deleting objects,
 and reserve the maximum 4 MiB derivative allowance against a 30 MiB budget.
-Only twelve photo records may exist for one owner. Actual byte accounting
+Only nine photo records may exist for one owner. The nine-photo limit is checked
+in the serialized reservation and draft-save gateway paths, plus `CHECK`
+constraints on both published entries and drafts. The migration
+`20261018014337_taxua_diary_nine_photos.sql` was applied to gogo on 18 October
+2026; no truncation or deletion was needed (all published/draft lists were empty).
+The Edge Function delegates these checks to the gateway, so it needs no new
+deployment for this cap. Actual byte accounting
 replaces the reservation after processing. A ticket changes atomically from
 pending to processing, preventing concurrent requests from processing/removing
 one another's output. Metadata becomes ready only after both objects exist.
@@ -277,3 +283,13 @@ to `/tmp/taxua-diary-backend-review`; it contains disposable images and check
 names, never tokens/passwords. See [Diary verification](diary.md#verification)
 for the UI suite. Run security advisors after schema changes; existing Hue
 advisories must be distinguished from newly introduced diary issues.
+
+## Photo-limit boundary check
+
+`scripts/verify_diary_photo_limit.sql` runs in one database connection, creates
+only temporary copies of the deployed tables/gateway, and rolls everything
+back. It accepts nine reservations, a nine-photo draft and publication, then
+rejects the tenth reservation, a ten-photo draft, and ten-photo entry/draft
+constraint violations. It replaces the identity check only in its temporary
+copy; it does not test Auth/session authorization. No crew row, Auth account,
+Storage object or production function is changed by this check.

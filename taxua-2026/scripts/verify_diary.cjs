@@ -166,18 +166,12 @@ async function browserChecks(type, label) {
     await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryEditor').waitFor({ state: 'visible' });
     check(label + ' restored tab session edits own page without login', !await p.locator('#diaryAuth').isVisible() && logins() === initialLogins);
     await p.locator('[data-close-editor]').click();
-    m.claims.mi = password;
-    await p.locator('[data-bookmark="0"]').click(); await p.locator('[data-edit="writing"]').click();
-    await p.locator('#diaryAuth').waitFor({ state: 'visible' });
-    check(label + ' another person still requires their password', !await p.locator('#diaryEditor').isVisible() && await p.locator('[name="diaryMember"][value="mi"]').isChecked() && await p.locator('[name="diaryMember"][value="san"]').isDisabled());
-    await p.locator('#diaryPassword').fill('wrong-person-password'); await p.locator('#diaryAuthSubmit').click();
-    await p.waitForFunction(() => document.getElementById('diaryAuthStatus').textContent.includes('chưa đúng'));
-    check(label + ' wrong owner password preserves current session and denies editing', !await p.locator('#diaryEditor').isVisible() && await p.evaluate(() => window.TaxuaDiaryApi.memberId()) === 'san');
-    await p.locator('#diaryPassword').fill(password); await p.locator('#diaryAuthSubmit').click();
-    await p.locator('#diaryEditor').waitFor({ state: 'visible' });
-    check(label + ' correct owner login switches the editor account', await p.evaluate(() => window.TaxuaDiaryApi.memberId()) === 'mi' && await p.locator('#diaryEditorTitle').innerText() === 'Trang của mi');
-    await p.locator('[data-close-editor]').click(); await p.locator('[data-bookmark="1"]').click(); await authenticate(p, 'san', true);
-    await p.locator('[data-close-editor]').click();
+    await p.locator('[data-bookmark="0"]').click();
+    check(label + ' other people have no writing or photo edit controls', await p.locator('#diaryPages [data-edit]').count() === 0);
+    await p.locator('.diary-page-head').first().evaluate(el => el.insertAdjacentHTML('beforeend', '<button type="button" data-edit="writing">Injected edit</button>'));
+    await p.locator('[data-edit="writing"]').click();
+    check(label + ' injected foreign edit button cannot open an editor or switch accounts', !await p.locator('#diaryEditor').isVisible() && !await p.locator('#diaryAuth').isVisible() && await p.evaluate(() => window.TaxuaDiaryApi.memberId()) === 'san');
+    await p.locator('[data-bookmark="1"]').click();
     m.expire = true;
     await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryAuth').waitFor({ state: 'visible' });
     check(label + ' revoked editor session clears private content and requests owner login', !await p.locator('#diaryEditor').isVisible() && await p.locator('#diaryPages').evaluate(el => el.childElementCount === 0) && await p.locator('[name="diaryMember"][value="san"]').isChecked());
@@ -195,7 +189,7 @@ async function browserChecks(type, label) {
     await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryAuth').waitFor({ state: 'visible' });
     check(label + ' forged session owner cannot open a mismatched server draft', !await p.locator('#diaryEditor').isVisible() && await p.locator('[name="diaryMember"][value="mi"]').isChecked());
     await p.locator('[data-close-auth]').click();
-    await p.locator('[data-bookmark="1"]').click(); await authenticate(p, 'san', true); await p.locator('[data-close-editor]').click();
+    await p.evaluate(() => window.TaxuaDiaryApi.clear()); await authenticate(p, 'san');
     for (let i = 0; i < ids.length; i++) {
       await p.locator(`[data-bookmark="${i}"]`).click();
       check(label + ' paired spread ' + ids[i], await p.locator('.diary-page-writing').getAttribute('aria-label') === 'Lời viết của ' + names[i] && await p.locator('.diary-page-photos').getAttribute('aria-label') === 'Ảnh của ' + names[i]);
@@ -230,9 +224,9 @@ async function browserChecks(type, label) {
     check(label + ' photo-page footer fits', await p.locator('.diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
     await p.locator('[data-full-writing]').click();
     check(label + ' complete reading sheet has full prose', await p.locator('.diary-full-writing').innerText() === writing);
-    await p.locator('[data-close-sheet]').click(); await p.locator('[data-album]').click();
-    check(label + ' album contains all uploaded photos', await p.locator('#diarySheet .diary-print').count() === 2);
-    await p.locator('#diarySheet [data-view-photo]').first().click();
+    await p.locator('[data-close-sheet]').click();
+    check(label + ' all uploaded photos are on the page without an album button', await p.locator('#diaryPages [data-view-photo]').count() === 2 && await p.locator('[data-album]').count() === 0);
+    await p.locator('#diaryPages [data-view-photo]').first().click();
     check(label + ' full photograph opens separately', await p.locator('.diary-full-photo').count() === 1);
     await p.locator('[data-close-sheet]').click();
     for (const [width, height] of [[820, 1024], [390, 844], [320, 780], [740, 390]]) {

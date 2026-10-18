@@ -12,7 +12,7 @@ async function fixture(browser, options = {}) {
   const m = model(), s = session(m, 'san');
   m.entries[0].title = 'Những ngày ở trên mây, nơi bọn mình nhớ tiếng gió và một khoảng trời thật gần bên nhau mãi về sau. Ắ ặ'.slice(0, 100);
   m.entries[0].body = 'Mỗi ngày, bọn mình viết một trang mới. Mây rất gần, niềm vui cũng vậy.\n\n'.repeat(120).slice(0, 8000);
-  m.entries[0].photos = Array.from({ length: 12 }, (_, i) => ({ id: require('node:crypto').randomUUID(), caption: 'Kỷ niệm trên đường đến Tà Xùa, một buổi sáng rất nhiều mây và gió. '.repeat(4).slice(0, 160), alt: 'Ảnh kiểm thử cục bộ ' + i }));
+  m.entries[0].photos = Array.from({ length: 9 }, (_, i) => ({ id: require('node:crypto').randomUUID(), caption: 'Kỷ niệm trên đường đến Tà Xùa, một buổi sáng rất nhiều mây và gió. '.repeat(4).slice(0, 160), alt: 'Ảnh kiểm thử cục bộ ' + i }));
   await context.addInitScript(s => sessionStorage.setItem('taxua-diary-session-v1', JSON.stringify(s)), s);
   await mock(context, m);
   const p = await context.newPage(); p.on('pageerror', e => report.errors.push(e.message));
@@ -36,10 +36,11 @@ async function runEngine(type, engine) {
       check(engine + ' complete 8000-character reading at ' + width, await p.locator('.diary-full-writing').innerText() === m.entries[0].body);
       await p.locator('[data-close-sheet]').click();
       if (width <= 850) await p.locator('[data-diary-side="photos"]').click();
-      await p.locator('[data-album]').click();
-      check(engine + ' all twelve complete captions at ' + width, await p.locator('.diary-album-item > figcaption').evaluateAll((nodes, caption) => nodes.length === 12 && nodes.every(n => n.textContent === caption), m.entries[0].photos[0].caption));
-      check(engine + ' long captions stay inside their own figure at ' + width, await p.locator('.diary-album-item').evaluateAll(nodes => nodes.every(n => n.querySelector('figcaption').getBoundingClientRect().bottom <= n.getBoundingClientRect().bottom + 1)));
-      if (width === 320) await shot(p, '#diarySheet', engine + '-long-album-320.png');
+      check(engine + ' all nine photos fit on the leaf at ' + width, await p.locator('#diaryPages [data-view-photo]').count() === 9 && await p.locator('.diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
+      await p.locator('#diaryPages [data-view-photo]').last().click();
+      check(engine + ' full long caption is readable at ' + width, await p.locator('.diary-photo-detail figcaption').innerText() === m.entries[0].photos[8].caption);
+      check(engine + ' popup caption remains in normal flow at ' + width, await p.locator('.diary-photo-detail').evaluate(el => el.querySelector('figcaption').getBoundingClientRect().bottom <= el.getBoundingClientRect().bottom + 1));
+      if (width === 320) await shot(p, '#diarySheet', engine + '-long-caption-320.png');
       await p.locator('[data-close-sheet]').click();
     }
     await p.setViewportSize({ width: 1440, height: 1050 });
@@ -47,8 +48,10 @@ async function runEngine(type, engine) {
     await p.waitForFunction(() => document.querySelector('#crewDiary').classList.contains('diary-large-text'));
     await p.locator('[data-diary-side="writing"]').click();
     check(engine + ' enlarged text has complete natural-height writing', await p.locator('.diary-writing').evaluate(el => getComputedStyle(el).overflowY === 'visible' && el.scrollHeight <= el.clientHeight + 1));
-    await p.locator('[data-diary-side="photos"]').click(); await p.locator('[data-album]').click();
-    check(engine + ' enlarged captions cannot overlap the next frame', await p.locator('.diary-album-item').evaluateAll(nodes => nodes.every(n => n.querySelector('figcaption').getBoundingClientRect().bottom <= n.getBoundingClientRect().bottom + 1)));
+    await p.locator('[data-diary-side="photos"]').click();
+    check(engine + ' enlarged text keeps all nine photo targets on the leaf', await p.locator('#diaryPages [data-view-photo]').count() === 9);
+    await p.locator('#diaryPages [data-view-photo]').last().click();
+    check(engine + ' enlarged caption keeps its complete text', await p.locator('.diary-photo-detail figcaption').innerText() === m.entries[0].photos[8].caption);
     await p.locator('[data-close-sheet]').click(); await p.evaluate(() => document.documentElement.style.fontSize = '');
     await p.waitForFunction(() => !document.querySelector('#crewDiary').classList.contains('diary-large-text'));
     check(engine + ' Vietnamese NFC and decomposed marks shape equally', await p.evaluate(async () => {
