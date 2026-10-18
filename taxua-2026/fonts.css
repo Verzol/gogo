@@ -1,6 +1,6 @@
 /* Existing journal typography, self-hosted WOFF2 with Latin/Vietnamese subsets.
    Sources: Google Fonts (Be Vietnam Pro v12, Fraunces v38, Patrick Hand v25,
-   plus the diary-only Mali and Dancing Script faces).
+   plus Mali for the brand/diary and Dancing Script for the diary).
    See figures/fonts/ for the original OFL licenses. */
 @font-face {
   font-family: 'Be Vietnam Pro';
@@ -51,7 +51,7 @@
   font-display: swap;
   src: url(./figures/fonts/patrick_hand_normal_400.woff2) format('woff2');
 }
-/* Diary-only handwriting, SIL OFL; full Vietnamese/combining-mark subsets. */
+/* Brand/diary handwriting, SIL OFL; Vietnamese/combining-mark subsets. */
 @font-face {
   font-family: 'Mali';
   font-style: normal;
@@ -65,6 +65,13 @@
   font-weight: 500;
   font-display: swap;
   src: url(./figures/fonts/mali_normal_500.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Mali';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./figures/fonts/mali_normal_700.woff2) format('woff2');
 }
 @font-face {
   font-family: 'Dancing Script';

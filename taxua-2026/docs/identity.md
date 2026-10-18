@@ -8,6 +8,7 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 
 - `style.css` owns page tokens/layout; `scenery.css` owns the illustrated stage; `fonts.css` owns local font faces.
 - Patrick Hand: headings, times and short annotations. Be Vietnam Pro: body/UI. Fraunces: standalone reading copy. WOFF2 files and OFL licenses stay in `figures/fonts/`.
+- The navigation wordmark uses real Mali Bold 700 for “Tà Xùa” and Mali Medium 500 for the smaller “x gogo” signature underneath. These two lines balance the existing painted emblem; Patrick Hand remains the journal heading face. The brand disables synthetic weights and keeps its dark/light scenery ink colors.
 - The private diary uses Mali 400/500 for writing/captions and Dancing Script 400–700 for names/cover titles, with Be Vietnam Pro controls. These self-hosted WOFF2 subsets preserve Vietnamese and combining marks plus shaping tables; their OFL licenses stay with the fonts. See [book materials](diary.md#book-materials-and-motion).
 - No reading-theme selector, system-color override or `taxua-2026-theme` persistence. Scene phase governs contrast/artwork; packing storage is separate.
 
@@ -22,6 +23,7 @@ Open watercolor mountain scrapbook, Vietnamese copy for friends, generous visibl
 - Trim empty margins/alpha specks below 32/255; center the complete emblem with 4% padding. Do not clip the cloud/mountain/sunrise or “gogo” lettering.
 - Display sizes: nav 80px desktop/tablet, 44px phone/short landscape; footer 160px/128px. Keep brand text proportional and phone chapter/menu offsets aligned with the actual nav height.
 - Both HTML pages/exporter use cache suffix `?v=sunrise-2026`; update all references together on replacement. There is no dedicated logo-generation helper.
+- The wordmark is live HTML, styled only through `.brand` in `style.css`. Its 25,088-byte local `mali_normal_700.woff2` is subset from the official Mali Bold source (see [sources](sources.md)); Latin, Vietnamese precomposed letters, combining marks and shaping features are retained. The existing `OFL_mali.txt` covers this face. The emblem, favicon and supplied original are unchanged; this typography revision uses no image generation.
 
 ## Paired stickers
 

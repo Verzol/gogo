@@ -55,6 +55,7 @@ No crew media was supplied to generation.
 | [Earlier background ZIP](https://drive.google.com/file/d/1blK4Ivd7jVLIRXXrsR37FEOz6HsEbcGD/view) | Archived B01–B05 photo backgrounds; some shared sources remain illustrative content photos |
 | [Existing artwork pack](https://drive.google.com/file/d/19akcZUT-hx-Vg17mHIkQN-d0LrguMeg-/view) | Earlier stickers/logo snapshot; do not use its superseded logo |
 | [Original repo snapshot](https://github.com/Verzol/gogo/tree/282015e6a4d6be6d5c9762a33fd1e4134c3e4990/taxua-2026) | Provenance for reused fonts/artwork; `reuse_from_repo.json` lists exact paths |
+| [Official Mali Bold source](https://github.com/google/fonts/blob/fbdd512151630cf7f45b291cc2c5f3df8b23b720/ofl/mali/Mali-Bold.ttf) | Navigation wordmark: self-hosted `figures/fonts/mali_normal_700.woff2`, subset with fontTools to U+0020–017F, U+0300–036F, U+1E00–1EFF, U+2000–206F, U+20AB/20AC/2122/2190–2193/2212/FEFF/FFFD, retaining all layout features. SIL OFL: `figures/fonts/OFL_mali.txt`. Mali 500 was already local. |
 | [MoMo fund](https://quy.momo.vn/v2/YTavDjFUV4?cover=6749) | Exact contribution destination, maintained in `TRIP_DATA.fund.url` |
 
 ## Refresh workflow

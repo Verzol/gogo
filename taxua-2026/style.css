@@ -44,10 +44,10 @@ svg { width: 21px; height: 21px; flex-shrink: 0; vertical-align: middle; }
 /* Transparent navigation: only the individual controls occupy a surface. */
 .nav { position: fixed; inset: 18px 32px auto; z-index: 10; display: flex; align-items: center; gap: 18px; pointer-events: none; color: var(--nav-ink); }
 .nav a,.nav button { pointer-events: auto; }
-.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-family: 'Patrick Hand',cursive; font-size: 2.5rem; line-height: 1.15; text-shadow: 0 1px 8px rgb(0 0 0 / .45); }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-family: 'Mali','Patrick Hand',cursive; font-weight: 700; font-synthesis: none; font-size: 2.5rem; line-height: 1.15; letter-spacing: -.035em; text-shadow: 0 1px 2px rgb(0 0 0 / .2); }
 .brand > span { white-space: nowrap; }
 .brand img { width: 80px; height: 80px; flex-shrink: 0; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .2)); }
-.brand em { font-size: .7em; }
+.brand em { display: block; margin-top: .12em; font-size: .5em; font-weight: 500; line-height: 1.2; letter-spacing: .035em; }
 .nav-links { display: flex; gap: 10px; margin-left: auto; }
 .nav-links a,.nav-toggle { position: relative; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid rgb(255 255 255 / .3); border-radius: 50%; background: rgb(8 30 36 / .22); text-decoration: none; transition: transform .2s,background .2s; }
 .nav-links a:hover,.nav-toggle:hover { transform: translateY(-3px) rotate(-5deg); background: rgb(8 30 36 / .4); }
@@ -61,7 +61,7 @@ svg { width: 21px; height: 21px; flex-shrink: 0; vertical-align: middle; }
 .nav-toggle[aria-expanded="true"] .lucide-x { display: block; }
 [data-scene]:not([data-scene="opening"]) .brand span { display: none; }
 [data-nav-tone="dark"] { --nav-ink: #183b46; }
-[data-nav-tone="dark"] .brand { text-shadow: 0 1px 5px rgb(255 255 255 / .3); }
+[data-nav-tone="dark"] .brand { text-shadow: none; }
 [data-nav-tone="dark"] .nav-links a,[data-nav-tone="dark"] .nav-toggle { background: rgb(255 255 255 / .16); border-color: rgb(24 59 70 / .28); }
 /* Keep the fund's gold readable over both bright clouds and dark mountains. */
 .nav-links a.nav-fund { color: #ffda88; border-color: #dcb462; background: #3e3424; box-shadow: inset 0 0 0 3px rgb(255 218 136 / .08); }
@@ -491,7 +491,7 @@ main,.footer { position: relative; z-index: 1; }
   .fund-arrow { width: 80px; height: 53px; left: -3px; bottom: -35px; transform: rotate(-65deg); }
   .wrap,.event,.event--meal,.event--rest,.event--note,.event--transit,.day-heading { width: calc(100% - 48px); }
   .nav { inset: max(10px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) auto max(16px,env(safe-area-inset-left)); gap: 12px; }
-  .brand { min-width: 0; font-size: 1.5rem; gap: 8px; line-height: 1.2; }
+  .brand { min-width: 0; font-size: 1.5rem; gap: 8px; line-height: 1.15; }
   .brand > span { white-space: normal; }
   .brand img { width: 44px; height: 44px; }
   [data-nav-compact="true"] .brand > span { display: none; }
