@@ -143,8 +143,26 @@
     const state = {values:[1,6],held:new Set(),rolled:false,history:[]};
     const life = lifecycle(panel);
     $(panel,'.game-layout').innerHTML = `<div class="game-stage dice-stage"><button type="button" class="game-object dice-tray-hit" data-action="roll">${art('dice_tray','dice-tray')}<span class="game-object-caption">${escape(c.action)}</span></button><div class="dice-row"></div></div><div class="game-controls"><fieldset class="game-fields" data-game-lock>${field(c.count,`<select id="diceCount">${options(3,1,2)}</select>`)}</fieldset>${status(c.waiting)}${history('dice',c.recent)}<div class="game-actions">${button('reset',copy.common.reset,true)}</div></div>`;
+    // Opposite faces sum to seven; the winning face points toward the viewer.
+    const orientations = [[0,0],[0,-90],[-90,0],[90,0],[0,90],[0,180]];
+    const orientation = value => orientations[value - 1];
+    const turn = (x,y) => `rotateX(${x}deg) rotateY(${y}deg)`;
     function render() {
-      $(panel,'.dice-row').innerHTML = state.values.map((value,index) => `<button class="die${state.held.has(index) ? ' is-held' : ''}" type="button" data-die="${index}" aria-pressed="${state.held.has(index)}" aria-disabled="false" aria-label="${escape(`${c.one} ${index + 1}: ${value}. ${!state.rolled ? c.action : state.held.has(index) ? c.release : c.hold}`)}">${art('dice_' + faces[value - 1])}<span class="die-number" aria-hidden="true">${value}</span><span class="die-held" aria-hidden="true">${state.held.has(index) ? glyph('lock-keyhole') : ''}</span></button>`).join('');
+      const row = $(panel,'.dice-row');
+      if (row.children.length !== state.values.length) {
+        row.innerHTML = state.values.map((_,index) => `<button class="die" type="button" data-die="${index}"><span class="die-flight"><span class="die-view"><span class="die-cube" aria-hidden="true">${faces.map((face,i) => `<span class="die-face die-face--${i + 1}" data-face="${i + 1}"><span class="die-number">${i + 1}</span>${art('dice_' + face)}</span>`).join('')}</span></span></span><span class="die-held" aria-hidden="true"></span></button>`).join('');
+      }
+      state.values.forEach((value,index) => {
+        const die = row.children[index];
+        const held = state.held.has(index);
+        die.classList.toggle('is-held',held);
+        die.setAttribute('aria-pressed',String(held));
+        die.setAttribute('aria-disabled','false');
+        die.setAttribute('aria-label',`${c.one} ${index + 1}: ${value}. ${!state.rolled ? c.action : held ? c.release : c.hold}`);
+        die.dataset.value = value;
+        $(die,'.die-cube').style.transform = turn(...orientation(value));
+        $(die,'.die-held').innerHTML = held ? glyph('lock-keyhole') : '';
+      });
       const all = state.held.size === state.values.length;
       const action = $(panel,'[data-action="roll"]');
       action.querySelector('.game-object-caption').textContent = state.rolled ? c.again : c.action;
@@ -171,9 +189,33 @@
       if (action === 'reset') { reset(); return; }
       if (action !== 'roll' || state.held.size === state.values.length) return;
       const next = state.values.map((value,index) => state.held.has(index) ? value : tripRandomIndex(6) + 1);
-      const motions = Array.from(panel.querySelectorAll('.die')).filter((_,index) => !state.held.has(index)).map((el,index) => [el,[{transform:'translateY(0) rotate(0)'},{transform:`translateY(-32px) rotate(${index % 2 ? -28 : 28}deg)`,offset:.35},{transform:'translateY(0) rotate(360deg)'}],index * 45]);
+      const motions = [];
+      panel.querySelectorAll('.die').forEach((el,index) => {
+        if (state.held.has(index)) return;
+        const [fromX,fromY] = orientation(state.values[index]);
+        const [toX,toY] = orientation(next[index]);
+        const direction = index % 2 ? -1 : 1;
+        const delay = index * 75;
+        // The cube turns continuously; flight and camera tilt stay separate so
+        // cancelling/settling leaves precisely the same winning orientation.
+        motions.push([$(el,'.die-cube'),[
+          {transform:turn(fromX,fromY),easing:'cubic-bezier(.15,.55,.3,1)'},
+          {transform:turn(toX + 720,toY + direction * 1080),offset:.82},
+          {transform:turn(toX + 720,toY + direction * 1080)}
+        ],delay,{easing:'linear'}]);
+        motions.push([$(el,'.die-flight'),[
+          {transform:'translate3d(0,0,0) rotateZ(0deg)'},
+          {transform:`translate3d(${direction * 14}px,-58px,0) rotateZ(${direction * 22}deg)`,offset:.28},
+          {transform:`translate3d(${-direction * 6}px,0,0) rotateZ(${-direction * 8}deg)`,offset:.65},
+          {transform:`translate3d(${direction * 3}px,-13px,0) rotateZ(${direction * 4}deg)`,offset:.78},
+          {transform:'translate3d(0,0,0) rotateZ(0deg)',offset:.9},
+          {transform:'translate3d(0,-3px,0) rotateZ(0deg)',offset:.95},
+          {transform:'translate3d(0,0,0) rotateZ(0deg)'}
+        ],delay,{easing:'linear'}]);
+        el.setAttribute('aria-disabled','true');
+      });
       $(panel,'[data-action="roll"]').setAttribute('aria-disabled','true');
-      life.run(650,motions,() => {
+      life.run(1250,motions,() => {
         const focus = document.activeElement?.dataset.die;
         state.values = next; state.rolled = true;
         state.history = [...state.history,next.slice()].slice(-8);
