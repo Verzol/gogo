@@ -82,12 +82,12 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
       for(let i=0;i<block.photoIds.length;i++) {
         const visible=deck.locator('.deck-slide:not([hidden])');
         await visible.locator('img').evaluate(i=>i.decode());
-        check('Photo deck reveals the correct source image '+block.photoIds[i],await visible.locator('figure').getAttribute('data-asset-id')===block.photoIds[i] && await deck.locator('.deck-count').textContent()==='Góc '+(i+1)+' / '+block.photoIds.length);
-        await deck.locator('[data-photo-step="1"]').click();await sleep(450);
+        check('Photo deck reveals the correct source image '+block.photoIds[i],await visible.locator('figure').getAttribute('data-asset-id')===block.photoIds[i] && await deck.locator('.deck-count').textContent()==='Ảnh '+(i+1)+' / '+block.photoIds.length);
+        await deck.locator('.deck-preview:not([hidden])').click();await sleep(450);
       }
-      await deck.locator('[data-photo-step="-1"]').click();await sleep(450);
-      check('Previous photo wraps to last view at '+block.id,await deck.locator('.deck-slide:not([hidden]) figure').getAttribute('data-asset-id')===block.photoIds.at(-1));
-      await deck.locator('[data-photo-step="1"]').click();await sleep(450);
+      await deck.locator('.deck-preview:not([hidden])').click();await sleep(450);
+      check('Preview selects the other view at '+block.id,await deck.locator('.deck-slide:not([hidden]) figure').getAttribute('data-asset-id')===block.photoIds.at(-1));
+      await deck.locator('.deck-preview:not([hidden])').click();await sleep(450);
     }
     await p.locator('#'+block.id+' img.photo:visible').evaluateAll(a=>Promise.all(a.map(i=>i.decode().catch(()=>{}))));
   }

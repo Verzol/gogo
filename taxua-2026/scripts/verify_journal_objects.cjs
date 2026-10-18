@@ -41,7 +41,8 @@ async function screenshot(p,name) {
         const expected = Object.values(TRIP_DATA.placeGuides).flatMap(guide => guide.paragraphs);
         return items.length === expected.length && expected.every(text => items.filter(el => el.textContent === text).length === 1) && items.every(el => !el.closest('details')) && document.querySelectorAll('.place-source').length === 18;
       }));
-      check(name+' removes fold, bookmark and visible photo-prompt UI',await p.locator('.place-guide,.guide-paper,.bookmark-toggle,#readingBookmark,#bookmarkStatus,.photo-tools,.photo-turn').count() === 0 && !/Lật ảnh|có lời nhắn phía sau|Kẹp trang này/.test(await p.locator('body').innerText()));
+      check(name+' removes fold, bookmark and visible photo-prompt UI',await p.locator('.place-guide,.guide-paper,.bookmark-toggle,#readingBookmark,#bookmarkStatus,.photo-tools,.photo-turn,.deck-controls,[data-photo-step]').count() === 0 && !/Lật ảnh|có lời nhắn phía sau|Kẹp trang này/.test(await p.locator('body').innerText()));
+      check(name+' photo positions are announced without visible counters',await p.locator('.deck-count').evaluateAll(items => items.length === 3 && items.every(el => el.classList.contains('sr-only') && el.getAttribute('aria-live') === 'polite' && el.offsetWidth === 1)));
       const figure = p.locator('#ameii figure');
       const turn = figure.locator('[data-photo-turn]');
       await frame(p,'#ameii .postcard');
@@ -74,7 +75,7 @@ async function screenshot(p,name) {
       check(name+' clicking the caption leaves the reverse open',await p.locator('#village-cafe [data-photo-turn]').getAttribute('aria-pressed') === 'true');
       await frame(p,'#a-phu .postcard');
       await p.locator('#a-phu .deck-slide:not([hidden]) [data-photo-turn]').click();
-      await p.locator('#a-phu [data-photo-step="1"]').click();
+      await p.locator('#a-phu .deck-preview:not([hidden])').click();
       await settle(p);
       check(name+' deck navigation resets incoming photos and removes transition clones',await p.locator('#a-phu .deck-slide:not([hidden]) [data-photo-turn]').getAttribute('aria-pressed') === 'false' && await p.locator('#a-phu .deck-ghost').count() === 0);
       check(name+' no overflow or duplicate IDs after interaction',await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth && new Set(Array.from(document.querySelectorAll('[id]'),el => el.id)).size === document.querySelectorAll('[id]').length));

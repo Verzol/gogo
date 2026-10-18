@@ -35,7 +35,7 @@ async function shot(p,name) {
       await p.route('https://api.open-meteo.com/**',r=>r.fulfill({json:{}}));
       await p.goto(base);await p.evaluate(()=>document.fonts.ready);await wait(600);
       check(name+' trail is unavailable outside the itinerary',await p.locator('.chapter-nav').evaluate(e=>e.inert && getComputedStyle(e).visibility==='hidden'));
-      check(name+' all events and expanded guides remain',await p.locator('.event').count()===24 && await p.locator('.place-source').count()===18 && await p.locator('[data-guide-toggle],[data-bookmark]').count()===0);
+      check(name+' all events and expanded guides remain',await p.locator('.event').count()===24 && await p.locator('.place-source').count()===18 && await p.locator('#daysList [data-guide-toggle],#daysList [data-bookmark]').count()===0);
       check(name+' trail retains all real times and native stop anchors',await p.evaluate(()=>TRIP_DATA.days.every((day,index)=>day.blocks.every(block=>{
         const a=document.querySelector('[data-trail-day="day-'+index+'"] [data-trail-stop="'+block.id+'"]');
         return a?.getAttribute('href')==='#'+block.id && a.querySelector('.trail-time').textContent.includes(block.time==null ? block.period : block.time) && document.getElementById(block.id);
@@ -73,7 +73,7 @@ async function shot(p,name) {
       check(name+' selecting the preview changes the image without flipping it',await deck.locator('.deck-slide:not([hidden]) figure').getAttribute('data-asset-id')!==original && await deck.locator('.deck-slide:not([hidden]) [data-photo-object]').getAttribute('aria-pressed')==='false');
       await p.keyboard.press('Space');
       check(name+' keyboard can silently flip the selected print',await deck.locator('.deck-slide:not([hidden]) [data-photo-object]').getAttribute('aria-pressed')==='true');
-      await deck.locator('[data-photo-step="1"]').click();await wait(500);
+      await deck.locator('.deck-preview:not([hidden])').click();await wait(500);
       check(name+' incoming photo always resets to its front',await deck.locator('.deck-slide:not([hidden]) [data-photo-object]').getAttribute('aria-pressed')==='false');
       check(name+' photo carries no visible flip instructions',!/Lật ảnh|có lời nhắn phía sau/i.test(await deck.innerText()));
       await shot(p,name+'-photo-stack');
@@ -117,7 +117,7 @@ async function shot(p,name) {
       await p.locator('#chapterToggle').click();
       check(mode+' trail works',await p.locator('#trailPanel').isVisible());
       await p.keyboard.press('Escape');
-      for(let i=0;i<5;i++)await p.locator('#thao-coffee [data-photo-step="1"]').click();
+      for(let i=0;i<5;i++)await p.locator('#thao-coffee .deck-preview:not([hidden])').click();
       await wait(800);
       check(mode+' rapid photo changes settle without duplicate ghosts',await p.locator('.deck-ghost').count()===0 && await p.locator('#thao-coffee .deck-slide:not([hidden])').count()===1);
       await p.locator('#packingList input').nth(2).check();

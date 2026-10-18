@@ -133,10 +133,6 @@ main,.footer { position: relative; z-index: 1; }
 .photo--full { aspect-ratio: var(--photo-ratio); object-fit: contain; }
 .image-note,.extra-label { font-size: .79rem; line-height: 1.7; padding: 11px 5px 4px; text-shadow: 0 1px 3px #071b21; background: rgb(7 27 33 / .45); }
 .photo-deck::before { content: ""; position: absolute; z-index: -1; inset: 2px -6px 3px 6px; border: 1px solid rgb(255 253 247 / .45); transform: rotate(4deg); }
-.deck-controls { display: flex; align-items: center; gap: 6px; padding: 10px 4px 3px; }
-.deck-count { font-family: 'Patrick Hand',cursive; font-size: 1.2rem; margin-right: auto; text-shadow: 0 1px 3px #071b21; }
-.deck-controls button { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: rgb(7 27 33 / .4); }
-.deck-controls button:hover { background: rgb(7 27 33 / .7); }
 .deck-ghost { position: absolute; inset: 6px 6px auto; z-index: 3; pointer-events: none; }
 .event-notebook { margin-top: 23px; }
 .note-toggle { display: inline-flex; align-items: center; gap: 8px; border: 0; border-bottom: 1px dashed var(--line); padding: 6px 0; background: transparent; font-family: 'Patrick Hand',cursive; font-size: 1.25rem; text-shadow: inherit; }
@@ -633,7 +629,7 @@ main,.footer { position: relative; z-index: 1; }
   .scroll-reveal.scroll-reveal { opacity: 1 !important; translate: none !important; rotate: none !important; }
   .fund-link,.fund-amount { background: transparent; box-shadow: none; border-color: currentColor; }
   .fund-pig,.fund-arrow { filter: none; }
-  .scenery,.nav,.chapter-nav,.itinerary-overview,.hero-stamp,.scroll-note,.deck-controls,.note-toggle { display: none; }
+  .scenery,.nav,.chapter-nav,.itinerary-overview,.hero-stamp,.scroll-note,.note-toggle { display: none; }
   :root { --ink: #183b46; --muted: #183b46; --accent: #183b46; --line: #183b46; }
   body { background: white; color: #183b46; }
   * { text-shadow: none !important; }
@@ -671,7 +667,6 @@ main,.footer { position: relative; z-index: 1; }
 .photo-deck { margin-right: 44px; }
 .photo-deck::before { display: none; }
 .deck-slide { position: relative; z-index: 1; }
-.deck-controls { position: relative; z-index: 1; }
 .deck-previews { position: absolute; right: -47px; top: 20px; width: 48px; z-index: 0; }
 .deck-preview { position: relative; display: block; width: 48px; height: 94px; padding: 0; border: 0; background: transparent; }
 .deck-preview-print { position: absolute; right: 0; top: 0; display: block; width: 92px; padding: 4px 4px 10px; border: 1px solid #ddd3be; background: #f3ead4; transform: rotate(9deg); box-shadow: 0 3px 8px rgb(7 27 33 / .25); pointer-events: none; }

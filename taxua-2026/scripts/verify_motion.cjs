@@ -111,11 +111,16 @@ async function state(page) {
     check(name+' notebook closes after its animation',await note.isHidden());
     await jump(p,'thao-coffee');
     const deck = p.locator('#thao-coffee [data-photo-deck]');
-    await deck.locator('[data-photo-step="1"]').click();await wait(100);
+    await deck.locator('.deck-preview:not([hidden])').click();await wait(100);
     check(name+' photo deck has a visible outgoing/incoming transition',await deck.locator('.deck-ghost').count() === 1);
+    check(name+' photo border stays snug during the transition',await deck.evaluate(el => {
+      const style = getComputedStyle(el);
+      const slide = el.querySelector('.deck-slide:not([hidden])');
+      return Math.abs(el.clientHeight - slide.offsetHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)) < 1.5;
+    }));
     await wait(450);
     check(name+' photo deck clears temporary layers and height',await deck.locator('.deck-ghost').count() === 0 && await deck.evaluate(el => !el.style.height));
-    for (let i = 0; i < 5; i++) { await deck.locator('[data-photo-step="1"]').click(); await wait(40); }
+    for (let i = 0; i < 5; i++) { await deck.locator('.deck-preview:not([hidden])').click(); await wait(40); }
     await wait(600);
     check(name+' repeated photo clicks leave exactly one selected view',await deck.locator('.deck-slide:not([hidden])').count() === 1 && await deck.locator('.deck-ghost').count() === 0 && await deck.locator('.deck-slide:not([hidden])').evaluate(el => !el.style.opacity));
     await jump(p,'packing');await p.locator('#packingList input').first().check();await wait(400);

@@ -111,7 +111,7 @@ async function travel(page,from,to,duration=2200) {
     const deck = p.locator('#thao-coffee [data-photo-deck]');
     const deckRange = await bounds(deck);
     await scroll(p,deckRange.end+10);
-    for(let i=0;i<4;i++){await deck.locator('[data-photo-step="1"]').click();await wait(70);}
+    for(let i=0;i<4;i++){await deck.locator('.deck-preview:not([hidden])').click();await wait(70);}
     await wait(650);
     const afterDeck = await bounds(deck);
     await scroll(p,(afterDeck.start+afterDeck.end)/2);

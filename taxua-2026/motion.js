@@ -399,7 +399,9 @@
       }
       api.deck = (deck,slides,previous,index,direction) => {
         resetDeck(deck);
-        const height = deck.getBoundingClientRect().height;
+        // The postcard is rotated by its outer reveal. Screen bounds include
+        // that rotation; CSS height must stay in the postcard's layout space.
+        const height = parseFloat(getComputedStyle(deck).height);
         const ghost = slides[previous].cloneNode(true);
         ghost.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
         ghost.removeAttribute('hidden');
@@ -407,7 +409,7 @@
         ghost.setAttribute('aria-hidden','true');
         ghost.inert = true;
         slides.forEach((slide,i) => { slide.hidden = i !== index; });
-        const naturalHeight = deck.getBoundingClientRect().height;
+        const naturalHeight = parseFloat(getComputedStyle(deck).height);
         deck.appendChild(ghost);
         const state = {slides,ghost,cancelled:false};
         decks.set(deck,state);

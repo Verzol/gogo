@@ -8,7 +8,7 @@ Main story photographs secretly turn over when clicked or tapped. They have no v
 
 The reverse shows the real place name, explicitly scheduled date/time, existing story cue and asset credit. These dates describe the itinerary, never a claimed capture date or visit record. No invented messages or memories are added. Illustrative captions remain below the photograph on both sides and are outside its clickable area. The small arrival photograph and homestay room collage retain their original presentation. Deck navigation starts the incoming photograph on its front; temporary transition clones omit IDs.
 
-The three two-photo decks also expose a small part of the other real print. Its separate native button selects that image and transfers focus to the full-size photograph. The previous/next buttons remain. Selecting an image never flips it, and no visible flip instructions were added. See [Illustrated journal controls](ui-artwork.md).
+The three two-photo decks also expose a small part of the other real print. Its separate native button selects that image and transfers focus to the full-size photograph. There is no visible “Góc” counter or previous/next arrow row; a screen-reader-only live region announces the selected photo position. Selecting an image never flips it, and no visible flip instructions were added. See [Illustrated journal controls](ui-artwork.md).
 
 Place guides are restored to their original expanded presentation, with all 18 guides and sources present once. Ribbon bookmarks and their controls, opening card, event handlers and storage integration have been removed. The former bookmark key is no longer read or written; packing and demo storage remain independent.
 

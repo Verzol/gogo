@@ -173,7 +173,7 @@ function renderPhotoDeck(block) {
     ${ids.length > 1 ? `<div class="deck-previews" role="group" aria-label="Chọn góc ảnh: ${esc(block.activity)}">${ids.map((id,index) => {
       const a = TRIP_ASSETS.assets[id];
       return `<button type="button" class="deck-preview" data-photo-select="${index}" aria-label="Góc ${index + 1}: ${esc(a.captionVi || a.label)}" aria-pressed="${index === 0}"${index === 0 ? ' hidden' : ''}><span class="deck-preview-print"><img src="./${esc(a.variants[0].src)}" width="${a.width}" height="${a.height}" alt="" loading="lazy" decoding="async"></span></button>`;
-    }).join('')}</div><div class="deck-controls"><span class="deck-count" aria-live="polite" aria-atomic="true">Góc 1 / ${ids.length}</span><button type="button" data-photo-step="-1" aria-label="Ảnh trước: ${esc(block.activity)}">${icon('arrow-left')}</button><button type="button" data-photo-step="1" aria-label="Ảnh tiếp: ${esc(block.activity)}">${icon('arrow-right')}</button></div>` : ''}
+    }).join('')}</div><span class="deck-count sr-only" aria-live="polite" aria-atomic="true">Ảnh 1 / ${ids.length}</span>` : ''}
   </div>`;
 }
 function renderEvent(block, dayIndex) {
@@ -618,10 +618,9 @@ function initScrapbook() {
       });
       if (window.JourneyMotion?.deck) window.JourneyMotion.deck(deck,slides,previous,index,direction);
       else slides.forEach((slide,i) => { slide.hidden = i !== index; });
-      deck.querySelector('.deck-count').textContent = 'Góc ' + (index + 1) + ' / ' + slides.length;
+      deck.querySelector('.deck-count').textContent = 'Ảnh ' + (index + 1) + ' / ' + slides.length;
       window.JourneyMotion?.refresh();
     };
-    deck.querySelectorAll('[data-photo-step]').forEach(button => button.addEventListener('click',() => select(index + Number(button.dataset.photoStep))));
     deck.querySelectorAll('[data-photo-select]').forEach(button => button.addEventListener('click',() => {
       select(Number(button.dataset.photoSelect));
       // The selected print now occupies the foreground; keep keyboard focus useful.
