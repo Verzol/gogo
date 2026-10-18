@@ -85,7 +85,7 @@ async function imageCheck(p) {
     await choose(p,'sticks');
     for(let count=2;count<=8;count++){
       await select(p,'#stickCount',String(count));
-      check(count+' sticks split evenly across two pouches',await p.locator('.stick-rack').evaluateAll((racks,count)=>racks.length===2 && racks.every((rack,i)=>rack.querySelectorAll('[data-stick]').length===(i===0?Math.ceil(count/2):Math.floor(count/2))),count));
+      check(count+' sticks use one pouch up to four, otherwise two balanced pouches',await p.locator('.stick-rack').evaluateAll((racks,count)=>count<=4 ? racks.length===1 && racks[0].querySelectorAll('[data-stick]').length===count : racks.length===2 && racks.every((rack,i)=>rack.querySelectorAll('[data-stick]').length===(i===0?Math.ceil(count/2):Math.floor(count/2))),count));
       check(count+' sticks look identical before reveal',await p.locator('[data-stick]').count()===count && await p.locator('.stick-window img:visible').evaluateAll(images=>images.every(img=>img.src.endsWith('/stick_long.webp'))));
       for(let i=0;i<count;i++)await p.locator(`[data-stick="${i}"]`).click();
       check(count+' sticks contain exactly one short',await data(p,'sticks','short-count')==='1' && await data(p,'sticks','revealed')===String(count));

@@ -331,7 +331,7 @@
       const racks = $(panel,'.stick-racks');
       if (racks.dataset.count !== String(count())) {
         const groups = [];
-        const pouchSize = Math.ceil(count() / 2);
+        const pouchSize = count() <= 4 ? count() : Math.ceil(count() / 2);
         for (let start = 0; start < count(); start += pouchSize) {
           const sticks = Array.from({length:Math.min(pouchSize,count() - start)},(_,offset) => {
             const index = start + offset;
