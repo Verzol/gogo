@@ -14,7 +14,7 @@ const check = (label, value) => { assert(value, label); report.checks.push(label
 const wait = p => p.waitForTimeout(1100);
 const password = 'browser-fixture-password';
 function model() {
-  return { claims: {}, sessions: new Map(), failSave: false, expire: false, uploads: 0,
+  return { claims: {}, sessions: new Map(), failSave: false, expire: false, uploads: 0, requests: [],
     entries: ids.map((id, i) => ({ member_id: id, name: names[i], position: i + 1, title: '', body: '', photos: [], revision: 0, updated_at: null })), drafts: {}, libraries: {}, photos: {} };
 }
 function session(m, member) {
@@ -35,6 +35,7 @@ async function mock(context, m) {
   });
   await context.route('**/functions/v1/taxua-diary/**', async route => {
     const request = route.request(), parsed = new URL(request.url()), action = parsed.pathname.split('/taxua-diary/')[1];
+    m.requests.push(action);
     const send = (data, status = 200) => route.fulfill({ status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' }, body: JSON.stringify(data) });
     if (request.method() === 'OPTIONS') return send({});
     if (action === 'status') return send(ids.map((id, i) => ({ id, name: names[i], claimed: Boolean(m.claims[id]), busy: false })));
@@ -46,14 +47,22 @@ async function mock(context, m) {
       m.expire = false; return send(session(m, body.member_id));
     }
     const token = request.headers().authorization?.slice(7), member = m.sessions.get(token);
-    if (action === 'refresh') return send({ error: 'SESSION_EXPIRED' }, 401);
+    if (action === 'refresh') {
+      const owner = m.sessions.get(body.refresh_token);
+      if (!m.refreshable || !owner || m.expire) return send({ error: 'SESSION_EXPIRED' }, 401);
+      m.sessions.delete(body.refresh_token);
+      return send(session(m, owner));
+    }
     if (!member || m.expire) return send({ error: 'SESSION_EXPIRED' }, 401);
     const saved = m.entries.find(e => e.member_id === member);
     if (action === 'read') return send({ member_id: member, entries: m.entries });
     if (action === 'logout') { m.sessions.delete(token); return send({ ok: true }); }
     const draft = m.drafts[member] ||= { ...structuredClone(saved), base_revision: saved.revision, revision: 0, library: [] };
     draft.library = m.libraries[member] ||= [];
-    if (action === 'draft') return send(draft);
+    if (action === 'draft') {
+      if (m.rejectDraftOnce) { m.rejectDraftOnce = false; return send({ error: 'SESSION_EXPIRED' }, 401); }
+      return send(draft);
+    }
     if (action === 'save-draft') {
       if (m.failSave) return send({ error: 'REQUEST_FAILED' }, 503);
       if (body.revision !== draft.revision) return send({ error: 'DRAFT_CONFLICT' }, 409);
@@ -80,7 +89,11 @@ async function mock(context, m) {
   });
 }
 async function authenticate(p, member = 'san', edit = false) {
-  if (edit) await p.locator('[data-edit="writing"]').click(); else await p.locator('#diaryOpen').click();
+  if (edit) {
+    await p.locator('[data-edit="writing"]').click();
+    await p.waitForFunction(() => document.getElementById('diaryAuth').open || document.getElementById('diaryEditor').open);
+    if (await p.locator('#diaryEditor').isVisible()) return;
+  } else await p.locator('#diaryOpen').click();
   await p.locator(`[name="diaryMember"][value="${member}"]`).check();
   await p.locator('#diaryAuthSubmit').waitFor({ state: 'visible' });
   await p.waitForFunction(() => !document.getElementById('diaryAuthSubmit').disabled);
@@ -136,6 +149,53 @@ async function browserChecks(type, label) {
     await authenticate(p);
     check(label + ' first claim opens correct owner', await p.locator('#diaryPageLabel').innerText() === 'Trang của san' && m.claims.san === password);
     check(label + ' passwords cleared after login', await p.locator('#diaryPassword').inputValue() === '' && await p.locator('#diaryPasswordConfirm').inputValue() === '');
+    const logins = () => m.requests.filter(action => ['claim', 'login'].includes(action)).length;
+    const initialLogins = logins();
+    for (const side of ['writing', 'photos']) {
+      await p.locator(`[data-edit="${side}"]`).click(); await p.locator('#diaryEditor').waitFor({ state: 'visible' });
+      check(label + ' own ' + side + ' editor reuses the reading session', !await p.locator('#diaryAuth').isVisible() && logins() === initialLogins && await p.locator('#diaryEditorTitle').innerText() === 'Trang của san');
+      await p.locator('[data-close-editor]').click();
+    }
+    m.refreshable = true; m.rejectDraftOnce = true;
+    const refreshes = m.requests.filter(action => action === 'refresh').length;
+    await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryEditor').waitFor({ state: 'visible' });
+    check(label + ' a refreshable editor session renews without another password', !await p.locator('#diaryAuth').isVisible() && logins() === initialLogins && m.requests.filter(action => action === 'refresh').length === refreshes + 1);
+    await p.locator('[data-close-editor]').click(); m.refreshable = false;
+    await p.reload(); await p.locator('#diaryOpen').click(); await p.locator('#diaryReader').waitFor({ state: 'visible' });
+    await p.locator('[data-bookmark="1"]').click();
+    await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryEditor').waitFor({ state: 'visible' });
+    check(label + ' restored tab session edits own page without login', !await p.locator('#diaryAuth').isVisible() && logins() === initialLogins);
+    await p.locator('[data-close-editor]').click();
+    m.claims.mi = password;
+    await p.locator('[data-bookmark="0"]').click(); await p.locator('[data-edit="writing"]').click();
+    await p.locator('#diaryAuth').waitFor({ state: 'visible' });
+    check(label + ' another person still requires their password', !await p.locator('#diaryEditor').isVisible() && await p.locator('[name="diaryMember"][value="mi"]').isChecked() && await p.locator('[name="diaryMember"][value="san"]').isDisabled());
+    await p.locator('#diaryPassword').fill('wrong-person-password'); await p.locator('#diaryAuthSubmit').click();
+    await p.waitForFunction(() => document.getElementById('diaryAuthStatus').textContent.includes('chưa đúng'));
+    check(label + ' wrong owner password preserves current session and denies editing', !await p.locator('#diaryEditor').isVisible() && await p.evaluate(() => window.TaxuaDiaryApi.memberId()) === 'san');
+    await p.locator('#diaryPassword').fill(password); await p.locator('#diaryAuthSubmit').click();
+    await p.locator('#diaryEditor').waitFor({ state: 'visible' });
+    check(label + ' correct owner login switches the editor account', await p.evaluate(() => window.TaxuaDiaryApi.memberId()) === 'mi' && await p.locator('#diaryEditorTitle').innerText() === 'Trang của mi');
+    await p.locator('[data-close-editor]').click(); await p.locator('[data-bookmark="1"]').click(); await authenticate(p, 'san', true);
+    await p.locator('[data-close-editor]').click();
+    m.expire = true;
+    await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryAuth').waitFor({ state: 'visible' });
+    check(label + ' revoked editor session clears private content and requests owner login', !await p.locator('#diaryEditor').isVisible() && await p.locator('#diaryPages').evaluate(el => el.childElementCount === 0) && await p.locator('[name="diaryMember"][value="san"]').isChecked());
+    m.expire = false;
+    await p.locator('#diaryPassword').fill(password); await p.locator('#diaryAuthSubmit').click();
+    await p.locator('#diaryEditor').waitFor({ state: 'visible' });
+    check(label + ' reauthentication resumes the requested editor', await p.locator('#diaryEditorTitle').innerText() === 'Trang của san');
+    await p.locator('[data-close-editor]').click();
+    // The editable session label alone must never select somebody else's draft.
+    await p.evaluate(() => {
+      const saved = JSON.parse(sessionStorage.getItem('taxua-diary-session-v1'));
+      saved.member_id = 'mi'; sessionStorage.setItem('taxua-diary-session-v1', JSON.stringify(saved));
+    });
+    await p.reload(); await p.locator('#diaryOpen').click(); await p.locator('#diaryReader').waitFor({ state: 'visible' });
+    await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryAuth').waitFor({ state: 'visible' });
+    check(label + ' forged session owner cannot open a mismatched server draft', !await p.locator('#diaryEditor').isVisible() && await p.locator('[name="diaryMember"][value="mi"]').isChecked());
+    await p.locator('[data-close-auth]').click();
+    await p.locator('[data-bookmark="1"]').click(); await authenticate(p, 'san', true); await p.locator('[data-close-editor]').click();
     for (let i = 0; i < ids.length; i++) {
       await p.locator(`[data-bookmark="${i}"]`).click();
       check(label + ' paired spread ' + ids[i], await p.locator('.diary-page-writing').getAttribute('aria-label') === 'Lời viết của ' + names[i] && await p.locator('.diary-page-photos').getAttribute('aria-label') === 'Ảnh của ' + names[i]);

@@ -129,9 +129,10 @@ async function runEngine(type, engine) {
     check(engine+' photo clicks still open the private image',await p.locator('.diary-full-photo').count()===1&&await p.locator('.diary-turn-leaf').count()===0);
     await p.locator('[data-close-sheet]').click();
     await p.locator('[data-edit="writing"]').click();
-    check(engine+' edit button still opens owner password dialog',await p.locator('#diaryAuth').isVisible()&&await p.locator('.diary-turn-leaf').count()===0);
+    await p.locator('#diaryEditor').waitFor({state:'visible'});
+    check(engine+' own edit button reuses session without turning the book',await p.locator('#diaryEditor').isVisible()&&!await p.locator('#diaryAuth').isVisible()&&await p.locator('.diary-turn-leaf').count()===0);
     await p.keyboard.press('Escape');
-    await p.locator('#diaryAuth').waitFor({state:'hidden'});
+    await p.locator('#diaryEditor').waitFor({state:'hidden'});
     await p.setViewportSize({width:390,height:844}); await p.waitForTimeout(180); await reveal(p);
     await drag(p,1,115); await p.mouse.up(); await selected(p,2);
     check(engine+' phone writing drag changes person',await p.locator('.diary-page-writing').isVisible());

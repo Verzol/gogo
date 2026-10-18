@@ -46,9 +46,12 @@ copy retain their existing behavior. No private entry is exported into HTML.
   connection errors remain visible. The selected person's page is announced
   to screen readers. The bottom navigation, visible counter and reading-session
   name are removed.
-- Every edit button asks for that page owner's password, even during an
-  existing reading session. Successful authentication switches to that account.
-  A password for another person cannot authorize edits to the selected page.
+- Your own writing/photo edit buttons reuse your active session and open the
+  private draft directly after the server verifies access. Closing and reopening
+  the editor or book does not ask for your password again. Opening another
+  person's editor still requires their password and switches to that account.
+  Expired sessions refresh automatically when possible; if the server rejects
+  the session, editing asks you to sign in again.
 - A draft saves privately after about a second of inactivity and when closing
   the editor. **Lưu vào sổ** explicitly publishes writing and the complete
   photo list together. Other crew accounts see the published version only.

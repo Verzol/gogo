@@ -2,6 +2,33 @@
 
 [Diary guide](diary.md) · [Backend and operations](diary-backend.md) · [Verification](verification.md)
 
+## Own-page session reuse · 18 October 2026
+
+The edit buttons previously opened the password sheet unconditionally. Own-page
+writing and photo edits now request the private draft with the active session.
+The server-returned owner must match the selected page before the editor opens.
+Duplicate opens are guarded, and a late response cannot open the editor after
+the reader closes or moves to somebody else. Another owner's page still asks
+for their password. A rejected session clears private content and returns to
+the requested owner's login; successful automatic refresh needs no password.
+No backend policies, accounts or password formats changed.
+
+**81 Chromium reader/editor checks passed**, including both own-page buttons,
+restored tab sessions, automatic refresh, incorrect/correct account switching,
+revocation and returning to the editor, plus rejection of forged local ownership
+labels. The suite also checked publication, uploads, recovery and responsive
+reading, with zero uncaught browser errors. Desktop reading and phone editor
+captures were inspected. WebKit could not launch because this environment lacks
+its required system libraries; this run makes no WebKit verification claim.
+Browser fixtures used no real crew credentials or live writes.
+
+**48 Chromium navigation checks also passed**, including own-page editing after
+dragging/selecting text, keyboard closure of the editor, bookmark layout and
+phone gestures, with zero uncaught browser errors. Syntax and whitespace checks
+passed for the changed scripts.
+
+Evidence: `/tmp/taxua-diary-session-review/`.
+
 ## Non-empty passwords
 
 Removed the form's ten-character minimum, 72-character maximum and UTF-8 byte

@@ -11,7 +11,7 @@
   const ribbonColors = ['#987078', '#486279', '#9c7555', '#6c795f', '#667c79', '#7b6c85', '#9b6375'];
   const state = { index: 0, entries: [], open: false, turning: false, busy: false, status: [], authMember: null,
     authPurpose: 'read', authBusy: false, draft: null, dirty: false, change: 0, savePromise: null,
-    saveTimer: null, uploading: false, publishing: false, conflict: false, editorEpoch: 0, recovery: null, readEpoch: 0 };
+    saveTimer: null, uploading: false, publishing: false, conflict: false, editorOpening: false, editorEpoch: 0, recovery: null, readEpoch: 0 };
   let transition = null, motionHandle = null, motionEpoch = 0;
   let pageGesture = null, suppressPageClickUntil = 0;
   const photoLoads = new WeakMap();
@@ -433,16 +433,22 @@
   }
   async function openEditor() {
     const owner = api.memberId();
-    if (!owner || current().id !== owner) return;
+    if (!owner || current().id !== owner || state.editorOpening || $('diaryEditor').open) return;
+    state.editorOpening = true;
     message('Đang mở bản nháp riêng…');
     try {
-      const draft = await api.draft(); if (!api.hasSession() || owner !== api.memberId()) return;
+      const draft = await api.draft();
+      if (!api.hasSession() || owner !== api.memberId() || current().id !== owner || !state.open) return;
+      if (draft.member_id !== owner) { await showAuth(owner, 'edit'); return; }
       state.editorEpoch++; displayDraft(draft);
       $('diaryEditorTitle').textContent = 'Trang của ' + current().name;
       $('diaryRecovery').hidden = state.recovery?.memberId !== owner;
       $('diaryFiles').value = ''; message('', false, $('diaryUploadStatus')); message();
       $('diaryEditor').showModal(); $('diaryEditTitle').focus({ preventScroll: true });
-    } catch (error) { message(errorText(error), true); }
+    } catch (error) {
+      message(errorText(error), true);
+      if (error.status === 401) await showAuth(owner, 'edit');
+    } finally { state.editorOpening = false; }
   }
   async function flushDraft() {
     clearTimeout(state.saveTimer);
@@ -632,8 +638,10 @@
   });
   $('diaryPages').addEventListener('click', event => {
     const button = event.target.closest('button'); if (!button || state.turning) return;
-    if (button.dataset.edit) showAuth(current().id, 'edit');
-    else if (button.hasAttribute('data-full-writing')) showSheet('writing');
+    if (button.dataset.edit) {
+      if (api.hasSession() && api.memberId() === current().id) openEditor();
+      else showAuth(current().id, 'edit');
+    } else if (button.hasAttribute('data-full-writing')) showSheet('writing');
     else if (button.hasAttribute('data-album')) showSheet('album');
     else if (button.dataset.viewPhoto) showSheet('photo', button.dataset.viewPhoto);
   });
