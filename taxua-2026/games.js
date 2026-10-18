@@ -150,7 +150,7 @@
     function render() {
       const row = $(panel,'.dice-row');
       if (row.children.length !== state.values.length) {
-        row.innerHTML = state.values.map((_,index) => `<button class="die" type="button" data-die="${index}"><span class="die-flight"><span class="die-view"><span class="die-cube" aria-hidden="true">${faces.map((face,i) => `<span class="die-face die-face--${i + 1}" data-face="${i + 1}"><span class="die-number">${i + 1}</span>${art('dice_' + face)}</span>`).join('')}</span></span></span><span class="die-held" aria-hidden="true"></span></button>`).join('');
+        row.innerHTML = state.values.map((_,index) => `<button class="die" type="button" data-die="${index}"><span class="die-flight"><span class="die-view"><span class="die-cube" aria-hidden="true">${faces.map((face,i) => `<span class="die-face die-face--${i + 1}" data-face="${i + 1}"><span class="die-surface"><span class="die-number">${i + 1}</span>${art('dice_' + face)}</span></span>`).join('')}</span></span></span><span class="die-held" aria-hidden="true"></span></button>`).join('');
       }
       state.values.forEach((value,index) => {
         const die = row.children[index];
