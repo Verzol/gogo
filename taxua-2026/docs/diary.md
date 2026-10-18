@@ -173,6 +173,8 @@ forms remain in separate native dialogs. Rapid taps cannot queue extra turns.
 Per-face shading and a separate cast shadow preserve the 3D geometry.
 Dragging scrubs the same animation clock; release settles the remaining motion
 or reverses to the original page, without another content replacement.
+A drag held at 100% commits immediately on release, without replaying the turn.
+While held, it can still be pulled back or cancelled before any owner change.
 
 | Action | Desktop | Phone/single leaf |
 | --- | --- | --- |

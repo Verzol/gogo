@@ -70,6 +70,13 @@ Helpers write screenshots/reports/videos into the worktree. Run sequentially whe
 
 ## Lightweight checks and reporting
 
+The [full-drag release correction](diary-review.md#full-drag-release-18-october-2026)
+records 82 navigation and 101 motion checks in `/tmp/taxua-diary-drag-endpoint/`.
+The regression checks require immediate landing at full/overshot release in both
+directions on desktop and phone writing/photo faces; eventual selection alone
+would miss a replay. Cancellation and pulling back from 100% are also covered.
+
+
 The [gentler paper regeneration](diary-design-refinement.md#gentler-paper-regeneration)
 records 101 fresh Chromium motion checks and desktop/tablet/phone screenshots in
 `/tmp/taxua-diary-soft/`. Its before/after spine probe temporarily pauses only

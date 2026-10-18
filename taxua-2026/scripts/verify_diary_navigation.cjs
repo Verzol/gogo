@@ -69,6 +69,32 @@ async function drag(p, direction, distance, options = {}) {
   if(options.waitForLeaf!==false)await p.locator('.diary-turn-leaf').waitFor();
   return {x,y};
 }
+async function completedDrags(p, engine, layout) {
+  // Exercise real pointer release at the clamped endpoint. Merely waiting for
+  // eventual selection would also pass when play() restarts the whole turn.
+  for (const overshoot of [false, true]) for (const direction of [1,-1]) {
+    const before=await p.locator('[data-bookmark][aria-pressed="true"]').getAttribute('data-bookmark');
+    const target=Number(before)+direction;
+    const width=await p.locator('#diaryPages > .diary-page:visible').first().evaluate(el=>el.getBoundingClientRect().width);
+    const label=engine+' '+layout+' '+(overshoot?'overshot':'complete')+' drag '+direction;
+    await drag(p,direction,overshoot?width*1.2:width+1);
+    check(label+' stays held at the endpoint',await p.locator('.diary-turn-leaf').getAttribute('data-progress')==='1.0000'&&await p.locator('[data-bookmark][aria-pressed="true"]').getAttribute('data-bookmark')===before);
+    await p.mouse.up();
+    check(label+' lands immediately without replay',await p.evaluate(target=>!document.querySelector('.diary-turn-leaf,.diary-turn-preview,.diary-turn-underlay')&&document.querySelector(`[data-bookmark="${target}"]`).getAttribute('aria-pressed')==='true'&&document.getElementById('diaryBook').getAttribute('aria-busy')==='false',target));
+    await selected(p,target);
+  }
+  const frozen=await p.locator('#diaryPages').innerHTML();
+  const width=await p.locator('#diaryPages > .diary-page:visible').first().evaluate(el=>el.getBoundingClientRect().width);
+  await drag(p,1,width+1); await p.keyboard.press('Escape'); await p.mouse.up(); await settle(p);
+  check(engine+' '+layout+' Escape still reverses a fully held turn',await p.locator('#diaryPages').innerHTML()===frozen);
+  // Reaching the endpoint does not commit while held: pulling back must still
+  // scrub the same leaf and allow rollback on release.
+  const start=await drag(p,1,width+1);
+  await p.mouse.move(start.x-30,start.y,{steps:8}); await p.waitForTimeout(180);
+  check(engine+' '+layout+' full drag can be pulled back before release',Number(await p.locator('.diary-turn-leaf').getAttribute('data-progress'))<.24);
+  await p.mouse.up(); await settle(p);
+  check(engine+' '+layout+' pulled-back full drag restores the exact spread',await p.locator('#diaryPages').innerHTML()===frozen);
+}
 async function runEngine(type, engine) {
   const browser=await type.launch(engine==='webkit'&&process.env.DIARY_WEBKIT_EXECUTABLE?{executablePath:process.env.DIARY_WEBKIT_EXECUTABLE}:{});
   try {
@@ -120,7 +146,10 @@ async function runEngine(type, engine) {
     check(engine+' pointer cancellation clears the drag and staging',await p.locator('.diary-turn-leaf,.diary-turn-preview,.diary-turn-underlay').count()===0&&await p.locator('#diaryBook').getAttribute('data-dragging')===null&&await p.locator('#diaryPageLabel').innerText()==='Trang của thảo');
     await drag(p,-1,620); await p.waitForTimeout(100);
     check(engine+' a full drag still waits for release to change owner',await p.locator('#diaryPageLabel').innerText()==='Trang của thảo'&&await p.locator('.diary-turn-leaf').count()===1);
-    await p.mouse.up(); await selected(p,1); await reveal(p);
+    await p.mouse.up();
+    check(engine+' fully dragged page lands on release without replaying',await p.locator('.diary-turn-leaf').count()===0&&await p.locator('#diaryPageLabel').innerText()==='Trang của san');
+    await selected(p,1); await reveal(p);
+    await completedDrags(p,engine,'desktop');
     const text=await p.locator('.diary-writing').boundingBox();
     await p.mouse.move(text.x+8,text.y+15); await p.mouse.down(); await p.mouse.move(text.x+150,text.y+15,{steps:8}); await p.mouse.up();
     check(engine+' selecting prose does not turn the book',await p.locator('.diary-turn-leaf,.diary-turn-preview').count()===0&&await p.evaluate(()=>!getSelection().isCollapsed));
@@ -134,6 +163,10 @@ async function runEngine(type, engine) {
     await p.keyboard.press('Escape');
     await p.locator('#diaryEditor').waitFor({state:'hidden'});
     await p.setViewportSize({width:390,height:844}); await p.waitForTimeout(180); await reveal(p);
+    await completedDrags(p,engine,'phone writing');
+    await p.locator('[data-diary-side="photos"]').click();
+    await completedDrags(p,engine,'phone photos');
+    await p.locator('[data-diary-side="writing"]').click();
     await drag(p,1,115); await p.mouse.up(); await selected(p,2);
     check(engine+' phone writing drag changes person',await p.locator('.diary-page-writing').isVisible());
     await shot(p,engine+'-phone-writing.png');

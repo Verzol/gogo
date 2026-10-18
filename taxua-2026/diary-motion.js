@@ -52,6 +52,9 @@
       },
       release(commit) {
         if (ended) return;
+        // play() rewinds an animation already at its forward boundary. A fully
+        // scrubbed leaf must land now, while partial/cancelled drags still play.
+        if (commit && Number(animation.currentTime) >= duration) { end(true); return; }
         if (!commit && Number(animation.currentTime) < 1) { end(false); return; }
         animation.playbackRate = commit ? 1.25 : -1.5; animation.play();
       }

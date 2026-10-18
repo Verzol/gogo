@@ -2,6 +2,23 @@
 
 [Diary guide](diary.md) · [Backend and operations](diary-backend.md) · [Verification](verification.md)
 
+## Full-drag release, 18 October 2026
+
+Dragging a leaf to 100% and releasing replayed the whole turn: Web Animations
+`play()` automatically rewinds a forward animation already at its boundary.
+The release handler now commits an accepted endpoint directly. Partial turns
+still play their remaining distance, and a fully held leaf can still be pulled
+back or cancelled before release. The visual material and geometry are unchanged.
+
+A new real-pointer assertion reproduced the replay before the fix. Verification
+then passed **82 navigation checks** and **101 motion checks**, with no uncaught
+browser errors. Complete and overshot drags are checked in both directions on
+desktop and phone writing/photo faces, including synchronous landing, Escape,
+and pulling a full drag back into rollback range. Existing partial drags, touch
+swipes, native prose scrolling, pause/fallback and session cleanup remain covered.
+Desktop and phone screenshots were inspected. Evidence is in
+`/tmp/taxua-diary-drag-endpoint/`; fixtures made no live backend writes.
+
 ## Gentler paper regeneration, 18 October 2026
 
 Regenerated three Sunburst paper masters with lighter oatmeal stock, fine grain,
