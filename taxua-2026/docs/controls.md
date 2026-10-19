@@ -4,6 +4,45 @@
 
 `controls.css` owns input, textarea, checkbox, radio, select, range, file-picker and disclosure styling. `controls.js` progressively enhances ordinary single-select dropdowns. Both load after the feature styles/scripts; retain existing script order. No library or build step is required.
 
+## Browser dark mode
+
+The illustrated site's colors follow its scenery, independently of the browser's
+light/dark preference. `index.html` declares `color-scheme: only light` before
+styles load, and `style.css` applies it at the root. Shared fields inherit this
+setting; resetting a field to `normal` lets automatic darkening alter its paint.
+The generated standalone itinerary declares the same setting in its HTML/CSS.
+The diary's parchment dialogs also explicitly use `only light`.
+
+This prevents Chromium automatic darkening from changing dark ink to pale text
+and tan fields to brown while leaving image backgrounds unchanged. It preserves
+the site's illustrated night scenes. It does not disable system forced colors:
+no `forced-color-adjust: none` override is added. Both HTML entry points also
+declare `darkreader-lock`, which Dark Reader's dynamic engine respects. The
+extension otherwise removes the parchment texture and recolors ink independently
+of `color-scheme`. Other extensions may have different behavior.
+
+Run `node scripts/verify_browser_colors.cjs` and
+`node scripts/verify_diary_dark_mode.cjs`. These compare rendered pixels under
+light preference, dark preference and Chromium automatic darkening at desktop
+and phone widths, plus system high-contrast checks. Computed CSS colors alone
+cannot detect Chromium's paint-time recoloring.
+
+`verify_darkreader.cjs` exercises the real Dark Reader 4.9.133 dynamic-theme API
+on desktop and phone, including a negative control without the lock and recovery
+when it is added. It checks the public sections, diary and standalone itinerary.
+It tests the rendering engine, not the extension's browser toolbar or settings.
+Keep this dependency outside the checkout; it is never loaded by the website:
+
+```sh
+mkdir -p /tmp/taxua-darkreader
+npm pack darkreader@4.9.133 --pack-destination /tmp/taxua-darkreader
+tar -xzf /tmp/taxua-darkreader/darkreader-4.9.133.tgz -C /tmp/taxua-darkreader
+DARKREADER_PATH=/tmp/taxua-darkreader/package/darkreader.js node scripts/verify_darkreader.cjs
+```
+
+See [browser-color sources](sources.md#browser-color-handling) for the reference
+package and CSS behavior.
+
 ## Sợi mây · page and panel scrollbars
 
 `scrollbar.css` owns native page/panel scrollbar colors; `scrollbar.js` adds the optional desktop cloud handle. They load after existing feature styles/scripts. The document remains the native scroller, including wheel, touch, anchors and browser history. The component adds no smoothing or continuous animation loop.

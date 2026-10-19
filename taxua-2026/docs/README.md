@@ -25,7 +25,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Logo, fonts, stickers, icon sprite and licenses | [Identity](identity.md) |
 | Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
 | Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |
-| Preview, focused browser checks and evidence limits | [Verification](verification.md) |
+| Preview, browser checks and evidence limits | [Verification](verification.md) · [Complete 19 October run](browser-verification-2026-10-19.md) |
 | Cloud opening, ambient motion and live trip-day weather | [Sky and weather](weather.md) · [Design plan](sky-weather-plan.md) |
 | Mobile cloud density, navigation, readability and responsive improvements | [Audit and plan](mobile-ui-plan.md) · [Implementation review](mobile-ui-review.md) |
 | Separate interactive concepts: passport, film, cloud notebook, zine and nine more | [13-demo gallery and guide](demos.md) |
@@ -58,7 +58,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, frontend CDN librar
 - `scrollbar.css` / `scrollbar.js` = native scrollbar palette and optional painted desktop page control.
 - `cursor.css` / generated `cursor-palettes.css` = native painted cursor states and diary pencil, using the existing scenery/period state; no cursor script.
 - `games.js` / `games.css` = random-game picker and five chance objects; the wheel stays in `main.js`.
-- `diary.js` / `diary.css` = optional private book/reader/editor; `diary-motion.js` / `diary-motion.css` own decorative geometry/materials and `diary-materials.css` contains generated frame coordinates; `diary-api.js` handles authenticated requests and `diary-config.js` contains its public endpoint.
+- `diary.js` / `diary.css` = optional private book/reader/editor; `diary-photo-tools.js` / `diary-photo-tools.css` own the photo preview, swaps and non-destructive framing; `diary-motion.js` / `diary-motion.css` own decorative geometry/materials and `diary-materials.css` contains generated frame coordinates; `diary-api.js` handles authenticated requests and `diary-config.js` contains its public endpoint.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
 - `weather.js` / `weather.css` = optional Open-Meteo forecast and hero sky effects.
 - `map-data.js` / `trip-map.js` / `trip-map.css` = geographic registry and optional embedded atlas/previews; local Leaflet is prepared near map entries and executes on demand.

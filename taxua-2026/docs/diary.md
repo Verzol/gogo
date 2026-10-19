@@ -90,7 +90,32 @@ The popup announces the photo position, keeps keyboard focus in the dialog,
 and clears its private image on close or session loss. There is no separate
 “Xem đủ … ảnh” album button.
 
-Keyboard buttons reorder images. Removing a photo from the draft changes the
+The editor has **Lời viết / Ảnh mang về** tabs. The photo tab pairs an actual
+paper-page preview with controls for the selected photo; on phones the controls
+follow the preview. Existing generated paper, frames and handwriting remain.
+The preview scales the reader's geometry rather than inventing a separate layout.
+
+Drag a frame's attached grip onto another frame to swap their photos, or select
+**Đổi vị trí** and tap the destination. Keyboard-accessible **Lên / Xuống**
+buttons remain available. Captions, descriptions and framing travel with the photo.
+Dropping outside the page, Escape or pointer cancellation cancels the gesture.
+Only photo order changes; the count-dependent frames stay fixed.
+
+**Chỉnh khung** opens a larger view with the same aperture proportions. Drag the
+image, use arrow controls/keys, or adjust **Thu phóng** from 1× to 3×. Movement
+is clamped so no empty edge appears. **Đặt lại** centers the photo at 1×;
+**Xong** accepts the provisional crop into the private draft, and **Hủy** or
+Escape restores the previous crop without closing the editor. Save, publish,
+closing the editor or switching to writing accepts the current crop first.
+Resizing cancels provisional framing and rebuilds the preview for the new viewport.
+The original processed photo is preserved; the full-photo viewer stays uncropped.
+
+Completed swaps and accepted crops use the normal draft autosave. Pan/zoom
+movements stay local until accepted. Failed saves and revision conflicts retain
+photo arrangement/crops alongside writing in the tab's memory-only recovery.
+A deliberate logout clears all private preview and crop surfaces.
+
+Removing a photo from the draft changes the
 published page only after **Lưu vào sổ**. An uploaded image omitted from the
 draft appears in the unused-image list and can be attached again or explicitly
 deleted after it is no longer published. Explicit deletion also removes the
@@ -122,6 +147,11 @@ removed after feedback. Existing warmed print borders retain their exact alpha
 and photo-opening coordinates. Dark forest ink and helpers preserve readability.
 Empty writing keeps quiet ruled paper without copy. Material colors remain
 consistent across scenery periods and browser color schemes.
+
+Browser automatic darkening is explicitly disabled for the site's artwork and
+parchment via `color-scheme: only light`, including dialog fields. System
+high-contrast colors remain available. See [Browser dark mode](controls.md#browser-dark-mode)
+for the whole-site behavior and rendered-pixel regression checks.
 
 The [current paper manifest](../data/sources/diary-soft-paper.json) records source,
 request and output hashes, dimensions and processing. [Exact prompts and rebuild
@@ -201,6 +231,7 @@ the photographs or captions.
 | --- | --- |
 | `data.js` | Stable ASCII member IDs, existing names, portraits and order |
 | `index.html` | Inline cover/reader shell, optional scripts/styles |
+| `diary-photo-tools.js` / `diary-photo-tools.css` | Shared crop geometry, scaled paper preview, swap/pan gestures and selected-photo controls |
 | `diary.js` / `diary.css` | Semantic reader, native dialogs, editor, recovery and base presentation |
 | `diary-motion.js` / `diary-motion.css` | Decorative cover/curved leaf geometry, material skins, handwriting and responsive polish |
 | `diary-materials.css` | Generated frame/image opening coordinates |
@@ -212,6 +243,8 @@ the photographs or captions.
 | `scripts/verify_diary.cjs` | Deterministic browser interactions/visual checks with a mocked transport |
 | `scripts/verify_diary_motion.cjs` | Paused opening/turn/closing frames, front/reverse ownership and painted-pixel photo orientation |
 | `scripts/verify_diary_navigation.cjs` | Sticker bounds/fallbacks, edge clicks, controlled/cancelled drags, phone swipes and native vertical touch scrolling |
+| `scripts/verify_diary_photo_editor.cjs` | All 0-9 editor layouts, swaps, pan/zoom/cancellation, publishing, recovery and private DOM cleanup |
+| `scripts/verify_diary_framing.ts` / `.sql` | Edge metadata normalization and rolled-back gateway validation fixtures |
 | `scripts/verify_diary_photos.cjs` | Every count 0–9, responsive print bounds/targets, popup navigation, owner-only edit controls and the tenth-upload boundary |
 | `scripts/verify_diary_photo_limit.sql` | Deployed gateway/constraints cloned into temporary tables; nine accepted and ten rejected, then rollback |
 | `scripts/verify_diary_layout.cjs` | Long writing/captions, enlarged text, Vietnamese shaping, missing assets and mid-motion expiry |
@@ -229,6 +262,7 @@ Run from `taxua-2026/`, reusing the existing preview server:
 ```sh
 node scripts/verify_diary.cjs
 node scripts/verify_diary_photos.cjs
+node scripts/verify_diary_photo_editor.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary_motion.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary_navigation.cjs

@@ -1,7 +1,9 @@
 /* Floating trip scrapbook over layered watercolor scenery.
    Depth: scenery 0, content 1, chapter links 9, navigation 10, skip link 20. */
 :root {
-  color-scheme: dark;
+  /* Artwork and ink follow the illustrated scenery, not browser auto-darkening.
+     System forced-colors/high-contrast mode remains available. */
+  color-scheme: only light;
   --ink: #fffdf7;
   --muted: #f0f0e9;
   --accent: #ffda9d;

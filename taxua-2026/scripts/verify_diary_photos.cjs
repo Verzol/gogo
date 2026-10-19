@@ -79,6 +79,7 @@ async function runEngine(type, engine) {
     delete m.drafts.mi; m.libraries.mi = [];
     await p.locator('[data-edit="photos"]').click(); await p.locator('#diaryEditor').waitFor();
     const image = path.resolve(__dirname, '../figures/places/p13_480.webp');
+    await p.locator('[data-editor-tab="photos"]').click();
     await p.locator('#diaryFiles').setInputFiles(Array.from({ length: 10 }, () => image));
     await p.waitForFunction(() => !document.getElementById('diaryFiles').disabled && document.querySelectorAll('[data-photo-row]').length === 9);
     check(engine + ' tenth file is rejected before reserving or uploading', m.uploads === 9 && m.requests.filter(action => action === 'reserve-photo').length === 9 && m.drafts.mi.photos.length === 9 && (await p.locator('#diaryUploadStatus').innerText()).includes('9 ảnh'));

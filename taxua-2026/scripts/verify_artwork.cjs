@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_PATH || '../../hue-2026/node_modules/playwright');
+const output = process.env.TRIP_REVIEW_DIR || path.resolve(__dirname,'../review/reveals');
+fs.mkdirSync(output,{recursive:true});
 const report = {checkedAt:new Date().toISOString(),checks:[],errors:[]};
 const check = (name,value) => {assert(value,name);report.checks.push(name);};
 const wait = ms => new Promise(resolve => setTimeout(resolve,ms));
@@ -25,7 +27,7 @@ async function bounds(item) {return item.evaluate(el=>{const t=ScrollTrigger.get
       check('sunrise participates in the existing reversible reveal at its note',!!range && await sunrise.evaluate((el,range)=>Math.abs(range.end-(el.closest('.event').getBoundingClientRect().top+scrollY))<innerHeight,range));
       const midpoint=(range.start+range.end)/2;
       await scroll(p,midpoint);const forward=await sunrise.evaluate(svg=>Number(getComputedStyle(svg).opacity));
-      await scroll(p,range.end+10);await p.screenshot({path:path.resolve(__dirname,'../review/reveals/schedule-sunrise.png')});await scroll(p,midpoint);
+      await scroll(p,range.end+10);await p.screenshot({path:path.join(output,'schedule-sunrise.png')});await scroll(p,midpoint);
       check('sunrise reverses to the same scroll opacity',forward>.3 && forward<.8 && await sunrise.evaluate((svg,forward)=>Math.abs(Number(getComputedStyle(svg).opacity)-forward)<.015,forward));
     }
     const artwork = p.locator('.packing-heading > img');const artworkRange=await bounds(artwork);
@@ -57,6 +59,6 @@ async function bounds(item) {return item.evaluate(el=>{const t=ScrollTrigger.get
   }
   check('artwork regression has no uncaught browser errors',report.errors.length===0);
   report.checkCount=report.checks.length;
-  fs.writeFileSync(path.resolve(__dirname,'../review/reveals/artwork-checks.json'),JSON.stringify(report,null,2)+'\n');
+  fs.writeFileSync(path.join(output,'artwork-checks.json'),JSON.stringify(report,null,2)+'\n');
   await browser.close();console.log('Passed '+report.checkCount+' artwork regression checks.');
 })().catch(error=>{console.error(error);process.exit(1);});

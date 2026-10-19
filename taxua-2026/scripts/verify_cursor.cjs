@@ -33,7 +33,7 @@ async function diaryPencilChecks(browser) {
   await mock(context,m);
   const p=await context.newPage();p.on('pageerror',e=>report.errors.push(e.message));
   await p.goto(url+'#crewDiary');await p.evaluate(()=>document.fonts.ready);
-  check('Closed cover, heading and surrounding section keep regular cursors',(await Promise.all(['#crewDiary','#diaryTitle','#diaryOpen','.diary-margin-note'].map(selector=>cursor(p.locator(selector))))).every(value=>!pencil(value))&&state(await cursor(p.locator('#diaryOpen')),'hand','pointer'));
+  check('Closed cover, heading and surrounding section keep regular cursors',(await Promise.all(['#crewDiary','#diaryTitle','#diaryOpen','#diaryStatus'].map(selector=>cursor(p.locator(selector))))).every(value=>!pencil(value))&&state(await cursor(p.locator('#diaryOpen')),'hand','pointer'));
   const art=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../data/sources/diary-pencil-artwork.json'))).asset;
   await p.locator('#diaryOpen').click();await p.locator('#diaryReader').waitFor();
   await p.waitForFunction(()=>!document.querySelector('.diary-cover-flight,.diary-turn-leaf')&&document.getElementById('diaryBook').getAttribute('aria-busy')==='false');

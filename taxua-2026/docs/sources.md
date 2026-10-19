@@ -206,3 +206,8 @@ and photo prints; it is neither a functioning interface nor a trip photograph.
 - [Supabase testing overview](https://supabase.com/docs/guides/local-development/testing/overview): independent QA identifiers/resources and cleanup of only the test data; browser fixtures alone do not establish server authorization.
 - [Revision 2 artwork prompts](prompts/diary/revision_2/README.md) and [29-layer manifest](../data/sources/diary-materials.json): nine `cx/gpt-image-2.5-sunburst` generations, referenced to the earlier decorative cover; preserved originals, crops, alpha processing and derivative hashes. No private media was sent to generation.
 - Supabase [database functions](https://supabase.com/docs/guides/database/functions): reviewed for the nine-photo gateway migration on 18 October 2026.
+
+## Browser color handling
+
+- [MDN color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme): `only light` prevents automatic darkening while preserving independently configured system forced colors.
+- [Dark Reader 4.9.133](https://www.npmjs.com/package/darkreader/v/4.9.133): verified from the published `darkreader.js` dynamic-theme implementation, which recognizes `meta[name="darkreader-lock"]`. The pinned package is a temporary verification dependency, not a website runtime asset. The [controls guide](controls.md#browser-dark-mode) records the browser test command and limits.

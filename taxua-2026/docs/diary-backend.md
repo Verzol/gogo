@@ -90,6 +90,35 @@ is disabled in the shared project's Auth settings. This implementation does not
 change that project-wide setting or claim that breached passwords are checked.
 An operator can review [the provider's password-protection setting](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
 
+## Photo arrangement and framing
+
+Photo array order assigns the fixed frames. An optional `crop` object contains
+`x` and `y` (normalized image-center coordinates, 0-1) and `zoom` (cover-relative,
+1-3). Missing crop metadata uses the centered 1× default; existing records need
+no backfill. Rendering clamps the focal point to the aperture, preserving its
+intended center when an arrangement or screen size changes.
+
+The Edge Function keeps only `id`, `caption`, `alt` and validated crop fields.
+It rejects null, incomplete, nonnumeric, nonfinite, extra-key or out-of-range
+crop objects. The gateway independently validates crop types/ranges and still
+checks every photo belongs to the active owner and is ready. Selected names,
+client state and crop metadata grant no permissions. Published/draft JSON and
+history retain the same metadata; images are never rewritten for framing.
+
+Migration `20261019051953_taxua_diary_photo_framing.sql` was applied to gogo on
+19 October 2026, followed by `taxua-diary` Edge version 6 with `framing.ts`.
+The migration only extends gateway input validation; no crew data, bucket policy,
+shared Auth configuration or Hue resources changed. Deployment order is the
+gateway migration, then Edge code, then the static frontend. Old clients remain
+compatible but cannot retain framing if they save photos without that field.
+
+Run `npx --yes --package=deno deno test --no-config scripts/verify_diary_framing.ts`
+for normalization, and execute `scripts/verify_diary_framing.sql` in one connection
+for 18 framing/publication/foreign-photo checks. The SQL script clones only
+schema into temporary tables, uses a fixture identity in a temporary gateway,
+and rolls everything back; it creates no crew or Auth accounts. It verifies
+metadata validation and photo ownership, not the full Auth session flow.
+
 ## Upload lifecycle and consistency
 
 Untrusted image bytes stream through the authenticated Edge request; they are

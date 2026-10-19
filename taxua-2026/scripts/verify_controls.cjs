@@ -37,7 +37,8 @@ async function menuFits(p) {return p.locator('.journal-select-menu:popover-open'
     await p.locator('#game-coin .game-settings summary').click();await p.fill('#coinSun','Trà nóng');
     check('Optional coin labels use translucent themed fields',await p.locator('#coinSun').evaluate(el=>getComputedStyle(el).backgroundColor.startsWith('rgba(') && getComputedStyle(el).color==='rgb(255, 244, 220)'));
     await p.locator('#game-coin .game-settings summary').click();
-    await game(p,'dice');await p.locator('[data-die="0"] img').click();
+    // A die now contains all six painted faces; activate its actual button.
+    await game(p,'dice');await p.locator('[data-die="0"]').click();
     check('Tapping an unrolled die rolls the tray',await p.locator('#game-dice').getAttribute('data-values')==='[1,1]');
     await p.locator('[data-die="0"]').click();await p.evaluate(()=>window.tripRandomIndex=n=>Math.min(5,n-1));
     await p.locator('.dice-tray-hit .game-object-caption').click();
@@ -49,7 +50,7 @@ async function menuFits(p) {return p.locator('.journal-select-menu:popover-open'
     check('Tapping the deck deals three concealed cards',await p.locator('[data-card]').count()===3 && await p.locator('#game-cards').getAttribute('data-remaining')==='49');
     await p.locator('[data-card="0"]').focus();await p.keyboard.press('Enter');
     check('Card object still reveals by keyboard',await p.locator('#game-cards').getAttribute('data-revealed')==='1');
-    check('Card indices are at least 24px and suit symbols at least 18px',await p.locator('.card-corner').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=24 && parseFloat(getComputedStyle(el.querySelector('small')).fontSize)>=18));
+    check('Card fallback indices and suits remain readable, including the compact two-digit ten',await p.locator('.card-corner').evaluateAll(corners=>corners.length>0 && corners.every(el=>parseFloat(getComputedStyle(el).fontSize)>=(el.classList.contains('is-ten') ? 17.5 : 24) && parseFloat(getComputedStyle(el.querySelector('small')).fontSize)>=18)));
     await game(p,'bag');await p.locator('.bag-draw .bag-closed').click();
     check('Tapping bag draws without opening a form',JSON.parse(await p.locator('#game-bag').getAttribute('data-results')).length===1);
     check('Ball numbers are at least 32px',await p.locator('.lottery-ball > span').first().evaluate(el=>parseFloat(getComputedStyle(el).fontSize)>=32));

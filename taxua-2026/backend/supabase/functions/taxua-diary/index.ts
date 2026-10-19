@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { processImage } from './images.ts';
+import { normalizePhoto } from './framing.ts';
 import { passwordForAuth, passwordFormat, validPassword } from './passwords.ts';
 
 const url = Deno.env.get('SUPABASE_URL')!;
@@ -215,9 +216,10 @@ Deno.serve(async req => {
     if (route === 'save-draft') {
       if (!Number.isInteger(body.revision) || typeof body.title !== 'string' || typeof body.body !== 'string' ||
         !Array.isArray(body.photos)) fail('INVALID_INPUT');
-      const photos = body.photos.map((p: Record<string, unknown>) => {
-        if (!p || !uuid.test(String(p.id)) || typeof p.caption !== 'string' || typeof p.alt !== 'string') fail('INVALID_PHOTO');
-        return { id: p.id, caption: p.caption, alt: p.alt };
+      const photos = body.photos.map((value: unknown) => {
+        const photo = normalizePhoto(value);
+        if (!photo || !uuid.test(photo.id)) fail('INVALID_PHOTO');
+        return photo;
       });
       return respond(await rpc('save_draft', { revision: body.revision, title: body.title, body: body.body, photos }, actor));
     }

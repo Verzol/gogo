@@ -17,6 +17,8 @@
   let pageGesture = null, suppressPageClickUntil = 0;
   const photoLoads = new WeakMap();
   const motion = window.TaxuaDiaryMotion;
+  const photoTools = window.TaxuaDiaryPhotos;
+  let photoEditor;
   function lockBook() {
     $('diaryBook').setAttribute('aria-busy', String(state.turning));
     $('diaryPages').inert = state.turning;
@@ -58,8 +60,8 @@
     CLAIM_EXPIRED: 'Lượt đặt mật khẩu đã hết hạn. Thử đăng nhập trước khi tạo lại nhé.',
     RATE_LIMITED: 'Đã thử nhiều lần. Hãy đợi 15 phút rồi quay lại.',
     SESSION_EXPIRED: 'Phiên đọc đã kết thúc. Nhập lại mật khẩu để mở sổ.',
-    DRAFT_CONFLICT: 'Bản nháp đã thay đổi ở nơi khác. Lời viết ở đây vẫn còn; chép lại hoặc tải bản mới trước khi tiếp tục.',
-    ENTRY_CONFLICT: 'Trang trong sổ đã có bản mới. Lời viết ở đây vẫn còn; tải bản nháp mới để đối chiếu.',
+    DRAFT_CONFLICT: 'Bản nháp đã thay đổi ở nơi khác. Thay đổi ở đây vẫn còn; chép lại hoặc tải bản mới trước khi tiếp tục.',
+    ENTRY_CONFLICT: 'Trang trong sổ đã có bản mới. Thay đổi ở đây vẫn còn; tải bản nháp mới để đối chiếu.',
     PHOTO_LIMIT: 'Mỗi người giữ tối đa 9 ảnh và 30 MiB trong sổ. Sổ đang đủ ảnh hoặc dung lượng. Bỏ ảnh khỏi trang, lưu vào sổ rồi xóa ảnh chưa dùng để thêm ảnh mới.',
     INVALID_IMAGE: 'Ảnh chưa đọc được. Chọn ảnh JPEG, PNG hoặc WebP khác nhé.',
     IMAGE_DIMENSIONS: 'Ảnh quá lớn để dán vào sổ. Thử chọn lại ảnh khác.',
@@ -75,13 +77,13 @@
     target.textContent = text; target.dataset.error = String(error);
     if (target.id === 'diaryStatus') target.hidden = !text;
   }
-  function photoMarkup(photo, index, owner, count) {
+  function photoMarkup(photo, index, owner, count, editing = false) {
     const label = photo.alt || `Ảnh chuyến đi của ${owner}`;
     const wide = count <= 2 || ([3, 5, 7].includes(count) && index === 0);
     const frame = `diary-print diary-frame-${count === 1 ? 'portrait' : wide || count <= 6 ? 'landscape' : 'square'}`;
-    const image = `<button type="button" class="diary-photo-button" data-view-photo="${escape(photo.id)}" aria-label="Mở ảnh ${index + 1}: ${escape(label)}"><img data-private-photo="${escape(photo.id)}" alt="${escape(label)}" hidden><span class="diary-image-fallback">Đang mở ảnh…</span></button>`;
+    const image = `<button type="button" class="diary-photo-button" ${editing ? 'data-select-photo' : 'data-view-photo'}="${escape(photo.id)}" aria-label="${editing ? 'Chọn' : 'Mở'} ảnh ${index + 1}: ${escape(label)}"><img data-private-photo="${escape(photo.id)}" ${photoTools?.attributes(photo.crop) || ''} alt="${escape(label)}" draggable="false" hidden><span class="diary-image-fallback" aria-hidden="true">Đang mở ảnh…</span></button>`;
     const caption = `<figcaption>${escape(photo.caption || '\u00a0')}</figcaption>`;
-    return `<figure class="${frame}">${image}${caption}</figure>`;
+    return `<figure class="${frame}"${editing ? ` data-frame-photo="${escape(photo.id)}"` : ''}>${image}${caption}${editing ? `<button type="button" class="diary-photo-grip" data-grip-photo="${escape(photo.id)}" aria-label="Di chuyển ảnh ${index + 1}">${photoTools.icon('grip')}</button>` : ''}</figure>`;
   }
   function hydrate(container) {
     return Promise.allSettled([...container.querySelectorAll('img[data-private-photo]')].map(img => {
@@ -89,11 +91,13 @@
       img.dataset.requested = 'true';
       const loading = api.photo(img.dataset.privatePhoto, img.dataset.size || 'thumb').then(async src => {
         if (!img.isConnected || !api.hasSession()) return;
-        img.src = src; img.hidden = false;
+        img.src = src;
         const fallback = img.parentElement.querySelector('.diary-image-fallback');
-        if (fallback) fallback.hidden = true;
         img.addEventListener('error', () => { img.hidden = true; if (fallback) { fallback.hidden = false; fallback.textContent = 'Chưa mở được ảnh'; } }, { once: true });
         await img.decode?.();
+        if (!img.isConnected || !api.hasSession()) return;
+        img.hidden = false; if (fallback) fallback.hidden = true;
+        photoTools?.observe(img);
       }).catch(() => {
         if (!img.isConnected) return;
         const fallback = img.parentElement.querySelector('.diary-image-fallback');
@@ -316,18 +320,30 @@
       <button type="button" class="diary-dialog-close" data-close-editor aria-label="Lưu bản nháp và đóng">×</button>
       <p class="diary-eyebrow">Một trang của riêng cậu</p><h3 id="diaryEditorTitle">Viết vào sổ</h3>
       <p class="diary-editor-copy">Bản nháp chỉ mình cậu thấy. Chọn “Lưu vào sổ” khi muốn cả hội cùng đọc.</p>
-      <div class="diary-conflict-tools" id="diaryRecovery" hidden><button type="button" class="diary-secondary" id="diaryRestoreWriting">Khôi phục lời viết chưa lưu</button></div>
+      <div class="diary-conflict-tools" id="diaryRecovery" hidden><button type="button" class="diary-secondary" id="diaryRestoreWriting">Khôi phục thay đổi chưa lưu</button></div>
       <form id="diaryEditorForm">
-        <div class="diary-editor-grid"><div>
-          <label class="diary-field"><span>Tên cho trang này</span><input type="text" id="diaryEditTitle" maxlength="100" placeholder="Một cái tên, nếu cậu muốn…" autocomplete="off"></label>
-          <label class="diary-field"><span>Vài dòng để nhớ</span><textarea id="diaryEditBody" maxlength="8000" rows="12" placeholder="Điều gì làm cậu muốn nhớ về chuyến đi này?"></textarea></label>
-          <span class="diary-text-count" id="diaryTextCount"></span>
-          <p class="diary-form-status" id="diarySaveStatus" role="status"></p>
-          <div class="diary-conflict-tools" id="diaryConflict" hidden><button type="button" class="diary-secondary" id="diaryCopyWriting">Chép lời viết đang có</button><button type="button" class="diary-secondary" id="diaryKeepWritingClose">Giữ lời viết ở đây & đóng</button><button type="button" class="diary-secondary" id="diaryReloadDraft">Tải bản mới, bỏ thay đổi ở đây</button></div>
-        </div><div id="diaryPhotoEditor">
-          <label class="diary-upload-label"><span>Ảnh mang về · tối đa 9 tấm</span><input type="file" id="diaryFiles" accept="image/jpeg,image/png,image/webp" multiple><span>JPEG, PNG, WebP · tối đa 20 MB mỗi tệp.<br>Mọi ảnh đều nằm trên trang. Chạm vào ảnh để xem rõ hơn.</span></label>
-          <p class="diary-form-status" id="diaryUploadStatus" role="status"></p><div id="diaryPhotoFields"></div><div id="diaryRecoveredPhotos" class="diary-recovered"></div>
-        </div></div>
+        <nav class="diary-editor-tabs" aria-label="Nội dung chỉnh sửa"><button type="button" data-editor-tab="writing" aria-pressed="true" aria-controls="diaryWritingEditor">Lời viết</button><button type="button" data-editor-tab="photos" aria-pressed="false" aria-controls="diaryPhotoEditor">Ảnh mang về</button></nav>
+        <div class="diary-editor-grid">
+          <div id="diaryWritingEditor">
+            <label class="diary-field"><span>Tên cho trang này</span><input type="text" id="diaryEditTitle" maxlength="100" placeholder="Một cái tên, nếu cậu muốn…" autocomplete="off"></label>
+            <label class="diary-field"><span>Vài dòng để nhớ</span><textarea id="diaryEditBody" maxlength="8000" rows="12" placeholder="Điều gì làm cậu muốn nhớ về chuyến đi này?"></textarea></label>
+            <span class="diary-text-count" id="diaryTextCount"></span>
+          </div>
+          <div id="diaryPhotoEditor">
+            <p class="diary-form-status" id="diaryUploadStatus" role="status"></p>
+            <div class="diary-photo-workspace">
+              <div class="diary-photo-preview crew-diary" id="diaryPhotoPreview" aria-label="Xem trước trang ảnh"></div>
+              <div class="diary-photo-inspector">
+                <p id="diaryPhotoHint" class="diary-photo-hint" role="status" aria-live="polite"></p>
+                <div id="diaryCropTools" hidden></div><div id="diaryPhotoFields"></div>
+                <label class="diary-upload-label"><span>Ảnh mang về · tối đa 9 tấm</span><input type="file" id="diaryFiles" accept="image/jpeg,image/png,image/webp" multiple><span>JPEG, PNG, WebP · tối đa 20 MB mỗi tệp.</span></label>
+              </div>
+            </div>
+            <div id="diaryRecoveredPhotos" class="diary-recovered"></div>
+          </div>
+        </div>
+        <p class="diary-form-status" id="diarySaveStatus" role="status"></p>
+        <div class="diary-conflict-tools" id="diaryConflict" hidden><button type="button" class="diary-secondary" id="diaryCopyWriting">Chép lời viết đang có</button><button type="button" class="diary-secondary" id="diaryKeepWritingClose">Giữ thay đổi & đóng</button><button type="button" class="diary-secondary" id="diaryReloadDraft">Tải bản mới, bỏ thay đổi ở đây</button></div>
         <div class="diary-editor-footer"><small id="diaryDraftStamp">Bản nháp riêng · tự lưu khi cậu viết</small><div><button type="button" class="diary-secondary" id="diarySaveDraft">Lưu bản nháp</button><button type="submit" class="diary-primary" id="diaryPublish">Lưu vào sổ ↗</button></div></div>
       </form>
     </dialog>
@@ -404,9 +420,14 @@
   $('diaryAuth').querySelector('[data-close-auth]').addEventListener('click', closeAuth);
   $('diaryAuth').addEventListener('cancel', event => { if (state.authBusy) event.preventDefault(); });
 
+  photoEditor = photoTools?.editor({
+    getDraft: () => state.draft, locked: () => state.uploading || state.publishing,
+    changed: editorChanged, renderFields: renderPhotoFields, hydrate, photoMarkup,
+    owner: () => current().name
+  });
   function editorSnapshot() {
     return { title: $('diaryEditTitle').value, body: $('diaryEditBody').value,
-      photos: state.draft?.photos.map(p => ({ ...p })) || [] };
+      photos: state.draft?.photos.map(p => ({ ...p, ...(p.crop ? { crop: { ...p.crop } } : {}) })) || [] };
   }
   function editorChanged() {
     if (!state.draft) return;
@@ -425,16 +446,18 @@
     </div></div>`).join('');
     const recovered = library.filter(p => !photos.some(attached => attached.id === p.id));
     $('diaryRecoveredPhotos').innerHTML = recovered.length ? '<p>Ảnh đã tải, chưa đặt vào bản nháp:</p>' + recovered.map((p, index) => `<div class="diary-recovered-item"><img data-private-photo="${escape(p.id)}" alt="Ảnh đã tải ${index + 1}" hidden><button type="button" class="diary-secondary" data-attach-photo="${escape(p.id)}">Đặt vào trang</button><button type="button" class="diary-secondary" data-delete-photo="${escape(p.id)}">Xóa ảnh chưa dùng</button></div>`).join('') : '';
+    photoEditor?.render();
     hydrate($('diaryPhotoEditor'));
   }
   function displayDraft(draft) {
+    photoEditor?.clear();
     state.draft = draft; state.dirty = false; state.conflict = false; state.change = 0;
     $('diaryEditTitle').value = draft.title; $('diaryEditBody').value = draft.body;
     $('diaryTextCount').textContent = [...draft.body].length + ' / 8.000 ký tự';
     $('diaryConflict').hidden = true; $('diaryPublish').disabled = false; renderPhotoFields();
     message('Bản nháp đã được lưu riêng.', false, $('diarySaveStatus'));
   }
-  async function openEditor() {
+  async function openEditor(tab = 'writing') {
     const owner = api.memberId();
     if (!owner || current().id !== owner || state.editorOpening || $('diaryEditor').open) return;
     state.editorOpening = true;
@@ -447,7 +470,8 @@
       $('diaryEditorTitle').textContent = 'Trang của ' + current().name;
       $('diaryRecovery').hidden = state.recovery?.memberId !== owner;
       $('diaryFiles').value = ''; message('', false, $('diaryUploadStatus')); message();
-      $('diaryEditor').showModal(); $('diaryEditTitle').focus({ preventScroll: true });
+      $('diaryEditor').showModal(); photoEditor?.tab(tab);
+      (tab === 'photos' ? $('diaryFiles') : $('diaryEditTitle')).focus({ preventScroll: true });
     } catch (error) {
       message(errorText(error), true);
       if (error.status === 401) await showAuth(owner, 'edit');
@@ -481,13 +505,14 @@
   async function closeEditor() {
     if (state.publishing) return;
     if (state.uploading) { message('Đợi ảnh tải xong rồi đóng bản nháp nhé.', false, $('diarySaveStatus')); return; }
-    try { await flushDraft(); $('diaryEditor').close(); state.draft = null; state.recovery = null; }
+    photoEditor?.finishCrop(true);
+    try { await flushDraft(); $('diaryEditor').close(); photoEditor?.clear(); state.draft = null; state.recovery = null; }
     catch (_) { /* Keep the form and unsynced words visible. */ }
   }
   $('diaryEditor').querySelector('[data-close-editor]').addEventListener('click', closeEditor);
-  $('diaryEditor').addEventListener('cancel', event => { event.preventDefault(); closeEditor(); });
+  $('diaryEditor').addEventListener('cancel', event => { event.preventDefault(); if (photoEditor?.cancelAction()) return; closeEditor(); });
   $('diaryEditTitle').addEventListener('input', editorChanged); $('diaryEditBody').addEventListener('input', editorChanged);
-  $('diarySaveDraft').addEventListener('click', () => flushDraft().catch(() => {}));
+  $('diarySaveDraft').addEventListener('click', () => { photoEditor?.finishCrop(true); flushDraft().catch(() => {}); });
   function lockEditor(locked) {
     state.publishing = locked;
     $('diaryEditor').querySelectorAll('input,textarea,button').forEach(control => { control.disabled = locked; });
@@ -495,6 +520,7 @@
   }
   $('diaryEditorForm').addEventListener('submit', async event => {
     event.preventDefault(); if (state.uploading || state.publishing || state.conflict || !state.draft) return;
+    photoEditor?.finishCrop(true);
     lockEditor(true);
     try {
       await flushDraft();
@@ -514,11 +540,12 @@
     catch (_) { $('diaryEditBody').focus(); $('diaryEditBody').select(); message('Đã chọn lời viết. Dùng thao tác sao chép của thiết bị nhé.', false, $('diarySaveStatus')); }
   });
   $('diaryKeepWritingClose').addEventListener('click', () => {
+    photoEditor?.finishCrop(true);
     clearTimeout(state.saveTimer);
     state.recovery = { ...editorSnapshot(), memberId: api.memberId() };
     state.editorEpoch++; state.dirty = false; state.draft = null;
     $('diaryEditor').close();
-    message('Lời viết chưa lưu đang được giữ trong thẻ này. Mở lại trang để khôi phục; đừng tải lại trang vội nhé.');
+    message('Thay đổi chưa lưu đang được giữ trong thẻ này. Mở lại trang để khôi phục; đừng tải lại trang vội nhé.');
   });
   $('diaryReloadDraft').addEventListener('click', async () => {
     try { displayDraft(await api.draft()); } catch (error) { message(errorText(error), true, $('diarySaveStatus')); }
@@ -526,15 +553,17 @@
   $('diaryRestoreWriting').addEventListener('click', () => {
     if (state.recovery?.memberId !== api.memberId()) return;
     $('diaryEditTitle').value = state.recovery.title; $('diaryEditBody').value = state.recovery.body;
-    state.recovery = null; $('diaryRecovery').hidden = true; editorChanged();
+    state.draft.photos = state.recovery.photos.map(p => ({ ...p, ...(p.crop ? { crop: { ...p.crop } } : {}) }));
+    state.recovery = null; $('diaryRecovery').hidden = true; renderPhotoFields(); editorChanged();
   });
   $('diaryPhotoEditor').addEventListener('input', event => {
     const id = event.target.dataset.caption || event.target.dataset.alt;
     const photo = state.draft?.photos.find(p => p.id === id);
-    if (photo) { photo[event.target.dataset.caption ? 'caption' : 'alt'] = event.target.value; editorChanged(); }
+    if (photo) { photo[event.target.dataset.caption ? 'caption' : 'alt'] = event.target.value; photoEditor?.updateCaption(photo); editorChanged(); }
   });
   $('diaryPhotoEditor').addEventListener('click', async event => {
     const button = event.target.closest('button'); if (!button || !state.draft || state.uploading || state.publishing) return;
+    if (photoEditor?.cropping()) return;
     const photos = state.draft.photos;
     if (button.dataset.movePhoto) {
       const index = photos.findIndex(p => p.id === button.dataset.movePhoto), other = index + Number(button.dataset.direction);
@@ -661,7 +690,7 @@
   $('diaryPages').addEventListener('click', event => {
     const button = event.target.closest('button'); if (!button || state.turning) return;
     if (button.dataset.edit) {
-      if (api.hasSession() && api.memberId() === current().id) openEditor();
+      if (api.hasSession() && api.memberId() === current().id) openEditor(button.dataset.edit);
     } else if (button.hasAttribute('data-full-writing')) showSheet('writing');
     else if (button.dataset.viewPhoto) showSheet('photo', button.dataset.viewPhoto);
   });
@@ -700,8 +729,10 @@
   });
   function clearPrivate(reason) {
     settleMotion(false); clearTimeout(state.saveTimer); state.readEpoch++; state.editorEpoch++;
+    if (reason === 'expired') photoEditor?.finishCrop(true);
     if (reason === 'expired' && state.draft && state.dirty) state.recovery = { ...editorSnapshot(), memberId: api.memberId() || current().id };
     else if (reason === 'logout') state.recovery = null;
+    photoEditor?.clear();
     state.entries = []; state.draft = null; state.dirty = false; state.open = false; state.photoId = null;
     $('diaryPages').replaceChildren(); $('diarySheetContent').replaceChildren();
     $('diaryEditTitle').value = ''; $('diaryEditBody').value = ''; $('diaryPhotoFields').replaceChildren(); $('diaryRecoveredPhotos').replaceChildren();

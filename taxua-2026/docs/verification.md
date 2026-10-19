@@ -21,6 +21,26 @@ The public trip also opens via `file://`, without a build, npm test suite or run
 
 ## Targeted browser checks
 
+Browser color regression checks: `node scripts/verify_browser_colors.cjs`
+compares the public sections, game input, atlas and standalone itinerary;
+`node scripts/verify_diary_dark_mode.cjs` compares login, reader, writing, photo
+arrangement and crop controls. Both use light/dark preference and CDP automatic
+darkening at 1440px and 390px, comparing actual screenshot pixels. They also
+check that system high contrast remains available. Evidence defaults to
+`/tmp/taxua-browser-colors/` and `/tmp/taxua-diary-dark-mode/`. Diary accounts and
+transport are local fixtures; these checks make no live backend writes and do
+not load extensions or test physical devices. The separate
+`verify_darkreader.cjs` tests Dark Reader 4.9.133's actual dynamic-theme API;
+see [its dependency and command](controls.md#browser-dark-mode).
+
+The [complete 19 October browser run](browser-verification-2026-10-19.md)
+passed **33 suites and 4,316 assertions in Chromium**, including the repaired
+shared-controls and cursor suites. It also records 11 passing local Deno tests,
+25 rolled-back SQL boundary checks, initial failures and successful reruns.
+WebKit launch failed because Linux libraries are missing; the live mutation
+harness requires a separate disposable backend and was not run against crew
+accounts. The linked record lists every suite, evidence directory and limit.
+
 Run from `taxua-2026/`: `node scripts/<script below>`. Helpers default to the existing Playwright package in `../hue-2026/node_modules/playwright` and require Chromium installed for it. Override with an **absolute** `PLAYWRIGHT_PATH=/path/to/node_modules/playwright` if needed.
 
 Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-2026/`. The illustrated, weather and journal-object helpers support `TRIP_PREVIEW_URL`; do not assume a global URL override. Journey/story/scenery/motion/reveals/countdown helpers accept `TRIP_REVIEW_DIR` as a complete output-directory override; weather uses `WEATHER_REVIEW_DIR`.
@@ -67,6 +87,30 @@ Helpers write screenshots/reports/videos into the worktree. Run sequentially whe
 - Scroll slowly down/up and pause halfway through a reveal. Test a fast fling, distant anchor click, interrupted travel and deep-link reload.
 - Open/close notes, cycle photos rapidly, use phone menu/Escape, keyboard focus and packing persistence. Fund click checks must intercept the destination rather than submit a payment.
 - Check reduced motion, missing GSAP, denied storage, direct-file viewing, print and the no-JavaScript reading copy when affected.
+
+## Photo arrangement and framing verification, 19 October 2026
+
+Fresh Chromium checks: **659** total: 151 photo-editor checks, 200 photo-reader
+checks, 80 diary/session/draft checks, 82 navigation checks, 101 motion checks
+and 45 layout/fallback checks. The editor checks cover all counts 0-9 at 1440,
+390 and 320px, mouse dragging, phone taps, keyboard movement, crop boundaries,
+provisional/canceled crops, exact reader/preview framing, publishing and recovery.
+Fixtures use public sample photos; no live crew accounts, credentials or media.
+
+Evidence is in `/tmp/taxua-diary-photo-editor/` and the existing suite-specific
+`/tmp/taxua-diary-*-review/` folders. Four scoped axe audits of arrangement and
+crop views on desktop/light and phone/dark found no violations; results are in
+`/tmp/taxua-photo-axe.json`. The existing fixed paper theme is preserved in both
+browser color schemes. Two Deno normalization tests and 18 rolled-back database
+framing checks passed, as did the seven existing photo-limit checks. The deployed
+gateway retains service-role-only execution and rejects a missing session.
+
+WebKit was attempted but could not start because its Linux system libraries
+are missing. No Safari/WebKit validation is claimed. Whole-page Lighthouse
+reported performance **42**, accessibility **97**, LCP 10.6s, TBT 1170ms and CLS
+0.006 (`/tmp/taxua-photo-lighthouse.json`). This public-page navigation audit does
+not measure the authenticated editor; its flagged accessibility elements are
+outside the diary. It does not establish the site's performance targets.
 
 ## Lightweight checks and reporting
 

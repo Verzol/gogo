@@ -20,7 +20,7 @@
 .diary-bookmarks { grid-area: 2 / 1 / auto / -1; }
 .diary-book { grid-area: 3 / 1 / auto / -1; }
 .diary-turn-hint { grid-area: 4 / 1 / auto / -1; justify-self: center; }
-.crew-diary button:not(.diary-cover):not(.diary-bookmark):not(.diary-photo-button):not(.diary-page-edge):not(.diary-tool) { background: transparent; border: 0; padding: 10px 4px; min-height: 44px; color: inherit; font: inherit; }
+.crew-diary button:not(.diary-cover):not(.diary-bookmark):not(.diary-photo-button):not(.diary-page-edge):not(.diary-tool):not(.diary-photo-grip) { background: transparent; border: 0; padding: 10px 4px; min-height: 44px; color: inherit; font: inherit; }
 .crew-diary .diary-tool { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #203e48; color: #fff0ce; cursor: var(--cursor-pointer,pointer); transition: background .2s, transform .2s; }
 .diary-tool svg { width: 21px; height: 21px; pointer-events: none; }
 .crew-diary .diary-tool:hover { background: #244332; transform: translateY(-1px); }
@@ -88,7 +88,7 @@
 .diary-crew-link:hover { text-decoration: underline; }
 
 /* Editors are native dialogs, outside all turning surfaces. */
-.diary-dialog { --control-ink: #264744; --control-surface: rgb(255 251 237 / .6); --control-border: #acb39a; --control-accent: #38665a; --control-selected: #38665a; --control-check: #fff6df; color-scheme: light; color: #264744; border: 1px solid #c7bba0; border-radius: 5px 12px 9px 4px; background: #e5d2b2 url('./figures/decor/painted/diary/soft_paper_right.webp') center / 100% 100%; width: min(640px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 34px; box-shadow: 0 26px 70px rgb(9 31 36 / .35); overflow: auto; overscroll-behavior: contain; font-size: .9rem; line-height: 1.7; }
+.diary-dialog { --control-ink: #264744; --control-surface: rgb(255 251 237 / .6); --control-border: #acb39a; --control-accent: #38665a; --control-selected: #38665a; --control-check: #fff6df; color-scheme: only light; color: #264744; border: 1px solid #c7bba0; border-radius: 5px 12px 9px 4px; background: #e5d2b2 url('./figures/decor/painted/diary/soft_paper_right.webp') center / 100% 100%; width: min(640px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 34px; box-shadow: 0 26px 70px rgb(9 31 36 / .35); overflow: auto; overscroll-behavior: contain; font-size: .9rem; line-height: 1.7; }
 .diary-dialog::backdrop { background: rgb(9 30 38 / .72); }
 .diary-dialog h3 { font: 2.4rem/1.12 'Patrick Hand', cursive; margin: 8px 0 16px; padding-right: 30px; }
 .diary-dialog h4 { font: 1.6rem/1.2 'Patrick Hand', cursive; margin: 24px 0 12px; }

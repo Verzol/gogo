@@ -32,7 +32,7 @@ body .game-field :is(input,textarea,select),body .atlas-visit-label select {
   caret-color: var(--control-accent);
   box-shadow: inset 0 -2px 0 rgb(255 218 157 / .06);
   font-family: inherit;
-  color-scheme: normal;
+  color-scheme: inherit;
 }
 body :is(input,textarea)::placeholder { color: var(--control-ink); opacity: .65; }
 body :is(input,textarea,select):focus-visible,.journal-select-trigger:focus-visible {

@@ -208,6 +208,7 @@ async function browserChecks(type, label) {
     check(label + ' saved draft is absent from book until publication', await p.locator('.diary-empty-writing').isVisible());
     await authenticate(p, 'san', true);
     check(label + ' editor restores server draft', await p.locator('#diaryEditBody').inputValue() === writing);
+    await p.locator('[data-editor-tab="photos"]').click();
     await p.locator('#diaryFiles').setInputFiles([path.join(root, 'figures/places/p13_1440.webp'), path.join(root, 'figures/places/p13_1440.webp')]);
     await p.waitForFunction(() => document.querySelectorAll('[data-photo-row]').length === 2 && !document.getElementById('diaryFiles').disabled);
     check(label + ' actual file input normalizes both uploads', m.uploads === 2 && m.drafts.san.photos.length === 2 && await p.evaluate(() => window.__diaryUploadChecks.length === 2 && window.__diaryUploadChecks.every(Boolean)));
