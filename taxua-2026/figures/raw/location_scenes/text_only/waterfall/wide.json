@@ -1,0 +1,25 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:24:22.818261+00:00",
+  "purpose": "Prompt-only illustrative location painting; no image references or documentary fidelity claim.",
+  "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nLandscape canvas, strictly 16:9 widescreen composition. Keep the upper 48 percent and upper left calm for dark journal text, with soft pale atmosphere; strongest landmarks and detailed foreground in the lower central-right. All critical silhouettes fit inside the middle 70 percent of width and y=0.50..0.94, so cropping to 16:10 or 4:3 keeps them intact. Extend coherent scenery to both edges.\nThác Chua Tỳ: an intimate spectacular forest cascade in northern Vietnam, cool luminous jade water falling in a narrow white ribbon down dark mossy rock terraces into a clear turquoise plunge pool. Lush broadleaf subtropical forest with hanging vines, ferns, glossy leaves, roots and wet angular stones; shafts of gentle sunlight and cool luminous mist. The actual cascade is in a slender diagonal corridor from x=0.66 y=0.56 to x=0.62 y=0.83; pool center (0.62,0.88). Keep the waterfall bright and detailed, flowing over believable dark stone ledges; no huge fantasy Niagara wall. Upper half airy distant forest canopy and blue-green atmosphere with low contrast, not a dark impenetrable wall. Gold-lit ferns and leaf detail frame only the lower edges.",
+  "promptPath": "docs/prompts/location_scenes/text_only_waterfall_wide.txt",
+  "promptSha256": "b8de26e2f5acf855875746390f341e556bc8831b8c9467ff75bad9c0f9f4f36d",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nLandscape canvas, strictly 16:9 widescreen composition. Keep the upper 48 percent and upper left calm for dark journal text, with soft pale atmosphere; strongest landmarks and detailed foreground in the lower central-right. All critical silhouettes fit inside the middle 70 percent of width and y=0.50..0.94, so cropping to 16:10 or 4:3 keeps them intact. Extend coherent scenery to both edges.\nThác Chua Tỳ: an intimate spectacular forest cascade in northern Vietnam, cool luminous jade water falling in a narrow white ribbon down dark mossy rock terraces into a clear turquoise plunge pool. Lush broadleaf subtropical forest with hanging vines, ferns, glossy leaves, roots and wet angular stones; shafts of gentle sunlight and cool luminous mist. The actual cascade is in a slender diagonal corridor from x=0.66 y=0.56 to x=0.62 y=0.83; pool center (0.62,0.88). Keep the waterfall bright and detailed, flowing over believable dark stone ledges; no huge fantasy Niagara wall. Upper half airy distant forest canopy and blue-green atmosphere with low contrast, not a dark impenetrable wall. Gold-lit ferns and leaf detail frame only the lower edges.",
+    "size": "2560x1440",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/text_only/waterfall/wide.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "mode": "RGB",
+  "sha256": "1329a707ebf24506f25c08c9a8018f86c9e2daa6084c15c7a26b9beb8add5219",
+  "bytes": 3705097
+}

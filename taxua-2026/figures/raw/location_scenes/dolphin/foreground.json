@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:56:32.420806+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. A low clump of fine wild grasses, pale tiny flowers and ochre scrub at the bottom right edge, backlit by peach dusk. No rocks or large rigid objects. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+  "promptPath": "docs/prompts/location_scenes/dolphin_foreground.txt",
+  "promptSha256": "e6efa5458da926e1226d1ad590a081f98ed69845375a4f261ae507c736234eda",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/dolphin/wide.png",
+      "sha256": "227d82d60eddfeee618aaaf22d7e702efdfdfd3d8066cf3b6f2821440fe025df"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. A low clump of fine wild grasses, pale tiny flowers and ochre scrub at the bottom right edge, backlit by peach dusk. No rocks or large rigid objects. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/dolphin/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "86b2cfb5b7394d132a5f8642205e939ebe88f445bf260652ef54ebb568c5112e",
+  "bytes": 1658185
+}

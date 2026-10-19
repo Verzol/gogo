@@ -12,6 +12,8 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Illustrated worlds, chapter mapping, cutouts and scenery preparation | [Scenery](scenery.md) |
 | Scroll reveals, background dissolves, navigation, gestures and spacing | [Motion](motion.md) |
 | Tappable pig, draggable coins, sun/moon, clouds and coffee steam | [Playful painted objects](playful.md) |
+| Six location stickers and immersive opening landscapes | [Location scenes](location-scenes.md) · [Artwork gallery](location-scenes-gallery.md) · [Design brief](location-scenes-plan.md) |
+| Retired postcard/cloud concepts and retained Sunburst mockups | [Historical concept gallery](ui-concepts.md) |
 | Click-to-flip story photographs | [Journal objects](journal-objects.md) |
 | Trail index, photo previews, packing cutouts and quiet terrain | [Illustrated journal controls](ui-artwork.md) |
 | Embedded atlas, place previews, day exploration and geographic coverage | [Maps](maps.md) · [Design plan](map-plan.md) · [Fullscreen plan](map-fullscreen-plan.md) |
@@ -25,7 +27,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Logo, fonts, stickers, icon sprite and licenses | [Identity](identity.md) |
 | Photo selection, conversion, captions, credits and rights | [Photo assets](assets.md) |
 | Drive, Sheets, Docs, Slides, local snapshots and refresh workflow | [Sources](sources.md) |
-| Preview, browser checks and evidence limits | [Verification](verification.md) · [Complete 19 October run](browser-verification-2026-10-19.md) |
+| Preview, browser checks and evidence limits | [Verification](verification.md) · [Complete 19 October run](browser-verification-2026-10-19.md) · [Loading audit](loading-review-2026-10-19.md) |
 | Cloud opening, ambient motion and live trip-day weather | [Sky and weather](weather.md) · [Design plan](sky-weather-plan.md) |
 | Mobile cloud density, navigation, readability and responsive improvements | [Audit and plan](mobile-ui-plan.md) · [Implementation review](mobile-ui-review.md) |
 | Separate interactive concepts: passport, film, cloud notebook, zine and nine more | [13-demo gallery and guide](demos.md) |
@@ -61,6 +63,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, frontend CDN librar
 - `diary.js` / `diary.css` = optional private book/reader/editor; `diary-photo-tools.js` / `diary-photo-tools.css` own the photo preview, swaps and non-destructive framing; `diary-motion.js` / `diary-motion.css` own decorative geometry/materials and `diary-materials.css` contains generated frame coordinates; `diary-api.js` handles authenticated requests and `diary-config.js` contains its public endpoint.
 - `main.js` = rendering, useful controls and native scenery fallback; `scene-config.js` = period/chapter presets.
 - `weather.js` / `weather.css` = optional Open-Meteo forecast and hero sky effects.
+- `location-data.js` / `location-scenes.js` / `location-scenes.css` = optional six-place opening explorer and generated scenic compositions.
 - `map-data.js` / `trip-map.js` / `trip-map.css` = geographic registry and optional embedded atlas/previews; local Leaflet is prepared near map entries and executes on demand.
 - `scenery.js` / `scenery.css` = painted stage; `motion.js` = optional GSAP enhancement.
 - `playful.js` / `playful.css` = optional painted-object reactions, bounded drags and accessible scenery controls.

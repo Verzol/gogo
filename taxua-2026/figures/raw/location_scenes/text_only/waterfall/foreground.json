@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:25:02.807051+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. A small loose corner spray of finely painted fern fronds and glossy tiny forest leaves, rooted outside the bottom right, in deep jade, moss green, warm glints. No rocks, pool, cascade or scenery.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+  "promptPath": "docs/prompts/location_scenes/text_only_waterfall_foreground.txt",
+  "promptSha256": "7b16a7eec43da83fd035eedae3dc06769da989b2ab156c61ba8085132ab4ae1c",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. A small loose corner spray of finely painted fern fronds and glossy tiny forest leaves, rooted outside the bottom right, in deep jade, moss green, warm glints. No rocks, pool, cascade or scenery.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/waterfall/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "a5c832b45883dfed3e14d3f5302317506897cf79cc39d73648ccc2057708011d",
+  "bytes": 1810512
+}

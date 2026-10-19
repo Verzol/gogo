@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:44:34.155138+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Paint a standalone isolated foreground cutout matching this exact landscape: a small graceful clump of fine golden wild grasses and tiny meadow flowers growing along a rocky path edge, viewed at the same perspective, warm golden sunlight from upper left. Rich delicate watercolor/gouache, realistic fine stems, ochre green, tiny cream flowers. Composition extends from the lower right corner, grasses bend leftward and upward; occupy only the lower right 50 percent, leaving upper half and left completely transparent. True transparent RGBA background, no sky, no mountains, no rectangular paper, no shadow or checkerboard, no text. One coherent natural cluster, not a sticker sheet.",
+  "promptPath": "docs/prompts/location_scenes/ridge_foreground.txt",
+  "promptSha256": "91fc3de0ab1b08454f43c15d83b62a150409e1b10c6da5e13c2ee909e0b324d7",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/ridge/candidate_b.png",
+      "sha256": "a2b6be85a1442f379d504ec734201e15ee542302323ba4de69f0301d446764fa"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Paint a standalone isolated foreground cutout matching this exact landscape: a small graceful clump of fine golden wild grasses and tiny meadow flowers growing along a rocky path edge, viewed at the same perspective, warm golden sunlight from upper left. Rich delicate watercolor/gouache, realistic fine stems, ochre green, tiny cream flowers. Composition extends from the lower right corner, grasses bend leftward and upward; occupy only the lower right 50 percent, leaving upper half and left completely transparent. True transparent RGBA background, no sky, no mountains, no rectangular paper, no shadow or checkerboard, no text. One coherent natural cluster, not a sticker sheet.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/ridge/foreground.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "mode": "RGBA",
+  "sha256": "675bd5ffbd61ca7a88e583490290b328d7f64ac992cf28d91b322fc3cf985581",
+  "bytes": 1920024
+}

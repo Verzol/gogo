@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:57:19.710048+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. Two airy narrow clumps of long meadow grasses and tiny white daisies, springing from bottom right, graceful fine golden green blades bending left in the breeze. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+  "promptPath": "docs/prompts/location_scenes/meadow_foreground.txt",
+  "promptSha256": "d1e42aab6d830c588e78c4abda6e4bf991b18befbae0c224b502933c29ffb9ea",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/meadow/wide.png",
+      "sha256": "bdcf2980bdb7a5b0ed056d10a4f88c2dd6f2b9520be2dab261200f25475b2bd2"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. Two airy narrow clumps of long meadow grasses and tiny white daisies, springing from bottom right, graceful fine golden green blades bending left in the breeze. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/meadow/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "21dc07c8423815f1b69d760600d8a61ed16166923e7791c1bf418dcbd92b3366",
+  "bytes": 1964404
+}

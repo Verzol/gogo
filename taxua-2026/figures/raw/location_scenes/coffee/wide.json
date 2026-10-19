@@ -1,0 +1,38 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:54:02.093144+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Create an astonishing cinematic detailed watercolor and gouache landscape illustration for a Vietnamese travel journal website. FIRST reference is real location geometry, LAST reference is approved painted style: match its rich natural pigments, sophisticated atmospheric depth, soft paper grain and hand-painted brush details. Thao Coffee in Ta Xua, referenced actual timber cafe details. Intimate view under the warm wooden roof edge framing top RIGHT, actual timber structure on right edge, a small warm ceramic coffee cup on wooden table in lower RIGHT, extraordinary layered jade mountains and cloud sea opening beyond. Soft morning light. No invented signature terrace, no lettering, no signs. Upper left and center are open pale misty sky; roof only at right edge. Beautiful intimate warm foreground contrasting cool vast distance. Wide 3:2 landscape, all image pixels are the artwork, NO website UI, text, borders, collage, logos or typography. Compose generous QUIET PALE luminous atmospheric reading space throughout upper 48 percent and left 40 percent, with real scenery still present; focal landscape occupies lower right. Do not paste white overlay. Highly crafted illustrated environment, not photograph, not cartoon clipart. Stunning believable scale and light.",
+  "promptPath": "docs/prompts/location_scenes/coffee_wide.txt",
+  "promptSha256": "3dd52b297ba7f42d26977a29acfdf0d0f2a1982cad8cacfa9ae876fdeff6c043",
+  "references": [
+    {
+      "path": "figures/places/p08_960.webp",
+      "sha256": "371b6e7489c18a31dd7d751797d304d99fca3497c9c54ce956eeae6927236c8c"
+    },
+    {
+      "path": "figures/places/p08b_960.webp",
+      "sha256": "becf444b731cd94a0e4ff577772dcb99cecb1632ce61411b82975a7abd3e8756"
+    },
+    {
+      "path": "figures/raw/location_scenes/ridge/candidate_b.png",
+      "sha256": "a2b6be85a1442f379d504ec734201e15ee542302323ba4de69f0301d446764fa"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create an astonishing cinematic detailed watercolor and gouache landscape illustration for a Vietnamese travel journal website. FIRST reference is real location geometry, LAST reference is approved painted style: match its rich natural pigments, sophisticated atmospheric depth, soft paper grain and hand-painted brush details. Thao Coffee in Ta Xua, referenced actual timber cafe details. Intimate view under the warm wooden roof edge framing top RIGHT, actual timber structure on right edge, a small warm ceramic coffee cup on wooden table in lower RIGHT, extraordinary layered jade mountains and cloud sea opening beyond. Soft morning light. No invented signature terrace, no lettering, no signs. Upper left and center are open pale misty sky; roof only at right edge. Beautiful intimate warm foreground contrasting cool vast distance. Wide 3:2 landscape, all image pixels are the artwork, NO website UI, text, borders, collage, logos or typography. Compose generous QUIET PALE luminous atmospheric reading space throughout upper 48 percent and left 40 percent, with real scenery still present; focal landscape occupies lower right. Do not paste white overlay. Highly crafted illustrated environment, not photograph, not cartoon clipart. Stunning believable scale and light.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/coffee/wide.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "sha256": "7eaf210c8d1535df4447611b521f3e8c8bdc0a6924b20240ee08d1eb4ad20dd4",
+  "bytes": 3136201
+}

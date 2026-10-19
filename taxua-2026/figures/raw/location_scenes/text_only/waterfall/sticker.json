@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:25:12.429179+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. A slender white cascade over dark mossy ledges into a tiny turquoise pool framed by two delicate fern fronds.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+  "promptPath": "docs/prompts/location_scenes/text_only_waterfall_sticker.txt",
+  "promptSha256": "d27fcb183a976d197998a806efbcc7dc5028db879cfefc4e9fa7189a5fbb21f7",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. A slender white cascade over dark mossy ledges into a tiny turquoise pool framed by two delicate fern fronds.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/waterfall/sticker.png",
+  "dimensions": [
+    1312,
+    1199
+  ],
+  "mode": "RGBA",
+  "sha256": "973860bc31b87e9e01b2e0c95b7842b1be7e58b0c09005036c505e8a71f7d04d",
+  "bytes": 3200986
+}

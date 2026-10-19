@@ -1,0 +1,33 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:22:17.485033+00:00",
+  "purpose": "Review-only UI concept; generated interpretation, not a runtime screenshot or documentary photo",
+  "promptPath": "docs/prompts/ui_concepts/03_cham_ho_rung_cay.txt",
+  "promptSha256": "74c43d791f83e28ef4783ee907558753f75a72d30e6450b5476b4c018fc2caa8",
+  "prompt": "Create one evocative high-fidelity UI concept for tiny playful scenery interactions on the existing Tà Xùa × gogo Vietnamese mountain-trip journal. Use the supplied actual website screenshots as the reference for jade teal watercolor mountains, peach sun, ivory handwritten lettering, rich painted texture and transparent content. The focus is “Chạm hồ, rung cây”: at the lower right edge of the page, a small teal lake reacts to a tap with three luminous but delicate hand-painted elliptical ripples, and the small solitary leafy tree beside it leans gently in a breeze with two tiny painted leaves drifting away. These are peripheral discoveries beside the reading column, not a replacement for the website's whole landscape. For the purpose of this mockup, make the edge scenery slightly larger so the gesture is easy to see, but keep the center reading space quiet and open. Retain the pig/fund story on the left using the supplied screenshot's scarf-wearing pig and the exact contribution “2.400.000 ₫”. Add one small handwritten marginal note near the lake “Chạm hồ một chút” and near the tree “Gọi một làn gió”, with tiny dotted gesture cues. Preserve the existing floating navigation and visual hierarchy. Show a single beautiful website viewport with a clear sense of tactile feedback in still image form. No large overlay, modal, game score, reward system, photographic background, new theme switch or invented logo. It should feel like discovering two living details in an illustrated travel journal. Landscape 3:2, painterly yet crisp, delightful and restrained.",
+  "references": [
+    {
+      "path": "figures/raw/ui_concepts/references/site_hero.png",
+      "sha256": "e606993a4b1a9c2fccb157d4ea1c919b4b28573c76a052bb9175c5faa053a614"
+    },
+    {
+      "path": "figures/raw/ui_concepts/references/lake_tree.png",
+      "sha256": "52b3ef33831ba5fb64b0574437f0a17a49fe159a1458cf44e5770be939c10c89"
+    }
+  ],
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create one evocative high-fidelity UI concept for tiny playful scenery interactions on the existing Tà Xùa × gogo Vietnamese mountain-trip journal. Use the supplied actual website screenshots as the reference for jade teal watercolor mountains, peach sun, ivory handwritten lettering, rich painted texture and transparent content. The focus is “Chạm hồ, rung cây”: at the lower right edge of the page, a small teal lake reacts to a tap with three luminous but delicate hand-painted elliptical ripples, and the small solitary leafy tree beside it leans gently in a breeze with two tiny painted leaves drifting away. These are peripheral discoveries beside the reading column, not a replacement for the website's whole landscape. For the purpose of this mockup, make the edge scenery slightly larger so the gesture is easy to see, but keep the center reading space quiet and open. Retain the pig/fund story on the left using the supplied screenshot's scarf-wearing pig and the exact contribution “2.400.000 ₫”. Add one small handwritten marginal note near the lake “Chạm hồ một chút” and near the tree “Gọi một làn gió”, with tiny dotted gesture cues. Preserve the existing floating navigation and visual hierarchy. Show a single beautiful website viewport with a clear sense of tactile feedback in still image form. No large overlay, modal, game score, reward system, photographic background, new theme switch or invented logo. It should feel like discovering two living details in an illustrated travel journal. Landscape 3:2, painterly yet crisp, delightful and restrained.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "referenceEncoding": "JPEG quality 88, contained within 1440x1000, no upscaling",
+  "output": "figures/raw/ui_concepts/03_cham_ho_rung_cay.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "sha256": "962d8143542d60c152d067e7616009b19797533f7bb2e030dd080bf5acbccd62",
+  "bytes": 2964738
+}

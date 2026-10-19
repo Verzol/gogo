@@ -30,8 +30,8 @@ async function jump(p,id) {
         check(name+' has comfortable menu and motion targets',await p.locator('#navToggle,#weatherMotion').evaluateAll(es=>es.every(e=>e.offsetWidth>=44&&e.offsetHeight>=44)));
         check(name+' hides itinerary dates on the opening',await p.locator('.chapter-nav').evaluate(e=>e.inert&&getComputedStyle(e).visibility==='hidden'));
         if(width===390) {
-          check('phone shows all forecasts in its first screen',await p.locator('.weather-days').evaluate(e=>e.getBoundingClientRect().bottom<innerHeight));
-          check('phone brings the countdown into the first screen',await p.locator('#arrivalCountdown').evaluate(e=>e.getBoundingClientRect().top<780));
+          check('phone shows all six location stickers in its first screen',await p.locator('.location-stickers').evaluate(e=>e.querySelectorAll('button').length===6&&e.getBoundingClientRect().bottom<innerHeight));
+          check('phone places the explorer before forecasts and countdown',await p.evaluate(()=>locationExplorer.getBoundingClientRect().bottom<=tripWeather.getBoundingClientRect().top&&tripWeather.getBoundingClientRect().bottom<=arrivalCountdown.getBoundingClientRect().top));
           report.measurements.push(await p.evaluate(()=>({width:innerWidth,heroHeight:document.getElementById('top').offsetHeight,weatherTop:tripWeather.offsetTop,countdownTop:arrivalCountdown.getBoundingClientRect().top})));
         }
         for(const second of [0,15,30,60,120]) {
@@ -39,7 +39,7 @@ async function jump(p,id) {
           await shot(p,name+'-sky-'+second);
         }
         await p.locator('#openingWorld').evaluate(el=>el.querySelectorAll('.opening-cloud img').forEach(img=>img.getAnimations().forEach(a=>a.play())));
-        await p.locator('.weather-day').first().tap();await p.waitForTimeout(800);
+        await p.locator('.weather-day').first().tap();await p.waitForFunction(()=>weatherParticles.dataset.weather==='rain'&&weatherParticles.dataset.rain==='drizzle'&&getComputedStyle(document.querySelector('.weather-rain')).opacity==='1');
         check(name+' displays drizzle on touch selection',await p.evaluate(()=>weatherParticles.dataset.weather==='rain'&&weatherParticles.dataset.rain==='drizzle'&&getComputedStyle(document.querySelector('.weather-rain')).opacity==='1'));
         const calm=await p.locator('.opening-cloud--left img').first().evaluate(e=>e.getAnimations()[0].playbackRate);
         const clock=await p.locator('#arrivalCountdown').evaluate(e=>e.getBoundingClientRect().top);

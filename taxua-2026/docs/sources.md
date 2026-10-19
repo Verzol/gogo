@@ -211,3 +211,24 @@ and photo prints; it is neither a functioning interface nor a trip photograph.
 
 - [MDN color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme): `only light` prevents automatic darkening while preserving independently configured system forced colors.
 - [Dark Reader 4.9.133](https://www.npmjs.com/package/darkreader/v/4.9.133): verified from the published `darkreader.js` dynamic-theme implementation, which recognizes `meta[name="darkreader-lock"]`. The pinned package is a temporary verification dependency, not a website runtime asset. The [controls guide](controls.md#browser-dark-mode) records the browser test command and limits.
+
+
+## Playful UI concept references
+
+The [three concept mockups](ui-concepts.md) preserve the earlier proposal's research rationale. These are design references, not evidence of implemented accessibility conformance.
+
+- [NN/g: Microinteractions](https://www.nngroup.com/articles/microinteractions/) — brief, contextual feedback attached to an action.
+- [Google Creative Lab: Paper Planes](https://experiments.withgoogle.com/paper-planes) — familiar paper actions and a personal keepsake metaphor.
+- [W3C: Dragging Movements](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html) — provide a single-pointer alternative to dragging, alongside keyboard access.
+- [W3C: Animation from Interactions](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html) — allow nonessential interaction animation to be disabled.
+
+
+## Location scene planning references
+
+Reviewed 19 October 2026 for the [location-scene plan](location-scenes-plan.md). The existing [place research](research/places.md) and preserved photo catalog supply the geographic reference points; this planning turn did not reverify venue architecture or acquire new photography.
+
+- [W3C: Content on Hover or Focus](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html): keep revealed information dismissible, hoverable and persistent while being used.
+- [W3C: Animation from Interactions](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html): support motion preferences and disabling nonessential effects, including parallax.
+- [MDN: Lazy loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading): defer noncritical resources and load them as needed, rather than making every location part of the opening transfer.
+
+The later [prompt-only artwork refresh](location-scenes.md#preserved-artwork-and-reproducibility) replaces all selected non-ridge paintings, foregrounds, stickers and effects. Its [24 generation jobs](prompts/location_scenes/text_only_jobs.json) have empty reference lists; no photo or generated image was submitted. Earlier reference-based masters remain archived. Sống Lưng retains its original approved artwork and provenance.

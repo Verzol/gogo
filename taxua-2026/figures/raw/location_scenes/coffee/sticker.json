@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T12:00:57.900735+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Create a beautiful small die-cut watercolor travel sticker, a miniature of this specific coffee location landscape. Preserve the characteristic silhouette and evocative light from the reference. Rich handcrafted detailed gouache/watercolor pigment, condensed into a clear bold miniature scene, graceful irregular natural silhouette with a thin warm ivory paper die-cut edge. Center the scene with generous transparent margin. No circular badge, no rectangular frame, no text, no logo, no UI. Genuine RGBA transparent outside sticker. Must read beautifully at 90 pixels.",
+  "promptPath": "docs/prompts/location_scenes/coffee_sticker.txt",
+  "promptSha256": "b13b9a11aec5697d7c4bdbfc22e59dc4c885f6b9c5bd562365554b2668f1a8b2",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/coffee/wide.png",
+      "sha256": "7eaf210c8d1535df4447611b521f3e8c8bdc0a6924b20240ee08d1eb4ad20dd4"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a beautiful small die-cut watercolor travel sticker, a miniature of this specific coffee location landscape. Preserve the characteristic silhouette and evocative light from the reference. Rich handcrafted detailed gouache/watercolor pigment, condensed into a clear bold miniature scene, graceful irregular natural silhouette with a thin warm ivory paper die-cut edge. Center the scene with generous transparent margin. No circular badge, no rectangular frame, no text, no logo, no UI. Genuine RGBA transparent outside sticker. Must read beautifully at 90 pixels.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/coffee/sticker.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "f81ba96590847f805c8f59ec47ff51386db3c36764196b9f56b6a6a52c8ba2bd",
+  "bytes": 2802745
+}

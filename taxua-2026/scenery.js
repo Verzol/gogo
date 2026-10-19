@@ -10,7 +10,6 @@ const JourneyScenery = (() => {
     jade:{terrain:'',near:'meadow_left',sun:true,cloud:true,detail:'solitary_tree',lake:true},
     afternoon:{terrain:'',near:'meadow_right',sun:true,rays:false,cloud:true,detail:'hillside_hut'}
   };
-  const loads = new Map();
   const panelLoads = new Map();
   const panels = new Map();
   let opening;
@@ -53,8 +52,8 @@ const JourneyScenery = (() => {
         <div class="opening-depth"><div class="painted-terrain${id === 'sunrise' ? '' : ' painted-terrain--quiet'}">
           <div class="ridge-band ridge-far">${cutout('ridge_far' + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>
           ${p.cloud ? cutout('cloud_valley_ribbon','valley-cloud') : ''}
-          <div class="ridge-band ridge-mid">${cutout('ridge_mid' + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>
-          <div class="ridge-band ridge-near">${cutout(p.near + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>
+          ${id === 'sunrise' ? `<div class="ridge-band ridge-mid">${cutout('ridge_mid' + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>
+          <div class="ridge-band ridge-near">${cutout(p.near + p.terrain,'ridge-image')}<div class="ridge-fill"></div></div>` : ''}
           ${id === 'sunrise' ? '' : `<picture class="quiet-terrain"><source media="(max-width:767px)" data-srcset="${folder}ui_quiet_terrain_portrait${p.terrain}.webp">${cutout('ui_quiet_terrain_wide' + p.terrain,'quiet-terrain-image')}</picture>`}
           ${p.lake ? cutout('lake','valley-lake') : ''}
           ${p.detail ? cutout(p.detail,'landscape-detail detail-' + p.detail) : ''}
@@ -127,7 +126,7 @@ const JourneyScenery = (() => {
   function syncCloudFlow() {
     const paused = reduced.matches || document.hidden || document.documentElement.dataset.motionPaused === 'true';
     cloudMotions.forEach(({animation,panel},image) => {
-      const active = !paused && image.dataset.playHeld !== 'true' && (panel ? panel.dataset.ambient === 'true' : !opening.hidden);
+      const active = !paused && image.dataset.playHeld !== 'true' && (panel ? panel.dataset.ambient === 'true' : !opening.hidden && opening.dataset.locationPreview !== 'true');
       const rate = panel ? 1 : compactSky.matches ? Math.min(2.4,windRate) : windRate;
       if (animation.playbackRate !== rate) animation.updatePlaybackRate(rate);
       if (active && animation.playState !== 'running') animation.play();
@@ -184,7 +183,7 @@ const JourneyScenery = (() => {
     stage.appendChild(opening);
     const measure = () => {
       const hero = document.getElementById('top');
-      const essential = [...hero.querySelectorAll('.hero-copy,.hero-summary')].map(el => el.getBoundingClientRect().bottom + scrollY);
+      const essential = [...hero.querySelectorAll('.hero-copy,.hero-summary,.location-explorer')].map(el => el.getBoundingClientRect().bottom + scrollY);
       const first = document.querySelector('.event');
       const bottom = Math.max(1,...essential);
       bounds.clear = bottom - innerHeight * .1;
@@ -261,17 +260,12 @@ const JourneyScenery = (() => {
     panel.querySelectorAll('source[data-srcset]').forEach(source => { source.srcset = source.dataset.srcset; });
     const decoded = Promise.all([...panel.querySelectorAll('img')].map(img => {
       const src = img.dataset.src;
-      // Each instance still needs its own decoded pixels before it can paint.
-      if (!loads.has(src)) {
-        const resource = new Image();
-        resource.src = src;
-        loads.set(src,resource.decode().then(() => true,() => false));
-      }
-      return loads.get(src).then(ok => {
-        if (!ok) { img.hidden = true; return; }
-        if (!img.getAttribute('src')) img.src = src;
-        return img.decode().catch(() => { img.hidden = true; });
-      });
+      // Decode the actual element once. A separate Image fetched the wide
+      // fallback even when <picture> selected portrait art, then decoded twice.
+      // The browser shares identical URLs across instances; panelLoads dedupes
+      // simultaneous callers while preserving each element's paint readiness.
+      if (!img.getAttribute('src')) img.src = src;
+      return img.decode().catch(() => { img.hidden = true; });
     })).then(() => {
       // The vector sky always works, even if an optional cutout fails to load.
       panel.dataset.ready = 'true';
@@ -294,5 +288,5 @@ const JourneyScenery = (() => {
     else delete image.dataset.playHeld;
     syncCloudFlow();
   }
-  return {init,load,drift,previewWeather,holdCloud,openingBounds:() => bounds,heroActive:() => scrollY < bounds.clear,isReady:id => !!panels.get(id)?.dataset.ready};
+  return {init,load,drift,previewWeather,holdCloud,setLocationPreview(value) { if (opening) opening.dataset.locationPreview = String(value);syncCloudFlow(); },openingBounds:() => bounds,heroActive:() => scrollY < bounds.clear,isReady:id => !!panels.get(id)?.dataset.ready};
 })();

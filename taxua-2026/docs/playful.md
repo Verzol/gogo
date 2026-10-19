@@ -60,3 +60,8 @@ The repeated-feeding follow-up on **17 October 2026** passed **103 playful-objec
 The minted-coin follow-up on **17 October 2026** passed **103 playful-object checks**, with zero uncaught browser errors. Evidence: `/tmp/taxua-goldcoin-review/checks.json`. Reviewed the generated master, optimized coin and desktop/phone feeding screenshots. The new 128px coin is 9,428 bytes; the three current runtime derivatives total 166,096 bytes. Both pig derivatives remain byte-identical. The updated preparation helper reproduces all derivatives and the manifest byte for byte; source/output hashes, transparency, dimensions, Python syntax, whitespace and 96 local documentation links passed verification.
 
 The randomized-feeding follow-up on **17 October 2026** passed **127 playful-object checks**, with zero uncaught browser errors. Evidence: `/tmp/taxua-varied-feeding-review/checks.json`. On desktop, 390px phone and 320px narrow phone, deterministic random fixtures cover all four toss styles, both spin directions, distinct timings, shared slot entry, all five actual reaction poses, independent landings and no consecutive reaction repeats. The existing real pointer/keyboard/touch, dragging, interruption, pause/reduced-motion, print and optional-resource checks also pass. Reviewed all three burst screenshots and the five reaction poses under `/tmp/taxua-varied-feeding-review/reactions/`; no new artwork was needed.
+
+
+## Location explorer integration
+
+While `data-location-scene` is set, original opening scenery hotspots are hidden and their tracking loop stops. The location explorer owns its own scene effects. Existing fund play and story objects remain independent. See [Location scenes](location-scenes.md).

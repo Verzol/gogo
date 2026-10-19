@@ -1,0 +1,30 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:58:32.220590+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Recompose this exact gorgeous painted coffee landscape as a dedicated vertical portrait phone background, 2:3. Preserve recognizable actual location, palette and same sophisticated detailed watercolor/gouache art. Upper 62 percent quiet pale luminous atmospheric sky or mist, subtly textured for dark website reading text. Lower 38 percent holds the location landmark in the lower right and richly painted scenery. Create new vertical composition, not a center crop. For coffee keep the actual warm cup at bottom right and timber cafe at extreme right, no lettering. For waterfall retain the specific sloping cascade and forest, open pale mist above. No text, UI, borders, logos or people. Fill every pixel with coherent landscape.",
+  "promptPath": "docs/prompts/location_scenes/coffee_portrait.txt",
+  "promptSha256": "1b80aa42e674ee1a389ab22f468c06dbca5a0bc026ca6d783c1fc38613f051c6",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/coffee/wide.png",
+      "sha256": "7eaf210c8d1535df4447611b521f3e8c8bdc0a6924b20240ee08d1eb4ad20dd4"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Recompose this exact gorgeous painted coffee landscape as a dedicated vertical portrait phone background, 2:3. Preserve recognizable actual location, palette and same sophisticated detailed watercolor/gouache art. Upper 62 percent quiet pale luminous atmospheric sky or mist, subtly textured for dark website reading text. Lower 38 percent holds the location landmark in the lower right and richly painted scenery. Create new vertical composition, not a center crop. For coffee keep the actual warm cup at bottom right and timber cafe at extreme right, no lettering. For waterfall retain the specific sloping cascade and forest, open pale mist above. No text, UI, borders, logos or people. Fill every pixel with coherent landscape.",
+    "size": "1024x1536",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/coffee/portrait.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "mode": "RGB",
+  "sha256": "b7350e62d4e84190addb7fed64e0c869f816e69691390988824c0bf44c3be7dc",
+  "bytes": 3031680
+}

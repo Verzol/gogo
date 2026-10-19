@@ -1,0 +1,34 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:53:17.156633+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Create an astonishing cinematic detailed watercolor and gouache landscape illustration for a Vietnamese travel journal website. FIRST reference is real location geometry, LAST reference is approved painted style: match its rich natural pigments, sophisticated atmospheric depth, soft paper grain and hand-painted brush details. Cay Co Don beside the turquoise Suoi Sap reservoir in Ta Xua. Preserve the reference reservoir topography and tree species. Compose a sculptural lone tree on the RIGHT edge, rooted on a warm ochre hillside above a winding turquoise reservoir between folded jade valley walls. Late morning, luminous mint water, deep rich foliage, wispy sky. Make the lake winding and vast, distinct from a round pond. Wide 3:2 landscape, all image pixels are the artwork, NO website UI, text, borders, collage, logos or typography. Compose generous QUIET PALE luminous atmospheric reading space throughout upper 48 percent and left 40 percent, with real scenery still present; focal landscape occupies lower right. Do not paste white overlay. Highly crafted illustrated environment, not photograph, not cartoon clipart. Stunning believable scale and light.",
+  "promptPath": "docs/prompts/location_scenes/tree_wide.txt",
+  "promptSha256": "468afb1095b7a5c18aef32a6f61a64ea1fa1cdfdbaaca043099ffce7ae41c417",
+  "references": [
+    {
+      "path": "figures/places/p05_800.webp",
+      "sha256": "2e65dc60c1c1b002de04587e682cffdcb0a74c1713e4070f2acea8a73fc505c4"
+    },
+    {
+      "path": "figures/raw/location_scenes/ridge/candidate_b.png",
+      "sha256": "a2b6be85a1442f379d504ec734201e15ee542302323ba4de69f0301d446764fa"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create an astonishing cinematic detailed watercolor and gouache landscape illustration for a Vietnamese travel journal website. FIRST reference is real location geometry, LAST reference is approved painted style: match its rich natural pigments, sophisticated atmospheric depth, soft paper grain and hand-painted brush details. Cay Co Don beside the turquoise Suoi Sap reservoir in Ta Xua. Preserve the reference reservoir topography and tree species. Compose a sculptural lone tree on the RIGHT edge, rooted on a warm ochre hillside above a winding turquoise reservoir between folded jade valley walls. Late morning, luminous mint water, deep rich foliage, wispy sky. Make the lake winding and vast, distinct from a round pond. Wide 3:2 landscape, all image pixels are the artwork, NO website UI, text, borders, collage, logos or typography. Compose generous QUIET PALE luminous atmospheric reading space throughout upper 48 percent and left 40 percent, with real scenery still present; focal landscape occupies lower right. Do not paste white overlay. Highly crafted illustrated environment, not photograph, not cartoon clipart. Stunning believable scale and light.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/tree/wide.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "sha256": "5920d25474121e5373acafc28b6747c17b2c684f229e3984233007fd7fc54def",
+  "bytes": 3391397
+}

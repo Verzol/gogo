@@ -1,0 +1,34 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:42:34.058084+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "An extraordinary cinematic watercolor and gouache landscape illustration of the actual Ta Xua sightseeing ridge at Hang Dong, Vietnam. Use image one for real narrow dirt trail and steep valley geometry. Use image two only for the existing website painterly material and jade/teal/peach color family. This is standalone original scenic artwork filling every pixel, NOT a webpage or mockup. No text, no UI, no letters, no logo, no border, no rounded card. Rich depth, breathtaking scale, subtle hand painted pigment, detailed natural terrain, artist quality, not cartoon. Compose the main ridge as a winding narrow trail from the lower center/right into the far distance, avoid fake Alpine peaks. The upper 45 percent and the left 38 percent must have calm pale blue-green atmospheric sky/mist with very little contrast so dark webpage text can later sit there. Keep recognizable detailed landmarks concentrated in the lower half and right. The upper right should also be calm for forecast text. There must be fully rendered landscape behind all elements, no blank white paper. Broad landscape aspect ratio. A vast blue-jade valley in exquisite early morning haze, brilliant shafts of pale gold sunlight across the lower right ridge, luminous atmospheric perspective. Earthy ochre path with dark forest green folds. Quiet powerful cinema with elegant empty upper sky.",
+  "promptPath": "docs/prompts/location_scenes/ridge_candidate_b.txt",
+  "promptSha256": "2e9c7ada8bffce648515df1d4a9c1bb410f53186c76acf3e7df7228b386f571d",
+  "references": [
+    {
+      "path": "figures/places/p01_960.webp",
+      "sha256": "f36521b3142a7472eea19f86e6dc1a0f9fdecfe9c1810eef381e2898aa418526"
+    },
+    {
+      "path": "figures/raw/ui_concepts/references/site_hero.png",
+      "sha256": "e606993a4b1a9c2fccb157d4ea1c919b4b28573c76a052bb9175c5faa053a614"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "An extraordinary cinematic watercolor and gouache landscape illustration of the actual Ta Xua sightseeing ridge at Hang Dong, Vietnam. Use image one for real narrow dirt trail and steep valley geometry. Use image two only for the existing website painterly material and jade/teal/peach color family. This is standalone original scenic artwork filling every pixel, NOT a webpage or mockup. No text, no UI, no letters, no logo, no border, no rounded card. Rich depth, breathtaking scale, subtle hand painted pigment, detailed natural terrain, artist quality, not cartoon. Compose the main ridge as a winding narrow trail from the lower center/right into the far distance, avoid fake Alpine peaks. The upper 45 percent and the left 38 percent must have calm pale blue-green atmospheric sky/mist with very little contrast so dark webpage text can later sit there. Keep recognizable detailed landmarks concentrated in the lower half and right. The upper right should also be calm for forecast text. There must be fully rendered landscape behind all elements, no blank white paper. Broad landscape aspect ratio. A vast blue-jade valley in exquisite early morning haze, brilliant shafts of pale gold sunlight across the lower right ridge, luminous atmospheric perspective. Earthy ochre path with dark forest green folds. Quiet powerful cinema with elegant empty upper sky.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/ridge/candidate_b.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "mode": "RGB",
+  "sha256": "a2b6be85a1442f379d504ec734201e15ee542302323ba4de69f0301d446764fa",
+  "bytes": 2648760
+}

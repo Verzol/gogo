@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:55:15.924750+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Paint one tiny distant soaring mountain bird as an elegant natural two-wing silhouette, wings gently spread, watercolor indigo grey pigment, subtle handmade edge. Only ONE bird centered at generous scale for later downsampling. True RGBA transparent background. No sky, paper, text, white backing, scene, shadows or multiple birds. Match the dusk landscape reference.",
+  "promptPath": "docs/prompts/location_scenes/effects_birds.txt",
+  "promptSha256": "389e3d42e308a18cc520e7eca3840ef841a7f90f70fbee6bfe7108c67bca44da",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/dolphin/wide.png",
+      "sha256": "227d82d60eddfeee618aaaf22d7e702efdfdfd3d8066cf3b6f2821440fe025df"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Paint one tiny distant soaring mountain bird as an elegant natural two-wing silhouette, wings gently spread, watercolor indigo grey pigment, subtle handmade edge. Only ONE bird centered at generous scale for later downsampling. True RGBA transparent background. No sky, paper, text, white backing, scene, shadows or multiple birds. Match the dusk landscape reference.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/effects/birds.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "e8a7387f53b9989d21f31c7a37d521642f07f96fbd5df32f828b92682ea2c741",
+  "bytes": 1245526
+}

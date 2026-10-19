@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:21:39.136883+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. A solitary sculptural leafy green tree on a little ochre promontory, a tiny crescent of jade reservoir beneath it.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+  "promptPath": "docs/prompts/location_scenes/text_only_tree_sticker.txt",
+  "promptSha256": "caf99664c54ff4627d969cd349a5051c2b88d91a27e0328136bf56e3e547207f",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. A solitary sculptural leafy green tree on a little ochre promontory, a tiny crescent of jade reservoir beneath it.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/tree/sticker.png",
+  "dimensions": [
+    1274,
+    1235
+  ],
+  "mode": "RGBA",
+  "sha256": "31344a1c8546d2dceab1cd0ce24d48205d3bd8509fcd0199d1ab37e4e3894108",
+  "bytes": 2755788
+}

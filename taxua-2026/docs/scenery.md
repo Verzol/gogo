@@ -14,7 +14,7 @@
 
 Live worlds: **sunrise, night, bluehour, daylight, jade, afternoon**. Four full landscape paintings are palette/composition references, not wallpapers. Live panels combine scalable skies, transparent ridges, small clouds, celestial pieces and environment cutouts.
 
-The later [UI artwork import](ui-artwork.md) adds supplied wide/portrait low-valley cutouts to the five story/support worlds. These replace visible mid/near bands with quieter terrain; a faint far band remains on larger screens. The old layers/assets are retained, and sunrise keeps its original composition. Portrait canvases keep their aspect ratio and align to the bottom. Existing skies, sun/moon, chapter mapping and edge landmarks remain.
+The later [UI artwork import](ui-artwork.md) adds supplied wide/portrait low-valley cutouts to the five story/support worlds. These replace visible mid/near bands with quieter terrain; a faint far band remains on larger screens. The old assets are retained; permanently hidden mid/near bands are no longer instantiated or downloaded for quiet worlds. Sunrise keeps its original composition. Portrait canvases keep their aspect ratio and align to the bottom. Existing skies, sun/moon, chapter mapping and edge landmarks remain.
 
 ## Story mapping
 
@@ -41,7 +41,7 @@ The later [UI artwork import](ui-artwork.md) adds supplied wide/portrait low-val
 - Clouds are local accents between bands; stars stay above the horizon with a quieter reading area. Terrain fills the viewport edges without crowding text.
 - **Afternoon uses `rays:false`: sun disc only, no aura/ray ring.** Other sunny presets may use the supplied rays.
 - Keep the lowered opening horizon, capped wide-screen terrain and wider cropped phone stage. Review short landscape screens as well as portrait phones.
-- Cutouts decode before transitions; shared resources are cached, each panel instance is decoded, and failed optional pieces hide while the CSS sky remains usable.
+- Cutouts decode before transitions; the browser shares matching resource URLs, each actual panel image decodes once, and failed optional pieces hide while the CSS sky remains usable.
 
 ## Artwork pipeline
 
@@ -59,3 +59,12 @@ Validate with `verify_illustrated_scenery.cjs`, then motion/reveal checks for fr
 The opening has a separate painted cloud composition and measured terrain depth wrappers. Weather accents never write base-panel opacity. Ambient movement uses independent transforms and runs only on visible story panels; navigation snapshots freeze their computed pose and weather blend. The opening clears during descent. See [Sky and weather](weather.md) for assets, dates, input and cache behavior.
 
 The optional [painted-object interactions](playful.md) add an opening sun using the existing celestial cutouts, plus accessible controls outside the hidden stage for the dominant world's sun/moon and one clear cloud region. `holdCloud()` pauses only the held cloud without resetting its track. Gesture offsets do not own drift, weather, scene opacity or the itinerary's period state.
+
+
+## Location explorer integration
+
+Location paintings live outside `#sceneLayers`, immediately above its decorative world. `setLocationPreview()` suspends covered opening clouds without changing story panels. Physical opening geometry includes `.location-explorer`. See [Location scenes](location-scenes.md).
+
+## Loading and responsive decoding
+
+`JourneyScenery.load()` assigns sources to the actual panel images and decodes each element once. The browser shares matching URLs, while `panelLoads` deduplicates concurrent requests for a world. There is no temporary image that downloads/decodes a wide fallback before the displayed `<picture>` chooses portrait terrain. Quiet worlds omit their permanently hidden legacy mid/near bands. Existing optional-art failure handling and local-file support remain.

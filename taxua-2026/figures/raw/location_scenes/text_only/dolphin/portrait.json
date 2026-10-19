@@ -1,0 +1,25 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:21:50.686708+00:00",
+  "purpose": "Prompt-only illustrative location painting; no image references or documentary fidelity claim.",
+  "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nVertical canvas, strictly 2:3 portrait composition, painted anew for a phone or portrait tablet. Upper 55 percent is quiet pale sky and atmospheric distance. Landmark is in lower half, strictly inside x=0.35..0.78 and y=0.57..0.90. Its essential shape must remain recognizable when the sides are cropped to a tall 9:20 phone. Recompose rather than making a narrow slice of a landscape. Extend secondary scenery to all edges.\nMỏm Cá Heo: a striking weathered dark slate rock outcrop with two enormous naturally stacked angular slabs on a grassy mountainside. The upper stone cantilevers horizontally into open air, its tapered blunt curved tip suggesting a dolphin's snout, not an actual animal. This must look like geological rock with believable weight, rough fine strata, moss seams and warm lichen. The silhouette projects left from the right-hand slope, above spectacular forested folded valleys disappearing into a distant ocean of pale clouds. Golden late-afternoon rim light, cool blue shadows and apricot sky. Concentrate the recognizable rock in the central-right lower portion, with its entire outline inside x=0.36 to 0.82 and y=0.56 to 0.87, not cut off.",
+  "promptPath": "docs/prompts/location_scenes/text_only_dolphin_portrait.txt",
+  "promptSha256": "b9b481d5118c4cac98d9f3ceaa34519225199a3967bf1bbca8cad691d4e3896a",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nVertical canvas, strictly 2:3 portrait composition, painted anew for a phone or portrait tablet. Upper 55 percent is quiet pale sky and atmospheric distance. Landmark is in lower half, strictly inside x=0.35..0.78 and y=0.57..0.90. Its essential shape must remain recognizable when the sides are cropped to a tall 9:20 phone. Recompose rather than making a narrow slice of a landscape. Extend secondary scenery to all edges.\nMỏm Cá Heo: a striking weathered dark slate rock outcrop with two enormous naturally stacked angular slabs on a grassy mountainside. The upper stone cantilevers horizontally into open air, its tapered blunt curved tip suggesting a dolphin's snout, not an actual animal. This must look like geological rock with believable weight, rough fine strata, moss seams and warm lichen. The silhouette projects left from the right-hand slope, above spectacular forested folded valleys disappearing into a distant ocean of pale clouds. Golden late-afternoon rim light, cool blue shadows and apricot sky. Concentrate the recognizable rock in the central-right lower portion, with its entire outline inside x=0.36 to 0.82 and y=0.56 to 0.87, not cut off.",
+    "size": "1536x2304",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/text_only/dolphin/portrait.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "mode": "RGB",
+  "sha256": "e05271932c552bd045f6194212107646ad7f1fd58a269a6c6132e2c0d0b4854c",
+  "bytes": 3320669
+}

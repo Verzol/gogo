@@ -125,6 +125,7 @@
     const next = JourneyScenery.heroActive() && available(candidate) ? candidate : '';
     const signature = next ? JSON.stringify(condition(days.get(next))) : '';
     if (next !== preview || signature !== previewSignature) {
+      if (next) document.dispatchEvent(new Event('journey:weather-preview'));
       preview = next;
       previewSignature = signature;
       JourneyScenery.previewWeather(next ? condition(days.get(next)) : null);
@@ -139,7 +140,10 @@
   function clearPreview() { held = hovered = focused = ''; syncPreview(); }
   buttons.forEach(button => {
     const date = button.dataset.date;
-    button.addEventListener('pointerenter',event => { if (event.pointerType !== 'touch' && available(date)) { hovered = date; syncPreview(); } });
+    button.addEventListener('pointerenter',event => {
+      // Keep an active location painting until the visitor deliberately selects weather.
+      if (event.pointerType !== 'touch' && !document.documentElement.dataset.locationScene && available(date)) { hovered = date; syncPreview(); }
+    });
     button.addEventListener('pointerleave',() => { if (hovered === date) { hovered = ''; syncPreview(); } });
     button.addEventListener('focus',() => { if (button.matches(':focus-visible') && available(date)) { focused = date; syncPreview(); } });
     button.addEventListener('blur',() => { focused = ''; syncPreview(); });
@@ -227,6 +231,7 @@
   document.addEventListener('visibilitychange',() => { if (!document.hidden) { refresh(); scheduleMidnight(); } });
   addEventListener('pagehide',() => clearTimeout(midnightTimer));
   addEventListener('pageshow',() => { refresh(); scheduleMidnight(); });
+  window.JourneyWeather = {clearPreview};
   readCache();
   refresh();
   scheduleMidnight();

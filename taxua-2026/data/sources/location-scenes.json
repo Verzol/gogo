@@ -1,0 +1,724 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "illustrative": true,
+  "outputs": [
+    {
+      "location": "ridge",
+      "role": "wide",
+      "source": "figures/raw/location_scenes/ridge/candidate_b.png",
+      "sourceSha256": "a2b6be85a1442f379d504ec734201e15ee542302323ba4de69f0301d446764fa",
+      "trim": null,
+      "output": "figures/scenery/locations/ridge_wide.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "cdb6af02412ffd0842e9fd7b3c6b07e8788f9a4f84e4a9698b941d05d5cb38c4",
+      "bytes": 1971286
+    },
+    {
+      "location": "ridge",
+      "role": "portrait",
+      "source": "figures/raw/location_scenes/ridge/portrait.png",
+      "sourceSha256": "24100425d1c25a57afdff98c2a4761e06439721b4ba0b63e52e9dee87c5d0f8e",
+      "trim": null,
+      "output": "figures/scenery/locations/ridge_portrait.webp",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "eb976673a78a5ebf276f5082facbe683ce5969857edd5850bad4f4cfce2a4d66",
+      "bytes": 2036072
+    },
+    {
+      "location": "ridge",
+      "role": "foreground",
+      "source": "figures/raw/location_scenes/ridge/foreground.png",
+      "sourceSha256": "675bd5ffbd61ca7a88e583490290b328d7f64ac992cf28d91b322fc3cf985581",
+      "trim": [
+        0,
+        8,
+        1672,
+        941
+      ],
+      "output": "figures/scenery/locations/ridge_foreground.webp",
+      "dimensions": [
+        720,
+        402
+      ],
+      "encoding": "webp-q90",
+      "sha256": "22ca9b03813e049c15dc33578460beb8944efe4ed0fa30f1273a8514d5f72167",
+      "bytes": 120788
+    },
+    {
+      "location": "ridge",
+      "role": "sticker",
+      "source": "figures/raw/location_scenes/ridge/sticker.png",
+      "sourceSha256": "844290678279265855891366bd47c54f658dba38588483d99cc34a37dd9b35b2",
+      "trim": [
+        0,
+        4,
+        1254,
+        1254
+      ],
+      "output": "figures/decor/painted/location_stickers/ridge.webp",
+      "dimensions": [
+        176,
+        175
+      ],
+      "encoding": "webp-q90",
+      "sha256": "a51190aaa9f65510ae6a7d2d52bf605fa224edd75035fab2b824e6b42b4d0e00",
+      "bytes": 18424
+    },
+    {
+      "location": "tree",
+      "role": "wide",
+      "source": "figures/raw/location_scenes/text_only/tree/wide.png",
+      "sourceSha256": "074afd6f32d7f44ebe0af447c8cecd3ced3c0e9a16f27b88a60d431624a4c994",
+      "trim": null,
+      "output": "figures/scenery/locations/tree_wide.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "ad959d4e6ef58de8ce791ff9867c5ce31ee2fa20ba9f059eeb9c5ccdff399285",
+      "bytes": 2270664
+    },
+    {
+      "location": "tree",
+      "role": "portrait",
+      "source": "figures/raw/location_scenes/text_only/tree/portrait.png",
+      "sourceSha256": "c46d2fdbb02e7ce227025d023d0af71ba313fa2f298fd27faf3f1bece4b94c86",
+      "trim": null,
+      "output": "figures/scenery/locations/tree_portrait.webp",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "e5e1b679aeb42618526a7e3e9d246d7fc48e82636592b6532310209172ea2897",
+      "bytes": 2305292
+    },
+    {
+      "location": "tree",
+      "role": "foreground",
+      "source": "figures/raw/location_scenes/text_only/tree/foreground.png",
+      "sourceSha256": "34524ec9746099be5087fe7ad95b8e3fb02f9df0b5c3f77c0919ae62bbd0fd7d",
+      "trim": [
+        33,
+        55,
+        1536,
+        1024
+      ],
+      "output": "figures/scenery/locations/tree_foreground.webp",
+      "dimensions": [
+        1440,
+        928
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "33b1291a824dbedbd2d4169faba738750e4e313a09394b2208e0e8823462423a",
+      "bytes": 437794
+    },
+    {
+      "location": "tree",
+      "role": "sticker",
+      "source": "figures/raw/location_scenes/text_only/tree/sticker.png",
+      "sourceSha256": "31344a1c8546d2dceab1cd0ce24d48205d3bd8509fcd0199d1ab37e4e3894108",
+      "trim": [
+        0,
+        0,
+        1273,
+        1235
+      ],
+      "output": "figures/decor/painted/location_stickers/tree.webp",
+      "dimensions": [
+        352,
+        341
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "2b44e583efd25759d5ff24b8dd1b9dd89dfa7670aa9f7b9bdb143e45fa7e0de3",
+      "bytes": 174582
+    },
+    {
+      "location": "dolphin",
+      "role": "wide",
+      "source": "figures/raw/location_scenes/text_only/dolphin/wide.png",
+      "sourceSha256": "81b62acc9e583853de0875587748ee26568fc9aea674e651c3aa7961236fc7b1",
+      "trim": null,
+      "output": "figures/scenery/locations/dolphin_wide.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "b02e806921b1fdcda93fc22d5ea08e768df9df3fc615a7be24ac5e8d66edc324",
+      "bytes": 2226592
+    },
+    {
+      "location": "dolphin",
+      "role": "portrait",
+      "source": "figures/raw/location_scenes/text_only/dolphin/portrait.png",
+      "sourceSha256": "e05271932c552bd045f6194212107646ad7f1fd58a269a6c6132e2c0d0b4854c",
+      "trim": null,
+      "output": "figures/scenery/locations/dolphin_portrait.webp",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "2e6a46b5244a2812a947c598a5eededc4e9afaed7a1a278c7352289d968e54b4",
+      "bytes": 2456562
+    },
+    {
+      "location": "dolphin",
+      "role": "foreground",
+      "source": "figures/raw/location_scenes/text_only/dolphin/foreground.png",
+      "sourceSha256": "641a0c48258c87d84177fcf22dd3c7d8718a65b3a1032d38d26445abaf783ae8",
+      "trim": [
+        27,
+        17,
+        1536,
+        1024
+      ],
+      "output": "figures/scenery/locations/dolphin_foreground.webp",
+      "dimensions": [
+        1440,
+        961
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "1c6d06d921a079877e363e67e96be558eb7017e26d15991ee7114162c55beedf",
+      "bytes": 970724
+    },
+    {
+      "location": "dolphin",
+      "role": "sticker",
+      "source": "figures/raw/location_scenes/text_only/dolphin/sticker.png",
+      "sourceSha256": "3c39f1cea2789b07493b99bb70975f9a12ed8f2edb45e99f13cd892f07252f2d",
+      "trim": [
+        0,
+        17,
+        1377,
+        1129
+      ],
+      "output": "figures/decor/painted/location_stickers/dolphin.webp",
+      "dimensions": [
+        352,
+        284
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "a268fd0c7864a583708c79d2be10a165df18ac1e2023fbc11de8408f4e6082c3",
+      "bytes": 119946
+    },
+    {
+      "location": "meadow",
+      "role": "wide",
+      "source": "figures/raw/location_scenes/text_only/meadow/wide.png",
+      "sourceSha256": "d64ff251233b65e1e4010c6c42686abb7f5067859245068ede408aa9b016ea47",
+      "trim": null,
+      "output": "figures/scenery/locations/meadow_wide.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "df611fb710f03851db86001f55026294873e1e03b29c50e60c265da29341ae04",
+      "bytes": 2289990
+    },
+    {
+      "location": "meadow",
+      "role": "portrait",
+      "source": "figures/raw/location_scenes/text_only/meadow/portrait.png",
+      "sourceSha256": "950b9c4dd8274568fde56feaa436b35a5b54891c4985a9e497a590c51c6771eb",
+      "trim": null,
+      "output": "figures/scenery/locations/meadow_portrait.webp",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "18eff66ebef13c3ca50b775f9217b579056ef7449d6ae277e2e5d7d51ba7cf05",
+      "bytes": 2614100
+    },
+    {
+      "location": "meadow",
+      "role": "foreground",
+      "source": "figures/raw/location_scenes/text_only/meadow/foreground.png",
+      "sourceSha256": "9cc8ef3769752f8a7a52f73c8f1377d9173e0c6e50e20f41874de70903bcb2b0",
+      "trim": [
+        21,
+        15,
+        1536,
+        1024
+      ],
+      "output": "figures/scenery/locations/meadow_foreground.webp",
+      "dimensions": [
+        1440,
+        959
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "77af61f970014c8896672ee3c8aec5a7aa3a936135338c4e594a5b6595ee480d",
+      "bytes": 1063420
+    },
+    {
+      "location": "meadow",
+      "role": "sticker",
+      "source": "figures/raw/location_scenes/text_only/meadow/sticker.png",
+      "sourceSha256": "e3271a196a71a3d732836d893a26edd78ecea6418c07135778f4dc6e2c8332b3",
+      "trim": [
+        43,
+        23,
+        1498,
+        1000
+      ],
+      "output": "figures/decor/painted/location_stickers/meadow.webp",
+      "dimensions": [
+        352,
+        236
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "a2553b01630511ffb83cf0e2c8303521cc4bcb90552da13dbbb6261a5e7b748f",
+      "bytes": 94688
+    },
+    {
+      "location": "waterfall",
+      "role": "wide",
+      "source": "figures/raw/location_scenes/text_only/waterfall/wide.png",
+      "sourceSha256": "1329a707ebf24506f25c08c9a8018f86c9e2daa6084c15c7a26b9beb8add5219",
+      "trim": null,
+      "output": "figures/scenery/locations/waterfall_wide.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "439e618f7313c857b6cd16bedbf1b9eb9ebb341ed85c9badf971de439ce1b527",
+      "bytes": 2654758
+    },
+    {
+      "location": "waterfall",
+      "role": "portrait",
+      "source": "figures/raw/location_scenes/text_only/waterfall/portrait.png",
+      "sourceSha256": "4ff7e112f05f7eb86b07c759d9a0dd82fe72d5a87256efa65aa3132ada5f4b62",
+      "trim": null,
+      "output": "figures/scenery/locations/waterfall_portrait.webp",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "2c1a395a8d65804b1cdb30f2ea2ac8a02c613f19db452d1c0c7781f3979f2ebd",
+      "bytes": 2717088
+    },
+    {
+      "location": "waterfall",
+      "role": "foreground",
+      "source": "figures/raw/location_scenes/text_only/waterfall/foreground.png",
+      "sourceSha256": "a5c832b45883dfed3e14d3f5302317506897cf79cc39d73648ccc2057708011d",
+      "trim": [
+        57,
+        17,
+        1536,
+        1024
+      ],
+      "output": "figures/scenery/locations/waterfall_foreground.webp",
+      "dimensions": [
+        1440,
+        980
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "48cfa95ede049a8ac087315bebd58638187bdd72e43991c03ae10081c98e38c4",
+      "bytes": 883196
+    },
+    {
+      "location": "waterfall",
+      "role": "sticker",
+      "source": "figures/raw/location_scenes/text_only/waterfall/sticker.png",
+      "sourceSha256": "973860bc31b87e9e01b2e0c95b7842b1be7e58b0c09005036c505e8a71f7d04d",
+      "trim": [
+        0,
+        0,
+        1312,
+        1199
+      ],
+      "output": "figures/decor/painted/location_stickers/waterfall.webp",
+      "dimensions": [
+        352,
+        322
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "c7efee6c41228ab9377ca3fa5c32f96b102413b99f61903d3f5eba1275b2f953",
+      "bytes": 178628
+    },
+    {
+      "location": "coffee",
+      "role": "wide",
+      "source": "figures/raw/location_scenes/text_only/coffee/wide.png",
+      "sourceSha256": "4179edd819c20c0ab6e8c83d95b5e1448240dbb06e06e055a9830b7ff00a439d",
+      "trim": null,
+      "output": "figures/scenery/locations/coffee_wide.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "c3852f3ace3aa4736faeb73679577e178cc2a0cd42d1edf556172bd0063f0ec7",
+      "bytes": 2319276
+    },
+    {
+      "location": "coffee",
+      "role": "portrait",
+      "source": "figures/raw/location_scenes/text_only/coffee/portrait.png",
+      "sourceSha256": "a7845c7cd9fafd0d959053da7eef55d7c9036091fde27b0c929ed1a7016d4a9e",
+      "trim": null,
+      "output": "figures/scenery/locations/coffee_portrait.webp",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "a0501464ad06a881f8c2b1593ad6ea03178c99368e2a5ee5819b2237c4057fea",
+      "bytes": 2486810
+    },
+    {
+      "location": "coffee",
+      "role": "foreground",
+      "source": "figures/raw/location_scenes/text_only/coffee/foreground.png",
+      "sourceSha256": "55528344f047093b9645a5aa35c505de7cd48ab22636c95a1864b5ed3126359b",
+      "trim": [
+        49,
+        45,
+        986,
+        1486
+      ],
+      "output": "figures/scenery/locations/coffee_foreground.webp",
+      "dimensions": [
+        936,
+        1440
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "dc32c9de0de665f23260cad5d24bf0ae0c218b6890c330ec5fa71815b57e5eea",
+      "bytes": 578798
+    },
+    {
+      "location": "coffee",
+      "role": "sticker",
+      "source": "figures/raw/location_scenes/text_only/coffee/sticker.png",
+      "sourceSha256": "e73e01cf9a806211892f35af023023046ff1ebc88e68cd14154c5ad983ad8a32",
+      "trim": [
+        0,
+        21,
+        1360,
+        1121
+      ],
+      "output": "figures/decor/painted/location_stickers/coffee.webp",
+      "dimensions": [
+        352,
+        285
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "668ee47311edf229d92c89e02321eb77ac30d0a87bd499bd7f404464afd0f23d",
+      "bytes": 119822
+    },
+    {
+      "location": "shared",
+      "role": "birds",
+      "source": "figures/raw/location_scenes/text_only/effects/birds.png",
+      "sourceSha256": "64e4bcaa14d5a98c584cd798f99ad7a5098e36e66d1c2e9e8e6789fbb5e77b18",
+      "trim": [
+        0,
+        37,
+        1746,
+        863
+      ],
+      "output": "figures/scenery/locations/birds.webp",
+      "dimensions": [
+        160,
+        76
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "87b2fa2f71a2c29d418b7e6c23cb938a0a86b24a6a1e89bbac8a9d39344ce6ce",
+      "bytes": 4778
+    },
+    {
+      "location": "shared",
+      "role": "water_glints",
+      "source": "figures/raw/location_scenes/text_only/effects/water_glints.png",
+      "sourceSha256": "3bea056a57a9dc6029d83abbab59b6ba451c2c3fc6a5e74e24d8e3c8a78ec9f5",
+      "trim": [
+        33,
+        106,
+        2142,
+        682
+      ],
+      "output": "figures/scenery/locations/water_glints.webp",
+      "dimensions": [
+        640,
+        175
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "b39a28f9997e231dd641518d72c85a2db03f991cf0f82059333a5f9069a81b53",
+      "bytes": 36892
+    },
+    {
+      "location": "waterfall",
+      "role": "spray",
+      "source": "figures/raw/location_scenes/text_only/effects/spray.png",
+      "sourceSha256": "55a44ff8d7f50c746f92da6c7caf4b7d3f482af4c6b481e5d26569094d3e732e",
+      "trim": [
+        0,
+        21,
+        1724,
+        861
+      ],
+      "output": "figures/scenery/locations/spray.webp",
+      "dimensions": [
+        493,
+        240
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "401b865c4114567e7a42a43dc6403b524a616130cc6f20a2afb112c0586d104a",
+      "bytes": 62706
+    },
+    {
+      "location": "shared",
+      "role": "mist",
+      "source": "figures/raw/location_scenes/text_only/effects/mist.png",
+      "sourceSha256": "43b899951d4c718defd4e1596d5804fdf2d4952d69aa5f0db2bb0e96cc67f458",
+      "trim": [
+        33,
+        31,
+        2140,
+        724
+      ],
+      "output": "figures/scenery/locations/mist.webp",
+      "dimensions": [
+        1200,
+        395
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "bdc902770557f8697a11ddeef723d2ed283c647ba3af870386cb57ef89504848",
+      "bytes": 174724
+    },
+    {
+      "location": "waterfall",
+      "role": "flow-wide",
+      "source": "figures/raw/location_scenes/text_only/waterfall/wide.png",
+      "sourceSha256": "1329a707ebf24506f25c08c9a8018f86c9e2daa6084c15c7a26b9beb8add5219",
+      "process": "Luminance-selected water inside authored normalized polygon; feather 3px; alpha capped 150; zero RGB only where alpha is zero",
+      "polygon": [
+        [
+          0.738,
+          0.321
+        ],
+        [
+          0.767,
+          0.328
+        ],
+        [
+          0.749,
+          0.419
+        ],
+        [
+          0.721,
+          0.466
+        ],
+        [
+          0.749,
+          0.49
+        ],
+        [
+          0.72,
+          0.564
+        ],
+        [
+          0.71,
+          0.625
+        ],
+        [
+          0.69,
+          0.722
+        ],
+        [
+          0.708,
+          0.767
+        ],
+        [
+          0.63,
+          0.79
+        ],
+        [
+          0.612,
+          0.764
+        ],
+        [
+          0.646,
+          0.706
+        ],
+        [
+          0.652,
+          0.65
+        ],
+        [
+          0.671,
+          0.595
+        ],
+        [
+          0.689,
+          0.55
+        ],
+        [
+          0.69,
+          0.513
+        ],
+        [
+          0.667,
+          0.489
+        ],
+        [
+          0.689,
+          0.444
+        ],
+        [
+          0.71,
+          0.401
+        ],
+        [
+          0.724,
+          0.36
+        ]
+      ],
+      "output": "figures/scenery/locations/waterfall_flow_wide.webp",
+      "dimensions": [
+        1672,
+        941
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "c3e6cd94b1a1bc304af063ca8e9d0804e80c5327253145ae4645f9b2fdb1d57c",
+      "bytes": 68574
+    },
+    {
+      "location": "waterfall",
+      "role": "flow-portrait",
+      "source": "figures/raw/location_scenes/text_only/waterfall/portrait.png",
+      "sourceSha256": "4ff7e112f05f7eb86b07c759d9a0dd82fe72d5a87256efa65aa3132ada5f4b62",
+      "process": "Luminance-selected water inside authored normalized polygon; feather 3px; alpha capped 150; zero RGB only where alpha is zero",
+      "polygon": [
+        [
+          0.73,
+          0.396
+        ],
+        [
+          0.767,
+          0.404
+        ],
+        [
+          0.745,
+          0.444
+        ],
+        [
+          0.713,
+          0.471
+        ],
+        [
+          0.759,
+          0.477
+        ],
+        [
+          0.717,
+          0.512
+        ],
+        [
+          0.675,
+          0.54
+        ],
+        [
+          0.662,
+          0.588
+        ],
+        [
+          0.684,
+          0.607
+        ],
+        [
+          0.689,
+          0.665
+        ],
+        [
+          0.659,
+          0.737
+        ],
+        [
+          0.705,
+          0.817
+        ],
+        [
+          0.53,
+          0.827
+        ],
+        [
+          0.51,
+          0.793
+        ],
+        [
+          0.55,
+          0.722
+        ],
+        [
+          0.565,
+          0.681
+        ],
+        [
+          0.562,
+          0.632
+        ],
+        [
+          0.528,
+          0.609
+        ],
+        [
+          0.551,
+          0.576
+        ],
+        [
+          0.594,
+          0.551
+        ],
+        [
+          0.602,
+          0.519
+        ],
+        [
+          0.638,
+          0.505
+        ],
+        [
+          0.665,
+          0.487
+        ],
+        [
+          0.65,
+          0.467
+        ],
+        [
+          0.688,
+          0.444
+        ],
+        [
+          0.692,
+          0.419
+        ]
+      ],
+      "output": "figures/scenery/locations/waterfall_flow_portrait.webp",
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "encoding": "webp-lossless",
+      "sha256": "42f176c791cb87690dd0064a29a308e7a70cb4871bb5678b164f2cccf8b7f911",
+      "bytes": 122918
+    }
+  ]
+}

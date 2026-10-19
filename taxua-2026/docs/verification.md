@@ -47,6 +47,8 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 
 | Script | Use after changing | Evidence location |
 | --- | --- | --- |
+| `verify_loading.cjs` | Stable background pixels during pointer movement, no movement requests/decodes, held-scene restoration, actual decoded-node reuse, bounded cache, responsive terrain requests | `/tmp/taxua-loading-review/`; `TRIP_REVIEW_DIR` overrides |
+| `verify_location_scenes.cjs` | Six scenic previews, input/async races, weather ownership, motion controls, responsive portraits, enlarged text, local fonts, print/file and optional-resource fallbacks | `/tmp/taxua-location-review/`; `TRIP_REVIEW_DIR` overrides |
 | `verify_playful.cjs` | Randomized coin paths/spins/timing and five pig reactions, independent feeding/drops, sun/cloud drags, moon/coffee reactions, keyboard/touch, cancellation, bounded effects, reduced motion/pause, print and optional-resource fallbacks | `/tmp/taxua-playful-review/`; `TRIP_REVIEW_DIR` overrides |
 | `verify_diary.cjs` | Paired spreads, password/claim UX, drafts, actual file-input normalization, publication, conflicts, recovery, expiry, 3D motion, responsive/text layout and fallbacks; mocked transport | `/tmp/taxua-diary-browser-review/`; optional `DIARY_WEBKIT=1` tests both engines |
 | `verify_diary_motion.cjs` | Outgoing front/incoming reverse, screenshot-pixel orientation, incoming underlay, cover origin, dense opening/closing frames, escaped-paper and cover-face pixel regressions, atomic landing, backward scroll, phone motion, pause/logout | `/tmp/taxua-diary-motion-review/`; optional `DIARY_WEBKIT=1` |
@@ -161,3 +163,13 @@ The [diary redesign review](diary-review.md#book-redesign-verification) records
 current frame/long-content and isolated live-flow evidence separately from the
 first implementation's results. Both new browser helpers use local fixtures;
 they never create real users or write to Supabase.
+
+
+## Location explorer · 19 October 2026
+
+The [earlier six-place opening implementation](research/location-scenes-previous-verification.md#browser-evidence--19-october-2026) passed **996 Chromium checks across eight relevant suites**: locations 90, weather 106, scenery 106, motion 85, playful objects 127, mobile 108, countdown 67 and journey 307. The final motion run passed in isolation after two fixed-delay samples failed during concurrent runs. The mobile checks now follow the approved sticker-first phone layout. The 32 generated masters and 29 derivatives passed provenance/hash/dimension checks; new cutouts have true alpha.
+
+Evidence: `/tmp/taxua-location-review/` and `/tmp/taxua-location-regression/`. See the feature guide for initial failures, corrections, encoded/decoded budgets and scope limits. These are historical results for the previous photo-referenced art, separate from the earlier full-site 4,316-assertion snapshot. Current prompt-only artwork verification is recorded in the [owning feature guide](location-scenes.md#prompt-only-refresh--19-october-2026). No physical-device, Safari/Firefox or memory/FPS profiling is claimed.
+
+
+The later **prompt-only artwork refresh** passed **92 location interaction checks** and **60 scene/viewport combinations**. The source audit verified 24 new prompt-only masters, 30 derivative hashes/dimensions, pixel-exact native backgrounds and the retained ridge export hashes. Local desktop Lighthouse: performance 56, accessibility 100, LCP 2.1s; see [current results and limits](location-scenes.md#prompt-only-refresh--19-october-2026). Evidence is under `/tmp/taxua-prompt-only-review/` and `/tmp/taxua-location-responsive/`; earlier counts above describe their own snapshots.

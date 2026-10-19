@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:25:51.876376+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. Three delicate isolated translucent ivory curls of warm coffee steam, all rising from a SINGLE narrow origin at bottom center. The origin at exact bottom center is critical. Wisps uncurl gently upward, barely visible warm grey and pearl, finely painted wet-on-wet. ONLY steam; no cup, saucer, table or landscape.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+  "promptPath": "docs/prompts/location_scenes/text_only_coffee_foreground.txt",
+  "promptSha256": "003400686ae1cbbfa8dd21fbef4e10ec5bd12ddbf61cee836594876d6f8c071c",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. Three delicate isolated translucent ivory curls of warm coffee steam, all rising from a SINGLE narrow origin at bottom center. The origin at exact bottom center is critical. Wisps uncurl gently upward, barely visible warm grey and pearl, finely painted wet-on-wet. ONLY steam; no cup, saucer, table or landscape.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/coffee/foreground.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "mode": "RGBA",
+  "sha256": "55528344f047093b9645a5aa35c505de7cd48ab22636c95a1864b5ed3126359b",
+  "bytes": 1610950
+}

@@ -402,7 +402,7 @@
     const panel = document.querySelector('.scene-' + world);
     const modal = document.querySelector('dialog[open]') || document.getElementById('navToggle')?.getAttribute('aria-expanded') === 'true';
     const navigating = document.querySelector('.navigation-scene,.scene-catchup');
-    const blocked = modal || navigating;
+    const blocked = modal || navigating || !!root.dataset.locationScene;
     // The dominant world remains playable through a physical scroll dissolve.
     // Only one pair of controls exists; a world change cancels a held gesture.
     const settled = panel && Number(panel.style.opacity) > .5;
@@ -441,7 +441,7 @@
       }
     }
     // Only moving clouds need tracking. Static/reduced-motion pages have no loop.
-    if (allowed() && !modal && (openingActive || cloud.source || animations.size || !settled || navigating)) updateTimer = setTimeout(queue,120);
+    if (allowed() && !modal && !root.dataset.locationScene && (openingActive || cloud.source || animations.size || !settled || navigating)) updateTimer = setTimeout(queue,120);
   }
   function queue() { if (!frame && !stopped) frame = requestAnimationFrame(update); }
   addEventListener('scroll',() => {
@@ -458,7 +458,7 @@
     if (root.dataset.sceneryWorld !== lastWorld) { lastWorld = root.dataset.sceneryWorld;reset(); }
     if (!allowed()) reset();
     queue();
-  }).observe(root,{attributes:true,attributeFilter:['data-motion-paused','data-scenery-world']});
+  }).observe(root,{attributes:true,attributeFilter:['data-motion-paused','data-scenery-world','data-location-scene']});
   reduced.addEventListener('change',() => { reset();queue(); });
   printing.addEventListener('change',() => { reset();queue(); });
   const overlayChanges = new MutationObserver(() => { reset();queue(); });

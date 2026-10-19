@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:27:12.848362+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. One small ivory ceramic coffee cup and saucer on a little warm wooden terrace plank, a single small fern sprig beside it. No lettering.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+  "promptPath": "docs/prompts/location_scenes/text_only_coffee_sticker.txt",
+  "promptSha256": "1410574f2ecb29cfa061620bd1d650e8bafd86bc7a9389444c177b55498a2a8f",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. One small ivory ceramic coffee cup and saucer on a little warm wooden terrace plank, a single small fern sprig beside it. No lettering.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/coffee/sticker.png",
+  "dimensions": [
+    1374,
+    1145
+  ],
+  "mode": "RGBA",
+  "sha256": "e73e01cf9a806211892f35af023023046ff1ebc88e68cd14154c5ad983ad8a32",
+  "bytes": 2238529
+}

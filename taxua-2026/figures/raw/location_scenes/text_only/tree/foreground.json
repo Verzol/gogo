@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:20:26.457239+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. A graceful small spray of fine leaves on two slender broadleaf twigs entering from the right edge; mostly transparent empty space above and left. Deep jade, tiny warm gold leaf edges, airy delicate foliage. No tree trunk, whole tree, lake or landscape.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+  "promptPath": "docs/prompts/location_scenes/text_only_tree_foreground.txt",
+  "promptSha256": "b2eaf168d82cb12b724529b7a4b7b2e937b7171e0dda42ddaf9b3d35950b3551",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. A graceful small spray of fine leaves on two slender broadleaf twigs entering from the right edge; mostly transparent empty space above and left. Deep jade, tiny warm gold leaf edges, airy delicate foliage. No tree trunk, whole tree, lake or landscape.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/tree/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "34524ec9746099be5087fe7ad95b8e3fb02f9df0b5c3f77c0919ae62bbd0fd7d",
+  "bytes": 1442829
+}

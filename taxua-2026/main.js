@@ -3,7 +3,8 @@
 function esc(value) {
   return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-function money(value) { return new Intl.NumberFormat('vi-VN').format(value) + ' ₫'; }
+const tripMoneyFormat = new Intl.NumberFormat('vi-VN');
+function money(value) { return tripMoneyFormat.format(value) + ' ₫'; }
 function initArrivalCountdown() {
   const container = document.getElementById('arrivalCountdown');
   const copy = TRIP_DATA.countdown;

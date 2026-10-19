@@ -1,0 +1,25 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:22:41.699249+00:00",
+  "purpose": "Prompt-only illustrative location painting; no image references or documentary fidelity claim.",
+  "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nLandscape canvas, strictly 16:9 widescreen composition. Keep the upper 48 percent and upper left calm for dark journal text, with soft pale atmosphere; strongest landmarks and detailed foreground in the lower central-right. All critical silhouettes fit inside the middle 70 percent of width and y=0.50..0.94, so cropping to 16:10 or 4:3 keeps them intact. Extend coherent scenery to both edges.\nThảo nguyên Tà Xùa: a sweeping emerald and golden-green highland meadow on gently rolling rounded hills, a slender curved earthen footpath winding through wind-combed grasses toward a distant low ridge. Immense layered northern Vietnamese mountain valleys beyond, with cloud rivers between dark jade folds. Warm slanting afternoon sun illuminating individual grass heads, small white and pale yellow wildflowers, a few uneven stones. An elegant little S curve of the path and a sunlit rise around x=0.65 y=0.76 form the main focus. No fences, alpine peaks, houses or livestock. The grassy foreground has richly painted botanical detail, the distant mountains softly layered.",
+  "promptPath": "docs/prompts/location_scenes/text_only_meadow_wide.txt",
+  "promptSha256": "98c5bca2dd51f1fe4ba5cac51c50048418549139245c792705ab4f91b6c64b84",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nLandscape canvas, strictly 16:9 widescreen composition. Keep the upper 48 percent and upper left calm for dark journal text, with soft pale atmosphere; strongest landmarks and detailed foreground in the lower central-right. All critical silhouettes fit inside the middle 70 percent of width and y=0.50..0.94, so cropping to 16:10 or 4:3 keeps them intact. Extend coherent scenery to both edges.\nThảo nguyên Tà Xùa: a sweeping emerald and golden-green highland meadow on gently rolling rounded hills, a slender curved earthen footpath winding through wind-combed grasses toward a distant low ridge. Immense layered northern Vietnamese mountain valleys beyond, with cloud rivers between dark jade folds. Warm slanting afternoon sun illuminating individual grass heads, small white and pale yellow wildflowers, a few uneven stones. An elegant little S curve of the path and a sunlit rise around x=0.65 y=0.76 form the main focus. No fences, alpine peaks, houses or livestock. The grassy foreground has richly painted botanical detail, the distant mountains softly layered.",
+    "size": "2560x1440",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/text_only/meadow/wide.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "mode": "RGB",
+  "sha256": "d64ff251233b65e1e4010c6c42686abb7f5067859245068ede408aa9b016ea47",
+  "bytes": 3135998
+}

@@ -1,0 +1,30 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T12:09:48.090203+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Recompose this exact gorgeous waterfall landscape as the refined wide hero background for a travel journal. Preserve its actual location landmark geometry, painterly watercolor/gouache detail, palette and light. CRITICAL composition change: the upper SIXTY PERCENT of the entire image must be only QUIET luminous pale sky and very distant soft atmosphere, including the UPPER RIGHT corner. All near trees, rocks, cafe roof timbers and architecture must stay BELOW 60 percent image height. The existing central/right landmark and near scenery fill lower RIGHT 40 percent with strong breathtaking depth. Keep lower LEFT area relatively misty and pale for a sticker caption, still painted real landscape. NO building roof in upper right; coffee may have its matching roof edge only from mid-right downward and cup stays bottom right. Waterfall faithfully follows same cascade, shifted into lower right, with forest below midline. Dolphin same TWO distinctive rocks, occupying right lower third. No white overlay, UI, borders, lettering, text or mockup. It must be a coherent full landscape painting with a very generous atmospheric sky, and a spectacular detailed lower landscape. Wide 3:2 canvas, all pixels are art.",
+  "promptPath": "docs/prompts/location_scenes/waterfall_wide_refined.txt",
+  "promptSha256": "696b0e74c293550754391c66157e15d73f71e562c62b0ac272f5ae9657271c6f",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/waterfall/wide.png",
+      "sha256": "6ffee273b741624818fcd273199394ccce18e2ac53d37950eb946150b71d9336"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Recompose this exact gorgeous waterfall landscape as the refined wide hero background for a travel journal. Preserve its actual location landmark geometry, painterly watercolor/gouache detail, palette and light. CRITICAL composition change: the upper SIXTY PERCENT of the entire image must be only QUIET luminous pale sky and very distant soft atmosphere, including the UPPER RIGHT corner. All near trees, rocks, cafe roof timbers and architecture must stay BELOW 60 percent image height. The existing central/right landmark and near scenery fill lower RIGHT 40 percent with strong breathtaking depth. Keep lower LEFT area relatively misty and pale for a sticker caption, still painted real landscape. NO building roof in upper right; coffee may have its matching roof edge only from mid-right downward and cup stays bottom right. Waterfall faithfully follows same cascade, shifted into lower right, with forest below midline. Dolphin same TWO distinctive rocks, occupying right lower third. No white overlay, UI, borders, lettering, text or mockup. It must be a coherent full landscape painting with a very generous atmospheric sky, and a spectacular detailed lower landscape. Wide 3:2 canvas, all pixels are art.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/waterfall/wide_refined.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "sha256": "cca1b1f6f98137034b8d1560e9741c756bd7bf2d7fe01ef83fe8ef9604714332",
+  "bytes": 2944888
+}

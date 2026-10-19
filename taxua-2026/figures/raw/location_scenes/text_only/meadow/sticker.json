@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:24:02.321243+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. A tiny rounded green meadow hill with a winding ochre path, three sprigs of golden grass and little white flowers.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+  "promptPath": "docs/prompts/location_scenes/text_only_meadow_sticker.txt",
+  "promptSha256": "f0f74563c8d731c54a79f22a9644b7b768fe5eb0307a675367e10924dabc0ce3",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. A tiny rounded green meadow hill with a winding ochre path, three sprigs of golden grass and little white flowers.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/meadow/sticker.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "e3271a196a71a3d732836d893a26edd78ecea6418c07135778f4dc6e2c8332b3",
+  "bytes": 2502408
+}

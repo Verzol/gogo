@@ -1,0 +1,25 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:20:38.438282+00:00",
+  "purpose": "Prompt-only illustrative location painting; no image references or documentary fidelity claim.",
+  "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nLandscape canvas, strictly 16:9 widescreen composition. Keep the upper 48 percent and upper left calm for dark journal text, with soft pale atmosphere; strongest landmarks and detailed foreground in the lower central-right. All critical silhouettes fit inside the middle 70 percent of width and y=0.50..0.94, so cropping to 16:10 or 4:3 keeps them intact. Extend coherent scenery to both edges.\nCây Cô Đơn: a single beautiful mature broadleaf tree with a sculptural branching trunk and airy rounded asymmetrical crown, standing on a small rusty ochre and grassy promontory beside a vast jade-turquoise mountain reservoir. Curving wooded shores, far indigo ridgelines and a winding blue inlet open into enormous depth. Tiny golden sun reflections on still water. Morning light grazes the tree crown, fine wild grasses and terracotta soil. The tree and its full crown must be unmistakably visible, not cut off at any edge. Place the tree's trunk at x=0.64, its crown center at (0.64,0.61), roots at y=0.88. Broad quiet sky above.",
+  "promptPath": "docs/prompts/location_scenes/text_only_tree_wide.txt",
+  "promptSha256": "a5fc342455af12da932c4a44c56bf853fd153ce33c879a6a427f69cabecb4bb6",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nLandscape canvas, strictly 16:9 widescreen composition. Keep the upper 48 percent and upper left calm for dark journal text, with soft pale atmosphere; strongest landmarks and detailed foreground in the lower central-right. All critical silhouettes fit inside the middle 70 percent of width and y=0.50..0.94, so cropping to 16:10 or 4:3 keeps them intact. Extend coherent scenery to both edges.\nCây Cô Đơn: a single beautiful mature broadleaf tree with a sculptural branching trunk and airy rounded asymmetrical crown, standing on a small rusty ochre and grassy promontory beside a vast jade-turquoise mountain reservoir. Curving wooded shores, far indigo ridgelines and a winding blue inlet open into enormous depth. Tiny golden sun reflections on still water. Morning light grazes the tree crown, fine wild grasses and terracotta soil. The tree and its full crown must be unmistakably visible, not cut off at any edge. Place the tree's trunk at x=0.64, its crown center at (0.64,0.61), roots at y=0.88. Broad quiet sky above.",
+    "size": "2560x1440",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/text_only/tree/wide.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "mode": "RGB",
+  "sha256": "074afd6f32d7f44ebe0af447c8cecd3ced3c0e9a16f27b88a60d431624a4c994",
+  "bytes": 3124739
+}

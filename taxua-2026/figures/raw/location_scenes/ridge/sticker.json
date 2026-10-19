@@ -1,0 +1,35 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:44:59.712731+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Generate one exquisite small travel scrapbook sticker representing Song Lung Khung Long at Hang Dong, Ta Xua: a distinctive narrow winding ochre walking trail along a steep jade-green ridge, with a few delicately painted pale peach cloud wisps nestled behind. Use the first image for the new scenic painting style and the second for recognizable existing sticker silhouette. Rich watercolor pigment, tactile hand cut silhouette, tiny pale ivory die-cut edge 3 pixels wide, warm sunlight, elegant detailed mountain miniature. One centered isolated object, fills 80 percent of square. True transparent RGBA background. No text, letters, logo, people, box, circle medallion, checkerboard or white rectangular paper.",
+  "promptPath": "docs/prompts/location_scenes/ridge_sticker.txt",
+  "promptSha256": "8fe8215e73def8938fc0b015a1daa17a494e02f0571a0366d6df763c802598ff",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/ridge/candidate_b.png",
+      "sha256": "a2b6be85a1442f379d504ec734201e15ee542302323ba4de69f0301d446764fa"
+    },
+    {
+      "path": "figures/decor/dino_ridge_day.png",
+      "sha256": "215d94c00c9c6cc062325b4ee9dbddbf854e2ac44dc77f4cf8da3e835ca27165"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Generate one exquisite small travel scrapbook sticker representing Song Lung Khung Long at Hang Dong, Ta Xua: a distinctive narrow winding ochre walking trail along a steep jade-green ridge, with a few delicately painted pale peach cloud wisps nestled behind. Use the first image for the new scenic painting style and the second for recognizable existing sticker silhouette. Rich watercolor pigment, tactile hand cut silhouette, tiny pale ivory die-cut edge 3 pixels wide, warm sunlight, elegant detailed mountain miniature. One centered isolated object, fills 80 percent of square. True transparent RGBA background. No text, letters, logo, people, box, circle medallion, checkerboard or white rectangular paper.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/ridge/sticker.png",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "sha256": "844290678279265855891366bd47c54f658dba38588483d99cc34a37dd9b35b2",
+  "bytes": 2818107
+}

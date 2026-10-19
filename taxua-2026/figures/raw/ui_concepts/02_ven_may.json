@@ -1,0 +1,37 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:22:10.532204+00:00",
+  "purpose": "Review-only UI concept; generated interpretation, not a runtime screenshot or documentary photo",
+  "promptPath": "docs/prompts/ui_concepts/02_ven_may.txt",
+  "promptSha256": "213ea746f4ded3204a4fd98a579a0e0a00cde89340fa433198f8843e76a0422c",
+  "prompt": "Create one high-fidelity desktop UI concept screen for “Vén mây ngắm núi” in the Tà Xùa × gogo trip journal. Supplied screenshots are references for the current website's jade teal watercolor mountains, illustrated clouds, ivory paper and Vietnamese handwritten headings. The supplied real destination photograph is a visual reference for Sống Lưng Khủng Long; keep photography inside a small story object rather than as the page wallpaper. Show a delightful optional paper-framed photo vignette in the center of the illustrated mountain website. A pair of beautiful pale ivory and peach watercolor cloud cutouts are being parted sideways to reveal the supplied ridge photograph, with the opening about 65 percent uncovered. The cloud edges remain soft, handmade and richly painted, with the real mountain visible through the middle. Headline “Vén mây ngắm núi”, quiet helper “Một cái chạm, một biển mây.” Below the framed photo, one graceful slider with a painted cloud thumb and a compact “Vén hết mây” button, plus caption “Sống Lưng Khủng Long · Háng Đồng”. Include a small clear close control and a restrained story link. Keep the composition atmospheric, readable and faithful to the existing site. Present a single believable browser screen without browser chrome, not an infographic or multiple panels. No generic glassmorphism, white dashboard cards, dark tech, purple or invented logo. Landscape 3:2, exceptionally refined watercolor scrapbook UI. This is a generated design concept, not documentary photography.",
+  "references": [
+    {
+      "path": "figures/raw/ui_concepts/references/site_hero.png",
+      "sha256": "e606993a4b1a9c2fccb157d4ea1c919b4b28573c76a052bb9175c5faa053a614"
+    },
+    {
+      "path": "figures/raw/ui_concepts/references/cloud_reveal.png",
+      "sha256": "10dc27c30c9e260d2afda31ff81a87e16be1ff05b4628b69cef05da5e7b15563"
+    },
+    {
+      "path": "figures/places/p01_960.webp",
+      "sha256": "f36521b3142a7472eea19f86e6dc1a0f9fdecfe9c1810eef381e2898aa418526"
+    }
+  ],
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create one high-fidelity desktop UI concept screen for “Vén mây ngắm núi” in the Tà Xùa × gogo trip journal. Supplied screenshots are references for the current website's jade teal watercolor mountains, illustrated clouds, ivory paper and Vietnamese handwritten headings. The supplied real destination photograph is a visual reference for Sống Lưng Khủng Long; keep photography inside a small story object rather than as the page wallpaper. Show a delightful optional paper-framed photo vignette in the center of the illustrated mountain website. A pair of beautiful pale ivory and peach watercolor cloud cutouts are being parted sideways to reveal the supplied ridge photograph, with the opening about 65 percent uncovered. The cloud edges remain soft, handmade and richly painted, with the real mountain visible through the middle. Headline “Vén mây ngắm núi”, quiet helper “Một cái chạm, một biển mây.” Below the framed photo, one graceful slider with a painted cloud thumb and a compact “Vén hết mây” button, plus caption “Sống Lưng Khủng Long · Háng Đồng”. Include a small clear close control and a restrained story link. Keep the composition atmospheric, readable and faithful to the existing site. Present a single believable browser screen without browser chrome, not an infographic or multiple panels. No generic glassmorphism, white dashboard cards, dark tech, purple or invented logo. Landscape 3:2, exceptionally refined watercolor scrapbook UI. This is a generated design concept, not documentary photography.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "referenceEncoding": "JPEG quality 88, contained within 1440x1000, no upscaling",
+  "output": "figures/raw/ui_concepts/02_ven_may.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "sha256": "d1b084a53ac4631f45e154a5b2dbe81d9aecbd2ee7ba534e29b64c84f72d56de",
+  "bytes": 2958146
+}

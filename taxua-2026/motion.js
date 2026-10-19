@@ -82,6 +82,8 @@
         });
       }
       function sceneSnapshot(className) {
+        // Late initial story art can settle while the visitor explores the opening.
+        if (className === 'navigation-scene' || !JourneyScenery.heroActive()) document.dispatchEvent(new Event('journey:location-reset'));
         document.dispatchEvent(new Event('journey:play-reset'));
         const sceneLayers = document.getElementById('sceneLayers');
         const cover = sceneLayers.querySelector(':scope > .scene-catchup');
@@ -157,8 +159,12 @@
           if (previous?.scene.background === 'sunrise') {
             // Let the dark opening copy leave the sky before night arrives.
             // Later scenes retain the established broad chapter boundaries.
-            next.start = Math.max(previous.end,JourneyScenery.openingBounds().clear);
+            const explorer = document.getElementById('locationExplorer');
+            next.start = Math.max(previous.end,JourneyScenery.openingBounds().clear - (explorer ? innerHeight * .18 : 0));
             next.end = next.start + innerHeight * .65;
+            // The added rail fills the old trailing space. Finish the opening
+            // dissolve by the first ticket, while its last caption leaves above.
+            if (explorer) next.end = Math.min(next.end,point.el.getBoundingClientRect().top + scrollY + innerHeight * .1);
           }
           changes.push(next);
         });

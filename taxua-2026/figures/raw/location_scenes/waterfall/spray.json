@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:55:04.965764+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Paint an isolated delicate low bank of waterfall spray, subtle ivory and pale mint watercolor mist with sparse tiny translucent droplets, matching the lower waterfall in reference. Barely visible soft dispersed wet-on-wet edges. True RGBA transparent background. No waterfall, landscape, rock, objects, rectangle or text. A low wide soft plume rising gently from bottom center for compositing over the base of this cascade.",
+  "promptPath": "docs/prompts/location_scenes/waterfall_spray.txt",
+  "promptSha256": "8babe503d5858a5a0afdd1d6b527baa0df9146d9ce6abbd5668b9877e4ef962f",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/waterfall/wide.png",
+      "sha256": "6ffee273b741624818fcd273199394ccce18e2ac53d37950eb946150b71d9336"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Paint an isolated delicate low bank of waterfall spray, subtle ivory and pale mint watercolor mist with sparse tiny translucent droplets, matching the lower waterfall in reference. Barely visible soft dispersed wet-on-wet edges. True RGBA transparent background. No waterfall, landscape, rock, objects, rectangle or text. A low wide soft plume rising gently from bottom center for compositing over the base of this cascade.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/waterfall/spray.png",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "mode": "RGBA",
+  "sha256": "abbafc24dfef0c7a615789acd012dd2cf4f3e2594214b85f422e27de0f4d2f2a",
+  "bytes": 1609392
+}

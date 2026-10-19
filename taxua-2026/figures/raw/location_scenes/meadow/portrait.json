@@ -1,0 +1,30 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:56:18.598882+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Recompose this exact gorgeous painted meadow landscape as a dedicated vertical portrait phone background, 2:3. Preserve recognizable actual location, palette and same sophisticated detailed watercolor/gouache art. Upper 62 percent quiet pale luminous atmospheric sky or mist, subtly textured for dark website reading text. Lower 38 percent holds the location landmark in the lower right and richly painted scenery. Create new vertical composition, not a center crop. For coffee keep the actual warm cup at bottom right and timber cafe at extreme right, no lettering. For waterfall retain the specific sloping cascade and forest, open pale mist above. No text, UI, borders, logos or people. Fill every pixel with coherent landscape.",
+  "promptPath": "docs/prompts/location_scenes/meadow_portrait.txt",
+  "promptSha256": "20cd4e4b9bb0484ae68b5127f0e03b050cf457f38333a8257dbb1310101e5534",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/meadow/wide.png",
+      "sha256": "bdcf2980bdb7a5b0ed056d10a4f88c2dd6f2b9520be2dab261200f25475b2bd2"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Recompose this exact gorgeous painted meadow landscape as a dedicated vertical portrait phone background, 2:3. Preserve recognizable actual location, palette and same sophisticated detailed watercolor/gouache art. Upper 62 percent quiet pale luminous atmospheric sky or mist, subtly textured for dark website reading text. Lower 38 percent holds the location landmark in the lower right and richly painted scenery. Create new vertical composition, not a center crop. For coffee keep the actual warm cup at bottom right and timber cafe at extreme right, no lettering. For waterfall retain the specific sloping cascade and forest, open pale mist above. No text, UI, borders, logos or people. Fill every pixel with coherent landscape.",
+    "size": "1024x1536",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/meadow/portrait.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "mode": "RGB",
+  "sha256": "9b41b9a7452ff97ff5ce5beca6ba7daf9b7e0e706e1851350061de7a17ffdc8c",
+  "bytes": 2988683
+}

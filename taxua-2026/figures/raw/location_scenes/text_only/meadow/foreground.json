@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:23:25.096246+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. Elegant long arching meadow grasses with small seed heads and a few tiny white wildflowers, rooted in the bottom right corner, leaning slightly left; plenty of clear space above. Warm sunlit green and ochre. No field or land plane.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+  "promptPath": "docs/prompts/location_scenes/text_only_meadow_foreground.txt",
+  "promptSha256": "ea91e2e4971a8701a77da478fc6bb2f62421631379d7e111c870d979d80feee8",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. Elegant long arching meadow grasses with small seed heads and a few tiny white wildflowers, rooted in the bottom right corner, leaning slightly left; plenty of clear space above. Warm sunlit green and ochre. No field or land plane.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/meadow/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "9cc8ef3769752f8a7a52f73c8f1377d9173e0c6e50e20f41874de70903bcb2b0",
+  "bytes": 2185673
+}

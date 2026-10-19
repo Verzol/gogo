@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:55:17.760982+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Create a beautiful small die-cut watercolor travel sticker, a miniature of this specific tree location landscape. Preserve the characteristic silhouette and evocative light from the reference. Rich handcrafted detailed gouache/watercolor pigment, condensed into a clear bold miniature scene, graceful irregular natural silhouette with a thin warm ivory paper die-cut edge. Center the scene with generous transparent margin. No circular badge, no rectangular frame, no text, no logo, no UI. Genuine RGBA transparent outside sticker. Must read beautifully at 90 pixels.",
+  "promptPath": "docs/prompts/location_scenes/tree_sticker.txt",
+  "promptSha256": "22c1008f74371b95df98ce932f242a64d0d6c7aec16c104210ba2bbe23a668b2",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/tree/wide.png",
+      "sha256": "5920d25474121e5373acafc28b6747c17b2c684f229e3984233007fd7fc54def"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a beautiful small die-cut watercolor travel sticker, a miniature of this specific tree location landscape. Preserve the characteristic silhouette and evocative light from the reference. Rich handcrafted detailed gouache/watercolor pigment, condensed into a clear bold miniature scene, graceful irregular natural silhouette with a thin warm ivory paper die-cut edge. Center the scene with generous transparent margin. No circular badge, no rectangular frame, no text, no logo, no UI. Genuine RGBA transparent outside sticker. Must read beautifully at 90 pixels.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/tree/sticker.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "21f41fd46bfac4c4c9efd2887c2b372a7aa1bffa71c51906d22f687be376e159",
+  "bytes": 3087243
+}

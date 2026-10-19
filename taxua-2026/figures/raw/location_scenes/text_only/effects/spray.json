@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:27:42.938998+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. A low wide soft plume of delicate translucent ivory and pale mint waterfall spray with a few tiny drifting droplets. Barely visible wet-on-wet watercolor edges; no cascade, pool, plants or rock. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+  "promptPath": "docs/prompts/location_scenes/text_only_effects_spray.txt",
+  "promptSha256": "9c3fb9af6dc632c53b00c00eac2cf6d71a46afc14e7f573309974e6246ce09bc",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. A low wide soft plume of delicate translucent ivory and pale mint waterfall spray with a few tiny drifting droplets. Barely visible wet-on-wet watercolor edges; no cascade, pool, plants or rock. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/effects/spray.png",
+  "dimensions": [
+    1774,
+    887
+  ],
+  "mode": "RGBA",
+  "sha256": "55a44ff8d7f50c746f92da6c7caf4b7d3f482af4c6b481e5d26569094d3e732e",
+  "bytes": 1089854
+}

@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T12:00:55.783905+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Create a beautiful small die-cut watercolor travel sticker, a miniature of this specific waterfall location landscape. Preserve the characteristic silhouette and evocative light from the reference. Rich handcrafted detailed gouache/watercolor pigment, condensed into a clear bold miniature scene, graceful irregular natural silhouette with a thin warm ivory paper die-cut edge. Center the scene with generous transparent margin. No circular badge, no rectangular frame, no text, no logo, no UI. Genuine RGBA transparent outside sticker. Must read beautifully at 90 pixels.",
+  "promptPath": "docs/prompts/location_scenes/waterfall_sticker.txt",
+  "promptSha256": "adbccf48ab11fcd1644d9005ab6e61a48972e34f87a5c64460afcc51881814b2",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/waterfall/wide.png",
+      "sha256": "6ffee273b741624818fcd273199394ccce18e2ac53d37950eb946150b71d9336"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a beautiful small die-cut watercolor travel sticker, a miniature of this specific waterfall location landscape. Preserve the characteristic silhouette and evocative light from the reference. Rich handcrafted detailed gouache/watercolor pigment, condensed into a clear bold miniature scene, graceful irregular natural silhouette with a thin warm ivory paper die-cut edge. Center the scene with generous transparent margin. No circular badge, no rectangular frame, no text, no logo, no UI. Genuine RGBA transparent outside sticker. Must read beautifully at 90 pixels.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/waterfall/sticker.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "c13897584b052e1c5687437eaec75429e59b3d3759a0fc0462a3034d0b8ec7fc",
+  "bytes": 3456202
+}

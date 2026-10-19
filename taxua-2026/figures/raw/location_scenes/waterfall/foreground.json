@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:58:19.572187+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. A graceful cluster of wet emerald fern fronds entering from lower right, tiny droplets, soft reflected pale light. Fine delicate fern leaflets. No waterfall or rocks. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+  "promptPath": "docs/prompts/location_scenes/waterfall_foreground.txt",
+  "promptSha256": "34e3693948e269af2165b1b0187ec7b9babfb3fc1a0a7977fa76f27bb6c7ea86",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/waterfall/wide.png",
+      "sha256": "6ffee273b741624818fcd273199394ccce18e2ac53d37950eb946150b71d9336"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. A graceful cluster of wet emerald fern fronds entering from lower right, tiny droplets, soft reflected pale light. Fine delicate fern leaflets. No waterfall or rocks. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/waterfall/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "445761ba22f335f77ab324e23ed1dc51369a787dd0c025bd287bba1a449e30f9",
+  "bytes": 2315892
+}

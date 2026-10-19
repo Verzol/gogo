@@ -1,0 +1,30 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:54:47.493846+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Recompose this exact gorgeous painted tree landscape as a dedicated vertical portrait phone background, 2:3. Preserve recognizable actual location, palette and same sophisticated detailed watercolor/gouache art. Upper 62 percent quiet pale luminous atmospheric sky or mist, subtly textured for dark website reading text. Lower 38 percent holds the location landmark in the lower right and richly painted scenery. Create new vertical composition, not a center crop. For coffee keep the actual warm cup at bottom right and timber cafe at extreme right, no lettering. For waterfall retain the specific sloping cascade and forest, open pale mist above. No text, UI, borders, logos or people. Fill every pixel with coherent landscape.",
+  "promptPath": "docs/prompts/location_scenes/tree_portrait.txt",
+  "promptSha256": "00b6d7243e7e2d90f335601825c0211b4589c18e84c674ab58fce2d155219109",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/tree/wide.png",
+      "sha256": "5920d25474121e5373acafc28b6747c17b2c684f229e3984233007fd7fc54def"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Recompose this exact gorgeous painted tree landscape as a dedicated vertical portrait phone background, 2:3. Preserve recognizable actual location, palette and same sophisticated detailed watercolor/gouache art. Upper 62 percent quiet pale luminous atmospheric sky or mist, subtly textured for dark website reading text. Lower 38 percent holds the location landmark in the lower right and richly painted scenery. Create new vertical composition, not a center crop. For coffee keep the actual warm cup at bottom right and timber cafe at extreme right, no lettering. For waterfall retain the specific sloping cascade and forest, open pale mist above. No text, UI, borders, logos or people. Fill every pixel with coherent landscape.",
+    "size": "1024x1536",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/tree/portrait.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "mode": "RGB",
+  "sha256": "0bee22eba4df78302ffdb0b9a5023d746e5c54670d923b31c3ebc413e0889ad1",
+  "bytes": 3082174
+}

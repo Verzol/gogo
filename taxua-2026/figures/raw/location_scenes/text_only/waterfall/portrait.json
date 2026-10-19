@@ -1,0 +1,25 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:25:12.422566+00:00",
+  "purpose": "Prompt-only illustrative location painting; no image references or documentary fidelity claim.",
+  "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nVertical canvas, strictly 2:3 portrait composition, painted anew for a phone or portrait tablet. Upper 55 percent is quiet pale sky and atmospheric distance. Landmark is in lower half, strictly inside x=0.35..0.78 and y=0.57..0.90. Its essential shape must remain recognizable when the sides are cropped to a tall 9:20 phone. Recompose rather than making a narrow slice of a landscape. Extend secondary scenery to all edges.\nThác Chua Tỳ: an intimate spectacular forest cascade in northern Vietnam, cool luminous jade water falling in a narrow white ribbon down dark mossy rock terraces into a clear turquoise plunge pool. Lush broadleaf subtropical forest with hanging vines, ferns, glossy leaves, roots and wet angular stones; shafts of gentle sunlight and cool luminous mist. The actual cascade is in a slender diagonal corridor from x=0.66 y=0.56 to x=0.62 y=0.83; pool center (0.62,0.88). Keep the waterfall bright and detailed, flowing over believable dark stone ledges; no huge fantasy Niagara wall. Upper half airy distant forest canopy and blue-green atmosphere with low contrast, not a dark impenetrable wall. Gold-lit ferns and leaf detail frame only the lower edges.",
+  "promptPath": "docs/prompts/location_scenes/text_only_waterfall_portrait.txt",
+  "promptSha256": "86781532e70e87745936b93bd6fab5ed53ffd8326b4d102ab45acb5ac9e3c6d0",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create a breathtaking original watercolor and gouache landscape illustration for an illustrated travel journal about Tà Xùa in northern Vietnam. Work entirely from this written description. Exquisite fine botanical brushwork, deep atmospheric perspective, translucent pigment blooms, subtle cold-press paper tooth, luminous light, sophisticated rich jade and indigo shadows against pearl and apricot sky. A real painter's composed landscape with immense scale and authentic subtropical Vietnamese uplands, never generic Alpine peaks. Hand-painted, not photographic, not 3D, not flat cartoon, not a collage. Fill the entire canvas edge to edge; no lettering, logos, sign text, people, borders, frames, website elements, blank paper, or watermarks. Sharp authored detail where land meets light; do not blur or wash out the whole scene. The sky is luminous and quietly colored, never empty white.\nVertical canvas, strictly 2:3 portrait composition, painted anew for a phone or portrait tablet. Upper 55 percent is quiet pale sky and atmospheric distance. Landmark is in lower half, strictly inside x=0.35..0.78 and y=0.57..0.90. Its essential shape must remain recognizable when the sides are cropped to a tall 9:20 phone. Recompose rather than making a narrow slice of a landscape. Extend secondary scenery to all edges.\nThác Chua Tỳ: an intimate spectacular forest cascade in northern Vietnam, cool luminous jade water falling in a narrow white ribbon down dark mossy rock terraces into a clear turquoise plunge pool. Lush broadleaf subtropical forest with hanging vines, ferns, glossy leaves, roots and wet angular stones; shafts of gentle sunlight and cool luminous mist. The actual cascade is in a slender diagonal corridor from x=0.66 y=0.56 to x=0.62 y=0.83; pool center (0.62,0.88). Keep the waterfall bright and detailed, flowing over believable dark stone ledges; no huge fantasy Niagara wall. Upper half airy distant forest canopy and blue-green atmosphere with low contrast, not a dark impenetrable wall. Gold-lit ferns and leaf detail frame only the lower edges.",
+    "size": "1536x2304",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "output": "figures/raw/location_scenes/text_only/waterfall/portrait.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "mode": "RGB",
+  "sha256": "4ff7e112f05f7eb86b07c759d9a0dd82fe72d5a87256efa65aa3132ada5f4b62",
+  "bytes": 3844197
+}

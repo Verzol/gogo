@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T12:00:49.222819+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. Three delicate soft translucent curls of warm coffee steam, rising together from a single small origin bottom center and uncurling upward. Only STEAM isolated on transparency, no cup, tabletop, landscape, leaves or other objects. Wispy pale ivory and warm grey, restrained opacity, watercolor wet-on-wet edges. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+  "promptPath": "docs/prompts/location_scenes/coffee_foreground.txt",
+  "promptSha256": "29fcf17e25b15282b99420d73c33b5b85539a19db7a5a0072b2ba9cae4a84a91",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/coffee/wide.png",
+      "sha256": "7eaf210c8d1535df4447611b521f3e8c8bdc0a6924b20240ee08d1eb4ad20dd4"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Paint a standalone isolated foreground cutout matching EXACTLY the reference landscape style, color, perspective and light. Three delicate soft translucent curls of warm coffee steam, rising together from a single small origin bottom center and uncurling upward. Only STEAM isolated on transparency, no cup, tabletop, landscape, leaves or other objects. Wispy pale ivory and warm grey, restrained opacity, watercolor wet-on-wet edges. Detailed sophisticated watercolor/gouache. Composition extending from lower RIGHT edge with generous negative transparent space at upper and left sides. True transparent RGBA background, no sky, no full scene, no white rectangle, no checkerboard baked in, no text. Designed to composite naturally at bottom right of the referenced scene.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/coffee/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "7646a7bcffeebf3ebfa2a7ca4351a50064a4b7a2e00d3a2c4f7a0cbc8c547753",
+  "bytes": 1305211
+}

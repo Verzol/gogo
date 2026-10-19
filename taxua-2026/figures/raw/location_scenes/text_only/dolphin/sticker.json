@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:22:45.079646+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. Two stacked dark slate rocks with a cantilevered upper stone resembling a dolphin snout, on a little emerald grass base. A geological landmark, not an animal.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+  "promptPath": "docs/prompts/location_scenes/text_only_dolphin_sticker.txt",
+  "promptSha256": "e357e2ed66d3b516a7b8b917ae28e02166cbbb2e7eca4edb70b71a85bcfc8ded",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache small collectible die-cut travel sticker for a Vietnamese mountain travel journal. Two stacked dark slate rocks with a cantilevered upper stone resembling a dolphin snout, on a little emerald grass base. A geological landmark, not an animal.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Keep a compact clear silhouette readable at 90 pixels. Subtle irregular ivory die-cut rim hugging the silhouette, outside the rim completely transparent.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/dolphin/sticker.png",
+  "dimensions": [
+    1393,
+    1129
+  ],
+  "mode": "RGBA",
+  "sha256": "3c39f1cea2789b07493b99bb70975f9a12ed8f2edb45e99f13cd892f07252f2d",
+  "bytes": 2564335
+}

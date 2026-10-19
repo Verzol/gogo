@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:27:49.328511+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. A very delicate elongated ribbon of pearly blue-green mountain mist with a low undulating profile, transparent wet-on-wet watercolor edges, airy subtle opacity. No landscape, trees, objects or sky plane. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+  "promptPath": "docs/prompts/location_scenes/text_only_effects_mist.txt",
+  "promptSha256": "3bb4236b1a23ca1abdd307276e6487738dd6ed7db655bd53b905e6a51b3eceaa",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. A very delicate elongated ribbon of pearly blue-green mountain mist with a low undulating profile, transparent wet-on-wet watercolor edges, airy subtle opacity. No landscape, trees, objects or sky plane. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/effects/mist.png",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "mode": "RGBA",
+  "sha256": "43b899951d4c718defd4e1596d5804fdf2d4952d69aa5f0db2bb0e96cc67f458",
+  "bytes": 762754
+}

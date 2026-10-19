@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:21:58.691431+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. A low sparse tuft of delicate wind-brushed ochre grasses and three tiny moss-flecked slate stones clustered along the bottom right corner. No large cliff or mountain. Gentle warm side light on dark jade and slate.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+  "promptPath": "docs/prompts/location_scenes/text_only_dolphin_foreground.txt",
+  "promptSha256": "907561d99c6eed842739d5222dde99009bf6ef1be6b2388371c618a676c0a7b6",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original finely hand-painted watercolor and gouache foreground overlay for a Vietnamese mountain travel journal. A low sparse tuft of delicate wind-brushed ochre grasses and three tiny moss-flecked slate stones clustered along the bottom right corner. No large cliff or mountain. Gentle warm side light on dark jade and slate.\nRich jade/indigo/ochre pigments, delicate paper-grain brushwork, luminous natural light, beautiful sophisticated illustration, not flat vector or cartoon. ISOLATED on true transparent RGBA background. Do not paint a white background or checkerboard. No text, letters, logos, border, shadow rectangle, frame or other objects. Soft natural watercolor edges dissolve directly into transparent empty space. Avoid a hard rectangular crop. Wide empty transparent area around the painted subject.",
+    "size": "1024x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/dolphin/foreground.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "sha256": "641a0c48258c87d84177fcf22dd3c7d8718a65b3a1032d38d26445abaf783ae8",
+  "bytes": 2016004
+}

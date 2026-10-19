@@ -1,0 +1,24 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:07:46.349857+00:00",
+  "prompt": "Create one landscape blank watercolor postcard background, aspect ratio 3:2. Handmade ivory cotton paper with irregular soft painted edges, jade teal Vietnamese Ta Xua mountain ridges and a tiny peach sunrise along the LOWER THIRD only. Very subtle cloudy wash. Upper two thirds mostly clean ivory empty paper for stickers and a handwritten caption. Tender travel scrapbook style, hand painted pigment granulation, soft natural paper texture. No text, no letters, no words, no logos, no stamp, no border, no people, no mockup, flat front view filling the entire image. Restrained detailed mountain shapes along bottom, plenty of negative space.",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create one landscape blank watercolor postcard background, aspect ratio 3:2. Handmade ivory cotton paper with irregular soft painted edges, jade teal Vietnamese Ta Xua mountain ridges and a tiny peach sunrise along the LOWER THIRD only. Very subtle cloudy wash. Upper two thirds mostly clean ivory empty paper for stickers and a handwritten caption. Tender travel scrapbook style, hand painted pigment granulation, soft natural paper texture. No text, no letters, no words, no logos, no stamp, no border, no people, no mockup, flat front view filling the entire image. Restrained detailed mountain shapes along bottom, plenty of negative space.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "master": "figures/raw/keepsakes/postcard.png",
+  "sha256": "8ee397e48e542a62098f238cd3b769a62315b8f0fc6de3a66a2dc689bf59f4c4",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "derivative": "figures/decor/painted/playful/postcard.webp",
+  "derivativeDimensions": [
+    1200,
+    800
+  ],
+  "derivativeSha256": "aed1f82cd1a8dc0009aa69d1cfa135659dadcf8bb1e58721ae8f9f21a4070297"
+}

@@ -50,3 +50,8 @@ Spacing was shortened on 15 October after the user found the stretched version t
 Tune event/day padding, photo-event minimum heights, cluster gaps and `#khe-cai` in `style.css`; keep chapter grouping instead of adding empty space at every stop. Phone photo sections use natural content height. Measurements: [pacing.json](../review/illustrated/pacing.json).
 
 Run `verify_motion.cjs` for scene/navigation gestures, `verify_reveals.cjs` for physical forward/reverse states, `verify_artwork.cjs` for period swaps and `verify_story.cjs` for pacing. Existing evidence is historical until rerun.
+
+
+## Location explorer integration
+
+Location previews clear before navigation or story snapshots via `journey:location-reset`. The opening dissolve accounts for the extra sticker rail and completes by the first ticket. Initial artwork catchup while still physically in the opening preserves the chosen location; its art is outside the snapshot subtree. See [Location scenes](location-scenes.md).

@@ -1,0 +1,31 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T11:55:30.206218+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "A standalone wide horizontal cluster of delicate water reflection glints, fine broken pale mint and warm ivory horizontal watercolor strokes on TRUE transparency. Sparse thin gently wavering lines in a low broad oval, seen obliquely on a calm mountain reservoir. No water surface background, no solid shape, no landscape or text. Isolated very subtle luminous reflections to overlay the turquoise reservoir in the reference. Transparent RGBA.",
+  "promptPath": "docs/prompts/location_scenes/effects_water_glints.txt",
+  "promptSha256": "514eddc074224c8be687487919da3be6e40f783cc834b184ffb926428f5ec079",
+  "references": [
+    {
+      "path": "figures/raw/location_scenes/tree/wide.png",
+      "sha256": "5920d25474121e5373acafc28b6747c17b2c684f229e3984233007fd7fc54def"
+    }
+  ],
+  "referenceEncoding": "JPEG quality 88 contained within 1440x1100, no upscaling",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "A standalone wide horizontal cluster of delicate water reflection glints, fine broken pale mint and warm ivory horizontal watercolor strokes on TRUE transparency. Sparse thin gently wavering lines in a low broad oval, seen obliquely on a calm mountain reservoir. No water surface background, no solid shape, no landscape or text. Isolated very subtle luminous reflections to overlay the turquoise reservoir in the reference. Transparent RGBA.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/effects/water_glints.png",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "mode": "RGBA",
+  "sha256": "4d66c1cda7bf260e683b871d38cdb1d29279e077d13e5fdc470610192d9d9a14",
+  "bytes": 859666
+}

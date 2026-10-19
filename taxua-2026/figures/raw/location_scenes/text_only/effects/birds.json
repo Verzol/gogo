@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:26:51.148582+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. Two tiny distant mountain swallows in flight, separated from one another; elegant natural dark indigo silhouettes with a hint of soft watercolor feather edges. No background scenery. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+  "promptPath": "docs/prompts/location_scenes/text_only_effects_birds.txt",
+  "promptSha256": "2d789b2436e4bfdfdf3641f5f4e53b2a712afba85a66fdebbd660cfbebca93ff",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. Two tiny distant mountain swallows in flight, separated from one another; elegant natural dark indigo silhouettes with a hint of soft watercolor feather edges. No background scenery. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/effects/birds.png",
+  "dimensions": [
+    1774,
+    887
+  ],
+  "mode": "RGBA",
+  "sha256": "64e4bcaa14d5a98c584cd798f99ad7a5098e36e66d1c2e9e8e6789fbb5e77b18",
+  "bytes": 424171
+}

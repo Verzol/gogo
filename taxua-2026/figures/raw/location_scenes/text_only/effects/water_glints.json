@@ -1,0 +1,26 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-19T14:27:09.541709+00:00",
+  "purpose": "Generated illustrative location scene, not documentary photography",
+  "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. A low horizontal scattering of tiny soft pale gold and pearl reflections on water. Sparse delicate short horizontal brush marks, translucent and subtle, no water plane, no landscape. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+  "promptPath": "docs/prompts/location_scenes/text_only_effects_water_glints.txt",
+  "promptSha256": "fb6111dc4f90483f0dc3b4f1dd2ae3d826736679396de0b1158eb8d679352289",
+  "references": [],
+  "referenceEncoding": null,
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original sophisticated watercolor effect plate for a jade-and-apricot mountain travel illustration. A low horizontal scattering of tiny soft pale gold and pearl reflections on water. Sparse delicate short horizontal brush marks, translucent and subtle, no water plane, no landscape. True transparent RGBA background, large transparent margins. No lettering, borders, white rectangle or baked checkerboard. Only the described painted atmospheric object.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png",
+    "background": "transparent"
+  },
+  "output": "figures/raw/location_scenes/text_only/effects/water_glints.png",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "mode": "RGBA",
+  "sha256": "3bea056a57a9dc6029d83abbab59b6ba451c2c3fc6a5e74e24d8e3c8a78ec9f5",
+  "bytes": 464041
+}
