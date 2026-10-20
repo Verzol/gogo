@@ -15,7 +15,7 @@
   const petals = document.createElement('div');petals.className = 'wd-petals';stage.append(petals);
   const contexts = [],triggers = [],cache = new Map(),flights = new Set();
   let active = null,pending = null,held = null,epoch = 0,intent = 0,leave = 0;
-  let fade = null,suppressFocus = false;
+  let fade = null;
   const canMove = () => !reduced.matches && root.dataset.motionPaused !== 'true' && !document.hidden;
   const blocked = () => !!document.querySelector('dialog[open],.navigation-scene') || document.getElementById('navToggle')?.getAttribute('aria-expanded') === 'true';
   const inView = context => {
@@ -38,17 +38,12 @@
     const date = document.createElement('small');date.textContent = copy.dateLabel;
     const line = document.createElement('span');line.textContent = copy.invitation;
     label.append(date,line);button.append(label);
-    const reset = document.createElement('button');reset.type = 'button';reset.className = 'wd-reset';reset.textContent = copy.reset;reset.hidden = true;
     const message = document.createElement('div');message.className = 'wd-message';message.hidden = true;
     const title = document.createElement('h2'),text = document.createElement('p');message.append(title,text);
     const status = document.createElement('p');status.className = 'wd-status';status.setAttribute('role','status');
-    container.append(button,reset,message,status);parent.insertBefore(container,before || null);
-    const context = {kind,container,button,reset,message,title,text,status};contexts.push(context);
+    container.append(button,message,status);parent.insertBefore(container,before || null);
+    const context = {kind,container,button,message,title,text,status};contexts.push(context);
     wire(button,context,'');
-    reset.addEventListener('click',() => {
-      const origin = held || active || pending;
-      clear();suppressFocus = true;(origin?.button || button).focus({preventScroll:true});suppressFocus = false;
-    });
     container.addEventListener('pointerleave',deferLeave);
     container.addEventListener('focusout',deferLeave);
     container.addEventListener('pointerenter',() => clearTimeout(leave));
@@ -82,7 +77,7 @@
     const item = {button,context,id};triggers.push(item);
     button.setAttribute('aria-pressed','false');button.setAttribute('aria-controls','womensDayStage');
     button.addEventListener('pointerenter',event => {if (event.pointerType !== 'touch') preview(button,context,id);});
-    button.addEventListener('focus',() => {if (!suppressFocus && button.matches(':focus-visible')) preview(button,context,id);});
+    button.addEventListener('focus',() => {if (button.matches(':focus-visible')) preview(button,context,id);});
     button.addEventListener('pointerleave',deferLeave);
     button.addEventListener('blur',deferLeave);
     button.addEventListener('click',() => {
@@ -115,7 +110,6 @@
     contexts.forEach(context => {
       const visible = active?.context === context;
       context.message.hidden = !visible;
-      context.reset.hidden = !visible;
       context.container.dataset.active = String(visible);
       if (!pending || pending.context !== context) context.status.textContent = '';
     });
@@ -192,7 +186,7 @@
   document.addEventListener('journey:location-preview',clear);
   document.addEventListener('journey:weather-preview',clear);
   document.addEventListener('journey:opening-exit',() => {if ((active || pending)?.context === opening) clear();});
-  document.addEventListener('click',event => {if (event.target.closest('a[href^="#"]')) clear();},true);
+  document.addEventListener('click',event => {if (!event.target.closest('.wd-bouquet,.wd-flower')) clear();},true);
   const observer = new MutationObserver(() => {if (blocked()) clear();});
   observer.observe(document.body,{subtree:true,attributes:true,attributeFilter:['open']});
   const nav = document.getElementById('navToggle');

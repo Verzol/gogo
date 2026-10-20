@@ -32,6 +32,7 @@ async function layout(p,name) {
   try {
     const p = await page(),requests = [];p.on('request',r => requests.push(r.url()));await ready(p);await wait(700);
     check('initial page does not request a floral landscape',!requests.some(url => /womens_day\/landscape_/.test(url)));
+    check('no cloud reset buttons remain',await p.locator('.wd-reset').count() === 0);
     check('exactly the confirmed recipients have flowers',(await p.locator('.wd-flower').evaluateAll(items => items.map(el => el.dataset.recipient).sort())).join(',') === 'linh,mi,thao');
     check('seven portraits and seven diary links retained',await p.locator('#crewGrid .avatar img').count() === 7 && await p.locator('#crewGrid .diary-crew-link').count() === 7);
     check('flower and diary link remain separate controls',await p.locator('.wd-flower .diary-crew-link,.diary-crew-link .wd-flower').count() === 0);
@@ -52,8 +53,10 @@ async function layout(p,name) {
     await p.locator('.location-sticker[data-location="tree"]').click();await active(p,'');await p.waitForFunction(() => JourneyLocations.active === 'tree');
     check('location choice replaces floral background',await p.locator('#womensDayStage').isHidden());
     await bouquet(p).click();await active(p,'hero');check('bouquet clears held location',await p.evaluate(() => !JourneyLocations.active));
-    await p.locator('.wd-invite--hero .wd-reset').click();await active(p,'');await wait(300);
-    check('reset focuses bouquet without reopening',await bouquet(p).evaluate(el => el === document.activeElement) && await p.locator('#womensDayStage').isHidden());
+    await bouquet(p).click();await active(p,'');await wait(300);
+    check('second bouquet click restores clouds without reopening',await bouquet(p).getAttribute('aria-pressed') === 'false' && await p.locator('#womensDayStage').isHidden());
+    await bouquet(p).click();await active(p,'hero');await p.locator('.location-heading > p').click();await wait(300);
+    check('outside click restores clouds and hides greeting',await p.evaluate(() => !JourneyWomensDay.active) && await p.locator('#womensDayStage').isHidden() && await p.locator('.wd-invite--hero .wd-message').isHidden());
     await crew(p);
     const before = await flower(p,'mi').boundingBox();await flower(p,'mi').hover();await active(p,'mi');await wait(350);
     const after = await flower(p,'mi').boundingBox();check('greeting does not move hovered portrait',Math.abs(before.y - after.y) < 1 && Math.abs(before.x - after.x) < 1);
@@ -66,6 +69,7 @@ async function layout(p,name) {
     await p.evaluate(() => document.getElementById('fund').scrollIntoView({behavior:'instant'}));await active(p,'');
     check('scrolling past crew clears floral scenery',await p.locator('#womensDayStage').isHidden());
     await ready(p);await bouquet(p).click();await active(p,'hero');await p.locator('#weatherMotion').click();
+    await bouquet(p).click();await active(p,'hero');
     check('pause cancels petals and scene fades',await p.locator('.wd-petal').count() === 0 && await p.locator('#womensDayStage').evaluate(el => el.getAnimations().every(a => a.playState !== 'running')));
     await p.keyboard.press('Escape');await active(p,'');await bouquet(p).click();await active(p,'hero');
     check('paused activation still shows greeting without particles',await p.locator('.wd-petal').count() === 0);
@@ -80,6 +84,8 @@ async function layout(p,name) {
       check(width+'px reduced motion has no particles or fade',await phone.locator('.wd-petal').count() === 0 && await phone.locator('#womensDayStage').evaluate(el => el.getAnimations().length === 0));
       await shot(phone,'hero-'+width);await bouquet(phone).tap();await active(phone,'');
       await crew(phone);await flower(phone,'mi').tap();await active(phone,'mi');await layout(phone,'crew '+width+'px');await shot(phone,'crew-'+width);
+      await phone.touchscreen.tap(2,300);await active(phone,'');check(width+'px outside tap clears floral scenery',await phone.locator('#womensDayStage').isHidden());
+      await flower(phone,'mi').tap();await active(phone,'mi');
       await phone.setViewportSize({width:width === 740 ? 390 : 740,height:width === 740 ? 844 : 390});
       await phone.waitForFunction(() => !JourneyWomensDay.active || womensDayStage.dataset.orientation === (innerWidth <= innerHeight ? 'portrait' : 'wide'));
       check(width+'px rotation leaves no stale artwork',await phone.evaluate(() => !JourneyWomensDay.active || womensDayStage.dataset.orientation === (innerWidth <= innerHeight ? 'portrait' : 'wide')));
@@ -91,6 +97,8 @@ async function layout(p,name) {
     check('cancelled hover decode cannot resurrect background',await race.locator('#womensDayStage').isHidden() && await race.evaluate(() => !JourneyWomensDay.active));
     await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(180);await race.keyboard.press('Escape');await wait(1000);
     check('Escape cancels pending held image request',await race.locator('#womensDayStage').isHidden() && await bouquet(race).getAttribute('aria-pressed') === 'false');
+    await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(180);await race.locator('.location-heading > p').click();await wait(1000);
+    check('outside click cancels pending floral decode',await race.locator('#womensDayStage').isHidden() && await race.evaluate(() => !JourneyWomensDay.active) && await bouquet(race).getAttribute('aria-pressed') === 'false');
     await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(150);await race.locator('.location-sticker[data-location="ridge"]').click();await race.waitForFunction(() => JourneyLocations.active === 'ridge');await wait(800);
     check('later location wins against pending floral decode',await race.locator('#womensDayStage').isHidden() && await race.evaluate(() => !JourneyWomensDay.active && JourneyLocations.active === 'ridge'));
     await race.close();

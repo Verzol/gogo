@@ -8,12 +8,11 @@
   const stage = document.createElement('div');stage.id = 'locationStage';stage.className = 'location-stage';stage.setAttribute('aria-hidden','true');stage.hidden = true;
   document.getElementById('scenery').append(stage);
   const chooser = document.createElement('section');chooser.id = 'locationExplorer';chooser.className = 'location-explorer';chooser.setAttribute('aria-label','Ghé những miền Tà Xùa');
-  chooser.innerHTML = '<div class="location-heading"><p>Ghé một miền Tà Xùa</p><button type="button" class="location-reset" hidden>Về biển mây <span aria-hidden="true">↶</span></button></div><div class="location-stickers" role="group" aria-label="Chọn phong cảnh"></div><div class="location-caption"><div><h2 id="locationName">Mỗi hình dán, một miền cảnh.</h2><p id="locationLine">Chạm để ghé qua, cuộn để lên đường.</p></div><a class="location-story" hidden>Đến trang nhật ký <span aria-hidden="true">↗</span></a></div><p class="location-illustration">Tranh minh họa địa điểm</p><p class="sr-only location-status" role="status" aria-live="polite"></p>';
+  chooser.innerHTML = '<div class="location-heading"><p>Ghé một miền Tà Xùa</p></div><div class="location-stickers" role="group" aria-label="Chọn phong cảnh"></div><div class="location-caption" hidden><div><h2 id="locationName"></h2><p id="locationLine"></p></div><a class="location-story" hidden>Đến trang nhật ký <span aria-hidden="true">↗</span></a></div><p class="sr-only location-status" role="status" aria-live="polite"></p>';
   hero.insertBefore(chooser,document.getElementById('heroSummary'));
   root.dataset.locationsReady = 'true';
-  const resetButton = chooser.querySelector('.location-reset'),name = chooser.querySelector('#locationName'),line = chooser.querySelector('#locationLine'),story = chooser.querySelector('.location-story'),status = chooser.querySelector('.location-status');
+  const caption = chooser.querySelector('.location-caption'),name = chooser.querySelector('#locationName'),line = chooser.querySelector('#locationLine'),story = chooser.querySelector('.location-story'),status = chooser.querySelector('.location-status');
   const buttons = new Map(),cache = new Map();
-  let suppressFocus = false;
   let selected = '',desired = '',visible = '',version = 0,intent = 0,leave = 0,frame = 0,stopped = false;
   let desiredPortrait = '';
   let fade = null,settling = Promise.resolve(),lastPoint = {x:0,y:0};
@@ -26,7 +25,6 @@
   function busy(id,value) { buttons.get(id)?.setAttribute('aria-busy',String(value)); }
   function controls() {
     buttons.forEach((button,id) => {button.setAttribute('aria-pressed',String(id === selected));button.dataset.preview = String(id === desired);});
-    resetButton.hidden = !desired && !visible;
   }
   async function prepare(id,portrait) {
     const key = id + (portrait ? '_portrait' : '_wide');
@@ -103,7 +101,7 @@
       // Re-entering during the cloud-return fade also keeps the same painting.
       if (!desired) {fade?.cancel();fade = null;settling = Promise.resolve();stage.style.opacity = '1';}
       ++version;desired = id;desiredPortrait = orientation;
-      name.textContent = scene.name;line.textContent = scene.line;story.href = '#' + scene.target;story.hidden = false;
+      name.textContent = scene.name;line.textContent = scene.line;story.href = '#' + scene.target;story.hidden = false;caption.hidden = false;
       buttons.forEach((_,key) => busy(key,false));controls();announce(scene);return;
     }
     if (!keepWeather) window.JourneyWeather?.clearPreview();
@@ -117,7 +115,7 @@
       stage.dataset.portrait = String(portrait);stage.style.opacity = '1';
       root.dataset.locationScene = id;JourneyScenery.setLocationPreview(true);
       positionDetails();
-      visible = id;name.textContent = scene.name;line.textContent = scene.line;story.href = '#' + scene.target;story.hidden = false;
+      visible = id;name.textContent = scene.name;line.textContent = scene.line;story.href = '#' + scene.target;story.hidden = false;caption.hidden = false;
       const old = [...stage.children].filter(node => node !== slot);
       if (canMove() && slot.animate) {
         fade = slot.animate([{opacity:0},{opacity:1}],{duration:750,easing:'cubic-bezier(.2,.65,.3,1)',fill:'forwards'});
@@ -141,7 +139,7 @@
     ++version;desired = selected = desiredPortrait = '';clearTimeout(intent);clearTimeout(leave);
     buttons.forEach((_,id) => busy(id,false));
     fade?.cancel();fade = null;settling = Promise.resolve();
-    name.textContent = 'Mỗi hình dán, một miền cảnh.';line.textContent = 'Chạm để ghé qua, cuộn để lên đường.';story.hidden = true;status.textContent = '';
+    name.textContent = '';line.textContent = '';story.hidden = true;caption.hidden = true;status.textContent = '';
     if (!instant && canMove() && !stage.hidden && stage.animate) {
       // Finish the current incoming layer before fading the composition as a whole.
       [...stage.children].forEach(node => {node.style.opacity = '1';});
@@ -161,7 +159,7 @@
       if (event.pointerType === 'touch') return;
       clearTimeout(intent);clearTimeout(leave);intent = setTimeout(() => show(scene.id),160);
     });
-    button.addEventListener('focus',() => {if (!suppressFocus && button.matches(':focus-visible')) show(scene.id);});
+    button.addEventListener('focus',() => {if (button.matches(':focus-visible')) show(scene.id);});
     button.addEventListener('click',() => {if (selected === scene.id) clear();else show(scene.id,{hold:true});});
   });
   chooser.addEventListener('pointerenter',() => clearTimeout(leave));
@@ -170,14 +168,11 @@
     clearTimeout(intent);leave = setTimeout(() => {if (selected) {if (desired !== selected) show(selected);} else {const focused = document.activeElement.closest?.('.location-sticker');if (focused && focused.matches(':focus-visible')) show(focused.dataset.location);else clear();}},120);
   });
   chooser.addEventListener('focusout',() => {queueMicrotask(() => {if (!chooser.contains(document.activeElement) && !selected && !chooser.matches(':hover')) clear();});});
-  resetButton.addEventListener('click',() => {clear();suppressFocus = true;buttons.values().next().value.focus({preventScroll:true});suppressFocus = false;});
-  // Reset button focus must not immediately re-open the first scene.
-  resetButton.addEventListener('mousedown',event => event.preventDefault());
   document.addEventListener('keydown',event => {if (event.key === 'Escape') clear(true);});
   document.addEventListener('journey:opening-exit',() => clear(true));
   document.addEventListener('journey:location-reset',() => clear(true));
   document.addEventListener('journey:weather-preview',() => clear(true));
-  document.addEventListener('click',event => {if (event.target.closest('a[href^="#"]')) clear(true);},true);
+  document.addEventListener('click',event => {if (!event.target.closest('.location-sticker')) clear(true);},true);
   const overlayObserver = new MutationObserver(() => {if (blocked()) clear(true);});
   overlayObserver.observe(document.body,{subtree:true,attributes:true,attributeFilter:['open']});
   const nav = document.getElementById('navToggle');if (nav) overlayObserver.observe(nav,{attributes:true,attributeFilter:['aria-expanded']});

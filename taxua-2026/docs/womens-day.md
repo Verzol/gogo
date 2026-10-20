@@ -6,7 +6,7 @@ A keepsake for Vietnamese Women's Day, 20 October 2026. Explicit recipients are 
 
 ## Behavior
 
-The opening and crew each have a painted bouquet. Mouse hover or keyboard focus previews the floral mountain scene. Clicking, tapping, Space or Enter holds it. Activating the held control again, Escape, or “Về biển mây” clears it. Reset returns focus to the originating control without immediately reopening it. The greeting is live HTML using the existing Patrick Hand and Be Vietnam Pro fonts.
+The opening and crew each have a painted bouquet. Mouse hover or keyboard focus previews the floral mountain scene. Clicking, tapping, Space or Enter holds it. Activating the held control again, clicking anywhere outside the bouquet and flower buttons, or pressing Escape restores the clouds and hides the greeting. No separate reset button is shown. Outside clicks also cancel pending artwork loads. The greeting is live HTML using the existing Patrick Hand and Be Vietnam Pro fonts.
 
 Three flower sprigs sit beside the existing scarf portraits. Hovering a portrait or its flower reveals a personal greeting. Separate native flower buttons provide touch and keyboard access. The original name links still open the same person's private diary; portraits, member IDs/order, games and diary authentication are unchanged. The crew invitation reserves its greeting space so showing a message does not move a hovered portrait.
 

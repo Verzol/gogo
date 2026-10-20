@@ -37,6 +37,7 @@ async function geometry(p,name) {
   try {
     const {p,requests} = await setup();await ready(p);await wait(700);
     check('initial clouds retained, no heavy location request',!requests.some(u => /scenery\/locations\//.test(u)) && await p.locator('#locationStage').isHidden());
+    check('initial caption and reset controls are removed',await p.locator('.location-caption').isHidden() && await p.locator('.location-reset,.location-illustration').count() === 0 && !/Mỗi hình dán, một miền cảnh|Chạm để ghé qua, cuộn để lên đường|Tranh minh họa địa điểm/.test(await p.locator('#locationExplorer').textContent()));
     check('all six sticker images decode',await p.locator('.location-sticker img').evaluateAll(items => items.every(img => img.complete && img.naturalWidth > 0)));
     for (const id of ids) {
       await button(p,id).hover();await active(p,id);
@@ -71,6 +72,7 @@ async function geometry(p,name) {
     check('pause stops scene motion and neutralizes pointer depth',await p.locator('#locationStage').evaluate(el => el.dataset.moving === 'false' && parseFloat(el.style.getPropertyValue('--look-x')) === 0));
     await choose(p,'meadow');check('selection while paused has no animated dissolve',await p.locator('#locationStage').evaluate(el => !el.getAnimations().length && !el.querySelector('.location-slot').getAnimations().length));
     await p.locator('#weatherMotion').click();
+    await choose(p,'meadow');
     await p.evaluate(() => {Object.defineProperty(document,'hidden',{configurable:true,get:() => true});document.dispatchEvent(new Event('visibilitychange'));});
     const hiddenPose = await p.locator('.location-mist').last().evaluate(el => getComputedStyle(el).translate);await wait(160);
     check('hidden lifecycle stops ambient motion without losing selection',await p.locator('#locationStage').evaluate(el => el.dataset.moving === 'false') && await p.locator('.location-mist').last().evaluate(el => getComputedStyle(el).translate) === hiddenPose);
@@ -86,8 +88,10 @@ async function geometry(p,name) {
     check('location selection clears held date',await p.locator('.weather-day[aria-pressed="true"]').count() === 0);
     check('exploration never fetches another forecast',requests.filter(u => u.includes('api.open-meteo.com')).length === calls);
     check('hidden original scenery objects cannot be targeted',await p.locator('.play-hotspot').evaluateAll(items => items.every(el => getComputedStyle(el).visibility === 'hidden' || getComputedStyle(el).display === 'none' || el.disabled)));
-    await p.locator('.location-reset').click();await p.waitForFunction(() => !JourneyLocations.active);await wait(200);
-    check('reset returns focus without reopening scene',await button(p,'ridge').evaluate(el => el === document.activeElement) && await p.locator('#locationStage').isHidden());
+    await button(p,'coffee').click();await p.waitForFunction(() => !JourneyLocations.active);await wait(800);
+    check('second click returns to clouds without reopening',await button(p,'coffee').getAttribute('aria-pressed') === 'false' && await p.locator('#locationStage').isHidden());
+    await choose(p,'ridge');await p.locator('.location-heading > p').click();await wait(300);
+    check('outside click restores clouds and hides scene caption',await p.locator('#locationStage').isHidden() && await p.locator('.location-caption').isHidden() && await p.evaluate(() => !JourneyLocations.active));
     await choose(p,'dolphin');await p.locator('.location-story').click();await wait(100);
     check('native story anchor clears composition before navigation',await p.locator('#locationStage').isHidden());
     await ready(p);await choose(p,'tree');
@@ -106,6 +110,8 @@ async function geometry(p,name) {
     await race.p.evaluate(() => {window.maxLocationSlots = 0;window.slotObserver = new MutationObserver(() => {window.maxLocationSlots = Math.max(window.maxLocationSlots,document.querySelectorAll('.location-slot').length);});slotObserver.observe(locationStage,{childList:true});});
     for (const id of ids) {await button(race.p,id).click();await wait(100);}
     await active(race.p,'coffee');check('rapid switches retain at most two live compositions',await race.p.evaluate(() => maxLocationSlots <= 2));
+    await ready(race.p);await button(race.p,'ridge').click();await wait(180);await race.p.locator('.location-heading > p').click();await wait(1400);
+    check('outside click cancels pending location decode',await race.p.locator('#locationStage').isHidden() && await race.p.evaluate(() => !JourneyLocations.active) && await button(race.p,'ridge').getAttribute('aria-pressed') === 'false');
     await race.p.close();
 
     const phone = await setup({viewport:{width:390,height:900},hasTouch:true});await ready(phone.p);
@@ -115,6 +121,8 @@ async function geometry(p,name) {
       await shot(phone.p,'phone-'+id);
     }
     await button(phone.p,'coffee').tap();await phone.p.waitForFunction(() => !JourneyLocations.active);check('second tap releases a held phone scene',await button(phone.p,'coffee').getAttribute('aria-pressed') === 'false');
+    await choose(phone.p,'tree',true);await phone.p.touchscreen.tap(2,300);await wait(300);
+    check('outside tap restores phone clouds',await phone.p.locator('#locationStage').isHidden() && await phone.p.evaluate(() => !JourneyLocations.active));
     await geometry(phone.p,'390px phone');
     await phone.p.locator('#navToggle').tap();await wait(100);check('opening phone menu clears selected scenery',await phone.p.locator('#locationStage').isHidden());await phone.p.keyboard.press('Escape');
     await choose(phone.p,'ridge',true);await phone.p.setViewportSize({width:900,height:700});await wait(1200);
@@ -141,7 +149,7 @@ async function geometry(p,name) {
     const file = await setup();await ready(file.p,true);await choose(file.p,'coffee');check('direct-file composition decodes',await file.p.locator('.location-painting').evaluate(img => img.naturalWidth > 0));await file.p.close();
     const missing = await setup();await missing.p.route('**/location-scenes.js',r => r.abort());await missing.p.goto(base);check('missing optional controller retains ordinary trip',await missing.p.locator('#heroSummary').isVisible() && await missing.p.locator('.event').count() > 0);await missing.p.close();
     const fonts = await setup();await ready(fonts.p);const cdp = await fonts.p.context().newCDPSession(fonts.p);await cdp.send('DOM.enable');await cdp.send('CSS.enable');const doc = await cdp.send('DOM.getDocument');
-    for (const selector of ['.location-heading > p','.location-illustration']) {
+    for (const selector of ['.location-heading > p','.location-sticker span']) {
       const {nodeId} = await cdp.send('DOM.querySelector',{nodeId:doc.root.nodeId,selector});const result = await cdp.send('CSS.getPlatformFontsForNode',{nodeId});report.fonts.push({selector,...result});check(selector+' renders Vietnamese in intended local font',result.fonts.length > 0 && result.fonts.every(f => /Patrick Hand|Be Vietnam Pro/.test(f.familyName)));
     }
     await fonts.p.close();check('no uncaught browser errors',report.errors.length === 0);

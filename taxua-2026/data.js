@@ -19,7 +19,6 @@ const TRIP_DATA = {
     "message": "Gửi mi, thảo và linh một ngày thật vui.",
     "personal": "Hoa hôm nay dành cho {name}.",
     "personalMessage": "Chúc {name} một ngày 20/10 thật vui!",
-    "reset": "Về biển mây",
     "loading": "Đang mở một miền hoa…",
     "error": "Chưa mở được miền hoa. Chạm bó hoa để thử lại nhé."
   },
