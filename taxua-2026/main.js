@@ -212,7 +212,7 @@ function renderCrew() {
   document.getElementById('heroScrollNote').textContent = TRIP_DATA.hero.scrollNote;
   document.getElementById('heroDate').textContent = '22-25/10/2026 · Tà Xùa, Sơn La';
   document.getElementById('heroSub').textContent = TRIP_DATA.subtitle;
-  document.getElementById('crewGrid').innerHTML = crewMembers.map(member => `<article class="member"><div class="avatar${member.image ? ' has-portrait' : ''}" aria-hidden="true"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy" decoding="async" width="128" height="128">` : ''}</div><h3>${esc(member.name)}</h3></article>`).join('');
+  document.getElementById('crewGrid').innerHTML = crewMembers.map(member => `<article class="member" data-member-id="${esc(member.id)}"><div class="avatar${member.image ? ' has-portrait' : ''}" aria-hidden="true"><span>${esc(member.name.charAt(0).toUpperCase())}</span>${member.image ? `<img src="./${esc(member.image)}" alt="" loading="lazy" decoding="async" width="128" height="128">` : ''}</div><h3>${esc(member.name)}</h3></article>`).join('');
   document.querySelectorAll('.avatar img').forEach(img => img.addEventListener('error',() => { img.parentElement.classList.remove('has-portrait');img.remove(); }));
 }
 function createWheelWinnerSticker(member) {

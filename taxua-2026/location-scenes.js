@@ -92,6 +92,7 @@
     if (blocked() || !JourneyScenery.heroActive()) return;
     clearTimeout(intent);clearTimeout(leave);
     const scene = LOCATION_SCENES.find(item => item.id === id);if (!scene) return;
+    document.dispatchEvent(new Event('journey:location-preview'));
     if (hold) selected = id;
     const portrait = portraitView.matches,orientation = String(portrait);
     // Pointerenter, focus and click can request the same scene before it loads.

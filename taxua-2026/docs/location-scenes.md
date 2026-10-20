@@ -16,6 +16,8 @@ The existing motion control and reduced-motion preference disable the dissolve a
 
 ## Code ownership
 
+The optional [20/10 keepsake](womens-day.md) shares the opening background. `journey:location-preview` fires before a new location request, invalidating both visible and pending floral scenes. Selecting the bouquet clears held/pending locations through the existing controller API.
+
 | Owner | Responsibility |
 | --- | --- |
 | `location-data.js` | Six stable IDs, Vietnamese labels, brief captions, effects and existing story targets. No canonical trip-data edits. |

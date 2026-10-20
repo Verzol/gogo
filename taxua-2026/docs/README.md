@@ -12,6 +12,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Illustrated worlds, chapter mapping, cutouts and scenery preparation | [Scenery](scenery.md) |
 | Scroll reveals, background dissolves, navigation, gestures and spacing | [Motion](motion.md) |
 | Tappable pig, draggable coins, sun/moon, clouds and coffee steam | [Playful painted objects](playful.md) |
+| 20/10 bouquet, floral scenery and flowers for mi, thảo and linh | [Women's Day keepsake](womens-day.md) |
 | Six location stickers and immersive opening landscapes | [Location scenes](location-scenes.md) · [Artwork gallery](location-scenes-gallery.md) · [Design brief](location-scenes-plan.md) |
 | Retired postcard/cloud concepts and retained Sunburst mockups | [Historical concept gallery](ui-concepts.md) |
 | Click-to-flip story photographs | [Journal objects](journal-objects.md) |
@@ -67,6 +68,7 @@ Plain HTML/CSS/classic JS; no build, framework, runtime npm, frontend CDN librar
 - `map-data.js` / `trip-map.js` / `trip-map.css` = geographic registry and optional embedded atlas/previews; local Leaflet is prepared near map entries and executes on demand.
 - `scenery.js` / `scenery.css` = painted stage; `motion.js` = optional GSAP enhancement.
 - `playful.js` / `playful.css` = optional painted-object reactions, bounded drags and accessible scenery controls.
+- `womens-day.js` / `womens-day.css` = optional 20/10 bouquet, recipient flowers, floral previews and short petal effects.
 - `style.css`, `countdown.css`, `fonts.css` = page, clock and typography.
 - `scripts/` = optional preparation/verification helpers; `data/sources/` = provenance snapshots, not runtime fetches.
 - `figures/raw/` = supplied masters; other `figures/` folders = local runtime assets/retained references.

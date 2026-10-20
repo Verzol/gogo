@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-10-20T02:03:08.071743+00:00",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Original hand-painted illustration for a Vietnamese friends trip journal in Ta Xua, Son La. Rich matte watercolor and gouache, fine colored pencil contours, visible paper tooth, warm ivory paint edges. Restrained jade and indigo mountain pigments, mist blue, sunrise peach and dusty rose, small warm yellow flower centers. Atmospheric, joyful and personal, coherent with a watercolor mountain travel scrapbook. No photographs, no glossy 3D, no vector flat clipart, no neon, no UI, no typography, no letters, no numbers, no watermark. Wide panoramic landscape, approximately 16:9 composition. A sea of light blue-green mountain mist below a pale teal sky with generous quiet open negative space across the upper and middle two thirds for live website text. Distant overlapping jade mountain silhouettes low on the horizon, a narrow winding valley at lower right. Soft peach and rose-tinted clouds at outer edges only. Joyful delicate pink cosmos, small white daisies and peach wildflowers growing from the very bottom left and bottom right corners, as if a mountain meadow has just bloomed. Flowers frame rather than fill the landscape. Keep flowers below the bottom quarter, scenery below the bottom third. No people, no buildings, no sun disc. Full bleed opaque painting. The central reading area must stay light and nearly empty; no giant central object.",
+    "size": "1536x1024",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "output": "figures/raw/womens_day/landscape_wide.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "sha256": "6830a6bdd653ca7a3af62bfc84e0e8b300264f03e7353ba10880b8fa35fbfed1",
+  "bytes": 2672384,
+  "mode": "RGB"
+}

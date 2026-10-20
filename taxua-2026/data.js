@@ -11,6 +11,18 @@ const TRIP_DATA = {
     "scrollNote": "+1 là ai? Bật mí ở cuối chuyến đi."
   },
   "dateRange": "22-25/10/2026 · 3 ngày 2 đêm",
+  "womensDay": {
+    "recipients": ["mi", "thao", "linh"],
+    "dateLabel": "20/10",
+    "invitation": "Một chút hoa, gửi các nàng",
+    "title": "Chúc mừng ngày Phụ nữ Việt Nam",
+    "message": "Gửi mi, thảo và linh một ngày thật vui.",
+    "personal": "Hoa hôm nay dành cho {name}.",
+    "personalMessage": "Chúc {name} một ngày 20/10 thật vui!",
+    "reset": "Về biển mây",
+    "loading": "Đang mở một miền hoa…",
+    "error": "Chưa mở được miền hoa. Chạm bó hoa để thử lại nhé."
+  },
   "weather": {
     "latitude": 21.27516,
     "longitude": 104.43396,

@@ -1,0 +1,133 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "purpose": "Illustrative 20 October trip keepsake",
+  "jobs": "docs/prompts/womens_day/jobs.json",
+  "outputs": [
+    {
+      "path": "figures/decor/painted/womens_day/landscape_wide.webp",
+      "source": "figures/raw/womens_day/landscape_wide.png",
+      "sourceSha256": "6830a6bdd653ca7a3af62bfc84e0e8b300264f03e7353ba10880b8fa35fbfed1",
+      "crop": null,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "sha256": "5f81bb945964ffd7148928094381fffc6ec88fff4c2a80a395d56d3ca7f149b9",
+      "bytes": 308680
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_portrait.webp",
+      "source": "figures/raw/womens_day/landscape_portrait.png",
+      "sourceSha256": "c89f77c509df728bed2da974487f88531428fbe765f4db7c912a61a356882cbf",
+      "crop": null,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "sha256": "7193d494242438e49907fdca417b79b432aafbe4bdfb891c88f70d2514aeaea7",
+      "bytes": 327302
+    },
+    {
+      "path": "figures/decor/painted/womens_day/bouquet.webp",
+      "source": "figures/raw/womens_day/flowers_sheet.png",
+      "sourceSha256": "6a32d14608954d8bc66dcc122c8b558697df07174d6ec1e0976ebfda527dc077",
+      "crop": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "dimensions": [
+        250,
+        272
+      ],
+      "sha256": "7ea31e901cd4ed2023aaab2685084fa8408b13c62281f462f938d2f2fd50c461",
+      "bytes": 37886
+    },
+    {
+      "path": "figures/decor/painted/womens_day/flower_mi.webp",
+      "source": "figures/raw/womens_day/flowers_sheet.png",
+      "sourceSha256": "6a32d14608954d8bc66dcc122c8b558697df07174d6ec1e0976ebfda527dc077",
+      "crop": [
+        512,
+        0,
+        1024,
+        512
+      ],
+      "dimensions": [
+        145,
+        176
+      ],
+      "sha256": "e546319e3b2a182336c935d147bc9fcb6886567e2301aae65b53209e7741e3a2",
+      "bytes": 16178
+    },
+    {
+      "path": "figures/decor/painted/womens_day/flower_thao.webp",
+      "source": "figures/raw/womens_day/flowers_sheet.png",
+      "sourceSha256": "6a32d14608954d8bc66dcc122c8b558697df07174d6ec1e0976ebfda527dc077",
+      "crop": [
+        1024,
+        0,
+        1536,
+        512
+      ],
+      "dimensions": [
+        146,
+        176
+      ],
+      "sha256": "4df788e1983fe6e3c14dc199af0ac1a411dbce37b1c61fed0c2935da1636cd02",
+      "bytes": 15096
+    },
+    {
+      "path": "figures/decor/painted/womens_day/flower_linh.webp",
+      "source": "figures/raw/womens_day/flowers_sheet.png",
+      "sourceSha256": "6a32d14608954d8bc66dcc122c8b558697df07174d6ec1e0976ebfda527dc077",
+      "crop": [
+        0,
+        512,
+        512,
+        1024
+      ],
+      "dimensions": [
+        176,
+        163
+      ],
+      "sha256": "208c8ac67a25e1af4a7e7ec7fcc426dfa7b83709d44e2ad88f7559cc1013ba1a",
+      "bytes": 17132
+    },
+    {
+      "path": "figures/decor/painted/womens_day/petal_1.webp",
+      "source": "figures/raw/womens_day/flowers_sheet.png",
+      "sourceSha256": "6a32d14608954d8bc66dcc122c8b558697df07174d6ec1e0976ebfda527dc077",
+      "crop": [
+        512,
+        512,
+        1024,
+        1024
+      ],
+      "dimensions": [
+        80,
+        73
+      ],
+      "sha256": "805235c96c12476e012876bbf6224dd20f0b08ef09a6186115998611a951f3f7",
+      "bytes": 2972
+    },
+    {
+      "path": "figures/decor/painted/womens_day/petal_2.webp",
+      "source": "figures/raw/womens_day/flowers_sheet.png",
+      "sourceSha256": "6a32d14608954d8bc66dcc122c8b558697df07174d6ec1e0976ebfda527dc077",
+      "crop": [
+        1024,
+        512,
+        1536,
+        1024
+      ],
+      "dimensions": [
+        78,
+        80
+      ],
+      "sha256": "548a93e2374b297792f44770c03b3a2aaec8a1f2a57331f0808e65de3631364a",
+      "bytes": 2926
+    }
+  ]
+}

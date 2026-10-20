@@ -84,6 +84,8 @@ Helpers write screenshots/reports/videos into the worktree. Run sequentially whe
 
 ## Manual coverage
 
+For the 20/10 bouquet/portrait details, run `node scripts/verify_womens_day.cjs`. Evidence defaults to `/tmp/taxua-womens-day-review/`; see [behavior and artwork](womens-day.md).
+
 - Desktop 1440px, phone 390px, narrow 320px; include wide/short landscape when changing scenery/nav.
 - No unexpected console errors, failed required images or horizontal overflow; captions and warnings stay readable.
 - Scroll slowly down/up and pause halfway through a reveal. Test a fast fling, distant anchor click, interrupted travel and deep-link reload.

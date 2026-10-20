@@ -24,6 +24,7 @@
 - Crew shows “Đồng bọn (7 mống)” before the fund introduction. Order is `#itinerary` → `#crew` → `#fund` → `#packing`.
 - Each `members[i].image` now points to its supplied scarf portrait; omitted or failed images show initials. Update hero fallback/footer counts in `index.html` if the roster changes.
 - Crew names link to that person's diary selection at `#crewDiary`. Logged-out visitors receive the cover/password flow; private content is fetched only after server authentication. The diary stays between the roster and games, preserving top-level section order.
+- The optional [20/10 keepsake](womens-day.md) adds separate flower buttons for the explicitly confirmed recipients mi, thảo and linh. Existing scarf artwork, member order and diary name links remain intact.
 
 ## Supplied scarf portraits
 

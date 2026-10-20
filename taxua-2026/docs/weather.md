@@ -53,6 +53,8 @@ Staggered-cloud and icon-control refinement, 15 October 2026: **105 weather, 83 
 
 ## Location explorer integration
 
+The [20/10 floral keepsake](womens-day.md) follows the same ownership rule: pointer-only weather hover preserves an active floral scene, while a click/tap or keyboard preview clears it through `journey:weather-preview`. Forecast values, dates and fetch/cache rules are unchanged.
+
 The opening location explorer and date preview share one visual owner. `JourneyWeather.clearPreview()` releases date hover/focus/hold; a new weather preview dispatches `journey:weather-preview` to clear location art. Weather pointer-enter is ignored while `data-location-scene` is set, so hovering the forecast cannot replace an active location painting. Numbers and request/cache behavior are unchanged. See [Location scenes](location-scenes.md).
 
 

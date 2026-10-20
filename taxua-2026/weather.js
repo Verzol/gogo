@@ -141,8 +141,8 @@
   buttons.forEach(button => {
     const date = button.dataset.date;
     button.addEventListener('pointerenter',event => {
-      // Keep an active location painting until the visitor deliberately selects weather.
-      if (event.pointerType !== 'touch' && !document.documentElement.dataset.locationScene && available(date)) { hovered = date; syncPreview(); }
+      // Keep active location/floral paintings until a deliberate weather selection.
+      if (event.pointerType !== 'touch' && !document.documentElement.dataset.locationScene && !document.documentElement.dataset.womensDay && available(date)) { hovered = date; syncPreview(); }
     });
     button.addEventListener('pointerleave',() => { if (hovered === date) { hovered = ''; syncPreview(); } });
     button.addEventListener('focus',() => { if (button.matches(':focus-visible') && available(date)) { focused = date; syncPreview(); } });

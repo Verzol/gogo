@@ -64,4 +64,6 @@ The randomized-feeding follow-up on **17 October 2026** passed **127 playful-obj
 
 ## Location explorer integration
 
+The optional [20/10 floral scene](womens-day.md) similarly suppresses original opening/story scenery hotspots while `data-womens-day` is set. Fund play remains independent.
+
 While `data-location-scene` is set, original opening scenery hotspots are hidden and their tracking loop stops. The location explorer owns its own scene effects. Existing fund play and story objects remain independent. See [Location scenes](location-scenes.md).
