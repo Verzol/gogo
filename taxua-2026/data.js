@@ -13,6 +13,7 @@ const TRIP_DATA = {
   "dateRange": "22-25/10/2026 · 3 ngày 2 đêm",
   "womensDay": {
     "recipients": ["mi", "thao", "linh"],
+    "landscapes": {"mi": "landscape_mi_native", "thao": "landscape_thao_native", "linh": "landscape_linh_native"},
     "dateLabel": "20/10",
     "invitation": "Một chút hoa, gửi các nàng",
     "title": "Chúc mừng ngày Phụ nữ Việt Nam",

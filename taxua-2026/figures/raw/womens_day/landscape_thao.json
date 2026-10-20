@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-10-20T10:18:15.029410+00:00",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create ONE original square full-bleed opaque hand-painted landscape for a Vietnamese friends travel journal in Ta Xua, Son La. Watercolor and matte gouache on fine visible paper tooth, delicate colored-pencil edges. It must belong to a whimsical mountain travel scrapbook, with authentic painted pigment texture, absolutely no photography, no 3D, no glossy rendering, no vector clipart. No people, portraits, text, letters, numbers, logos, watermark, UI, frames, borders, collage or multiple panels. Composition must work both as a centered wide crop and centered tall phone crop: keep the upper and middle two thirds pale, airy, softly washed and uncluttered for dark jade handwritten website headings and seven portrait stickers. Soft distant mountains can be visible there but no busy contrast. Floral accents cluster toward the lower fifth and lower side edges, with some tiny blooms near the lower center to survive the phone crop. Keep flowers delicate and small, never a giant central bloom. No sun disc. This is an imaginative illustrated landscape, not a documentary photograph. THAO: A golden mountain daisy hillside at a warm clear morning. Dominant flower colors are honey yellow, pale marigold and butter yellow with toasted ochre centers and olive-sage leaves. Use more tactile matte gouache dabs for small daisy heads over soft watercolor washes. A softly rounded sunlit grassy hill rises from the lower right, while far-away terraced jade hills step downward to the left into a warm sea of mist. The upper sky is pale mint and apricot ivory, with a restrained glow and sparse peach cloud wisps along the outer edges. Keep the live text area near-white pale mint, no strong yellow wash behind text. Predominantly yellow daisies, not mixed multicolor flowers. Rounded botanical forms, warm light and delicate stippled gouache distinguish this scene.",
+    "size": "1536x1536",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "output": "figures/raw/womens_day/landscape_thao.png",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "sha256": "e6c185df19134b2d178934f49b714c06afb328c3f4889e8535d490ac9a9649f3",
+  "bytes": 2838070,
+  "mode": "RGB"
+}

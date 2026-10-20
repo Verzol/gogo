@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-10-20T10:17:41.699247+00:00",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Create ONE original square full-bleed opaque hand-painted landscape for a Vietnamese friends travel journal in Ta Xua, Son La. Watercolor and matte gouache on fine visible paper tooth, delicate colored-pencil edges. It must belong to a whimsical mountain travel scrapbook, with authentic painted pigment texture, absolutely no photography, no 3D, no glossy rendering, no vector clipart. No people, portraits, text, letters, numbers, logos, watermark, UI, frames, borders, collage or multiple panels. Composition must work both as a centered wide crop and centered tall phone crop: keep the upper and middle two thirds pale, airy, softly washed and uncluttered for dark jade handwritten website headings and seven portrait stickers. Soft distant mountains can be visible there but no busy contrast. Floral accents cluster toward the lower fifth and lower side edges, with some tiny blooms near the lower center to survive the phone crop. Keep flowers delicate and small, never a giant central bloom. No sun disc. This is an imaginative illustrated landscape, not a documentary photograph. LINH: A quiet lilac bellflower valley with mist flowing like a river between distant blue-green mountain folds. Dominant flower colors are soft violet, lavender and periwinkle with tiny ivory highlights and silvery sage foliage. Use fine ink-and-colored-pencil botanical contours with feathered wet-on-wet watercolor pigment blooms. Sparse slender violet bellflowers and small lavender asters grow along a low sweeping foreground ledge, with a cluster near the lower center and slender stems at the sides. The upper sky is a luminous pale silver-blue with the faintest lilac tint; the central reading area stays very light. The scene is softly lit in daylight, never dark or night. Predominantly violet flowers, not pink and not mixed multicolor flowers. Flowing valley curves, cool silvery air and crisp slender botanical linework distinguish this scene.",
+    "size": "1536x1536",
+    "quality": "high",
+    "output_format": "png"
+  },
+  "references": [],
+  "output": "figures/raw/womens_day/landscape_linh.png",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "sha256": "005e3d686cf54fdfb4d7fe98bf331f164d32874fdded34b88f992a099422b8fc",
+  "bytes": 3013460,
+  "mode": "RGB"
+}

@@ -1,0 +1,26 @@
+{
+  "createdAt": "2026-10-20T10:39:01.539732+00:00",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Repaint the attached square watercolor landscape as a new native high-resolution wide illustration, 3840x2160 pixels. Preserve its flower palette, mountain atmosphere and hand-painted material while recomposing for this aspect ratio. Render fresh crisp fine botanical contours, individual petals, restrained colored-pencil details and natural watercolor paper texture at the target resolution. This is a complete new rendering, not a blurry enlargement or stretched square. Wide 16:9 landscape, composed for a desktop display. Keep airy light sky and cloud-filled valley across the upper and middle two thirds; flowers grow from the bottom corners and lower fifth, with a few small blooms near bottom center. Keep the dark jade website text area pale and uncluttered. Full-bleed opaque painting, no people, no text, no lettering, no UI, no logo, no frame, no watermark, no sun disc, no 3D or photography. A quiet lilac bellflower valley with mist flowing like a river between distant blue-green mountain folds. Dominant flower colors are soft violet, lavender and periwinkle with tiny ivory highlights and silvery sage foliage. Use fine ink-and-colored-pencil botanical contours with feathered wet-on-wet watercolor pigment blooms. Sparse slender violet bellflowers and small lavender asters grow along a low sweeping foreground ledge, with a cluster near the lower center and slender stems at the sides. The upper sky is a luminous pale silver-blue with the faintest lilac tint; the central reading area stays very light. The scene is softly lit in daylight, never dark or night. Predominantly violet flowers, not pink and not mixed multicolor flowers. Flowing valley curves, cool silvery air and crisp slender botanical linework distinguish this scene.",
+    "size": "3840x2160",
+    "quality": "high",
+    "output_format": "png",
+    "image_detail": "high"
+  },
+  "references": [
+    {
+      "path": "figures/raw/womens_day/landscape_linh.png",
+      "sha256": "005e3d686cf54fdfb4d7fe98bf331f164d32874fdded34b88f992a099422b8fc"
+    }
+  ],
+  "output": "figures/raw/womens_day/landscape_linh_native_wide.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "sha256": "30a2e9417563cc618c6367e9f60d78f3f0cdde56d5e74f77aa625e19bca7862e",
+  "bytes": 2981318,
+  "mode": "RGB"
+}

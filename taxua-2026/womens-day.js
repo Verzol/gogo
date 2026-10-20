@@ -40,6 +40,7 @@
     label.append(date,line);button.append(label);
     const message = document.createElement('div');message.className = 'wd-message';message.hidden = true;
     const title = document.createElement('h2'),text = document.createElement('p');message.append(title,text);
+    if (kind === 'hero') {title.textContent = copy.title;text.textContent = copy.message;}
     const status = document.createElement('p');status.className = 'wd-status';status.setAttribute('role','status');
     container.append(button,message,status);parent.insertBefore(container,before || null);
     const context = {kind,container,button,message,title,text,status};contexts.push(context);
@@ -114,14 +115,19 @@
       if (!pending || pending.context !== context) context.status.textContent = '';
     });
   }
-  function load(orientation) {
-    if (cache.has(orientation)) return cache.get(orientation);
+  function load(landscape,orientation) {
+    const key = landscape + '_' + orientation;
+    if (cache.has(key)) {
+      const cached = cache.get(key);cache.delete(key);cache.set(key,cached);return cached;
+    }
     const promise = new Promise((resolve,reject) => {
       const img = new Image();img.className = 'wd-landscape';img.alt = '';img.decoding = 'async';
       img.onload = () => img.decode().then(() => resolve(img),reject);img.onerror = reject;
-      img.src = base + 'landscape_' + orientation + '.webp';
+      img.src = base + key + '.webp';
     });
-    cache.set(orientation,promise);promise.catch(() => cache.delete(orientation));return promise;
+    cache.set(key,promise);
+    while (cache.size > 4) cache.delete(cache.keys().next().value);
+    promise.catch(() => {if (cache.get(key) === promise) cache.delete(key);});return promise;
   }
   function cancelEffects() {
     flights.forEach(animation => animation.cancel());flights.clear();petals.replaceChildren();
@@ -149,10 +155,11 @@
     // Clear competing pending decodes as well as already-visible previews.
     window.JourneyLocations?.clear();window.JourneyWeather?.clearPreview();
     const orientation = portrait.matches ? 'portrait' : 'wide';
+    const landscape = copy.landscapes?.[item.id] || 'landscape';
     const ticket = ++epoch;pending = item;syncControls();
     if (celebrate) item.context.status.textContent = copy.loading;
     try {
-      const img = await load(orientation);
+      const img = await load(landscape,orientation);
       if (ticket !== epoch || blocked() || !inView(item.context)) return;
       const changed = active?.button !== item.button || stage.dataset.orientation !== orientation;
       cancelEffects();stage.querySelector('.wd-landscape')?.remove();stage.prepend(img);

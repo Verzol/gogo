@@ -21,6 +21,12 @@ async function layout(p,name) {
   check(name+' scene fills viewport',await p.locator('.wd-landscape').evaluate(el => {const r = el.getBoundingClientRect();return r.width >= innerWidth && r.height >= innerHeight;}));
   check(name+' has dark readable greeting ink',await p.locator('.wd-invite[data-active="true"] .wd-message').evaluate(el => getComputedStyle(el).color === 'rgb(23, 62, 70)'));
 }
+async function nativeArt(p,name) {
+  check(name+' uses a full native painting without blur',await p.locator('.wd-landscape').evaluate(img => {
+    const portrait = innerWidth <= innerHeight,style = getComputedStyle(img);
+    return img.src.includes('_native_') && img.naturalWidth >= (portrait ? 1000 : 1600) && img.naturalHeight >= (portrait ? 1500 : 900) && style.filter === 'none' && style.transform === 'none';
+  }));
+}
 (async () => {
   const browser = await chromium.launch();
   async function page(options = {}) {
@@ -50,21 +56,35 @@ async function layout(p,name) {
     await p.locator('.weather-day').first().hover();await wait(200);check('weather hover leaves floral scene held',await p.evaluate(() => JourneyWomensDay.active === 'hero'));
     await p.locator('.weather-day').first().click();await active(p,'');check('deliberate weather choice takes ownership',await p.locator('.weather-day').first().getAttribute('aria-pressed') === 'true');
     await bouquet(p).click();await active(p,'hero');check('bouquet clears held weather',await p.locator('.weather-day[aria-pressed="true"]').count() === 0);
-    await p.locator('.location-sticker[data-location="tree"]').click();await active(p,'');await p.waitForFunction(() => JourneyLocations.active === 'tree');
-    check('location choice replaces floral background',await p.locator('#womensDayStage').isHidden());
-    await bouquet(p).click();await active(p,'hero');check('bouquet clears held location',await p.evaluate(() => !JourneyLocations.active));
+    if (await p.locator('.location-sticker').count()) {
+      await p.locator('.location-sticker[data-location="tree"]').click();await active(p,'');await p.waitForFunction(() => JourneyLocations.active === 'tree');
+      check('location choice replaces floral background',await p.locator('#womensDayStage').isHidden());
+      await bouquet(p).click();await active(p,'hero');check('bouquet clears held location',await p.evaluate(() => !JourneyLocations.active));
+    }
     await bouquet(p).click();await active(p,'');await wait(300);
     check('second bouquet click restores clouds without reopening',await bouquet(p).getAttribute('aria-pressed') === 'false' && await p.locator('#womensDayStage').isHidden());
-    await bouquet(p).click();await active(p,'hero');await p.locator('.location-heading > p').click();await wait(300);
+    await bouquet(p).click();await active(p,'hero');await p.locator('.hero-date').click();await wait(300);
     check('outside click restores clouds and hides greeting',await p.evaluate(() => !JourneyWomensDay.active) && await p.locator('#womensDayStage').isHidden() && await p.locator('.wd-invite--hero .wd-message').isHidden());
+    check('general bouquet does not preload personal landscapes',!requests.some(url => /landscape_(mi|thao|linh)_/.test(url)));
     await crew(p);
     const before = await flower(p,'mi').boundingBox();await flower(p,'mi').hover();await active(p,'mi');await wait(350);
     const after = await flower(p,'mi').boundingBox();check('greeting does not move hovered portrait',Math.abs(before.y - after.y) < 1 && Math.abs(before.x - after.x) < 1);
     await flower(p,'mi').click();await active(p,'mi');await shot(p,'desktop-crew');await layout(p,'crew');
+    check('mi gets her own pink landscape',(await p.locator('.wd-landscape').getAttribute('src')).endsWith('landscape_mi_native_wide.webp'));
+    await nativeArt(p,'mi desktop');
+    check('mi does not preload other recipients or portrait art',!requests.some(url => /landscape_(thao|linh)_|landscape_mi_native_portrait/.test(url)));
     check('active crew bouquet retains an accessible name',await p.locator('.wd-invite--crew .wd-bouquet').getAttribute('aria-label') === 'Một chút hoa, gửi các nàng, 20/10');
     for (const id of ['thao','linh']) {
       await p.keyboard.press('Tab');await flower(p,id).focus();await active(p,id);await p.keyboard.press('Enter');
       check(id+' has its own personal greeting',await p.locator('.wd-invite--crew .wd-message p').textContent() === 'Chúc ' + (id === 'thao' ? 'thảo' : 'linh') + ' một ngày 20/10 thật vui!');
+      check(id+' loads its own decoded painting',await p.locator('.wd-landscape').evaluate((img,id) => img.src.endsWith('landscape_' + id + '_native_wide.webp') && img.naturalWidth > 0,id));
+      await nativeArt(p,id+' desktop');
+      await shot(p,'desktop-crew-'+id);
+    }
+    await p.keyboard.press('Escape');await p.mouse.click(2,300);
+    for (const id of ['mi','thao','linh']) {
+      await p.locator('.wd-member[data-member-id="' + id + '"] .avatar').hover();await active(p,id);
+      check(id+' portrait hover selects the matching painting',(await p.locator('.wd-landscape').getAttribute('src')).endsWith('landscape_' + id + '_native_wide.webp'));
     }
     await p.evaluate(() => document.getElementById('fund').scrollIntoView({behavior:'instant'}));await active(p,'');
     check('scrolling past crew clears floral scenery',await p.locator('#womensDayStage').isHidden());
@@ -84,6 +104,14 @@ async function layout(p,name) {
       check(width+'px reduced motion has no particles or fade',await phone.locator('.wd-petal').count() === 0 && await phone.locator('#womensDayStage').evaluate(el => el.getAnimations().length === 0));
       await shot(phone,'hero-'+width);await bouquet(phone).tap();await active(phone,'');
       await crew(phone);await flower(phone,'mi').tap();await active(phone,'mi');await layout(phone,'crew '+width+'px');await shot(phone,'crew-'+width);
+      check(width+'px mi uses her own '+orientation+' painting',(await phone.locator('.wd-landscape').getAttribute('src')).endsWith('landscape_mi_native_' + orientation + '.webp'));
+      await nativeArt(phone,'mi '+width+'px');
+      for (const id of ['thao','linh']) {
+        await flower(phone,id).tap();await active(phone,id);
+        check(width+'px '+id+' uses its own '+orientation+' painting',(await phone.locator('.wd-landscape').getAttribute('src')).endsWith('landscape_' + id + '_native_' + orientation + '.webp'));
+        await nativeArt(phone,id+' '+width+'px');
+        if (width === 390) await shot(phone,'crew-'+id+'-'+width);
+      }
       await phone.touchscreen.tap(2,300);await active(phone,'');check(width+'px outside tap clears floral scenery',await phone.locator('#womensDayStage').isHidden());
       await flower(phone,'mi').tap();await active(phone,'mi');
       await phone.setViewportSize({width:width === 740 ? 390 : 740,height:width === 740 ? 844 : 390});
@@ -97,10 +125,17 @@ async function layout(p,name) {
     check('cancelled hover decode cannot resurrect background',await race.locator('#womensDayStage').isHidden() && await race.evaluate(() => !JourneyWomensDay.active));
     await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(180);await race.keyboard.press('Escape');await wait(1000);
     check('Escape cancels pending held image request',await race.locator('#womensDayStage').isHidden() && await bouquet(race).getAttribute('aria-pressed') === 'false');
-    await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(180);await race.locator('.location-heading > p').click();await wait(1000);
+    await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(180);await race.locator('.hero-date').click();await wait(1000);
     check('outside click cancels pending floral decode',await race.locator('#womensDayStage').isHidden() && await race.evaluate(() => !JourneyWomensDay.active) && await bouquet(race).getAttribute('aria-pressed') === 'false');
-    await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(150);await race.locator('.location-sticker[data-location="ridge"]').click();await race.waitForFunction(() => JourneyLocations.active === 'ridge');await wait(800);
-    check('later location wins against pending floral decode',await race.locator('#womensDayStage').isHidden() && await race.evaluate(() => !JourneyWomensDay.active && JourneyLocations.active === 'ridge'));
+    if (await race.locator('.location-sticker').count()) {
+      await race.reload();await race.waitForFunction(() => !!window.JourneyWomensDay);await bouquet(race).click();await wait(150);await race.locator('.location-sticker[data-location="ridge"]').click();await race.waitForFunction(() => JourneyLocations.active === 'ridge');await wait(800);
+      check('later location wins against pending floral decode',await race.locator('#womensDayStage').isHidden() && await race.evaluate(() => !JourneyWomensDay.active && JourneyLocations.active === 'ridge'));
+    }
+    await race.route('**/womens_day/landscape_mi_*.webp',async route => {await wait(700);await route.continue();});
+    await ready(race);await crew(race);await flower(race,'mi').click();await wait(180);await flower(race,'thao').click();await active(race,'thao');await wait(1000);
+    check('later recipient wins against a slow earlier painting',await race.locator('.wd-landscape').evaluate(img => img.src.endsWith('landscape_thao_native_wide.webp')));
+    await flower(race,'linh').hover();await active(race,'linh');await race.mouse.move(2,300);await active(race,'thao');
+    check('leaving another flower preview restores held recipient painting',await race.locator('.wd-landscape').evaluate(img => img.src.endsWith('landscape_thao_native_wide.webp')));
     await race.close();
     const failure = await page();await failure.route('**/womens_day/landscape_*.webp',r => r.abort());await ready(failure);await bouquet(failure).click();
     await failure.waitForFunction(() => document.querySelector('.wd-invite--hero .wd-status').textContent.includes('Chưa mở'));

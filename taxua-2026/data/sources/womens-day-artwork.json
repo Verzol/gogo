@@ -128,6 +128,186 @@
       ],
       "sha256": "548a93e2374b297792f44770c03b3a2aaec8a1f2a57331f0808e65de3631364a",
       "bytes": 2926
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_mi_wide.webp",
+      "source": "figures/raw/womens_day/landscape_mi.png",
+      "sourceSha256": "65471760adfde7d742a7c0743829e4e1c2e9f167e44175c98029d6d4558766be",
+      "crop": [
+        0,
+        418,
+        1254,
+        1254
+      ],
+      "dimensions": [
+        1254,
+        836
+      ],
+      "sha256": "5a67cfb69d714b0cf5708e37c69b6af3762f3a1d732c98274f8a03f7ee99dde1",
+      "bytes": 322002
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_mi_portrait.webp",
+      "source": "figures/raw/womens_day/landscape_mi.png",
+      "sourceSha256": "65471760adfde7d742a7c0743829e4e1c2e9f167e44175c98029d6d4558766be",
+      "crop": [
+        209,
+        0,
+        1045,
+        1254
+      ],
+      "dimensions": [
+        836,
+        1254
+      ],
+      "sha256": "db9d673f3d82da40bd78a952b75d548fb3fb87bebf666acb8ec2c43680d1d991",
+      "bytes": 265856
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_thao_wide.webp",
+      "source": "figures/raw/womens_day/landscape_thao.png",
+      "sourceSha256": "e6c185df19134b2d178934f49b714c06afb328c3f4889e8535d490ac9a9649f3",
+      "crop": [
+        0,
+        418,
+        1254,
+        1254
+      ],
+      "dimensions": [
+        1254,
+        836
+      ],
+      "sha256": "754c33d17ce972b9d20e8be6d034520dea010ff1775e826ba4f57bd97792622f",
+      "bytes": 347066
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_thao_portrait.webp",
+      "source": "figures/raw/womens_day/landscape_thao.png",
+      "sourceSha256": "e6c185df19134b2d178934f49b714c06afb328c3f4889e8535d490ac9a9649f3",
+      "crop": [
+        209,
+        0,
+        1045,
+        1254
+      ],
+      "dimensions": [
+        836,
+        1254
+      ],
+      "sha256": "1e26c4ebee5e953d37db6d83de097e5c2e93bc140af94fa8e677c1e300804829",
+      "bytes": 240698
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_linh_wide.webp",
+      "source": "figures/raw/womens_day/landscape_linh.png",
+      "sourceSha256": "005e3d686cf54fdfb4d7fe98bf331f164d32874fdded34b88f992a099422b8fc",
+      "crop": [
+        0,
+        418,
+        1254,
+        1254
+      ],
+      "dimensions": [
+        1254,
+        836
+      ],
+      "sha256": "0f07d2a6e56fbe101d626f9f492f96ca3c1e871090be6e3c0579203741dbe672",
+      "bytes": 345812
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_linh_portrait.webp",
+      "source": "figures/raw/womens_day/landscape_linh.png",
+      "sourceSha256": "005e3d686cf54fdfb4d7fe98bf331f164d32874fdded34b88f992a099422b8fc",
+      "crop": [
+        209,
+        0,
+        1045,
+        1254
+      ],
+      "dimensions": [
+        836,
+        1254
+      ],
+      "sha256": "beefbd880079f448f823dff15e04d29fce36d7a63caecc5050fdf1c6a9513213",
+      "bytes": 250878
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_mi_native_wide.webp",
+      "source": "figures/raw/womens_day/landscape_mi_native_wide.png",
+      "sourceSha256": "0319c4ab053775bc00be21984340cfe330b91441c8d0fdc083e3f95d72314447",
+      "crop": null,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "sha256": "52ee6bc55a54aa91764dc4f7b6dfbbdc3103c34f1d9472792bd2acdd357d801a",
+      "bytes": 2201898,
+      "encoding": "lossless"
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_mi_native_portrait.webp",
+      "source": "figures/raw/womens_day/landscape_mi_native_portrait.png",
+      "sourceSha256": "a743da1e33e8fb843886074dc342251c8c6b61918f941522d4ef05ebb14f12b6",
+      "crop": null,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "sha256": "a8a9e4f79902ef93654100b74de6ccedabf0e65e004b8c494280363e029aebb2",
+      "bytes": 2077606,
+      "encoding": "lossless"
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_thao_native_wide.webp",
+      "source": "figures/raw/womens_day/landscape_thao_native_wide.png",
+      "sourceSha256": "5badf1c8ccca8858737430b5421ab193c628d9b3d20b3bef3f4ca964557453f9",
+      "crop": null,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "sha256": "4a9f8d2dd44ed361e07bded6916e666179c535d6b11fe4157b250d7b99f99d95",
+      "bytes": 2031492,
+      "encoding": "lossless"
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_thao_native_portrait.webp",
+      "source": "figures/raw/womens_day/landscape_thao_native_portrait.png",
+      "sourceSha256": "fd890eb61a268e422dda9f6b332eefc3e2c51b0475d5f452e15311ade2de3983",
+      "crop": null,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "sha256": "d5ad631d9a8d92c2ec14f2e01cf0806b1f2d25d21ffa794d52796a3d7845353d",
+      "bytes": 2036396,
+      "encoding": "lossless"
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_linh_native_wide.webp",
+      "source": "figures/raw/womens_day/landscape_linh_native_wide.png",
+      "sourceSha256": "30a2e9417563cc618c6367e9f60d78f3f0cdde56d5e74f77aa625e19bca7862e",
+      "crop": null,
+      "dimensions": [
+        1672,
+        941
+      ],
+      "sha256": "4d95090bfc63f44bbc83d61e27c34ee376ec6c580f1fa2d46af510c9afb47a73",
+      "bytes": 2052398,
+      "encoding": "lossless"
+    },
+    {
+      "path": "figures/decor/painted/womens_day/landscape_linh_native_portrait.webp",
+      "source": "figures/raw/womens_day/landscape_linh_native_portrait.png",
+      "sourceSha256": "85293458daa72f34b78ffe3b0a42c4e18fbcf105b076dd96012dcfe494740601",
+      "crop": null,
+      "dimensions": [
+        1024,
+        1536
+      ],
+      "sha256": "3d657d89219de59c7d4ed616d7d51d8f9cfd30333b14ed8267be539ef7a5bce4",
+      "bytes": 1985894,
+      "encoding": "lossless"
     }
   ]
 }

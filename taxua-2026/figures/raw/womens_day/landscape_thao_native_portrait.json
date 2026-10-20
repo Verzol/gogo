@@ -1,0 +1,26 @@
+{
+  "createdAt": "2026-10-20T10:38:09.165970+00:00",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Repaint the attached square watercolor landscape as a new native high-resolution portrait illustration, 2048x3072 pixels. Preserve its flower palette, mountain atmosphere and hand-painted material while recomposing for this aspect ratio. Render fresh crisp fine botanical contours, individual petals, restrained colored-pencil details and natural watercolor paper texture at the target resolution. This is a complete new rendering, not a blurry enlargement or stretched square. Tall 2:3 portrait, deliberately recomposed for a phone. Pale airy sky and soft mist fill the upper two thirds. Mountains sit low and delicate flower stems frame the bottom quarter, including near lower center. The narrow central vertical column must form a complete readable composition. Keep the dark jade website text area pale and uncluttered. Full-bleed opaque painting, no people, no text, no lettering, no UI, no logo, no frame, no watermark, no sun disc, no 3D or photography. A golden mountain daisy hillside at a warm clear morning. Dominant flower colors are honey yellow, pale marigold and butter yellow with toasted ochre centers and olive-sage leaves. Use more tactile matte gouache dabs for small daisy heads over soft watercolor washes. A softly rounded sunlit grassy hill rises from the lower right, while far-away terraced jade hills step downward to the left into a warm sea of mist. The upper sky is pale mint and apricot ivory, with a restrained glow and sparse peach cloud wisps along the outer edges. Keep the live text area near-white pale mint, no strong yellow wash behind text. Predominantly yellow daisies, not mixed multicolor flowers. Rounded botanical forms, warm light and delicate stippled gouache distinguish this scene.",
+    "size": "2048x3072",
+    "quality": "high",
+    "output_format": "png",
+    "image_detail": "high"
+  },
+  "references": [
+    {
+      "path": "figures/raw/womens_day/landscape_thao.png",
+      "sha256": "e6c185df19134b2d178934f49b714c06afb328c3f4889e8535d490ac9a9649f3"
+    }
+  ],
+  "output": "figures/raw/womens_day/landscape_thao_native_portrait.png",
+  "dimensions": [
+    1024,
+    1536
+  ],
+  "sha256": "fd890eb61a268e422dda9f6b332eefc3e2c51b0475d5f452e15311ade2de3983",
+  "bytes": 2774037,
+  "mode": "RGB"
+}

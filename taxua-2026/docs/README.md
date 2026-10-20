@@ -13,7 +13,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Scroll reveals, background dissolves, navigation, gestures and spacing | [Motion](motion.md) |
 | Tappable pig, draggable coins, sun/moon, clouds and coffee steam | [Playful painted objects](playful.md) |
 | 20/10 bouquet, floral scenery and flowers for mi, thảo and linh | [Women's Day keepsake](womens-day.md) |
-| Six location stickers and immersive opening landscapes | [Location scenes](location-scenes.md) · [Artwork gallery](location-scenes-gallery.md) · [Design brief](location-scenes-plan.md) |
+| Six location stickers and immersive opening landscapes (temporarily disabled) | [Location scenes](location-scenes.md) · [Artwork gallery](location-scenes-gallery.md) · [Design brief](location-scenes-plan.md) |
 | Retired postcard/cloud concepts and retained Sunburst mockups | [Historical concept gallery](ui-concepts.md) |
 | Click-to-flip story photographs | [Journal objects](journal-objects.md) |
 | Trail index, photo previews, packing cutouts and quiet terrain | [Illustrated journal controls](ui-artwork.md) |

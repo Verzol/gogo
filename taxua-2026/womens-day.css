@@ -14,6 +14,10 @@
 .wd-message { margin-top: 8px; max-width: 490px; }
 .wd-message h2 { font: 1.8rem/1.15 'Patrick Hand',cursive; text-wrap: balance; }
 .wd-message p { font-size: .8rem; margin-top: 7px; }
+/* Measure the real wrapped greeting even before preview, keeping the hero and
+   its centered forecast/countdown in the same place on hover or dismissal. */
+.wd-invite--hero .wd-message[hidden] { display: block !important; visibility: hidden; }
+.wd-invite--hero .wd-status { position: absolute; top: 100%; margin: 0; }
 .wd-status { font-size: .75rem; max-width: 38ch; }
 .wd-status:empty { display: none; }
 /* The visible message supplies the copy; live status is only spoken on taps. */
@@ -33,6 +37,7 @@
 [data-womens-day] #weatherParticles,[data-womens-day] .hero-stamp,[data-womens-day] .hero-stamp.playful-cup > img,[data-womens-day] .play-hotspot { visibility: hidden; }
 [data-womens-day] { --nav-ink: #173e46; }
 [data-womens-day="crew"] #crew > .section-heading,[data-womens-day="crew"] #crewGrid .member,[data-womens-day="crew"] .wd-invite--crew { color: #173e46; text-shadow: none; }
+[data-womens-day="crew"] #crewGrid .member h3 { text-shadow: 0 1px 2px #f6f0e0,0 0 5px #f6f0e0; }
 [data-womens-day="crew"] #crew > .section-heading::before { display: none; }
 [data-womens-day="crew"] .wd-invite--crew .wd-bouquet small { color: #994d31; }
 @media (prefers-reduced-motion: no-preference) {

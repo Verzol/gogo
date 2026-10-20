@@ -1,0 +1,26 @@
+{
+  "createdAt": "2026-10-20T10:37:21.121936+00:00",
+  "model": "cx/gpt-image-2.5-sunburst",
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Repaint the attached square watercolor landscape as a new native high-resolution wide illustration, 3840x2160 pixels. Preserve its flower palette, mountain atmosphere and hand-painted material while recomposing for this aspect ratio. Render fresh crisp fine botanical contours, individual petals, restrained colored-pencil details and natural watercolor paper texture at the target resolution. This is a complete new rendering, not a blurry enlargement or stretched square. Wide 16:9 landscape, composed for a desktop display. Keep airy light sky and cloud-filled valley across the upper and middle two thirds; flowers grow from the bottom corners and lower fifth, with a few small blooms near bottom center. Keep the dark jade website text area pale and uncluttered. Full-bleed opaque painting, no people, no text, no lettering, no UI, no logo, no frame, no watermark, no sun disc, no 3D or photography. A pink cosmos morning meadow floating above a sea of clouds. Dominant flower colors are rose pink, fuchsia and blush, with muted raspberry stamens, sage green stems and just a few tiny ivory accents. Paint loose translucent watercolor washes and fine graceful pencil stems. A curving grassy ridge enters from the lower left and curls gently into the mist at lower right; soft blue-jade mountain islands sit low behind it. Upper sky is pale rose-tinted cool pearl and mist blue. Pink light grazes the cloud rims. A soft breeze gives cosmos petals an airy, joyful feeling. Predominantly pink flowers, not mixed multicolor flowers. Tender transparent pigments and a light open sky distinguish this scene.",
+    "size": "3840x2160",
+    "quality": "high",
+    "output_format": "png",
+    "image_detail": "high"
+  },
+  "references": [
+    {
+      "path": "figures/raw/womens_day/landscape_mi.png",
+      "sha256": "65471760adfde7d742a7c0743829e4e1c2e9f167e44175c98029d6d4558766be"
+    }
+  ],
+  "output": "figures/raw/womens_day/landscape_mi_native_wide.png",
+  "dimensions": [
+    1672,
+    941
+  ],
+  "sha256": "0319c4ab053775bc00be21984340cfe330b91441c8d0fdc083e3f95d72314447",
+  "bytes": 2976596,
+  "mode": "RGB"
+}

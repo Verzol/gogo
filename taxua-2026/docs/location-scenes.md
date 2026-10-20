@@ -1,5 +1,7 @@
 # Six painted places in the opening
 
+Temporarily disabled on 20 October 2026. `index.html` comments out the `location-scenes.css`, `location-data.js` and `location-scenes.js` includes, so the explorer adds no stylesheet/script requests, DOM, event listeners, decoded-image cache or artwork downloads. All implementation, artwork and verification files remain intact. To restore the feature, uncomment those three includes in their existing positions. The behavior below documents the retained implementation when enabled.
+
 [Documentation index](README.md) · [Artwork gallery](location-scenes-gallery.md) · [Approved design brief](location-scenes-plan.md)
 
 The opening starts with the existing cloud world. Six painted location stickers preview Sống Lưng Khủng Long, Cây Cô Đơn, Mỏm Cá Heo, Thảo nguyên Tà Xùa, Thác Chua Tỳ and Thào Coffee. Tree, dolphin rock, meadow, waterfall and café are original prompt-only illustrations: no photographs or generated images were supplied to their generation requests. Sống Lưng retains the previously approved artwork and its original reference provenance. All scenery is illustrative, rather than a documentary view or a representation of the selected forecast.
