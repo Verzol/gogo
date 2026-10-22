@@ -1,6 +1,6 @@
 {
-  "reviewedAt": "2026-10-16",
-  "scope": "18 story places plus the user-confirmed Tập đoàn Viettel pickup in Hanoi. Khe Cải also uses organizer-supplied coordinates. No inferred venue coordinates.",
+  "reviewedAt": "2026-10-22",
+  "scope": "18 story places plus the user-confirmed 68 Mạc Thái Tông pickup in Hanoi. Its coordinates match the published address; Khe Cải uses organizer-supplied coordinates. No inferred venue coordinates.",
   "verificationMeaning": "Verified means a name-matched published geographic point or exact coordinates supplied by the trip organizer, not an entrance, travel route or on-site safety verification.",
   "osmSource": "https://photon.komoot.io/ (OpenStreetMap-based build-time discovery only; no runtime search)",
   "records": {
@@ -257,28 +257,29 @@
       "note": "Khu vực Tà Xùa để định hướng; chưa chốt quán ăn hay điểm dừng cụ thể."
     },
     "hanoi_pickup": {
-      "name": "Tập đoàn Viettel",
+      "name": "68 Mạc Thái Tông",
       "category": "transfer",
       "art": "decor/painted/bus_sticker.webp",
-      "lat": 21.0253150367579,
-      "lng": 105.7854235877089,
+      "lat": 21.0137554,
+      "lng": 105.7936235,
       "status": "verified",
       "precision": "point",
       "sourceUrls": [
-        "https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9"
+        "https://www.google.com/maps?cid=14141617352243748642"
       ],
-      "verifiedAt": "2026-10-16",
-      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:30, xe xuất phát lúc 22:00."
+      "verifiedAt": "2026-10-22",
+      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:00, xe xuất phát lúc 22:00."
     }
   },
   "observations": [
-    "Named public-place records matching scheduled venues were accepted; the Hanoi pickup and Khe Cải use exact coordinates and Maps links supplied by the user. Search camera centers and unnamed multi-result lists were rejected.",
+    "Named public-place records matching scheduled venues were accepted; the Hanoi pickup uses an address-matched public record and Khe Cải uses exact coordinates and a Maps link supplied by the user. Search camera centers and unnamed multi-result lists were rejected.",
     "Photon results outside the trip area were rejected.",
     "The homestay named record also links facebook.com/muatrutaxua, matching the existing directory.",
     "The user confirmed the Khe Cải and Tập đoàn Viettel coordinates and Maps links on 16 October 2026.",
     "The afternoon group has no agreed internal order.",
     "The town coordinate is only an approximate area reference for the unassigned town lunch.",
-    "Google public embed records were used at research time only; there is no runtime Google Maps dependency."
+    "Google public embed records were used at research time only; there is no runtime Google Maps dependency.",
+    "On 22 October 2026, the user replaced the Viettel pickup with 68 Mạc Thái Tông and changed gathering to 21:00; departure remains 22:00. The named Google Maps embed record matched this exact address."
   ],
   "namedPointEvidence": {
     "song_lung_khung_long": {
@@ -380,12 +381,14 @@
       "sourceUrl": "https://www.google.com/maps?q=Nh%C3%A0+H%C3%A0ng+A+Ph%E1%BB%A7+B%E1%BA%AFc+Y%C3%AAn+S%C6%A1n+La&output=embed&hl=vi"
     },
     "hanoi_pickup": {
-      "providedBy": "User confirmation on 2026-10-16",
-      "publishedName": "Tập đoàn Viettel",
-      "lat": 21.0253150367579,
-      "lng": 105.7854235877089,
-      "sourceUrl": "https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9",
-      "meaning": "Gathering and departure point supplied by the trip organizer; no inferred geocoding."
+      "providedBy": "User address correction on 2026-10-22; coordinates from the matching named public address record",
+      "publishedName": "68 P. Mạc Thái Tông",
+      "publishedAddress": "68 P. Mạc Thái Tông, Yên Hòa, Hà Nội",
+      "lat": 21.0137554,
+      "lng": 105.7936235,
+      "cid": "14141617352243748642",
+      "sourceUrl": "https://www.google.com/maps?q=68+M%E1%BA%A1c+Th%C3%A1i+T%C3%B4ng+H%C3%A0+N%E1%BB%99i&output=embed&hl=vi",
+      "meaning": "Pickup address supplied by the organizer; coordinates taken from the named address record, not the search camera center."
     }
   },
   "navigationBounds": {

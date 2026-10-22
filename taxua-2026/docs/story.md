@@ -16,7 +16,7 @@
 
 - Trip: 22–25 October 2026, three days/two nights, Mùa Trứ Homestay; 24 chronological events across four date groups.
 - Authority: group Sheet `Lịch trình!A1:J33`, snapshotted in `data/sources/schedule.json` on 14 October. See [source links](sources.md).
-- Each block keeps its stable `id`, `sourceRow`, original `activity`, `description`, `note`, exact or null `time`, `optional`, and costs where present.
+- Each block keeps its stable `id`, `sourceRow`, original `activity`, `description`, `note`, exact or null `time` (including approved corrections below), `optional`, and costs where present.
 - Display-only `storyTitle`, `storyCue`, `storyNote` remove repetition without deleting original details. `phase` controls editorial lighting/icons, never a scheduled time or device-clock theme.
 - `stopId` joins place guides/photo mappings; `photoIds` selects assets. Keep IDs aligned with `assets.js`, anchors and verification fixtures.
 
@@ -36,7 +36,7 @@
 
 ## Details easy to lose
 
-- Pickup 21:30, departure 22:00 on 22 October at Tập đoàn Viettel. The user confirmed the exact coordinates and Maps link; the 22/10 map centers this pin. The original Sheet snapshot is retained as historical source data.
+- Pickup 21:00, departure 22:00 on 22 October at 68 Mạc Thái Tông, Hà Nội (user correction on 22 October 2026). The 22/10 map centers the matching published address record; see [sources](sources.md). The original Sheet snapshot is retained as historical source data.
 - Arrival 03:00 on 23 October is luggage drop/vehicle pickup; check-in is 14:00. Keep exterior/Best view 2/Best view 4 labels (P16/P17/P18).
 - Room change is 12:00 on 24 October. Preserve the dinner/stargazing conflict and unconfirmed live music; unrelated Mộc Châu fireworks text stays out of the interactive story.
 - Khe Cải starts at 04:30; its later dawn scenery does not add a visit time. Return departs 12:30 on 25 October; arrival in Hanoi is unconfirmed.

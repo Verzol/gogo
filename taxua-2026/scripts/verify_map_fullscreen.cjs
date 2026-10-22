@@ -145,7 +145,7 @@ async function selectedClear(page,name) {
     await page.waitForFunction(zoom => reviewMap.getZoom() < zoom,wheelEnd);
     check('exposed fullscreen map accepts Ctrl+wheel zoom',(await camera(page)).zoom < wheelEnd);
     await page.locator('[data-map-day="0"]').click();
-    await page.locator('.atlas-marker-host[title="Tập đoàn Viettel"]').focus();await page.keyboard.press('Enter');
+    await page.locator('.atlas-marker-host[title="68 Mạc Thái Tông"]').focus();await page.keyboard.press('Enter');
     check('keyboard pin activation opens its full note',await page.locator('#tripAtlas').getAttribute('data-panel') === 'detail' && await page.locator('#atlasDetail h3').evaluate(e => e === document.activeElement));
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => document.querySelector('#tripAtlas').dataset.panel === '');
@@ -164,7 +164,7 @@ async function selectedClear(page,name) {
       await expand(page);await geometry(page,name+' overview');
       check(name+' chronological day order',(await page.locator('[data-map-day]').evaluateAll(e => e.map(b => b.dataset.mapDay))).join(',') === 'all,0,1,2,3');
       await page.locator('[data-map-day="0"]').click();
-      check(name+' departure retains confirmed Viettel pickup',(await page.locator('.atlas-peek strong').textContent()) === 'Tập đoàn Viettel' && await page.evaluate(() => reviewMap.getCenter().lat > 21 && reviewMap.getCenter().lng > 105));
+      check(name+' departure retains confirmed 68 Mạc Thái Tông pickup',(await page.locator('.atlas-peek strong').textContent()) === '68 Mạc Thái Tông' && await page.evaluate(() => reviewMap.getCenter().lat > 21 && reviewMap.getCenter().lng > 105));
       await page.locator('[data-map-day="all"]').click();await list(page);
       await geometry(page,name+' list');
       await page.locator('.atlas-search').fill('doi may');

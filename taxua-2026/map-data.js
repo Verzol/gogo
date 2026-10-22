@@ -265,18 +265,18 @@ const TRIP_MAP_DATA = {
       "note": "Khu vực Tà Xùa để định hướng; chưa chốt quán ăn hay điểm dừng cụ thể."
     },
     "hanoi_pickup": {
-      "name": "Tập đoàn Viettel",
+      "name": "68 Mạc Thái Tông",
       "category": "transfer",
       "art": "decor/painted/bus_sticker.webp",
-      "lat": 21.0253150367579,
-      "lng": 105.7854235877089,
+      "lat": 21.0137554,
+      "lng": 105.7936235,
       "status": "verified",
       "precision": "point",
       "sourceUrls": [
-        "https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9"
+        "https://www.google.com/maps?cid=14141617352243748642"
       ],
-      "verifiedAt": "2026-10-16",
-      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:30, xe xuất phát lúc 22:00."
+      "verifiedAt": "2026-10-22",
+      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:00, xe xuất phát lúc 22:00."
     }
   }
 };

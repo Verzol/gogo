@@ -540,7 +540,7 @@
     dialog.querySelector('#atlasListCount').textContent = unique(all).length + ' điểm';
     const points = unique(all).filter(id => hasPoint(places[id]) && places[id].precision !== 'area').length;
     const areas = unique(all).filter(id => hasPoint(places[id]) && places[id].precision === 'area').length;
-    dialog.querySelector('#atlasMapCaption').textContent = activeDay === 0 ? 'Điểm hẹn · Tập đoàn Viettel, Hà Nội' : points + ' ghim' + (areas ? ' · ' + areas + ' khu vực tham khảo' : '') + ' · ' + unique(all).length + ' điểm trong lịch';
+    dialog.querySelector('#atlasMapCaption').textContent = activeDay === 0 ? 'Điểm hẹn · 68 Mạc Thái Tông, Hà Nội' : points + ' ghim' + (areas ? ' · ' + areas + ' khu vực tham khảo' : '') + ' · ' + unique(all).length + ' điểm trong lịch';
     list.innerHTML = all.map((visit,index) => {
       const place = places[visit.placeId];
       const previous = all[index - 1];

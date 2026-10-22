@@ -50,7 +50,7 @@ const htmlTime = raw => raw ? raw.trim().split('-').map(t=>{const [h,m]=t.trim()
   const p = await page();
   const blocks = await p.evaluate(()=>TRIP_DATA.days.flatMap(d=>d.blocks));
   check('All 24 source events remain in detailed-sheet order',JSON.stringify(blocks.map(b=>b.sourceRow))===JSON.stringify(requiredRows));
-  check('Confirmed times exactly match the source snapshot',blocks.every(b=>b.time===htmlTime(schedule[b.sourceRow-1][2])));
+  check('Confirmed times match the source snapshot and approved 22 October pickup correction',blocks.every(b=>b.time===(b.id==='departure' ? '21:00' : htmlTime(schedule[b.sourceRow-1][2]))));
   check('Untimed and optional events retain their meaning',blocks.filter(b=>b.time===null).length===requiredRows.filter(row=>!schedule[row-1][2]).length && ['lake','room-clouds','stars'].every(id=>blocks.find(b=>b.id===id).optional));
   check('All events are continuously available',await p.locator('.event').count()===24 && await p.locator('.event[hidden]').count()===0);
   const coverage = await p.locator('[data-stop-id]').evaluateAll(a=>[...new Set(a.map(e=>e.dataset.stopId))]);
