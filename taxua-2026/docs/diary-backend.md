@@ -11,7 +11,7 @@ Only the diary frontend calls the new `taxua-diary` function.
 
 | Resource | Access |
 | --- | --- |
-| `taxua_diary.members` | Exactly seven seeded slots; private UUID/alias/claim registry |
+| `taxua_diary.members` | Exactly eight seeded slots; private UUID/alias/claim registry |
 | `taxua_diary.entries` | Published title, prose, ordered photo metadata, monotonic revision |
 | `taxua_diary.drafts` | Separate owner-only draft and revision |
 | `taxua_diary.photos` | Owner, upload state, expiry, dimensions, reserved/actual bytes |
@@ -39,9 +39,28 @@ refresh must work before a bearer exists. Protected routes explicitly validate
 Auth and the live session in the function body. This setting is not anonymous
 permission to read or write diary data.
 
+## Adding tamle, 22 October 2026
+
+Migration `20261022151112_taxua_diary_add_tamle.sql` expands the member-ID
+constraint, moves linh to display position 8, and inserts tamle at position 7
+with an empty published entry. Existing IDs, account bindings, passwords,
+drafts and published content are preserved. Drafts are created lazily by the
+existing gateway. Tamle uses the existing first-claim password flow; no account
+was claimed or password chosen during this update.
+
+The migration was applied to gogo, followed by `taxua-diary` Edge version 7
+with tamle added to the allowed IDs. The function keeps its previous JWT,
+imports and authentication settings. Apply the migration, deploy the matching
+function, then publish the static frontend when reproducing this update.
+Public `/status` returns all eight names; a blank-password request for tamle
+reaches `INVALID_PASSWORD`, while an unknown member remains `INVALID_MEMBER`.
+Anonymous private reads remain denied. A rolled-back migration rehearsal
+compared every existing account binding and complete entry value before and
+after; all were preserved. Live crew accounts were not used for mutation tests.
+
 ## Claim and authentication
 
-1. Public status returns only seven names and whether each is claimed/busy.
+1. Public status returns only eight names and whether each is claimed/busy.
 2. Claim locks the selected slot and issues a five-minute nonce plus a random
    candidate UUID/alias. A concurrent claimant cannot acquire that reservation.
 3. The server creates a confirmed Supabase Auth user with a derived credential
@@ -56,7 +75,7 @@ permission to read or write diary data.
 Random server-generated aliases avoid predictable-alias squatting without
 installing a global Before User Created hook in a shared project. Unrelated
 Auth signups, if allowed by the project's other applications, have no diary
-mapping and no diary access. Only the seven slots can acquire a diary mapping.
+mapping and no diary access. Only the eight slots can acquire a diary mapping.
 **First claim does not verify a person's identity**, by explicit user choice.
 
 Any non-empty password is accepted, including a single character or spaces.

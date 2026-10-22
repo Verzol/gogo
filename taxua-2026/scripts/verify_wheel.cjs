@@ -94,21 +94,21 @@ async function land(page) {
     const page=await browser.newPage({viewport:{width,height},reducedMotion:'reduce'});
     page.on('pageerror',error=>report.errors.push(name+': '+error.message));
     await page.goto(url); await page.evaluate(()=>document.fonts.ready); await reveal(page);
-    check(name+' keeps seven real members and source section order',await page.locator('.wheel-member').count()===7 && await page.locator('#crew').evaluate(el=>el.nextElementSibling.id==='fund'&&el.nextElementSibling.nextElementSibling.id==='packing'));
+    check(name+' keeps eight real members and source section order',await page.locator('.wheel-member').count()===8 && await page.locator('#crew').evaluate(el=>el.nextElementSibling.id==='fund'&&el.nextElementSibling.nextElementSibling.id==='packing'));
     check(name+' uses transparent journal layout',await page.locator('#cloudWheel,.wheel-composition,.wheel-notes').evaluateAll(items=>items.every(el=>getComputedStyle(el).backgroundColor==='rgba(0, 0, 0, 0)'&&getComputedStyle(el).backdropFilter==='none')));
     await page.locator('#cloudWheel img').evaluateAll(items=>Promise.all(items.map(img=>img.decode())));
     check(name+' artwork loads',await page.locator('#cloudWheel img').evaluateAll(items=>items.every(img=>img.complete&&img.naturalWidth>0)));
     check(name+' names and portraits stay inside the inner rim through a full rotation',await labelsFitThroughoutRotation(page));
     check(name+' waiting state has no winner sticker',await page.locator('.wheel-result-person img').count()===0);
     check(name+' removes the separate participant list',await page.locator('.wheel-participants,.wheel-choices').count()===0);
-    check(name+' exposes seven named wheel toggle buttons',await page.locator('[data-wheel-person]').evaluateAll(items=>items.length===7&&items.every(el=>el.tagName==='BUTTON'&&el.getAttribute('aria-label')&&el.getAttribute('aria-pressed')==='true'&&!el.closest('[aria-hidden="true"]'))));
+    check(name+' exposes eight named wheel toggle buttons',await page.locator('[data-wheel-person]').evaluateAll(items=>items.length===8&&items.every(el=>el.tagName==='BUTTON'&&el.getAttribute('aria-label')&&el.getAttribute('aria-pressed')==='true'&&!el.closest('[aria-hidden="true"]'))));
     check(name+' wheel controls have usable non-overlapping targets',await page.locator('[data-wheel-person]').evaluateAll(items=>{
       const boxes=items.map(el=>el.getBoundingClientRect());
       return boxes.every((box,i)=>box.width>=44&&box.height>=44&&boxes.every((other,j)=>i===j||box.right<=other.left||other.right<=box.left||box.bottom<=other.top||other.bottom<=box.top));
     }));
     // Click the actual portrait, then its name: both parts of the upright button work.
     await page.locator('[data-wheel-person="2"] img').click();
-    check(name+' clicking the portrait excludes and mutes its member',await page.locator('[data-wheel-person="2"]').getAttribute('aria-pressed')==='false'&&await page.locator('.wheel-member[data-wheel-index="2"]').evaluate(el=>el.classList.contains('is-excluded'))&&(await page.locator('#wheelAvailability').textContent()).startsWith('6'));
+    check(name+' clicking the portrait excludes and mutes its member',await page.locator('[data-wheel-person="2"]').getAttribute('aria-pressed')==='false'&&await page.locator('.wheel-member[data-wheel-index="2"]').evaluate(el=>el.classList.contains('is-excluded'))&&(await page.locator('#wheelAvailability').textContent()).startsWith('7'));
     await page.locator('[data-wheel-person="2"] .wheel-name').click();
     check(name+' clicking the name includes them again',await page.locator('[data-wheel-person="2"]').getAttribute('aria-pressed')==='true');
     await page.locator('.wheel-spin').click();
@@ -136,30 +136,30 @@ async function land(page) {
   await page.keyboard.press('Enter');
   check('Enter restores the same member',await firstPerson.getAttribute('aria-pressed')==='true');
   // Select each member individually: every painted segment must map correctly.
-  for(let index=0;index<7;index++) {
-    for(let member=0;member<7;member++)await choose(page,member,member===index);
+  for(let index=0;index<8;index++) {
+    for(let member=0;member<8;member++)await choose(page,member,member===index);
     await page.locator('.wheel-spin').click();
     check('single participant '+index+' wins at the correct sector',Number(await page.locator('#cloudWheel').getAttribute('data-winner-index'))===index && await alignment(page));
     check('single participant '+index+' displays only their own sticker',await winnerSticker(page)&&await page.locator('.wheel-result-person img').count()===1);
   }
-  for(let index=0;index<7;index++)await choose(page,index,false);
+  for(let index=0;index<8;index++)await choose(page,index,false);
   check('empty selection disables spin and explains recovery',await page.locator('.wheel-spin').isDisabled() && (await page.locator('.wheel-result-note').textContent()).includes('Chọn ít nhất'));
-  for(let index=0;index<7;index++)await choose(page,index,true);
+  for(let index=0;index<8;index++)await choose(page,index,true);
   await page.locator('#wheelNoRepeat').check();
   const winners=new Set();
-  for(let index=0;index<7;index++) {
+  for(let index=0;index<8;index++) {
     await page.locator('.wheel-spin').click();
     winners.add(await page.locator('#cloudWheel').getAttribute('data-winner'));
     check('no-repeat pick '+index+' matches pointer',await alignment(page));
   }
-  check('no-repeat round picks everyone exactly once',winners.size===7 && await page.locator('.wheel-spin').isDisabled());
+  check('no-repeat round picks everyone exactly once',winners.size===8 && await page.locator('.wheel-spin').isDisabled());
   check('round completion retains the final winner and offers restart',(await page.locator('.wheel-result-note').textContent()).includes('Bắt đầu lại') && !!await page.locator('#cloudWheel').getAttribute('data-winner'));
   check('completed round retains the final winner sticker',await winnerSticker(page));
   await page.locator('.wheel-reset').click();
   check('restart clears round and restores all selected people',await page.locator('.wheel-spin').isEnabled() && await page.locator('.was-picked').count()===0 && await page.locator('.wheel-result-name').textContent()==='?');
   check('restart removes the winner sticker',await page.locator('.wheel-result-person img').count()===0);
   await page.locator('#wheelNoRepeat').uncheck();
-  for(let index=1;index<7;index++)await choose(page,index,false);
+  for(let index=1;index<8;index++)await choose(page,index,false);
   await page.locator('.wheel-spin').click();await page.locator('.wheel-spin').click();
   check('default mode permits repeat selections',await page.locator('#cloudWheel').getAttribute('data-winner')==='san' && await page.locator('.wheel-spin').isEnabled());
   await page.locator('.wheel-spin').focus();await page.keyboard.press('Enter');

@@ -54,7 +54,7 @@ const TRIP_DATA = {
   },
   "fund": {
     "eyebrow": "+1 đây rồi · Quỹ vi vu",
-    "title": "Thành viên thứ 8: Heo đất!",
+    "title": "Thành viên thứ 9: Heo đất!",
     "intro": "Heo đất cũng đi Tà Xùa.",
     "contributionIntro": "Mỗi đứa góp",
     "contributionOutro": "vào heo chung nhé.",
@@ -64,7 +64,7 @@ const TRIP_DATA = {
     "action": "Góp quỹ vi vu",
     "actionHint": "Mở quỹ trên MoMo",
     "scribble": "Nuôi heo, nuôi chuyến đi.",
-    "pigNote": "thành viên thứ 8 của hội mình",
+    "pigNote": "thành viên thứ 9 của hội mình",
     "url": "https://quy.momo.vn/v2/YTavDjFUV4?cover=6749"
   },
   "masthead": [
@@ -106,9 +106,14 @@ const TRIP_DATA = {
       "id": "truong",
       "name": "trường",
       "image": "figures/people/truong_scarf.webp"
+    },
+    {
+      "id": "tamle",
+      "name": "tamle",
+      "image": "figures/people/tamle_scarf.webp"
     }
   ],
-  "crewOrder": ["mi", "san", "thảo", "quanlele", "gtm", "trường", "linh"],
+  "crewOrder": ["mi", "san", "thảo", "quanlele", "gtm", "trường", "tamle", "linh"],
   "wheel": {
     "eyebrow": "Một vòng cho cả hội",
     "title": "Vòng quay trên mây",
@@ -360,7 +365,7 @@ const TRIP_DATA = {
       "label": "Xe về 25/10",
       "detail": "Xuất phát 12:30"
     },
-    "costNote": "Giá dự kiến theo lịch nhóm, chưa gồm mọi khoản phát sinh. Dự toán trong lịch nhóm tính cho 7 người.",
+    "costNote": "Giá dự kiến theo lịch nhóm, chưa gồm mọi khoản phát sinh. Dự toán gốc tính cho 7 người; hội mình hiện có 8 người, chờ cập nhật chi phí.",
     "costs": [
       {
         "label": "Homestay, 2 đêm",

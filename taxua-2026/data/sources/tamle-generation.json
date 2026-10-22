@@ -1,0 +1,68 @@
+{
+  "model": "cx/gpt-image-2.5-sunburst",
+  "createdAt": "2026-10-22T15:19:27.710801+00:00",
+  "purpose": "User-requested softer, more even painted skin; preserve identity and scarf",
+  "promptPath": "docs/prompts/people.md",
+  "prompt": "Edit ONLY the skin rendering of this existing transparent watercolor portrait sticker. This uploaded sticker is the sole image reference. Preserve the SAME exact person and recognizable facial features, face shape, proportions, eyes, eyebrows, nose, lips, clear rounded glasses, dark hair, expression, pose and apparent age. Keep his natural skin tone. Preserve the aubergine/dusty-gold/cream plaid headscarf, white shirt neckline, warm-ivory die-cut outline, composition, native square canvas and genuine alpha transparency.\n\nMake his skin look cleaner and more flattering in the same semi-realistic watercolor-and-gouache style as the rest of the travel sticker collection: softly blended, even natural skin washes and gentle diffuse daylight. Reduce the exaggerated acne spots, redness, rough pores and noisy mottled orange/grey pigment patches on forehead, cheeks, nose, chin and neck. Keep only a very fine subtle watercolor grain on skin; retain more pronounced woven painterly texture on the scarf and crisp detail in glasses and hair. Avoid waxy airbrushing, plastic skin, heavy makeup, skin whitening, reshaping or changing his identity. The forehead and cheeks should feel calm and softly painted, with natural warm highlights and gentle shadows, rather than visibly speckled or harshly textured.\n\nDo not alter anything else. Keep the complete head-and-scarf silhouette inside the canvas with clear transparent padding and no clipping. No new background, shadow, lettering, extra objects or people. Return one PNG with true alpha transparency.",
+  "promptSha256": "0408606a7cd588e29bd75a2035cf22b083c778a2f69ced60899c42b22b3d8261",
+  "references": [
+    {
+      "path": "figures/raw/people/revisions/tamle_initial.png",
+      "sha256": "8bd5050be73ebcd1e6236d5195d8f4f697e21844708769ebdb20677050a39c28"
+    }
+  ],
+  "request": {
+    "model": "cx/gpt-image-2.5-sunburst",
+    "prompt": "Edit ONLY the skin rendering of this existing transparent watercolor portrait sticker. This uploaded sticker is the sole image reference. Preserve the SAME exact person and recognizable facial features, face shape, proportions, eyes, eyebrows, nose, lips, clear rounded glasses, dark hair, expression, pose and apparent age. Keep his natural skin tone. Preserve the aubergine/dusty-gold/cream plaid headscarf, white shirt neckline, warm-ivory die-cut outline, composition, native square canvas and genuine alpha transparency.\n\nMake his skin look cleaner and more flattering in the same semi-realistic watercolor-and-gouache style as the rest of the travel sticker collection: softly blended, even natural skin washes and gentle diffuse daylight. Reduce the exaggerated acne spots, redness, rough pores and noisy mottled orange/grey pigment patches on forehead, cheeks, nose, chin and neck. Keep only a very fine subtle watercolor grain on skin; retain more pronounced woven painterly texture on the scarf and crisp detail in glasses and hair. Avoid waxy airbrushing, plastic skin, heavy makeup, skin whitening, reshaping or changing his identity. The forehead and cheeks should feel calm and softly painted, with natural warm highlights and gentle shadows, rather than visibly speckled or harshly textured.\n\nDo not alter anything else. Keep the complete head-and-scarf silhouette inside the canvas with clear transparent padding and no clipping. No new background, shadow, lettering, extra objects or people. Return one PNG with true alpha transparency.",
+    "size": "1024x1024",
+    "quality": "high",
+    "image_detail": "high",
+    "background": "transparent",
+    "output_format": "png"
+  },
+  "output": "figures/raw/people/tamle.png",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "sha256": "506abd382197eff45fde0fc1cc4ee89ea0aca50264d4f6d0ea8ce75852a04251",
+  "bytes": 1806640,
+  "previousGenerations": [
+    {
+      "model": "cx/gpt-image-2.5-sunburst",
+      "createdAt": "2026-10-22T15:07:16.602599+00:00",
+      "purpose": "Generated travel-journal portrait of tamle, user-authorized photo reference",
+      "promptPath": "docs/prompts/people.md",
+      "prompt": "Create ONE transparent cutout portrait sticker of the exact person in the uploaded photo, wearing a woven Tây Bắc-inspired headscarf for a Tà Xùa mountain travel journal.\n\nIDENTITY — highest priority\nThe single uploaded photo is the sole image input and identity reference. Preserve this person's recognizable face: face shape, eyes, eyebrows, nose, lips, skin tone, apparent age, hair color, visible hairstyle, glasses and distinctive features. Keep their natural expression and a near-frontal view consistent with the photo. Do not beautify, change ethnicity, slim the face, enlarge the eyes or replace their features with a generic illustrated face. Generate the headscarf and art treatment from the written directions below.\n\nHEADSCARF\nReplace any hat with a soft woven headscarf inspired by plaid scarves seen in H'Mông markets in Tà Xùa, Sơn La, northwestern Vietnam. Fold the fabric over the crown and wrap it loosely around the head, with a compact folded edge above the forehead and short fringed ends resting toward the back or beside the lower hair. Keep the entire face unobstructed and recognizable hair visible beneath the scarf. Use believable fabric folds and a restrained woven plaid: muted aubergine (#79566F) as the dominant fabric, dusty gold (#C7A873) and warm cream as crossing stripes. Make the weave readable without dense tiny ornament. This is a contemporary travel-sticker interpretation. No conical hat, rigid hat brim, oversized bow, tall turban, elaborate headdress or added ceremonial accessories.\n\nSTYLE\nA cohesive semi-realistic watercolor-and-gouache illustration in the style of a playful Vietnamese mountain travel journal. Paint both face and fabric in the same medium while preserving accurate facial structure and clear identifying details. Use soft translucent skin washes, matte opaque fabric folds, fine indigo colored-pencil contours, organic brush edges and restrained paper-grain texture inside painted areas only. Give the scarf more visible texture than the face. Soft diffuse daylight, natural skin color and warm cream/peach highlights, with muted indigo, teal and jade accents. Keep the face crisp enough to recognize as a small website sticker. No photographic face pasted onto a painted body, heavy makeup, glossy skin, 3D toy rendering, anime or chibi proportions.\n\nCOMPOSITION AND OUTPUT\nOne centered head-and-scarf cutout on a square 1:1 canvas, preferably 1024 × 1024 or higher native resolution. Include hair and just enough neckline to finish the silhouette; no torso or hands. Keep the eyes approximately level across the set. Let the complete cutout occupy about 84% of the canvas height, with at least 7% transparent padding on every side. Keep the face large enough to recognize at small website sizes. Show every scarf edge and hair tip without clipping.\n\nAdd one smooth warm-ivory die-cut border around the entire silhouette, about 12 pixels wide on a 1024-pixel canvas. Outside that border, use genuine alpha transparency. No baked-in cast shadow, rectangular background, checkerboard pattern, circular frame, scenery, clouds, text, name label, logo, watermark, extra person or alternate views. Return a single PNG sticker.\n\nTAMLE'S PORTRAIT\nUse only the supplied tamle.png photo as the identity reference. Preserve his clear rounded glasses, dark center-parted hair, natural slight smile and facial proportions. Include just a little white shirt neckline. Exclude his hand, lanyard, bag strap, shirt lettering, background and other people. The compact headscarf is muted aubergine (#79566F), with dusty-gold (#C7A873) crossing stripes and fine warm-cream (#F3E5C7) lines. Keep aubergine dominant, with short matching fringe. Retain the warm-ivory cutout border and genuine transparent background.",
+      "promptSha256": "9e170eddd8d05099af5b0c558befee979fd93aa788cc474cebcf323da533f19e",
+      "references": [
+        {
+          "path": "figures/raw/tamle.png",
+          "sha256": "00ec85859cfb321852c43963aa25134f5822492a8999e3b0c7354b44c7ff681b",
+          "retention": "Remove source photo after generated master and runtime derivative pass likeness and alpha inspection",
+          "removedAfterValidation": true
+        }
+      ],
+      "referenceEncoding": "Original PNG, one image; no image bytes retained in provenance",
+      "request": {
+        "model": "cx/gpt-image-2.5-sunburst",
+        "prompt": "Create ONE transparent cutout portrait sticker of the exact person in the uploaded photo, wearing a woven Tây Bắc-inspired headscarf for a Tà Xùa mountain travel journal.\n\nIDENTITY — highest priority\nThe single uploaded photo is the sole image input and identity reference. Preserve this person's recognizable face: face shape, eyes, eyebrows, nose, lips, skin tone, apparent age, hair color, visible hairstyle, glasses and distinctive features. Keep their natural expression and a near-frontal view consistent with the photo. Do not beautify, change ethnicity, slim the face, enlarge the eyes or replace their features with a generic illustrated face. Generate the headscarf and art treatment from the written directions below.\n\nHEADSCARF\nReplace any hat with a soft woven headscarf inspired by plaid scarves seen in H'Mông markets in Tà Xùa, Sơn La, northwestern Vietnam. Fold the fabric over the crown and wrap it loosely around the head, with a compact folded edge above the forehead and short fringed ends resting toward the back or beside the lower hair. Keep the entire face unobstructed and recognizable hair visible beneath the scarf. Use believable fabric folds and a restrained woven plaid: muted aubergine (#79566F) as the dominant fabric, dusty gold (#C7A873) and warm cream as crossing stripes. Make the weave readable without dense tiny ornament. This is a contemporary travel-sticker interpretation. No conical hat, rigid hat brim, oversized bow, tall turban, elaborate headdress or added ceremonial accessories.\n\nSTYLE\nA cohesive semi-realistic watercolor-and-gouache illustration in the style of a playful Vietnamese mountain travel journal. Paint both face and fabric in the same medium while preserving accurate facial structure and clear identifying details. Use soft translucent skin washes, matte opaque fabric folds, fine indigo colored-pencil contours, organic brush edges and restrained paper-grain texture inside painted areas only. Give the scarf more visible texture than the face. Soft diffuse daylight, natural skin color and warm cream/peach highlights, with muted indigo, teal and jade accents. Keep the face crisp enough to recognize as a small website sticker. No photographic face pasted onto a painted body, heavy makeup, glossy skin, 3D toy rendering, anime or chibi proportions.\n\nCOMPOSITION AND OUTPUT\nOne centered head-and-scarf cutout on a square 1:1 canvas, preferably 1024 × 1024 or higher native resolution. Include hair and just enough neckline to finish the silhouette; no torso or hands. Keep the eyes approximately level across the set. Let the complete cutout occupy about 84% of the canvas height, with at least 7% transparent padding on every side. Keep the face large enough to recognize at small website sizes. Show every scarf edge and hair tip without clipping.\n\nAdd one smooth warm-ivory die-cut border around the entire silhouette, about 12 pixels wide on a 1024-pixel canvas. Outside that border, use genuine alpha transparency. No baked-in cast shadow, rectangular background, checkerboard pattern, circular frame, scenery, clouds, text, name label, logo, watermark, extra person or alternate views. Return a single PNG sticker.\n\nTAMLE'S PORTRAIT\nUse only the supplied tamle.png photo as the identity reference. Preserve his clear rounded glasses, dark center-parted hair, natural slight smile and facial proportions. Include just a little white shirt neckline. Exclude his hand, lanyard, bag strap, shirt lettering, background and other people. The compact headscarf is muted aubergine (#79566F), with dusty-gold (#C7A873) crossing stripes and fine warm-cream (#F3E5C7) lines. Keep aubergine dominant, with short matching fringe. Retain the warm-ivory cutout border and genuine transparent background.",
+        "size": "1024x1024",
+        "quality": "high",
+        "image_detail": "high",
+        "background": "transparent",
+        "output_format": "png"
+      },
+      "output": "figures/raw/people/revisions/tamle_initial.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "8bd5050be73ebcd1e6236d5195d8f4f697e21844708769ebdb20677050a39c28",
+      "bytes": 1914112
+    }
+  ],
+  "referenceEncoding": "Existing generated PNG sticker, one image; original identity photo remains removed"
+}

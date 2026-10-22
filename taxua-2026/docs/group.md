@@ -15,14 +15,14 @@
 | Arrival clock | `TRIP_DATA.countdown` and block `id:"arrival"` | `initArrivalCountdown`, `countdown.css` |
 | Fund | `TRIP_DATA.fund` | `renderFund`, `#fund`, `.fund-*`, `motion.js` reveals |
 
-## Seven people, one mystery guest
+## Eight people, one mystery guest
 
-- Current roster: san, thảo, mi, linh, quanlele, gtm, trường. `members` is authoritative and contains immutable ASCII IDs, names and portrait paths; member roles are removed. IDs authorize diary mapping and must not be derived from editable display names.
-- `crewOrder` controls only the displayed crew: mi, san, thảo, quanlele, gtm, trường, linh. Mi and linh sit at opposite ends to separate their pink scarves. The wheel retains `members` order; any members omitted from `crewOrder` appear afterward in roster order.
-- Hero: “7 +1 đồng bọn, một biển mây.” The real count follows `members.length`; +1 is the shared fund pig, not another traveler.
+- Current roster: san, thảo, mi, linh, quanlele, gtm, trường, tamle. `members` is authoritative and contains immutable ASCII IDs, names and portrait paths; member roles are removed. IDs authorize diary mapping and must not be derived from editable display names.
+- `crewOrder` controls only the displayed crew: mi, san, thảo, quanlele, gtm, trường, tamle, linh. Mi and linh sit at opposite ends to separate their pink scarves. The wheel retains `members` order; any members omitted from `crewOrder` appear afterward in roster order.
+- Hero: “8 +1 đồng bọn, một biển mây.” The real count follows `members.length`; +1 is the shared fund pig, not another traveler.
 - Keep “Cuộn xuống để biết” discoverable before the countdown on phones. The circled +1/question mark teases the later reveal.
-- Crew shows “Đồng bọn (7 mống)” before the fund introduction. Order is `#itinerary` → `#crew` → `#fund` → `#packing`.
-- Each `members[i].image` now points to its supplied scarf portrait; omitted or failed images show initials. Update hero fallback/footer counts in `index.html` if the roster changes.
+- Crew shows “Đồng bọn (8 mống)” before the fund introduction. Order is `#itinerary` → `#crew` → `#fund` → `#packing`.
+- Each `members[i].image` points to its scarf portrait; omitted or failed images show initials. Update hero fallback/footer counts in `index.html` if the roster changes.
 - Crew names link to that person's diary selection at `#crewDiary`. Logged-out visitors receive the cover/password flow; private content is fetched only after server authentication. The diary stays between the roster and games, preserving top-level section order.
 - The optional [20/10 keepsake](womens-day.md) adds separate flower buttons for the explicitly confirmed recipients mi, thảo and linh. Existing scarf artwork, member order and diary name links remain intact.
 
@@ -30,15 +30,15 @@
 
 Seven supplied PNGs are retained byte-for-byte under `figures/raw/people/`: `san`, `thao`, `mi`, `linh`, `quanlele`, `gtm` and `truong`. Explicit member mapping preserves the existing Vietnamese names, roster order and symbolic pig.
 
-`python3 scripts/prepare_people_artwork.py` (Pillow) trims transparent margins, clears very low-alpha dust and downsizes each complete cutout into a transparent 512×512 canvas with at least 20px padding. It does not upscale, recolor or retouch faces. WebPs under `figures/people/` total **418,302 bytes**. [Provenance](../data/sources/people-artwork.json) records uploaded names, original hashes, trims, painted dimensions, member mapping and derivative hashes; the importer refuses original replacement.
+`python3 scripts/prepare_people_artwork.py` (Pillow) trims transparent margins, clears very low-alpha dust and downsizes each complete cutout into a transparent 512×512 canvas with at least 20px padding. It does not upscale, recolor or retouch faces. The eighth portrait, tamle, is a Sunburst-generated master at `figures/raw/people/tamle.png`; his identity photo was removed after validation as requested. His scarf uses aubergine, dusty gold and cream. [Generation provenance](../data/sources/tamle-generation.json) retains settings, prompt and hashes, without photo bytes. [Provenance](../data/sources/people-artwork.json) records uploaded names, original hashes, trims, painted dimensions, member mapping and derivative hashes; the importer refuses original replacement.
 
 Crew portraits use `object-fit:contain` at 128px on desktop and 104px on phones. Each transparent composition centers the complete scarf sticker above its handwritten HTML name, with no role text or empty subtitle space. The grid uses four columns on desktop, three below 1200px and two below 1024px, retaining the alternating journal offsets. Wheel sectors reuse the same files at 44px desktop and 26px on compact layouts with upright names. Missing images remove the portrait styling and reveal initials. Crew artwork is decorative because the adjacent heading supplies the name. Portraits add no animation, duplicate roster entries or new announcements. [Generation brief](prompts/people.md).
 
-The import passed **99 existing wheel checks**, including all seven sector/result matches, repeat rules, animated/reduced-motion behavior, responsive layouts and celebration cleanup. Additional browser inspection covered crew/wheel portraits at 1440px, 820px, 390px and 320px, every map-art request, and forced portrait-load failure restoring all seven crew/wheel initials. All 15 new master hashes matched the supplied files; both artwork importers reproduce identical manifests and derivatives. Existing trip data differs only in the seven member image fields; the generated reading copy is unchanged. Evidence: `/tmp/taxua-new-stickers-review/`.
+The 16 October import passed **99 existing wheel checks**, including all seven sector/result matches, repeat rules, animated/reduced-motion behavior, responsive layouts and celebration cleanup. Additional browser inspection covered crew/wheel portraits at 1440px, 820px, 390px and 320px, every map-art request, and forced portrait-load failure restoring all seven crew/wheel initials. All 15 new master hashes matched the supplied files; both artwork importers reproduce identical manifests and derivatives. Existing trip data differs only in the seven member image fields; the generated reading copy is unchanged. Evidence: `/tmp/taxua-new-stickers-review/`.
 
 ## Vòng quay trên mây
 
-- The default game in **Túi may mắn**, below the roster **inside `#crew`**, keeping crew → fund → packing and the morning/jade world. Seven real travelers participate; the fund pig is not a candidate.
+- The default game in **Túi may mắn**, below the roster **inside `#crew`**, keeping crew → fund → packing and the morning/jade world. Eight real travelers participate; the fund pig is not a candidate.
 - Existing `#cloudWheel` navigation opens the wheel even after switching to another game. Pending spins settle before hiding, and transient celebrations clear; settings and round state persist. [Collection behavior](games.md).
 - `TRIP_DATA.members` supplies names, optional portraits and segment count; `TRIP_DATA.wheel` supplies Vietnamese copy. Initials work without portrait files. Each upright portrait/name is a native toggle button with the member's name, `aria-pressed`, visible keyboard focus and at least a 44px target. Click/tap, Space or Enter excludes or restores that member directly on the wheel; there is no separate participant list. Labels sit inward from the painted rim with smaller handwritten names; compact layouts use 26px portraits and a 280px landscape dial. The full name and portrait must fit within the inner rim throughout rotation, including the lower sectors.
 - Each selected, eligible person has the same chance. `crypto.getRandomValues` with rejection sampling chooses a member, then a landing point safely inside that member's equal SVG sector; `Math.random` is the fallback. No ten-person cap or fixed ten-sector gradient.
@@ -67,16 +67,47 @@ The direct-selection update on 17 October passed 168 wheel, 108 mobile UI and 10
 - The forecast and smaller clock share the hero summary grid column; phones stack copy, forecast and clock in natural flow. Reserve hero space to prevent layout shift. Number changes respect reduced motion; the timer uses `aria-live="off"` instead of announcing every second.
 - Changing arrival also requires updating fixed target fixtures in `scripts/verify_countdown.cjs` and regenerating the reading copy.
 
-## Eighth member: the pig fund
+## Ninth member: the pig fund
 
-- Title: **“Thành viên thứ 8: Heo đất!”** Intro: **“Heo đất cũng đi Tà Xùa.”** Pig annotation repeats the eighth-member idea.
-- Per-person contribution: **2.400.000 ₫** (`amountPerPerson:2400000`), paid by the seven real travelers.
+- Title: **“Thành viên thứ 9: Heo đất!”** Intro: **“Heo đất cũng đi Tà Xùa.”** Pig annotation repeats the ninth-member idea.
+- Per-person contribution: **2.400.000 ₫** (`amountPerPerson:2400000`), for each of the eight real travelers.
 - Exact destination: [MoMo group fund](https://quy.momo.vn/v2/YTavDjFUV4?cover=6749). Keep the query string; the button opens a new tab with `noopener noreferrer`.
 - Transparent composition: a watercolor piggy bank with a teal scarf, a separate playable coin, handwritten annotation, hand-circled amount and pink invitation. The pig remains 220px on desktop and 180px on phones. Tap/click/keyboard feeds a pretend coin; dragging the loose coin into the slot gives the same response. Coins choose varied launch spots, paths, spins and timing; the pig's randomized reactions stay independent of its outer reveal. Pause/reduced motion uses static feedback. See [Playful objects](playful.md).
 - The current 512px pig/front WebPs are under `figures/decor/painted/playful/`; the [Sunburst prompt](prompts/playful/01_pig.md) and [measured provenance](../data/sources/playful-artwork.json) preserve the edit and slot alignment. Failed loading restores the official Lucide piggy-bank in the same reserved space. The earlier PNG/WebP remain preserved; see their [original generation brief](prompts/pig_fund.md) and [provenance](../data/sources/pig-fund-artwork.json).
-- Crew/fund share the morning scene. Do not add a real eighth roster entry, inferred paid status, balance or deadline.
+- Crew/fund share the morning scene. The pig is not a real ninth roster entry. Do not infer paid status, balance or deadline.
 - `itinerary.html` includes the fund text/amount/link, without a crew section. Regenerate after copy changes.
 
 ## Verify
 
 Run `verify_countdown.cjs` for timezone/arrival/zero/visibility states; `verify_fund.cjs` for crew → fund → packing order, loaded pig artwork, exact amount/link, layouts, focus and reversible reveals. Fund tests intercept the link locally; they do not submit a contribution. Set `TRIP_REVIEW_DIR` to write fund evidence outside the checkout. See [verification](verification.md).
+
+## Eight-member update: 22 October 2026
+
+Tamle joins the roster, crew, wheel, member lottery bag and private diary.
+The hero is now 8 +1 and the fund pig is the ninth symbolic member. The
+original seven-person cost estimate remains labeled as awaiting an update
+for eight; the contribution amount and MoMo destination are unchanged.
+Tamle's native 1254×1254 Sunburst portrait uses aubergine/gold/cream plaid.
+A second Sunburst edit softened the coarse skin washes at the user's request,
+using only the first generated portrait. The selected PNG is
+`figures/raw/people/tamle.png`; the initial generated master is retained under
+`figures/raw/people/revisions/`. The personal identity photo is removed.
+The importer reproduces the 512×512 runtime WebP and cleans isolated paint
+specks without modifying facial features. Exact prompts and revision provenance
+are in [People prompts](prompts/people.md) and the linked generation record.
+
+Chromium verification passed 176 wheel, 221 games, 106 randomness/extraction,
+81 diary, 82 diary-navigation, 128 Women's Day, 155 fund, 56 story and 107
+mobile UI checks. A further 45 focused checks covered tamle's crew order,
+loaded sticker, eight-person copy, first claim and own-page editing at
+1440/820/390/320px using local diary fixtures. The refined sticker was inspected
+at native and runtime sizes and in desktop/phone crew layouts. The mobile
+suite now handles the already-disabled location explorer explicitly.
+Evidence: `/tmp/taxua-tamle/`. Existing seven portrait records, master bytes
+and runtime hashes are unchanged, as are all 29 original diary-material
+records. Source/derivative hashes, transparency, the removed identity photo,
+JavaScript/Python syntax and whitespace were checked.
+
+The migration and Edge version 7 are deployed; see [backend verification](diary-backend.md#adding-tamle-22-october-2026).
+Authenticated browser mutations used local fixtures only; no live crew password,
+entry or media was used. Safari, Firefox and physical devices were not tested.

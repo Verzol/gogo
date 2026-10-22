@@ -9,7 +9,7 @@
   TRIP_DATA.members.forEach(m => { if (!members.includes(m)) members.push(m); });
   const small = matchMedia('(max-width: 850px)'), reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const photoLimit = 9;
-  const ribbonColors = ['#987078', '#486279', '#9c7555', '#6c795f', '#667c79', '#7b6c85', '#9b6375'];
+  const ribbonColors = {mi:'#987078', san:'#486279', thao:'#9c7555', quanlele:'#6c795f', gtm:'#667c79', truong:'#7b6c85', tamle:'#79566f', linh:'#9b6375'};
   const state = { index: 0, entries: [], open: false, turning: false, busy: false, status: [], authMember: null,
     authPurpose: 'read', authBusy: false, draft: null, dirty: false, change: 0, savePromise: null,
     saveTimer: null, uploading: false, publishing: false, conflict: false, editorOpening: false, editorEpoch: 0, recovery: null, readEpoch: 0, photoId: null };
@@ -694,7 +694,7 @@
     } else if (button.hasAttribute('data-full-writing')) showSheet('writing');
     else if (button.dataset.viewPhoto) showSheet('photo', button.dataset.viewPhoto);
   });
-  $('diaryBookmarks').innerHTML = members.map((m, i) => `<button type="button" class="diary-bookmark" data-bookmark="${i}" style="--ribbon:${ribbonColors[i]};--ribbon-art:url('./figures/decor/painted/diary/bookmark_${m.id}.webp')" aria-label="Trang của ${escape(m.name)}" title="${escape(m.name)}" aria-pressed="${i === state.index}"><img class="diary-bookmark-portrait" src="./${escape(m.image)}" alt="" width="64" height="64" draggable="false"><span class="diary-bookmark-fallback" hidden aria-hidden="true">${escape(m.name)}</span></button>`).join('');
+  $('diaryBookmarks').innerHTML = members.map((m, i) => `<button type="button" class="diary-bookmark" data-bookmark="${i}" style="--ribbon:${ribbonColors[m.id] || '#6b7e79'};--ribbon-art:url('./figures/decor/painted/diary/bookmark_${m.id}.webp')" aria-label="Trang của ${escape(m.name)}" title="${escape(m.name)}" aria-pressed="${i === state.index}"><img class="diary-bookmark-portrait" src="./${escape(m.image)}" alt="" width="64" height="64" draggable="false"><span class="diary-bookmark-fallback" hidden aria-hidden="true">${escape(m.name)}</span></button>`).join('');
   $('diaryBookmarks').querySelectorAll('img').forEach(img => img.addEventListener('error', () => { img.hidden = true; img.nextElementSibling.hidden = false; }));
   $('diaryBookmarks').addEventListener('click', event => { const button = event.target.closest('[data-bookmark]'); if (button) goTo(Number(button.dataset.bookmark)); });
   root.querySelectorAll('[data-diary-side]').forEach(button => button.addEventListener('click', () => {

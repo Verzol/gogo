@@ -46,7 +46,7 @@ async function direct(resource, token, body, headers = {}) {
   check('Claimed password cannot be replaced', (await call('claim', { member_id: 'san', password: 'other-fixture-password' }, null)).status === 409);
   check('Wrong password denied', (await call('login', { member_id: 'san', password: 'incorrect-fixture-password' }, null)).status === 401);
   const read = await call('read');
-  check('Authenticated read returns seven whole spreads', read.status === 200 && read.data.entries.length === 7);
+  check('Authenticated read returns eight whole spreads', read.status === 200 && read.data.entries.length === 8);
   check('No Auth alias or draft leaks in shared read', !JSON.stringify(read.data).includes('@taxua-diary') && read.data.entries.every(e => !('draft' in e) && !('user_id' in e)));
   let a = (await call('draft')).data;
   check('Fixture A starts with its own draft', a.member_id === 'san');

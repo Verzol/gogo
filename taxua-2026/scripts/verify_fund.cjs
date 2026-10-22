@@ -78,7 +78,7 @@ async function travel(p,from,to) {
     check(mode+' print retains fund content',await p.locator('.fund-action').evaluate(el=>Number(getComputedStyle(el).opacity)===1));await p.close();
   }
   const nojs=await browser.newPage({javaScriptEnabled:false});await nojs.goto('file://'+path.join(root,'itinerary.html'));
-  check('reading copy includes the contribution and exact MoMo link',await nojs.locator('#fundTitle').textContent()==='Thành viên thứ 8: Heo đất!'&&await nojs.locator('a[href="'+url+'"]').count()===1&&await nojs.locator('article').count()===24);await nojs.close();
+  check('reading copy includes the contribution and exact MoMo link',await nojs.locator('#fundTitle').textContent()==='Thành viên thứ 9: Heo đất!'&&await nojs.locator('a[href="'+url+'"]').count()===1&&await nojs.locator('article').count()===24);await nojs.close();
   check('all fund scenarios have no uncaught browser errors',report.errors.length===0);
   report.checkCount=report.checks.length;fs.writeFileSync(path.join(output,'checks.json'),JSON.stringify(report,null,2)+'\n');await browser.close();
   console.log('Passed '+report.checkCount+' fund checks; screenshots and recordings in '+output+'.');

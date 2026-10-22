@@ -34,7 +34,7 @@ async function imageCheck(p) {
     await p.goto(url); await p.evaluate(()=>document.fonts.ready);
     check('Six choices default to original wheel',await p.locator('.game-choice').count()===6 && await p.locator('#cloudWheel').isVisible() && await p.locator('[data-game="wheel"]').getAttribute('aria-pressed')==='true');
     check('All choices control existing elements',await p.locator('.game-choice').evaluateAll(buttons=>buttons.every(button=>document.getElementById(button.getAttribute('aria-controls')))));
-    check('Roster and section order are preserved',await p.evaluate(()=>TRIP_DATA.members.length===7 && document.getElementById('crew').nextElementSibling.id==='fund' && document.getElementById('fund').nextElementSibling.id==='packing'));
+    check('Roster and section order are preserved',await p.evaluate(()=>TRIP_DATA.members.length===8 && document.getElementById('crew').nextElementSibling.id==='fund' && document.getElementById('fund').nextElementSibling.id==='packing'));
     check('Unbiased sampler rejects incomplete upper interval',await p.evaluate(()=>{
       const original=crypto.getRandomValues.bind(crypto);let calls=0,result;
       crypto.getRandomValues=values=>{values[0]=calls++===0?4294967295:5;return values;};
@@ -104,13 +104,13 @@ async function imageCheck(p) {
     await action(p,'bag','prepare');
     check('New bag clears history',await p.locator('#game-bag .game-history').isHidden() && await p.locator('.bag-history li').count()===0);
     await action(p,'bag','draw');
-    check('Roster bag draws the seven real names',await p.evaluate(()=>JSON.parse(document.getElementById('game-bag').dataset.results).sort().join('|')===TRIP_DATA.members.map(member=>member.name).sort().join('|')));
-    await p.waitForFunction(()=>document.querySelectorAll('#game-bag .bag-person.has-portrait').length===14);
+    check('Roster bag draws the eight real names',await p.evaluate(()=>JSON.parse(document.getElementById('game-bag').dataset.results).sort().join('|')===TRIP_DATA.members.map(member=>member.name).sort().join('|')));
+    await p.waitForFunction(()=>document.querySelectorAll('#game-bag .bag-person.has-portrait').length===16);
     check('Each member result and history entry uses the matching scarf sticker',await p.evaluate(()=>[...document.querySelectorAll('#game-bag .bag-person')].every(token=>{
       const member=TRIP_DATA.members.find(member=>member.name===token.getAttribute('aria-label'));
       const image=token.querySelector('img');
       return token.getAttribute('role')==='img' && image.getAttribute('src')==='./'+member.image && image.naturalWidth>0 && getComputedStyle(token.querySelector('.bag-person-fallback')).visibility==='hidden';
-    })) && await p.locator('.bag-results .bag-person').count()===7 && await p.locator('.bag-history .bag-person').count()===7 && await p.locator('.bag-results .lottery-label').count()===0);
+    })) && await p.locator('.bag-results .bag-person').count()===8 && await p.locator('.bag-history .bag-person').count()===8 && await p.locator('.bag-results .lottery-label').count()===0);
     for(const [name,width,height] of [['desktop',1440,1000],['phone',390,844],['narrow',320,780]]) {
       await p.setViewportSize({width,height});
       check(name+' member stickers and history fit viewport',await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth && [...document.querySelectorAll('.bag-person')].every(el=>{const rect=el.getBoundingClientRect();return rect.left>=0 && rect.right<=innerWidth;})));
@@ -119,11 +119,11 @@ async function imageCheck(p) {
     await p.setViewportSize({width:1440,height:1000});
     await p.route('**/*missing-sticker-check*',route=>route.abort());
     await p.locator('.bag-person-art').evaluateAll(images=>images.forEach(image=>{image.src+='?missing-sticker-check';}));
-    await p.waitForFunction(()=>document.querySelectorAll('.bag-person.art-missing').length===14);
+    await p.waitForFunction(()=>document.querySelectorAll('.bag-person.art-missing').length===16);
     check('Failed member portraits show accessible names in results and history',await p.locator('.bag-person').evaluateAll(tokens=>tokens.every(token=>getComputedStyle(token.querySelector('.bag-person-fallback')).visibility==='visible' && token.querySelector('.bag-person-fallback').textContent===token.getAttribute('aria-label') && token.querySelector('img').hidden)));
     await p.unroute('**/*missing-sticker-check*');
     await select(p,'#bagSource','custom');
-    check('Unapplied source change keeps existing member results as stickers',await p.locator('.bag-results .bag-person').count()===7 && await p.locator('.bag-history .bag-person').count()===7);
+    check('Unapplied source change keeps existing member results as stickers',await p.locator('.bag-results .bag-person').count()===8 && await p.locator('.bag-history .bag-person').count()===8);
     for(const value of ['San\nsan','','x'.repeat(25)]){await fill(p,'#bagList',value);await action(p,'bag','prepare');check('Invalid custom list '+JSON.stringify(value)+' is rejected',!!await p.locator('.game-error').innerText() && await p.locator('#game-bag [data-action="draw"]').getAttribute('aria-disabled')==='true');}
     await fill(p,'#bagList','mi\nlinh');await action(p,'bag','prepare');await action(p,'bag','draw');
     check('Custom member-like labels remain literal text',await p.locator('#game-bag .bag-person').count()===0 && (await p.locator('.bag-results .lottery-label').allTextContents()).sort().join('|')==='linh|mi' && await p.locator('.bag-history .history-token').count()===2);

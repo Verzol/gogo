@@ -224,6 +224,40 @@
       ],
       "bytes": 54716,
       "sha256": "c0e6493b3a79a5c118515e01dc46a1a7eaab9d41b070d3e0e4775ea70131157e"
+    },
+    "tamle": {
+      "member": "tamle",
+      "uploadFilename": "tamle.png",
+      "source": "figures/raw/people/tamle.png",
+      "sourceSize": [
+        1254,
+        1254
+      ],
+      "sourceSha256": "506abd382197eff45fde0fc1cc4ee89ea0aca50264d4f6d0ea8ce75852a04251",
+      "rights": "Generated with 9Router Sunburst from a user-authorized identity photo",
+      "trim": [
+        191,
+        35,
+        1105,
+        1236
+      ],
+      "paintedSize": [
+        359,
+        472
+      ],
+      "offset": [
+        76,
+        20
+      ],
+      "src": "figures/people/tamle_scarf.webp",
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 52050,
+      "sha256": "b4df64da29c8355956b27fdc68a066f8b1bfd536c507d591953be66bbdf2042e",
+      "generation": "data/sources/tamle-generation.json",
+      "cleanup": "Retain central connected cutout at alpha >= 24 plus 2px antialias margin; discard isolated generated paint specks."
     }
   }
 }

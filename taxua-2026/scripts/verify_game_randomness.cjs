@@ -52,8 +52,8 @@ const dataset = (p,id) => p.locator('#game-'+id).evaluate(el=>({...el.dataset}))
       } finally {crypto.getRandomValues=original;}
     }));
     // Exercise the real wheel sampler; its controller captures the original function.
-    for (let index=0;index<7;index++) {
-      check('Wheel slot '+index+' selects that person in the full seven-person pool',await p.evaluate(index=>{
+    for (let index=0;index<8;index++) {
+      check('Wheel slot '+index+' selects that person in the full eight-person pool',await p.evaluate(index=>{
         const original=crypto.getRandomValues;
         crypto.getRandomValues=array=>{array[0]=index;return array;};
         try {document.querySelector('.wheel-spin').click();return Number(document.querySelector('#cloudWheel').dataset.winnerIndex)===index;}

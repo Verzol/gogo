@@ -2,7 +2,7 @@
 
 [Documentation index](../README.md) · [Group features](../group.md) · [Identity](../identity.md) · [Scarf research](../sources.md#member-scarf-sticker-research)
 
-Status: all seven generated portraits supplied and integrated, 16 October 2026. Original generation directions are retained below. Import details are in [Group features](../group.md#supplied-scarf-portraits).
+Status: seven supplied portraits integrated on 16 October 2026; tamle joins the eight-person set with a Sunburst portrait on 22 October 2026. Import details are in [Group features](../group.md#supplied-scarf-portraits).
 
 ## Direction
 
@@ -25,11 +25,12 @@ Use soft golden yellow for thảo, deeper mountain tones for san, quanlele, gtm 
 | quanlele | Forest green `#496B58` | Muted terracotta `#BD8066` | `quanlele_scarf.webp` |
 | gtm | Rust brown `#A86F55` | Deep teal `#365F64` | `gtm_scarf.webp` |
 | trường | Slate blue `#65859B` | Midnight navy `#303F57` | `truong_scarf.webp` |
+| tamle | Muted aubergine `#79566F` | Dusty gold `#C7A873`, fine warm-cream `#F3E5C7` lines | `tamle_scarf.webp` |
 
 ## Inputs and generation workflow
 
 1. Attach exactly one clear photo of the target person. A near-frontal face with visible hair and even lighting works best. This is the only image input.
-2. Replace `[MAIN COLOR]` and `[SECONDARY COLOR]` below with the member's color names and hex values from the table. For mi or linh, also append the corresponding member-specific direction below to preserve her bright multicolored plaid and pink fringe. The generator creates the scarf and illustration style from text alone. Generate one person per image, not a sheet of seven faces.
+2. Replace `[MAIN COLOR]` and `[SECONDARY COLOR]` below with the member's color names and hex values from the table. For mi or linh, also append the corresponding member-specific direction below to preserve her bright multicolored plaid and pink fringe. For tamle, append his direction below. The generator creates the scarf and illustration style from text alone. Generate one person per image, not a sheet of faces.
 3. Check the first sticker's likeness, fabric, framing and outline before generating the rest. Reuse the same written prompt for everyone, changing only the person's photo and scarf colors. Keep the same composition and rendering instructions; no additional style image is required.
 
 ### Mi's scarf color direction
@@ -74,10 +75,38 @@ If the generator cannot export alpha, request a solid flat background in a color
 
 For a neck-scarf alternative, replace the entire HEADSCARF paragraph with: “Keep the person's complete original hairstyle visible. Wrap a soft woven plaid scarf once around the neck below the chin, with two short ends, using [MAIN COLOR], [SECONDARY COLOR] and warm cream. Keep it compact and leave the entire face unobstructed. No hat or head covering.” Keep all other directions unchanged.
 
+## Tamle's Sunburst generation
+
+Use the copyable generation prompt above with `[MAIN COLOR]` replaced by `muted aubergine (#79566F)` and `[SECONDARY COLOR]` replaced by `dusty gold (#C7A873)`. Append this exact direction:
+
+```text
+TAMLE'S PORTRAIT
+Use only the supplied tamle.png photo as the identity reference. Preserve his clear rounded glasses, dark center-parted hair, natural slight smile and facial proportions. Include just a little white shirt neckline. Exclude his hand, lanyard, bag strap, shirt lettering, background and other people. The compact headscarf is muted aubergine (#79566F), with dusty-gold (#C7A873) crossing stripes and fine warm-cream (#F3E5C7) lines. Keep aubergine dominant, with short matching fringe. Retain the warm-ivory cutout border and genuine transparent background.
+```
+
+- Provider: 9Router, model `cx/gpt-image-2.5-sunburst`; one photo reference, `size:1024x1024`, `quality:high`, `image_detail:high`, `background:transparent`, `output_format:png`. The returned master is 1254×1254 RGBA; the runtime derivative is 512×512. Validate returned native dimensions and alpha rather than assuming requested dimensions.
+- Identity input: `figures/raw/tamle.png`. Remove this personal source photo only after the generated master, runtime sticker and likeness/alpha inspection succeed, as explicitly requested. Do not retain its encoded bytes in request logs or provenance.
+- Generated master: `figures/raw/people/tamle.png`; runtime derivative: `figures/people/tamle_scarf.webp`. The generated master lives in `raw/people/`, while the deleted identity photo was at `raw/tamle.png`; the importer rejects any identity upload at that latter path. PNG masters use the same `<member>.png` convention for all eight members.
+- `data/sources/tamle-generation.json` records the exact expanded prompt, model/settings, reference hash, output dimensions and master hash without storing the source photo. `data/sources/people-artwork.json` records derivative processing and hashes.
+
+### Skin refinement, 22 October 2026
+
+The first generated portrait had overly coarse, mottled skin washes. At the user's request, Sunburst edited only the painted skin, using that generated portrait as its sole reference; the original identity photo was already removed. The initial generated master is retained at `figures/raw/people/revisions/tamle_initial.png`. The selected refined master is `figures/raw/people/tamle.png`, following the same filename convention as the other members. Regenerate the runtime WebP with `python3 scripts/prepare_people_artwork.py`.
+
+Exact edit prompt (same Sunburst model/settings as above):
+
+```text
+Edit ONLY the skin rendering of this existing transparent watercolor portrait sticker. This uploaded sticker is the sole image reference. Preserve the SAME exact person and recognizable facial features, face shape, proportions, eyes, eyebrows, nose, lips, clear rounded glasses, dark hair, expression, pose and apparent age. Keep his natural skin tone. Preserve the aubergine/dusty-gold/cream plaid headscarf, white shirt neckline, warm-ivory die-cut outline, composition, native square canvas and genuine alpha transparency.
+
+Make his skin look cleaner and more flattering in the same semi-realistic watercolor-and-gouache style as the rest of the travel sticker collection: softly blended, even natural skin washes and gentle diffuse daylight. Reduce the exaggerated acne spots, redness, rough pores and noisy mottled orange/grey pigment patches on forehead, cheeks, nose, chin and neck. Keep only a very fine subtle watercolor grain on skin; retain more pronounced woven painterly texture on the scarf and crisp detail in glasses and hair. Avoid waxy airbrushing, plastic skin, heavy makeup, skin whitening, reshaping or changing his identity. The forehead and cheeks should feel calm and softly painted, with natural warm highlights and gentle shadows, rather than visibly speckled or harshly textured.
+
+Do not alter anything else. Keep the complete head-and-scarf silhouette inside the canvas with clear transparent padding and no clipping. No new background, shadow, lettering, extra objects or people. Return one PNG with true alpha transparency.
+```
+
 ## Integration guidance
 
 - Preserve supplied masters under `figures/raw/people/`; retain original bytes and record any rename. Keep the PNG masters there and prepare optimized transparent WebP derivatives under `figures/people/`, using the names above. Never upscale; normalize cutout size and padding without clipping hair or fabric or retouching the face. Record source-to-member mapping and preparation in per-image provenance.
-- Set each existing member's optional `image` field in `data.js` to the corresponding WebP. Use explicit member mapping, not the Huế roster's numeric order. Keep the seven-person roster and symbolic pig unchanged.
+- Set each member's optional `image` field in `data.js` to the corresponding WebP. Use explicit member mapping, not the Huế roster's numeric order. The roster has eight real travelers; the symbolic fund pig is the ninth member and is excluded from games and diary accounts.
 - In `renderCrew` and `.avatar`, use transparent stickers with `object-fit: contain`, centered above their HTML names. Current sizes are 128px desktop and 104px phone. Member roles are removed; do not add subtitle space below the names.
 - Review `.wheel-initial img` as well: the current wheel consumes the same member image field. Fit the complete sticker inside the sector's available space, retain upright labels and keep the name readable. Reuse a larger winner sticker in the existing result area if it fits, without adding a second announcement or covering controls.
 - Keep initials as the missing-image fallback. Add only subtle CSS tilt/shadow where useful; preserve reduced-motion and paused states. Do not scatter faces across the background or obscure itinerary text.

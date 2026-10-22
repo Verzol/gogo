@@ -1,6 +1,6 @@
 # Tà Xùa x gogo · Nhật ký săn mây
 
-Vietnamese trip journal for **22–25 October 2026**: 24 schedule events, 18 researched stops, seven travelers and one symbolic fund pig. The page pairs documentary photos with six composed watercolor worlds, reversible scroll reveals and playful transparent layouts.
+Vietnamese trip journal for **22–25 October 2026**: 24 schedule events, 18 researched stops, eight travelers and one symbolic fund pig. The page pairs documentary photos with six composed watercolor worlds, reversible scroll reveals and playful transparent layouts.
 
 ## Start a session
 
@@ -19,7 +19,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 | Trail index, photo previews, packing cutouts and quiet terrain | [Illustrated journal controls](ui-artwork.md) |
 | Embedded atlas, place previews, day exploration and geographic coverage | [Maps](maps.md) · [Design plan](map-plan.md) · [Fullscreen plan](map-fullscreen-plan.md) |
 | Adventure-game map menu, parchment UI and generation briefs | [Treasure-atlas plan](map-treasure-plan.md) · [Artwork prompts](prompts/map_treasure/README.md) |
-| Hero 7+1, crew, member wheel, arrival countdown and MoMo invitation | [Group features](group.md) |
+| Hero 8+1, crew, member wheel, arrival countdown and MoMo invitation | [Group features](group.md) |
 | Private crew diary: old-book spreads, first-claim passwords, private drafts and trip photos | [Diary](diary.md) · [Backend and operations](diary-backend.md) · [Design plan](diary-plan.md) · [Book redesign](diary-redesign.md) |
 | Six random games: wheel, coin, dice, cards, sticks and lottery bag | [Games](games.md) · [Game artwork](game-artwork.md) · [Exact prompts](prompts/random_games/README.md) |
 | Themed checkboxes, fields, sliders and accessible dropdown menus | [Shared controls](controls.md) |
@@ -41,7 +41,7 @@ Read [AGENTS.md](../AGENTS.md), then the guide for the feature you are changing.
 - `docs/prompts/stickers.md`: paired sticker brief; `docs/prompts/illustrated_scenery/`: large-art prompts and sheet map.
 - [UI artwork prompts](prompts/ui_artwork/README.md): missing packing objects, blank trail sign and optional quiet terrain layers.
 - [Map artwork prompts](prompts/map_artwork/README.md): generation briefs and import mapping for all eleven supplied map assets.
-- [Member scarf sticker prompt](prompts/people.md): photo identity, Tây Bắc fabric references and the seven imported scarf portraits.
+- [Member scarf sticker prompt](prompts/people.md): photo identity, Tây Bắc fabric references and the eight scarf portraits.
 - `AGENTS.md` stays at the site root. Raw source JSON, artwork, licenses and browser evidence remain beside their owning assets/tools.
 
 ## Run and publish

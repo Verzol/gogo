@@ -16,12 +16,12 @@ Six chance-based games live below the crew roster inside `#crew`. The collection
 
 | Object | Controls and behavior |
 | --- | --- |
-| Wheel | Seven real members; click their portrait/name on the wheel to exclude or restore them. Optional no-repeat rounds; rules and celebration in [Group features](group.md#vòng-quay-trên-mây) |
+| Wheel | Eight real members; click their portrait/name on the wheel to exclude or restore them. Optional no-repeat rounds; rules and celebration in [Group features](group.md#vòng-quay-trên-mây) |
 | Coin | Equally likely Nắng/Mây faces, editable labels; one toss or first to two wins. A completed match offers a fresh round. Recent eight tosses remain visible |
 | Dice | One to three independent fair dice. After rolling, tap/activate a die to hold it; only unheld dice reroll. Releasing a die recovers from all-held. Count changes start over |
 | Cards | Standard 52-card deck, shuffled using Fisher–Yates. Draw one to eight without replacement; reveal individually or all together. A final draw is capped to the remaining cards. Exhaustion retains the last hand; shuffle restores all 52 |
 | Sticks | Two to eight sticks, exactly one short stick chosen uniformly per round. Tap several to pull independently, or select/deselect several and reveal together. Further sticks/groups can start while earlier pulls are moving. All concealed sticks use identical long artwork. Count/mode changes start a new round |
-| Bag | Numbers, seven members shown as scarf stickers, or custom lines; draw one to eight. Optional no-repeat removes each drawn token; replacement can repeat within a batch. Exhaustion keeps the last result. A refill icon restores the configured pool |
+| Bag | Numbers, eight members shown as scarf stickers, or custom lines; draw one to eight. Optional no-repeat removes each drawn token; replacement can repeat within a batch. Exhaustion keeps the last result. A refill icon restores the configured pool |
 
 Tap the painted coin to toss; tap an unrolled die or the tray to roll, then tap individual dice to hold them. Tap the deck to deal and each card to flip. Tap sticks to select/reveal, or the bag to draw. Count, mode and source choices are quick chips. Dice, cards and sticks have no visible form fields. Each game has one short instruction. Reset/shuffle/refill use named Lucide icon buttons beside the title; reveal sits below the cards/sticks, within reach after selecting. The stick reset sits beside reveal so another round is reachable after using both racks. All icon buttons have at least 44px targets, focus states and themed tooltips. Coin labels and bag configuration live in optional **Tùy chỉnh** drawers.
 
@@ -39,7 +39,7 @@ All six games use `tripRandomIndex(count)` from `main.js`. It reads browser cryp
 
 | Game | Equal chances and explicit exceptions |
 | --- | --- |
-| Wheel | Each selected, eligible member has probability `1 / eligible count`. The default seven-person pool gives everyone `1/7`. No-repeat mode removes previous picks only when enabled |
+| Wheel | Each selected, eligible member has probability `1 / eligible count`. The default eight-person pool gives everyone `1/8`. No-repeat mode removes previous picks only when enabled |
 | Coin | Each face has probability `1/2` on every toss, including within first-to-two matches |
 | Dice | Each unheld die independently draws one of six faces with probability `1/6`. Held dice deliberately retain their values |
 | Cards | Fisher–Yates uses a uniform draw from the shrinking prefix at every step. Each remaining card is equally likely to be drawn next; draws do not replace cards |
@@ -94,7 +94,7 @@ Fixed a queued layout refresh cancelling enhanced anchor travel shortly after cl
 
 ## Eight-item limits and recent turns · 17 October 2026
 
-Cards, sticks and balls per draw now allow up to eight; dice remain limited to three six-sided dice. The seven-person member pool is unchanged. Dice and bag histories retain up to eight complete turns, wrap on phones and clear with a new configuration or reset/refill. Results are still selected before animation with the existing random sampler.
+Cards, sticks and balls per draw now allow up to eight; dice remain limited to three six-sided dice. The member pool now contains eight real travelers, including tamle. Dice and bag histories retain up to eight complete turns, wrap on phones and clear with a new configuration or reset/refill. Results are still selected before animation with the existing random sampler.
 
 Validation: 206 game checks, 91 shared-control checks and 105 randomness/extraction checks passed (402 total), with no uncaught browser errors. Coverage includes history bounds/order/snapshots, clearing, literal custom labels, interrupted completion without duplicate entries, eight-card hands, all eight short-stick positions and responsive/enlarged-text layouts. Desktop, phone and narrow screenshots were visually inspected; evidence is under `/tmp/taxua-games-review`, `/tmp/taxua-controls-review` and `/tmp/taxua-game-randomness-review`. These are Chromium checks. The itinerary exporter left the reading copy unchanged.
 

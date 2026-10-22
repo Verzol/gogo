@@ -8,7 +8,7 @@ import hashlib
 import json
 
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / 'figures/raw/diary/revision_2'
@@ -116,6 +116,29 @@ def main():
                 record['photo_opening'] = hole_bounds(piece)
             records.append(record)
     assert len(records) == 29
+    # A new member reuses the existing cloth texture, without regenerating the atlas.
+    source_record = next(record for record in records if record['name'] == 'bookmark_truong')
+    source_path = ROOT / source_record['derivative']
+    with Image.open(source_path) as source:
+        cloth = source.convert('RGBA')
+    tinted = ImageOps.colorize(ImageOps.grayscale(cloth), '#302332', '#eee0cd',
+                              mid='#79566f', midpoint=128).convert('RGBA')
+    # Retain the painted gold stitching as well as the source alpha and grain.
+    pixels = np.array(cloth)
+    gold = (pixels[:,:,0].astype(float) > pixels[:,:,1] * 1.05) & (pixels[:,:,1].astype(float) > pixels[:,:,2] * 1.1)
+    recolored = np.array(tinted)
+    recolored[gold] = pixels[gold]
+    tinted = Image.fromarray(recolored, 'RGBA')
+    tinted.putalpha(cloth.getchannel('A'))
+    target = OUT / 'bookmark_tamle.webp'
+    tinted.save(target, quality=90, method=6)
+    records.append({'name':'bookmark_tamle','master':source_record['master'],
+                    'master_sha256':source_record['master_sha256'],
+                    'source':source_record['derivative'],
+                    'source_sha256':hashlib.sha256(source_path.read_bytes()).hexdigest(),
+                    'processing':'Aubergine luminance tint of existing cloth; gold stitching, alpha and native dimensions retained.',
+                    'derivative':str(target.relative_to(ROOT)), 'size':list(tinted.size),
+                    'sha256':hashlib.sha256(target.read_bytes()).hexdigest()})
     manifest = {'model':'cx/gpt-image-2.5-sunburst','reference':'figures/raw/diary/diary_cover.png','pipeline':'scripts/prepare_diary_artwork.py','processing':'Chroma-key green removal, one-pixel edge cleanup, grid crop and alpha trim (central connected cloth for bookmarks), bounded WebP derivative; original masters unchanged.','assets':records}
     (ROOT/'data/sources/diary-materials.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     css=['/* Generated material mapping; run scripts/prepare_diary_artwork.py. */']

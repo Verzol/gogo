@@ -717,6 +717,20 @@
         482,
         422
       ]
+    },
+    {
+      "name": "bookmark_tamle",
+      "master": "figures/raw/diary/revision_2/bookmarks.png",
+      "master_sha256": "3efefdeba1411cfde09e4da8d1e0655f18e869f9e280093605574c65f93bcc86",
+      "source": "figures/decor/painted/diary/bookmark_truong.webp",
+      "source_sha256": "7a1d0f92418efb14ada5a2a05d6a27691c375b9da4dc0626a29363403a421e71",
+      "processing": "Aubergine luminance tint of existing cloth; gold stitching, alpha and native dimensions retained.",
+      "derivative": "figures/decor/painted/diary/bookmark_tamle.webp",
+      "size": [
+        203,
+        860
+      ],
+      "sha256": "d1a013a94f6951b31398399b7e1d60cd9cacec3c94da73859316fc159204fc38"
     }
   ]
 }

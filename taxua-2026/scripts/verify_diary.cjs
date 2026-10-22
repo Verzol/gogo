@@ -6,8 +6,8 @@ const { chromium, webkit } = require(process.env.PLAYWRIGHT_PATH || '../../hue-2
 const root = path.resolve(__dirname, '..');
 const output = process.env.TRIP_REVIEW_DIR || '/tmp/taxua-diary-browser-review';
 const url = process.env.TRIP_PREVIEW_URL || 'http://127.0.0.1:8000/taxua-2026/';
-const names = ['mi', 'san', 'thảo', 'quanlele', 'gtm', 'trường', 'linh'];
-const ids = ['mi', 'san', 'thao', 'quanlele', 'gtm', 'truong', 'linh'];
+const names = ['mi', 'san', 'thảo', 'quanlele', 'gtm', 'trường', 'tamle', 'linh'];
+const ids = ['mi', 'san', 'thao', 'quanlele', 'gtm', 'truong', 'tamle', 'linh'];
 const report = { checkedAt: new Date().toISOString(), transport: 'mocked; backend permissions tested separately', checks: [], errors: [], screenshots: [] };
 fs.mkdirSync(output, { recursive: true });
 const check = (label, value) => { assert(value, label); report.checks.push(label); };
@@ -143,8 +143,8 @@ async function browserChecks(type, label) {
     await mock(context, m); const p = await context.newPage(); p.on('pageerror', error => report.errors.push(label + ': ' + error.message));
     await p.goto(url + '#crewDiary'); await p.evaluate(() => document.fonts.ready);
     check(label + ' private writing absent before login', await p.locator('#diaryPages').evaluate(el => el.childElementCount === 0));
-    check(label + ' seven immutable roster IDs', await p.evaluate(() => TRIP_DATA.members.length === 7 && new Set(TRIP_DATA.members.map(m => m.id)).size === 7));
-    check(label + ' crew links select the diary', await p.locator('#crewGrid [data-diary-member]').count() === 7);
+    check(label + ' eight immutable roster IDs', await p.evaluate(() => TRIP_DATA.members.length === 8 && new Set(TRIP_DATA.members.map(m => m.id)).size === 8));
+    check(label + ' crew links select the diary', await p.locator('#crewGrid [data-diary-member]').count() === 8);
     await screenshot(p, '#crewDiary', label + '-closed.png');
     await authenticate(p);
     check(label + ' first claim opens correct owner', await p.locator('#diaryPageLabel').innerText() === 'Trang của san' && m.claims.san === password);

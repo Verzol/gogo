@@ -16,7 +16,7 @@ Applies only to `taxua-2026/`. This site has its own architecture; sibling Hue c
 - Edit trip content in `data.js`; rendering/controls in `main.js`; optional story animation in `motion.js`; optional forecast state in `weather.js`; additional random-game controls/layout in `games.js` / `games.css`; shared input styling and progressive dropdowns in `controls.css` / `controls.js`. Use descriptive camelCase and two-space indentation where practical.
 - Regenerate `itinerary.html` after content changes: `node scripts/export_itinerary.cjs` from `taxua-2026/`.
 - `assets.js` is generated. Change its source records and use the photo pipeline in [Photo assets](docs/assets.md); preserve credits, source mappings and captions.
-- Store new assets in the matching `figures/` subfolder with lowercase underscore names. Preserve raw uploads; optimize derivatives without upscaling.
+- Store new assets in the matching `figures/` subfolder with lowercase underscore names. Preserve raw uploads; optimize derivatives without upscaling. Exception: remove tamle's identity photo after validating his generated sticker, as requested; retain the generated master.
 
 ## Preserve these decisions
 
@@ -24,8 +24,8 @@ Applies only to `taxua-2026/`. This site has its own architecture; sibling Hue c
 - Six composed illustrated worlds; photos belong inside stories. No photographic wallpapers, fixed bottom cloud bank, broad white wash, backdrop blur or Sáng/Tối/Tự động switch.
 - Afternoon sun has no aura/ray ring (`rays:false`). Keep the current compact spacing and reversible scroll reveals; no scroll hijacking or pinning.
 - Retain 24 source events, 18 place guides, exact/null times, optional flags, source rows, warnings and visible illustrative captions.
-- Seven real travelers; hero `7 +1` refers to the fund pig. Section order is itinerary → crew → fund → packing → destinations → food → practical.
-- Fund: “Thành viên thứ 8: Heo đất!”, “Heo đất cũng đi Tà Xùa.”, 2.400.000 ₫ per person. Preserve the exact MoMo URL in `TRIP_DATA.fund`.
+- Eight real travelers; hero `8 +1` refers to the fund pig. Section order is itinerary → crew → fund → packing → destinations → food → practical.
+- Fund: “Thành viên thứ 9: Heo đất!”, “Heo đất cũng đi Tà Xùa.”, 2.400.000 ₫ per person. Preserve the exact MoMo URL in `TRIP_DATA.fund`.
 - Countdown follows the `arrival` event in Vietnam time, currently 03:00 on 23 October 2026; departure is a different event.
 - Keep reduced-motion/missing-GSAP fallbacks, native anchors, keyboard controls, print and the standalone reading copy usable.
 

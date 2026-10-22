@@ -30,8 +30,12 @@ async function jump(p,id) {
         check(name+' has comfortable menu and motion targets',await p.locator('#navToggle,#weatherMotion').evaluateAll(es=>es.every(e=>e.offsetWidth>=44&&e.offsetHeight>=44)));
         check(name+' hides itinerary dates on the opening',await p.locator('.chapter-nav').evaluate(e=>e.inert&&getComputedStyle(e).visibility==='hidden'));
         if(width===390) {
-          check('phone shows all six location stickers in its first screen',await p.locator('.location-stickers').evaluate(e=>e.querySelectorAll('button').length===6&&e.getBoundingClientRect().bottom<innerHeight));
-          check('phone places the explorer before forecasts and countdown',await p.evaluate(()=>locationExplorer.getBoundingClientRect().bottom<=tripWeather.getBoundingClientRect().top&&tripWeather.getBoundingClientRect().bottom<=arrivalCountdown.getBoundingClientRect().top));
+          if(await p.evaluate(()=>typeof LOCATION_SCENES !== 'undefined')) {
+            check('phone shows all six location stickers in its first screen',await p.locator('.location-stickers').evaluate(e=>e.querySelectorAll('button').length===6&&e.getBoundingClientRect().bottom<innerHeight));
+            check('phone places the explorer before forecasts and countdown',await p.evaluate(()=>locationExplorer.getBoundingClientRect().bottom<=tripWeather.getBoundingClientRect().top&&tripWeather.getBoundingClientRect().bottom<=arrivalCountdown.getBoundingClientRect().top));
+          } else {
+            check('disabled location explorer adds no phone controls or artwork requests',await p.locator('#locationExplorer,#locationStage').count()===0&&await p.evaluate(()=>!performance.getEntriesByType('resource').some(r=>r.name.includes('/figures/scenery/locations/'))));
+          }
           report.measurements.push(await p.evaluate(()=>({width:innerWidth,heroHeight:document.getElementById('top').offsetHeight,weatherTop:tripWeather.offsetTop,countdownTop:arrivalCountdown.getBoundingClientRect().top})));
         }
         for(const second of [0,15,30,60,120]) {

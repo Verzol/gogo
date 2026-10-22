@@ -9,7 +9,7 @@ const publicKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 const options = { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } };
 const admin = createClient(url, serviceKey, options);
 const bucket = 'taxua-diary-photos';
-const ids = new Set(['mi', 'san', 'thao', 'quanlele', 'gtm', 'truong', 'linh']);
+const ids = new Set(['mi', 'san', 'thao', 'quanlele', 'gtm', 'truong', 'tamle', 'linh']);
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 type Actor = { uid: string; sid: string; token: string };
 

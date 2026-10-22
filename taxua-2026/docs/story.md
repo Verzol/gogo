@@ -46,7 +46,7 @@
 - Order: crew → fund → packing → destinations → food → practical. [Crew/fund/countdown](group.md).
 - Packing pairs seven native checkboxes with illustrated objects; phones use two columns. Checked objects stay in place for review/undo. It persists checked item indices under `taxua-2026-packing`, validates saved data and tolerates denied storage. Reordering items changes the meaning of existing indices.
 - Destination links have an explicit target list in `renderSupportingContent`; update it with the corresponding data/order.
-- Practical facts include hardcoded transport/room reminders in `main.js`; synchronize those when the schedule changes. Costs come from `itinerary.costs` and remain estimates for seven people.
+- Practical facts include hardcoded transport/room reminders in `main.js`; synchronize those when the schedule changes. Costs come from `itinerary.costs`; the original seven-person estimate is retained and explicitly marked as awaiting an update for the current eight-person group.
 
 ## After editing
 

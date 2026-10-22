@@ -99,7 +99,7 @@ async function runEngine(type, engine) {
   const browser=await type.launch(engine==='webkit'&&process.env.DIARY_WEBKIT_EXECUTABLE?{executablePath:process.env.DIARY_WEBKIT_EXECUTABLE}:{});
   try {
     const {context,p}=await fixture(browser,{deviceScaleFactor:2});
-    check(engine+' seven sticker bookmarks retain accessible names',await p.locator('#diaryBookmarks button').evaluateAll(nodes=>nodes.length===7&&nodes.every(n=>n.getAttribute('aria-label').startsWith('Trang của ')&&n.title&&n.querySelector('img').getAttribute('alt')==='')));
+    check(engine+' eight sticker bookmarks retain accessible names',await p.locator('#diaryBookmarks button').evaluateAll(nodes=>nodes.length===8&&nodes.every(n=>n.getAttribute('aria-label').startsWith('Trang của ')&&n.title&&n.querySelector('img').getAttribute('alt')==='')));
     check(engine+' empty pages omit all invitation and empty-state copy',await p.locator('#diaryPages').evaluate(el=>!/(Trang này đang chờ|vài dòng của|Chưa có ảnh trong trang này|Mấy ô trống|chưa có lời viết)/.test(el.textContent)));
     check(engine+' empty pages retain three illustrated frames and writing lines',await p.locator('.diary-empty-photo').count()===3&&await p.locator('.diary-blank-lines').count()===1);
     for(const [width,height] of [[1440,1050],[820,1024],[390,844],[320,780]]) {
@@ -174,9 +174,9 @@ async function runEngine(type, engine) {
     await drag(p,-1,115); await p.mouse.up(); await selected(p,1);
     check(engine+' phone photo drag retains the photo side',await p.locator('.diary-page-photos').isVisible()&&!await p.locator('.diary-page-writing').isVisible());
     await shot(p,engine+'-phone-photos.png');
-    await p.locator('[data-bookmark="6"]').click(); await selected(p,6);
+    await p.locator('[data-bookmark="7"]').click(); await selected(p,7);
     await centeredArtwork(p,engine+' last bookmark selected');
-    check(engine+' last next edge is disabled and last sticker stays visible',await p.locator('[data-diary-edge="1"]').isDisabled()&&await p.locator('[data-bookmark="6"]').evaluate(el=>{const r=el.getBoundingClientRect(),p=el.parentElement.getBoundingClientRect();return r.left>=p.left&&r.right<=p.right+1;}));
+    check(engine+' last next edge is disabled and last sticker stays visible',await p.locator('[data-diary-edge="1"]').isDisabled()&&await p.locator('[data-bookmark="7"]').evaluate(el=>{const r=el.getBoundingClientRect(),p=el.parentElement.getBoundingClientRect();return r.left>=p.left&&r.right<=p.right+1;}));
     await reveal(p); await drag(p,-1,115);
     await p.evaluate(()=>window.TaxuaDiaryApi.clear()); await p.mouse.up();
     check(engine+' logout while dragging removes every private layer',await p.locator('.diary-turn-leaf,.diary-turn-preview,.diary-turn-underlay').count()===0&&await p.locator('#diaryPages').evaluate(el=>el.childElementCount===0)&&!await p.locator('#diaryReader').isVisible());

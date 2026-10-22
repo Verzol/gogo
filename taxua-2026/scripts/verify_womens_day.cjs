@@ -40,7 +40,7 @@ async function nativeArt(p,name) {
     check('initial page does not request a floral landscape',!requests.some(url => /womens_day\/landscape_/.test(url)));
     check('no cloud reset buttons remain',await p.locator('.wd-reset').count() === 0);
     check('exactly the confirmed recipients have flowers',(await p.locator('.wd-flower').evaluateAll(items => items.map(el => el.dataset.recipient).sort())).join(',') === 'linh,mi,thao');
-    check('seven portraits and seven diary links retained',await p.locator('#crewGrid .avatar img').count() === 7 && await p.locator('#crewGrid .diary-crew-link').count() === 7);
+    check('eight portraits and eight diary links retained',await p.locator('#crewGrid .avatar img').count() === 8 && await p.locator('#crewGrid .diary-crew-link').count() === 8);
     check('flower and diary link remain separate controls',await p.locator('.wd-flower .diary-crew-link,.diary-crew-link .wd-flower').count() === 0);
     await bouquet(p).hover();await active(p,'hero');
     check('hover previews without holding',await bouquet(p).getAttribute('aria-pressed') === 'false');

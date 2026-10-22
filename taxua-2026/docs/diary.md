@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Backend and operations](diary-backend.md) · [Original design plan](diary-plan.md) · [Book redesign](diary-redesign.md) · [Implementation review](diary-review.md) · [Visual refinement](diary-design-refinement.md)
 
-The optional private diary sits inside `#crew`, between the seven portraits and
+The optional private diary sits inside `#crew`, between the eight portraits and
 the games. The public itinerary, scenery, games, fund and direct-file reading
 copy retain their existing behavior. No private entry is exported into HTML.
 
@@ -19,7 +19,7 @@ copy retain their existing behavior. No private entry is exported into HTML.
   claiming, server permissions protect that account's page.
 - Desktop shows one person's writing and photographs together. Paper-edge
   buttons, bookmarks and left/right arrow keys always change the whole person.
-  The order follows `crewOrder`: mi, san, thảo, quanlele, gtm, trường, linh.
+  The order follows `crewOrder`: mi, san, thảo, quanlele, gtm, trường, tamle, linh.
 - Cloth bookmarks carry the existing crew portrait stickers. Names remain in
   accessible labels and hover titles; a contained name appears if its image
   fails. On narrow screens the row scrolls and keeps the selected person visible.
@@ -137,8 +137,10 @@ line over the scenery. Opening replaces the cover with a compact title, icon too
 bookmarks directly attached to the paper. The writing/photo selector sits above
 the bookmarks on single-leaf layouts, so no control row separates cloth and book.
 
+Tamle has an eighth portrait bookmark: an aubergine tint of the existing painted cloth, with gold stitching, native dimensions and alpha retained. Ribbon colors are keyed by immutable member ID so adding someone does not recolor another member. The offline material helper and manifest record this additional derivative.
+
 The original nine Sunburst masters and 29 transparent layers remain preserved:
-cloth covers, binding/page edges, seven portrait ribbons, photo frames,
+cloth covers, binding/page edges, seven original portrait ribbons, photo frames,
 attachments and keepsakes. The current leaves use three freshly regenerated
 Sunburst masters: separate left/right paper and an inner-cover lining. This
 lighter oatmeal parchment has fine fibers, gently rubbed edges and very small
