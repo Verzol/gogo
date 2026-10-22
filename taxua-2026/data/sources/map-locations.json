@@ -268,7 +268,7 @@
         "https://www.google.com/maps?cid=14141617352243748642"
       ],
       "verifiedAt": "2026-10-22",
-      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:00, xe xuất phát lúc 22:00."
+      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:00."
     }
   },
   "observations": [
@@ -279,7 +279,7 @@
     "The afternoon group has no agreed internal order.",
     "The town coordinate is only an approximate area reference for the unassigned town lunch.",
     "Google public embed records were used at research time only; there is no runtime Google Maps dependency.",
-    "On 22 October 2026, the user replaced the Viettel pickup with 68 Mạc Thái Tông and changed gathering to 21:00; departure remains 22:00. The named Google Maps embed record matched this exact address."
+    "On 22 October 2026, the user replaced the Viettel pickup with 68 Mạc Thái Tông and changed gathering to 21:00. The outbound departure time was subsequently removed at the user’s request. The named Google Maps embed record matched this exact address."
   ],
   "namedPointEvidence": {
     "song_lung_khung_long": {

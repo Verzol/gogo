@@ -127,7 +127,7 @@ Reviewed 16 October 2026; [measurements and findings](research/osm-provider-revi
 
 The organizer supplied [Tập đoàn Viettel](https://maps.app.goo.gl/BbCVS9ZQuAuS2LZE9) as the gathering/departure point on 16 October 2026, with exact coordinates **21.0253150367579, 105.7854235877089**. This was the previous pickup, superseded by the 22 October correction below; the original schedule snapshot is preserved.
 
-On **22 October 2026**, the organizer changed the pickup to **68 Mạc Thái Tông, Hà Nội**, gathering at **21:00**; departure remains **22:00**. The [matching public address record](https://www.google.com/maps?cid=14141617352243748642) names “68 P. Mạc Thái Tông, Yên Hòa, Hà Nội” and supplies **21.0137554, 105.7936235**. Runtime copy and map records use this correction; the original Sheet snapshot remains historical.
+On **22 October 2026**, the organizer changed the pickup to **68 Mạc Thái Tông, Hà Nội**, gathering at **21:00**. The outbound departure time is omitted at the user’s request. The [matching public address record](https://www.google.com/maps?cid=14141617352243748642) names “68 P. Mạc Thái Tông, Yên Hòa, Hà Nội” and supplies **21.0137554, 105.7936235**. Runtime copy and map records use this correction; the original Sheet snapshot remains historical.
 
 The organizer supplied [Khe Cải](https://maps.app.goo.gl/TtAiAhR4eie9UuGS7) on 16 October 2026, with exact coordinates **21.27347304583251, 104.42839746119542**. This resolves its former missing pin in the overall map, 25/10 view and inline preview.
 

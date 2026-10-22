@@ -154,7 +154,7 @@ async function withinRegion(page) {
           reviewMap.getCenter().distanceTo(L.latLng(pickup.lat,pickup.lng)) < 100;
       }));
       check(name+' departure marker is selected',await page.locator('.atlas-marker.is-selected').count() === 1);
-      check(name+' departure retains gathering and departure times',/21:00/.test(await page.locator('#atlasDetail').textContent()) && /22:00/.test(await page.locator('#atlasDetail').textContent()));
+      check(name+' departure shows gathering without an outbound departure time',/21:00/.test(await page.locator('#atlasDetail').textContent()) && !/22:00/.test(await page.locator('#atlasDetail').textContent()));
       check(name+' departure exposes the address source link',await page.locator('#atlasDetail a[href="https://www.google.com/maps?cid=14141617352243748642"]').count() === 1);
       check(name+' departure no longer claims the pickup is unresolved',await page.locator('#atlasStops .atlas-unresolved').count() === 0);
       await page.locator('[data-map-day="all"]').click();

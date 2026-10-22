@@ -354,7 +354,7 @@ const TRIP_DATA = {
     "stayQuery": "HomeStay Mùa Trứ Tà Xùa",
     "outbound": {
       "label": "Xe đêm 22/10",
-      "detail": "Đón 21:00, đi 22:00"
+      "detail": "Tập trung 21:00"
     },
     "inbound": {
       "label": "Xe về 25/10",
@@ -399,16 +399,16 @@ const TRIP_DATA = {
           "activity": "Tập trung, lên xe đi Tà Xùa",
           "location": "68 Mạc Thái Tông",
           "mapQuery": "68 Mạc Thái Tông Hà Nội",
-          "note": "Tập trung và lên xe lúc 21:00 tại 68 Mạc Thái Tông, xe xuất phát lúc 22:00.",
+          "note": "Tập trung và lên xe lúc 21:00 tại 68 Mạc Thái Tông.",
           "id": "departure",
           "kind": "transit",
           "phase": "night",
-          "description": "Hẹn nhau tại 68 Mạc Thái Tông, Hà Nội. Lên xe lúc 21:00, xuất phát 22:00, ngủ một giấc rồi gặp núi.",
+          "description": "Hẹn nhau tại 68 Mạc Thái Tông, Hà Nội. Lên xe lúc 21:00, ngủ một giấc rồi gặp núi.",
           "annotation": "Mang áo ấm lên xe nhé.",
           "sticker": "cloud_1",
           "storyTitle": "Hẹn nhau, lên xe",
-          "storyCue": "Hà Nội → Tà Xùa · xe xuất phát 22:00",
-          "storyNote": "Có mặt tại 68 Mạc Thái Tông lúc 21:00; xe xuất phát lúc 22:00.",
+          "storyCue": "Hà Nội → Tà Xùa",
+          "storyNote": "Có mặt tại 68 Mạc Thái Tông lúc 21:00.",
           "sceneryChapter": "road"
         }
       ],

@@ -41,10 +41,10 @@ async function shot(p,name) {
         return a?.getAttribute('href')==='#'+block.id && a.querySelector('.trail-time').textContent.includes(block.time==null ? block.period : block.time) && document.getElementById(block.id);
       }))));
       check(name+' Maps signs are removed while original queries remain available',await p.evaluate(()=>TRIP_DATA.days.flatMap(d=>d.blocks).filter(b=>b.mapQuery).length===12 && !document.querySelector('#daysList .trail-sign') && !document.getElementById('daysList').textContent.includes('Mở bản đồ')));
-      check(name+' confirmed 68 Mạc Thái Tông pickup retains its gathering and departure times',await p.evaluate(() => {
+      check(name+' confirmed 68 Mạc Thái Tông pickup shows gathering without an outbound departure time',await p.evaluate(() => {
         const departure = TRIP_DATA.days[0].blocks[0];
         return departure.location === '68 Mạc Thái Tông' && departure.time === '21:00' &&
-          departure.description.includes('22:00') && !departure.storyNote.includes('Xác nhận vị trí đón');
+          !JSON.stringify(departure).includes('22:00') && !departure.storyNote.includes('Xác nhận vị trí đón');
       }));
       await jump(p,'thao-coffee');
       check(name+' reading location highlights its stop',await p.locator('[data-trail-stop="thao-coffee"]').getAttribute('aria-current')==='location');

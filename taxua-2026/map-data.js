@@ -276,7 +276,7 @@ const TRIP_MAP_DATA = {
         "https://www.google.com/maps?cid=14141617352243748642"
       ],
       "verifiedAt": "2026-10-22",
-      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:00, xe xuất phát lúc 22:00."
+      "note": "Điểm tập trung và lên xe do nhóm xác nhận. Có mặt lúc 21:00."
     }
   }
 };

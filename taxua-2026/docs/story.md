@@ -36,7 +36,7 @@
 
 ## Details easy to lose
 
-- Pickup 21:00, departure 22:00 on 22 October at 68 Mạc Thái Tông, Hà Nội (user correction on 22 October 2026). The 22/10 map centers the matching published address record; see [sources](sources.md). The original Sheet snapshot is retained as historical source data.
+- Pickup 21:00 on 22 October at 68 Mạc Thái Tông, Hà Nội (user correction on 22 October 2026). The outbound departure time is omitted at the user’s request. The 22/10 map centers the matching published address record; see [sources](sources.md). The original Sheet snapshot is retained as historical source data.
 - Arrival 03:00 on 23 October is luggage drop/vehicle pickup; check-in is 14:00. Keep exterior/Best view 2/Best view 4 labels (P16/P17/P18).
 - Room change is 12:00 on 24 October. Preserve the dinner/stargazing conflict and unconfirmed live music; unrelated Mộc Châu fireworks text stays out of the interactive story.
 - Khe Cải starts at 04:30; its later dawn scenery does not add a visit time. Return departs 12:30 on 25 October; arrival in Hanoi is unconfirmed.
