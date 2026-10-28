@@ -59,6 +59,7 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 | `verify_diary_refinements.cjs` | Balanced eight-person login, bounded photo sizes, packing/reordering, crowded additions, interruptible save/upload/publish, backdrop and memory-only recovery | `/tmp/taxua-diary-refinements/`; `DIARY_REFINEMENT_REVIEW_DIR` overrides |
 | `verify_diary_heic.cjs` / `verify_diary_heic_worker.cjs` | CSP, timeout, allocation boundaries, native fallback and real synthetic HEIC/HEIF bytes through picker/drop, local conversion, primary image, EXIF stripping, resize, malformed/oversized files, decoder failure, cancellation, mixed batch and cap | `/tmp/taxua-diary-heic/`; `DIARY_HEIC_REVIEW_DIR` overrides |
 | `verify_diary_photos.cjs` | All photo counts 0–9 at 1440/820/390/320px, print bounds and tap targets, popup arrows/keyboard/focus/boundaries, own-page edit controls, tenth-upload rejection and session cleanup | `/tmp/taxua-diary-photos-review/`; `DIARY_PHOTOS_REVIEW_DIR` overrides; optional `DIARY_WEBKIT=1` |
+| `verify_diary_viewer.cjs` | Six photo shapes, uncapped expanding frames, fixed transparent captions/arrows and bounded panning, wheel/live pan/pinch/double-tap/keyboard zoom, cached previews, neighbor prefetch/data saving, retry/focus, backdrop, resize, 200% text and private cleanup | `/tmp/taxua-diary-viewer/`; `DIARY_VIEWER_REVIEW_DIR` overrides |
 | `verify_diary_photo_limit.sql` | Deployed count boundaries using temporary table/gateway copies in one database transaction; always rolls back and never uses crew credentials | SQL result; see [backend guide](diary-backend.md#photo-limit-boundary-check) |
 | `verify_diary_layout.cjs` | Maximum prose/title, nine long captions, narrow/landscape/enlarged text, Vietnamese NFC/NFD, missing art/fonts/engine/CSS and mid-motion expiry | `/tmp/taxua-diary-layout-review/`; optional `DIARY_WEBKIT=1` |
 | `verify_diary_backend.cjs` | Real server authentication, private reads, ownership, conflicts, private image processing/storage and quota enforcement; requires disposable accounts | `/tmp/taxua-diary-backend-review/`; read [fixture instructions](diary-backend.md#verification) first |
@@ -187,3 +188,32 @@ The [page-editing review](diary-page-editing-review.md) records 991 Chromium
 assertions across eleven suites, six short-viewport checks, a 20-state scoped
 accessibility audit, deployed size-metadata validation and historical public-page
 Lighthouse limitations. Browser fixtures make no crew writes.
+
+## Photo viewer loading and gestures, 28 October 2026
+
+Fresh Chromium runs passed **786 assertions**: viewer 391, photo reader 200,
+remembered login 38, dark mode 31, layout 45 and general diary 81. Viewer fixtures
+cover six image shapes at desktop, phone, short landscape and 200% text sizes.
+Checks include immediate cached thumbnails while full downloads are held,
+full-image cache reuse, two-neighbor prefetch and data-saving suppression,
+wheel zoom, panning before mouse release, bounded outside release, real CDP
+pinch/double-tap/swipe, fixed controls, zoom retention during full-image upgrade,
+network/corrupt-image retry and focus recovery, stale responses and session cleanup.
+Desktop and phone screenshots were inspected in `/tmp/taxua-diary-viewer/`.
+All account/media traffic used local mocked accounts and public photo derivatives;
+no real crew media or account writes were used. JavaScript syntax and whitespace
+checks passed. This run does not establish Safari or physical-device behavior.
+
+## Uncapped photo frames and fixed captions, 28 October 2026
+
+After changing the zoom model, fresh Chromium runs passed **888 assertions**:
+viewer 657, photo reader 200 and dark mode 31. The viewer now grows the actual
+image frame without a viewport or 5× magnification cap. Checks verify proportional
+frame growth beyond the screen, a complete image within that frame, bounded live
+panning, identical transparent caption geometry/font size throughout zoom, fixed
+controls, reset, touch pinch/swipe/double-tap and existing loading/error/session
+behavior. Six source proportions run at desktop, phone, short landscape and 200%
+text sizes. Zoomed desktop and phone screenshots were inspected in
+`/tmp/taxua-diary-viewer/`. Fixtures remain local/mock; no crew accounts or private
+media were used. Syntax and whitespace checks passed. Safari and physical-device
+behavior remain unverified.

@@ -145,18 +145,6 @@
 .diary-sheet { width: min(850px, calc(100% - 32px)); }
 .diary-full-writing { font-size: 1.05rem; line-height: 1.95; white-space: pre-wrap; overflow-wrap: anywhere; margin: 24px 0; }
 .diary-full-photo { width: 100%; height: auto; display: block; }
-.diary-photo-viewer { width: min(1000px, calc(100% - 32px)); }
-.diary-photo-viewer h3 { margin-bottom: 12px; }
-.diary-photo-nav { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 12px 0 18px; }
-.diary-photo-nav span { min-width: 7ch; text-align: center; font-size: .85rem; font-variant-numeric: tabular-nums; }
-.diary-dialog .diary-photo-nav button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid #a39474; border-radius: 50%; background: transparent; color: inherit; }
-.diary-photo-nav button svg { width: 23px; height: 23px; pointer-events: none; }
-.diary-photo-nav button:hover:not(:disabled) { background: rgb(125 100 58 / .1); }
-.diary-photo-nav button:disabled { opacity: .3; cursor: default; }
-.diary-photo-detail { margin: 0; }
-.diary-photo-detail-image { display: grid; place-items: center; min-height: min(38vh, 250px); }
-.diary-photo-detail .diary-full-photo { max-height: 62dvh; object-fit: contain; }
-.diary-photo-detail figcaption { margin: 18px 0 0; font: 400 1rem/1.8 'Mali', cursive; white-space: pre-wrap; overflow-wrap: anywhere; }
 .diary-saved-label { display: inline-flex; align-items: center; gap: 6px; }
 .diary-saved-label::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #567958; }
 html:has(.diary-dialog[open]) { overflow: hidden; }
@@ -308,12 +296,46 @@ html[data-motion-paused='true'] .crew-diary * { transition: none !important; }
 .diary-editor-footer { border-color: #a9916e; }
 .diary-photo-edit { border-color: #a9916e; }
 .diary-photo-edit .diary-field input { background: #e7d3b3; }
-.diary-photo-detail-image { padding: 10px; background: rgb(221 197 159 / .8); border: 1px solid #b19b78; border-radius: 3px; }
-.diary-photo-detail figcaption { color: #293a31; }
-.diary-photo-nav { gap: 18px; }
-.diary-dialog .diary-photo-nav button { border-color: #879180; }
 .diary-image-fallback { padding: 6px; font-size: .7rem; line-height: 1.5; color: #393e31; }
 @media (max-width: 560px) {
   .diary-upload-label { padding: 16px; }
-  .diary-photo-detail-image { padding: 5px; }
+}
+
+/* The photo frame grows beyond the viewport; captions/controls stay fixed. */
+.diary-dialog.diary-photo-viewer { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: hidden; }
+.diary-photo-viewer::backdrop { background: rgb(10 23 25 / .86); }
+.diary-photo-detail { position: absolute; inset: max(56px, calc(env(safe-area-inset-top, 0px) + 52px)) var(--viewer-gap, 24px) calc(80px + var(--viewer-caption-height, 44px) + env(safe-area-inset-bottom, 0px)); margin: 0; }
+.diary-photo-detail-image { position: absolute; top: calc(50% + var(--viewer-pan-y, 0px)); left: calc(50% + var(--viewer-pan-x, 0px)); width: var(--viewer-image-width, 640px); height: var(--viewer-image-height, 420px); margin: calc(var(--viewer-image-height, 420px) / -2) 0 0 calc(var(--viewer-image-width, 640px) / -2); padding: 0; border: 0; border-radius: 3px; background: #182b2a; box-shadow: 0 12px 24px rgb(0 0 0 / .22); touch-action: none; user-select: none; cursor: zoom-in; }
+.diary-photo-detail .diary-full-photo { display: block; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: contain; border-radius: inherit; }
+.diary-photo-detail-image[data-pannable='true'] { cursor: grab; }
+.diary-photo-detail-image[data-dragging='true'] { cursor: grabbing; }
+.diary-photo-viewer[data-zoomed='true'] .diary-photo-detail-image { touch-action: pan-x pan-y pinch-zoom; }
+.diary-photo-viewer .diary-photo-detail-image > .diary-image-fallback { position: fixed; z-index: 2; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(320px, calc(100% - 48px)); display: grid; place-items: center; padding: 16px; margin: 0; color: #f3e7cd; font-size: .8rem; text-align: center; }
+.diary-photo-nav { position: fixed; z-index: 3; inset: 0; margin: 0; pointer-events: none; }
+.diary-dialog.diary-photo-viewer :is([data-diary-photo-step], [data-close-sheet], [data-photo-zoom]) { display: grid; place-items: center; position: absolute; width: 44px; height: 44px; min-width: 44px; min-height: 44px; padding: 0; margin: 0; border: 0; border-radius: 3px; background: transparent; color: #fff9ed; pointer-events: auto; }
+.diary-photo-viewer [data-diary-photo-step] { top: calc(50% - 22px); }
+.diary-photo-viewer [data-diary-photo-step='-1'] { left: max(8px, env(safe-area-inset-left, 0px)); }
+.diary-photo-viewer [data-diary-photo-step='1'] { right: max(8px, env(safe-area-inset-right, 0px)); }
+.diary-dialog.diary-photo-viewer [data-close-sheet] { position: fixed; z-index: 4; top: max(8px, env(safe-area-inset-top, 0px)); right: max(8px, env(safe-area-inset-right, 0px)); }
+.diary-photo-viewer :is([data-diary-photo-step], [data-close-sheet], [data-photo-zoom]) svg { width: 24px; height: 24px; pointer-events: none; filter: drop-shadow(0 1px 1px #000) drop-shadow(0 0 3px rgb(0 0 0 / .7)); }
+.diary-dialog.diary-photo-viewer :is([data-diary-photo-step], [data-close-sheet], [data-photo-zoom]):hover:not(:disabled) { background: rgb(10 23 25 / .25); }
+.diary-photo-viewer :is([data-diary-photo-step], [data-close-sheet], [data-photo-zoom]):focus-visible { outline: 2px solid #ffe0a4; outline-offset: -3px; background: rgb(10 23 25 / .35); }
+.diary-photo-viewer [data-diary-photo-step]:disabled { opacity: .25; cursor: default; }
+.diary-photo-zoom { position: fixed; z-index: 4; left: 50%; bottom: max(8px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; align-items: center; gap: 4px; color: #fff9ed; }
+.diary-dialog.diary-photo-viewer .diary-photo-zoom button { position: static; }
+.diary-dialog.diary-photo-viewer [data-photo-zoom='reset'] { width: 64px; font: 500 .75rem/1 'Be Vietnam Pro', sans-serif; font-variant-numeric: tabular-nums; text-shadow: 0 1px 3px #000; }
+.diary-photo-viewer [data-photo-zoom]:disabled { opacity: .35; }
+.diary-photo-viewer .diary-photo-detail-image > .diary-photo-load-note { top: auto; bottom: calc(96px + var(--viewer-caption-height, 44px) + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: 8px; background: rgb(10 23 25 / .78); border-radius: 3px; }
+.diary-photo-viewer .diary-image-fallback button { min-height: 44px; padding: 4px 12px; color: inherit; border: 0; background: transparent; text-decoration: underline; }
+.diary-photo-detail .diary-photo-meta { position: fixed; z-index: 2; left: 50%; bottom: calc(64px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 12px; width: min(960px, calc(100% - var(--viewer-gap, 24px) * 2)); max-height: 24dvh; overflow: auto; margin: 0; padding: 0; border: 0; background: transparent; color: #fff9ed; text-shadow: 0 1px 2px #000, 0 0 4px rgb(0 0 0 / .85); font: 400 .86rem/1.65 'Mali', cursive; white-space: normal; overflow-wrap: anywhere; }
+.diary-photo-caption { min-width: 0; white-space: pre-wrap; }
+.diary-photo-position { grid-column: 2; padding-top: 2px; font: 500 .69rem/1.8 'Be Vietnam Pro', sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; color: #fff9ed; }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion-paused='true']) .diary-photo-viewer .diary-full-photo:not([hidden]) { animation: diary-photo-reveal .14s ease-out; }
+  @keyframes diary-photo-reveal { from { opacity: 0; } to { opacity: 1; } }
+}
+@media (forced-colors: active) {
+  .diary-dialog.diary-photo-viewer :is([data-diary-photo-step], [data-close-sheet], [data-photo-zoom]) { color: ButtonText; background: Canvas; border: 1px solid ButtonText; }
+  .diary-photo-detail .diary-photo-meta { color: CanvasText; background: Canvas; }
+  .diary-photo-position { color: CanvasText; }
 }

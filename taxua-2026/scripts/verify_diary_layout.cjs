@@ -44,7 +44,7 @@ async function runEngine(type, engine) {
       if (width <= 850) await p.locator('[data-diary-side="photos"]').click();
       check(engine + ' all nine photos fit on the leaf at ' + width, await p.locator('#diaryPages [data-view-photo]').count() === 9 && await p.locator('#diaryPages .diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
       await p.locator('#diaryPages [data-view-photo]').last().click();
-      check(engine + ' full long caption is readable at ' + width, await p.locator('.diary-photo-detail figcaption').innerText() === m.entries[0].photos[8].caption);
+      check(engine + ' full long caption is readable at ' + width, await p.locator('.diary-photo-caption').innerText() === m.entries[0].photos[8].caption);
       check(engine + ' popup caption remains in normal flow at ' + width, await p.locator('.diary-photo-detail').evaluate(el => el.querySelector('figcaption').getBoundingClientRect().bottom <= el.getBoundingClientRect().bottom + 1));
       if (width === 320) await shot(p, '#diarySheet', engine + '-long-caption-320.png');
       await p.locator('[data-close-sheet]').click();
@@ -57,7 +57,7 @@ async function runEngine(type, engine) {
     await p.locator('[data-diary-side="photos"]').click();
     check(engine + ' enlarged text keeps all nine photo targets on the leaf', await p.locator('#diaryPages [data-view-photo]').count() === 9);
     await p.locator('#diaryPages [data-view-photo]').last().click();
-    check(engine + ' enlarged caption keeps its complete text', await p.locator('.diary-photo-detail figcaption').innerText() === m.entries[0].photos[8].caption);
+    check(engine + ' enlarged caption keeps its complete text', await p.locator('.diary-photo-caption').innerText() === m.entries[0].photos[8].caption);
     await p.locator('[data-close-sheet]').click(); await p.evaluate(() => document.documentElement.style.fontSize = '');
     await p.waitForFunction(() => !document.querySelector('#crewDiary').classList.contains('diary-large-text'));
     check(engine + ' Vietnamese NFC and decomposed marks shape equally', await p.evaluate(async () => {

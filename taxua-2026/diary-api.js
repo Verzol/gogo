@@ -165,15 +165,25 @@
     if (oldToken) raw('logout', { method: 'POST', token: oldToken }).catch(() => {});
     return value;
   }
-  async function photo(id, size = 'thumb') {
+  function cachedPhoto(id, size = 'thumb') {
+    synchronize();
+    return session ? pictures.get(id + ':' + size) || null : null;
+  }
+  async function photo(id, size = 'thumb', { reload = false } = {}) {
+    synchronize();
+    if (!session) throw new ApiError('SESSION_EXPIRED', 401);
     const cacheKey = id + ':' + size, epoch = generation;
+    if (reload && pictures.has(cacheKey)) {
+      URL.revokeObjectURL(pictures.get(cacheKey)); pictures.delete(cacheKey);
+    }
     if (pictures.has(cacheKey)) return pictures.get(cacheKey);
     if (!pendingPictures.has(cacheKey)) {
-      pendingPictures.set(cacheKey, request('media/' + encodeURIComponent(id) + '?size=' + size, { binary: true })
+      const pending = request('media/' + encodeURIComponent(id) + '?size=' + size, { binary: true })
         .then(blob => {
           if (epoch !== generation) throw new ApiError('REQUEST_INTERRUPTED');
           const value = URL.createObjectURL(blob); pictures.set(cacheKey, value); return value;
-        }).finally(() => pendingPictures.delete(cacheKey)));
+        }).finally(() => { if (pendingPictures.get(cacheKey) === pending) pendingPictures.delete(cacheKey); });
+      pendingPictures.set(cacheKey, pending);
     }
     return pendingPictures.get(cacheKey);
   }
@@ -188,7 +198,7 @@
     publish: body => request('publish', { method: 'POST', body }),
     reservePhoto: () => request('reserve-photo', { method: 'POST', body: {} }),
     upload: (id, blob) => request('upload?id=' + encodeURIComponent(id), { method: 'POST', body: blob, binary: true, timeout: 60000 }),
-    removePhoto: id => request('remove-photo', { method: 'POST', body: { id } }), photo,
+    removePhoto: id => request('remove-photo', { method: 'POST', body: { id } }), photo, cachedPhoto,
     logout: async () => {
       synchronize();
       const previous = session;

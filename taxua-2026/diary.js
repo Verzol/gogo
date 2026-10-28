@@ -355,7 +355,7 @@
         <div class="diary-editor-footer"><p class="diary-form-status" id="diarySaveStatus" role="status"></p><small id="diaryDraftStamp" hidden>Bản nháp riêng · tự lưu khi cậu viết</small><div><button type="button" class="diary-secondary" data-close-editor>Đóng</button><button type="button" class="diary-secondary" id="diarySaveDraft">Lưu nháp</button><button type="submit" class="diary-primary" id="diaryPublish">Lưu vào sổ ↗</button></div></div>
       </form>
     </dialog>
-    <dialog class="diary-dialog diary-sheet" id="diarySheet" aria-labelledby="diarySheetTitle"><button type="button" class="diary-dialog-close" data-close-sheet aria-label="Đóng trang đọc">×</button><p class="diary-eyebrow" id="diarySheetEyebrow"></p><h3 id="diarySheetTitle"></h3><div id="diarySheetContent"></div></dialog>`);
+    <dialog class="diary-dialog diary-sheet" id="diarySheet" aria-labelledby="diarySheetTitle"><button type="button" class="diary-dialog-close" data-close-sheet aria-label="Đóng trang đọc"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><use href="#trip-x"></use></svg></button><p class="diary-eyebrow" id="diarySheetEyebrow"></p><h3 id="diarySheetTitle"></h3><div id="diarySheetContent"></div></dialog>`);
 
   function updateAuthMode() {
     const member = members.find(m => m.id === state.authMember);
@@ -783,11 +783,142 @@
     if (!failed && epoch === state.editorEpoch) message('Ảnh đã ở trong bản nháp. Lưu vào sổ khi cậu sẵn sàng.', false, $('diaryUploadStatus'));
   }
 
+  let photoFitFrame = 0, photoSwipe = null, sheetBackdropStart = false, photoLoadEpoch = 0;
+  let neighborTimer = 0, lastPhotoTap = null;
+  const photoView = { scale: 1, x: 0, y: 0, width: 0, height: 0, pointers: new Map(), gesture: null };
+  const photoStage = () => $('diarySheet').querySelector('.diary-photo-detail-image');
+  const photoCanvas = () => $('diarySheet').querySelector('.diary-photo-detail');
+  function drawPhotoView() {
+    const stage = photoStage(), image = stage?.querySelector('.diary-full-photo');
+    if (!image || !photoView.width) return;
+    const sheet = $('diarySheet'), canvas = photoCanvas();
+    const width = photoView.width * photoView.scale, height = photoView.height * photoView.scale;
+    // The frame is the full enlarged image, even beyond the screen. Only the
+    // outer viewer clips at the physical viewport; caption and controls stay put.
+    sheet.style.setProperty('--viewer-image-width', width + 'px');
+    sheet.style.setProperty('--viewer-image-height', height + 'px');
+    const limitX = Math.max(0, (width - canvas.clientWidth) / 2);
+    const limitY = Math.max(0, (height - canvas.clientHeight) / 2);
+    photoView.x = Math.max(-limitX, Math.min(limitX, photoView.x));
+    photoView.y = Math.max(-limitY, Math.min(limitY, photoView.y));
+    sheet.style.setProperty('--viewer-pan-x', photoView.x + 'px');
+    sheet.style.setProperty('--viewer-pan-y', photoView.y + 'px');
+    stage.dataset.magnified = String(photoView.scale > 1.01);
+    stage.dataset.pannable = String(limitX > 1 || limitY > 1);
+    stage.dataset.dragging = String(photoView.pointers.size > 0 && (limitX > 1 || limitY > 1));
+    $('diarySheet').querySelectorAll('[data-photo-zoom]').forEach(button => {
+      button.disabled = button.dataset.photoZoom === 'out' ? photoView.scale <= 1 : false;
+    });
+    const output = $('diarySheet').querySelector('[data-photo-scale]');
+    if (output) output.textContent = Math.round(photoView.scale * 100) + '%';
+  }
+  function zoomPhoto(scale, clientX, clientY) {
+    const stage = photoStage(); if (!stage || (window.visualViewport?.scale || 1) > 1.01) return;
+    if (!Number.isFinite(scale)) return;
+    const rect = photoCanvas().getBoundingClientRect(), next = Math.max(1, scale);
+    const ratio = next / photoView.scale;
+    const x = (clientX ?? rect.left + rect.width / 2) - rect.left - rect.width / 2;
+    const y = (clientY ?? rect.top + rect.height / 2) - rect.top - rect.height / 2;
+    photoView.x = x - (x - photoView.x) * ratio;
+    photoView.y = y - (y - photoView.y) * ratio;
+    photoView.scale = next; drawPhotoView();
+  }
+  function resetPhotoView() {
+    photoView.pointers.clear(); photoView.gesture = null;
+    photoView.scale = 1; photoView.x = 0; photoView.y = 0; photoView.width = 0; photoView.height = 0; lastPhotoTap = null;
+  }
+  function prefetchPhotoNeighbors(id, epoch) {
+    clearTimeout(neighborTimer);
+    // Only two neighbors, only after the selected full image is ready. Respect
+    // data-saving/slow connections and never compete with the initial download.
+    if (navigator.connection?.saveData || /(^|-)2g$/.test(navigator.connection?.effectiveType || '')) return;
+    neighborTimer = setTimeout(() => {
+      if (epoch !== photoLoadEpoch || !api.hasSession() || !$('diarySheet').open) return;
+      const photos = entry()?.photos || [], index = photos.findIndex(p => p.id === id);
+      [photos[index + 1], photos[index - 1]].filter(Boolean).forEach(photo => {
+        api.photo(photo.id, 'full').catch(() => {});
+      });
+    }, 120);
+  }
+  async function loadViewerPhoto(id, reload = false) {
+    const epoch = photoLoadEpoch, image = $('diarySheet').querySelector('.diary-full-photo');
+    const stage = photoStage(), fallback = stage?.querySelector('.diary-image-fallback');
+    const active = () => epoch === photoLoadEpoch && image?.isConnected && state.photoId === id && api.hasSession();
+    const cachedFull = !reload && api.cachedPhoto(id, 'full'), preview = cachedFull || api.cachedPhoto(id);
+    // Assign the already fetched thumbnail before waiting for any network work.
+    if (preview) {
+      image.src = preview; image.hidden = false; fallback.hidden = true;
+      if (cachedFull) image.dataset.quality = 'full';
+    } else {
+      api.photo(id).then(async src => {
+        const decoded = new Image(); decoded.src = src; await decoded.decode();
+        if (!active() || image.dataset.quality === 'full') return;
+        image.src = src; image.hidden = false; fallback.hidden = !image.dataset.fullFailed;
+        fallback.classList.toggle('diary-photo-load-note', Boolean(image.dataset.fullFailed)); fitPhotoSheet();
+      }).catch(() => {});
+    }
+    if (preview) fitPhotoSheet();
+    try {
+      const src = cachedFull || await api.photo(id, 'full', { reload });
+      if (!active()) return;
+      const decoded = new Image(); decoded.src = src; await decoded.decode();
+      if (!active()) return;
+      // Use the decoded source dimensions immediately. The displayed img may
+      // still report its thumbnail dimensions until the next rendering frame.
+      $('diarySheet').dataset.photoWidth = decoded.naturalWidth;
+      $('diarySheet').dataset.photoHeight = decoded.naturalHeight;
+      image.src = src; image.dataset.quality = 'full'; image.hidden = false;
+      delete image.dataset.fullFailed;
+      fallback.hidden = true; stage.setAttribute('aria-busy', 'false');
+      fitPhotoSheet(); prefetchPhotoNeighbors(id, epoch);
+    } catch (_) {
+      if (!active()) return;
+      image.dataset.fullFailed = 'true';
+      const thumbnail = api.cachedPhoto(id);
+      if (thumbnail && image.dataset.quality === 'full') {
+        image.src = thumbnail; delete image.dataset.quality;
+      }
+      stage.setAttribute('aria-busy', 'false');
+      // A usable preview stays visible if the larger download fails.
+      fallback.hidden = false; fallback.classList.toggle('diary-photo-load-note', !image.hidden);
+      const retry = document.createElement('button'); retry.type = 'button';
+      retry.dataset.retryPhoto = ''; retry.textContent = 'Thử lại';
+      fallback.replaceChildren(document.createTextNode(image.hidden ? 'Chưa mở được ảnh. ' : 'Chưa tải được ảnh nét. '), retry);
+    }
+  }
+  function fitPhotoSheet() {
+    const sheet = $('diarySheet');
+    if (!sheet.open || !state.photoId) return;
+    const zoomed = (window.visualViewport?.scale || 1) > 1.01;
+    sheet.dataset.zoomed = String(zoomed);
+    if (zoomed) return; // Preserve native pinch zoom and panning.
+    const image = sheet.querySelector('.diary-full-photo'), meta = sheet.querySelector('.diary-photo-meta');
+    if (!image || !meta) return;
+    const viewport = window.visualViewport || { width: innerWidth, height: innerHeight };
+    sheet.style.setProperty('--viewer-gap', (viewport.width <= 560 ? 12 : 24) + 'px');
+    sheet.style.setProperty('--viewer-caption-height', meta.offsetHeight + 'px');
+    const canvas = photoCanvas();
+    const width = +sheet.dataset.photoWidth || 960, height = +sheet.dataset.photoHeight || 720;
+    const scale = Math.min(1, Math.max(1, canvas.clientWidth) / width, Math.max(1, canvas.clientHeight) / height);
+    photoView.width = width * scale; photoView.height = height * scale;
+    drawPhotoView();
+  }
+  function schedulePhotoFit() {
+    cancelAnimationFrame(photoFitFrame); photoFitFrame = requestAnimationFrame(fitPhotoSheet);
+  }
+  const photoMetaObserver = window.ResizeObserver ? new ResizeObserver(schedulePhotoFit) : null;
+  window.addEventListener('resize', schedulePhotoFit);
+  window.visualViewport?.addEventListener('resize', schedulePhotoFit);
   function showSheet(kind, photoId) {
     const saved = entry(); if (!saved || !api.hasSession()) return;
     const person = current(), sheet = $('diarySheet');
     $('diarySheetEyebrow').textContent = 'Trang của ' + person.name;
     sheet.classList.toggle('diary-photo-viewer', kind === 'photo');
+    $('diarySheetEyebrow').hidden = kind === 'photo';
+    $('diarySheetTitle').classList.toggle('diary-sr-only', kind === 'photo');
+    sheet.querySelector('[data-close-sheet]').setAttribute('aria-label', kind === 'photo' ? 'Đóng ảnh' : 'Đóng trang đọc');
+    photoMetaObserver?.disconnect(); photoSwipe = null; photoLoadEpoch++;
+    clearTimeout(neighborTimer); resetPhotoView();
     state.photoId = null;
     if (kind === 'writing') {
       $('diarySheetTitle').textContent = saved.title || 'Vài dòng để nhớ';
@@ -796,12 +927,20 @@
       const index = saved.photos.findIndex(p => p.id === photoId), photo = saved.photos[index];
       if (!photo) return;
       state.photoId = photo.id;
-      $('diarySheetTitle').textContent = 'Ảnh mang về';
-      const arrow = direction => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="${direction < 0 ? 'm15 18-6-6 6-6' : 'm9 18 6-6-6-6'}"/></svg>`;
-      $('diarySheetContent').innerHTML = `<nav class="diary-photo-nav" aria-label="Chuyển ảnh"><button type="button" data-diary-photo-step="-1" aria-label="Ảnh trước" title="Ảnh trước"${index === 0 ? ' disabled' : ''}>${arrow(-1)}</button><span role="status" aria-live="polite" aria-atomic="true">Ảnh ${index + 1} / ${saved.photos.length}</span><button type="button" data-diary-photo-step="1" aria-label="Ảnh tiếp" title="Ảnh tiếp"${index === saved.photos.length - 1 ? ' disabled' : ''}>${arrow(1)}</button></nav><figure class="diary-photo-detail"><div class="diary-photo-detail-image"><img class="diary-full-photo" data-private-photo="${escape(photo.id)}" data-size="full" alt="${escape(photo.alt || 'Ảnh của ' + person.name)}" hidden><p class="diary-image-fallback">Đang mở ảnh…</p></div>${photo.caption ? `<figcaption>${escape(photo.caption)}</figcaption>` : ''}</figure>`;
+      $('diarySheetTitle').textContent = `Ảnh ${index + 1} / ${saved.photos.length} của ${person.name}`;
+      const loadedPrint = [...$('diaryPages').querySelectorAll('img[data-private-photo]')].find(img => img.dataset.privatePhoto === photo.id);
+      const previewScale = loadedPrint?.naturalWidth ? Math.max(1, 1600 / loadedPrint.naturalWidth) : 1;
+      sheet.dataset.photoWidth = photo.width || loadedPrint?.naturalWidth * previewScale || 960;
+      sheet.dataset.photoHeight = photo.height || loadedPrint?.naturalHeight * previewScale || 720;
+      const arrow = direction => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"${direction < 0 ? ' style="transform:rotate(180deg)"' : ''}><use href="#trip-chevron-right"></use></svg>`;
+      const icon = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="#trip-${name}"></use></svg>`;
+      $('diarySheetContent').innerHTML = `<figure class="diary-photo-detail"><div class="diary-photo-detail-image" aria-busy="true" aria-label="Cuộn để thu phóng, kéo để di chuyển ảnh; chạm hai lần để phóng to"><img class="diary-full-photo" alt="${escape(photo.alt || 'Ảnh của ' + person.name)}" draggable="false" hidden><p class="diary-image-fallback" role="status">Đang mở ảnh…</p></div><figcaption class="diary-photo-meta"><span class="diary-photo-caption"${photo.caption ? '' : ' hidden'}>${escape(photo.caption || '')}</span><span class="diary-photo-position" role="status" aria-live="polite" aria-atomic="true" aria-label="Ảnh ${index + 1} / ${saved.photos.length}">${index + 1} / ${saved.photos.length}</span></figcaption></figure><nav class="diary-photo-nav" aria-label="Chuyển ảnh"><button type="button" data-diary-photo-step="-1" aria-label="Ảnh trước" title="Ảnh trước"${index === 0 ? ' disabled' : ''}>${arrow(-1)}</button><button type="button" data-diary-photo-step="1" aria-label="Ảnh tiếp" title="Ảnh tiếp"${index === saved.photos.length - 1 ? ' disabled' : ''}>${arrow(1)}</button></nav><div class="diary-photo-zoom" role="group" aria-label="Thu phóng ảnh"><button type="button" data-photo-zoom="out" aria-label="Thu nhỏ" title="Thu nhỏ (-)">${icon('minus')}</button><button type="button" data-photo-zoom="reset" aria-label="Vừa màn hình" title="Vừa màn hình (0)"><span data-photo-scale>100%</span></button><button type="button" data-photo-zoom="in" aria-label="Phóng to" title="Phóng to (+)">${icon('plus')}</button></div>`;
+      photoMetaObserver?.observe(sheet.querySelector('.diary-photo-meta'));
     } else return;
     if (!sheet.open) sheet.showModal();
-    hydrate(sheet); sheet.scrollTop = 0;
+    fitPhotoSheet();
+    if (state.photoId) loadViewerPhoto(state.photoId);
+    sheet.scrollTop = 0;
   }
   function stepPhoto(direction, moveFocus = false) {
     const photos = entry()?.photos || [], index = photos.findIndex(photo => photo.id === state.photoId);
@@ -816,15 +955,104 @@
   }
   const closeSheet = () => $('diarySheet').close();
   $('diarySheet').querySelector('[data-close-sheet]').addEventListener('click', closeSheet);
-  $('diarySheet').addEventListener('close', () => { state.photoId = null; $('diarySheetContent').replaceChildren(); });
+  $('diarySheet').addEventListener('close', () => {
+    state.photoId = null; photoSwipe = null; sheetBackdropStart = false; photoLoadEpoch++;
+    clearTimeout(neighborTimer); resetPhotoView();
+    photoMetaObserver?.disconnect(); cancelAnimationFrame(photoFitFrame);
+    $('diarySheetContent').replaceChildren();
+  });
+  const outsideSheet = event => {
+    if (state.photoId) return event.target === $('diarySheet') || event.target === photoCanvas();
+    const r = $('diarySheet').getBoundingClientRect();
+    return event.target === $('diarySheet') && (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom);
+  };
+  function beginPhotoGesture() {
+    const points = [...photoView.pointers.values()];
+    photoView.gesture = { scale: photoView.scale, x: photoView.x, y: photoView.y,
+      center: { x: points.reduce((n, p) => n + p.x, 0) / points.length, y: points.reduce((n, p) => n + p.y, 0) / points.length },
+      distance: points.length > 1 ? Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y) : 0 };
+  }
+  $('diarySheet').addEventListener('pointerdown', event => {
+    sheetBackdropStart = outsideSheet(event);
+    const stage = event.target.closest('.diary-photo-detail-image');
+    if (!state.photoId || !stage || event.target.closest('button') || (event.pointerType === 'mouse' && event.button !== 0) || (window.visualViewport?.scale || 1) > 1.01) return;
+    photoView.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    stage.setPointerCapture(event.pointerId);
+    if (photoView.pointers.size > 1) { photoSwipe = null; lastPhotoTap = null; }
+    else photoSwipe = { id: event.pointerId, x: event.clientX, y: event.clientY, touch: event.pointerType === 'touch', moved: false, zoomed: photoView.scale > 1.01 };
+    beginPhotoGesture(); drawPhotoView();
+  });
+  $('diarySheet').addEventListener('pointermove', event => {
+    if (!photoView.pointers.has(event.pointerId)) return;
+    photoView.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (photoSwipe && Math.hypot(event.clientX - photoSwipe.x, event.clientY - photoSwipe.y) > 8) photoSwipe.moved = true;
+    const points = [...photoView.pointers.values()], gesture = photoView.gesture, stage = photoStage();
+    if (!gesture || !stage) return;
+    const center = { x: points.reduce((n, p) => n + p.x, 0) / points.length, y: points.reduce((n, p) => n + p.y, 0) / points.length };
+    if (points.length > 1 && gesture.distance > 0) {
+      const rect = photoCanvas().getBoundingClientRect();
+      const scale = Math.max(1, gesture.scale * Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y) / gesture.distance);
+      if (!Number.isFinite(scale)) return;
+      const ratio = scale / gesture.scale;
+      photoView.x = center.x - rect.left - rect.width / 2 - (gesture.center.x - rect.left - rect.width / 2 - gesture.x) * ratio;
+      photoView.y = center.y - rect.top - rect.height / 2 - (gesture.center.y - rect.top - rect.height / 2 - gesture.y) * ratio;
+      photoView.scale = scale;
+    } else if (photoView.scale > 1.01) {
+      photoView.x = gesture.x + center.x - gesture.center.x; photoView.y = gesture.y + center.y - gesture.center.y;
+    }
+    drawPhotoView();
+  });
+  function finishPhotoGesture(event, cancelled = false) {
+    if (sheetBackdropStart && outsideSheet(event) && !cancelled) closeSheet();
+    sheetBackdropStart = false;
+    if (!photoView.pointers.delete(event.pointerId)) return;
+    const swipe = photoSwipe; photoSwipe = null;
+    if (photoView.pointers.size) beginPhotoGesture(); else photoView.gesture = null;
+    drawPhotoView();
+    if (cancelled || !swipe || photoView.pointers.size) return;
+    const dx = event.clientX - swipe.x, dy = event.clientY - swipe.y;
+    if (swipe.touch && !swipe.zoomed && photoView.scale <= 1.01 && Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      lastPhotoTap = null; stepPhoto(dx < 0 ? 1 : -1);
+    } else if (swipe.touch && !swipe.moved) {
+      if (lastPhotoTap && Date.now() - lastPhotoTap.time < 320 && Math.hypot(event.clientX - lastPhotoTap.x, event.clientY - lastPhotoTap.y) < 30) {
+        zoomPhoto(photoView.scale > 1.01 ? 1 : 2.5, event.clientX, event.clientY); lastPhotoTap = null;
+      } else lastPhotoTap = { time: Date.now(), x: event.clientX, y: event.clientY };
+    }
+  }
+  $('diarySheet').addEventListener('pointerup', event => finishPhotoGesture(event));
+  $('diarySheet').addEventListener('pointercancel', event => finishPhotoGesture(event, true));
+  $('diarySheet').addEventListener('lostpointercapture', event => {
+    if (photoView.pointers.has(event.pointerId)) finishPhotoGesture(event, true);
+  });
+  $('diarySheet').addEventListener('wheel', event => {
+    if (!state.photoId || !event.target.closest('.diary-photo-detail-image')) return;
+    event.preventDefault();
+    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+    zoomPhoto(photoView.scale * Math.exp(-Math.max(-160, Math.min(160, delta)) * .0025), event.clientX, event.clientY);
+  }, { passive: false });
+  $('diarySheet').addEventListener('dblclick', event => {
+    if (!state.photoId || !event.target.closest('.diary-photo-detail-image') || event.target.closest('button') || event.sourceCapabilities?.firesTouchEvents) return;
+    event.preventDefault(); zoomPhoto(photoView.scale > 1.01 ? 1 : 2.5, event.clientX, event.clientY);
+  });
   $('diarySheetContent').addEventListener('click', event => {
     const button = event.target.closest('[data-diary-photo-step]');
     if (button && !button.disabled) stepPhoto(Number(button.dataset.diaryPhotoStep), true);
+    const zoom = event.target.closest('[data-photo-zoom]');
+    if (zoom && !zoom.disabled) zoomPhoto(zoom.dataset.photoZoom === 'reset' ? 1 : photoView.scale * (zoom.dataset.photoZoom === 'in' ? 1.5 : 1 / 1.5));
+    if (event.target.closest('[data-retry-photo]') && state.photoId) {
+      // Hiding the focused retry button would otherwise send keyboard events
+      // outside the dialog after the image recovers.
+      $('diarySheet').querySelector('[data-close-sheet]').focus({ preventScroll: true });
+      photoStage().setAttribute('aria-busy', 'true');
+      photoStage().querySelector('.diary-image-fallback').hidden = true; loadViewerPhoto(state.photoId, true);
+    }
   });
   $('diarySheet').addEventListener('keydown', event => {
     if (!state.photoId || event.altKey || event.ctrlKey || event.metaKey) return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault(); stepPhoto(event.key === 'ArrowLeft' ? -1 : 1, true);
+    } else if (['+', '=', '-', '0'].includes(event.key)) {
+      event.preventDefault(); zoomPhoto(event.key === '0' ? 1 : photoView.scale * (event.key === '-' ? 1 / 1.5 : 1.5));
     }
   });
   $('diaryPages').addEventListener('click', event => {

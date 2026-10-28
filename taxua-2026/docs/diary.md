@@ -117,9 +117,43 @@ pages retain three quiet frames. All layouts keep the paper's stable dimensions.
 Each photo has a caption and a screen-reader description. Click a print to open
 its full image and complete caption in a private popup. Previous/next arrows
 and the left/right arrow keys move within that person's photos; controls stop
-at the first and last photo. Escape or the close button returns to the book.
-The popup announces the photo position, keeps keyboard focus in the dialog,
-and clears its private image on close or session loss. There is no separate
+at the first and last photo. Touch users can swipe horizontally at the fitted
+size. Mouse wheel/trackpad scroll enlarges the entire photograph and its frame,
+including beyond the viewport. The frame has no width/height cap or maximum zoom
+setting; the outer transparent viewer clips only at the screen boundary. Dragging
+pans a photograph that exceeds its fitted reading area, with bounded movement so
+it cannot be lost offscreen. Axes that still fit stay centered. Two-finger pinch
+and double-tap work inside the photo; double-click toggles magnification on desktop.
+Panning and pinching never switch photos. The transparent bottom controls and
+`+` / `-` / `0` keys zoom or reset to the minimum 1× fitted view. Changing photos
+resets the view; browser-level zoom outside the photo is retained. Escape, the
+close icon or a deliberate backdrop tap returns to the book.
+
+The viewer uses a transparent full-viewport dialog. At the fitted size, portraits
+remain narrow, landscapes wide, and small photos retain their original resolution.
+There is no owner/title header or parchment mat. Transparent 44px Lucide arrows
+stay at fixed viewport edges, with a fixed top-right close control, shadowed
+strokes and visible keyboard focus. Photo shape, zoom and panning never move them.
+The complete caption and compact `4 / 6` counter remain fixed above the bottom
+zoom controls, with transparent backgrounds and shadowed cream text. Their position,
+width, font size and wrapping remain exactly unchanged during zoom or panning.
+Long captions can scroll within that fixed region. The owner and full position
+remain in the dialog's accessible name. Resize and browser-chrome changes refit
+the initial image geometry while preserving magnification; native browser zoom
+is preserved.
+The popup immediately reuses its already loaded thumbnail, then upgrades to the
+full-resolution image after decoding, without blanking the preview. Full images
+and in-flight requests share the existing session-only memory cache. Once the
+selected full image is ready, only its two immediate neighbors prefetch; data-saving
+and 2G connections skip that speculation. Closing or changing photos cancels any
+scheduled prefetch. Private blobs remain outside persistent browser storage and
+are revoked on session loss or account switching.
+
+Slow/error states keep close/navigation usable. If a full image fails, the
+thumbnail remains visible with a retry action; retry keeps keyboard focus within
+the dialog. Late responses cannot replace a newly selected image. The popup
+keeps keyboard focus in the dialog and clears
+its private image on close or session loss. There is no separate
 “Xem đủ … ảnh” album button.
 
 The editor has **Lời viết / Ảnh mang về** tabs and uses the actual painted
@@ -315,8 +349,9 @@ active action once; logout/session rejection cancels it and clears private
 surfaces. There is no scroll interception, automatic advance or sound. The diary
 and its dialogs are excluded from printing.
 
-The book shows every photo with a short caption. The full-image popup keeps
-unabridged captions in normal flow, including at 320px and enlarged text.
+The book shows every photo with a short caption. The full-image
+popup keeps unabridged captions in a fixed transparent region, including at 320px
+and enlarged text.
 Enlarged-text reading uses a natural-height photo grid rather than squeezing
 the photographs or captions.
 
@@ -345,6 +380,7 @@ the photographs or captions.
 | `scripts/verify_diary_refinements.cjs` | Balanced login, constrained sizes, packing/reordering, crowded additions, background close/save, recovery, backdrop, uploads and detached publication |
 | `scripts/verify_diary_framing.ts` / `.sql` | Edge metadata normalization and rolled-back gateway validation fixtures |
 | `scripts/verify_diary_photos.cjs` | Every count 0–9, responsive print bounds/targets, popup navigation, owner-only edit controls and the tenth-upload boundary |
+| `scripts/verify_diary_viewer.cjs` | Six photo shapes, uncapped expanding frames, fixed transparent captions/controls, wheel/live pan/pinch/double-tap/keyboard zoom, immediate cached previews, neighbor prefetch/data saving, retry/focus, resize, delayed media and session cleanup |
 | `scripts/verify_diary_photo_limit.sql` | Deployed gateway/constraints cloned into temporary tables; nine accepted and ten rejected, then rollback |
 | `scripts/verify_diary_layout.cjs` | Long writing/captions, enlarged text, Vietnamese shaping, missing assets and mid-motion expiry |
 | `scripts/verify_diary_backend.cjs` | Direct requests against real disposable accounts/policies |

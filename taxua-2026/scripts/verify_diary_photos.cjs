@@ -49,22 +49,22 @@ async function runEngine(type, engine) {
       check(engine + ' album shortcut is removed at ' + width, await p.locator('[data-album]').count() === 0 && !(await p.locator('#diaryPages').innerText()).includes('Xem đủ'));
       for (let i = 0; i < 9; i++) {
         await p.locator('#diaryPages [data-view-photo]').nth(i).click();
-        check(`${engine} photo ${i + 1} opens full view at ${width}`, await p.locator('.diary-photo-nav [role="status"]').innerText() === `Ảnh ${i + 1} / 9` && await p.locator('.diary-full-photo').getAttribute('alt') === `Phong cảnh ${i + 1}`);
+        check(`${engine} photo ${i + 1} opens full view at ${width}`, await p.locator('.diary-photo-position').innerText() === `${i + 1} / 9` && await p.locator('.diary-full-photo').getAttribute('alt') === `Phong cảnh ${i + 1}`);
         await p.keyboard.press('Escape');
       }
       await p.locator('#diaryPages [data-view-photo]').first().click();
       check(engine + ' first photo disables previous at ' + width, await p.locator('[data-diary-photo-step="-1"]').isDisabled());
       await p.locator('[data-diary-photo-step="1"]').click();
-      check(engine + ' next arrow advances and retains focus at ' + width, await p.locator('.diary-photo-nav [role="status"]').innerText() === 'Ảnh 2 / 9' && await p.locator('[data-diary-photo-step="1"]').evaluate(el => el === document.activeElement));
+      check(engine + ' next arrow advances and retains focus at ' + width, await p.locator('.diary-photo-position').innerText() === '2 / 9' && await p.locator('[data-diary-photo-step="1"]').evaluate(el => el === document.activeElement));
       await p.keyboard.press('ArrowLeft');
-      check(engine + ' keyboard goes back without turning the person at ' + width, await p.locator('.diary-photo-nav [role="status"]').innerText() === 'Ảnh 1 / 9' && await p.locator('#diaryPageLabel').innerText() === 'Trang của mi');
+      check(engine + ' keyboard goes back without turning the person at ' + width, await p.locator('.diary-photo-position').innerText() === '1 / 9' && await p.locator('#diaryPageLabel').innerText() === 'Trang của mi');
       for (let i = 0; i < 8; i++) await p.keyboard.press('ArrowRight');
-      check(engine + ' last photo disables next at ' + width, await p.locator('.diary-photo-nav [role="status"]').innerText() === 'Ảnh 9 / 9' && await p.locator('[data-diary-photo-step="1"]').isDisabled());
+      check(engine + ' last photo disables next at ' + width, await p.locator('.diary-photo-position').innerText() === '9 / 9' && await p.locator('[data-diary-photo-step="1"]').isDisabled());
       await p.keyboard.press('ArrowRight');
-      check(engine + ' last photo does not wrap or leave the owner at ' + width, await p.locator('.diary-photo-nav [role="status"]').innerText() === 'Ảnh 9 / 9' && await p.locator('#diaryPageLabel').innerText() === 'Trang của mi');
+      check(engine + ' last photo does not wrap or leave the owner at ' + width, await p.locator('.diary-photo-position').innerText() === '9 / 9' && await p.locator('#diaryPageLabel').innerText() === 'Trang của mi');
       if (width === 390) await shot(p, '#diarySheet', engine + '-popup-phone.png');
       await p.locator('[data-diary-photo-step="-1"]').click();
-      check(engine + ' previous arrow returns to photo eight at ' + width, await p.locator('.diary-photo-nav [role="status"]').innerText() === 'Ảnh 8 / 9');
+      check(engine + ' previous arrow returns to photo eight at ' + width, await p.locator('.diary-photo-position').innerText() === '8 / 9');
       await p.locator('[data-close-sheet]').click();
       check(engine + ' closing popup clears its private image at ' + width, await p.locator('.diary-full-photo').count() === 0);
     }
