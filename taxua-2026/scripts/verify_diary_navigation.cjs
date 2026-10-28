@@ -31,6 +31,9 @@ async function fixture(browser, options = {}, missing) {
   await p.goto(url+'#crewDiary'); await p.evaluate(()=>document.fonts.ready);
   await p.locator('#diaryOpen').click(); await p.locator('#diaryReader').waitFor();
   await settle(p);
+  // A remembered login now opens its owner's page. Navigation scenarios start
+  // deliberately on the first crew spread, independent of the signed-in owner.
+  await p.locator('[data-bookmark="0"]').click(); await selected(p,0);
   await reveal(p);
   return {context,p,m};
 }

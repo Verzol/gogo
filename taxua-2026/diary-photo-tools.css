@@ -43,18 +43,21 @@
 .diary-frame-tools { position: absolute; z-index: 6; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); width: min(280px, calc(100% - 8px)); padding: 3px; border: 1px solid #8d927a; border-radius: 5px; background: #f0dfbf; box-shadow: 0 4px 12px rgb(50 42 27 / .22); }
 .diary-frame-tools .diary-tool-position { position: absolute; bottom: calc(100% + 2px); left: 0; font: 500 .6rem/1.5 'Be Vietnam Pro', sans-serif; color: #244332; background: #f0dfbf; padding: 1px 5px; border-radius: 2px; }
 .diary-dialog .diary-frame-tools button { display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center; min-width: 0; min-height: 52px; padding: 6px 2px; color: #244332; border: 0; border-radius: 3px; background: transparent; }
-.diary-frame-tool-label { font: 500 9px/1.5 'Be Vietnam Pro', sans-serif; white-space: nowrap; }
+.diary-frame-tool-label { font: 500 .64rem/1.5 'Be Vietnam Pro', sans-serif; white-space: nowrap; }
 .diary-frame-tools svg { width: 20px; height: 20px; flex-shrink: 0; }
 .diary-frame-tools button:hover:not(:disabled), .diary-frame-tools button[aria-pressed='true'] { background: #d6c5a3; }
 .diary-frame-tools button:disabled { opacity: .35; }
 .diary-frame-tools button:focus-visible { outline-offset: -3px; }
 .diary-dragging .diary-frame-tools { visibility: hidden; }
-.diary-frame-tools.diary-crop-live { display: flex; flex-direction: column; width: min(260px, calc(100% - 8px)); padding: 8px 10px 4px; }
-.diary-zoom { width: 100%; font: 500 .69rem/1.6 'Be Vietnam Pro', sans-serif; }
+.diary-frame-tools.diary-crop-live { display: flex; flex-direction: column; gap: 8px; width: min(340px, calc(100% - 24px)); padding: 12px; }
+.diary-zoom { width: 100%; font: 500 .75rem/1.6 'Be Vietnam Pro', sans-serif; }
 .diary-zoom > span { display: flex; align-items: center; justify-content: space-between; }
-.diary-dialog .diary-zoom input { width: 100%; min-height: 36px; padding: 0; accent-color: #244332; border: 0; background: transparent; }
-.diary-crop-actions { display: flex; justify-content: flex-end; gap: 4px; }
-.diary-crop-actions [data-crop-action='done'] { flex-direction: row; gap: 6px; font-size: .75rem; }
+.diary-dialog .diary-zoom input { width: 100%; min-height: 44px; padding: 0; accent-color: #244332; border: 0; background: transparent; }
+.diary-crop-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.diary-dialog .diary-crop-actions button { min-height: 52px; padding: 6px 4px; border: 1px solid #879180; font: 500 .75rem/1.5 'Be Vietnam Pro', sans-serif; }
+.diary-crop-actions .diary-frame-tool-label { font: inherit; white-space: normal; }
+.diary-dialog .diary-crop-actions [data-crop-action='done'] { color: #faf6e9; background: #244332; border-color: #244332; }
+.diary-dialog .diary-crop-actions [data-crop-action='done']:hover { background: #325940; }
 .diary-photo-note { position: absolute; z-index: 7; width: min(290px, calc(100% - 8px)); padding: 14px; border: 1px solid #879180; background: #ecdbb9; box-shadow: 0 6px 18px rgb(50 42 27 / .22); border-radius: 4px; }
 .diary-photo-note .diary-field { margin-bottom: 12px; }
 .diary-photo-note { overflow-y: auto; overscroll-behavior: contain; }
@@ -176,6 +179,15 @@
   .diary-editor-footer :is(.diary-secondary,.diary-primary) { padding-inline: 10px; font-size: .72rem; }
 }
 .diary-editor-large-text .diary-issue-actions { display: flex; }
+.diary-editor-large-text .diary-frame-tools:not(.diary-crop-live),
+.diary-editor-large-text .diary-photo-note { position: relative; width: 100%; margin-top: 12px; }
+.diary-editor-large-text .diary-frame-tool-label { white-space: normal; }
+.diary-editor-large-text .diary-photo-preview .diary-page-head { height: auto !important; flex-wrap: wrap; gap: 8px; }
+.diary-editor-large-text .diary-photo-preview .diary-page-head > span { flex-basis: 100%; }
+.diary-editor-large-text .diary-add-photos { max-width: 100%; white-space: normal; }
+.diary-editor-large-text .diary-editor-footer > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.diary-editor-large-text .diary-editor-footer button { white-space: normal; }
+.diary-editor-large-text .diary-editor-footer #diaryPublish { grid-column: 1 / -1; }
 @media (forced-colors: active) {
   .diary-size-options button[aria-pressed='true'] { outline: 2px solid Highlight; }
   .diary-save-issue, .diary-editor .diary-photo-undo, .diary-editor .diary-recovered { background: Canvas; color: CanvasText; }

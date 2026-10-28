@@ -21,11 +21,17 @@ async function fixture(browser, options = {}) {
 async function shot(p, selector, name) {
   await p.locator(selector).screenshot({ path: path.join(output, name) }); report.screenshots.push(name);
 }
+async function firstSpread(p) {
+  // Layout content belongs to mi; remembered san now correctly opens on san.
+  await p.locator('[data-bookmark="0"]').click();
+  await p.waitForFunction(() => document.querySelector('[data-bookmark="0"]').getAttribute('aria-pressed') === 'true' && !document.querySelector('.diary-cover-flight,.diary-turn-leaf'));
+}
 async function runEngine(type, engine) {
   const browser = await type.launch(engine === 'webkit' && process.env.DIARY_WEBKIT_EXECUTABLE ? { executablePath: process.env.DIARY_WEBKIT_EXECUTABLE } : {});
   try {
     const { context, p, m } = await fixture(browser);
     await p.goto(url + '#crewDiary'); await p.locator('#diaryOpen').click(); await p.locator('#diaryReader').waitFor();
+    await firstSpread(p);
     for (const [width, height] of [[1440, 1050], [820, 1024], [390, 844], [320, 780], [740, 390]]) {
       await p.setViewportSize({ width, height }); await p.waitForTimeout(150);
       if (width <= 850) await p.locator('[data-diary-side="writing"]').click();
@@ -73,6 +79,8 @@ async function runEngine(type, engine) {
         await f.context.route('**/dancing_script_variable.woff2', r => r.abort());
       } else await f.context.route('**/' + missing, r => r.abort());
       await f.p.goto(url + '#crewDiary'); await f.p.locator('#diaryOpen').click(); await f.p.locator('#diaryReader').waitFor();
+      await f.p.waitForFunction(() => !document.querySelector('.diary-cover-flight'));
+      await firstSpread(f.p);
       await f.p.locator('[data-diary-edge="1"]').evaluate(el => el.click());
       await f.p.waitForFunction(() => document.getElementById('diaryPageLabel').textContent === 'Trang của san');
       check(engine + ' authenticated navigation survives missing ' + missing, await f.p.locator('#diaryReader').isVisible() && await f.p.locator('.diary-cover-flight,.diary-turn-leaf').count() === 0);

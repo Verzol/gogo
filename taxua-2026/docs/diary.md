@@ -176,10 +176,22 @@ so no empty edge appears. **Đặt lại** centers the photo at 1×; **Xong** ac
 the provisional crop, while **Hủy** or Escape restores the previous crop without
 closing the editor. The frame then returns to its original slot. Save, publish,
 closing the editor or switching to writing accepts the current crop first.
+The lifted frame reserves room for the real, unscaled zoom controls below it,
+accounting for paper scale, footer and available dialog height. Controls never
+clamp back over the photo when the dialog scrolls. Entering framing brings the
+photo and controls into view together. If needed, only the editing leaf extends
+temporarily; leaving framing restores its previous dimensions and scroll
+position. Reset, cancel and done use equal-sized
+touch targets and the same label typography; done carries the forest-ink fill.
 Resizing cancels provisional framing and rebuilds the leaf for the new viewport.
 The original processed photo is preserved; the full-photo viewer stays uncropped.
 Reduced motion and the site's motion pause skip settling/lifting animations;
 the object still tracks direct pointer movement.
+Caption and size panels replace one another on the first click and expose
+their current expanded state. The reader's writing/photo selector wraps at
+enlarged text sizes, leaving refresh, close and logout reachable. Enlarged-text
+editing puts the normal photo tools and notes below the page, wraps its header,
+and gives publication its own footer row to prevent clipped controls.
 
 Completed swaps and accepted crops use the normal draft autosave. Pan/zoom
 movements stay local until accepted. Failed saves and revision conflicts retain
@@ -328,6 +340,7 @@ the photographs or captions.
 | `scripts/verify_diary_navigation.cjs` | Sticker bounds/fallbacks, edge clicks, controlled/cancelled drags, phone swipes and native vertical touch scrolling |
 | `scripts/verify_diary_page_editing.cjs` | On-page picker/file drop, ruled writing, metadata notes, remove/undo, keyboard and continuous mouse/touch movement |
 | `scripts/verify_diary_photo_editor.cjs` | All 0-9 editor layouts, swaps, pan/zoom/cancellation, publishing, recovery and private DOM cleanup |
+| `scripts/verify_diary_crop_ui.cjs` | Crop control separation, matching buttons, touch/scroll bounds, restored paper dimensions, panel switching and enlarged text |
 | `scripts/verify_diary_heic.cjs` | Real synthetic HEIC/HEIF uploads, MIME/header detection, primary image, color/orientation, resizing, EXIF removal, errors, cancellation and mixed batches |
 | `scripts/verify_diary_refinements.cjs` | Balanced login, constrained sizes, packing/reordering, crowded additions, background close/save, recovery, backdrop, uploads and detached publication |
 | `scripts/verify_diary_framing.ts` / `.sql` | Edge metadata normalization and rolled-back gateway validation fixtures |

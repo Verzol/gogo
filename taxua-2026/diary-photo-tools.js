@@ -93,7 +93,7 @@
     const frame = id => [...preview.querySelectorAll('[data-frame-photo]')].find(el => el.dataset.framePhoto === id);
     const focusSelected = () => frame(selected)?.querySelector('[data-select-photo]').focus({ preventScroll: true });
     const button = (attrs, label, glyph) => {
-      const short = label.startsWith('Hủy') ? 'Hủy' : ({ left: 'Trước', right: 'Sau', swap: 'Đổi chỗ', maximize: 'Cỡ ảnh', crop: 'Căn ảnh', 'notebook-pen': 'Ghi chú', x: 'Cất ảnh', reset: 'Đặt lại' }[glyph] || '');
+      const short = label.startsWith('Hủy') ? 'Hủy' : ({ left: 'Trước', right: 'Sau', swap: 'Đổi chỗ', maximize: 'Cỡ ảnh', crop: 'Căn ảnh', 'notebook-pen': 'Ghi chú', x: 'Cất ảnh', reset: 'Đặt lại', check: 'Xong' }[glyph] || '');
       return `<button type="button" ${attrs} aria-label="${label}" title="${label}">${icon(glyph)}<span class="diary-frame-tool-label">${short}</span></button>`;
     };
     function tab(name) {
@@ -146,6 +146,23 @@
     function positionTools() {
       const el = frame(selected); if (!el || tools.hidden || !preview.clientWidth) return;
       const r = el.getBoundingClientRect(), w = workspace.getBoundingClientRect(), paper = preview.getBoundingClientRect();
+      if (working) {
+        // Crop controls have reserved paper below the lifted frame. Never clamp
+        // them into the viewport over the photo. Ignore the lift animation's
+        // transient transform when placing this stationary control dock.
+        const scale = +getComputedStyle(preview).getPropertyValue('--preview-scale') || 1;
+        tools.style.left = clamp(paper.left + (el.offsetLeft + el.offsetWidth / 2) * scale - w.left - tools.offsetWidth / 2,
+          paper.left - w.left + 4, paper.right - w.left - tools.offsetWidth - 4) + 'px';
+        tools.style.top = paper.top - w.top + (el.offsetTop + el.offsetHeight) * scale + 12 + 'px';
+        return;
+      }
+      if ($('diaryEditor').classList.contains('diary-editor-large-text')) {
+        // At enlarged text sizes, contextual controls belong in normal flow;
+        // a floating strip can otherwise block entire neighboring photographs.
+        tools.style.left = ''; tools.style.top = '';
+        note.style.left = ''; note.style.top = ''; note.style.maxHeight = 'none';
+        return;
+      }
       const left = clamp(r.left + r.width / 2 - w.left - tools.offsetWidth / 2, paper.left - w.left + 4, paper.right - w.left - tools.offsetWidth - 4);
       const dialog = $('diaryEditor').getBoundingClientRect(), footer = $('diaryEditor').querySelector('.diary-editor-footer');
       const headerBottom = preview.querySelector('header').getBoundingClientRect().bottom;
@@ -181,9 +198,9 @@
       tools.setAttribute('role', 'group'); tools.setAttribute('aria-label', `Công cụ ảnh ${i + 1}`);
       tools.innerHTML = i < 0 ? '' : `<span class="diary-tool-position">${i + 1}/${photos().length}</span>` +
         button(`data-arrange="swap" aria-pressed="${swapping}"${photos().length < 2 ? ' disabled' : ''}`, swapping ? 'Hủy đổi chỗ' : 'Đổi chỗ: chọn khung đích', 'swap') +
-        button('data-arrange="size" aria-expanded="false"', 'Cỡ ảnh', 'maximize') +
+        button(`data-arrange="size" aria-expanded="${!note.hidden && note.dataset.mode === 'size'}"`, 'Cỡ ảnh', 'maximize') +
         button(`data-arrange="crop"${!img?.naturalWidth || img.hidden ? ' disabled' : ''}`, 'Căn ảnh trong khung', 'crop') +
-        button('data-photo-note aria-expanded="false"', 'Ghi chú và mô tả ảnh', 'notebook-pen') +
+        button(`data-photo-note aria-expanded="${!note.hidden && note.dataset.mode === 'note'}"`, 'Ghi chú và mô tả ảnh', 'notebook-pen') +
         button(`data-detach-photo="${selected}"`, 'Cất ảnh khỏi trang', 'x');
       tools.querySelectorAll('button').forEach(b => { b.disabled ||= options.locked(); });
       $('diaryPhotoUndo').hidden = !removed;
@@ -227,9 +244,12 @@
     }
     function renderNote() {
       const p = selectedPhoto(); if (!p) return;
-      note.hidden = !note.hidden;
+      note.hidden = !note.hidden && note.dataset.mode === 'note';
+      note.dataset.mode = 'note';
+      tools.querySelector('[data-arrange="size"]').setAttribute('aria-expanded', 'false');
       tools.querySelector('[data-photo-note]').setAttribute('aria-expanded', String(!note.hidden));
       if (note.hidden) return;
+      note.scrollTop = 0;
       note.innerHTML = `<label class="diary-field"><span>Chú thích trên trang</span><textarea data-caption="${p.id}" maxlength="160" rows="2">${options.escape(p.caption || '')}</textarea></label><label class="diary-field"><span>Mô tả cho người đọc màn hình</span><textarea data-alt="${p.id}" maxlength="160" rows="2">${options.escape(p.alt || '')}</textarea></label><button type="button" class="diary-secondary" data-close-note>Xong</button>`;
       positionTools(); note.querySelector('textarea').focus({ preventScroll: true });
     }
@@ -238,10 +258,19 @@
       const old = el.getBoundingClientRect(), width = el.clientWidth, height = el.clientHeight;
       const placeholder = document.createElement('div');
       placeholder.className = el.className; placeholder.style.visibility = 'hidden'; placeholder.setAttribute('aria-hidden', 'true');
-      el.before(placeholder); cropPlacement = { placeholder, style: el.getAttribute('style') };
+      el.before(placeholder); cropPlacement = { placeholder, style: el.getAttribute('style'),
+        pageHeight: page.style.height, ratio: preview.style.getPropertyValue('--preview-ratio'), scrollTop: $('diaryEditor').scrollTop };
       const style = getComputedStyle(page), top = page.querySelector('header').offsetTop + page.querySelector('header').offsetHeight + 24;
       const availableWidth = page.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-      const factor = Math.min(availableWidth / width, Math.max(height, page.clientHeight - top - 180) / height);
+      const scale = +getComputedStyle(preview).getPropertyValue('--preview-scale') || 1;
+      const footer = page.querySelector('footer');
+      const viewportSpace = Math.max(80, $('diaryEditor').clientHeight - tools.offsetHeight - 96) / scale;
+      const factor = Math.min(availableWidth / width, viewportSpace / height);
+      // Enlarged text and short paper need more room, not a tiny photo or a
+      // dock covering the footer. Extend this editing leaf only while framing.
+      const needed = top + height * factor + (tools.offsetHeight + 32) / scale + footer.offsetHeight + parseFloat(style.paddingBottom);
+      page.style.height = Math.max(parseFloat(page.style.height), Math.ceil(needed)) + 'px';
+      preview.style.setProperty('--preview-ratio', `${page.clientWidth} / ${parseFloat(page.style.height)}`);
       page.append(el);
       Object.assign(el.style, { position: 'absolute', left: (page.clientWidth - width * factor) / 2 + 'px', top: top + 'px',
         width: width * factor + 'px', height: height * factor + 'px', margin: '0', transform: 'none' });
@@ -251,11 +280,22 @@
         el.animate([{ transform: `translate(${(old.left - next.left) / scale}px, ${(old.top - next.top) / scale}px) scale(${old.width / next.width}, ${old.height / next.height})` }, { transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.2,.8,.2,1)' });
       }
     }
+    function revealCrop() {
+      const el = frame(selected), dialog = $('diaryEditor'), paper = preview.getBoundingClientRect();
+      const scale = +getComputedStyle(preview).getPropertyValue('--preview-scale') || 1;
+      const top = paper.top + el.offsetTop * scale, bottom = tools.getBoundingClientRect().bottom;
+      const bounds = dialog.getBoundingClientRect(), visibleTop = bounds.top + 48, visibleBottom = bounds.bottom - 16;
+      if (top < visibleTop) dialog.scrollTop += top - visibleTop;
+      else if (bottom > visibleBottom) dialog.scrollTop += Math.min(bottom - visibleBottom, top - visibleTop);
+    }
     function landCropFrame() {
       const el = frame(selected); if (!el || !cropPlacement) return;
-      const old = el.getBoundingClientRect(); cropPlacement.placeholder.replaceWith(el);
+      const old = el.getBoundingClientRect();
+      preview.firstElementChild.style.height = cropPlacement.pageHeight;
+      preview.style.setProperty('--preview-ratio', cropPlacement.ratio);
+      cropPlacement.placeholder.replaceWith(el);
       if (cropPlacement.style) el.setAttribute('style', cropPlacement.style); else el.removeAttribute('style');
-      cropPlacement = null;
+      $('diaryEditor').scrollTop = cropPlacement.scrollTop; cropPlacement = null;
       if (!reduced()) {
         const next = el.getBoundingClientRect(), scale = +getComputedStyle(preview).getPropertyValue('--preview-scale') || 1;
         el.animate([{ transform: `translate(${(old.left - next.left) / scale}px, ${(old.top - next.top) / scale}px) scale(${old.width / next.width}, ${old.height / next.height})` }, { transform: getComputedStyle(el).transform }], { duration: 220, easing: 'ease-out' });
@@ -264,6 +304,8 @@
     function renderSizes() {
       const p = selectedPhoto(); if (!p || working) return;
       note.hidden = false; note.dataset.mode = 'size';
+      note.scrollTop = 0;
+      tools.querySelector('[data-photo-note]').setAttribute('aria-expanded', 'false');
       const i = photos().findIndex(photo => photo.id === selected);
       note.innerHTML = `<h4>Cỡ ảnh</h4><p>Chọn cỡ vừa trang. Các ảnh còn lại tự xếp gọn.</p><div class="diary-size-options">${[['auto','Tự động'],['small','Nhỏ'],['medium','Vừa'],['large','Lớn']].map(([size,label]) => {
         const candidate = photos().map(photo => ({ ...photo }));
@@ -278,9 +320,9 @@
       const el = frame(selected), img = el?.querySelector('img');
       if (!img || img.hidden || !img.naturalWidth) { announce('Đợi ảnh mở xong rồi chỉnh khung nhé.'); return; }
       swapping = false; working = cropValue(selectedPhoto().crop); updateSelection(); note.hidden = true;
-      liftCropFrame(); tools.classList.add('diary-crop-live');
-      tools.innerHTML = `<label class="diary-zoom"><span>Thu phóng <output id="diaryZoomValue">${working.zoom.toFixed(2)}×</output></span><input id="diaryCropZoom" type="range" min="1" max="3" step="0.01" value="${working.zoom}" aria-label="Thu phóng ảnh"></label><div class="diary-crop-actions">${button('data-crop-action="reset"', 'Đặt lại khung', 'reset')}${button('data-crop-action="cancel"', 'Hủy chỉnh khung', 'x')}<button type="button" data-crop-action="done">${icon('check')} Xong</button></div>`;
-      positionTools(); paintWorking();
+      tools.classList.add('diary-crop-live');
+      tools.innerHTML = `<label class="diary-zoom"><span>Thu phóng <output id="diaryZoomValue" for="diaryCropZoom">${working.zoom.toFixed(2)}×</output></span><input id="diaryCropZoom" type="range" min="1" max="3" step="0.01" value="${working.zoom}" aria-label="Thu phóng ảnh"></label><div class="diary-crop-actions">${button('data-crop-action="reset"', 'Đặt lại khung', 'reset')}${button('data-crop-action="cancel"', 'Hủy chỉnh khung', 'x')}${button('data-crop-action="done"', 'Giữ khung ảnh', 'check')}</div>`;
+      liftCropFrame(); positionTools(); paintWorking(); revealCrop();
       announce('Kéo ảnh ngay trong khung hoặc dùng phím mũi tên. Chọn Xong để giữ khung này.');
       el.querySelector('[data-select-photo]').focus({ preventScroll: true });
     }
@@ -355,7 +397,10 @@
       else if (b.dataset.cropAction === 'reset') { working = cropValue(); paintWorking(); }
       else if (b.dataset.cropAction) finishCrop(b.dataset.cropAction === 'done');
       else if (b.hasAttribute('data-photo-note')) renderNote();
-      else if (b.hasAttribute('data-close-note')) { note.hidden = true; focusSelected(); }
+      else if (b.hasAttribute('data-close-note')) {
+        note.hidden = true; tools.querySelectorAll('[aria-expanded]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+        positionTools(); focusSelected();
+      }
       else if (b.dataset.movePhoto) {
         const i = photos().findIndex(p => p.id === selected), target = photos()[i + Number(b.dataset.direction)];
         if (target) { const direction = b.dataset.direction; swap(target.id); renderSizes(); note.querySelector(`[data-direction="${direction}"]`)?.focus({ preventScroll: true }); }
