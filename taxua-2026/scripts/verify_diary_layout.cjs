@@ -29,14 +29,14 @@ async function runEngine(type, engine) {
     for (const [width, height] of [[1440, 1050], [820, 1024], [390, 844], [320, 780], [740, 390]]) {
       await p.setViewportSize({ width, height }); await p.waitForTimeout(150);
       if (width <= 850) await p.locator('[data-diary-side="writing"]').click();
-      check(engine + ' long writing remains readable at ' + width, await p.locator('.diary-writing').evaluate(el => el.clientHeight >= 100 && el.scrollHeight > el.clientHeight));
-      check(engine + ' full title and book footer fit at ' + width, await p.locator('.diary-page-writing').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
+      check(engine + ' long writing remains readable at ' + width, await p.locator('#diaryPages .diary-writing').evaluate(el => el.clientHeight >= 100 && el.scrollHeight > el.clientHeight));
+      check(engine + ' full title and book footer fit at ' + width, await p.locator('#diaryPages .diary-page-writing').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
       check(engine + ' no horizontal overflow at ' + width, await p.evaluate(() => document.documentElement.scrollWidth === innerWidth));
       await p.locator('[data-full-writing]').click();
       check(engine + ' complete 8000-character reading at ' + width, await p.locator('.diary-full-writing').innerText() === m.entries[0].body);
       await p.locator('[data-close-sheet]').click();
       if (width <= 850) await p.locator('[data-diary-side="photos"]').click();
-      check(engine + ' all nine photos fit on the leaf at ' + width, await p.locator('#diaryPages [data-view-photo]').count() === 9 && await p.locator('.diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
+      check(engine + ' all nine photos fit on the leaf at ' + width, await p.locator('#diaryPages [data-view-photo]').count() === 9 && await p.locator('#diaryPages .diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
       await p.locator('#diaryPages [data-view-photo]').last().click();
       check(engine + ' full long caption is readable at ' + width, await p.locator('.diary-photo-detail figcaption').innerText() === m.entries[0].photos[8].caption);
       check(engine + ' popup caption remains in normal flow at ' + width, await p.locator('.diary-photo-detail').evaluate(el => el.querySelector('figcaption').getBoundingClientRect().bottom <= el.getBoundingClientRect().bottom + 1));
@@ -47,7 +47,7 @@ async function runEngine(type, engine) {
     await p.evaluate(() => document.documentElement.style.fontSize = '32px');
     await p.waitForFunction(() => document.querySelector('#crewDiary').classList.contains('diary-large-text'));
     await p.locator('[data-diary-side="writing"]').click();
-    check(engine + ' enlarged text has complete natural-height writing', await p.locator('.diary-writing').evaluate(el => getComputedStyle(el).overflowY === 'visible' && el.scrollHeight <= el.clientHeight + 1));
+    check(engine + ' enlarged text has complete natural-height writing', await p.locator('#diaryPages .diary-writing').evaluate(el => getComputedStyle(el).overflowY === 'visible' && el.scrollHeight <= el.clientHeight + 1));
     await p.locator('[data-diary-side="photos"]').click();
     check(engine + ' enlarged text keeps all nine photo targets on the leaf', await p.locator('#diaryPages [data-view-photo]').count() === 9);
     await p.locator('#diaryPages [data-view-photo]').last().click();

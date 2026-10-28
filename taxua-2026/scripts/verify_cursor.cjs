@@ -40,7 +40,7 @@ async function diaryPencilChecks(browser) {
   check('Open book paper, writing and photo page use pencil',(await Promise.all(['#diaryPages','.diary-writing','.diary-page-photos'].map(selector=>cursor(p.locator(selector).first())))).every(pencil));
   check('Open book toolbar, bookmarks and surroundings keep regular cursors',(await Promise.all(['#diaryRefresh','#diaryBookmarks button','#diaryTurnHint','#crewDiary'].map(selector=>cursor(p.locator(selector).first())))).every(value=>!pencil(value)));
   check('Pencil decodes at 32px and uses its graphite hotspot',await p.evaluate(async art=>{const img=new Image();img.src=art.path;await img.decode();return img.width===32&&img.height===32&&getComputedStyle(document.getElementById('diaryPages')).cursor.includes(art.hotspot.join(' '));},art));
-  const writing=p.locator('.diary-writing');await writing.scrollIntoViewIfNeeded();
+  const writing=p.locator('#diaryPages .diary-writing');await writing.scrollIntoViewIfNeeded();
   const selection=await writing.evaluate(el=>{const range=document.createRange();range.selectNodeContents(el.querySelector('p'));const r=range.getClientRects()[0];return {x:r.x,y:r.y,width:r.width,height:r.height};});
   await p.mouse.move(selection.x+1,selection.y+selection.height/2);await p.mouse.down();await p.mouse.move(selection.x+Math.min(selection.width-1,200),selection.y+selection.height/2,{steps:8});await p.mouse.up();
   check('Pencil cursor preserves real mouse text selection',await p.evaluate(()=>getSelection().toString().length>0));

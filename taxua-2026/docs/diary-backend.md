@@ -111,13 +111,13 @@ An operator can review [the provider's password-protection setting](https://supa
 
 ## Photo arrangement and framing
 
-Photo array order assigns the fixed frames. An optional `crop` object contains
+Photo array order and bounded size metadata assign the snapped frames. An optional `crop` object contains
 `x` and `y` (normalized image-center coordinates, 0-1) and `zoom` (cover-relative,
 1-3). Missing crop metadata uses the centered 1× default; existing records need
 no backfill. Rendering clamps the focal point to the aperture, preserving its
 intended center when an arrangement or screen size changes.
 
-The Edge Function keeps only `id`, `caption`, `alt` and validated crop fields.
+The Edge Function keeps only `id`, `caption`, `alt`, optional size and validated crop fields.
 It rejects null, incomplete, nonnumeric, nonfinite, extra-key or out-of-range
 crop objects. The gateway independently validates crop types/ranges and still
 checks every photo belongs to the active owner and is ready. Selected names,
@@ -133,10 +133,35 @@ compatible but cannot retain framing if they save photos without that field.
 
 Run `npx --yes --package=deno deno test --no-config scripts/verify_diary_framing.ts`
 for normalization, and execute `scripts/verify_diary_framing.sql` in one connection
-for 18 framing/publication/foreign-photo checks. The SQL script clones only
+for 32 framing/size/publication/foreign-photo checks. The SQL script clones only
 schema into temporary tables, uses a fixture identity in a temporary gateway,
 and rolls everything back; it creates no crew or Auth accounts. It verifies
 metadata validation and photo ownership, not the full Auth session flow.
+
+### Bounded sizes · 28 October 2026
+
+Optional `size` accepts only `small`, `medium` or `large`; absence means the
+count-dependent automatic size. Edge normalization and the gateway independently
+reject null, non-string and unknown values. It is display metadata only: photo
+ownership, readiness, member/session checks, revision checks and the nine-photo
+cap still apply. Existing records need no rewrite. JSONB drafts, published entries
+and retained history preserve size together with caption, description and crop.
+
+Migration `20261028034413_taxua_diary_photo_sizes.sql` was applied to gogo,
+followed by `taxua-diary` Edge **version 8**, retaining `verify_jwt=false` and
+its existing in-function authentication. The migration patches only the deployed
+gateway's metadata validation behind an exact-source guard. A transactional
+rehearsal ran temporary gateway fixtures and compared full member/entry/draft
+hashes before rollback: crew data was unchanged. After deployment, the temporary
+gateway passed all 32 checks, public status returned eight members, and anonymous
+read/draft requests remained 401. No crew or Auth accounts, media, bucket policies,
+shared Auth settings or Hue resources were modified.
+
+The Edge framing/password suites pass 12 tests, and the entrypoint type-checks.
+Security advisors reported no new diary finding; the previously documented shared
+Auth leaked-password setting and unrelated public-table advisories remain. These
+fixtures verify metadata/ownership and isolated handler behavior, not a live
+crew login or media mutation flow.
 
 ## Upload lifecycle and consistency
 

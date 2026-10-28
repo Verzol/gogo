@@ -13,7 +13,8 @@ copy retain their existing behavior. No private entry is exported into HTML.
   email, invitation, identity verification or claim code, as requested.
 - Passwords can be any non-empty value, including one character. There is no
   password length or character rule, and spaces are preserved. First setup
-  still asks for the same password twice to catch typing errors.
+  still asks for the same password twice to catch typing errors. The eight
+  name choices form two balanced rows of four.
 - Whoever claims an unclaimed name first owns that account and can read the
   shared diary. The site cannot establish their real-world identity. After
   claiming, server permissions protect that account's page.
@@ -80,7 +81,7 @@ grants upload permission.
 Every photo in the published version appears directly on the book page, up to nine.
 The grid adapts to its count: one large print; two stacked prints; a large print
 above two for three; two columns for four to six; and three-column arrangements
-with a larger opening row for seven/eight, or a full 3-by-3 grid for nine. Empty
+with centered incomplete final rows for seven/eight, or a full 3-by-3 grid for nine. Empty
 pages retain three quiet frames. All layouts keep the paper's stable dimensions.
 Each photo has a caption and a screen-reader description. Click a print to open
 its full image and complete caption in a private popup. Previous/next arrows
@@ -90,30 +91,79 @@ The popup announces the photo position, keeps keyboard focus in the dialog,
 and clears its private image on close or session loss. There is no separate
 “Xem đủ … ảnh” album button.
 
-The editor has **Lời viết / Ảnh mang về** tabs. The photo tab pairs an actual
-paper-page preview with controls for the selected photo; on phones the controls
-follow the preview. Existing generated paper, frames and handwriting remain.
-The preview scales the reader's geometry rather than inventing a separate layout.
+The editor has **Lời viết / Ảnh mang về** tabs and uses the actual painted
+leaves as the editing surface. There is no separate photo inspector or row of
+forms. Existing generated paper, frames and Vietnamese handwriting remain.
+The photo leaf uses the reader's geometry, so the finished layout stays familiar.
 
-Drag a frame's attached grip onto another frame to swap their photos, or select
-**Đổi vị trí** and tap the destination. Keyboard-accessible **Lên / Xuống**
-buttons remain available. Captions, descriptions and framing travel with the photo.
-Dropping outside the page, Escape or pointer cancellation cancels the gesture.
-Only photo order changes; the count-dependent frames stay fixed.
+On the writing leaf, the optional title and prose are borderless, labeled native
+text fields on the paper. Prose uses the same Mali font, wrapping rules, ink and
+ruled-line spacing as the reader. Plain text, Vietnamese input, selection, paste
+and the existing 100/8,000-character limits remain; pasted HTML cannot execute.
+Long prose scrolls inside the page. Enlarged text gives the editing leaf more
+height instead of clipping its controls.
 
-**Chỉnh khung** opens a larger view with the same aperture proportions. Drag the
-image, use arrow controls/keys, or adjust **Thu phóng** from 1× to 3×. Movement
-is clamped so no empty edge appears. **Đặt lại** centers the photo at 1×;
-**Xong** accepts the provisional crop into the private draft, and **Hủy** or
-Escape restores the previous crop without closing the editor. Save, publish,
+Choose **Thêm ảnh**, tap the empty paper's plus, or drop JPEG/PNG/WebP files
+onto the photo leaf. Both upload paths use the existing normalization, size,
+ownership and nine-photo checks. Progress and failures stay visible; upload and
+publish operations lock photo actions until complete. At the stored-photo limit,
+the add action explains how to free space through the unused-photo drawer.
+
+Select a photo to reveal its compact, labeled tool strip. No corner grip icons
+cover the photographs. On desktop, drag the image directly. On touch, tap to
+select, then drag that selected image; unselected photos retain native vertical
+scrolling. The frame follows the pointer continuously, highlights its destination
+and animates into place on release. The displaced photo travels to the other
+slot. Dropping outside, Escape or pointer cancellation returns it. **Đổi chỗ**
+plus a destination tap and Alt + an arrow key provide alternatives. The toolbar
+hides while choosing a swap destination so every frame stays reachable. Captions,
+descriptions, size and framing travel with the photo.
+
+**Cỡ ảnh** offers **Tự động / Nhỏ / Vừa / Lớn**. Sizes snap to safe rectangles
+inside a six-column, at-most-eight-row composition; controls disable sizes that
+cannot fit the remaining photographs. A small occupancy search preserves valid
+compositions when a large photo moves later in the order. If adding/restoring a
+photo exceeds capacity, recent custom frames step down in size with an explanation,
+keeping every photo visible. An impossible imported composition displays balanced
+defaults. The size note also provides previous/next placement buttons. Presets,
+reordering and accepted crops use the same non-destructive draft metadata;
+there are no arbitrary pixel offsets or freeform corner handles. The reader,
+editor and turning leaves share the same packing geometry. Eight photos default
+to rows of three, three and two, with no full-width strip.
+
+Write a caption directly below its photo. **Ghi chú** opens a small note on the
+paper for the complete caption and screen-reader description. Both caption
+surfaces stay synchronized. **Cất ảnh** removes a photo from the draft, with
+**Hoàn tác** restoring its position, caption, description and crop. The collapsed
+**Ảnh đã cất** drawer supports reattaching or explicitly deleting unused uploads.
+Removing a photo stays private until **Lưu vào sổ** publishes the draft.
+
+**Căn ảnh** lifts and enlarges the selected frame on the same leaf, preserving
+its aperture proportions while fading the surrounding photographs. Drag the
+image or use arrow keys; adjust **Thu phóng** from 1× to 3×. Movement is clamped
+so no empty edge appears. **Đặt lại** centers the photo at 1×; **Xong** accepts
+the provisional crop, while **Hủy** or Escape restores the previous crop without
+closing the editor. The frame then returns to its original slot. Save, publish,
 closing the editor or switching to writing accepts the current crop first.
-Resizing cancels provisional framing and rebuilds the preview for the new viewport.
+Resizing cancels provisional framing and rebuilds the leaf for the new viewport.
 The original processed photo is preserved; the full-photo viewer stays uncropped.
+Reduced motion and the site's motion pause skip settling/lifting animations;
+the object still tracks direct pointer movement.
 
 Completed swaps and accepted crops use the normal draft autosave. Pan/zoom
 movements stay local until accepted. Failed saves and revision conflicts retain
-photo arrangement/crops alongside writing in the tab's memory-only recovery.
-A deliberate logout clears all private preview and crop surfaces.
+photo arrangement/sizes/crops alongside writing in the tab's memory-only recovery.
+X, **Đóng**, a deliberate backdrop click or Escape can leave immediately,
+including during a failed save, conflict, upload or publication. Escape first
+cancels a crop, contextual note or swap. Dirty closes keep a memory-only recovery
+snapshot, then try saving in the background using the latest completed revision.
+Reopening waits for that background attempt and offers recovery when necessary.
+An upload finishing after close remains in the unused-photo library. Publication
+continues with truthful success/failure feedback; close controls stay enabled.
+An inside-to-outside drag is not treated as a backdrop dismissal. The X stays
+reachable while scrolling, and the footer follows the content without covering
+error/recovery actions. A deliberate logout clears all private preview and crop
+surfaces.
 
 Removing a photo from the draft changes the
 published page only after **Lưu vào sổ**. An uploaded image omitted from the
@@ -201,7 +251,7 @@ prepared in a hidden, inert spread; its decoded image nodes become the reader
 after landing. The semantic selection, active bookmark and page announcement commit
 together only after landing.
 Duplicate controls are inert/hidden from accessibility APIs and have no IDs;
-forms remain in separate native dialogs. Rapid taps cannot queue extra turns.
+editing leaves remain in a separate native dialog. Rapid taps cannot queue extra turns.
 Per-face shading and a separate cast shadow preserve the 3D geometry.
 Dragging scrubs the same animation clock; release settles the remaining motion
 or reverses to the original page, without another content replacement.
@@ -233,7 +283,7 @@ the photographs or captions.
 | --- | --- |
 | `data.js` | Stable ASCII member IDs, existing names, portraits and order |
 | `index.html` | Inline cover/reader shell, optional scripts/styles |
-| `diary-photo-tools.js` / `diary-photo-tools.css` | Shared crop geometry, scaled paper preview, swap/pan gestures and selected-photo controls |
+| `diary-photo-tools.js` / `diary-photo-tools.css` | Shared crop geometry, paper editing surfaces, continuous drag/settle gestures, in-place crop, contextual notes and remove/undo |
 | `diary.js` / `diary.css` | Semantic reader, native dialogs, editor, recovery and base presentation |
 | `diary-motion.js` / `diary-motion.css` | Decorative cover/curved leaf geometry, material skins, handwriting and responsive polish |
 | `diary-materials.css` | Generated frame/image opening coordinates |
@@ -245,7 +295,9 @@ the photographs or captions.
 | `scripts/verify_diary.cjs` | Deterministic browser interactions/visual checks with a mocked transport |
 | `scripts/verify_diary_motion.cjs` | Paused opening/turn/closing frames, front/reverse ownership and painted-pixel photo orientation |
 | `scripts/verify_diary_navigation.cjs` | Sticker bounds/fallbacks, edge clicks, controlled/cancelled drags, phone swipes and native vertical touch scrolling |
+| `scripts/verify_diary_page_editing.cjs` | On-page picker/file drop, ruled writing, metadata notes, remove/undo, keyboard and continuous mouse/touch movement |
 | `scripts/verify_diary_photo_editor.cjs` | All 0-9 editor layouts, swaps, pan/zoom/cancellation, publishing, recovery and private DOM cleanup |
+| `scripts/verify_diary_refinements.cjs` | Balanced login, constrained sizes, packing/reordering, crowded additions, background close/save, recovery, backdrop, uploads and detached publication |
 | `scripts/verify_diary_framing.ts` / `.sql` | Edge metadata normalization and rolled-back gateway validation fixtures |
 | `scripts/verify_diary_photos.cjs` | Every count 0–9, responsive print bounds/targets, popup navigation, owner-only edit controls and the tenth-upload boundary |
 | `scripts/verify_diary_photo_limit.sql` | Deployed gateway/constraints cloned into temporary tables; nine accepted and ten rejected, then rollback |
@@ -259,12 +311,16 @@ No Supabase SDK is downloaded into the browser.
 
 ## Verification
 
+[28 October page-editing results and limits](diary-page-editing-review.md) record
+the direct-manipulation implementation, browser checks and accessibility audit.
+
 Run from `taxua-2026/`, reusing the existing preview server:
 
 ```sh
 node scripts/verify_diary.cjs
 node scripts/verify_diary_photos.cjs
 node scripts/verify_diary_photo_editor.cjs
+node scripts/verify_diary_page_editing.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary_motion.cjs
 DIARY_WEBKIT=1 node scripts/verify_diary_navigation.cjs

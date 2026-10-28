@@ -150,7 +150,7 @@ async function runEngine(type, engine) {
     check(engine+' fully dragged page lands on release without replaying',await p.locator('.diary-turn-leaf').count()===0&&await p.locator('#diaryPageLabel').innerText()==='Trang của san');
     await selected(p,1); await reveal(p);
     await completedDrags(p,engine,'desktop');
-    const text=await p.locator('.diary-writing').boundingBox();
+    const text=await p.locator('#diaryPages .diary-writing').boundingBox();
     await p.mouse.move(text.x+8,text.y+15); await p.mouse.down(); await p.mouse.move(text.x+150,text.y+15,{steps:8}); await p.mouse.up();
     check(engine+' selecting prose does not turn the book',await p.locator('.diary-turn-leaf,.diary-turn-preview').count()===0&&await p.evaluate(()=>!getSelection().isCollapsed));
     await p.evaluate(()=>getSelection().removeAllRanges());
@@ -168,11 +168,11 @@ async function runEngine(type, engine) {
     await completedDrags(p,engine,'phone photos');
     await p.locator('[data-diary-side="writing"]').click();
     await drag(p,1,115); await p.mouse.up(); await selected(p,2);
-    check(engine+' phone writing drag changes person',await p.locator('.diary-page-writing').isVisible());
+    check(engine+' phone writing drag changes person',await p.locator('#diaryPages .diary-page-writing').isVisible());
     await shot(p,engine+'-phone-writing.png');
     await p.locator('[data-diary-side="photos"]').click(); await reveal(p);
     await drag(p,-1,115); await p.mouse.up(); await selected(p,1);
-    check(engine+' phone photo drag retains the photo side',await p.locator('.diary-page-photos').isVisible()&&!await p.locator('.diary-page-writing').isVisible());
+    check(engine+' phone photo drag retains the photo side',await p.locator('#diaryPages .diary-page-photos').isVisible()&&!await p.locator('#diaryPages .diary-page-writing').isVisible());
     await shot(p,engine+'-phone-photos.png');
     await p.locator('[data-bookmark="7"]').click(); await selected(p,7);
     await centeredArtwork(p,engine+' last bookmark selected');
@@ -204,12 +204,12 @@ async function runEngine(type, engine) {
       await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}); await selected(f.p,1);
       check('chromium real touch swipe turns a phone leaf',await f.p.locator('#diaryPageLabel').innerText()==='Trang của san');
       await f.p.locator('[data-diary-side="writing"]').click(); await reveal(f.p);
-      const writing=await f.p.locator('.diary-writing').boundingBox(), sx=writing.x+writing.width*.5, sy=writing.y+Math.min(170,writing.height*.7);
-      const before=await f.p.locator('.diary-writing').evaluate(el=>el.scrollTop);
+      const writing=await f.p.locator('#diaryPages .diary-writing').boundingBox(), sx=writing.x+writing.width*.5, sy=writing.y+Math.min(170,writing.height*.7);
+      const before=await f.p.locator('#diaryPages .diary-writing').evaluate(el=>el.scrollTop);
       await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:sx,y:sy}]});
       for(let d=20;d<=120;d+=20)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:sx,y:sy-d}]});
       await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}); await f.p.waitForTimeout(250);
-      check('chromium real vertical touch scrolls writing without turning',await f.p.locator('.diary-writing').evaluate((el,before)=>el.scrollTop>before,before)&&await f.p.locator('.diary-turn-leaf').count()===0&&await f.p.locator('#diaryPageLabel').innerText()==='Trang của san');
+      check('chromium real vertical touch scrolls writing without turning',await f.p.locator('#diaryPages .diary-writing').evaluate((el,before)=>el.scrollTop>before,before)&&await f.p.locator('.diary-turn-leaf').count()===0&&await f.p.locator('#diaryPageLabel').innerText()==='Trang của san');
       await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:sx,y:sy}]});
       for(let d=20;d<=120;d+=20)await client.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:sx-d,y:sy}]});
       await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]}); await selected(f.p,2);

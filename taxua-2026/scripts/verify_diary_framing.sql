@@ -25,7 +25,7 @@ begin
 end $$;
 
 do $$
-declare saved jsonb; photo jsonb; crop jsonb; attempted jsonb; photo_id uuid; other_id uuid; count_checks integer:=0;
+declare saved jsonb; photo jsonb; crop jsonb; attempted jsonb; photo_id uuid; other_id uuid; size jsonb; count_checks integer:=0;
 begin
   photo:=pg_temp.diary_gateway('reserve_photo'); photo_id:=(photo->>'id')::uuid;
   update pg_temp.photos set state='ready',bytes=1024,width=640,height=360 where id=photo_id;
@@ -53,13 +53,28 @@ begin
     exception when others then if sqlerrm<>'INVALID_PHOTO' then raise; end if; end;
     count_checks:=count_checks+1;
   end loop;
+  for size in select value from jsonb_array_elements('["small","medium","large"]'::jsonb) loop
+    attempted:=photo||jsonb_build_object('size',size,'crop',jsonb_build_object('x',0.23,'y',0.79,'zoom',1.87));
+    saved:=pg_temp.diary_gateway('save_draft',null,null,jsonb_build_object('revision',saved->'revision','title','','body','','photos',jsonb_build_array(attempted)));
+    if saved->'photos'->0 is distinct from attempted then raise exception 'Size or crop metadata was changed'; end if;
+    saved:=pg_temp.diary_gateway('publish',null,null,jsonb_build_object('revision',saved->'revision','base_revision',saved->'base_revision'));
+    if (select photos->0 from pg_temp.entries where member_id='mi') is distinct from attempted then raise exception 'Publication lost photo size'; end if;
+    count_checks:=count_checks+2;
+  end loop;
+  for size in select value from jsonb_array_elements('[null,0,true,{},[],"auto","huge","SMALL"]'::jsonb) loop
+    begin
+      perform pg_temp.diary_gateway('save_draft',null,null,jsonb_build_object('revision',saved->'revision','title','','body','','photos',jsonb_build_array(photo||jsonb_build_object('size',size))));
+      raise exception 'Malformed size accepted: %',size;
+    exception when others then if sqlerrm<>'INVALID_PHOTO' then raise; end if; end;
+    count_checks:=count_checks+1;
+  end loop;
   insert into pg_temp.members(id,name,position) values('san','Temporary fixture 2',2);
   insert into pg_temp.photos(member_id,state,bytes,width,height) values('san','ready',1024,640,360) returning id into other_id;
   begin
-    perform pg_temp.diary_gateway('save_draft',null,null,jsonb_build_object('revision',saved->'revision','member_id','san','title','','body','','photos',jsonb_build_array(photo||jsonb_build_object('id',other_id,'crop',jsonb_build_object('x',0.5,'y',0.5,'zoom',1)))));
+    perform pg_temp.diary_gateway('save_draft',null,null,jsonb_build_object('revision',saved->'revision','member_id','san','title','','body','','photos',jsonb_build_array(photo||jsonb_build_object('id',other_id,'size','large','crop',jsonb_build_object('x',0.5,'y',0.5,'zoom',1)))));
     raise exception 'Foreign photo accepted';
   exception when others then if sqlerrm<>'INVALID_PHOTO' then raise; end if; end;
   raise notice 'Passed % framing boundaries, publication and foreign photo rejection',count_checks;
 end $$;
-select 'passed' as result, 18 as checks;
+select 'passed' as result, 32 as checks;
 rollback;

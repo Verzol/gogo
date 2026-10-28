@@ -17,3 +17,8 @@ Deno.test('malformed and unbounded crops are rejected rather than silently remov
   }
   for (const p of [null, [], 'photo', { ...base, id: 9 }, { ...base, alt: null }]) check(normalizePhoto(p) === null, 'Accepted malformed photo');
 });
+
+Deno.test('bounded photo sizes survive normalization and reject other values', () => {
+  for (const size of ['small', 'medium', 'large']) check(normalizePhoto({ ...base, size })?.size === size, 'Size changed');
+  for (const size of [null, 0, true, {}, [], 'auto', 'huge', 'SMALL', 'small; color:red']) check(normalizePhoto({ ...base, size }) === null, 'Unbounded size accepted');
+});

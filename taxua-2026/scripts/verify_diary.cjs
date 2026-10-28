@@ -154,18 +154,18 @@ async function browserChecks(type, label) {
     for (const side of ['writing', 'photos']) {
       await p.locator(`[data-edit="${side}"]`).click(); await p.locator('#diaryEditor').waitFor({ state: 'visible' });
       check(label + ' own ' + side + ' editor reuses the reading session', !await p.locator('#diaryAuth').isVisible() && logins() === initialLogins && await p.locator('#diaryEditorTitle').innerText() === 'Trang của san');
-      await p.locator('[data-close-editor]').click();
+      await p.locator('[data-close-editor]').first().click();
     }
     m.refreshable = true; m.rejectDraftOnce = true;
     const refreshes = m.requests.filter(action => action === 'refresh').length;
     await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryEditor').waitFor({ state: 'visible' });
     check(label + ' a refreshable editor session renews without another password', !await p.locator('#diaryAuth').isVisible() && logins() === initialLogins && m.requests.filter(action => action === 'refresh').length === refreshes + 1);
-    await p.locator('[data-close-editor]').click(); m.refreshable = false;
+    await p.locator('[data-close-editor]').first().click(); m.refreshable = false;
     await p.reload(); await p.locator('#diaryOpen').click(); await p.locator('#diaryReader').waitFor({ state: 'visible' });
     await p.locator('[data-bookmark="1"]').click();
     await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryEditor').waitFor({ state: 'visible' });
     check(label + ' restored tab session edits own page without login', !await p.locator('#diaryAuth').isVisible() && logins() === initialLogins);
-    await p.locator('[data-close-editor]').click();
+    await p.locator('[data-close-editor]').first().click();
     await p.locator('[data-bookmark="0"]').click();
     check(label + ' other people have no writing or photo edit controls', await p.locator('#diaryPages [data-edit]').count() === 0);
     await p.locator('.diary-page-head').first().evaluate(el => el.insertAdjacentHTML('beforeend', '<button type="button" data-edit="writing">Injected edit</button>'));
@@ -179,7 +179,7 @@ async function browserChecks(type, label) {
     await p.locator('#diaryPassword').fill(password); await p.locator('#diaryAuthSubmit').click();
     await p.locator('#diaryEditor').waitFor({ state: 'visible' });
     check(label + ' reauthentication resumes the requested editor', await p.locator('#diaryEditorTitle').innerText() === 'Trang của san');
-    await p.locator('[data-close-editor]').click();
+    await p.locator('[data-close-editor]').first().click();
     // The editable session label alone must never select somebody else's draft.
     await p.evaluate(() => {
       const saved = JSON.parse(sessionStorage.getItem('taxua-diary-session-v1'));
@@ -192,7 +192,7 @@ async function browserChecks(type, label) {
     await p.evaluate(() => window.TaxuaDiaryApi.clear()); await authenticate(p, 'san');
     for (let i = 0; i < ids.length; i++) {
       await p.locator(`[data-bookmark="${i}"]`).click();
-      check(label + ' paired spread ' + ids[i], await p.locator('.diary-page-writing').getAttribute('aria-label') === 'Lời viết của ' + names[i] && await p.locator('.diary-page-photos').getAttribute('aria-label') === 'Ảnh của ' + names[i]);
+      check(label + ' paired spread ' + ids[i], await p.locator('#diaryPages .diary-page-writing').getAttribute('aria-label') === 'Lời viết của ' + names[i] && await p.locator('#diaryPages .diary-page-photos').getAttribute('aria-label') === 'Ảnh của ' + names[i]);
     }
     check(label + ' last boundary is disabled', await p.locator('[data-diary-edge="1"]').isDisabled());
     await p.locator('[data-bookmark="0"]').click();
@@ -204,7 +204,7 @@ async function browserChecks(type, label) {
     await p.locator('#diaryEditTitle').fill('<img src=x onerror=window.diaryXss=1>'); await p.locator('#diaryEditBody').fill(writing);
     await wait(p);
     check(label + ' autosave remains private draft', m.drafts.san.body === writing && !m.entries[1].body);
-    await p.locator('[data-close-editor]').click();
+    await p.locator('[data-close-editor]').first().click();
     check(label + ' saved draft is absent from book until publication', await p.locator('.diary-empty-writing').isVisible());
     await authenticate(p, 'san', true);
     check(label + ' editor restores server draft', await p.locator('#diaryEditBody').inputValue() === writing);
@@ -214,15 +214,15 @@ async function browserChecks(type, label) {
     check(label + ' actual file input normalizes both uploads', m.uploads === 2 && m.drafts.san.photos.length === 2 && await p.evaluate(() => window.__diaryUploadChecks.length === 2 && window.__diaryUploadChecks.every(Boolean)));
     const firstId = m.drafts.san.photos[0].id;
     await p.locator('[data-caption]').first().fill('Ảnh kiểm thử · sẽ được xóa');
-    await p.locator('[data-move-photo][data-direction="1"]').first().click(); await wait(p);
+    await p.locator(`[data-select-photo="${firstId}"]`).focus(); await p.keyboard.press('Alt+ArrowRight'); await wait(p);
     check(label + ' photo caption follows keyboard-capable reorder', m.drafts.san.photos[1].id === firstId && m.drafts.san.photos[1].caption.includes('kiểm thử'));
     await p.locator('#diaryPublish').click(); await p.waitForFunction(() => document.getElementById('diarySaveStatus').textContent.includes('Đã lưu vào sổ'));
     check(label + ' explicit save publishes complete writing and photos', m.entries[1].body === writing && m.entries[1].photos.length === 2);
-    await p.locator('[data-close-editor]').click();
+    await p.locator('[data-close-editor]').first().click();
     check(label + ' hostile text is rendered as text', await p.locator('.diary-entry-title').innerText() === '<img src=x onerror=window.diaryXss=1>' && !await p.evaluate(() => window.diaryXss));
     await p.waitForFunction(() => document.querySelectorAll('#diaryPages img[data-private-photo]:not([hidden])').length === 2);
     await screenshot(p, '#diaryReader', label + '-open-desktop.png');
-    check(label + ' photo-page footer fits', await p.locator('.diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
+    check(label + ' photo-page footer fits', await p.locator('#diaryPages .diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
     await p.locator('[data-full-writing]').click();
     check(label + ' complete reading sheet has full prose', await p.locator('.diary-full-writing').innerText() === writing);
     await p.locator('[data-close-sheet]').click();
@@ -232,10 +232,10 @@ async function browserChecks(type, label) {
     await p.locator('[data-close-sheet]').click();
     for (const [width, height] of [[820, 1024], [390, 844], [320, 780], [740, 390]]) {
       await p.setViewportSize({ width, height }); await p.locator('[data-diary-side="writing"]').click();
-      check(label + ' readable single page at ' + width, await p.locator('.diary-page-writing').isVisible() && !await p.locator('.diary-page-photos').isVisible());
+      check(label + ' readable single page at ' + width, await p.locator('#diaryPages .diary-page-writing').isVisible() && !await p.locator('#diaryPages .diary-page-photos').isVisible());
       check(label + ' no horizontal overflow at ' + width, await p.evaluate(() => document.documentElement.scrollWidth === innerWidth));
       await p.locator('[data-diary-side="photos"]').click();
-      check(label + ' photo switch preserves person at ' + width, await p.locator('.diary-page-photos').isVisible() && await p.locator('#diaryPageLabel').innerText() === 'Trang của san');
+      check(label + ' photo switch preserves person at ' + width, await p.locator('#diaryPages .diary-page-photos').isVisible() && await p.locator('#diaryPageLabel').innerText() === 'Trang của san');
       await screenshot(p, '#diaryReader', label + '-photos-' + width + '.png');
     }
     await p.setViewportSize({ width: 390, height: 844 }); await p.locator('[data-diary-side="writing"]').click(); await authenticate(p, 'san', true);
@@ -253,11 +253,11 @@ async function browserChecks(type, label) {
     check(label + ' session expiry removes protected DOM', await p.locator('#diaryPages').evaluate(el => el.childElementCount === 0) && !await p.locator('#diaryEditor').isVisible() && await p.locator('#diaryEditBody').inputValue() === '');
     m.expire = false; await authenticate(p); await authenticate(p, 'san', true);
     check(label + ' owner can recover unsynced text after reauthentication', await p.locator('#diaryRestoreWriting').isVisible());
-    await p.locator('#diaryRestoreWriting').click(); await wait(p); await p.locator('[data-close-editor]').click();
+    await p.locator('#diaryRestoreWriting').click(); await wait(p); await p.locator('[data-close-editor]').first().click();
     await p.setViewportSize({ width: 1440, height: 1000 }); await p.emulateMedia({ reducedMotion: 'no-preference' });
     await p.evaluate(() => document.documentElement.style.fontSize = '32px');
     await p.waitForFunction(() => document.getElementById('crewDiary').classList.contains('diary-large-text'));
-    check(label + ' double-size text uses natural single-page reading', await p.locator('.diary-page-writing').isVisible() && !await p.locator('.diary-page-photos').isVisible() && await p.locator('.diary-writing').evaluate(el => getComputedStyle(el).overflowY === 'visible'));
+    check(label + ' double-size text uses natural single-page reading', await p.locator('#diaryPages .diary-page-writing').isVisible() && !await p.locator('#diaryPages .diary-page-photos').isVisible() && await p.locator('#diaryPages .diary-writing').evaluate(el => getComputedStyle(el).overflowY === 'visible'));
     await p.evaluate(() => document.documentElement.style.fontSize = '');
     await p.waitForFunction(() => !document.getElementById('crewDiary').classList.contains('diary-large-text'));
     await p.locator('[data-diary-edge="1"]').click(); await p.waitForFunction(() => document.querySelector('.diary-turn-leaf'));

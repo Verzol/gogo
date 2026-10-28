@@ -1,11 +1,15 @@
 // Allow only bounded display metadata. The gateway separately verifies ownership.
 export type PhotoCrop = { x: number; y: number; zoom: number };
-type Photo = { id: string; caption: string; alt: string; crop?: PhotoCrop };
+type Photo = { id: string; caption: string; alt: string; size?: 'small' | 'medium' | 'large'; crop?: PhotoCrop };
 export function normalizePhoto(value: unknown): Photo | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   const p = value as Record<string, unknown>;
   if (typeof p.id !== 'string' || typeof p.caption !== 'string' || typeof p.alt !== 'string') return null;
   const photo: Photo = { id: p.id, caption: p.caption, alt: p.alt };
+  if (Object.hasOwn(p, 'size')) {
+    if (p.size !== 'small' && p.size !== 'medium' && p.size !== 'large') return null;
+    photo.size = p.size;
+  }
   if (Object.hasOwn(p, 'crop')) {
     if (!p.crop || typeof p.crop !== 'object' || Array.isArray(p.crop)) return null;
     const c = p.crop as Record<string, unknown>;

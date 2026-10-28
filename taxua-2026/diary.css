@@ -96,7 +96,7 @@
 .diary-dialog button { color: inherit; font: inherit; cursor: var(--cursor-pointer,pointer); }
 .diary-dialog-close { position: absolute; top: 14px; right: 15px; min-width: 44px; min-height: 44px; font: 1.7rem 'Patrick Hand', cursive !important; border: 0; background: transparent; }
 .diary-dialog .diary-eyebrow { font-size: .64rem; padding-right: 35px; }
-.diary-auth-members { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin: 20px 0 24px; padding: 0; border: 0; }
+.diary-auth-members { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 20px 0 24px; padding: 0; border: 0; }
 .diary-auth-members legend { font-size: .75rem; margin-bottom: 12px; }
 .diary-member-choice { position: relative; display: flex; align-items: center; flex-direction: column; min-width: 0; padding: 7px 3px; border: 1px solid transparent; border-radius: 4px; cursor: var(--cursor-pointer,pointer); }
 .diary-member-choice:has(:checked) { border-color: #71917b; background: rgb(102 134 108 / .08); }

@@ -53,6 +53,8 @@ Most helpers expect the repository-root preview at `http://127.0.0.1:8000/taxua-
 | `verify_diary.cjs` | Paired spreads, password/claim UX, drafts, actual file-input normalization, publication, conflicts, recovery, expiry, 3D motion, responsive/text layout and fallbacks; mocked transport | `/tmp/taxua-diary-browser-review/`; optional `DIARY_WEBKIT=1` tests both engines |
 | `verify_diary_motion.cjs` | Outgoing front/incoming reverse, screenshot-pixel orientation, incoming underlay, cover origin, dense opening/closing frames, escaped-paper and cover-face pixel regressions, atomic landing, backward scroll, phone motion, pause/logout | `/tmp/taxua-diary-motion-review/`; optional `DIARY_WEBKIT=1` |
 | `verify_diary_navigation.cjs` | Visible sticker/cloth centering, bounds/fallbacks and proportional ribbon resolution at 2x density, empty paper, edge click/keyboard, scrubbable mouse drags, cancel/escape/logout, phone writing/photos, reduced/missing-motion fallbacks and Chromium touch swipe/vertical scroll | `/tmp/taxua-diary-navigation-review/`; optional `DIARY_WEBKIT=1` |
+| `verify_diary_page_editing.cjs` | Direct paper editing, picker/file drop, native ruled writing and publication, metadata notes, remove/undo, continuous mouse/touch drag and keyboard alternatives, invalid files and private surface cleanup | `/tmp/taxua-diary-page-editing/`; `DIARY_PAGE_REVIEW_DIR` overrides |
+| `verify_diary_refinements.cjs` | Balanced eight-person login, bounded photo sizes, packing/reordering, crowded additions, interruptible save/upload/publish, backdrop and memory-only recovery | `/tmp/taxua-diary-refinements/`; `DIARY_REFINEMENT_REVIEW_DIR` overrides |
 | `verify_diary_photos.cjs` | All photo counts 0–9 at 1440/820/390/320px, print bounds and tap targets, popup arrows/keyboard/focus/boundaries, own-page edit controls, tenth-upload rejection and session cleanup | `/tmp/taxua-diary-photos-review/`; `DIARY_PHOTOS_REVIEW_DIR` overrides; optional `DIARY_WEBKIT=1` |
 | `verify_diary_photo_limit.sql` | Deployed count boundaries using temporary table/gateway copies in one database transaction; always rolls back and never uses crew credentials | SQL result; see [backend guide](diary-backend.md#photo-limit-boundary-check) |
 | `verify_diary_layout.cjs` | Maximum prose/title, nine long captions, narrow/landscape/enlarged text, Vietnamese NFC/NFD, missing art/fonts/engine/CSS and mid-motion expiry | `/tmp/taxua-diary-layout-review/`; optional `DIARY_WEBKIT=1` |
@@ -175,3 +177,10 @@ Evidence: `/tmp/taxua-location-review/` and `/tmp/taxua-location-regression/`. S
 
 
 The later **prompt-only artwork refresh** passed **92 location interaction checks** and **60 scene/viewport combinations**. The source audit verified 24 new prompt-only masters, 30 derivative hashes/dimensions, pixel-exact native backgrounds and the retained ridge export hashes. Local desktop Lighthouse: performance 56, accessibility 100, LCP 2.1s; see [current results and limits](location-scenes.md#prompt-only-refresh--19-october-2026). Evidence is under `/tmp/taxua-prompt-only-review/` and `/tmp/taxua-location-responsive/`; earlier counts above describe their own snapshots.
+
+## Diary page editing · 28 October 2026
+
+The [page-editing review](diary-page-editing-review.md) records 991 Chromium
+assertions across eleven suites, six short-viewport checks, a 20-state scoped
+accessibility audit, deployed size-metadata validation and historical public-page
+Lighthouse limitations. Browser fixtures make no crew writes.

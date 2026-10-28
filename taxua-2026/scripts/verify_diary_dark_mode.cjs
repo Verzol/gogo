@@ -71,7 +71,7 @@ async function run() {
       await compare(p, cdp, width, 'writing', ['#diaryEditorTitle', '#diaryEditBody']);
       await p.locator('[data-editor-tab="photos"]').click();
       await p.waitForFunction(() => [...document.querySelectorAll('#diaryPhotoPreview img')].every(i => !i.hidden && i.complete && i.naturalWidth));
-      await compare(p, cdp, width, 'photos', ['#diaryPhotoPreview', '#diaryPhotoFields']);
+      await compare(p, cdp, width, 'photos', ['#diaryPhotoPreview', '#diaryCropTools']);
       await p.locator('[data-arrange="crop"]').click();
       await compare(p, cdp, width, 'crop', ['#diaryCropTools']);
       await p.emulateMedia({ forcedColors: 'active', colorScheme: 'dark' });

@@ -154,7 +154,7 @@ async function runEngine(type, engine) {
     check(engine+' opening reveals ready reader only after landing',await p.locator('#diaryReader').isVisible());
     await p.locator('#diaryBook').evaluate(el=>scrollTo({top:scrollY+el.getBoundingClientRect().top-125,behavior:'instant'}));
     await p.waitForFunction(()=>[...document.querySelectorAll('#diaryPages img[data-private-photo]')].every(x=>x.naturalWidth>0&&!x.hidden));
-    await p.locator('.diary-writing').evaluate(el=>{el.scrollTop=80;});
+    await p.locator('#diaryPages .diary-writing').evaluate(el=>{el.scrollTop=80;});
     const frozen = await p.locator('#diaryPages').innerHTML();
     await p.locator('[data-diary-edge="1"]').evaluate(el=>el.click()); await clock(p,'.diary-turn-leaf');
     for (const fraction of [0,.25,.5,.75,.99]) {
@@ -177,7 +177,7 @@ async function runEngine(type, engine) {
     check(engine+' landing reuses decoded incoming images and clears staging',await p.locator('#diaryPages img[data-private-photo]').evaluateAll(nodes=>nodes.length===3&&nodes.every(n=>n.naturalWidth>0&&!n.hidden))&&await p.locator('.diary-turn-preview,.diary-turn-underlay').count()===0);
     check(engine+' landing keeps the exact prepared photo nodes',await p.locator('#diaryPages img[data-private-photo]').evaluateAll(nodes=>nodes.every((n,i)=>n===window.__diaryPreparedImages[i])));
     await p.locator('#diaryReader').screenshot({path:path.join(output,engine+'-open-desktop.png')}); report.screenshots.push(engine+'-open-desktop.png');
-    await p.locator('.diary-writing').evaluate(el=>{el.scrollTop=110;});
+    await p.locator('#diaryPages .diary-writing').evaluate(el=>{el.scrollTop=110;});
     await p.locator('[data-diary-edge="-1"]').evaluate(el=>el.click()); await clock(p,'.diary-turn-leaf');
     for(const fraction of [.25,.5,.75,.9,.99]){
       await seek(p,'.diary-turn-leaf',fraction);
@@ -216,7 +216,7 @@ async function runEngine(type, engine) {
     check(engine+' phone writing reveals the incoming person during turn',await p.locator('.diary-turn-underlay').getAttribute('data-owner')==='san'&&await p.locator('.diary-strip-back .diary-page').evaluateAll(nodes=>nodes.length===10&&nodes.every(n=>n.dataset.owner==='san')));
     await shot(p,'#diaryBook',engine+'-phone-turn-75.png'); await finish(p,'.diary-turn-leaf');
     await p.locator('[data-diary-side="photos"]').click(); await shot(p,'#diaryReader',engine+'-phone-photos.png');
-    check(engine+' three photo frames and footer fit phone paper',await p.locator('.diary-page-photos').evaluate(el=>el.scrollHeight<=el.clientHeight+1));
+    check(engine+' three photo frames and footer fit phone paper',await p.locator('#diaryPages .diary-page-photos').evaluate(el=>el.scrollHeight<=el.clientHeight+1));
     check(engine+' phone has no horizontal document overflow',await p.evaluate(()=>document.documentElement.scrollWidth===innerWidth));
     await p.locator('[data-diary-edge="-1"]').evaluate(el=>el.click()); await clock(p,'.diary-turn-leaf');
     await seek(p,'.diary-turn-leaf',.75);

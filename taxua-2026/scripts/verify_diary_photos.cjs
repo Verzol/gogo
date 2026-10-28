@@ -85,7 +85,7 @@ async function runEngine(type, engine) {
     check(engine + ' tenth file is rejected before reserving or uploading', m.uploads === 9 && m.requests.filter(action => action === 'reserve-photo').length === 9 && m.drafts.mi.photos.length === 9 && (await p.locator('#diaryUploadStatus').innerText()).includes('9 ảnh'));
     await p.locator('#diaryPublish').click();
     await p.waitForFunction(() => document.getElementById('diarySaveStatus').textContent.includes('Đã lưu vào sổ'));
-    await p.locator('[data-close-editor]').click();
+    await p.locator('[data-close-editor]').first().click();
     check(engine + ' all nine uploaded photos publish together', await p.locator('#diaryPages [data-view-photo]').count() === 9);
     await p.locator('#diaryPages [data-view-photo]').last().click();
     await p.evaluate(() => window.TaxuaDiaryApi.clear());
@@ -95,7 +95,7 @@ async function runEngine(type, engine) {
     fallback.m.entries[0].photos = Array.from({ length: 9 }, (_, i) => ({ id: `fallback-${i}`, caption: 'Mây', alt: 'Ảnh mẫu' }));
     await fallback.p.locator('#diaryRefresh').click();
     await fallback.p.waitForFunction(() => document.querySelectorAll('#diaryPages [data-view-photo]').length === 9);
-    check(engine + ' nine-photo layout fits without decorative CSS', await fallback.p.locator('.diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
+    check(engine + ' nine-photo layout fits without decorative CSS', await fallback.p.locator('#diaryPages .diary-page-photos').evaluate(el => el.scrollHeight <= el.clientHeight + 1));
     await fallback.context.close();
   } finally { await browser.close(); }
 }
