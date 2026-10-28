@@ -10,7 +10,7 @@
   const small = matchMedia('(max-width: 850px)'), reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const photoLimit = 9;
   const ribbonColors = {mi:'#987078', san:'#486279', thao:'#9c7555', quanlele:'#6c795f', gtm:'#667c79', truong:'#7b6c85', tamle:'#79566f', linh:'#9b6375'};
-  const state = { index: 0, entries: [], open: false, turning: false, busy: false, status: [], authMember: null,
+  const state = { index: Math.max(0, members.findIndex(m => m.id === api.memberId())), entries: [], open: false, turning: false, busy: false, status: [], authMember: null,
     authPurpose: 'read', authBusy: false, draft: null, dirty: false, change: 0, savePromise: null,
     closePromise: null, saveTimer: null, uploading: false, uploadAbort: null, publishing: false, conflict: false, editorOpening: false, editorEpoch: 0, recovery: null, readEpoch: 0, photoId: null };
   let transition = null, motionHandle = null, motionEpoch = 0;
@@ -313,6 +313,7 @@
         <label class="diary-field" id="diaryConfirmField" hidden><span>Viết lại mật khẩu</span><input id="diaryPasswordConfirm" type="password" autocomplete="new-password"></label>
         <label class="diary-password-toggle"><input type="checkbox" id="diaryShowPassword"> Hiện mật khẩu</label>
         <p id="diaryFirstClaimNote" class="diary-auth-note" hidden>Ai đặt mật khẩu đầu tiên sẽ giữ tên này. Chọn đúng tên của cậu nhé.</p>
+        <p id="diaryRememberNote" class="diary-auth-note"></p>
         <button type="submit" class="diary-primary" id="diaryAuthSubmit">Mở sổ</button>
         <button type="button" class="diary-secondary" id="diaryAuthRetry" hidden>Thử kết nối lại</button>
         <p class="diary-form-status" id="diaryAuthStatus" role="alert"></p>
@@ -384,6 +385,9 @@
     $('diaryAuthForm').reset(); $('diaryPassword').type = 'password'; $('diaryPasswordConfirm').type = 'password';
     $('diaryAuthTitle').textContent = purpose === 'edit' ? 'Mở trang của ' + members.find(m => m.id === memberId).name : 'Cậu là ai nhỉ?';
     $('diaryAuthIntro').textContent = purpose === 'edit' ? 'Nhập mật khẩu của người viết để sửa trang này.' : 'Chọn tên của cậu để mở sổ nhé.';
+    $('diaryRememberNote').textContent = api.storageMode() === 'local'
+      ? 'Thiết bị này sẽ nhớ cậu cho những lần sau. Chọn Đăng xuất nếu dùng máy chung nhé.'
+      : 'Trình duyệt đang chặn lưu đăng nhập lâu dài. Sổ vẫn nhớ cậu trong phiên này.';
     $('diaryAuth').querySelectorAll('[name="diaryMember"]').forEach(input => {
       input.checked = input.value === memberId;
       input.disabled = purpose === 'edit' && input.value !== memberId;

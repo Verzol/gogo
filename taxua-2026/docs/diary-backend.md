@@ -100,9 +100,22 @@ The marker selects only credential encoding, never permissions or ownership.
 Account attempts are limited to twelve per fifteen minutes; source-IP digests
 have a broader limit.
 Uploads are limited separately. Rate counters older than a day are discarded.
-The frontend keeps refresh/access tokens in tab session storage (memory-only
-when denied), stores no passwords or diary drafts persistently, and clears
-private blobs/DOM on logout or rejected sessions.
+The frontend remembers refresh/access tokens, member ID and access expiry in
+namespaced local storage, migrating existing tab session storage. If writes are
+denied it falls back to tab storage, then memory. It stores no passwords or diary
+drafts persistently. There is no added client expiry: Supabase refresh validity
+controls how long a known browser stays logged in. A read-only audit on
+2026-10-28 found no absolute expiry on the existing diary sessions; no shared
+project Auth settings were changed. Browser eviction, explicit logout and
+server revocation can still end the remembered login.
+
+Storage events and focus/page-restore checks synchronize tokens/logout across
+tabs. A Web Lock serializes refresh where supported; same-owner rotations do
+not clear drafts. A rejected refresh clears credentials, while transient errors
+retain them. Logout clears this browser immediately and attempts local-scope
+server revocation afterwards, renewing only for revocation if necessary. Stale
+refresh responses cannot restore a logged-out or switched account. Server
+authorization and ownership checks remain mandatory for every private action.
 
 The hosted advisor reports that Supabase's optional leaked-password protection
 is disabled in the shared project's Auth settings. This implementation does not

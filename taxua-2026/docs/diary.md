@@ -56,6 +56,17 @@ copy retain their existing behavior. No private entry is exported into HTML.
   stay read-only; log out and sign in under another name to change accounts.
   Expired sessions refresh automatically when possible; if the server rejects
   the session, editing asks you to sign in again.
+- Login remembers this browser across tabs, reloads and browser restarts by
+  default, without a client-imposed expiry. The book initially selects the
+  remembered person's page. Existing tab-only sessions migrate automatically.
+  A new browser/device still needs the person's password; browser data removal,
+  provider revocation or **Đăng xuất** requires login again. Browsers that deny
+  persistent storage fall back to tab storage, then memory. The login explains
+  remembering this device and recommends logout on shared computers.
+  Access/refresh tokens rotate silently when needed. Supported browsers use a
+  cross-tab Web Lock to avoid simultaneous rotation; token updates for the same
+  person leave an open editor intact. Switching person clears old private UI
+  in every tab. Temporary network errors retain the remembered credentials.
 - A draft saves privately after about a second of inactivity and when closing
   the editor. **Lưu vào sổ** explicitly publishes writing and the complete
   photo list together. Other crew accounts see the published version only.
@@ -63,10 +74,12 @@ copy retain their existing behavior. No private entry is exported into HTML.
   loading the newer draft, or holding the local writing in this tab. Failed
   saves do not report success. Unsynced recovery is memory-only: reloading or
   closing the tab loses it. A deliberate logout clears it.
-- Closing the book retains the reading session. **Đăng xuất** clears the
-  current tab's tokens, private DOM and image URLs, and revokes its server
-  session. A disconnected logout clears this tab and explicitly reports that
-  server revocation could not be confirmed.
+- Closing the book retains the reading session. **Đăng xuất** immediately
+  clears this browser's tokens and private DOM/image URLs across its open tabs,
+  then revokes that server session. A disconnected logout still forgets the
+  browser and explicitly reports that server revocation could not be confirmed.
+  Other devices' sessions remain independent. Passwords, writing and photos
+  are never put in persistent login storage.
 
 ## Photographs
 
@@ -307,7 +320,7 @@ the photographs or captions.
 | `diary-materials.css` | Generated frame/image opening coordinates |
 | `scripts/prepare_diary_refinement.py` | Quiet paper and lighter frame/tape derivatives; separate provenance manifest |
 | `scripts/prepare_diary_artwork.py` | Offline master-to-WebP preparation and material manifest |
-| `diary-api.js` | Request cancellation, refresh, tab session and private image URLs |
+| `diary-api.js` | Request cancellation, cross-tab refresh, remembered browser session and private image URLs |
 | `diary-config.js` | Public function endpoint only; no keys/passwords |
 | `backend/supabase/` | Migrations, pinned Edge code and local CLI configuration |
 | `scripts/verify_diary.cjs` | Deterministic browser interactions/visual checks with a mocked transport |

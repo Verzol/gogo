@@ -182,8 +182,8 @@ async function browserChecks(type, label) {
     await p.locator('[data-close-editor]').first().click();
     // The editable session label alone must never select somebody else's draft.
     await p.evaluate(() => {
-      const saved = JSON.parse(sessionStorage.getItem('taxua-diary-session-v1'));
-      saved.member_id = 'mi'; sessionStorage.setItem('taxua-diary-session-v1', JSON.stringify(saved));
+      const saved = JSON.parse(localStorage.getItem('taxua-diary-session-v1'));
+      saved.member_id = 'mi'; localStorage.setItem('taxua-diary-session-v1', JSON.stringify(saved));
     });
     await p.reload(); await p.locator('#diaryOpen').click(); await p.locator('#diaryReader').waitFor({ state: 'visible' });
     await p.locator('[data-edit="writing"]').click(); await p.locator('#diaryAuth').waitFor({ state: 'visible' });
@@ -273,12 +273,13 @@ async function browserChecks(type, label) {
     check(label + ' motion pause settles turn immediately', await p.locator('.diary-turn-leaf').count() === 0);
     await p.emulateMedia({ media: 'print' }); check(label + ' private diary excluded from printing', !await p.locator('#crewDiary').isVisible()); await p.emulateMedia({ media: 'screen' });
     await p.locator('#diaryLogout').click();
-    check(label + ' logout clears private DOM and tab credentials', await p.locator('#diaryPages').evaluate(el => el.childElementCount === 0) && await p.evaluate(() => !sessionStorage.getItem('taxua-diary-session-v1')));
+    check(label + ' logout clears private DOM and remembered credentials', await p.locator('#diaryPages').evaluate(el => el.childElementCount === 0) && await p.evaluate(() => !sessionStorage.getItem('taxua-diary-session-v1') && !localStorage.getItem('taxua-diary-session-v1')));
     await context.close();
     const fallback = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     const fm = model(); fm.claims.san = password; await mock(fallback, fm);
     await fallback.addInitScript(() => {
       Object.defineProperty(window, 'sessionStorage', { get() { throw new Error('storage disabled by test'); } });
+      Object.defineProperty(window, 'localStorage', { get() { throw new Error('storage disabled by test'); } });
       Element.prototype.animate = undefined;
       window.ResizeObserver = undefined;
     });
