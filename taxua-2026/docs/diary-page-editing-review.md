@@ -2,6 +2,8 @@
 
 [Diary behavior](diary.md) · [Verification commands](verification.md) · [Backend](diary-backend.md)
 
+Later HEIC upload support has its [separate validation record](diary-heic-review.md).
+
 The editor uses painted writing and photo leaves as its editing surfaces.
 Uploads start on the paper or with a file drop. Photographs follow the pointer
 continuously and settle into their destination. Touch selects an image before

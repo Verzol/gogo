@@ -234,3 +234,14 @@ Reviewed 19 October 2026 for the [location-scene plan](location-scenes-plan.md).
 - [MDN: Lazy loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading): defer noncritical resources and load them as needed, rather than making every location part of the opening transfer.
 
 The later [prompt-only artwork refresh](location-scenes.md#preserved-artwork-and-reproducibility) replaces all selected non-ridge paintings, foregrounds, stickers and effects. Its [24 generation jobs](prompts/location_scenes/text_only_jobs.json) have empty reference lists; no photo or generated image was submitted. Earlier reference-based masters remain archived. Sống Lưng retains its original approved artwork and provenance.
+
+## HEIC upload decoder
+
+Reviewed 28 October 2026 for local diary photo conversion. Runtime assets and
+corresponding source archives are vendored locally; these links are provenance
+and build references, not services that receive uploaded images.
+
+- [heic-to 1.6.7 pinned source](https://github.com/hoppergee/heic-to/tree/78345a3fcdb4a1d70d513fce2646aeff0127f7ba): CSP decoder distribution and build instructions.
+- [Exact npm release](https://registry.npmjs.org/heic-to/-/heic-to-1.6.7.tgz): `src/lib/libheif-without-unsafe-eval.js` supplies the generated decoder; original/adapted hashes are in `vendor/heif/version.json`.
+- [libheif 1.23.7](https://github.com/strukturag/libheif/tree/v1.23.7): decoder API, primary-image selection, image transformations, source and Emscripten build script.
+- [libde265 1.0.16](https://github.com/strukturag/libde265/tree/v1.0.16): bundled HEVC decoder source and license.

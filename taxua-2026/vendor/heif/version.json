@@ -1,0 +1,20 @@
+{
+  "library": "libheif",
+  "version": "1.23.7",
+  "decoder": "libde265 1.0.16",
+  "distribution": "heic-to 1.6.7",
+  "distributionCommit": "78345a3fcdb4a1d70d513fce2646aeff0127f7ba",
+  "sourceFile": "src/lib/libheif-without-unsafe-eval.js",
+  "upstreamSha256": "75aaf03816c22f8cf40dbcaeb22bee83f2e1c5da4b7417577a7883b296348734",
+  "adaptation": "Removed final export default buildLibheif; added attribution header. No generated codec changes.",
+  "files": {
+    "GPL-3.0.txt": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "LIBHEIF-COPYING.txt": "fa81ce652315b013359d6e8e4744335f31a50c7c192907176d3632f78a3b4596",
+    "LGPL-3.0.txt": "dbd7222d8026e5d6ca6991d1e6a205de927f300840433c2e90a60644a9980c75",
+    "libheif.js": "3f35721533f0a18c8c6637ddb99cc38b59ab21f062681fc92b84705a7bcd5a19",
+    "LIBDE265-COPYING.txt": "02cc1585a20677992e0ba578fa692635dc193735f2691dc81de924b51c4e8020",
+    "source/libde265-1.0.16.tar.gz": "ed12c931759c1575848832f70db5071a001ac813db4e4f568ee08aef6e234d4e",
+    "source/libheif-1.23.7.tar.gz": "90e389caad285ca4946461d56d1c115e56bcbb5141d9038050282af91064fbc7"
+  },
+  "npmTarballIntegrity": "sha512-GCPYNl86u6eZ7mr2aa+uQB+PrQOVKSBYfH8esovr8kh2c6EYQSDYIJ6uhXSmM2hPC8PdBVJ/Trn0jnfM9H9gvg=="
+}

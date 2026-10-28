@@ -71,12 +71,30 @@ copy retain their existing behavior. No private entry is exported into HTML.
 ## Photographs
 
 Each person has at most nine stored photos/reservations and a 30 MiB budget.
-JPEG, PNG and WebP inputs up to 20 MiB are supported. HEIC, SVG, GIF and other
-formats are rejected with an explanation. The browser orients and resizes
+JPEG, PNG, WebP and HEIC/HEIF inputs up to 20 MiB are supported. SVG, GIF
+and other formats are rejected with an explanation. The browser orients and resizes
 inputs into JPEGs with a 1600px longest edge, at most 2 MiB each. The server
 independently checks bytes/dimensions, decodes JPEG, strips metadata and writes
 a fresh reading image plus a 640px thumbnail. Browser compression alone never
 grants upload permission.
+
+HEIC/HEIF works from both the picker and file drop, including uppercase extensions,
+missing MIME types and recognizable HEIF headers mislabeled as JPEG. Native
+browser decoding is attempted first. If needed, a local libheif decoder loads
+on demand inside a worker, keeping the editor responsive. For collections or
+sequences, the primary still image becomes one diary photograph. HEIF image
+transforms are applied by the decoder; converted JPEGs retain no original EXIF.
+The existing 50-megapixel source boundary is checked before allocating decoded
+RGBA pixels in the worker. The worker transfers a resized bitmap, or pixel data
+on older browsers, into the same JPEG normalization/upload pipeline. No HEIC
+original or photo bytes go to a third-party conversion service.
+
+The UI reports **Đang đọc ảnh HEIC…** during fallback conversion. Corrupt files,
+unavailable decoder assets and a 60-second conversion timeout have recoverable
+Vietnamese messages. Closing the editor or ending the session aborts conversion
+and terminates its worker before reserving an upload. Failed/cancelled conversion
+cannot alter an existing photo or draft. HEIC originals, Live Photo video and
+additional frames are not stored. See [decoder versions/licenses](vendor.md#optional-heic-decoder).
 
 Every photo in the published version appears directly on the book page, up to nine.
 The grid adapts to its count: one large print; two stacked prints; a large print
@@ -103,7 +121,7 @@ and the existing 100/8,000-character limits remain; pasted HTML cannot execute.
 Long prose scrolls inside the page. Enlarged text gives the editing leaf more
 height instead of clipping its controls.
 
-Choose **Thêm ảnh**, tap the empty paper's plus, or drop JPEG/PNG/WebP files
+Choose **Thêm ảnh**, tap the empty paper's plus, or drop JPEG/PNG/WebP/HEIC files
 onto the photo leaf. Both upload paths use the existing normalization, size,
 ownership and nine-photo checks. Progress and failures stay visible; upload and
 publish operations lock photo actions until complete. At the stored-photo limit,
@@ -297,6 +315,7 @@ the photographs or captions.
 | `scripts/verify_diary_navigation.cjs` | Sticker bounds/fallbacks, edge clicks, controlled/cancelled drags, phone swipes and native vertical touch scrolling |
 | `scripts/verify_diary_page_editing.cjs` | On-page picker/file drop, ruled writing, metadata notes, remove/undo, keyboard and continuous mouse/touch movement |
 | `scripts/verify_diary_photo_editor.cjs` | All 0-9 editor layouts, swaps, pan/zoom/cancellation, publishing, recovery and private DOM cleanup |
+| `scripts/verify_diary_heic.cjs` | Real synthetic HEIC/HEIF uploads, MIME/header detection, primary image, color/orientation, resizing, EXIF removal, errors, cancellation and mixed batches |
 | `scripts/verify_diary_refinements.cjs` | Balanced login, constrained sizes, packing/reordering, crowded additions, background close/save, recovery, backdrop, uploads and detached publication |
 | `scripts/verify_diary_framing.ts` / `.sql` | Edge metadata normalization and rolled-back gateway validation fixtures |
 | `scripts/verify_diary_photos.cjs` | Every count 0–9, responsive print bounds/targets, popup navigation, owner-only edit controls and the tenth-upload boundary |
@@ -310,6 +329,9 @@ and a connection explanation; private access needs HTTP/HTTPS and the backend.
 No Supabase SDK is downloaded into the browser.
 
 ## Verification
+
+[HEIC upload results and limits](diary-heic-review.md) cover the local decoder
+and file pipeline.
 
 [28 October page-editing results and limits](diary-page-editing-review.md) record
 the direct-manipulation implementation, browser checks and accessibility audit.

@@ -170,7 +170,9 @@ not persisted to a staging bucket. This replaces the plan's separate staging
 bucket with a smaller exposure surface. The endpoint bounds the request to
 2 MiB, parses JPEG dimensions before decoding, forces the decoder to JPEG,
 and rejects input larger than 1600×1600 or 2.56 megapixels. Browser input may
-be JPEG/PNG/WebP; it is normalized first. Forged MIME headers do not bypass the
+be JPEG/PNG/WebP/HEIC/HEIF; it is decoded and normalized to JPEG first.
+HEIC decoding is local to the browser and does not widen the server's JPEG-only
+request boundary. Forged MIME headers do not bypass the
 byte checks.
 
 `@imagemagick/magick-wasm@0.0.44` performs actual decoding, orientation,

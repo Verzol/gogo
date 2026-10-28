@@ -12,7 +12,7 @@
   const ribbonColors = {mi:'#987078', san:'#486279', thao:'#9c7555', quanlele:'#6c795f', gtm:'#667c79', truong:'#7b6c85', tamle:'#79566f', linh:'#9b6375'};
   const state = { index: 0, entries: [], open: false, turning: false, busy: false, status: [], authMember: null,
     authPurpose: 'read', authBusy: false, draft: null, dirty: false, change: 0, savePromise: null,
-    closePromise: null, saveTimer: null, uploading: false, publishing: false, conflict: false, editorOpening: false, editorEpoch: 0, recovery: null, readEpoch: 0, photoId: null };
+    closePromise: null, saveTimer: null, uploading: false, uploadAbort: null, publishing: false, conflict: false, editorOpening: false, editorEpoch: 0, recovery: null, readEpoch: 0, photoId: null };
   let transition = null, motionHandle = null, motionEpoch = 0;
   let pageGesture = null, suppressPageClickUntil = 0;
   const photoLoads = new WeakMap();
@@ -63,7 +63,10 @@
     DRAFT_CONFLICT: 'Bản nháp đã thay đổi ở nơi khác. Thay đổi ở đây vẫn còn; chép lại hoặc tải bản mới trước khi tiếp tục.',
     ENTRY_CONFLICT: 'Trang trong sổ đã có bản mới. Thay đổi ở đây vẫn còn; tải bản nháp mới để đối chiếu.',
     PHOTO_LIMIT: 'Mỗi người giữ tối đa 9 ảnh và 30 MiB trong sổ. Sổ đang đủ ảnh hoặc dung lượng. Bỏ ảnh khỏi trang, lưu vào sổ rồi xóa ảnh chưa dùng để thêm ảnh mới.',
-    INVALID_IMAGE: 'Ảnh chưa đọc được. Chọn ảnh JPEG, PNG hoặc WebP khác nhé.',
+    INVALID_IMAGE: 'Ảnh chưa đọc được. Chọn ảnh JPEG, PNG, WebP hoặc HEIC khác nhé.',
+    INVALID_HEIC: 'Ảnh HEIC này chưa đọc được. Thử chọn lại ảnh hoặc xuất thành JPEG nhé.',
+    HEIC_UNAVAILABLE: 'Chưa tải được bộ đọc HEIC. Kiểm tra mạng rồi thử lại, hoặc chọn ảnh JPEG nhé.',
+    HEIC_TIMEOUT: 'Ảnh HEIC mất quá lâu để đọc. Thử ảnh nhỏ hơn hoặc xuất thành JPEG nhé.',
     IMAGE_DIMENSIONS: 'Ảnh quá lớn để dán vào sổ. Thử chọn lại ảnh khác.',
     REQUEST_TOO_LARGE: 'Tệp ảnh quá lớn. Chọn ảnh nhỏ hơn nhé.',
     IMAGE_PROCESSOR_UNAVAILABLE: 'Chưa chuẩn bị được ảnh. Thử tải lại sau một chút.',
@@ -340,7 +343,7 @@
               <div id="diaryPhotoFields" class="diary-photo-note" hidden></div>
               <div class="diary-upload-curtain" hidden><span>Thả ảnh vào trang sổ</span></div>
             </div>
-            <input hidden type="file" id="diaryFiles" accept="image/jpeg,image/png,image/webp" multiple tabindex="-1" aria-label="Chọn ảnh để dán vào trang">
+            <input hidden type="file" id="diaryFiles" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/heic-sequence,image/heif-sequence,.heic,.heif" multiple tabindex="-1" aria-label="Chọn ảnh để dán vào trang">
             <p id="diaryPhotoHint" class="diary-photo-hint" role="status" aria-live="polite"></p>
             <p class="diary-form-status" id="diaryUploadStatus" role="status"></p>
             <div class="diary-photo-undo" id="diaryPhotoUndo" hidden><span>Đã cất ảnh.</span><button type="button" class="diary-secondary" data-undo-photo>Hoàn tác</button></div>
@@ -545,6 +548,7 @@
     photoEditor?.finishCrop(true);
     const pending = state.savePromise, draft = state.draft, dirty = state.dirty, conflict = state.conflict;
     const recovery = dirty ? keepRecovery() : null;
+    state.uploadAbort?.abort(); state.uploadAbort = null;
     clearTimeout(state.saveTimer); state.editorEpoch++; state.dirty = false; state.draft = null; state.uploading = false;
     $('diaryEditor').close(); photoEditor?.clear();
     if (!dirty) return;
@@ -621,6 +625,7 @@
   });
   $('diaryKeepWritingClose').addEventListener('click', () => {
     photoEditor?.finishCrop(true);
+    state.uploadAbort?.abort(); state.uploadAbort = null; state.uploading = false;
     clearTimeout(state.saveTimer);
     state.recovery = { ...editorSnapshot(), memberId: api.memberId() };
     state.editorEpoch++; state.dirty = false; state.draft = null;
@@ -656,15 +661,64 @@
       } catch (error) { message(errorText(error), true, $('diaryUploadStatus')); button.disabled = false; }
     }
   });
-  async function normalize(file) {
-    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('INVALID_IMAGE');
+  async function isHeic(file) {
+    if (/^image\/hei[cf](?:-sequence)?$/i.test(file.type) || /\.(heic|heif)$/i.test(file.name)) return true;
+    // Some pickers omit MIME/extension, or keep image/jpeg for an original HEIC.
+    const bytes = new Uint8Array(await file.slice(0, 256).arrayBuffer());
+    const brand = offset => String.fromCharCode(...bytes.slice(offset, offset + 4));
+    if (bytes.length < 16 || brand(4) !== 'ftyp') return false;
+    const end = Math.min(new DataView(bytes.buffer).getUint32(0), bytes.length);
+    for (let i = 8; i + 4 <= end; i += 4) {
+      if (i !== 12 && ['heic', 'heix', 'hevc', 'hevx', 'heim', 'heis', 'hevm', 'hevs', 'mif1', 'msf1'].includes(brand(i))) return true;
+    }
+    return false;
+  }
+  function decodeHeic(file, signal) {
+    return new Promise((resolve, reject) => {
+      let worker, timer, settled = false;
+      const finish = (error, image) => {
+        if (settled) { image?.close?.(); return; }
+        settled = true;
+        clearTimeout(timer); signal?.removeEventListener('abort', abort); worker?.terminate();
+        if (error) reject(error); else resolve(image);
+      };
+      const abort = () => finish(new DOMException('Upload cancelled', 'AbortError'));
+      if (signal?.aborted) return abort();
+      try {
+        worker = new Worker('./diary-heic-worker.js', { name: 'diary-heic' });
+        signal?.addEventListener('abort', abort, { once: true });
+        timer = setTimeout(() => finish(new Error('HEIC_TIMEOUT')), 60000);
+        worker.onerror = event => { event.preventDefault(); finish(new Error('HEIC_UNAVAILABLE')); };
+        worker.onmessageerror = () => finish(new Error('INVALID_HEIC'));
+        worker.onmessage = ({ data }) => {
+          if (data.error) return finish(new Error(data.error === 'IMAGE_DIMENSIONS' ? 'IMAGE_DIMENSIONS' : 'INVALID_HEIC'));
+          try {
+            if (data.bitmap) return finish(null, data.bitmap);
+            if (!data.width || !data.height || data.width * data.height > 50000000) throw new Error('IMAGE_DIMENSIONS');
+            const canvas = document.createElement('canvas'); canvas.width = data.width; canvas.height = data.height;
+            canvas.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(data.pixels), data.width, data.height), 0, 0);
+            finish(null, canvas);
+          } catch (error) { finish(error); }
+        };
+        worker.postMessage(file);
+      } catch (_) { finish(new Error('HEIC_UNAVAILABLE')); }
+    });
+  }
+  async function normalize(file, signal, onHeic) {
     if (file.size > 20 * 1024 * 1024) throw new Error('REQUEST_TOO_LARGE');
+    const heic = await isHeic(file);
+    if (!heic && !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('INVALID_IMAGE');
     let image, temporary;
     try {
-      if (window.createImageBitmap) image = await createImageBitmap(file, { imageOrientation: 'from-image' });
-      else {
-        temporary = URL.createObjectURL(file); image = new Image(); image.src = temporary; await image.decode();
+      if (window.createImageBitmap) {
+        try { image = await createImageBitmap(file, { imageOrientation: 'from-image' }); } catch (_) { /* Try the browser's image element before the local HEIC decoder. */ }
       }
+      if (!image) {
+        temporary = URL.createObjectURL(file); const native = new Image(); native.src = temporary;
+        try { await native.decode(); image = native; } catch (error) { if (!heic) throw error; }
+      }
+      if (signal?.aborted) throw new DOMException('Upload cancelled', 'AbortError');
+      if (!image && heic) { onHeic(); image = await decodeHeic(file, signal); }
       const width = image.width, height = image.height;
       if (!width || !height || width * height > 50000000) throw new Error('IMAGE_DIMENSIONS');
       const ratio = Math.min(1, 1600 / Math.max(width, height));
@@ -677,15 +731,16 @@
       if (!blob || blob.size > 2097152) throw new Error('REQUEST_TOO_LARGE');
       return blob;
     } catch (error) {
-      if (['REQUEST_TOO_LARGE', 'IMAGE_DIMENSIONS'].includes(error.message)) throw error;
+      if (error.name === 'AbortError' || ['REQUEST_TOO_LARGE', 'IMAGE_DIMENSIONS', 'INVALID_HEIC', 'HEIC_UNAVAILABLE', 'HEIC_TIMEOUT'].includes(error.message)) throw error;
       throw new Error('INVALID_IMAGE');
-    } finally { image?.close?.(); if (temporary) URL.revokeObjectURL(temporary); }
+    } finally { image?.close?.(); if (image instanceof HTMLCanvasElement) { image.width = 1; image.height = 1; } if (temporary) URL.revokeObjectURL(temporary); }
   }
   $('diaryFiles').addEventListener('change', event => uploadFiles([...event.target.files]));
   async function uploadFiles(files) {
     if (!state.draft || state.uploading || state.publishing || !files.length) return;
     photoEditor?.finishCrop(true);
     const epoch = state.editorEpoch;
+    const conversion = new AbortController(); state.uploadAbort = conversion;
     state.uploading = true; $('diaryFiles').disabled = true; $('diaryPublish').disabled = true;
     photoEditor?.refresh();
     $('diaryPhotoEditor').setAttribute('aria-busy', 'true');
@@ -696,7 +751,7 @@
       try {
         if (state.draft.photos.length >= photoLimit) throw new Error('PHOTO_LIMIT');
         message(`Đang chuẩn bị ảnh ${index + 1}/${files.length}…`, false, $('diaryUploadStatus'));
-        const blob = await normalize(file);
+        const blob = await normalize(file, conversion.signal, () => message(`Đang đọc ảnh HEIC ${index + 1}/${files.length}…`, false, $('diaryUploadStatus')));
         if (epoch !== state.editorEpoch) break;
         reservation = await api.reservePhoto();
         message(`Đang dán ảnh ${index + 1}/${files.length}…`, false, $('diaryUploadStatus'));
@@ -718,6 +773,7 @@
       }
     }
     if (epoch !== state.editorEpoch) return;
+    if (state.uploadAbort === conversion) state.uploadAbort = null;
     state.uploading = false; $('diaryFiles').disabled = false; $('diaryFiles').value = ''; $('diaryPublish').disabled = state.conflict;
     $('diaryPhotoEditor').removeAttribute('aria-busy'); photoEditor?.refresh();
     if (!failed && epoch === state.editorEpoch) message('Ảnh đã ở trong bản nháp. Lưu vào sổ khi cậu sẵn sàng.', false, $('diaryUploadStatus'));
@@ -808,6 +864,7 @@
     heading.firstElementChild.addEventListener('click', () => openDiary(person.id));
   });
   function clearPrivate(reason) {
+    state.uploadAbort?.abort(); state.uploadAbort = null; state.uploading = false;
     settleMotion(false); clearTimeout(state.saveTimer); state.readEpoch++; state.editorEpoch++;
     if (reason === 'expired') photoEditor?.finishCrop(true);
     if (reason === 'expired' && state.draft && state.dirty) state.recovery = { ...editorSnapshot(), memberId: api.memberId() || current().id };

@@ -129,7 +129,7 @@
       const grid = page.querySelector('.diary-photo-grid'); grid.dataset.photoCount = photos().length;
       const plan = layout(photos()); if (photos().length) { grid.dataset.layout = 'packed'; grid.style.setProperty('--photo-rows', plan.rows); }
       if (photos().length) grid.innerHTML = photos().map((p, i) => options.photoMarkup(p, i, options.owner(), photos().length, true, plan.boxes[i])).join('');
-      else grid.innerHTML = `<button type="button" class="diary-drop-invitation" data-add-photos>${icon('plus')}<span>Dán tấm ảnh đầu tiên</span><small>Chọn ảnh hoặc thả ảnh vào trang</small><small>JPEG, PNG, WebP · tối đa 20 MB / ảnh</small></button>`;
+      else grid.innerHTML = `<button type="button" class="diary-drop-invitation" data-add-photos>${icon('plus')}<span>Dán tấm ảnh đầu tiên</span><small>Chọn ảnh hoặc thả ảnh vào trang</small><small>JPEG, PNG, WebP, HEIC · tối đa 20 MB / ảnh</small></button>`;
       scalePreview(); updateSelection();
       options.hydrate(preview).then(() => { if (options.getDraft()) refresh(); });
     }
